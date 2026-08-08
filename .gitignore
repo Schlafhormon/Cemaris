@@ -1,0 +1,28 @@
+# Local .NET SDK used for repository validation
+.dotnet/
+
+# .NET build output
+**/bin/
+**/obj/
+
+# Frontend dependencies and build output
+**/node_modules/
+**/dist/
+
+# Local configuration and IDE files
+.env
+.env.*
+!.env.example
+.vs/
+.vscode/
+.idea/
+*.user
+
+# Test and coverage output
+TestResults/
+coverage/
+output/
+
+# Operating system files
+.DS_Store
+Thumbs.db

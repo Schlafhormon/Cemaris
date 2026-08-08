@@ -1,0 +1,49 @@
+name: Funktionsvorschlag
+description: Technische oder produktbezogene Idee zur Diskussion stellen
+title: "[Vorschlag]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fachliche Regeln bitte über die Vorlage „Fachliche Anforderung“ einreichen. Produktvisionen sind bis zur Bedarfsanalyse nicht automatisch verbindlich.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Ausgangsproblem
+      description: Welches nachvollziehbare Problem soll gelöst werden?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Vorgeschlagene Lösung
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativen
+      description: Welche einfacheren oder bereits vorhandenen Ansätze wurden betrachtet?
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Einordnung
+      options:
+        - Muss – ohne diese Funktion ist der betrachtete Zweck nicht erfüllbar
+        - Soll – hoher Nutzen, aber grundsätzlich umgehbar
+        - Kann – wünschenswerte Ergänzung
+        - Noch offen
+    validations:
+      required: true
+  - type: checkboxes
+    id: impacts
+    attributes:
+      label: Mögliche Auswirkungen
+      options:
+        - label: Architekturentscheidung (ADR)
+        - label: Datenmigration
+        - label: Dokumente oder Bescheide
+        - label: DMS / Winyard
+        - label: Datenschutz oder Berechtigungen

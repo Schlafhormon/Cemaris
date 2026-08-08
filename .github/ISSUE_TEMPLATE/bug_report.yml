@@ -1,0 +1,62 @@
+name: Fehlerbericht
+description: Reproduzierbares technisches Fehlverhalten melden
+title: "[Fehler]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke für den Bericht. Bitte keine echten personenbezogenen Daten, Zugangsdaten oder nicht anonymisierten Screenshots einfügen.
+  - type: textarea
+    id: description
+    attributes:
+      label: Fehlerbeschreibung
+      description: Was ist passiert und was wurde stattdessen erwartet?
+      placeholder: Tatsächliches und erwartetes Verhalten beschreiben.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Schritte zur Reproduktion
+      placeholder: |
+        1. Anwendung starten …
+        2. …
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version oder Commit
+      placeholder: Commit-SHA, Branch oder Image-Tag
+  - type: dropdown
+    id: area
+    attributes:
+      label: Betroffener Bereich
+      options:
+        - Backend / API
+        - Frontend
+        - Datenbank / Infrastruktur
+        - Docker / Betrieb
+        - Dokumentation
+        - Unklar
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Umgebung
+      description: Betriebssystem, Browser, .NET-/Node-Version und relevante Konfiguration ohne Secrets.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Bereinigte Logs oder Screenshots
+      description: Nur anonymisierte Informationen ohne Verwaltungs- oder Personendaten.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Datenschutzprüfung
+      options:
+        - label: Ich habe alle Inhalte auf personenbezogene Daten und Secrets geprüft.
+          required: true

@@ -1,0 +1,24 @@
+name: cemaris
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: src/Cemaris.Api/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_HTTP_PORTS: 8080
+      ConnectionStrings__CemarisDatabase: ${CEMARIS_CONNECTION_STRING:-Server=host.docker.internal,1433;Database=Cemaris;User Id=cemaris;Password=CHANGE_ME;Encrypt=True;TrustServerCertificate=True}
+    ports:
+      - "${CEMARIS_API_PORT:-5050}:8080"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: src/Cemaris.Web
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "${CEMARIS_WEB_PORT:-5173}:8080"
+    restart: unless-stopped

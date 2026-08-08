@@ -1,0 +1,23 @@
+# Development-only extension: starts a local SQL Server container.
+# Change CEMARIS_SQL_PASSWORD before use. Production must use an externally managed connection string.
+services:
+  api:
+    depends_on:
+      - sqlserver
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__CemarisDatabase: Server=sqlserver,1433;Database=Cemaris;User Id=sa;Password=${CEMARIS_SQL_PASSWORD:-CHANGE_ME_Aa1!};Encrypt=True;TrustServerCertificate=True
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: ${CEMARIS_SQL_PASSWORD:-CHANGE_ME_Aa1!}
+    ports:
+      - "${CEMARIS_SQL_PORT:-1433}:1433"
+    volumes:
+      - cemaris-sql-data:/var/opt/mssql
+
+volumes:
+  cemaris-sql-data:

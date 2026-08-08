@@ -1,0 +1,81 @@
+name: Fachliche Anforderung
+description: Fachlich belegte Anforderung strukturiert erfassen
+title: "[Fachliche Anforderung]: "
+labels:
+  - requirements
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fachlogik wird erst nach nachvollziehbarer Bestands- und Bedarfsanalyse implementiert. Unbekannte Punkte bitte ausdrücklich als offen kennzeichnen; keine echten Personendaten verwenden.
+  - type: textarea
+    id: current_process
+    attributes:
+      label: Aktueller Prozess
+      description: Wie wird heute gearbeitet, in EDWAL und gegebenenfalls in Nebenlösungen?
+    validations:
+      required: true
+  - type: textarea
+    id: desired_process
+    attributes:
+      label: Gewünschter Prozess
+      description: Welches Ergebnis wird benötigt? Unbestätigte Annahmen bitte markieren.
+    validations:
+      required: true
+  - type: textarea
+    id: users
+    attributes:
+      label: Betroffene Nutzer und Beteiligte
+    validations:
+      required: true
+  - type: textarea
+    id: basis
+    attributes:
+      label: Fachliche Grundlage
+      description: Interview, bestehende Verfahrensbeschreibung, Beschluss oder andere belastbare Quelle.
+  - type: textarea
+    id: legal_basis
+    attributes:
+      label: Satzung oder Rechtsgrundlage
+      description: Fundstelle und Geltungsbereich; bei Unklarheit „OFFEN“ angeben.
+  - type: textarea
+    id: example
+    attributes:
+      label: Anonymisiertes Beispiel
+      description: Keine realen Personen-, Grab-, Akten- oder Zahlungsdaten einfügen.
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Muss / Soll / Kann
+      options:
+        - Muss
+        - Soll
+        - Kann
+        - Noch zu bewerten
+    validations:
+      required: true
+  - type: checkboxes
+    id: impacts
+    attributes:
+      label: Betroffene Querschnittsbereiche
+      options:
+        - label: Datenmigration
+        - label: Dokumente oder Bescheide
+        - label: DMS / Winyard
+        - label: Berechtigungen
+        - label: Auditierung
+        - label: Datenschutz / Aufbewahrung
+  - type: textarea
+    id: open_questions
+    attributes:
+      label: Offene Fragen und Annahmen
+      placeholder: "OFFEN: …"
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Bestätigung
+      options:
+        - label: Die Beschreibung enthält keine echten personenbezogenen Daten oder Secrets.
+          required: true
