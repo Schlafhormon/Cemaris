@@ -10,10 +10,22 @@ kommuneneigene, versionierte Vorlage
   → Vorschau
   → fachliche Freigabe
   → finales DOCX und/oder PDF
-  → nachvollziehbare Ablage im DMS
+  → kontrollierte Übergabe an das DMS
 ```
 
 Das spätere Modul soll kommuneneigene Briefköpfe und Vorlagen unterstützen, ohne Rechts- oder Bescheidtexte im Produkt fest zu erfinden. Für jedes erzeugte Dokument muss nachvollziehbar bleiben, welche Vorlagenversion, Datenbasis und Freigabe verwendet wurden.
+
+Für eine aktivierte Winyard-Integration ist die automatische Ablage fertiger
+Dokumente als `Soll` bestätigt
+([REQ-DMS-005](../requirements/README.md),
+[INT-019](../requirements/edwalt-analysis/interview-record.md)). Cemaris muss
+zunächst ohne Winyard produktiv betrieben und die Integration später aktiviert
+werden können ([REQ-DMS-010](../requirements/README.md),
+[INT-020](../requirements/edwalt-analysis/interview-record.md)). Eine dauerhafte
+Winyard-Dokument-ID in Cemaris und das Öffnen des archivierten Dokuments aus
+Cemaris sind nicht erforderlich (REQ-DMS-007/008, `VERWORFEN`). Bei aktivierter
+Integration müssen Erfolg oder Fehler der Übergabe dagegen angezeigt werden
+(REQ-DMS-004, bedingtes Muss).
 
 ## Zu erhebende Anforderungen
 
@@ -65,6 +77,7 @@ Keine Option ist vor der Vorlageninventur entschieden. Ein Proof of Concept soll
 - DOCX-, PDF- und PDF/A-Anforderungen,
 - Vorlagenverwaltung und Freigabeworkflow,
 - Signatur- und Siegelanforderungen,
-- Verhältnis lokaler Dokumentreferenz zu Winyard,
+- technisch notwendige Korrelation und Wiederholung ohne dauerhafte
+  Winyard-Dokument-ID als Fachanforderung,
 - Verhalten bei DMS-Ausfall,
 - benötigte Aufbewahrung von Entwürfen und Zwischenständen.

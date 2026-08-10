@@ -1,12 +1,32 @@
-# EDWAL-Bestandsaufnahme
+# EDWALT-Bestandsaufnahme
 
 > **Arbeitscheckliste für Interviews, Beobachtungen und technische Analyse.** Keine Tabellenzeile gilt ohne Quelle und fachliche Bestätigung als Cemaris-Anforderung.
+
+## Stand der technischen Quellenanalyse
+
+Die ausschließlich lesende Bestandsaufnahme der lokal bereitgestellten
+EDWALT/EDWALT3-Quellen liegt unter
+[`edwalt-analysis/`](edwalt-analysis/README.md) vor. Sie umfasst ein Manifest
+aller 597 Dateien, beide HTML-Hilfen und alle 123 Hilfebilder, Funktions- und
+Komponentenkataloge, 24 DAT/IDX-Paare, Vorlagen/Makros/Reports, eine
+Evidenzmatrix und einen priorisierten Interviewleitfaden.
+
+Die Produktbezeichnung ist **EDWALT**; **EDWALT3** bezeichnet dasselbe Produkt
+beziehungsweise die untersuchte Version. Die frühere Cemaris-Schreibweise ohne
+abschließendes `T` war falsch (`INT-001`, Status `BESTÄTIGT`, Konfidenz hoch).
+Der historische Dateiname `edwald-inventory.md` bleibt lediglich zur
+Linkkompatibilität unverändert.
+
+Die folgenden Checklisten bleiben für Interviews und Beobachtungen gültig.
+Die technische Analyse bestätigt keine Ist-Nutzung und keine Cemaris-
+Anforderung. Konkrete, evidenzbezogene Fragen stehen im
+[Interviewleitfaden](edwalt-analysis/open-questions-and-interview-guide.md).
 
 ## Vorbereitung eines Termins
 
 - Datum, Ort/Medium und Ziel des Termins festhalten.
 - Beteiligte nach Funktion statt unnötig mit personenbezogenen Details dokumentieren.
-- Verwendete EDWAL-Version und Umgebung notieren.
+- Verwendete EDWALT-Version und Umgebung notieren.
 - Vorab klären, ob Screenshots erlaubt und wie sie anonymisiert gespeichert werden.
 - Keine echten Daten in das Git-Repository übernehmen.
 - Normalfälle und mindestens einen bekannten Sonder-/Fehlerfall zeigen lassen.
@@ -44,7 +64,7 @@ Für jede Maske oder Funktion eine eigene Zeile beziehungsweise bei komplexen Fu
 | Wie werden Korrektur, Storno und Historie behandelt? | OFFEN |
 | Welche Berechtigungen wirken? | OFFEN |
 | Welche typischen und maximalen Fallzahlen bestehen? | OFFEN |
-| Welche Schritte erfolgen außerhalb von EDWAL? | OFFEN |
+| Welche Schritte erfolgen außerhalb von EDWALT? | OFFEN |
 | Welche Regel ist belegt, welche nur vermutet? | OFFEN |
 
 ## Prozessinventar
@@ -55,7 +75,7 @@ Für jede Maske oder Funktion eine eigene Zeile beziehungsweise bei komplexen Fu
 
 ## Stammdaten
 
-Zu erfassen sind auch lokale Schlüssel, Werte, die nur historisch vorkommen, und Listen außerhalb von EDWAL.
+Zu erfassen sind auch lokale Schlüssel, Werte, die nur historisch vorkommen, und Listen außerhalb von EDWALT.
 
 | ID | Bezeichnung | Zweck | Beispiel anonymisiert | Geltungsbereich | Pflege durch | Änderungshäufigkeit | Historisiert? | Quelle / führendes System | Migrationsrelevant? | Offene Fragen |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -74,7 +94,7 @@ Checkliste:
 
 ## Reports, Tabellen und Listen
 
-| ID | Name | Zweck / Empfänger | Auslöser / Turnus | Filter / Sortierung | Spalten / Kennzahlen | Format | Datenquelle | Nachbearbeitung außerhalb EDWAL | Wird genutzt? | Aufbewahrung | Beispiel vorhanden? |
+| ID | Name | Zweck / Empfänger | Auslöser / Turnus | Filter / Sortierung | Spalten / Kennzahlen | Format | Datenquelle | Nachbearbeitung außerhalb EDWALT | Wird genutzt? | Aufbewahrung | Beispiel vorhanden? |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | R-001 | OFFEN | OFFEN | OFFEN | OFFEN | OFFEN | OFFEN | OFFEN | OFFEN | unbekannt | OFFEN | nein |
 
@@ -184,7 +204,7 @@ Gezielt erfragen:
 - Mehrfachzuordnungen und Dubletten,
 - Ausfall von Schnittstellen oder Druck,
 - Vertretung und organisatorische Wechsel,
-- Fälle, die heute ausschließlich außerhalb EDWAL geführt werden.
+- Fälle, die heute ausschließlich außerhalb EDWALT geführt werden.
 
 ## Migrationsrelevante Datenbestände
 
@@ -192,7 +212,7 @@ Gezielt erfragen:
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | M-001 | OFFEN | unbekannt | OFFEN | unbekannt | OFFEN | unbekannt | OFFEN | OFFEN | ungeklärt | unbekannt | OFFEN |
 
-- [ ] EDWAL-Datenbank, Tabellen und Views
+- [ ] EDWALT-Datenbestände, Satztypen und Beziehungen
 - [ ] Dokument- und Bildpfade
 - [ ] Binärdaten
 - [ ] Excel-/Access-/CSV-Nebenbestände

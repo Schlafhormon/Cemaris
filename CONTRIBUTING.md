@@ -31,7 +31,7 @@ Die vollständigen Startanweisungen stehen in der [README](README.md#lokale-entw
 
 Friedhofsfachliche Regeln benötigen eine nachvollziehbare, validierte Anforderung. Eine Produktvision, Vermutung oder Beobachtung aus nur einem Einzelfall reicht nicht als allgemeine Regel.
 
-Unbekannte Sachverhalte werden in `docs/requirements/` mit `OFFEN` oder `ZU PRÜFEN` dokumentiert. Insbesondere dürfen keine Grabarten, Fristen, Gebühren, Satzungsregeln, Rollen oder EDWAL-Strukturen geraten und hartcodiert werden.
+Unbekannte Sachverhalte werden in `docs/requirements/` mit `OFFEN` oder `ZU PRÜFEN` dokumentiert. Insbesondere dürfen keine Grabarten, Fristen, Gebühren, Satzungsregeln, Rollen oder EDWALT-Strukturen geraten und hartcodiert werden. EDWALT-Artefakte dienen der Quellen- und Migrationsanalyse, nicht als automatische Produktanforderung.
 
 ## Codequalität und Tests
 

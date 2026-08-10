@@ -12,5 +12,6 @@ Alle wesentlichen Änderungen an Cemaris werden in diesem Dokument festgehalten.
 - Technische SQL-Server- und DMS-Erweiterungspunkte
 - Unit- und Integrationstestprojekte
 - Docker- und CI-Grundlage
-- Vorlagen für EDWAL-Bestandsaufnahme und Bedarfsanalyse
+- Vorlagen für EDWALT-Bestandsaufnahme und Bedarfsanalyse
+- Read-only-EDWALT-Quellenanalyse und bestätigtes Ziel einer Datenmigration
 - Initiale Architekturentscheidungen und Sicherheitsdokumentation

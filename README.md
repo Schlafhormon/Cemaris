@@ -12,7 +12,11 @@ Funktionen und Datenmodell sind noch nicht für den Produktivbetrieb freigegeben
 
 Viele kommunale Friedhofsverwaltungen arbeiten mit langjährig gewachsenen beziehungsweise technisch veralteten Fachverfahren und zusätzlichen Excel-, Word-, Papier- oder Laufwerkslösungen. Cemaris verfolgt das Ziel, eine moderne, offene, nachnutzbare und kommunal geeignete Alternative zu entwickeln.
 
-Ausgangspunkt ist eine mögliche spätere Ablösung eines alten EDWAL-Bestandsverfahrens. Daraus folgt **nicht**, dass Cemaris EDWAL allgemein oder bereits heute ersetzen kann. Zuerst müssen Funktionen, reale Nutzung, Prozesse, Daten und rechtliche Rahmenbedingungen erhoben werden.
+Ausgangspunkt ist die Ablösung des bestehenden Verfahrens **EDWALT** durch
+eine neue, eigenständige Open-Source-Friedhofsverwaltungssoftware. EDWALT wird
+nicht 1:1 funktional oder technisch nachgebaut; seine Daten sollen jedoch
+kontrolliert in Cemaris migriert werden. Welche heutigen Fachprozesse Cemaris
+unterstützen muss, wird unabhängig von den EDWALT-Masken und -Modulen erhoben.
 
 ## Ziele
 
@@ -37,7 +41,7 @@ Die folgenden Punkte sind eine **zu validierende Produktvision**, keine verbindl
 - Gebühren, Bescheide, Schreiben und kommunale Vorlagen,
 - DMS-Integration, insbesondere Winyard,
 - Suche, Auswertungen, Rollen, Berechtigungen und Auditierung,
-- EDWAL-Datenmigration,
+- EDWALT-Datenmigration,
 - perspektivisch digitale Friedhofskarten und mobile/PWA-Nutzung.
 
 Grabarten, Fristen, Gebühren, Rollen, Satzungslogik, Dokumenttexte und konkrete Verwaltungsabläufe sind noch unbekannt und werden nicht geraten.
@@ -53,7 +57,7 @@ Vorbereitet sind:
 - eine minimale herstellerneutrale DMS-Erweiterungsstelle,
 - Unit- und Integrationstests,
 - Docker- und CI-Konfiguration,
-- ADRs sowie Arbeitsunterlagen für EDWAL-Inventur, Anforderungen und Migration.
+- ADRs sowie Arbeitsunterlagen für EDWALT-Inventur, Anforderungen und Migration.
 
 Der nächste fachliche Schritt ist die Bestandsaufnahme des bestehenden Verfahrens und aller Nebenprozesse anhand von [`docs/requirements`](docs/requirements/README.md).
 
@@ -82,8 +86,8 @@ Details stehen in der [Architekturübersicht](docs/architecture/README.md) und d
 ├── docs/
 │   ├── architecture/         # technische Zielbilder und offene Integrationsfragen
 │   ├── decisions/            # Architecture Decision Records
-│   ├── migration/            # EDWAL-Migrationsstrategie
-│   └── requirements/         # Bedarfsanalyse und EDWAL-Inventur
+│   ├── migration/            # EDWALT-Migrationsstrategie
+│   └── requirements/         # Bedarfsanalyse und EDWALT-Inventur
 ├── src/
 │   ├── Cemaris.Api/          # ASP.NET-Core-Host und HTTP-Endpunkte
 │   ├── Cemaris.Application/  # Anwendungsgrenzen und externe Ports
@@ -183,7 +187,7 @@ Für einen späteren produktiven Betrieb wird `docker-compose.override.yml` nich
 Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbeitsphasen sind:
 
 1. Repository- und Architekturgrundlage
-2. EDWAL-Bestandsanalyse
+2. EDWALT-Bestandsanalyse und technische Migrationsvorbereitung
 3. Fachliche Bedarfsanalyse
 4. Fachliches Datenmodell
 5. MVP-Definition
