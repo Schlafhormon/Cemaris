@@ -198,6 +198,12 @@ werden; Verbindungszeichenfolge und ein kontrollierter Schemadeployment-Schritt
 sind dann betrieblich bereitzustellen. Die Anwendung legt im normalen Start
 keine Datenbank an und veraendert kein Schema.
 
+Der SQL-Server-Read-Store filtert, zaehlt und sortiert Suchkandidaten in der
+Datenbank. Erst fuer die hoechstens `Search:MaxResults` bestplatzierten Faelle
+werden die vollstaendigen Beziehungen geladen. Eine fehlende Grabbeziehung
+wird dabei als Datenqualitaetshinweis projiziert und fuehrt nicht zum Abbruch
+der Detailansicht.
+
 Die im Repository enthaltene Datenbasis ist durch Kennzeichnungen, ungueltige
 Beispielpostleitzahlen sowie Test-/Synthese-Bezeichner klar kuenstlich. Sie ist
 keine EDWALT-Migration und kein Mapping von EDWALT-Feldern. Ein produktiver

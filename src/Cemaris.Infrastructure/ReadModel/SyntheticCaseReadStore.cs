@@ -10,10 +10,13 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore
 {
     private static readonly IReadOnlyList<CaseOverview> Cases = CreateCases();
 
-    public Task<IReadOnlyList<CaseOverview>> ListAsync(CancellationToken cancellationToken)
+    public Task<CaseSearchStoreResult> SearchAsync(
+        SearchCriteria criteria,
+        int maximumResults,
+        CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return Task.FromResult(Cases);
+        return Task.FromResult(InMemoryCaseSearch.Search(Cases, criteria, maximumResults));
     }
 
     public Task<CaseOverview?> FindAsync(Guid id, CancellationToken cancellationToken)

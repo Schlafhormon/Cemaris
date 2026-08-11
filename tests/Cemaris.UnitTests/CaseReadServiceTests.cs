@@ -132,8 +132,11 @@ public sealed class CaseReadServiceTests
 
     private sealed class StubCaseReadStore(IReadOnlyList<CaseOverview> cases) : ICaseReadStore
     {
-        public Task<IReadOnlyList<CaseOverview>> ListAsync(CancellationToken cancellationToken) =>
-            Task.FromResult(cases);
+        public Task<CaseSearchStoreResult> SearchAsync(
+            SearchCriteria criteria,
+            int maximumResults,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(InMemoryCaseSearch.Search(cases, criteria, maximumResults));
 
         public Task<CaseOverview?> FindAsync(Guid id, CancellationToken cancellationToken) =>
             Task.FromResult(cases.SingleOrDefault(item => item.Id == id));

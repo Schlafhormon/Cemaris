@@ -9,7 +9,7 @@ public sealed class CaseReadEntity
 
     public bool IsSynthetic { get; set; }
 
-    public GraveReadEntity Grave { get; set; } = null!;
+    public GraveReadEntity? Grave { get; set; }
 
     public ICollection<DeceasedReadEntity> DeceasedPersons { get; } = [];
 

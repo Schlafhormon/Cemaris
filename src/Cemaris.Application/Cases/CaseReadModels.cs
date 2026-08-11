@@ -16,7 +16,7 @@ public sealed record CaseOverview(
     IReadOnlyList<string> DataQualityNotes);
 
 public sealed record GraveDetails(
-    string Cemetery,
+    string? Cemetery,
     string? Field,
     string? GraveNumber);
 
@@ -72,7 +72,7 @@ public sealed record FeeItemDetails(
 public sealed record SearchRecord(
     Guid CaseId,
     bool IsSynthetic,
-    string Cemetery,
+    string? Cemetery,
     string? Field,
     string? GraveNumber,
     IReadOnlyList<SearchDeceasedPerson> DeceasedPersons,
@@ -97,3 +97,7 @@ public sealed record SearchResponse(
     int TotalMatches,
     int Limit,
     bool IsTruncated);
+
+public sealed record CaseSearchStoreResult(
+    IReadOnlyList<CaseOverview> Items,
+    int TotalMatches);

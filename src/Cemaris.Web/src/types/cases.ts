@@ -29,7 +29,7 @@ export interface SearchEntitledPerson {
 export interface SearchRecord {
   caseId: string
   isSynthetic: boolean
-  cemetery: string
+  cemetery: string | null
   field: string | null
   graveNumber: string | null
   deceasedPersons: SearchDeceasedPerson[]
@@ -46,7 +46,7 @@ export interface SearchResponse {
 }
 
 export interface GraveDetails {
-  cemetery: string
+  cemetery: string | null
   field: string | null
   graveNumber: string | null
 }

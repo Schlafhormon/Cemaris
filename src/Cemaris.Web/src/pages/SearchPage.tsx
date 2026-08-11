@@ -51,6 +51,11 @@ function updateLocation(filters: SearchFilters) {
   window.history.replaceState(null, '', `/search${queryString ? `?${queryString}` : ''}`)
 }
 
+function caseDetailsUrl(caseId: string) {
+  const returnTo = `/search${window.location.search}`
+  return `/cases/${encodeURIComponent(caseId)}?returnTo=${encodeURIComponent(returnTo)}`
+}
+
 export function SearchPage() {
   const initialFilters = filtersFromLocation()
   const [draftFilters, setDraftFilters] = useState(initialFilters)
@@ -277,10 +282,10 @@ export function SearchPage() {
                         ))}
                       </ul>
                     </td>
-                    <td>{item.cemetery}</td>
+                    <td>{item.cemetery ?? 'Nicht angegeben'}</td>
                     <td>{item.field ?? 'Nicht angegeben'}</td>
                     <td>
-                      <a className="case-link" href={`/cases/${item.caseId}`}>
+                      <a className="case-link" href={caseDetailsUrl(item.caseId)}>
                         {item.graveNumber ?? 'Nicht angegeben'}
                       </a>
                     </td>

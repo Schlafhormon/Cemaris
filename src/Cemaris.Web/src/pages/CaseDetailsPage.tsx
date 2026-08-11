@@ -74,7 +74,24 @@ function entitledName(person: EntitledPersonDetails | undefined) {
   return person ? formatName(person) : null
 }
 
+function searchReturnUrl() {
+  const returnTo = new URLSearchParams(window.location.search).get('returnTo')
+  if (!returnTo) {
+    return '/search'
+  }
+
+  try {
+    const url = new URL(returnTo, window.location.origin)
+    return url.origin === window.location.origin && url.pathname === '/search'
+      ? `${url.pathname}${url.search}`
+      : '/search'
+  } catch {
+    return '/search'
+  }
+}
+
 export function CaseDetailsPage({ caseId }: CaseDetailsPageProps) {
+  const returnTo = searchReturnUrl()
   const [caseOverview, setCaseOverview] = useState<CaseOverview>()
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
@@ -111,7 +128,7 @@ export function CaseDetailsPage({ caseId }: CaseDetailsPageProps) {
   if (notFound) {
     return (
       <div className="state-message detail-state">
-        Der angeforderte Fall wurde nicht gefunden. <a href="/search">Zur Suche</a>
+        Der angeforderte Fall wurde nicht gefunden. <a href={returnTo}>Zur Suche</a>
       </div>
     )
   }
@@ -119,7 +136,7 @@ export function CaseDetailsPage({ caseId }: CaseDetailsPageProps) {
   if (error || !caseOverview) {
     return (
       <div className="state-message state-message--error detail-state" role="alert">
-        Die Detailansicht konnte nicht geladen werden. <a href="/search">Zur Suche</a>
+        Die Detailansicht konnte nicht geladen werden. <a href={returnTo}>Zur Suche</a>
       </div>
     )
   }
@@ -133,14 +150,15 @@ export function CaseDetailsPage({ caseId }: CaseDetailsPageProps) {
 
   return (
     <div className="work-page detail-page">
-      <a className="back-link" href="/search">
+      <a className="back-link" href={returnTo}>
         ← Zurück zur Suche
       </a>
       <div className="work-page-heading">
         <div>
           <p className="eyebrow">Lesende Detailansicht</p>
           <h1>
-            {caseOverview.grave.cemetery} · {caseOverview.grave.field ?? 'Feld fehlt'} ·{' '}
+            {caseOverview.grave.cemetery ?? 'Friedhof fehlt'} ·{' '}
+            {caseOverview.grave.field ?? 'Feld fehlt'} ·{' '}
             {caseOverview.grave.graveNumber ?? 'Grabnummer fehlt'}
           </h1>
           <p className="technical-id">Technische Fall-ID: {caseOverview.id}</p>
@@ -182,6 +200,7 @@ export function CaseDetailsPage({ caseId }: CaseDetailsPageProps) {
               <article className="detail-record" key={person.id}>
                 <h3>{displayValue(formatName(person))}</h3>
                 <DetailsList>
+                  <DetailField label="Technische ID">{person.id}</DetailField>
                   <DetailField label="Vorname">{person.firstName}</DetailField>
                   <DetailField label="Name">{person.lastName}</DetailField>
                   <DetailField label="Geburtsdatum">{formatDate(person.birthDate)}</DetailField>
@@ -205,6 +224,7 @@ export function CaseDetailsPage({ caseId }: CaseDetailsPageProps) {
               return (
                 <article className="detail-record" key={burial.id}>
                   <DetailsList>
+                    <DetailField label="Technische ID">{burial.id}</DetailField>
                     <DetailField label="Beisetzungsdatum">
                       {formatDate(burial.burialDate)}
                     </DetailField>
@@ -233,6 +253,7 @@ export function CaseDetailsPage({ caseId }: CaseDetailsPageProps) {
               return (
                 <article className="detail-record" key={usageRight.id}>
                   <DetailsList>
+                    <DetailField label="Technische ID">{usageRight.id}</DetailField>
                     <DetailField label="Technische Referenz">{usageRight.reference}</DetailField>
                     <DetailField label="Gültig ab">{formatDate(usageRight.validFrom)}</DetailField>
                     <DetailField label="Gültig bis">{formatDate(usageRight.validUntil)}</DetailField>
@@ -260,6 +281,7 @@ export function CaseDetailsPage({ caseId }: CaseDetailsPageProps) {
               <article className="detail-record" key={person.id}>
                 <h3>{displayValue(formatName(person))}</h3>
                 <DetailsList>
+                  <DetailField label="Technische ID">{person.id}</DetailField>
                   <DetailField label="Vorname">{person.firstName}</DetailField>
                   <DetailField label="Name">{person.lastName}</DetailField>
                   <DetailField label="Organisation">{person.organizationName}</DetailField>
@@ -287,6 +309,7 @@ export function CaseDetailsPage({ caseId }: CaseDetailsPageProps) {
             caseOverview.notices.map((notice) => (
               <article className="detail-record" key={notice.id}>
                 <DetailsList>
+                  <DetailField label="Technische ID">{notice.id}</DetailField>
                   <DetailField label="Bescheidnummer">{notice.noticeNumber}</DetailField>
                   <DetailField label="Bescheiddatum">{formatDate(notice.noticeDate)}</DetailField>
                   <DetailField label="Fälligkeit">{formatDate(notice.dueDate)}</DetailField>
