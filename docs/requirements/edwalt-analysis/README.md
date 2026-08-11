@@ -1,17 +1,27 @@
 # Read-only-Bestandsaufnahme EDWALT
 
-> **Stand:** 10.08.2026. **Art:** ausschließlich lesende technische und
-> dokumentarische Bestandsaufnahme. **Keine Sollkonzeption und keine aus einer
+> **Stand:** 11.08.2026. **Art:** lesende technische und dokumentarische
+> Bestandsaufnahme der Originale sowie technischer Extraktionsprototyp auf einer
+> lokalen Arbeitskopie. **Keine Sollkonzeption und keine aus einer
 > EDWALT-Funktion abgeleitete Cemaris-Fachanforderung.**
 
 ## Auftrag und Abgrenzung
 
-Untersucht wurden die lokal bereitgestellten Verzeichnisse `D:\Friedhofsverwaltung\EDW3DAT` und `D:\Friedhofsverwaltung\edwalt3`. Die Quelldateien wurden nur gelesen. Es wurden insbesondere keine Altprogramme, Makros, Rebuild-/Reorg-Werkzeuge oder Datenbanktreiber gestartet und keine Indizes geöffnet, repariert oder neu aufgebaut.
+Untersucht wurden die lokal bereitgestellten Verzeichnisse
+`C:\Users\Benke\Documents\Friedhofsverwaltung\EDW3DAT` und
+`C:\Users\Benke\Documents\Friedhofsverwaltung\Edwalt3`. Die Originaldateien
+wurden nur gelesen. In Phase 1 wurden keine Altprogramme, Makros,
+Rebuild-/Reorg-Werkzeuge oder Datenbanktreiber gestartet. In Phase 2 wurden die
+mitgelieferte Micro-Focus-Runtime und ein eigener Parser ausschließlich auf
+einer hashgeprüften Arbeitskopie außerhalb des Repositories verwendet.
 
 Die technische Analyse beschreibt, was Handbücher und Artefakte erkennen lassen.
-Der produktive Einsatz und die Aktualität der untersuchten Quellen sind durch
-`INT-005` bestätigt; sie sagen jedoch nicht, welche einzelnen Funktionen heute
-genutzt werden, fachlich richtig sind oder in Cemaris übernommen werden sollen.
+Der EDWALT-Einsatz ist durch `INT-005` bestätigt. Die untersuchten Quellen
+stammen nach neuerer ausdrücklicher Projektangabe nicht aus der produktiven
+Umgebung, sind aber schema- und versionsgleich mit dem späteren
+Migrationsbestand (`INT-036`). Sie sagen nicht, welche einzelnen Funktionen
+heute genutzt werden, fachlich richtig sind oder in Cemaris übernommen werden
+sollen.
 Ohne Interview oder fachliche Freigabe bleibt eine weitergehende, aus EDWALT
 abgeleitete Aussage grundsätzlich `OFFEN` oder `ANNAHME`.
 
@@ -23,18 +33,21 @@ abgeleitete Aussage grundsätzlich `OFFEN` oder `ANNAHME`.
 | `INT-002` | Cemaris bildet EDWALT weder funktional noch technisch 1:1 nach. | INTERVIEW, Projektverantwortung, 10.08.2026 | `BESTÄTIGT` | hoch | EDWALT-Funktionen dienen als Quellenbeleg und Interpretationshilfe, nicht als Produkt-Backlog. |
 | `INT-003` | Die fachlich relevanten EDWALT-Daten sollen nach Cemaris migriert werden. | INTERVIEW, Projektverantwortung, 10.08.2026 | `BESTÄTIGT` | hoch | Technische Datenerschließung, Migrationsumfang, Aufbewahrung und Abnahme werden eigene Arbeitsstränge. |
 | `INT-004` | Cemaris wird als neue, eigenständige Open-Source-Friedhofsverwaltungssoftware entwickelt. | INTERVIEW, Projektverantwortung, 10.08.2026 | `BESTÄTIGT` | hoch | Das Zielmodell folgt heutigen Anforderungen und nicht der EDWALT-Datei- oder Maskenstruktur. |
-| `INT-005` | EDWALT ist aktuell produktiv im Einsatz, wird von ungefähr drei Personen verwendet, und die untersuchten Verzeichnisse enthalten das aktuelle Programm sowie den aktuellen Datenstand. | INTERVIEW, Projektverantwortung, 10.08.2026 | `BESTÄTIGT` | hoch | Quellen als aktuellen Ist-Stand behandeln; konkrete Funktionsnutzung und konsistenter späterer Migrationsstichtag bleiben offen. |
+| `INT-005/036` | EDWALT wird produktiv verwendet; die bereitgestellten Verzeichnisse stammen jedoch nicht aus der produktiven Umgebung und sind schema- und versionsgleich mit dem späteren Migrationsbestand. | INTERVIEW, Projektverantwortung, 10./11.08.2026 | `BESTÄTIGT`; INT-036 präzisiert die Quellenherkunft | hoch | Für Parser und Mapping verwenden; Mengen und Inhaltsqualität nicht als produktive Ist-Werte behandeln. |
 | `INT-006` | Auch abgeschlossene und historische Fälle sollen vollständig migriert werden. | INTERVIEW, Projektverantwortung, 10.08.2026 | `BESTÄTIGT` | hoch | Migrationsplanung darf sich nicht auf aktive Fälle beschränken; Datenkategorien und Ausschlüsse bleiben zu klären. |
 | `INT-007` | Betriebsnotwendige Daten sollen so migriert werden, dass keine umfangreiche manuelle Nacherfassung erforderlich ist; Notizen sollen nicht migriert werden. | INTERVIEW, Projektverantwortung, 10.08.2026 | `BESTÄTIGT` | hoch | Migrationsumfang an Betriebsnotwendigkeit ausrichten; Notizdaten ausschließen und weitere Ausschlüsse einzeln bestätigen. |
 | `INT-008` | Regelmäßig genutzt werden Personen/Adressen, Beisetzungen, Nutzungsrechte/Verlängerungen, Gebühren/Bescheide/Buchungen sowie Suche/Listen/Statistiken; selten Gräber/Friedhofsstruktur, Termine/Wiedervorlagen und Dokumente/Word-Vorlagen; Krematorium gar nicht. | INTERVIEW, Projektverantwortung, 10.08.2026 | `BESTÄTIGT` | hoch für Bereichshäufigkeiten | Kernprozesse priorisieren; seltene Bereiche nicht automatisch verwerfen; Krematorium separat abgrenzen. |
+| `INT-037` | Weitere Copybooks, FD-Dateien, Herstellerunterlagen und Ansprechpartner sind nicht verfügbar; der Hersteller besteht nicht mehr. | INTERVIEW, Projektverantwortung, 11.08.2026 | `BESTÄTIGT` | hoch | Feldsemantik aus lokalen Evidenzen rekonstruieren und Unsicherheit sichtbar lassen. |
+| `INT-038` | Bedeutung von Alt-/DM-/Nebenvarianten und das Fehlen erwarteter Dateien sind der Projektverantwortung nicht bekannt. | INTERVIEW, Projektverantwortung, 11.08.2026 | Wissensgrenze `BESTÄTIGT`, Semantik `OFFEN` | hoch | Technisch untersuchen; keine Vorrang- oder Ausschlussregel erraten. |
 
 Die einzelnen zu migrierenden Datenkategorien, fachlichen Regeln und
 Cemaris-Funktionen bleiben bis zur weiteren Erhebung `OFFEN`.
 
 **Schutzgrenzen:**
 
-- Quelle 1: `D:\Friedhofsverwaltung\EDW3DAT` - strikt read-only;
-- Quelle 2: `D:\Friedhofsverwaltung\edwalt3` - strikt read-only;
+- Quelle 1: `C:\Users\Benke\Documents\Friedhofsverwaltung\EDW3DAT` - strikt read-only;
+- Quelle 2: `C:\Users\Benke\Documents\Friedhofsverwaltung\Edwalt3` - strikt read-only;
+- lokale Arbeitskopie: `C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811`;
 - Schreibziel: ausschließlich Dokumentation unter `docs/` im Cemaris-Repository;
 - temporäre Parsergebnisse und Kontaktbögen: lokaler temporärer Analysebereich, nicht in Git;
 - keine Personen-, Grab-, Akten-, Zahlungs-, Netzwerk- oder Freitextwerte in dieser Dokumentation.
@@ -63,6 +76,13 @@ bei konkreten Quell-, Programm- oder Versionsbezeichnungen.
 | `REL-330` | `Release3.30.doc` / `.pdf` | 2 Darstellungen desselben Releasekomplexes | - | PDF: 1 Seite | 2007 | `ANNAHME` | hoch |
 
 Die vollständige, nach relativem Pfad sortierte Dateiübersicht steht im [Quellenmanifest](source-manifest.csv). Hashes dienen nur der Wiedererkennbarkeit und enthalten keine Dateiinhalte.
+
+Das Manifest bildet den Phase-1-Zeitpunkt mit 597 Dateien ab. Am 11.08.2026
+enthalten die aktuellen Quellpfade und die Phase-2-Arbeitskopie jeweils 592
+Dateien. Es fehlen gegenüber dem Manifest ausschließlich zwei flüchtige
+Office-Sperrdateien und drei `Thumbs.db`; keine DAT-/IDX- oder fachliche Datei
+ist betroffen. Die Ursache ist nicht belegt und wird nicht als Änderung durch
+die Analyse gewertet.
 
 ## Evidenz- und Bewertungsmodell
 
@@ -96,9 +116,15 @@ Lokale Quellenverweise nennen Quellbereich, relativen Pfad und bei HTML-Hilfen z
 4. Beide Word-97-HTML-Hilfen wurden als Windows-1252 geparst. Absätze, Anker, Bilder und Bildkontexte wurden vollständig erfasst.
 5. Alle 123 unterschiedlichen GIF-Dateien wurden lokal visuell geprüft. Es gibt keine fehlenden und keine nicht referenzierten GIFs.
 6. PDF-Releases wurden lokal extrahiert und seitenweise gerendert. DOC- und DOT-/OLE-Artefakte wurden ausschließlich statisch auf Container-, Feld- und Makroindizien geprüft.
-7. DAT-/IDX-Dateien wurden nur über Metadaten, Partnerbildung und begrenzte Magic Bytes klassifiziert. Es wurden keine Datensätze gelesen und keine Datensatzanzahlen ermittelt.
+7. In Phase 1 wurden DAT-/IDX-Dateien nur über Metadaten, Partnerbildung und
+   begrenzte Magic Bytes klassifiziert.
 8. Abschließend wurde der komplette Ausgangsstand erneut gegen Pfad, Größe,
    Änderungs- und Erstellungszeit, Attribute und SHA-256 verglichen.
+9. In Phase 2 wurden die 24 DAT/IDX-Paare in einer externen Arbeitskopie mit
+   `REBUILD /n` identifiziert und als feste unkomprimierte Sätze exportiert.
+10. Ein eigener .NET-Prototyp profilierte ausschließlich technische Aggregate,
+    gehashte Schlüsselbeziehungen, Datumskandidaten, Zeichensatzindizien und
+    physische Satztypen. Er gab keine Quellwerte aus.
 
 ## Dokumente dieser Analyse
 
@@ -111,12 +137,13 @@ Lokale Quellenverweise nennen Quellbereich, relativen Pfad und bei HTML-Hilfen z
 - [Offene Fragen und Interviewleitfaden](open-questions-and-interview-guide.md)
 - [Fortlaufendes Interviewprotokoll](interview-record.md)
 - [Migrationsbezogene Quellenanalyse](../../migration/edwalt-source-analysis.md)
+- [Extraktionsprototyp und technisches Datenprofil](../../migration/edwalt-extraction-prototype.md)
 
 ## Übergreifende Grenzen
 
 | Evidenz | Grenze | Folge | Status | Konfidenz | Nächste Klärung |
 | --- | --- | --- | --- | --- | --- |
-| `OBS-LIM-001` | Proprietäres DAT-/IDX-Format wurde nicht mit einem schreibenden oder unbekannten Treiber geöffnet. | Satzaufbau, Schlüssel, Zählwerte und Datenqualität bleiben offen. | `OFFEN` | hoch | Herstellerformat und garantiert read-only Parser in isolierter Kopie prüfen. |
+| `OBS-LIM-001` | Das Micro-Focus-Indexed-Format, feste Satzlängen, Schlüssel und Mengen sind auf einer isolierten Kopie technisch belegt; Copybooks und vollständige Feldbeschreibungen fehlen. | Feldgrenzen, COBOL-Datentypen und fachliche Semantik bleiben offen. | technisch teilweise `BESTÄTIGT`, semantisch `OFFEN` | hoch | Evidenzbasierten Quellfeldkatalog aus Profil, Hilfe, Masken und statischen Programmhinweisen erstellen. |
 | `OBS-LIM-002` | Die Handbücher beschreiben Kasse/Buchen und Terminverwaltung nur knapp und verweisen auf gesonderte Beschreibungen, die nicht vorliegen. | Funktionsumfang dieser Module ist unvollständig dokumentiert. | `OFFEN` | hoch | Fehlende Bände und reale Prozessbeobachtung anfordern. |
 | `OBS-LIM-003` | Vorhandene Module und aktuelle Zeitstempel beweisen keine Nutzung. | Nutzungsstatus bleibt je Funktion offen. | `OFFEN` | hoch | Interviews, Nutzungsbeobachtung und freigegebene Betriebsprotokolle. |
 | `OBS-LIM-004` | Alte OLE-Vorlagen konnten statisch auf Word-Streams und Feldnamen, nicht layoutgetreu oder semantisch vollständig geprüft werden. | Dokumentzweck und Makrofreiheit sind nicht abschließend bewiesen. | `OFFEN` | mittel | Isolierte, makrodeaktivierte Dokumentforensik an freigegebenen Kopien. |
@@ -142,3 +169,5 @@ Die Dokumentation enthält keine Klartext-Datensätze, Personenbeispiele, Grabnu
 | `VAL-008` | Repository-Inhalt | keine unversionierte Binärdatei; nur Markdown und CSV neu; keine Handbücher, Bilder, Programme oder Vorlagen kopiert | `ANNAHME` | hoch | Redaktionelle/Datenschutz-Freigabe vor Veröffentlichung. |
 | `VAL-009` | Klartextmuster für Passwortwert, Server/Benutzer/DSN, UNC-Pfad und E-Mail in neuen Analysedateien | 0 Treffer; Konfigurationswerte blieben maskiert/nicht dokumentiert | `ANNAHME` | hoch | Eine menschliche Datenschutz-Endprüfung bleibt vor Veröffentlichung sinnvoll. |
 | `VAL-010` | Git-Whitespace-/Patchprüfung | `git diff --check` ohne Befund | `ANNAHME` | hoch | Unversionierte Dateien werden zusätzlich separat auf Whitespace geprüft. |
+| `VAL-011` | Phase-2-Arbeitskopie gegen aktuelle Originalquellen: relative Pfade, Größen und SHA-256 | 592 Dateien je Seite; 0 Abweichungen | `BESTÄTIGT` für den Prüfzeitpunkt 11.08.2026 | hoch | Keine; die fünf flüchtigen Phase-1-Dateien sind separat erläutert. |
+| `VAL-012` | Physischer DAT-Parser gegen logischen sequenziellen Export | alle 24 DAT-Dateien vollständig gelesen; aktive physische Sätze je Datei entsprechen exakt 53.991 logischen Sätzen | `BESTÄTIGT` technisch | hoch | Fachliche Feldsemantik bleibt offen. |

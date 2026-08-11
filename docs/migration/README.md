@@ -23,14 +23,18 @@
 > und Detailansicht. Echte EDWALT-Daten bleiben dabei lokal und geschützt; im
 > Repository und in allgemeinen Entwicklungstests werden ausschließlich
 > synthetische Daten verwendet (`INT-035`).
-> Die Quellartefakte sind technisch read-only inventarisiert; Satzlayout,
-> fachliche Schlüssel, weitere Ausschlüsse und ein fachliches Cemaris-Zielmodell
-> sind weiterhin nicht bekannt.
+> Die Quellartefakte sind technisch read-only inventarisiert. Das Micro-Focus-
+> Speicherformat, feste Satzlängen, Indexdefinitionen, aktive Satzmengen,
+> physische Löschsatztypen und mehrere Schlüsselbeziehungen sind inzwischen
+> auf einer externen Arbeitskopie belegt. Feldsemantik, weitere Ausschlüsse und
+> ein fachliches Cemaris-Zielmodell sind weiterhin nicht vollständig bekannt.
 
 Die konkrete
 [EDWALT-Quellenanalyse](edwalt-source-analysis.md) dokumentiert 24 vollständige
-DAT/IDX-Paare, technische Extraktionsrisiken, historische Varianten und die
-vor einer Profilierung zu klärenden P0-Fragen. **EDWALT** ist die kanonische
+DAT/IDX-Paare, technische Extraktionsrisiken und historische Varianten. Der
+[Extraktionsprototyp und das technische Datenprofil](edwalt-extraction-prototype.md)
+dokumentieren den inzwischen validierten Zugriff sowie die noch vor einem
+fachlichen Mapping zu klärenden Punkte. **EDWALT** ist die kanonische
 Bezeichnung; **EDWALT3** bezeichnet dasselbe Produkt beziehungsweise die
 untersuchte Version (`INT-001`, `BESTÄTIGT`, Konfidenz hoch).
 
@@ -161,9 +165,10 @@ Eine erfolgreiche technische Zeilenzahl ersetzt keine fachliche Abnahme.
 
 ## Noch offen
 
-- dokumentiertes Satzlayout/Copybooks oder ein garantiert lesender
-  Herstellerexport für die EDWALT-DAT/IDX-Dateien,
-- vollständiger Quellumfang einschließlich Nebenbeständen,
+- semantische Feldgrenzen und Feldtypen innerhalb der technisch bestätigten
+  festen Satzlängen; zusätzliche Copybooks oder Herstellerunterlagen existieren
+  nach Projektangabe nicht,
+- fachliche Einordnung und Vorrang der Neben-, Alt- und DM-Bestände,
 - fachliches Cemaris-Zielmodell,
 - Migrationspflicht und Aufbewahrung je Datenart,
 - dauerhafte Auffindbarkeit, Lesbarkeit, Berechtigung und Aufbewahrung der nicht
@@ -171,3 +176,12 @@ Eine erfolgreiche technische Zeilenzahl ersetzt keine fachliche Abnahme.
 - Qualitäts- und Abnahmeschwellen,
 - Migrationsfenster, Delta und Rückfall,
 - Verantwortliche für technische und fachliche Freigabe.
+
+## Unmittelbarer nächster Arbeitsschritt
+
+Das Cemaris-Fachmodell wird noch nicht aufgrund der EDWALT-Struktur erweitert.
+Zuerst wird aus Schlüsseloffsets, aggregierten Byteprofilen, Hilfe, Masken,
+Programmstrings und Vorlagen ein evidenzbasierter Quellfeldkatalog erstellt.
+Priorität haben `W005`, `W006`, `W020`, `W021`, `W023`, `buch` und `W040`.
+Unklare Felder und unbekannte Bytebereiche bleiben sichtbar `OFFEN`; sie werden
+weder erfunden noch mit stillen Standardwerten belegt.

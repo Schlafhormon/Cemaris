@@ -1,33 +1,41 @@
 # Technisches Inventar der EDWALT-Datenbestände
 
-Stand: 10. August 2026
+Stand: 11. August 2026
 
 ## Zweck und Untersuchungsgrenze
 
-Dieses Inventar beschreibt die in `EDW3DAT` und `edwalt3` vorhandenen
+Dieses Inventar beschreibt die in `EDW3DAT` und `Edwalt3` vorhandenen
 DAT/IDX-Paare. Es ist keine fachliche Datenmodellierung und kein
-Migrationsmapping. Die Dateien wurden nur anhand von Metadaten, SHA-256 und
-kurzen Dateiheadern untersucht. Es wurden weder Datensätze exportiert noch
-Indexe geöffnet, repariert oder neu aufgebaut.
+Migrationsmapping. Phase 1 untersuchte nur Metadaten, SHA-256 und kurze Header.
+Phase 2 identifizierte und exportierte Datensätze ausschließlich aus einer
+hashgeprüften Arbeitskopie außerhalb des Repositories; Originale und Indizes
+wurden weder repariert noch neu aufgebaut.
 
 Alle 24 DAT-Dateien besitzen einen gleichnamigen IDX-Partner; umgekehrt wurde
-keine verwaiste IDX-Datei festgestellt. Die Header ließen sich keinem sicher
-erkannten Standardformat zuordnen. Die mitgelieferten Micro-Focus-Komponenten
-`MFFH.DLL` und `REBUILD.EXE` sowie `DEPLOY.TXT` deuten auf Dateien des
-Micro-Focus-Dateihandlers hin. Die konkrete Organisation jedes Bestands
-(indexed/sequential, Satzlänge, Schlüssel) ist damit **nicht** bestätigt.
+keine verwaiste IDX-Datei festgestellt. Mit den mitgelieferten
+Micro-Focus-Komponenten `MFFH.DLL` und `REBUILD.EXE` ist die konkrete
+Organisation inzwischen als Micro-Focus indexed file, `IDXFORMAT(4)`, mit
+fester logischer Satzlänge bestätigt. Satzlängen und Indexdefinitionen stehen
+im [technischen Phase-2-Profil](../../migration/edwalt-extraction-prototype.md).
 
 | Aussage | Evidenz | Status | Konfidenz | Offene Frage |
 |---|---|---|---|---|
 | 24 vollständige DAT/IDX-Paare sind vorhanden. | `source-manifest.csv`, SRC-DAT-0004 bis SRC-DAT-0147 sowie SRC-APP-0364/0365 und SRC-APP-0443/0444 | ANNAHME | hoch | Sind alle Paare produktive Bestände oder teilweise nur Alt-/Beispieldaten? |
-| Eine Micro-Focus-Dateiorganisation ist wahrscheinlich. | SRC-APP-0092 (`DEPLOY.TXT`), SRC-APP-0333 (`MFFH.DLL`), SRC-APP-0399 (`REBUILD.EXE`) | ANNAHME | hoch | Mit welcher dokumentierten, garantiert lesenden Hersteller-API dürfen Metadaten später validiert werden? |
-| Datensatzanzahl, Satzlayout und Schlüssel sind nicht sicher bestimmt. | unbekannte Header aller DAT/IDX-Dateien; Wartungsprogramme wurden nicht ausgeführt | OFFEN | hoch | Existieren Copybooks, Dateibeschreibungen oder ein lesender Export aus dem betreuten Produktivverfahren? |
+| Micro-Focus indexed file, `IDXFORMAT(4)`, feste Satzlänge | Herstellerwerkzeug `/n`, sequenzieller Export und unabhängiger physischer Parser auf der Arbeitskopie | BESTÄTIGT | hoch | Keine technische Formatfrage; Feldtypen und Semantik bleiben offen. |
+| 53.991 aktive Sätze, 4.119 physische Löschsätze und 0 Primärschlüsseldubletten | aggregiertes Phase-2-Profil ohne Quellwerte | BESTÄTIGT technisch | hoch | Zwei leere Primärschlüssel und fachliche Beziehungsausnahmen klassifizieren. |
+| Copybooks, FD-Dateien und weitere Herstellerunterlagen sind nicht verfügbar; der Hersteller existiert nicht mehr. | INT-037 | BESTÄTIGT | hoch | Satzfelder aus lokalen Evidenzen rekonstruieren und Unsicherheit dokumentieren. |
 
 ## Vollständige Paarliste
 
 Zeitangaben sind UTC. Größen beziehen sich auf DAT und IDX. Ein aktueller
 Zeitstempel ist nur ein Nutzungsindiz und beweist weder fachliche Verwendung
 noch Datenqualität.
+
+Aktive Satzmengen, Satzlängen, Indexanzahlen, Löschsätze und aggregierte
+Schlüsselbeziehungen werden zentral im
+[technischen Phase-2-Profil](../../migration/edwalt-extraction-prototype.md)
+geführt und hier nicht dupliziert. Die folgende Paarliste beschreibt weiterhin
+die vorläufige fachliche Quellenklassifikation.
 
 | Daten-ID | DAT / IDX (lokaler Quellenverweis) | Größe DAT / IDX | Änderung DAT / IDX | Mögliche Aufgabe und Beleg | Mögliche Datenkategorien / Risiko | Status; Konfidenz | Offene Frage |
 |---|---|---:|---|---|---|---|---|
@@ -81,20 +89,23 @@ noch Datenqualität.
 
 | Risiko | Betroffene Evidenz | Bewertung | Sichere Folgemaßnahme |
 |---|---|---|---|
-| Proprietäres oder undokumentiertes Satz-/Indexformat | alle DAT/IDX; Micro-Focus-Laufzeit SRC-APP-0333 | hoch; ANNAHME; Konfidenz hoch | Herstellerdokumentation/Copybooks beschaffen oder betreuten, nur lesenden Export vereinbaren. |
-| Historische Varianten ohne Abgrenzungsregel | DAT-002/003/011/020/022/024 | hoch; ANNAHME; Konfidenz mittel | Fachliche Aufbewahrungs- und Dublettenregeln im Interview klären. |
-| Unterschiedliche Zeitstempel sind kein Konsistenznachweis | besonders DAT-008/009 | mittel; ANNAHME; Konfidenz hoch | Später mit einem autorisierten logischen Export statt Dateizeit vergleichen. |
+| Technisches Format bekannt, Feldlayout und COBOL-Datentypen undokumentiert | alle DAT/IDX; Micro-Focus-Laufzeit SRC-APP-0333; technisches Phase-2-Profil | hoch; Format `BESTÄTIGT`, Feldsemantik `OFFEN`; Konfidenz hoch | Feldkatalog aus lokalen Evidenzen rekonstruieren; unbekannte Bereiche erhalten. |
+| Historische Varianten ohne Abgrenzungsregel | DAT-002/003/011/020/022/024 | hoch; technische Überlappungen `BESTÄTIGT`, fachliche Rolle `OFFEN`; Konfidenz hoch | Zeitfelder, Inhalt und Programmzugriff analysieren; Varianten nicht pauschal vereinigen. |
+| Unterschiedliche Zeitstempel sind kein Konsistenznachweis | besonders DAT-008/009 | mittel; ANNAHME; Konfidenz hoch | Logische Satzmengen und Schlüssel sind profiliert; Zeitstempel nicht als fachliche Gültigkeit behandeln. |
 | Freitext und besonders schützenswerte Ereignisdaten | DAT-016 bis DAT-021 | sehr hoch; ANNAHME; Konfidenz hoch | Datenschutz-, Zweckbindungs-, Berechtigungs- und Löschkonzept vor Migration bestätigen. |
 | Historische Währung, Gebühren und externe Kontonummern | DAT-001 bis DAT-003, DAT-006, DAT-012, DAT-022 | hoch; ANNAHME; Konfidenz mittel | Satzungsstände und finanzielle Abstimmregeln mit Kasse/Fachamt erheben. |
-| Referenzintegrität ist ohne Schlüsseldefinition unbekannt | DAT-001, DAT-015 bis DAT-020 | sehr hoch; Ausschluss überholter Vorgänge und früherer Nummern laut INT-028/029 `BESTÄTIGT`, technische Erkennung `OFFEN`; Konfidenz hoch | Führende Schlüssel, gültige Nachfolger und aktuelle Nummer belegen, bevor REQ-MIG-004/005 filtern. |
+| Technische Schlüsselbeziehungen weisen verwaiste Referenzen auf; ihre fachliche Bedeutung ist noch nicht vollständig belegt | DAT-001, DAT-015 bis DAT-020; technisches Phase-2-Profil | sehr hoch; technische Mengen `BESTÄTIGT`, Fachsemantik und Ausschlussregel `OFFEN`; Konfidenz hoch | Feldsemantik, führende Schlüssel, gültige Nachfolger und aktuelle Nummer belegen, bevor REQ-MIG-004/005 filtern. |
 
-## Nicht sicher ermittelbar
+## Weiterhin nicht sicher ermittelbar
 
-Datensatzanzahlen, Nullquoten, Feldlängen, Satztypen, Schlüssel, gelöschte
-Sätze und Referenzintegrität konnten ohne dokumentiertes, garantiert
-lesendes Verfahren nicht ermittelt werden. `REBUILD.EXE`, `RebuildW.exe`, die
-REORG-Batchdateien und der Altprogramm-Dateihandler wurden ausdrücklich nicht
-ausgeführt. Das große `rebuild.err` wurde nach Erkennung binärnaher und
-möglicherweise inhaltsbezogener Daten nicht weiter inhaltlich untersucht
-(SRC-DAT-0110; Status: OFFEN; Konfidenz: hoch; Frage: enthält es schützenswerte
-Satzfragmente und darf es in einer gesicherten Umgebung ausgewertet werden?).
+Technische Satzmengen, feste Längen, Indexschlüssel, physische Löschsatztypen
+und mehrere Referenzbeziehungen sind inzwischen ermittelt. Weiterhin offen
+sind insbesondere die Feldgrenzen außerhalb der Indizes, COBOL-Datentypen,
+fachliche Nullsemantik, Codewerte, Status-/Nachfolgerregeln und die fachliche
+Vorrangregel historischer Varianten. `RebuildW.exe`, REORG-Batchdateien und das
+Altprogramm wurden nicht ausgeführt. `REBUILD.EXE` kam nur auf der externen
+Arbeitskopie für den Informationsmodus und den sequenziellen Export zum Einsatz.
+Das große `rebuild.err` wurde nach Erkennung binärnaher und möglicherweise
+inhaltsbezogener Daten nicht weiter inhaltlich untersucht (SRC-DAT-0110;
+Status: OFFEN; Konfidenz: hoch; Frage: enthält es schützenswerte Satzfragmente
+und darf es in einer gesicherten Umgebung ausgewertet werden?).

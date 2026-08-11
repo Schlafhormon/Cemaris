@@ -44,7 +44,7 @@ Krematorium und GIS.
 | `INT-002` | Keine funktionale oder technische 1:1-Nachbildung von EDWALT. | `BESTÄTIGT` | hoch | Funktionsinventar ist kein Cemaris-Backlog. |
 | `INT-003` | Fachlich relevante EDWALT-Daten sollen migriert werden. | `BESTÄTIGT` | hoch | Datenerschließung und Migrationsabgrenzung sind verbindliche Arbeitsstränge. |
 | `INT-004` | Cemaris wird eine neue, eigenständige Open-Source-Friedhofsverwaltungssoftware. | `BESTÄTIGT` | hoch | Anforderungen und Zielmodell werden unabhängig von EDWALT entwickelt. |
-| `INT-005` / Q-SYS-01 | EDWALT ist produktiv im Einsatz, wird von ungefähr drei Personen verwendet, und die untersuchten Verzeichnisse bilden das aktuelle Programm sowie den aktuellen Datenstand ab. | `BESTÄTIGT` | hoch | Die Quellen sind der aktuelle Ist-Stand; konkrete Funktionsnutzung und ein konsistenter späterer Migrationsstichtag bleiben offen. |
+| `INT-005/036` / Q-SYS-01, Q-MIG-01 | EDWALT ist produktiv im Einsatz; die bereitgestellten Verzeichnisse stammen nicht aus der produktiven Umgebung, sind aber schema- und versionsgleich mit dem späteren Migrationsbestand. | `BESTÄTIGT`; INT-036 präzisiert die Quellenherkunft | hoch | Parser und Mapping dürfen daran entwickelt werden; Mengen und Inhaltsqualität sind keine produktiven Ist-Werte. |
 | `INT-006` / Q-MIG-00 | Auch abgeschlossene und historische Fälle sollen der Vollständigkeit halber migriert werden. | `BESTÄTIGT` | hoch | Der Migrationsumfang ist zeitlich nicht auf aktive Fälle beschränkt; sachliche Datenkategorien und Ausschlüsse bleiben zu entscheiden. |
 | `INT-007` / Q-MIG-00a | Alle für den späteren Betrieb erforderlichen Daten sollen so migriert werden, dass keine umfangreiche Nacherfassung nötig ist; Notizen sollen nicht migriert werden. | `BESTÄTIGT` | hoch | Betriebsnotwendigkeit und Vermeidung manueller Nacherfassung sind Auswahlkriterien; weitere mit „usw.“ gemeinte Ausschlüsse werden nicht pauschal angenommen. |
 | `INT-008` / Q-SYS-04 | Personen/Adressen, Beisetzungen, Nutzungsrechte/Verlängerungen, Gebühren/Bescheide/Buchungen sowie Suche/Listen/Statistiken werden regelmäßig genutzt; Gräber/Friedhofsstruktur, Termine/Wiedervorlagen und Dokumente/Word-Vorlagen selten; Krematorium gar nicht. | `BESTÄTIGT` | hoch für Bereichshäufigkeiten; niedrig für Vollständigkeit sonstiger Arbeiten | Kernprozesse priorisieren; seltene Bereiche nicht ohne Bedarfsprüfung verwerfen; Krematorium separat abgrenzen. |
@@ -73,6 +73,8 @@ Krematorium und GIS.
 | `INT-033` / Q-MVP-03 | Die Detailansicht zeigt verbundene Grab-, Verstorbenen-, Beisetzungs-, Nutzungsrechts-, Berechtigten-/Adress- und Bescheid-/Gebührendaten; Zahlungsstatus und Mahnungen nicht. | `BESTÄTIGT`; genaue Feldliste `OFFEN` | hoch | REQ-MVP-003; Beziehungen und sensible Felder mit synthetischen Beispielen spezifizieren. |
 | `INT-034` / Q-MVP-04 | Der IT-Administrator darf sämtliche fachlichen Personen- und Falldaten sehen. | `BESTÄTIGT` | hoch | REQ-BER-001; spätere Audit- und Detailrechte getrennt klären. |
 | `INT-035` / Q-MVP-05 | Abnahme anhand eines kontrolliert migrierten Testbestands: bekannten Fall zuverlässig finden und alle Verknüpfungen lesend nachvollziehen. Repository und allgemeine Entwicklungstests enthalten nur synthetische Daten. | `BESTÄTIGT`; Testfallauswahl `OFFEN` | hoch | REQ-MVP-004; lokalen geschützten Migrationstest und aggregierte Abgleichswerte planen. |
+| `INT-037` / Q-MIG-02 | Weitere Copybooks, FD-Dateien, Herstellerunterlagen und EDWALT-Ansprechpartner sind nicht verfügbar; der Hersteller besteht nicht mehr. | Nichtverfügbarkeit `BESTÄTIGT` | hoch | Feldsemantik aus lokalen Daten-, Programm- und Hilfeevidenzen rekonstruieren; nichts erraten. |
+| `INT-038` / Q-MIG-03 | Die Bedeutung von `*alt`, `*dm`, `BUCHA`, `oliW002` und das Fehlen erwarteter Dateien wie `W008` oder `TERMIN` ist nicht bekannt. | Wissensgrenze `BESTÄTIGT`; Semantik `OFFEN` | hoch | Überlappungen, Zeitbezug und Programmzugriffe technisch analysieren; keine pauschale Regel annehmen. |
 
 ## Allgemeine Systemnutzung
 
@@ -117,7 +119,7 @@ Krematorium und GIS.
 | Q-BEI-02 | P0 | FUN-104, MAN-EDW-104; hoch | Welche Prüfungen verhindern Doppelbelegung, falsche Stelle/Tiefe oder unzulässige Grabart; wie werden Ausnahmen behandelt? | regelbasierte Demonstration mit Testfall |
 | Q-BEI-03 | P1 | FUN-303/211, DAT-014; hoch | Wie werden Termin, Trauerfeier, Kapelle, Bestatter und Grabverwaltung miteinander abgestimmt? | Ablauf von Terminannahme bis Tagesliste |
 | Q-BEI-04 | P1 | FUN-116, MAN-EDW-211; hoch | Wie unterscheiden sich Überführung, Umbettung, Einlieferung und sonstige Bewegungen; welche Genehmigungen/Dokumente entstehen? | Fallarten-/Dokumentenmatrix |
-| Q-BEI-05 | P1 | INT-008, DAT-021, FUN-400/401; hoch | Müssen trotz heutiger Nichtnutzung historische Krematoriumsdaten migriert oder aus Aufbewahrungsgründen getrennt archiviert werden, oder dürfen sie nach technischer Prüfung ausgeschlossen werden? | fachlich/rechtliche Entscheidung zum historischen Bestand ohne Echtdaten |
+| Q-BEI-05 | abgeschlossen | INT-008/027, DAT-021, FUN-400/401; hoch | Historische strukturierte Krematoriumsdaten bleiben trotz heutiger Nichtnutzung im Migrationsumfang. | technische Erschließung; im vorliegenden nichtproduktiven Bestand enthält W080 keine aktiven Sätze |
 
 ## Nutzungsrechte
 
