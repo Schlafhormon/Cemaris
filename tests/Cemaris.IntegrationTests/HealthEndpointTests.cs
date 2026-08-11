@@ -1,12 +1,11 @@
 using System.Net;
 using System.Net.Http.Json;
 using Cemaris.Api.Contracts;
-using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Cemaris.IntegrationTests;
 
-public sealed class HealthEndpointTests(WebApplicationFactory<Program> factory)
-    : IClassFixture<WebApplicationFactory<Program>>
+public sealed class HealthEndpointTests(CemarisWebApplicationFactory factory)
+    : IClassFixture<CemarisWebApplicationFactory>
 {
     [Fact]
     public async Task GetHealthReturnsHealthyServiceStatus()

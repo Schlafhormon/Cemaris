@@ -116,6 +116,7 @@ Im Repository-Stamm:
 
 ```powershell
 dotnet restore Cemaris.sln
+dotnet tool restore
 dotnet run --project src/Cemaris.Api --launch-profile http
 ```
 
@@ -138,6 +139,27 @@ npm run dev
 ```
 
 Das Frontend läuft unter <http://localhost:5173>. Vite leitet `/health` und `/api` in der Entwicklung standardmäßig an `http://localhost:5050` weiter. Die Statuskarte zeigt die erfolgreiche Verbindung.
+
+### Lokales SQL-Server-Leseschema
+
+Die normale Entwicklung und alle allgemeinen Tests verwenden weiterhin den
+synthetischen Provider. Fuer einen lokalen SQL-Server-Test werden
+maschinenbezogene Einstellungen in User Secrets und nicht im Repository
+gespeichert:
+
+```powershell
+dotnet user-secrets set --project src/Cemaris.Api "ConnectionStrings:CemarisDatabase" "Server=localhost\CEMARISDEV;Database=Cemaris_Dev;Integrated Security=True;Encrypt=True;TrustServerCertificate=True"
+dotnet user-secrets set --project src/Cemaris.Api "ReadModel:Provider" "SqlServer"
+
+$env:ASPNETCORE_ENVIRONMENT = "Development"
+dotnet tool restore
+dotnet tool run dotnet-ef database update --project src/Cemaris.Infrastructure --startup-project src/Cemaris.Api --context CemarisDbContext
+```
+
+Die Migrationen liegen unter
+`src/Cemaris.Infrastructure/Persistence/Migrations`. Produktive
+Schemadeployments erfolgen spaeter kontrolliert ueber ein geprueftes SQL-Skript
+und nicht beim Anwendungsstart.
 
 ### Qualität prüfen
 

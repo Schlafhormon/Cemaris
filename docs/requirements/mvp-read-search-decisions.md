@@ -207,8 +207,10 @@ der Detailansicht.
 Die im Repository enthaltene Datenbasis ist durch Kennzeichnungen, ungueltige
 Beispielpostleitzahlen sowie Test-/Synthese-Bezeichner klar kuenstlich. Sie ist
 keine EDWALT-Migration und kein Mapping von EDWALT-Feldern. Ein produktiver
-Import, EF-Schemaversionierung und optionale SQL-Server-Integrationstests
-bleiben eigene spaetere Arbeitsschritte.
+Import und automatisierte SQL-Server-Integrationstests bleiben eigene spaetere
+Arbeitsschritte. Die initiale EF-Schemaversionierung fuer das Read Model ist
+vorhanden; produktive Schemadeployments werden weiterhin separat geprueft und
+ausgefuehrt.
 
 Weiterhin bewusst ausserhalb von Version 1 liegen:
 

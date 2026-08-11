@@ -3,12 +3,11 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Cemaris.Application.Cases;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Cemaris.IntegrationTests;
 
-public sealed class ReadOnlyCaseEndpointTests(WebApplicationFactory<Program> factory)
-    : IClassFixture<WebApplicationFactory<Program>>
+public sealed class ReadOnlyCaseEndpointTests(CemarisWebApplicationFactory factory)
+    : IClassFixture<CemarisWebApplicationFactory>
 {
     [Fact]
     public async Task SearchWithoutFiltersReturnsAtMostConfiguredSyntheticResults()

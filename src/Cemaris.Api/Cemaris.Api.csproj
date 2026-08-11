@@ -7,12 +7,17 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.OpenApi" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>Cemaris.Api</RootNamespace>
+    <UserSecretsId>5bd9d3ee-a624-45d4-9f18-71fb619427eb</UserSecretsId>
   </PropertyGroup>
 
 </Project>
