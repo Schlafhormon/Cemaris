@@ -53,7 +53,8 @@ Vorbereitet sind:
 - eine .NET-10-Solution mit getrennter Domain-, Application-, Infrastructure- und API-Schicht,
 - eine React-/TypeScript-/Vite-Oberfläche,
 - REST-Grundlage mit OpenAPI, zentraler Fehlerbehandlung, Health Check und nicht sensitiver Systeminfo,
-- Entity Framework Core mit konfigurierbarer SQL-Server-Anbindung, noch ohne Fachschema,
+- ein erster ausschliesslich lesender MVP fuer Suche und Detailansicht mit klar synthetischen Daten,
+- ein bewusst schmales EF-Core-Leseschema mit synthetischem Standardprovider und optionaler SQL-Server-Anbindung,
 - eine minimale herstellerneutrale DMS-Erweiterungsstelle,
 - Unit- und Integrationstests,
 - Docker- und CI-Konfiguration,
@@ -122,6 +123,8 @@ Danach sind verfügbar:
 
 - Health Check: <http://localhost:5050/health>
 - Systeminfo: <http://localhost:5050/api/system/info>
+- Lesende Suche: <http://localhost:5050/api/search>
+- Lesende Falldetails: `http://localhost:5050/api/cases/{id}`
 - OpenAPI (nur Development): <http://localhost:5050/openapi/v1.json>
 
 ### Frontend starten
@@ -157,6 +160,8 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `ConnectionStrings__CemarisDatabase` | externer SQL-Server-Connection-String | `Server=localhost,1433;Database=Cemaris;User Id=cemaris;Password=CHANGE_ME;Encrypt=True;TrustServerCertificate=True` |
 | `Cors__AllowedOrigins__0` | erlaubter Entwicklungs-Frontend-Origin | `http://localhost:5173` |
 | `OpenApi__Enabled` | OpenAPI-Dokument aktivieren | `true` nur in kontrollierten Umgebungen |
+| `ReadModel__Provider` | Quelle des Lesemodells (`Synthetic` oder `SqlServer`) | `Synthetic` fuer normale Entwicklung und Tests |
+| `Search__MaxResults` | maximales Suchergebnis ohne Paginierung | `10` |
 | `VITE_API_BASE_URL` | API-Basis-URL im gebauten Browserclient | leer für denselben Origin |
 | `VITE_API_PROXY_TARGET` | Vite-Dev-Proxy | `http://localhost:5050` |
 

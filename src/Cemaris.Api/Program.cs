@@ -1,8 +1,10 @@
 using Cemaris.Api.Contracts;
 using Cemaris.Api.ErrorHandling;
+using Cemaris.Application.Cases;
 using Cemaris.Application.System;
 using Cemaris.Infrastructure;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +33,11 @@ builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddHealthChecks();
 builder.Services.AddCemarisInfrastructure(builder.Configuration);
+
+var maximumSearchResults = builder.Configuration.GetValue<int?>("Search:MaxResults") ?? 10;
+builder.Services.AddScoped(serviceProvider => new CaseReadService(
+    serviceProvider.GetRequiredService<ICaseReadStore>(),
+    maximumSearchResults));
 
 if (openApiEnabled)
 {
@@ -93,6 +100,57 @@ systemEndpoints.MapGet("/info", () =>
     .WithName("GetSystemInformation")
     .Produces<SystemInformationResponse>(StatusCodes.Status200OK);
 
+var caseEndpoints = app.MapGroup("/api")
+    .WithTags("Read-only cases");
+
+caseEndpoints.MapGet("/search", SearchCasesAsync)
+    .WithName("SearchCases")
+    .WithSummary("Searches the read-only case overview with AND-combined filters.")
+    .Produces<SearchResponse>(StatusCodes.Status200OK)
+    .ProducesValidationProblem(StatusCodes.Status400BadRequest);
+
+caseEndpoints.MapGet("/cases/{id:guid}", GetCaseAsync)
+    .WithName("GetCase")
+    .WithSummary("Returns the complete read-only MVP detail projection for one case.")
+    .Produces<CaseOverview>(StatusCodes.Status200OK)
+    .ProducesProblem(StatusCodes.Status404NotFound);
+
 app.Run();
+
+static async Task<IResult> SearchCasesAsync(
+    [AsParameters] SearchCasesRequest request,
+    CaseReadService service,
+    CancellationToken cancellationToken)
+{
+    try
+    {
+        var response = await service.SearchAsync(request.ToCriteria(), cancellationToken);
+        return Results.Ok(response);
+    }
+    catch (SearchValidationException exception)
+    {
+        return Results.ValidationProblem(
+            exception.Errors.ToDictionary(item => item.Key, item => item.Value),
+            title: exception.Message,
+            statusCode: StatusCodes.Status400BadRequest);
+    }
+}
+
+static async Task<IResult> GetCaseAsync(
+    Guid id,
+    CaseReadService service,
+    CancellationToken cancellationToken)
+{
+    var caseOverview = await service.GetAsync(id, cancellationToken);
+    if (caseOverview is not null)
+    {
+        return Results.Ok(caseOverview);
+    }
+
+    return Results.Problem(
+        statusCode: StatusCodes.Status404NotFound,
+        title: "Der angeforderte Fall wurde nicht gefunden.",
+        type: "https://httpstatuses.com/404");
+}
 
 public partial class Program;

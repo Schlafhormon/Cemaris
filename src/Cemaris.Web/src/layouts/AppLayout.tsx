@@ -1,6 +1,8 @@
 import type { PropsWithChildren } from 'react'
 
 export function AppLayout({ children }: PropsWithChildren) {
+  const currentPath = window.location.pathname
+
   return (
     <div className="app-shell">
       <header className="site-header">
@@ -10,7 +12,23 @@ export function AppLayout({ children }: PropsWithChildren) {
           </span>
           <span className="brand-name">Cemaris</span>
         </a>
-        <span className="header-phase">Konzeptionsphase</span>
+        <nav className="primary-navigation" aria-label="Hauptnavigation">
+          <a
+            className={currentPath === '/' ? 'active' : undefined}
+            href="/"
+            aria-current={currentPath === '/' ? 'page' : undefined}
+          >
+            Projektstatus
+          </a>
+          <a
+            className={currentPath.startsWith('/search') ? 'active' : undefined}
+            href="/search"
+            aria-current={currentPath.startsWith('/search') ? 'page' : undefined}
+          >
+            Suche
+          </a>
+        </nav>
+        <span className="header-phase">Read-only MVP</span>
       </header>
 
       <main className="page-content">{children}</main>

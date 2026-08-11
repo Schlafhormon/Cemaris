@@ -40,6 +40,10 @@ export function HomePage() {
               Datenmodell sind noch nicht für den Produktivbetrieb freigegeben.
             </p>
           </div>
+
+          <a className="primary-action" href="/search">
+            Lesende Suche öffnen
+          </a>
         </div>
 
         <SystemStatusCard />
@@ -71,7 +75,7 @@ export function HomePage() {
         <p className="next-step-label">Nächster Schritt</p>
         <div>
           <h2 id="next-step-heading">
-            EDWAL-Bestandsaufnahme und fachliche Bedarfsanalyse
+            EDWALT-Bestandsaufnahme und fachliche Bedarfsanalyse
           </h2>
           <p>
             Erst wenn Prozesse, Daten und Anforderungen verstanden sind, werden

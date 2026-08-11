@@ -18,6 +18,9 @@ Empfohlene Statuswerte:
 
 Jede spätere Anforderung sollte eine ID, Beschreibung, Quelle, Geltungsbereich, Priorität, Akzeptanzkriterien, Datenschutz-/Berechtigungsfolgen und offene Punkte erhalten.
 
+Die ersten Umsetzungsentscheidungen fuer die lesende Suche und Detailansicht
+stehen in [MVP-Entscheidungen: Lesende Suche und Detailansicht](mvp-read-search-decisions.md).
+
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
 | REQ-DMS-001 | BESTÄTIGT | Vorhandene Winyard-Akte beziehungsweise passendes Ablageziel suchen | INT-019/021/023 | optionale Winyard-Integration | Muss bei Aktivierung | automatische fachliche Zuordnung bestätigt; technische Suchregel offen |
@@ -37,9 +40,9 @@ Jede spätere Anforderung sollte eine ID, Beschreibung, Quelle, Geltungsbereich,
 | REQ-MIG-004 | BESTÄTIGT | Stornierte, aufgehobene und durch Umnummerierung überholte Vorgänge nicht nach Cemaris migrieren | INT-028 | EDWALT-Datenmigration | Muss | sichere technische Erkennung, gültige Nachfolger, frühere Kennungen und Ausschlussnachweis offen; Quelldaten bleiben unverändert |
 | REQ-MIG-005 | BESTÄTIGT | Bei Umnummerierungen nur den gültigen Datensatz mit aktueller Nummer migrieren; frühere Nummern nicht als Suchalias oder Historienkennung übernehmen | INT-028/029 | EDWALT-Datenmigration | Muss | technische Nachfolgerermittlung und Ausschlussvalidierung offen |
 | REQ-MIG-006 | BESTÄTIGT | Aus EDWALT Bescheidnummer, Gebührenpositionen, festgesetzten Betrag, Fälligkeit und Fallbezug migrieren; Zahlungsstatus und Mahnungen nicht aus EDWALT migrieren | INT-014 bis INT-016/030 | EDWALT-Datenmigration und FINANZ+ | Muss | Quellfelder, Schlüssel zum Fall und technische Vollständigkeit offen; FINANZ+ bleibt für Zahlungsstatus und Mahnungen führend |
-| REQ-MVP-001 | BESTÄTIGT | Als ersten nutzbaren Cemaris-Abschnitt eine lesende Suche und Anzeige von Friedhofs-, Grab-, Personen- und Falldaten bereitstellen | INT-031 | erster Entwicklungsabschnitt | Muss | konkrete Suchfelder, Ergebnisdarstellung, Detailumfang und Abnahmekriterien noch festzulegen |
-| REQ-MVP-002 | BESTÄTIGT | Eine gemeinsame Suche mit optionalen Filtern für Name/Vorname, Geburts-/Sterbedatum, Friedhof/Feld/Grabnummer, Beisetzungsdatum, Nutzungsberechtigte/Anschriften und Bescheidnummer bereitstellen | INT-032 | erster Entwicklungsabschnitt | Muss | Suchsemantik, Kombinationen, Unschärfe und Ergebnisreihenfolge technisch/fachlich noch festzulegen |
-| REQ-MVP-003 | BESTÄTIGT | In der lesenden Detailansicht zusammengehörige Friedhofs-/Grabdaten, Verstorbene, Beisetzungen, Nutzungsrechte/Laufzeiten, Berechtigte/Adressen sowie Bescheid-/Gebühreninformationen anzeigen; keinen Zahlungsstatus und keine Mahnungen anzeigen | INT-016/030/033 | erster Entwicklungsabschnitt | Muss | konkrete Feldliste und Darstellung von Mehrfachbeziehungen noch festzulegen |
+| REQ-MVP-001 | BESTÄTIGT | Als ersten nutzbaren Cemaris-Abschnitt eine lesende Suche und Anzeige von Friedhofs-, Grab-, Personen- und Falldaten bereitstellen | INT-031 | erster Entwicklungsabschnitt | Muss | technisch mit synthetischen Daten umgesetzt; fachliche Abnahme bleibt offen |
+| REQ-MVP-002 | BESTÄTIGT | Eine gemeinsame Suche mit optionalen Filtern für Name/Vorname, Geburts-/Sterbedatum, Friedhof/Feld/Grabnummer, Beisetzungsdatum, Nutzungsberechtigte/Anschriften und Bescheidnummer bereitstellen | INT-032 | erster Entwicklungsabschnitt | Muss | MVP-Semantik und Sortierung in `mvp-read-search-decisions.md` dokumentiert; spätere Erweiterungen bleiben offen |
+| REQ-MVP-003 | BESTÄTIGT | In der lesenden Detailansicht zusammengehörige Friedhofs-/Grabdaten, Verstorbene, Beisetzungen, Nutzungsrechte/Laufzeiten, Berechtigte/Adressen sowie Bescheid-/Gebühreninformationen anzeigen; keinen Zahlungsstatus und keine Mahnungen anzeigen | INT-016/030/033 | erster Entwicklungsabschnitt | Muss | konservative technische Feldliste dokumentiert; fachliche Feldprüfung bleibt offen |
 | REQ-BER-001 | BESTÄTIGT | Der IT-Administrator darf sämtliche fachlichen Personen- und Falldaten sehen | INT-012/034 | Berechtigung | Muss | Protokollierung administrativer Zugriffe und spätere feinere Rollentrennung offen |
 | REQ-MVP-004 | BESTÄTIGT | Den ersten Abschnitt anhand eines kontrolliert migrierten Testbestands fachlich abnehmen: bekannten Fall finden und alle zugehörigen Verknüpfungen lesend nachvollziehen; im Repository und in allgemeinen Entwicklungstests ausschließlich synthetische Daten verwenden | INT-035 | erster Entwicklungsabschnitt und Migrationstest | Muss | Auswahl, Schutz und Bereitstellung des lokalen Testbestands sowie messbare Vollständigkeitsprüfung noch festzulegen |
 
@@ -347,6 +350,13 @@ bleibt `OFFEN`.
   Beisetzungen, Nutzungsrechte/Laufzeiten, Berechtigte/Adressen und Bescheid-/
   Gebühreninformationen. Zahlungsstatus und Mahnungen gehören nicht dazu
   (`INT-033`, `REQ-MVP-003`).
+- UMGESETZT (technischer MVP): Mindestlaenge, UND-Logik, konfigurierbares
+  Zehnerlimit, Relevanzsortierung, konkrete Detailfelder und bewusste Grenzen
+  sind in
+  [MVP-Entscheidungen: Lesende Suche und Detailansicht](mvp-read-search-decisions.md)
+  nachvollziehbar festgehalten. Diese Umsetzung verwendet ausschliesslich
+  synthetische Repository-Daten und ist noch keine fachliche Freigabe des
+  Lesemodells.
 - OFFEN: Welche Kombinationen, Unschärfen, phonetischen Suchen oder historischen Werte sind nötig?
 - OFFEN: Welche Treffer dürfen aufgrund von Berechtigungen nicht sichtbar sein?
 - OFFEN: Welche Antwortzeiten und Datenmengen werden erwartet?
