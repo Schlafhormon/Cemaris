@@ -26,15 +26,22 @@
 > Die Quellartefakte sind technisch read-only inventarisiert. Das Micro-Focus-
 > Speicherformat, feste Satzlängen, Indexdefinitionen, aktive Satzmengen,
 > physische Löschsatztypen und mehrere Schlüsselbeziehungen sind inzwischen
-> auf einer externen Arbeitskopie belegt. Feldsemantik, weitere Ausschlüsse und
-> ein fachliches Cemaris-Zielmodell sind weiterhin nicht vollständig bekannt.
+> auf einer externen Arbeitskopie belegt. Auch die priorisierten Gebühren-/
+> Bescheidblöcke sind aggregiert profiliert; ihr Nullinitialisierungsbefund
+> begrenzt die feldgenaue Semantik. Weitere Ausschlüsse und ein fachliches
+> Cemaris-Zielmodell sind weiterhin nicht vollständig bekannt.
 
 Die konkrete
 [EDWALT-Quellenanalyse](edwalt-source-analysis.md) dokumentiert 24 vollständige
 DAT/IDX-Paare, technische Extraktionsrisiken und historische Varianten. Der
 [Extraktionsprototyp und das technische Datenprofil](edwalt-extraction-prototype.md)
-dokumentieren den inzwischen validierten Zugriff sowie die noch vor einem
-fachlichen Mapping zu klärenden Punkte. **EDWALT** ist die kanonische
+dokumentiert den inzwischen validierten Zugriff. Der
+[feldweise Quellkatalog mit Satzlayoutrekonstruktion](edwalt-source-field-catalog.md)
+grenzt die priorisierten Sätze lückenlos ab und kennzeichnet die noch vor einem
+fachlichen Mapping zu klärenden Punkte. Der
+[ausgeführte Übergabeauftrag zur Gebühren-/Bescheidvertiefung](edwalt-next-step-handoff.md)
+dokumentiert Arbeitsbereiche, Schutzregeln, Prioritäten und Abschlusskriterien.
+**EDWALT** ist die kanonische
 Bezeichnung; **EDWALT3** bezeichnet dasselbe Produkt beziehungsweise die
 untersuchte Version (`INT-001`, `BESTÄTIGT`, Konfidenz hoch).
 
@@ -180,8 +187,20 @@ Eine erfolgreiche technische Zeilenzahl ersetzt keine fachliche Abnahme.
 ## Unmittelbarer nächster Arbeitsschritt
 
 Das Cemaris-Fachmodell wird noch nicht aufgrund der EDWALT-Struktur erweitert.
-Zuerst wird aus Schlüsseloffsets, aggregierten Byteprofilen, Hilfe, Masken,
-Programmstrings und Vorlagen ein evidenzbasierter Quellfeldkatalog erstellt.
-Priorität haben `W005`, `W006`, `W020`, `W021`, `W023`, `buch` und `W040`.
-Unklare Felder und unbekannte Bytebereiche bleiben sichtbar `OFFEN`; sie werden
-weder erfunden noch mit stillen Standardwerten belegt.
+Der erste evidenzbasierte Quellfeldkatalog für `W005`, `W006`, `W020`, `W021`,
+`W023`, `buch` und `W040` liegt vor. Die priorisierte Gebühren-/Bescheid-
+vertiefung ist durchgeführt: W021/W040-Positionsblöcke sind im untersuchten
+Bestand nahezu beziehungsweise vollständig nullinitialisiert, 124
+Gebührenreferenz- und 5.200 Dezimal-/Rechenhypothesen liefern daher keinen
+belastbaren Positions- oder Betragsbeleg. Die `buch`-Erweiterung besitzt eine
+stark bestätigte 236-Byte-Periode; ihre statische Unterfeldreihenfolge lässt
+sich ohne nichtleeren Referenzbestand oder Copybook noch nicht sicher
+ausrichten. `buch` 118/126/134 sind nur Nullwerte und keine nutzbaren
+Datumsspalten.
+
+Als Nächstes sind ein freigegebener nichtleerer Referenzbestand oder eine
+fachkundige Feldbreitenbestätigung sowie die fachliche Lokalisierung von
+festgesetztem Betrag, Fälligkeit und Variantenvorrang erforderlich. Unklare
+Felder und unbekannte Bytebereiche bleiben sichtbar `OFFEN`; sie werden weder
+erfunden noch mit stillen Standardwerten belegt. Bis dahin gibt es weder Import
+noch Quell-zu-Ziel-Mapping.

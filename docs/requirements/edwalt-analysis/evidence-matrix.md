@@ -43,8 +43,8 @@ Die bestätigten Bereichshäufigkeiten und ihre vorläufige Zuordnung stehen im
 |---|---|---|---|---|---|---|---|
 | FUN-100 | MAN-EDW-100 / IMG-EDW-130 | TECH-014 | DAT-015/010 | TPL-001/002 u. a. | W020 2026 | nein; ANNAHME; hoch | dauerhafter Grab-/Lageschlüssel |
 | FUN-101 | MAN-EDW-101 / IMG-EDW-131–133 | TECH-014 | DAT-016/010/012 | TPL-001/003/006 u. a. | W021 2026 | nein; ANNAHME; hoch | Vorgangsarten, Pflichtdaten und Fristregeln |
-| FUN-102 | MAN-EDW-102 / IMG-EDW-134 | TECH-014 | DAT-018 | keine sichere Zuordnung | W023 2026 | nein; ANNAHME; hoch | Zweck/Rechtsgrundlage freier Zusatzfelder |
-| FUN-103 | MAN-EDW-103 / IMG-EDW-135–137 | TECH-014/017/018 | DAT-001/006/012/016 | Bescheid-/Finanzdokumente | Buch/W006/W021 2026 | nein; ANNAHME; hoch | Preisfindung, Sollstellung, Führungssystem |
+| FUN-102 | MAN-EDW-102 / IMG-EDW-134 | TECH-014 | DAT-018 | keine sichere Zuordnung | W023 2026; 28-Byte-W021-Schlüssel und 16×30-Byte-Hinweisbereich technisch bestätigt | Struktur `BESTÄTIGT`, Zweck/Inhalt `OFFEN`; hoch | Zweck/Rechtsgrundlage freier Zusatzfelder und Bedeutung des Zusatzkopfs 29–127 |
+| FUN-103 | MAN-EDW-103 / IMG-EDW-135–137 | TECH-014/017/018 | DAT-001/006/012/016 | Bescheid-/Finanzdokumente | Buch/W006/W021 2026; W021-Positionsblock vollständig initialisiert, 26 Gebührenhypothesen ohne Treffer | Migrationsgrenze `BESTÄTIGT`, konkrete Positionsfelder `OFFEN`; hoch | Feldoffset und Dezimaldarstellung von festgesetztem Betrag/Fälligkeit; nichtleerer Referenzbestand |
 | FUN-104 | MAN-EDW-104/200 / IMG-EDW-138/139/145/146 | TECH-014 | DAT-015/016 | keines | W020/W021 2026 | nein; ANNAHME; hoch | harte versus weiche Belegungsprüfung |
 | FUN-105 | MAN-EDW-105 / IMG-EDW-140 | TECH-013/016/017 | DAT-004/001 | TPL-001 ff.; DOC-001 ff. | DRAUF 2026, Vorlagen bis 2025 | nein; ANNAHME; hoch | Druck-, Buchungs-, Nummern- und Ablagewirkung |
 | FUN-106 | MAN-EDW-106 / IMG-EDW-141 | TECH-017 | DAT-001/016 | Gutschrift/Storno; REL-320/330 indirekt | Buch 2026 | nein; ANNAHME; hoch | finanzrechtliche Historie |
@@ -92,9 +92,9 @@ Die bestätigten Bereichshäufigkeiten und ihre vorläufige Zuordnung stehen im
 
 | Funktions-ID | Handbuch / Screenshot | Komponente | Daten | Vorlage/Ausgabe/Release | Nutzungsindiz | fachliche Bestätigung; Status; Konfidenz | Wichtigste Lücke |
 |---|---|---|---|---|---|---|---|
-| FUN-300 | MAN-EDW-400 / IMG-EDW-176–187 | TECH-013/016/017 | DAT-019/020/001 | REP-EDW-017; TPL-004 | W040 2025 | nein; ANNAHME; hoch | aktive Auftrags-/Bescheidarten |
+| FUN-300 | MAN-EDW-400 / IMG-EDW-176–187 | TECH-013/016/017 | DAT-019/020/001 | REP-EDW-017; TPL-004 | W040 2025; 84×115-Block technisch belegt, nur zwei Bezeichnungsinstanzen ohne Finanzwerte | Struktur `BESTÄTIGT`, aktive Auftrags-/Bescheidarten und Unterfelder `OFFEN`; hoch | nichtleerer Referenzbestand, Feldbreiten und aktive Arten |
 | FUN-301 | MAN-EDW-401 / IMG-EDW-157/188/189 | TECH-017/024 | DAT-015/012/001 | TPL-030/031; REL-320 | Vorlage 2025, Daten aktuell | nein; ANNAHME; hoch | Berechnung/Lastschrift/Nutzung |
-| FUN-302 | MAN-EDW-402 / IMG-EDW-190 | TECH-017/018/020 | DAT-001/006 | Mahnung/OP/Ist; REL-320/330 | Buch 2026, Module; FINANZ+ führt Forderungen, Zahlungen und Mahnungen laut INT-014 bis INT-016 | Systemhoheit/Medienbruch `BESTÄTIGT`; hoch | Bedeutung der EDWALT-Buchungsdaten für die Bescheidhistorie |
+| FUN-302 | MAN-EDW-402 / IMG-EDW-190 | TECH-017/018/020 | DAT-001/006 | Mahnung/OP/Ist; REL-320/330 | Buch 2026; statische Felder für Zahlungsdatum/-betrag, Rest, Zahlungsart und Mahnung belegt; FINANZ+ führt diese Daten | Systemhoheit und EDWALT-Ausschluss dieser Zahlungs-/Mahndaten `BESTÄTIGT`; hoch | Offsettrennung der zu migrierenden Bescheiddaten von den ausgeschlossenen Finanzfeldern |
 | FUN-303 | MAN-EDW-403 / IMG-EDW-191 | TECH-023 | DAT-014 | REP-EDW-011 | W010 2023, TE/TEKOELN | nein; ANNAHME; hoch | separates Handbuch und tatsächliche Planung |
 | FUN-400 | MAN-EDK-100 / IMG-EDK-207–210 | TECH-022 | DAT-021 | TPL-080 ff. | W080 2007, Module vorhanden; heutige Nichtnutzung INT-008; Migration INT-027 | Funktion nicht bestätigt; Migrationsumfang `BESTÄTIGT`; hoch | Satzlayout, Feldsemantik, Schlüssel und Beziehungen |
 | FUN-401 | MAN-EDK-101 / IMG-EDK-211 | TECH-022 | DAT-021/013 | TPL-080 ff.; REP-EDK-004/006 | nur Handbuch/Module/Vorlagen | nein; ANNAHME; hoch | Versand-/Rückmeldenachweis |
@@ -239,8 +239,15 @@ Die bestätigten Bereichshäufigkeiten und ihre vorläufige Zuordnung stehen im
   `INT-014` bestätigt. `INT-030` grenzt die Datenmigration ab: Bescheidnummer,
   Gebührenpositionen, festgesetzter Betrag, Fälligkeit und Fallbezug werden aus
   EDWALT übernommen; Zahlungsstatus und Mahnungen nicht (`REQ-MIG-006`,
-  `BESTÄTIGT`, Konfidenz hoch). Quellfelder, Schlüssel und weitere manuelle
-  Eingabefelder bleiben technisch beziehungsweise fachlich offen.
+  `BESTÄTIGT`, Konfidenz hoch). Technisch bestätigt sind `buch` 1/L16 als
+  Quellnummer, 17/L24 als Fallbezugskandidat, 41/L8 als Bescheiddatum sowie die
+  statische Trennung der Zahlungs-/Mahnfelder. Die Positionsblöcke in
+  `W021/W040` sind im vorliegenden Bestand initialisiert; 124
+  Gebührenreferenz- und 5.200 Rechenhypothesen liefern daher keinen
+  Betragsbeleg. `buch` 118/126/134 bestehen ausschließlich aus Nullwerten und
+  dürfen nicht als Fälligkeit geraten werden. Festgesetzter Betrag,
+  Fälligkeit, genaue Positionsfelder und weitere manuelle Eingabefelder bleiben
+  technisch beziehungsweise fachlich `OFFEN`.
 - `INT-031` bis `INT-035` bestätigen den ersten nutzbaren Abschnitt: gemeinsame
   lesende Suche und verbundene Detailansicht für Friedhofs-, Grab-, Personen-,
   Fall-, Nutzungsrechts-, Bescheid- und Gebührendaten (`REQ-MVP-001` bis

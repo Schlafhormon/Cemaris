@@ -166,12 +166,34 @@ externen Arbeitskopie und gibt keine Quellwerte aus. Belegt sind:
 - verwaiste Schlüssel in beiden Richtungen bei mehreren dieser Beziehungen;
 - nichttriviale Überlappungen der aktuellen, Alt- und DM-Varianten;
 - starke Windows-1252-Indizien in den wahrscheinlich textuellen Bereichen der
-  Kernbestände sowie mehrere formatgültige Datumskandidaten.
+  Kernbestände sowie mehrere formatgültige Datumskandidaten;
+- lückenlos abgegrenzte Satzbereiche der priorisierten Kernbestände,
+  einschließlich 32 wiederkehrender 127-Byte-Positionen in `W021`, 84
+  wiederkehrender 115-Byte-Positionen in `W040` und 16 Zusatzfeldern à 30 Byte
+  in `W023`;
+- deklarative Finanzprofile für 52 Feldbereiche und 7 Wiederholungsstrukturen:
+  Der W021-Positionsblock ist vollständig nullwertartig, der W040-Block besitzt
+  nur zwei einzelne nicht-nullwertige Bezeichnungsinstanzen ohne Finanzwerte;
+- 124 Gebührenreferenzhypothesen gegen `W006/W006dm` ohne Treffer und 5.200
+  Betrags-/Skalen-/Rechenhypothesen ohne ein einziges nicht-nullwertiges
+  Menge-/Einzel-/Gesamtbetrag-Tripel; die Positionslayouts sind damit
+  strukturell belegt, fachlich aber nicht am Bestand validierbar;
+- eine stark bestätigte 236-Byte-Periodizität in `buch` 2.349–27.128, gefolgt
+  von einem in allen 11.955 Sätzen vollständig SP-gefüllten 232-Byte-Rest;
+- die Widerlegung der Datumshypothesen `buch` 118/126/134: alle drei Felder
+  enthalten ausschließlich den Initialwert `00000000`, während 41/L8 in allen
+  Sätzen ein gültiges `yyyyMMdd`-Datum ist;
+- die technische Bestätigung, dass `W022` neben dem 26-Byte-Grabschlüssel nur
+  den ausgeschlossenen 2.000-Byte-Notizinhalt und keine weiteren strukturierten
+  Felder enthält.
 
 Das vollständige aggregierte Profil steht in
 [Extraktionsprototyp und technisches Datenprofil](edwalt-extraction-prototype.md).
-Fachliche Nullquote, Wertebereiche, Status-/Codebedeutung, Dezimaltypen und
-inhaltliche Datenqualität bleiben bis zur feldweisen Satzrekonstruktion offen.
+Die daraus rekonstruierte Feld- und Bereichssemantik steht im
+[EDWALT-Quellfeldkatalog](edwalt-source-field-catalog.md). Fachliche
+Status-/Codebedeutung, mehrere Einzelfeldgrenzen, Dezimaltypen und inhaltliche
+Datenqualität bleiben weiterhin offen. Nullinitialisierte Felder werden dabei
+nicht mehr als fachliche Null oder als vorhandene Position gewertet.
 
 ## Anforderungen an eine sichere spätere Quellenextraktion
 
@@ -229,11 +251,15 @@ Migrations- und Fachabnahme eingesetzt werden (`REQ-MVP-001` bis
 
 Parallel bleiben für den echten Migrationstest insbesondere Q-MIG-01 bis
 Q-MIG-04, Q-DS-01 und Q-AFB-01/02 mit Fachbereich, IT, Datenschutz und
-Aufbewahrung zu klären. Die festen Satzlängen und Indexbeziehungen sind
-technisch erschlossen. Als nächster Schritt müssen Feldgrenzen,
-COBOL-Datentypen und fachliche Bedeutungen für die priorisierten Kernbestände
-rekonstruiert und in einen Quellfeldkatalog überführt werden. Erst danach folgt
-ein Vorschlag für das unabhängige Cemaris-Zielmodell. Eine
+Aufbewahrung zu klären. Die festen Satzlängen, Indexbeziehungen, lückenlosen
+Layoutzonen und die priorisierten Gebühren-/Bescheidblöcke sind technisch
+profiliert. Die verbliebenen Untergrenzen lassen sich aus dem ausschließlich
+nullinitialisierten Positionsbestand nicht seriös weiter auflösen. Dafür wird
+ein freigegebener nichtleerer Referenzbestand, ein Copybook oder eine
+fachkundige Bestätigung der Masken-/Feldbreiten benötigt. Festgesetzter Betrag
+und Fälligkeit bleiben bis zur feldgenauen Lokalisierung `OFFEN`; Zahlungs- und
+Mahndaten bleiben unabhängig davon ausgeschlossen. Erst nach diesen Belegen
+folgt ein Vorschlag für das unabhängige Cemaris-Zielmodell. Eine
 kontrollierte Prozessbeobachtung mit tatsächlichen Sachbearbeitern bleibt für
 spätere schreibende Fachfunktionen erforderlich, blockiert aber nicht die
 synthetische Umsetzung des bestätigten lesenden ersten Abschnitts.

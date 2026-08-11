@@ -161,13 +161,67 @@ Die Varianten dürfen nicht pauschal vereinigt oder verworfen werden:
   byteidentisch;
 - `W040`/`W040alt`: alle 59 Alt-Schlüssel kommen auch in `W040` vor, aber kein
   gemeinsamer Satz ist byteidentisch;
-- `buch`/`BUCHA`: 602 gemeinsame Schlüssel und 121 nur in `BUCHA`;
+- `buch`/`BUCHA`: 602 gemeinsame Schlüssel und 121 nur in `BUCHA`; bei 598 der
+  602 gemeinsamen Schlüssel sind die ersten 2.348 Byte vollständig identisch;
 - `buch`/`Buchalt`: keine gemeinsamen Primärschlüssel.
 
 `dm`, `alt`, `BUCHA` und `oli` sind daher nur Namensindizien. Die Bestände
 bleiben im Raw-/Staging-Umfang, bis Feldsemantik, Zeitbezug und Vorrangregel
 belegt sind. Die Projektverantwortung kennt ihre historische Bedeutung nicht;
 weitere Herstellerunterlagen oder Copybooks existieren nicht.
+
+## Aggregierte Positions- und Satzlayoutrekonstruktion
+
+Der Prototyp wurde um ein Positionsprofil für jedes Byte, Vergleiche aller
+gleich langen Indexsegmente und positionsweise Variantenvergleiche erweitert.
+Die Finanzvertiefung ergänzt deklarative Feld-/Bereichs- und
+Wiederholungsdefinitionen, Blockordinalprofile, Nullwertklassifikation,
+feldweise Variantenvergleiche sowie Gebührenreferenz-, Dezimal-, Rechen- und
+Periodenhypothesen. Der Bericht enthält ausschließlich Häufigkeiten,
+Zeichenklassen, Hash-Anzahlen und Schnittmengen; Quellwerte werden nicht
+ausgegeben.
+
+Damit sind zusätzlich technisch belegt:
+
+- `W005`: gemeinsamer Variantenstamm bis Byte 236; in `W005` eingeschobene
+  Bereiche 237–266 und 285–289; ausgerichtete Folgebereiche bis Byte 358;
+  359–1.414 vollständig SP-gefüllt;
+- `W006`: drei aufeinanderfolgende 35-Byte-Bezeichnungsbereiche, ein
+  Gebühren-/Konfigurationsblock bis Byte 201 und eine vollständig SP-gefüllte
+  Reserve 202–392;
+- `W021`: 32 wiederkehrende Blöcke à 127 Byte in 1.401–5.464;
+- `W023`: ein exakt 480 Byte langer Bereich 128–607, der zusammen mit der
+  Handbuchangabe 16 feste Zusatzfelder à 30 Byte belegt;
+- `buch`, `BUCHA`, `Buchalt`: gemeinsames 2.348-Byte-Legacy-Layout; `buch`
+  besitzt danach 105 vollständige 236-Byte-Perioden und einen vollständig
+  SP-gefüllten 232-Byte-Rest;
+- `W040`, `W040alt`: 84 wiederkehrende Blöcke à 115 Byte in 2.646–12.305;
+- `W022`: exakt 26 Byte Schlüssel plus 2.000 Byte Notiz; keine weiteren
+  strukturierten Felder.
+
+Die feldgenaue Finanzprofilierung präzisiert die Wiederholungsblöcke:
+
+- `W021` verwendet exakt `8/64/4/20/15/16` Byte. Sämtliche 454.752
+  Blockinstanzen sind nullwertartig; kein Blockordinal enthält Nutzwerte.
+- `W040/W040alt` verwenden exakt `8/30/24/16/8/29` Byte. In `W040` sind nur
+  die Ordinale 27 und 28 jeweils einmal nicht nullwertartig, ohne belegten
+  Mengen-/Betragswert; `W040alt` ist vollständig initialisiert.
+- 124 Gebührenreferenzhypothesen gegen vollständige und partielle
+  `W006/W006dm`-Schlüssel ergaben keinen Treffer.
+- Je W040-Variante wurden 2.600 plausible Grenzen und Skalen für
+  `Menge × Einzelbetrag = Gesamtbetrag` geprüft. Keine Hypothese besaß auch nur
+  ein nicht-nullwertiges prüfbares Tripel.
+- Die 236-Byte-Periode ist gegenüber 73, 115 und 127 Byte klar abgegrenzt:
+  mittlere Dominanz der positionsgleichen Byteklasse 97,5 % statt jeweils
+  57,4 %; 108 von 236 Phasen erreichen mindestens 99 % Dominanz.
+- Eine aus der statischen `BUCH-TAB-*`-Reihenfolge und UI-Masken gebildete,
+  exakt 236 Byte große Unterfeldhypothese passt nicht zum Byteklassenprofil und
+  wurde verworfen. Die statische Trennung von Bescheid- und Zahlungsdaten gilt,
+  ihre Feldoffsets sind damit noch nicht bewiesen.
+
+Die vollständige, lückenlose Abgrenzung und ihre vorsichtige fachliche
+Einordnung stehen im
+[EDWALT-Quellfeldkatalog](edwalt-source-field-catalog.md).
 
 ## Datums- und Zeichensatzindizien
 
@@ -178,6 +232,13 @@ Belegte Formatkandidaten innerhalb indexierter Bytebereiche:
 - `W020`, Position 210, Länge 8: 2.473 gültige `yyyyMMdd`-Kandidaten;
 - `W021`, Position 232, Länge 8: 4.422 gültige `yyyyMMdd`-Kandidaten;
 - `W021`, Position 285, Länge 8: 4.369 gültige `ddMMyyyy`-Kandidaten.
+
+Die Restmengen wurden ebenfalls geprüft: `W020` 210/L8 enthält neben 2.473
+gültigen Werten 237 Nullwerte und 8 weitere ungültige Werte; `W021` 232/L8
+enthält 9.786 Nullwerte und 3 weitere ungültige Werte, 285/L8 9.836 Nullwerte
+und 6 weitere ungültige Werte. Die drei indexierten `buch`-Felder 118/126/134
+sind in allen 11.955 Sätzen `00000000` und damit für diesen Bestand als
+Datumshypothese widerlegt.
 
 Die Positionen sind technisch bestätigt, ihre konkrete fachliche
 Datumsbedeutung noch nicht. Datumskandidaten dürfen deshalb noch nicht als
@@ -198,36 +259,48 @@ Der bestehende Prototyp wird mit dem separaten SDK so ausgeführt:
 & 'C:\Users\Benke\AppData\Local\Cemaris\dotnet-10.0.302-complete\dotnet.exe' `
   run --project 'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811\prototype\Edwalt.Phase2Profiler.csproj' -- `
   'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811\raw-uncompressed' `
-  'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811'
+  'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811' `
+  'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811\report.json'
 ```
 
 Der Lauf gibt JSON mit technischen Aggregaten aus. Er schreibt weder in die
 Originalquellen noch in die Arbeitskopie. Eine erneute Extraktion ist für den
 nächsten Analyseschritt nicht erforderlich.
 
+Der zuletzt neu erzeugte Bericht enthält 24 logische Dateiprofile, 10
+definierte Beziehungen, 116 automatische Vergleiche gleich langer
+Indexsegmente, 6 Variantenvergleiche und 24 vollständig gelesene physische
+Dateiprofile. Hinzu kommen 52 Finanzfeldprofile, 7 Wiederholungsblöcke mit 48
+Unterfeldern, 124 Gebührenreferenz-, 5.200 Dezimal-/Rechenhypothesen, 11
+feldweise Variantenvergleiche und 4 Periodenkandidaten. Alle physischen
+Parserläufe sind vollständig und ohne Fehler. Der Build mit .NET SDK 10.0.302
+endet ohne Warnungen und Fehler.
+
 ## Noch nicht bewiesen
 
-- Feldgrenzen, COBOL-Datentypen und Dezimal-/Vorzeichendarstellung außerhalb
-  der bekannten Schlüssel;
+- Einzelfeldgrenzen innerhalb der im Quellkatalog markierten Sammelbereiche
+  sowie COBOL-Dezimal-/Vorzeichendarstellung; bei W021/W040 verhindert der
+  nullinitialisierte Bestand eine weitere datengestützte Aufteilung;
 - fachliche Bezeichnung jedes Quellfelds und Bedeutung von Leer-/Null-/Codewerten;
 - sichere Erkennung von Storno, Aufhebung, Umnummerierung und gültigem
   Nachfolger;
 - fachlicher Zeitbezug und Vorrang der Alt-/DM-Varianten;
 - Rollen der Adressen, Personen- und Organisationsdubletten;
 - Herkunft und Vollständigkeit von Gebührenpositionen und Bescheiddaten;
+  insbesondere sind festgesetzter Betrag und Fälligkeit noch nicht feldgenau
+  lokalisiert;
 - Inhalt eines späteren Krematoriumsbestands, da `W080` hier leer ist;
 - ein vollständiges Cemaris-Zielmodell oder Feldmapping.
 
-## Nächster Schritt
+## Verbleibender nächster Schritt
 
-Vor einem Cemaris-Zielmodell folgt die **semantische Satzlayout- und
-Quellfeldrekonstruktion**. Dazu werden die bekannten Schlüsseloffsets,
-datensparsame Byteprofile, Hilfe-/Maskenreihenfolgen, statische Programmstrings,
-Vorlagenfelder und Beziehungen je Quellfamilie zusammengeführt. Zuerst sind
-`W005`, `W006`, `W020`, `W021`, `W023`, `buch` und `W040` zu bearbeiten; danach
-Neben-, Alt- und abgeleitete Bestände.
-
-Ergebnis dieses Schritts ist ein feldweiser Quellkatalog mit Evidenzgrad und
-Status `migrieren`, `nicht migrieren`, `manuell nachtragen` oder `ungeklärt`.
-Unbekannte Bytebereiche bleiben ausdrücklich erhalten und ungeklärt. Erst auf
-dieser Grundlage wird ein von EDWALT unabhängiges Cemaris-Zielmodell entworfen.
+Der
+[Arbeitsauftrag zur feldgenauen Gebühren- und Bescheidrekonstruktion](edwalt-next-step-handoff.md)
+ist technisch durchgeführt. Für die verbliebenen Grenzen in `W005/W006`, den
+W021-/W040-Unterfeldern und der `buch`-Erweiterung reicht der vorhandene
+initialisierte Bestand nicht aus. Der nächste sichere Beleg wäre ein
+freigegebener nichtleerer Referenzbestand, ein Copybook oder eine fachkundige
+Bestätigung der Feldbreiten und Masken. Parallel müssen Betrag, Fälligkeit und
+Variantenvorrang fachlich geklärt werden. Unbekannte Bytebereiche bleiben
+erhalten und `OFFEN`; es folgt weiterhin weder ein Import noch ein aus EDWALT
+abgeleitetes 1:1-Zielmodell.

@@ -55,8 +55,8 @@ die vorläufige fachliche Quellenklassifikation.
 | DAT-014 | `EDW3DAT\W010.dat` / `W010.idx` (SRC-DAT-0132/0133) | 608 / 4.096 B | 2023-07-31 / 2023-07-31 | Termin-/Kalenderdaten; EDW-Handbuch und Termin-INI-Schlüssel | Termine, eventuell Bestattungs- und Personendaten; hoch | ANNAHME; hoch | Wird die interne Terminverwaltung heute genutzt oder extern ersetzt? |
 | DAT-015 | `EDW3DAT\W020.dat` / `W020.idx` (SRC-DAT-0134/0135) | 2.191.632 / 1.850.368 B | 2026-08-04 / 2026-08-04 | Grab-/Nutzungsrechts-Hauptbestand; EDW-Handbuch „Grabstamm“ | Grabidentifikation, Lage, Berechtigte, Anschriften, Laufzeiten; sehr hoch | ANNAHME; hoch | Welcher Schlüssel identifiziert ein Grab dauerhaft, besonders nach Umnummerierung/Kopie? |
 | DAT-016 | `EDW3DAT\W021.dat` / `W021.idx` (SRC-DAT-0136/0137) | 13.943.752 / 2.755.584 B | 2026-08-04 / 2026-08-04 | Vorgänge, Verstorbene, Beisetzungen und Gebührenpositionen; EDW-Handbuch | Stammdaten Verstorbener, Sterbe-/Beisetzungsdaten, Vorgänge, Gebühren; sehr hoch | ANNAHME; hoch | Satztypen, Kardinalitäten und Verbindung zu DAT-015/DAT-001? |
-| DAT-017 | `EDW3DAT\W022.dat` / `W022.idx` (SRC-DAT-0138/0139) | 685.836 / 100.352 B | 2026-08-04 / 2026-08-04 | Bemerkungen/Notizen; EDW-Handbuch nennt ein Bemerkungsfenster | Freitext mit potenziell besonders sensiblen Angaben; laut INT-007 nicht zu migrieren | Klassifikation `ANNAHME`, Migrationsentscheidung `BESTÄTIGT`; hoch | Vor Ausschluss technisch bestätigen, dass W022 ausschließlich Notizen und keine betriebsnotwendigen Schlüsseldaten enthält. |
-| DAT-018 | `EDW3DAT\W023.dat` / `W023.idx` (SRC-DAT-0140/0141) | 57.264 / 22.528 B | 2026-07-21 / 2026-07-21 | Zusatzdaten des Fensters „Sonstiges“; Handbuchbezug | Personen-, Grab- oder Vorgangszusatzdaten möglich; hoch | ANNAHME; mittel | Welche Feldgruppen werden hier gespeichert und zu welchem Hauptschlüssel? |
+| DAT-017 | `EDW3DAT\W022.dat` / `W022.idx` (SRC-DAT-0138/0139) | 685.836 / 100.352 B | 2026-08-04 / 2026-08-04 | Bemerkungen/Notizen; 26-Byte-Grabschlüssel plus exakt 2.000 Byte Notiz | Freitext mit potenziell besonders sensiblen Angaben; laut INT-007 nicht zu migrieren; keine weiteren strukturierten Felder | Layout und Migrationsentscheidung `BESTÄTIGT`; hoch | Einen verwaisten Notizschlüssel im späteren Reconciliation-Bericht ausweisen; Inhalt nicht ausgeben. |
+| DAT-018 | `EDW3DAT\W023.dat` / `W023.idx` (SRC-DAT-0140/0141) | 57.264 / 22.528 B | 2026-07-21 / 2026-07-21 | Vorgangsbezogene Zusatzdaten des Fensters „Sonstiges“; 28-Byte-W021-Schlüssel und 16×30-Byte-Hinweisbereich technisch belegt | Verstorbene-/Vorgangszusatzdaten, darunter freie Hinweise; hoch | Struktur `BESTÄTIGT`, Einzelfeldsemantik teilweise `OFFEN`; hoch | Zweck/Rechtsgrundlage der 16 Hinweise und Bedeutung des Zusatzkopfs 29–127 klären. |
 | DAT-019 | `EDW3DAT\W040.dat` / `W040.idx` (SRC-DAT-0142/0143) | 347.760 / 65.536 B | 2025-02-26 / 2025-02-26 | Sonstige Bescheide/Aufträge; EDW-Handbuch Teil V | Adressaten, Vorgang, Gebühren und Dokumentstatus; sehr hoch | ANNAHME; hoch | Welche Bescheidarten sind noch zulässig und tatsächlich genutzt? |
 | DAT-020 | `EDW3DAT\W040alt.dat` / `W040alt.idx` (SRC-DAT-0144/0145) | 793.764 / 50.176 B | 2002-01-14 / 2002-01-14 | Altbestand zu DAT-019; Suffix `alt` | Historische Bescheid-/Personendaten; sehr hoch | ANNAHME; mittel | Archivgrenze, Rechtsgrundlage und Aufbewahrungsfrist? |
 | DAT-021 | `EDW3DAT\W080.dat` / `W080.idx` (SRC-DAT-0146/0147) | 6.456 / 15.360 B | 2007-07-24 / 2007-07-24 | Krematoriumsbestand; EDK-Handbuch | Verstorbene, Einäscherung, Versand, Arzt-/Bestatterbezug; heutige Nichtnutzung durch INT-008 bestätigt; strukturierter Bestand laut INT-027 zu migrieren; sehr hoch | Klassifikation `ANNAHME`, Nichtnutzung und Migrationsentscheidung `BESTÄTIGT`; hoch | Satzlayout, Feldsemantik, Schlüssel, Beziehungen und zulässige Datenkategorien? |
@@ -66,10 +66,15 @@ die vorläufige fachliche Quellenklassifikation.
 
 ## Erkannte Varianten, Beziehungen und Widersprüche
 
-- DAT-002, DAT-003 und DAT-001 bilden wahrscheinlich eine Buchungsfamilie.
-  Das ist durch Benennung und Zeitlage gestützt, aber nicht durch ein
-  Satzlayout bestätigt. Status: ANNAHME; Konfidenz: mittel; Evidenz:
-  SRC-DAT-0004 bis SRC-DAT-0009. OFFEN: fachliche Archivgrenzen.
+- DAT-002, DAT-003 und DAT-001 bilden technisch eine Buchungsfamilie mit
+  identischem 2.348-Byte-Legacy-Layout und neun gleichen Indexsegmenten.
+  `buch` erweitert dieses Layout auf 27.360 Byte; bei 598 gemeinsamen
+  `buch`/`BUCHA`-Schlüsseln ist das vollständige Legacy-Präfix identisch.
+  Die Erweiterung zerfällt technisch in 105 vollständige 236-Byte-Perioden
+  und einen in allen 11.955 Sätzen SP-gefüllten 232-Byte-Rest. Nur die Perioden
+  1–9 besitzen nicht-nullwertige Instanzen. Status: Layout `BESTÄTIGT`,
+  Unterfeld- und fachliche Archivgrenzen `OFFEN`; Konfidenz: hoch; Evidenz:
+  SRC-DAT-0004 bis SRC-DAT-0009 und technisches Feld-/Periodenprofil.
 - DAT-011 und DAT-022 tragen den Zusatz `dm` und stammen aus 2002. Eine
   Verbindung zur DM-/Euro-Umstellung ist plausibel, aber unbestätigt. Status:
   ANNAHME; Konfidenz: mittel; Evidenz: SRC-DAT-0124/0125 und
@@ -89,18 +94,24 @@ die vorläufige fachliche Quellenklassifikation.
 
 | Risiko | Betroffene Evidenz | Bewertung | Sichere Folgemaßnahme |
 |---|---|---|---|
-| Technisches Format bekannt, Feldlayout und COBOL-Datentypen undokumentiert | alle DAT/IDX; Micro-Focus-Laufzeit SRC-APP-0333; technisches Phase-2-Profil | hoch; Format `BESTÄTIGT`, Feldsemantik `OFFEN`; Konfidenz hoch | Feldkatalog aus lokalen Evidenzen rekonstruieren; unbekannte Bereiche erhalten. |
+| Technisches Format bekannt, mehrere Einzelfelder und COBOL-Dezimaltypen innerhalb rekonstruierter Layoutzonen noch undokumentiert | alle DAT/IDX; Micro-Focus-Laufzeit SRC-APP-0333; technisches Phase-2-Feldprofil und Quellfeldkatalog | hoch; Format, Blockunterzonen und priorisierte Layoutzonen `BESTÄTIGT`, Einzelfeldsemantik teilweise `OFFEN`; Konfidenz hoch | Für nullinitialisierte W021/W040-Blöcke einen freigegebenen nichtleeren Referenzbestand oder Feldbreitenbeleg beschaffen; unbekannte Bereiche erhalten. |
 | Historische Varianten ohne Abgrenzungsregel | DAT-002/003/011/020/022/024 | hoch; technische Überlappungen `BESTÄTIGT`, fachliche Rolle `OFFEN`; Konfidenz hoch | Zeitfelder, Inhalt und Programmzugriff analysieren; Varianten nicht pauschal vereinigen. |
 | Unterschiedliche Zeitstempel sind kein Konsistenznachweis | besonders DAT-008/009 | mittel; ANNAHME; Konfidenz hoch | Logische Satzmengen und Schlüssel sind profiliert; Zeitstempel nicht als fachliche Gültigkeit behandeln. |
 | Freitext und besonders schützenswerte Ereignisdaten | DAT-016 bis DAT-021 | sehr hoch; ANNAHME; Konfidenz hoch | Datenschutz-, Zweckbindungs-, Berechtigungs- und Löschkonzept vor Migration bestätigen. |
 | Historische Währung, Gebühren und externe Kontonummern | DAT-001 bis DAT-003, DAT-006, DAT-012, DAT-022 | hoch; ANNAHME; Konfidenz mittel | Satzungsstände und finanzielle Abstimmregeln mit Kasse/Fachamt erheben. |
 | Technische Schlüsselbeziehungen weisen verwaiste Referenzen auf; ihre fachliche Bedeutung ist noch nicht vollständig belegt | DAT-001, DAT-015 bis DAT-020; technisches Phase-2-Profil | sehr hoch; technische Mengen `BESTÄTIGT`, Fachsemantik und Ausschlussregel `OFFEN`; Konfidenz hoch | Feldsemantik, führende Schlüssel, gültige Nachfolger und aktuelle Nummer belegen, bevor REQ-MIG-004/005 filtern. |
+| Positionsblöcke können Initialnullen statt fachlicher Gebührenpositionen enthalten | DAT-016/019/020; 454.752 W021- und 16.968 W040/W040alt-Blockinstanzen | sehr hoch; Nullwertbelegung `BESTÄTIGT`, Feldrollen bei nichtleerem Bestand `OFFEN`; Konfidenz hoch | Keine Nullpositionen erzeugen; Belegung und Referenz vor jeder Übernahme nachweisen. |
+| Die indexierten BUCH-Bereiche 118/126/134 sind keine nutzbaren Datumsquellen | DAT-001/002/003; je Feld ausschließlich `00000000` | hoch; für diesen Bestand `WIDERLEGT`; Konfidenz hoch | Fälligkeit nicht aus diesen Feldern ableiten; alternative Quellposition oder freigegebene führende Quelle belegen. |
 
 ## Weiterhin nicht sicher ermittelbar
 
 Technische Satzmengen, feste Längen, Indexschlüssel, physische Löschsatztypen
-und mehrere Referenzbeziehungen sind inzwischen ermittelt. Weiterhin offen
-sind insbesondere die Feldgrenzen außerhalb der Indizes, COBOL-Datentypen,
+und mehrere Referenzbeziehungen sind inzwischen ermittelt. Die Layoutzonen der
+priorisierten Dateien und die technischen Unterzonen der wiederholten
+Positionsblöcke sind abgegrenzt. 124 Gebührenreferenz- und 5.200
+Dezimal-/Rechenhypothesen konnten wegen Initialnullen keinen fachlichen
+Positionswert validieren. Weiterhin offen sind insbesondere einzelne
+Feldgrenzen innerhalb der Sammelbereiche, COBOL-Dezimal- und Vorzeichentypen,
 fachliche Nullsemantik, Codewerte, Status-/Nachfolgerregeln und die fachliche
 Vorrangregel historischer Varianten. `RebuildW.exe`, REORG-Batchdateien und das
 Altprogramm wurden nicht ausgeführt. `REBUILD.EXE` kam nur auf der externen
