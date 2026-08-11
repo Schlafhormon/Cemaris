@@ -212,6 +212,16 @@ Arbeitsschritte. Die initiale EF-Schemaversionierung fuer das Read Model ist
 vorhanden; produktive Schemadeployments werden weiterhin separat geprueft und
 ausgefuehrt.
 
+Fuer lokale SQL-Server-Tests kann dieselbe synthetische Datenbasis ueber einen
+expliziten Wartungsbefehl reproduzierbar geschrieben werden. Dieser Lauf ist auf
+die Development-Umgebung begrenzt, verlangt den erwarteten Datenbanknamen,
+setzt ein vollstaendig migriertes Schema voraus und bricht ab, sobald ein nicht
+synthetischer Fall vorhanden ist. Es findet weiterhin kein automatisches
+Seeding beim Anwendungsstart statt. Die absichtlich nicht aufloesbare
+Berechtigtenreferenz des unvollstaendigen Demonstrationsfalls wird nicht als
+ungueltiger Fremdschluessel persistiert; ihr Datenqualitaetshinweis bleibt in
+der SQL-Projektion erhalten.
+
 Weiterhin bewusst ausserhalb von Version 1 liegen:
 
 - Login, Rollen und eingeschraenkte Sichten,

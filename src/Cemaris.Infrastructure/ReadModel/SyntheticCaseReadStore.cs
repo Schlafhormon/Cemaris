@@ -25,7 +25,7 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore
         return Task.FromResult(Cases.SingleOrDefault(item => item.Id == id));
     }
 
-    private static List<CaseOverview> CreateCases()
+    internal static IReadOnlyList<CaseOverview> CreateCases()
     {
         var cases = new List<CaseOverview>
         {

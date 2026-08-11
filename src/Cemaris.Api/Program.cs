@@ -3,6 +3,7 @@ using Cemaris.Api.ErrorHandling;
 using Cemaris.Application.Cases;
 using Cemaris.Application.System;
 using Cemaris.Infrastructure;
+using Cemaris.Infrastructure.ReadModel;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -57,6 +58,40 @@ if (allowedOrigins.Length > 0)
 }
 
 var app = builder.Build();
+
+if (builder.Configuration.GetValue<bool>("Maintenance:SeedSynthetic"))
+{
+    if (!app.Environment.IsDevelopment())
+    {
+        throw new InvalidOperationException(
+            "Synthetic SQL seeding is permitted only in the Development environment.");
+    }
+
+    var readModelProvider = builder.Configuration["ReadModel:Provider"] ?? "Synthetic";
+    if (!readModelProvider.Equals("SqlServer", StringComparison.OrdinalIgnoreCase))
+    {
+        throw new InvalidOperationException(
+            "Synthetic SQL seeding requires ReadModel:Provider to be 'SqlServer'.");
+    }
+
+    var expectedDatabase = builder.Configuration["Maintenance:ExpectedDatabase"];
+    if (string.IsNullOrWhiteSpace(expectedDatabase))
+    {
+        throw new InvalidOperationException(
+            "Maintenance:ExpectedDatabase must be set explicitly when synthetic SQL seeding is requested.");
+    }
+
+    await using var scope = app.Services.CreateAsyncScope();
+    var seeder = scope.ServiceProvider.GetRequiredService<SyntheticReadModelSeeder>();
+    var result = await seeder.ResetAsync(expectedDatabase, CancellationToken.None);
+
+    ApiLog.SyntheticSeedCompleted(
+        app.Logger,
+        result.CasesWritten,
+        result.SkippedUnresolvedUsageRightHolders);
+
+    return;
+}
 
 app.UseExceptionHandler();
 
@@ -154,3 +189,15 @@ static async Task<IResult> GetCaseAsync(
 }
 
 public partial class Program;
+
+internal static partial class ApiLog
+{
+    [LoggerMessage(
+        EventId = 1001,
+        Level = LogLevel.Information,
+        Message = "Synthetic SQL seed completed. Cases written: {casesWritten}; unresolved holder references skipped: {skippedReferences}.")]
+    internal static partial void SyntheticSeedCompleted(
+        ILogger logger,
+        int casesWritten,
+        int skippedReferences);
+}

@@ -156,6 +156,19 @@ dotnet tool restore
 dotnet tool run dotnet-ef database update --project src/Cemaris.Infrastructure --startup-project src/Cemaris.Api --context CemarisDbContext
 ```
 
+Anschliessend koennen die klar gekennzeichneten synthetischen Demonstrationsdaten
+explizit in die lokale Datenbank geschrieben werden:
+
+```powershell
+dotnet run --project src/Cemaris.Api --launch-profile http -- --Maintenance:SeedSynthetic=true --Maintenance:ExpectedDatabase=Cemaris_Dev
+```
+
+Der Wartungsbefehl ist nur in der `Development`-Umgebung erlaubt, prueft den
+erwarteten Datenbanknamen sowie ausstehende Migrationen und verweigert den Lauf,
+sobald ein nicht synthetischer Fall vorhanden ist. Vorhandene synthetische
+Faelle werden reproduzierbar ersetzt. Beim normalen API-Start werden keine
+Daten angelegt oder veraendert.
+
 Die Migrationen liegen unter
 `src/Cemaris.Infrastructure/Persistence/Migrations`. Produktive
 Schemadeployments erfolgen spaeter kontrolliert ueber ein geprueftes SQL-Skript
@@ -184,6 +197,8 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `OpenApi__Enabled` | OpenAPI-Dokument aktivieren | `true` nur in kontrollierten Umgebungen |
 | `ReadModel__Provider` | Quelle des Lesemodells (`Synthetic` oder `SqlServer`) | `Synthetic` fuer normale Entwicklung und Tests |
 | `Search__MaxResults` | maximales Suchergebnis ohne Paginierung | `10` |
+| `Maintenance__SeedSynthetic` | einmaliger expliziter SQL-Seed statt API-Start | `true` nur fuer kontrollierte lokale Entwicklung |
+| `Maintenance__ExpectedDatabase` | Sicherheitspruefung fuer den SQL-Seed | `Cemaris_Dev` |
 | `VITE_API_BASE_URL` | API-Basis-URL im gebauten Browserclient | leer für denselben Origin |
 | `VITE_API_PROXY_TARGET` | Vite-Dev-Proxy | `http://localhost:5050` |
 

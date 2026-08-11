@@ -36,6 +36,7 @@ public static class DependencyInjection
         services.AddDbContext<CemarisDbContext>(options =>
             options.UseSqlServer(connectionString));
         services.AddScoped<ICaseReadStore, EfCaseReadStore>();
+        services.AddScoped<SyntheticReadModelSeeder>();
 
         return services;
     }
