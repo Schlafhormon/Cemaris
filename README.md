@@ -186,6 +186,24 @@ npm run lint
 npm run build
 ```
 
+### Optionale SQL-Server-Integrationstests
+
+Die regulaere Testsuite benoetigt keinen SQL Server. Fuer einen zusaetzlichen
+End-to-End-Test des EF-Read-Stores kann eine Verbindung zu einer lokalen
+SQL-Server-Instanz explizit bereitgestellt werden:
+
+```powershell
+$env:CEMARIS_SQL_TEST_CONNECTION_STRING = "Server=localhost\CEMARISDEV;Database=master;Integrated Security=True;Encrypt=True;TrustServerCertificate=True"
+dotnet test tests/Cemaris.IntegrationTests --filter "Category=SqlServer"
+Remove-Item Env:CEMARIS_SQL_TEST_CONNECTION_STRING
+```
+
+Der verwendete Login muss Datenbanken anlegen und loeschen duerfen. Der Test
+erzeugt eine eindeutig benannte temporaere Datenbank, wendet alle Migrationen
+an, schreibt die synthetischen Testdaten, prueft Suche und Detailansicht und
+entfernt die Datenbank anschliessend wieder. Ohne die Umgebungsvariable werden
+diese Tests uebersprungen.
+
 ## Konfiguration
 
 ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environment Variables und Kommandozeilenargumente. Doppelte Unterstriche bilden verschachtelte Schlüssel ab.
