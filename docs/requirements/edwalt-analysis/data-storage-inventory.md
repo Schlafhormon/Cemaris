@@ -53,8 +53,8 @@ die vorläufige fachliche Quellenklassifikation.
 | DAT-012 | `EDW3DAT\W006.dat` / `W006.idx` (SRC-DAT-0126/0127) | 31.320 / 8.192 B | 2026-02-26 / 2026-02-26 | Gebührenstamm; EDW-/EDK-Handbuch | Gebührenarten, Beträge, Gültigkeit/Zuordnung; hoch migrationsrelevant | ANNAHME; hoch | Wie werden Satzungsstände und historische Beträge abgegrenzt? |
 | DAT-013 | `EDW3DAT\W007.dat` / `W007.idx` (SRC-DAT-0130/0131) | 960 / 4.096 B | 2007-07-24 / 2007-07-24 | Sonstige Anschriften; EDW-/EDK-Handbuch | Organisations- oder Personenanschriften; hoch, falls personenbezogen | ANNAHME; hoch | Welche Einträge sind Organisationen, welche natürliche Personen? |
 | DAT-014 | `EDW3DAT\W010.dat` / `W010.idx` (SRC-DAT-0132/0133) | 608 / 4.096 B | 2023-07-31 / 2023-07-31 | Termin-/Kalenderdaten; EDW-Handbuch und Termin-INI-Schlüssel | Termine, eventuell Bestattungs- und Personendaten; hoch | ANNAHME; hoch | Wird die interne Terminverwaltung heute genutzt oder extern ersetzt? |
-| DAT-015 | `EDW3DAT\W020.dat` / `W020.idx` (SRC-DAT-0134/0135) | 2.191.632 / 1.850.368 B | 2026-08-04 / 2026-08-04 | Grab-/Nutzungsrechts-Hauptbestand; 91–620 in 32 lückenlose Bereiche profiliert | Grabidentifikation, Lage, Berechtigte, Anschriften, Laufzeiten; sehr hoch | Struktur `BESTÄTIGT`, genaue Rollen-/Rechtesemantik teilweise `OFFEN`; hoch abgestuft | Welcher Schlüssel identifiziert ein Grab dauerhaft und welche Rolle hat die erste Adresse? |
-| DAT-016 | `EDW3DAT\W021.dat` / `W021.idx` (SRC-DAT-0136/0137) | 13.943.752 / 2.755.584 B | 2026-08-04 / 2026-08-04 | Vorgänge, Verstorbene, Beisetzungen und 40×127 Gebührenpositionen ab Byte 385 | Verstorbene Person sowie Trauerfeier-, Beisetz-, Geburts-, Ruhefrist- und Sterbedaten feldgenau belegt; Gebührennummer relativ 73/L4 bestätigt | Ereignis-/Blockstruktur teilweise `BESTÄTIGT`, übrige Semantik `OFFEN`; hoch | Vorgangsarten, Restfelder und Verbindung zu DAT-001? |
+| DAT-015 | `EDW3DAT\W020.dat` / `W020.idx` (SRC-DAT-0134/0135) | 2.191.632 / 1.850.368 B | 2026-08-04 / 2026-08-04 | Grab-/Nutzungsrechts-Hauptbestand; 91–620 in 32 und 621–1.684 in 38 lückenlose Bereiche profiliert; 1.685/L9 und 1.694/L1 separat | Grabidentifikation, Lage, Berechtigte, Rollen 2/3, Anschriften, Grabmal/Einfassung/FUG; sehr hoch | Struktur/Coverage `BESTÄTIGT`, genaue Rollen-/Zustandssemantik teilweise `OFFEN`; hoch abgestuft | Welcher Schlüssel identifiziert ein Grab dauerhaft, wie heißen die Rollen fachlich und welche Zustandsgruppen werden migriert? |
+| DAT-016 | `EDW3DAT\W021.dat` / `W021.idx` (SRC-DAT-0136/0137) | 13.943.752 / 2.755.584 B | 2026-08-04 / 2026-08-04 | Vorgänge, Verstorbene, Beisetzungen, 40×127 Gebührenpositionen ab Byte 385 und 22 Nachlaufgruppen 5.465–5.770 | Ereignisdaten; 5.556/L8 und 5.576/L8 technisch `ddMMyyyy`, 5.706/L8 `yyyyMMdd`; Gebührennummer relativ 73/L4 bestätigt; sensible/technische Restgruppen | Ereignis-/Block-/Nachlaufstruktur teilweise `BESTÄTIGT`, genaue Datumsrollen und Restsemantik `OFFEN`; hoch | Vorgangsarten, Fachrolle der drei Datumskandidaten, Druckgrenze und Verbindung zu DAT-001? |
 | DAT-017 | `EDW3DAT\W022.dat` / `W022.idx` (SRC-DAT-0138/0139) | 685.836 / 100.352 B | 2026-08-04 / 2026-08-04 | Bemerkungen/Notizen; 26-Byte-Grabschlüssel plus exakt 2.000 Byte Notiz | Freitext mit potenziell besonders sensiblen Angaben; laut INT-007 nicht zu migrieren; keine weiteren strukturierten Felder | Layout und Migrationsentscheidung `BESTÄTIGT`; hoch | Einen verwaisten Notizschlüssel im späteren Reconciliation-Bericht ausweisen; Inhalt nicht ausgeben. |
 | DAT-018 | `EDW3DAT\W023.dat` / `W023.idx` (SRC-DAT-0140/0141) | 57.264 / 22.528 B | 2026-07-21 / 2026-07-21 | Vorgangsbezogene Zusatzdaten des Fensters „Sonstiges“; 28-Byte-W021-Schlüssel und 16×30-Byte-Hinweisbereich technisch belegt | Verstorbene-/Vorgangszusatzdaten, darunter freie Hinweise; hoch | Struktur `BESTÄTIGT`, Einzelfeldsemantik teilweise `OFFEN`; hoch | Zweck/Rechtsgrundlage der 16 Hinweise und Bedeutung des Zusatzkopfs 29–127 klären. |
 | DAT-019 | `EDW3DAT\W040.dat` / `W040.idx` (SRC-DAT-0142/0143) | 347.760 / 65.536 B | 2025-02-26 / 2025-02-26 | Sonstige Bescheide/Aufträge; EDW-Handbuch Teil V | Adressaten, Vorgang, Gebühren und Dokumentstatus; sehr hoch | ANNAHME; hoch | Welche Bescheidarten sind noch zulässig und tatsächlich genutzt? |
@@ -94,7 +94,7 @@ die vorläufige fachliche Quellenklassifikation.
 
 | Risiko | Betroffene Evidenz | Bewertung | Sichere Folgemaßnahme |
 |---|---|---|---|
-| Technisches Format bekannt, mehrere Einzelfelder und COBOL-Dezimaltypen innerhalb rekonstruierter Layoutzonen noch undokumentiert | alle DAT/IDX; Micro-Focus-Laufzeit SRC-APP-0333; technische Phase-2-/Phase-3-Profile und Quellfeldkatalog | hoch; Format, W020/W021-Primärbereiche und Blockgrenzen `BESTÄTIGT`, Einzelfeldsemantik teilweise `OFFEN`; Konfidenz hoch | W040 und verbleibende W021-Finanzfelder nur mit Feldbreitenbeleg weiter deuten; unbekannte Bereiche erhalten. |
+| Technisches Format bekannt, mehrere Einzelfelder und COBOL-Dezimaltypen innerhalb rekonstruierter Layoutzonen noch undokumentiert | alle DAT/IDX; Micro-Focus-Laufzeit SRC-APP-0333; technische Phase-2-/Phase-3-/Phase-4-Profile und Quellfeldkatalog | hoch; Format, W020/W021-Primärbereiche, zusätzliche Rollen-/Nachlaufbereiche und Blockgrenzen `BESTÄTIGT`, Einzelfeldsemantik teilweise `OFFEN`; Konfidenz hoch | W040 und verbleibende W021-Finanz-/Druckfelder nur mit unabhängiger Evidenz weiter deuten; unbekannte Bereiche erhalten. |
 | Historische Varianten ohne Abgrenzungsregel | DAT-002/003/011/020/022/024 | hoch; technische Überlappungen `BESTÄTIGT`, fachliche Rolle `OFFEN`; Konfidenz hoch | Zeitfelder, Inhalt und Programmzugriff analysieren; Varianten nicht pauschal vereinigen. |
 | Unterschiedliche Zeitstempel sind kein Konsistenznachweis | besonders DAT-008/009 | mittel; ANNAHME; Konfidenz hoch | Logische Satzmengen und Schlüssel sind profiliert; Zeitstempel nicht als fachliche Gültigkeit behandeln. |
 | Freitext und besonders schützenswerte Ereignisdaten | DAT-016 bis DAT-021 | sehr hoch; ANNAHME; Konfidenz hoch | Datenschutz-, Zweckbindungs-, Berechtigungs- und Löschkonzept vor Migration bestätigen. |
@@ -107,15 +107,18 @@ die vorläufige fachliche Quellenklassifikation.
 
 Technische Satzmengen, feste Längen, Indexschlüssel, physische Löschsatztypen
 und mehrere Referenzbeziehungen sind inzwischen ermittelt. Die Layoutzonen der
-priorisierten Dateien und die technischen Unterzonen der wiederholten
-Positionsblöcke sind abgegrenzt. Die ältere vollständige W021-
-Nullinitialisierungsannahme ist widerlegt: Positionen 1–8 sind belegt und die
+priorisierten Dateien, die Phase-4-Zusatzintervalle und die technischen
+Unterzonen der wiederholten Positionsblöcke sind abgegrenzt. Die ältere
+vollständige W021-Nullinitialisierungsannahme ist widerlegt: Positionen 1–8
+sind belegt und die
 Gebührennummer relativ 73/L4 ist referenziell bestätigt; Positionen 9–40 und
 W040/W040alt sind initialisiert. Die 5.200 Dezimal-/Rechenhypothesen konnten
-weiterhin keinen Betragswert validieren. Weiterhin offen sind insbesondere einzelne
-Feldgrenzen innerhalb der Sammelbereiche, COBOL-Dezimal- und Vorzeichentypen,
+weiterhin keinen Betragswert validieren. Weiterhin offen sind insbesondere
+einzelne Feldgrenzen innerhalb der Sammelbereiche, COBOL-Dezimal- und Vorzeichentypen,
 fachliche Nullsemantik, Codewerte, Status-/Nachfolgerregeln und die fachliche
-Vorrangregel historischer Varianten. `RebuildW.exe`, REORG-Batchdateien und das
+Vorrangregel historischer Varianten. Phase 4 erlaubt ausdrücklich keine
+Filterung nach W020 1.685/L9; 1.694/L1 ist im Bestand ohne Nutzwert.
+`RebuildW.exe`, REORG-Batchdateien und das
 Altprogramm wurden nicht ausgeführt. `REBUILD.EXE` kam nur auf der externen
 Arbeitskopie für den Informationsmodus und den sequenziellen Export zum Einsatz.
 Das große `rebuild.err` wurde nach Erkennung binärnaher und möglicherweise

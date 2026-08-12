@@ -105,7 +105,7 @@ Krematorium und GIS.
 | ID | Prio | Evidenz; Konfidenz | Frage | Erwarteter Nachweis |
 |---|---|---|---|---|
 | Q-PER-01 | P0 | FUN-100/101/114, DAT-015/016; hoch | Welche Personenrollen werden geführt: verstorbene Person, Nutzungsberechtigte, Antragsteller, Zahler, Bestatter, weitere Empfänger? | Rollenliste mit Kardinalitäten und Zweck |
-| Q-PER-02 | P0 | FUN-110/114, MAN-EDW-204/208/209; hoch | Warum gibt es erste, zweite und dritte Adresse, welche ist führend, und wie werden Adresswechsel historisiert? | anonymisierter Rollenwechsel/Adressänderungsablauf |
+| Q-PER-02 | P0 | FUN-110/114, MAN-EDW-204/208/209, P4-W020-02–11/28–37; hoch | Warum gibt es erste, zweite und dritte Adresse, welche ist führend, und wie werden Adresswechsel historisiert? | anonymisierter Rollenwechsel/Adressänderungsablauf; keine Echtdaten in der Dokumentation |
 | Q-PER-03 | P0 | FUN-102/113/406, DAT-017/018; hoch | Welche freien Hinweise und Notizen werden tatsächlich erfasst, mit welchem Zweck, Zugriff und Löschzeitpunkt? | Feld-für-Feld-Zweckprüfung ohne echte Inhalte |
 | Q-PER-04 | P1 | FUN-016, DAT-013; hoch | Enthält „sonstige Adressen“ Organisationen, natürliche Personen oder beides; wie werden Dubletten erkannt? | Katalog der Adressarten und Dublettenregel |
 | Q-PER-05 | P1 | FUN-101/400; hoch | Welche Identifikatoren verbinden Verstorbene, Vorgänge, Gräber, Krematorium und Personenkonto? | technische/fachliche Schlüsseldokumentation |
@@ -118,7 +118,7 @@ Krematorium und GIS.
 | Q-BEI-01 | P0 | FUN-101, MAN-EDW-101; hoch | Welche Vorgangs- und Beisetzungsarten werden heute verwendet und welche Pflichtfelder/Nachweise gelten jeweils? | Prozessmatrix pro Fallart |
 | Q-BEI-02 | P0 | FUN-104, MAN-EDW-104; hoch | Welche Prüfungen verhindern Doppelbelegung, falsche Stelle/Tiefe oder unzulässige Grabart; wie werden Ausnahmen behandelt? | regelbasierte Demonstration mit Testfall |
 | Q-BEI-03 | P1 | FUN-303/211, DAT-014; hoch | Wie werden Termin, Trauerfeier, Kapelle, Bestatter und Grabverwaltung miteinander abgestimmt? | Ablauf von Terminannahme bis Tagesliste |
-| Q-BEI-04 | P1 | FUN-116, MAN-EDW-211; hoch | Wie unterscheiden sich Überführung, Umbettung, Einlieferung und sonstige Bewegungen; welche Genehmigungen/Dokumente entstehen? | Fallarten-/Dokumentenmatrix |
+| Q-BEI-04 | P1 | FUN-116, MAN-EDW-211, P4-W021-10–22; hoch | Wie unterscheiden sich Überführung, Umbettung, Einlieferung und sonstige Bewegungen; welche Rolle haben insbesondere die Datumskandidaten 5.576/L8 und 5.706/L8? | Fallarten-/Dokumentenmatrix ohne Echtdaten |
 | Q-BEI-05 | abgeschlossen | INT-008/027, DAT-021, FUN-400/401; hoch | Historische strukturierte Krematoriumsdaten bleiben trotz heutiger Nichtnutzung im Migrationsumfang. | technische Erschließung; im vorliegenden nichtproduktiven Bestand enthält W080 keine aktiven Sätze |
 
 ## Nutzungsrechte
@@ -146,7 +146,7 @@ Krematorium und GIS.
 |---|---|---|---|---|
 | Q-GEB-01 | P0 | FUN-015/103, DAT-012/022; hoch | Welche Gebührenkataloge und Satzungsstände sind aktuell, wie werden Gültigkeit, Menge, Rundung und Steuer behandelt? | freigegebene Regel-/Katalogübersicht |
 | Q-GEB-03 | P0 | FUN-106/404; hoch | Was bedeuten Storno, Gutschrift, Gegenbuchung und Korrektur; welche Historie muss unveränderlich bleiben? | fachlich/finanziell abgestimmter Korrekturprozess |
-| Q-GEB-04 | P1 | FUN-115/301, REL-320; hoch | Was bezeichnet FUG lokal, wer ist zahlungspflichtig, wie werden Zeitraum, Ausnahmen, Sammelabrechnung und Einzug berechnet? | aktuelle Regel und Fallvarianten |
+| Q-GEB-04 | P1 | FUN-115/301, REL-320, P4-W020-19–26; hoch | Was bezeichnet FUG lokal, wer ist zahlungspflichtig, wie werden Zeitraum, Ausnahmen, Sammelabrechnung und Einzug berechnet? | aktuelle Regel und synthetische Fallvarianten; keine Deutung der technischen Betragsgruppen ohne Feldbeleg |
 | Q-GEB-05 | P1 | FUN-015/103, MAN-EDW-015; hoch | Welche Haushaltsstellen, Kostenstellen, Kennzeichen und externen Konten sind fachlich erforderlich? | aktuelles Mapping mit Gültigkeit |
 | Q-GEB-06 | P2 | DAT-011/022; mittel | Müssen DM-Altbestände aus Nachweis-/Aufbewahrungsgründen migriert oder nur archiviert werden? | Aufbewahrungsentscheidung |
 
@@ -217,9 +217,9 @@ Krematorium und GIS.
 | Q-MIG-00b | P0 | INT-003/005/006/007; hoch | Welche weiteren fachlichen Datenkategorien außer Notizen sind für den späteren Betrieb entbehrlich oder sollen ausdrücklich nicht übernommen werden? | Ausschlussentscheidung erst nach Abgleich mit tatsächlicher Funktionsnutzung, Aufbewahrung und externen Führungssystemen |
 | Q-MIG-01 | P0 | DAT-Inventar; hoch | Gibt es Copybooks, Dateibeschreibungen, Herstellerexporte oder einen garantiert lesenden Export für die 24 DAT/IDX-Paare? | autorisierte technische Dokumentation/Exportmethode |
 | Q-MIG-02 | P0 | DAT-001/015–020; hoch | Welche Schlüssel verbinden Grab, Vorgang, Verstorbene, Adresse, Personenkonto, Buchung und Dokument? | Schlüssel-/Beziehungsbeschreibung |
-| Q-MIG-03 | P0 | DAT-002/003/011/020/022/024; mittel | Welche Alt-/DM-/Alternativbestände gehören zum vollständigen Bestand, sind Dubletten oder nur Archiv? | fachliche Abgrenzungs-/Aufbewahrungsentscheidung |
+| Q-MIG-03 | P0 | DAT-002/003/011/020/022/024; Phase-2-Variantenprofile; hoch | Welche Alt-/DM-/Alternativbestände gehören zum vollständigen Bestand, sind Dubletten oder nur Archiv? | fachliche Abgrenzungs-/Aufbewahrungsentscheidung; W005/W006-Variantenanalyse für die spätere Mapping-/Importphase vorbereitet, derzeit pausiert |
 | Q-MIG-04 | P0 | TECH-005, DAT-Indexrisiken; hoch | Wie wird ein konsistenter, unveränderlicher Exportstand bei Mehrbenutzerbetrieb und Fileshare erzeugt? | abgestimmtes Sicherungs-/Stillstandsverfahren |
-| Q-MIG-07 | P1 | Zeichensatz/Altformatbefund; hoch | Welche Zeichensätze, Datums-/Währungsformate, ungültigen Werte und lokalen Kürzel sind bekannt? | Datenqualitätsprofil aus autorisiertem Export |
+| Q-MIG-07 | P1 | Zeichensatz/Altformatbefund; Phase 4 mit W021 5.556/L8, 5.576/L8 und 5.706/L8; hoch | Welche Zeichensätze, Datums-/Währungsformate, ungültigen Werte und lokalen Kürzel sind bekannt? | Datenqualitätsprofil aus autorisiertem Export; fachliche Bestätigung der drei Datumskandidaten |
 
 ## Datenschutz
 

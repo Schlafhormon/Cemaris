@@ -124,11 +124,11 @@ sind damit sichtbar erfasst; es gibt keine stillschweigend ausgelassenen Bytes.
 | F020-34 | `W020` | 605 | 5 | – | DISPLAY-Ziffern | 34 leer/SP; alle 2.718 nullwertartig; 2 Hashklassen | initialisierter Zahl-/Datumsteil | durchgehend Ziffern, aber nur Null-/Leerzustand; hoch negativ | – | P/T | Scheinnull | nicht migrieren – aktuell ohne Nutzwert | vor Import Nullwertprofil wiederholen | später belegt? |
 | F020-35 | `W020` | 610 | 2 | – | Füllbereich | 2.718/2.718 SP | Füllbereich | Positionsprofil; hoch | – | T | spätere Belegung | nicht migrieren – aktuell leer | SP-Prüfung | später leer? |
 | F020-36 | `W020` | 612 | 9 | Index 612/L9 | DISPLAY-Ziffern | 9 leer/SP; alle 2.718 nullwertartig; 4 Hashklassen | indexiertes Nutzungs-/Verwaltungsmerkmal, Semantik `OFFEN` | Index plus Ziffernprofil; hoch technisch, niedrig fachlich | Suchindex | P | Nullfüllung und unbekannte Codierung | ungeklärt | als 9-Byte-Zeichenfolge; keine Datumsdeutung | Welches statische Feld? |
-| F020-37 | `W020` | 621 | 820 | – | gemischte Text-/DISPLAY-Gruppe | variabel, SP | Kennzeichen, Empfänger 2/3, weitere Adressen sowie Grabmal-, Einfassungs- und FUG-Verwaltungsdaten; Einzelfeldgrenzen `OFFEN` | geordnete Programmliste und Hilfe; mittel | interne Rollen/Unterobjekte, keine bestätigten FKs | P/P+ | Bank-/Einzugsangaben, historische Zustände und Freitext vermischt | ungeklärt – nächster Analyseschritt | keine Pauschaldekodierung | Welche FUG-/Grabmalfelder werden benötigt? |
-| F020-38 | `W020` | 1.441 | 84 | Indizes 1441/L84 und 1445/L80 | Windows-1252-Such-/Adressverbund | variabel | weiterer Such-/Adressschlüssel | Indexpaar und Programmliste; mittel | vermutlich Empfänger-/Adresssuche | P | abgeleitete Daten | ungeklärt | nur gehasht prüfen | Welche Adressrolle? |
-| F020-39 | `W020` | 1.525 | 160 | – | gemischte Fachgruppe | variabel/SP | später Grabzustands-/FUG-/Verwaltungsblock | Programmlistenrest; niedrig-mittel | – | P/P+ | sensible Felder möglich | ungeklärt | binär erhalten | Exakte Zuordnung? |
-| F020-40 | `W020` | 1.685 | 9 | Index 1685/L9 | DISPLAY-Ziffern | 31 leer/SP; 1.810 Hashklassen | `LETZTER-VORGANG`-Kandidat, direkte Nachfolgersemantik nicht bestätigt | Lage nach Adressrollen, Index und Profil; mittel als Kandidat | nur 533/2.641 Treffer des besten 2-Byte-Teilfensters zu irgendeiner W021-Vorgangsnummer | P/T | zufällige Teiltreffer; kein eindeutiger Nachfolger | ungeklärt – niemals filtern | alle Teilfenster nur gehasht; abhängige Schlüssel müssten eindeutig folgen | Kodierung und wirkliche Feldbindung? |
-| F020-41 | `W020` | 1.694 | 1 | – | DISPLAY-Kennzeichenkandidat | 117 SP, sonst Ziffern | spätes Kennzeichen | Profil; niedrig | – | P/T | Code unbekannt | ungeklärt | Codeklasse aggregieren | Bedeutung? |
+| F020-37 | `W020` | 621 | 820 | – | 26 Phase-4-Gruppen | lückenlos; stark abgestufte Belegung | Rolle 2 sowie Grabmal-, Einfassungs- und FUG-Familien; Details P4-W020-01–26 | statische Namen, Strukturwiederholung und Profile; Konfidenz je Detail | interne Rollen/Unterobjekte, keine bestätigten FKs | P/P+ | Bank-/Einzugsangaben, Zustände und Freitext bleiben gruppiert | technisch getrennt, Semantik teilweise `OFFEN` | Detailsummen 820/820; keine Pauschaldekodierung | Welche Gruppen werden fachlich benötigt und bestätigt? |
+| F020-38 | `W020` | 1.441 | 84 | Indizes 1441/L84 und 1445/L80 | Indexpräfix plus 30/30/20-Byte-Namensverbund | 3/36/274/2 Leerwerte je Teil | Indexpräfix und drei Namens-/Suchsegmente der dritten Rolle; Details P4-W020-27–30 | Indexpaar, statische Rollenfolge, SHA-256-Vergleiche; hoch technisch/mittel fachlich | Rollen-/Adresssuche | P | abgeleitete Werte und Namensrollen | Namensverbund technisch bestätigt, Einzelrolle teilweise `OFFEN` | nur feldweise und gehasht vergleichen | fachliche Rollenbezeichnung? |
+| F020-39 | `W020` | 1.525 | 160 | – | sieben Phase-4-Rollensegmente plus Füllbyte | variabel/SP | Anrede-/Titel-/Anschrift-/Post-/PLZ-/Ort-/Abschlussgruppen; Details P4-W020-31–38 | statische Folge, Rollenwiederholung und Profile; abgestuft | dritte Adressrolle | P/P+ | Innengrenzen von Anrede/Titel/Post/Empfänger offen | technisch getrennt; PLZ-/Ortskandidaten mittel bestätigt | Detailsummen 160/160 | fachliche Rollen- und Empfängersemantik? |
+| F020-40 | `W020` | 1.685 | 9 | Index 1685/L9 | DISPLAY-Ziffern | 31 leer/SP; 1.810 Hashklassen | `LETZTER-VORGANG`-Kandidat; keine bestätigte Nachfolgersemantik | Index, statischer Name, Phase-3-/4-Hashscans; mittel als Feld/niedrig semantisch | kein eindeutiger Bezug: bestes 2-Byte-Teilfenster nach Ausschluss leer-/nullwertartiger Schlüssel nur 532 gleiche W020-Präfixgruppen | P/T | Zufallstreffer; Selbst-/Kettenregel nicht definierbar | `OFFEN` – niemals filtern | ausschließlich SHA-256; keine Alias-/Kettenbildung | Kodierung und wirkliche Feldbindung? |
+| F020-41 | `W020` | 1.694 | 1 | – | DISPLAY-Kennzeichenkandidat | 117 SP, 2.601 Ziffern; 2 Hashklassen; 2.718/2.718 leer/nullwertartig | spätes Kennzeichen ohne Nutzwert im untersuchten Bestand | eigenes Profil und statische Nachbarschaft; hoch negativ für Belegung | – | P/T | spätere Version könnte belegen | nicht migrieren – Semantik späterer Bestände `OFFEN` | vor Import Nullwertprofil wiederholen; keine Statusregel | Bedeutung in anderem Bestand? |
 | F020-42 | `W020` | 1.695 | 735 | – | unbekannt/reserviert | vollständig SP | Satzreserve | Profil; hoch | – | T | Versionsreserve | nicht migrieren – aktuell leer | vollständige SP-Prüfung | später leer? |
 | F020-43 | `W020` | 2.430 | 264 | – | gemischte Erweiterung | variabel, auch Null-/Steuerbytes | Erfassungs-/Änderungs-, Überführungs- und technische Kandidaten | späte Programmnamen; niedrig-mittel | – | P/T | Fach-/Technikmischung | ungeklärt | byteweise typisieren | Exakte Definition? |
 | F021-01 | `W021` | 1 | 2 | PK 1–28 | DISPLAY-Code | belegt | Anwendernummer | Programmliste; hoch | PK-Teil | P/T | – | migrieren | zwei Codebytes | fachlich oder technisch? |
@@ -170,7 +170,7 @@ sind damit sichtbar erfasst; es gibt keine stillschweigend ausgelassenen Bytes.
 | F021-37 | `W021` | 359 | 26 | – | gemischt | 3.670 leer/SP; 1.096 Hashklassen | Lage/Nutzungsrecht/Urnenplatz/Erfassungs-/Update-Kandidaten | Zone vor harter Periodengrenze; statische Folge; niedrig-mittel | Vorgangsdetails | P/P+ | Fach-/Datums-/Freitextmischung | ungeklärt | binär erhalten | Unterteilung? |
 | F021-38 | `W021` | 385 | 1.016 | 8 Perioden | 8×127 Byte; je Block 1/L72, 73/L4, 77/L20, 97/L15, 112/L16 | Positionen 1–8 haben 3.984/11.918/2.490/1.465/873/374/97/19 verschiedene Nichtnull-Hashes; nicht leer | erste acht von insgesamt 40 Gebührenpositionen; keine Personen-/Ereignisfelder | exakte Fortsetzung der 127-Byte-Periodizität bis 5.464; hoch | relativ 73/L4: 42/42 Hashklassen referenzieren `W006/W006dm` | P | ältere Grenze 1.401 war falsch; Unterfelder außer Gebührennummer offen | ungeklärt – Gebührennummer strukturell migrieren, übrige Unterfelder nicht deuten | nur nicht-nullartige Blöcke; rel. 73/L4 referenziell prüfen | restliche Unterfelder? |
 | F021-39 | `W021` | 1.401 | 4.064 | 32 Perioden | 32×127 Byte, Fortsetzung von F021-38 | Positionen 9–40 vollständig nullwertartig | weitere Gebührenpositionen | korrigierte Gesamtperiodizität; hoch | gleiche Struktur, keine Nutzwerte | P/T | Initialnullen | nicht migrieren – aktuell ohne Position | Nullwertprüfung | später belegt? |
-| F021-40 | `W021` | 5.465 | 306 | – | gemischter Nachlauf | teils befüllt/SP | Erwerb/Einlieferung/Überführung und technische Felder | Programmnamen; mittel | – | P/T | Fach-/Technikmischung | ungeklärt | technische Felder ausschließen | Exakte Grenzen? |
+| F021-40 | `W021` | 5.465 | 306 | – | 22 Phase-4-Gruppen | lückenlos; Text-, Datums-, Initial- und Füllzonen | Bestatter-/sensible Rollen-, Fälligkeits-, Beerdigungs-, Erwerbs-, Einlieferungs-, Überführungs- und Druckkandidaten; Details P4-W021-01–22 | statische Namen, Tabellenende, Profile; abgestuft | – | P/P+/T | Fach-/Technikmischung und sensible Leerfelder | technisch getrennt, Semantik teilweise `OFFEN` | Detailsummen 306/306; Füller nicht migrieren | fachliche Bestätigung der Datumsrollen und Druckgrenze? |
 | F021-41 | `W021` | 5.771 | 495 | – | unbekannt/reserviert | vollständig SP | Satzreserve | Profil; hoch | – | T | Versionsreserve | nicht migrieren | vollständige SP-Prüfung | später leer? |
 | F023-01 | `W023` | 1 | 2 | PK 1–28 | DISPLAY-Code | belegt | Anwendernummer | gleiche Programmlogik wie `W021`; hoch | PK-Teil | P/T | – | migrieren | exakter Vergleich | – |
 | F023-02 | `W023` | 3 | 4 | PK | Windows-1252-Code, SP | belegt | Friedhof | PK-Ausrichtung; hoch | PK-Teil | P | Padding | migrieren | exakter Vergleich | – |
@@ -183,6 +183,89 @@ sind damit sichtbar erfasst; es gibt keine stillschweigend ausgelassenen Bytes.
 | F023-09 | `W023` | 128 | 480 | – | 16 feste Windows-1252-Felder à 30 Byte | einzelne Felder vollständig leer, andere variabel; SP | 16 freie Hinweise aus „Sonstige Verstorbenendaten“ | exakte 16×30-Abdeckung, Hilfe `MAN-EDW-102`, Positionsperiodizität; hoch strukturell | zu `W021` über PK | P+ | Freitext, Zweckbindung und Datenminimierung unklar | ungeklärt – nicht automatisch migrieren | Inhalte nie protokollieren; Belegung nur zählen; jedes Feld getrennt freigeben | Welche der 16 Angaben haben Rechtsgrundlage und Migrationsnutzen? |
 | F023-10 | `W023` | 608 | 1 | – | DISPLAY-Kennzeichen | ziffernartig | spätes Zusatzkennzeichen | Positionsprofil; niedrig | – | P/T | Codebedeutung unbekannt | ungeklärt | erlaubte Codeklassen aggregiert bestimmen | Bedeutung? |
 | F023-11 | `W023` | 609 | 200 | – | unbekannt/reserviert | vollständig SP | Satzreserve | Positionsprofil; hoch | – | T | Versionsreserve | nicht migrieren | vollständige SP-Prüfung | im späteren Bestand leer? |
+
+## Phase-4-Detailkatalog: weitere W020-Rollen und Zustandsfamilien
+
+Die folgenden Grenzen sind 1-basiert. „Rolle 2/3“ bezeichnet die statisch
+nummerierte Quellrolle, nicht bereits Nutzungsberechtigte, Zahler oder einen
+anderen Cemaris-Rollentyp. Beobachtung und Interpretation sind bewusst
+getrennt; untrennbare Gruppen bleiben Gruppen.
+
+| ID | Offset / L | Beobachtung | Interpretation | Evidenz / Fundstelle | Konfidenz / Status | DS / Risiko | Parserfolge / Validierung |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| P4-W020-01 | 621 / 9 | 9 leer, 2.718 nullwertartig, 4 Hashklassen; Wechsel bei 630 | Verwaltungskennzeichen vor Rolle 2; Innengrenzen offen | `N-KZ/A-KZ/EMPF-NR/G-KZ`, Profil | mittel / `OFFEN` | P/T; Scheinnull | als Verbund erhalten; keine Codesemantik |
+| P4-W020-02 | 630 / 30 | 2.691 leer; 26 nichtleere Hashklassen; Hashschnittmengen zu Rollen 1/3 | `FAMNAME2`-Kandidat | statischer Name, 239-Byte-Rollenwiederholung, SHA-256 | hoch technisch, mittel fachlich / Rollen-Namenssegment `BESTÄTIGT` | P; keine ID | CP1252 nur feldweise; Hashvergleich wiederholen |
+| P4-W020-03 | 660 / 30 | 2.691 leer; 25 nichtleere Hashklassen; Gegenstück 1.475/L30 | `VORNAME2`-Kandidat | statische Reihenfolge, Rollenwiederholung | mittel / `OFFEN` | P; Namensrolle | als Textkandidat erhalten |
+| P4-W020-04 | 690 / 20 | 2.715 leer; 2 nichtleere Hashklassen | `FAMNAME22`-/Suchnamenkandidat | statische Reihenfolge, Gegenstück 1.505/L20 | mittel / `OFFEN` | P; Ableitung möglich | keine Namensnormalisierung |
+| P4-W020-05 | 710 / 30 | 2.692 leer; 8 nichtleere Hashklassen | Anrede-/Titel-/Zusatzzeile A | statische Namen, wiederholte Grenze | niedrig-mittel / `OFFEN` | P; Felder vermischt | als Gruppe erhalten |
+| P4-W020-06 | 740 / 40 | 2.691 leer; 26 nichtleere Hashklassen | Anrede-/Titel-/Anschriftengruppe B | statische Namen, Gegenstück 1.555/L40 | niedrig-mittel / `OFFEN` | P | als Gruppe erhalten |
+| P4-W020-07 | 780 / 40 | 2.691 leer; 17 nichtleere Hashklassen | `STRASSE2`-Kandidat | statische Reihenfolge, Gegenstück 1.595/L40 | mittel / `OFFEN` | P; Rollenverwechslung | erst nach Rollenbestätigung als Straße |
+| P4-W020-08 | 820 / 13 | 2.689 leer; 13 nichtleere Hashklassen | `POSTFACH2/LKZ2`-Verbund | statische Reihenfolge, Gegenstück 1.635/L13 | niedrig-mittel / `OFFEN` | P; Mischfeld | nicht pauschal als Text |
+| P4-W020-09 | 833 / 5 | 2.702 leer; 5 nichtleere Hashklassen | `PLZ2`-Kandidat | statischer Name, relative Rollenposition | mittel / `OFFEN` | P; führende Zeichen | als Zeichenfolge erhalten |
+| P4-W020-10 | 838 / 30 | 2.684 leer; 6 nichtleere Hashklassen | `ORT2`-Kandidat | statischer Name, Gegenstück 1.653/L30 | mittel / `OFFEN` | P | CP1252 erst nach Rollenbestätigung |
+| P4-W020-11 | 868 / 1 | 2.713 leer; eine nichtleere Hashklasse | Rollenabschlusskennzeichen | statische Hinweis-/Empfängerrestfolge | niedrig / `OFFEN` | P/T; Statusverwechslung | keine Empfänger-/Statusregel |
+| P4-W020-12 | 869 / 9 | 2.713 leer; 3 Hashklassen | Rollenrest oder Zustandspräfix | Profilgrenze bei 878 | niedrig / `OFFEN` | P/T | als Restgruppe erhalten |
+| P4-W020-13 | 878 / 34 | starker Profilwechsel; 3 leere Gesamtwerte; 15 Hashklassen | Grabmal-Kopf-/Textgruppe | statische `GRABMAL*`-Folge, Profil | mittel für Familie / `OFFEN` intern | P/P+; Zustand/Freitext | keine Zustands-/Textdeutung |
+| P4-W020-14 | 912 / 43 | initialisierte 16-/4-/12-/11-Byte-Zonen; 191 Hashklassen | Grabmal-Maß-/Genehmigungs-/Bescheidgruppe | statische Grabmalfolge, Profilwechsel | mittel für Familie / `OFFEN` intern | P; Zahl-/Datumsrisiko | keine Zahl-/Datumsumwandlung |
+| P4-W020-15 | 955 / 60 | sparse und initialisierte Ziffernzonen; 30 Hashklassen | Grabmal-Mitteilung/Zähler/Prüfung/Steinmetz-Rest | statische Grabmalrestfolge | mittel für Familie / `OFFEN` intern | P/P+; Fristen/Freitext | als Gruppe erhalten |
+| P4-W020-16 | 1.015 / 33 | neuer Abschnitt; 1.167 reine Ziffernwerte, 1.374 Hashklassen | Einfassungs-Kopf-/Zustandsgruppe | statische `EINFASS*`-Folge, Profil | niedrig-mittel / `OFFEN` | P/P+ | keine Zustandsklassifikation |
+| P4-W020-17 | 1.048 / 23 | Füllzonen und getrennte Ziffernanstiege; 2.303 Hashklassen | Einfassungs-Mitteilungs-/Zählergruppe | statische Folge, Profil | niedrig-mittel / `OFFEN` | P; Technik/Fachlichkeit | Füller und Codes erhalten |
+| P4-W020-18 | 1.071 / 56 | 2.715 leer; 3 nichtleere Hashklassen | Einfassungs-Prüfrest oder Übergangsreserve | statische Nachbarschaft, Grenze 1.127 | niedrig / `OFFEN` | P/T; seltene Altwerte | untrennbare Restgruppe |
+| P4-W020-19 | 1.127 / 50 | 2.715 leer; 3 nichtleere Hashklassen | FUG-Nummer-/Text-/Zahlerkopf | statische `FUG-*`-Folge, Profil | niedrig-mittel für Familie / `OFFEN` | P/P+ | keine Inhaltsauswertung |
+| P4-W020-20 | 1.177 / 53 | 2.706 leer; 5 nichtleere Hashklassen | FUG-Zahler-/Zeitraumgruppe | statische Zahler-/Gebühren-/Bezahltfolge | niedrig-mittel / `OFFEN` | P; Personen-/Datumsbindung | keine Datums- oder Rollenregel |
+| P4-W020-21 | 1.230 / 58 | fast vollständig initialisierte Ziffern, einzelne Steuer-/Highbytes; 43 Hashklassen | FUG-Bescheid-/RKZ-/Rhythmus-/Betragsgruppe | statische FUG-Folge, Zeichenklassen | mittel für Familie, niedrig technisch / `OFFEN` | P; Finanzkodierung | niemals als Dezimalbetrag casten |
+| P4-W020-22 | 1.288 / 36 | 2.716 nullwertartig; 9 Hashklassen | FUG-Gesamtbetrag-/Hinweis-/Einzugsgruppe | statische Folge, Profil | niedrig-mittel / `OFFEN` | P/P+; Scheinnull | keine Zahlungsstatusregel |
+| P4-W020-23 | 1.324 / 3 | 2.718/2.718 SP | Füllbereich | vollständiges SP-Profil | hoch / technisch `BESTÄTIGT` | T | nicht migrieren; SP erneut prüfen |
+| P4-W020-24 | 1.327 / 28 | 2.716 nullwertartig; 8 Hashklassen | FUG-Bank-/Bescheid-/Preis-/Datumsgruppe | statische FUG-Restfolge, Profil | niedrig / `OFFEN` | P; Konto-/Datumsrisiko | keine Konto-/Datumsdeutung |
+| P4-W020-25 | 1.355 / 20 | 2.692 leer; alle nullwertartig; 2 Hashklassen | FUG-Reserve-/Füllgruppe | Positionsprofil | mittel technisch / `OFFEN` | P/T | Abweichungen nur aggregiert |
+| P4-W020-26 | 1.375 / 66 | initialisierte, sparse und gemischte Zonen; 34 Hashklassen | FUG-Verwaltungsrest | statische FUG-Restfolge, Folgeindex 1.441 | niedrig-mittel / `OFFEN` | P/T; Fach-/Technikmischung | als Restgruppe erhalten |
+| P4-W020-27 | 1.441 / 4 | harter Index 1.441/L84 und Teilindex 1.445/L80; 3 leer | Präfix des Rolle-3-Namensuchverbunds | Indexdefinition | hoch technisch / `BESTÄTIGT` | P/T; abgeleitet | nicht als Personen-ID |
+| P4-W020-28 | 1.445 / 30 | 36 leer; 1.240 nichtleere Hashklassen; 696 Hashschnittmengen zu Rolle 1 | `FAMNAME3`-Kandidat | Index, statischer Name, SHA-256 | hoch technisch, mittel fachlich / Rollen-Namenssegment `BESTÄTIGT` | P | feldweise CP1252; keine ID |
+| P4-W020-29 | 1.475 / 30 | 274 leer; 993 nichtleere Hashklassen | `VORNAME3`-Kandidat | Indexsumme, statischer Name, Rollenwiederholung | mittel / `OFFEN` | P | genaue Namensrolle prüfen |
+| P4-W020-30 | 1.505 / 20 | 2 leer; 2.213 nichtleere Hashklassen | `FAMNAME32`-/Suchnamenkandidat | 30+30+20 = Teilindex 80, statischer Name | mittel / `OFFEN` | P; Ableitung | keine Namensnormalisierung |
+| P4-W020-31 | 1.525 / 30 | 2.397 leer; 208 nichtleere Hashklassen | Anrede-/Titel-/Zusatzzeile A | statische Namen, Gegenstück 710/L30 | niedrig-mittel / `OFFEN` | P | als Gruppe erhalten |
+| P4-W020-32 | 1.555 / 40 | 296 leer; 72 nichtleere Hashklassen | Anrede-/Titel-/Anschriftengruppe B | statische Namen, Gegenstück 740/L40 | niedrig-mittel / `OFFEN` | P | als Gruppe erhalten |
+| P4-W020-33 | 1.595 / 40 | 215 leer; 1.603 nichtleere Hashklassen; rechts fallendes Textprofil | `STRASSE3`-Kandidat | statischer Name, Rollenwiederholung | mittel / `OFFEN` | P | erst nach Rollenbestätigung als Straße |
+| P4-W020-34 | 1.635 / 13 | 2.687 leer; 7 nichtleere Hashklassen | `POSTFACH3/LKZ3`-Verbund | statische Folge, Gegenstück 820/L13 | niedrig-mittel / `OFFEN` | P; Mischfeld | nicht pauschal als Text |
+| P4-W020-35 | 1.648 / 5 | 217 leer; 2.470 reine Ziffernwerte; 280 nichtleere Hashklassen | `PLZ3`-Kandidat | statischer Name, Rollenlage, Zeichenklasse | hoch technisch, mittel fachlich / Postcodekandidat `BESTÄTIGT` | P; führende Zeichen | als Zeichenfolge erhalten |
+| P4-W020-36 | 1.653 / 30 | 214 leer; 314 nichtleere Hashklassen; Textprofil | `ORT3`-Kandidat | statischer Name, Rollenlage, Textprofil | hoch technisch, mittel fachlich / Ortskandidat `BESTÄTIGT` | P | CP1252, Rollenfreigabe erforderlich |
+| P4-W020-37 | 1.683 / 1 | 12 leer; sonst Nullziffer; 2 Hashklassen, vollständig nullwertartig | Rollenabschlusskennzeichen ohne Nutzwert | Rollenende, Profil | mittel technisch / Semantik `OFFEN` | P/T; Scheinnull | keine Empfänger-/Statusregel |
+| P4-W020-38 | 1.684 / 1 | 2.718/2.718 SP | Füllbyte vor Index 1.685/L9 | Profil und Folgeindex | hoch / technisch `BESTÄTIGT` | T | nicht migrieren; SP erneut prüfen |
+
+Die Summe P4-W020-01–38 ist exakt 1.064 Byte. Mit F020-40 = 9 Byte und
+F020-41 = 1 Byte umfasst W020 621–1.694 exakt 1.074 Byte; Satzlänge 2.693 Byte,
+keine Lücke und keine Überlappung.
+
+## Phase-4-Detailkatalog: W021-Nachlauf
+
+| ID | Offset / L | Beobachtung | Interpretation | Evidenz / Fundstelle | Konfidenz / Status | DS / Risiko | Parserfolge / Validierung |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| P4-W021-01 | 5.465 / 8 | Strukturwechsel nach Position 40; 3.580 leer, alle 14.211 nullwertartig | `BESTATTER-NR`-Kandidat ohne Nutzwert im Bestand | Tabellenende, statischer Name, Ziffernprofil | mittel als Feld / Semantik `OFFEN` | P; Scheinnull | nur als gehashte Referenz; vor Import neu prüfen |
+| P4-W021-02 | 5.473 / 64 | 14.211/14.211 SP | Bestatter-/Pfarrer-/Konfessions-/Textgruppe | statische Feldfolge, Leerprofil | mittel für Familie / `OFFEN` | P+; Religion/Freitext | nicht migrieren; keine Inhaltsanalyse |
+| P4-W021-03 | 5.537 / 5 | alle Werte initialisierte Ziffern; eine Hashklasse | `KZ1/KZ2`-/Verwaltungskandidat ohne Nutzwert | statische Nachbarschaft, Profil | niedrig-mittel / `OFFEN` | P/T; Scheincode | keine Statusregel |
+| P4-W021-04 | 5.542 / 14 | 14.211/14.211 SP | Füll-/aktuell ungenutzte Restgruppe | vollständiges SP-Profil | hoch technisch / `BESTÄTIGT` | T/P+ | nicht migrieren; später neu prüfen |
+| P4-W021-05 | 5.556 / 8 | 11.607 gültige `ddMMyyyy`, 2.603 leer/nullwertartig, 1 ungültig | `FAELLIG-DATUM`-Kandidat | statischer Name plus Formatprofil | hoch technisch, mittel fachlich / Datumskandidat `BESTÄTIGT` | P; Fehlerwert | nur gültige Werte, Fehler separat; Rolle freigeben |
+| P4-W021-06 | 5.564 / 11 | alle Werte initialisierte Ziffern; eine Hashklasse | Beerdigungs-Empfänger-/Kassenzeichenrest ohne Nutzwert | statische Reihenfolge, Profil | niedrig / `OFFEN` | P; Scheinnull | nicht als Kassenzeichen deuten |
+| P4-W021-07 | 5.575 / 1 | 14.211/14.211 SP | Füllbyte | Profil | hoch / `BESTÄTIGT` | T | nicht migrieren |
+| P4-W021-08 | 5.576 / 8 | 11.612 gültige `ddMMyyyy`, 2.599 leer/nullwertartig, 0 ungültig | `BEERD-DATUM`-Kandidat | statischer Name plus Formatprofil | hoch technisch, mittel fachlich / Datumskandidat `BESTÄTIGT` | P | nur gültige Werte; Rolle freigeben |
+| P4-W021-09 | 5.584 / 15 | 2.512 nullwertartig; 10 Hashklassen; ziffernartig | Beerdigungsbetrag-/RKZ-/Erwerbsgruppe | statische Reihenfolge, Profil | niedrig-mittel / `OFFEN` | P; Betrag/Status | keinen Betrag oder Status ableiten |
+| P4-W021-10 | 5.599 / 5 | 2.680 leer; 4 Hashklassen | Einlieferungsnummer-/Überführungskennzeichengruppe | statische Reihenfolge, Profilgrenze | niedrig-mittel / `OFFEN` | P | als Codegruppe erhalten |
+| P4-W021-11 | 5.604 / 5 | 14.211/14.211 SP | Füllbereich | Profil | hoch / `BESTÄTIGT` | T | nicht migrieren |
+| P4-W021-12 | 5.609 / 5 | 13.527 leer; 4 Hashklassen | Einlieferungs-/Überführungs-Kurzgruppe | statische Nachbarschaft, Profil | niedrig / `OFFEN` | P | keine Datumsdeutung |
+| P4-W021-13 | 5.614 / 5 | 14.211/14.211 SP | Füllbereich | Profil | hoch / `BESTÄTIGT` | T | nicht migrieren |
+| P4-W021-14 | 5.619 / 4 | 14.208 leer; 3 Hashklassen | Überführungs-Kurzcode | statische Nachbarschaft, Profil | niedrig / `OFFEN` | P | als Codegruppe erhalten |
+| P4-W021-15 | 5.623 / 26 | 14.211/14.211 SP | Füll-/aktuell ungenutzter Überführungsbereich | Profil | hoch technisch / `BESTÄTIGT` | T/P | nicht migrieren; später neu prüfen |
+| P4-W021-16 | 5.649 / 56 | 56 zifferninitialisierte Bytes; 75 nullwertartige Gesamtwerte; keine belastbare Datumsserie | Fortschreibungs- oder technische Steuergruppe | negatives Datumsprofil, statische Nachbarschaft | mittel technisch, niedrig fachlich / `OFFEN` | P/T; sieben Scheindaten möglich | nicht in sieben Datumsfelder zerlegen |
+| P4-W021-17 | 5.705 / 1 | 14.211/14.211 SP | Füllbyte | Profil | hoch / `BESTÄTIGT` | T | nicht migrieren |
+| P4-W021-18 | 5.706 / 8 | 14.159 gültige `yyyyMMdd`, 52 leer/nullwertartig, 0 ungültig | Überführungs-/Fortschreibungsdatumskandidat | statische `UEBER-DATUM`-Folge plus Formatprofil | hoch technisch, mittel fachlich / Datumskandidat `BESTÄTIGT` | P | nur gültige Werte; Ereignisrolle freigeben |
+| P4-W021-19 | 5.714 / 2 | alle Werte initialisierte Ziffern; eine Hashklasse | Überführungszeit-/Kurzcode ohne Nutzwert | statische Nachbarschaft, Profil | niedrig / `OFFEN` | P; Scheinzeit | nicht als Uhrzeit importieren |
+| P4-W021-20 | 5.716 / 1 | 14.211/14.211 SP | Füllbyte | Profil | hoch / `BESTÄTIGT` | T | nicht migrieren |
+| P4-W021-21 | 5.717 / 49 | 12.773 leer; 1.385 Hashklassen; intern mehrere Text-/Mischwechsel | Überführungsort/-name/-adressbezogener Rest mit möglicher Drucküberlagerung | statische Überführungsfolge, danach Drucknamen, Profil | niedrig-mittel / `OFFEN` | P/P+/T; Freitext | als Restgruppe erhalten; keine Inhaltsauswertung |
+| P4-W021-22 | 5.766 / 5 | alle Werte initialisierte Ziffern; eine Hashklasse; ab 5.771 495 Byte SP | Druck-/Formularsteuerungs- oder letzter Fachcode | statische Druckfolge, Profilgrenze | niedrig-mittel / `OFFEN` | T/P; Grenzrisiko | nicht migrieren, aber vor Klärung nicht verwerfen |
+
+Die Summe P4-W021-01–22 ist exakt 306 Byte. Der Satz bleibt 6.265 Byte lang;
+W021 5.771–6.265 bleibt als vollständig SP-gefüllte Satzreserve sichtbar
+außerhalb dieser Detailphase.
 
 ### Technische Bestätigung zu `W022`
 
@@ -345,16 +428,16 @@ Offset in `buch`. Sie wird weder auf den 73-Byte-Legacyblock noch auf die
 | Nutzungsberechtigte | W020-Rechtekern und W021-Vorgangskopf | nein | Masken und Fachfunktion belegen die Kategorie; kein sicher gebundenes Personenfeld | `OFFEN`; niedrig | nicht aus Suchcodes oder Empfängerfeldern ableiten |
 | Empfänger | W020 Rollen 1–3, W021 Vorgangskopf | Rollenfamilie statisch, konkrete Instanz nicht | statische `EMPFAENGER*`-Namen, aber Mehrfachverwendung und unbekannte Grenzen | `OFFEN`; mittel strukturell | Rollen nicht zusammenführen |
 | verstorbene Person | `W021` 144–208 und 241–313 | als Rollenblock ja; Nachname/Vorname innerhalb 148/L60 noch nicht | eigener Namensindex, `VERST-*`-Feldfolge, Geburts-/Sterbedaten und Orte | `BESTÄTIGT`; hoch als Rolle | migrationsrelevant; keine Dublettenverschmelzung anhand Suchcode |
-| Bestatter | später W021-Kopf/Nachlauf, Offset noch nicht lokalisiert | nein | `BESTATTER-NR` und `BESTATTER` statisch genannt; keine belastbare Bytebindung | `OFFEN`; mittel statisch | erst nach Offsetbeleg migrieren |
-| Pfarrer/Konfession | später W021-/W023-Bereich | nein | nur statische Namen/Hilfemaske; besonders sensible Kategorie | `OFFEN`; mittel statisch | ohne Zweck-/Datenschutzfreigabe nicht migrieren |
-| weitere Adressrollen 2/3 | `W020` 621–1.684 | als Gesamtbereich ja, Einzelfelder nein | statische `FAMNAME2/3`- und `EMPFAENGER2/3`-Folgen sowie Indizes 1441/L84 und 1445/L80 | `OFFEN`; mittel | Gegenstand des nächsten Arbeitsschritts; strikt getrennt halten |
+| Bestatter | `W021` 5.465/L8 als Nummernkandidat | technisch ja, fachliche Rolle nicht bestätigt | Tabellenende, statischer `BESTATTER-NR`-Name und Ziffernprofil; im Bestand vollständig nullwertartig | `OFFEN`; mittel als Feld, hoch negativ für aktuellen Nutzwert | aktuell nicht migrieren; in anderem Export erneut prüfen |
+| Pfarrer/Konfession | `W021` 5.473/L64 als untrennbare Gruppe | nur als leere technische Gruppe | statische Namen/Hilfemaske; 14.211/14.211 Sätze vollständig SP; besonders sensible Kategorie | `OFFEN`; mittel als Familie, hoch negativ für aktuellen Nutzwert | ohne Zweck-/Datenschutzfreigabe nicht migrieren; keine Innengrenzen erfinden |
+| weitere Adressrollen 2/3 | `W020` 621–868 und 1.441–1.684 | wiederholte Rollenstruktur und mehrere Segmente ja, fachliche Einzelrollen teilweise nicht | 239-Byte-Wiederholung, statische `FAMNAME2/3`-/`EMPFAENGER2/3`-Folgen, Indizes 1441/L84 und 1445/L80 sowie SHA-256-Schnittmengen | technisch teilweise `BESTÄTIGT`, fachlich abgestuft `OFFEN`; mittel-hoch | Rollen strikt getrennt halten; keine Personenzusammenführung oder Empfängerableitung |
 
 ### Status-, Umnummerierungs- und Nachfolgermatrix
 
 | Kandidat | Offset/Länge | statischer Name / Kontrollverwendung | aggregierte Belegung / Beziehung | Gegenbeleg / Verwechslungsrisiko | Status / Konfidenz | sichere Regel |
 | --- | --- | --- | --- | --- | --- | --- |
 | W021-Vorgangskennzeichenbereich | `W021` 132/L8 als Gruppenkandidat | `D-W021-VORGANGKZ`, `D-W021-VORVERSTORB`; exakte Innengrenze unbekannt | 9.443/14.211 leer; 50 Hashklassen | mehrere Codes teilen die Zone; keine Codeliste und kein abhängiger Nachfolgerbeleg | `OFFEN`; niedrig | keine Filterung |
-| W020-`LETZTER-VORGANG`-Kandidat | `W020` 1685/L9 | Feldname statisch; Lage nach den Adressrollen und eigener Index | 31 leer, 2.687 Ziffernsätze, 1.810 Hashklassen; bestes 2-Byte-Teilfenster trifft nur 533/2.641 W021-Präfixgruppen | kein eindeutiges Teilfeld, viele Zufallstreffer, kein Bezug auf `W023/DRAUF` nachgewiesen | `OFFEN`; mittel als Kandidat, niedrig semantisch | keine Nachfolger- oder Ausschlussregel |
+| W020-`LETZTER-VORGANG`-Kandidat | `W020` 1685/L9 | Feldname statisch; Lage nach den Adressrollen und eigener Index | 31 leer, 2.687 Ziffernsätze, 1.810 Hashklassen; bestes 2-Byte-Teilfenster trifft nach Ausschluss leer-/nullwertartiger Schlüssel nur 532 W021-Präfixgruppen | kein eindeutiges Teilfeld, viele Zufallstreffer, kein Bezug auf `W023/DRAUF` nachgewiesen | `OFFEN`; mittel als Kandidat, niedrig semantisch | keine Nachfolger- oder Ausschlussregel |
 | Grabnummer ändern | altes/neues Persistenzfeld nicht lokalisiert | `BEARBEITEN-NUMMER-AENDERN`, `F-NUMMER-AENDERN-JA`, Prüf- und Enable/Disable-Abläufe | eigener Kontrollablauf belegt | keine alte und neue Nummer, kein atomarer Verweis und keine validierte Aktualisierungsreihenfolge der abhängigen Bestände | `OFFEN`; hoch für Ablauf, niedrig für Datenregel | keine Nummer als überholt ausschließen; keine Aliasbildung |
 | fachliches Storno/Aufhebung | kein Feld sicher lokalisiert | `CHECK-STORNO`, `STORNO-MOEGLICH`, `VORGANG-LOESCHEN`, `PRUEFE-ERLEDIGUNGS-KZ` | mehrere getrennte Kontrollpfade | Löschung, Erledigung, Storno und Finanzgutschrift dürfen nicht gleichgesetzt werden | `OFFEN`; mittel | keine Filterung |
 | physischer Micro-Focus-Löschsatz | physischer Satztyp 2 | technischer Speicherzustand | 4.119 physische Löschsätze | kein fachlicher Status und kein Nachfolger | `WIDERLEGT`; hoch | niemals allein fachlich filtern |
@@ -484,7 +567,7 @@ fachliche Entität. Die Bedeutung von `oli` bleibt `OFFEN`.
 | Gebührenstamm | `W006/W006dm` 1–138 sicher, 139–201 nur als Sammelbereich | Gebührennummer und Texte `migrieren`; Preise/Skalen erst nach Zahlenbeleg |
 | Gebührenpositionen | `W021` 385–5.464 enthält 40×127 Byte; Positionen 1–8 sind belegt, 9–40 initialisiert; Gebührennummer relativ 73/L4 referenziert 42/42 verschiedene `W006/W006dm`-Kandidaten | Gebührennummer strukturell `migrieren`; weitere W021-Unterfelder und W040 bleiben `OFFEN`; aus Initialblöcken keine Zeilen erzeugen |
 | festgesetzter Betrag | statisch in W021/W040/BUCH genannt, Offset im befüllten Bescheidgrundblock 142–710 oder in der Erweiterung nicht eindeutig lokalisiert | `OFFEN`; keine Übernahme und kein Default, bis Feld und Dezimaldarstellung belegt sind |
-| Fälligkeit | statisch belegt; `buch` 118/126/134 sind nur Nullwerte und damit keine nutzbare Quelle | `OFFEN`; anderes EDWALT-Feld oder führende freigegebene Quelle bestimmen |
+| Fälligkeit | statisch belegt; `buch` 118/126/134 sind nur Nullwerte; `W021` 5.556/L8 besitzt ein technisch belastbares `ddMMyyyy`-Profil und passt zum statischen `FAELLIG-DATUM`-Namen | W021-Kandidat technisch `BESTÄTIGT`, fachliche Rollenbindung `OFFEN`; vor Import bestätigen und einen Fehlerwert separat behandeln |
 | Zahlungsdatum/-betrag, Rest, Zahlungsart, Zahlungsstatus/„gebucht“, Mahnstufe/-datum | statische `BUCH-TAB-*`-Felder; FINANZ+ ist fachlich führend | `nicht aus EDWALT migrieren` |
 | Betreff und Bescheidtexte | `W006` 11–115 sicher; weitere BUCH-/W040-Texte nur statisch/als Sammelbereich | sichere Gebührenbezeichnungen `migrieren`; freie/technische Texte bis Zweckklärung `OFFEN` |
 | Druck-, Formular- und Ausgabeparameter | statische `DRUCK*`-/`LASER*`-/`FORMULAR*`-Felder | `nicht migrieren` |
@@ -526,14 +609,17 @@ werden kann, ist noch zu entscheiden; stille Defaults sind unzulässig.
 | `form`, `KASSENZ`, `W007` | 10.057/171/803, jeweils 0 aktive Sätze | Satzlängen und Indexdefinitionen gesichert | am vorliegenden Bestand nicht inhaltlich validierbar; Leere nicht auf späteren Bestand verallgemeinern |
 | `W080` | 6.130 / 0 | Satzlänge und 13 Indexsegmente gesichert | historischer Krematoriumsbestand bleibt im Scope; an diesem Bestand keine Semantik- oder Qualitätsvalidierung möglich |
 
-## Ergebnis der Personen-/Rechte-/Statusphase und verbleibender Rest
+## Ergebnis der Adress-/Zustands-/Nachlaufphase und verbleibender Rest
 
 Der Auftrag aus dem
 [Übergabedokument zur Personen-, Nutzungsrechts- und Statusrekonstruktion](edwalt-person-rights-status-next-step-handoff.md)
-wurde am 12.08.2026 statisch und aggregiert ausgeführt. `W020` 91–620 ist in
-32 und `W021` 29–1.400 in 34 deklarative, zusammenhängende Bereiche zerlegt;
-ihre Summen sind exakt 530 beziehungsweise 1.372 Byte. Die Grenzen sind
-parserfähig, ihre fachliche Feingranularität bleibt sichtbar abgestuft.
+wurde am 12.08.2026 statisch und aggregiert ausgeführt. Ergänzend wurde der
+[Auftrag zu weiteren Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md)
+ausgeführt. `W020` 621–1.684 ist in 38 und `W021` 5.465–5.770 in 22
+deklarative, zusammenhängende Bereiche zerlegt; ihre Summen sind exakt 1.064
+beziehungsweise 306 Byte. Mit 1.685/L9 und 1.694/L1 ist W020 621–1.694 exakt
+1.074 Byte abgedeckt. Die Grenzen sind parserfähig, ihre fachliche
+Feingranularität bleibt sichtbar abgestuft.
 
 Die statischen `EDW.GS`-Feldnamen, Kontrollnamen und der 65-Byte-Symbolbereich
 sind reproduzierbar lesbar. Die internen Verweise des Symbolbereichs ließen
@@ -542,27 +628,26 @@ Satzlängen und einer zweiten Evidenzart als DAT-Offset-/Längenschema
 validieren. Dieses Binärformat bleibt deshalb `OFFEN`; Programmnamen werden
 nicht als erfundene Bytegrenzen übernommen.
 
-Der nächste Schritt ist in dieser Reihenfolge priorisiert:
+Der verbleibende Rest ist in dieser Reihenfolge priorisiert:
 
-1. `W020` 621–1.684 in die Adressrollen 2/3 sowie Grabmal-, Einfassungs- und
-   FUG-Bereiche zerlegen; dabei den `LETZTER-VORGANG`-Kandidaten 1685/L9 nur
-   als Gegenprüfung verwenden und das anschließende Kennzeichen 1694/L1
-   getrennt klassifizieren, sodass 621–1.694 ohne Layoutlücke geprüft ist;
-2. den W021-Nachlauf 5.465–5.770 auf eigenständige Erwerbs-, Einlieferungs- und
-   Überführungsdaten gegenüber technischen Druckfeldern abgrenzen;
+1. Gültigkeits-/Variantenregeln für `W005/W005dm` und `W006/W006dm`
+   bestimmen; aktuelle und DM-Varianten weder vereinigen noch verwerfen, bevor
+   Zeit-, Währungs- und Feldregeln unabhängig belegt sind;
+2. danach die stärker personenbezogenen Varianten `BUCHA/Buchalt` und
+   `W040alt` nur in einem getrennten, eng begrenzten Auftrag bewerten;
 3. nur bei ausdrücklicher Datenschutz-/Zweckfreigabe `W023` 29–127
    strukturell untersuchen; die 16×30 Hinweise und `W022`-Notizen nicht
    inhaltlich dekodieren;
-4. anschließend Gültigkeits-/Variantenregeln für `W005dm/W006dm`,
-   `BUCHA/Buchalt` und `W040alt` bestimmen;
-5. erst nach einem eindeutigen alten/neuen Schlüsselbeleg die
+4. erst nach einem eindeutigen alten/neuen Schlüsselbeleg die
    `INT-028/029`-Filterregel erneut bewerten. Bis dahin wird nichts wegen
    Storno, Aufhebung oder vermuteter Umnummerierung ausgeschlossen.
 
-Für die Punkte 1 und 2 liegt der eigenständige
-[Übergabeauftrag zu weiteren Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md)
+Für Punkt 1 liegt der eigenständige
+[Übergabeauftrag zur Gebührenstamm- und Variantenabgrenzung](edwalt-fee-master-variants-next-step-handoff.md)
 vor. Ein Cemaris-Fachmodell, Quell-zu-Ziel-Mapping oder Import wurde nicht
-erstellt.
+erstellt. W020 1.685/L9 bleibt ohne Nachfolgerregel `OFFEN`; 1.694/L1 ist im
+untersuchten Bestand vollständig leer/nullwertartig und erlaubt ebenfalls
+keine Filterung.
 
 Nach den priorisierten Dateien folgen `DRAUF` (vorgangsbezogener Druck-/Aufsatz-
 bestand), `STATIST` (abgeleitetes Statistiklayout), `W004`, `W010` sowie

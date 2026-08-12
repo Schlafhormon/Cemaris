@@ -30,15 +30,29 @@ Reverse Proxy / TLS
 | `Cemaris.Api` | Hosting, DI, HTTP-Endpunkte, Fehlerbehandlung, OpenAPI, Health Checks | Friedhofsfachlogik |
 | `Cemaris.Web` | Responsive und barrierearme Browseroberfläche | Direkter Datenbank- oder DMS-Zugriff |
 
-Das Domainprojekt ist absichtlich fast leer. Erst die Bestands- und Bedarfsanalyse darf belastbare Fachbegriffe und Regeln liefern.
+Das Domainprojekt ist derzeit noch fast leer. Der nächste Inkrement führt dort
+eine minimale Fallakten-Grundlage für gespeicherte Tatsachen ein, ohne daraus
+bereits Grabarten, Status, Fristen, Gebühren oder andere offene Fachregeln
+abzuleiten. Umfang und Sicherheitsgrenze stehen in den
+[Fallakten-Implementierungsentscheidungen](../requirements/case-record-write-decisions.md).
 
 ## Aktuelle technische Schnittstellen
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.
+- `GET /api/search` und `GET /api/cases/{id}` bilden den technisch
+  abgeschlossenen lesenden ersten Produktinkrement.
 - `/openapi/v1.json` ist in der Entwicklungsumgebung aktiviert.
 - `IDocumentManagementService` bildet eine minimale herstellerneutrale Erweiterungsstelle für die spätere Archivierung erzeugter Dokumente.
-- `CemarisDbContext` bereitet EF Core und SQL Server vor, enthält aber bewusst noch keine fachlichen Tabellen.
+- `CemarisDbContext` enthält ein bewusst vorläufiges relationales Leseschema
+  für Fall, Grabstelle, Verstorbene, Beisetzungen, Nutzungsrechte,
+  Berechtigte/Adressen und Bescheid-/Gebühreninformationen. Es ist kein
+  freigegebenes endgültiges Fachmodell.
+
+Der nächste Schreibpfad bleibt bis zur Identitäts-, Berechtigungs- und
+Auditentscheidung standardmäßig deaktiviert und ausschließlich in einer
+explizit aktivierten Development-Umgebung für synthetische Daten zulässig.
+Diese Feature-Grenze ist kein produktiver Zugriffsschutz.
 
 ## Konfiguration und Betrieb
 

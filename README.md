@@ -4,9 +4,14 @@
 
 ## Status
 
-> **Cemaris befindet sich derzeit in einer frühen Konzeptions- und Anforderungsanalyse. Es handelt sich noch nicht um produktionsreife Friedhofsverwaltungssoftware.**
+> **Cemaris befindet sich in aktiver, inkrementeller Produktentwicklung. Der
+> erste lesende MVP ist technisch umgesetzt; die Software ist noch nicht für
+> den Produktivbetrieb oder echte Verwaltungsdaten freigegeben.**
 
-Funktionen und Datenmodell sind noch nicht für den Produktivbetrieb freigegeben. Das Repository stellt derzeit ausschließlich eine technische und dokumentarische Grundlage für die bevorstehende Bestands- und Bedarfsanalyse bereit.
+Die Produktentwicklung wird jetzt vor der weiteren EDWALT-Importanalyse
+fortgesetzt. Fachliche Regeln, Identität, Berechtigungen, Audit, Datenschutz
+und Betrieb werden nur in klar abgegrenzten, geprüften Inkrementen ergänzt.
+Unbekannte Regeln werden weiterhin nicht geraten.
 
 ## Motivation
 
@@ -60,7 +65,13 @@ Vorbereitet sind:
 - Docker- und CI-Konfiguration,
 - ADRs sowie Arbeitsunterlagen für EDWALT-Inventur, Anforderungen und Migration.
 
-Der nächste fachliche Schritt ist die Bestandsaufnahme des bestehenden Verfahrens und aller Nebenprozesse anhand von [`docs/requirements`](docs/requirements/README.md).
+Die technische EDWALT-Analyse ist nach Phase 4 kontrolliert pausiert. Der
+nächste Produktinkrement ist eine standardmäßig deaktivierte, ausschließlich
+synthetische Development-Fallaktenbearbeitung für Grabstellenbezug,
+verstorbene Personen und Beisetzungen. Der vollständige Auftrag steht in der
+[Implementierungsübergabe](docs/implementation/cemaris-case-record-write-next-step-handoff.md).
+Die weitere Inkrementfolge beschreibt der
+[Cemaris-Implementierungsplan](docs/implementation/README.md).
 
 ## Technische Zielarchitektur
 
@@ -87,6 +98,7 @@ Details stehen in der [Architekturübersicht](docs/architecture/README.md) und d
 ├── docs/
 │   ├── architecture/         # technische Zielbilder und offene Integrationsfragen
 │   ├── decisions/            # Architecture Decision Records
+│   ├── implementation/       # Produktinkremente und ausführbare Übergaben
 │   ├── migration/            # EDWALT-Migrationsstrategie
 │   └── requirements/         # Bedarfsanalyse und EDWALT-Inventur
 ├── src/
@@ -247,17 +259,18 @@ Für einen späteren produktiven Betrieb wird `docker-compose.override.yml` nich
 Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbeitsphasen sind:
 
 1. Repository- und Architekturgrundlage
-2. EDWALT-Bestandsanalyse und technische Migrationsvorbereitung
-3. Fachliche Bedarfsanalyse
-4. Fachliches Datenmodell
-5. MVP-Definition
-6. Implementierung der validierten Kernfunktionen
-7. Winyard-Integration
-8. Dokument- und Bescheidwesen
-9. Datenmigration
-10. Pilotbetrieb
+2. lesender MVP mit synthetischen Daten
+3. inkrementelle Implementierung der validierbaren Kernfunktionen
+4. Identität, Berechtigungen, Audit, Datenschutz- und Betriebsfreigabe
+5. fachliche Stammdaten, Fall-, Personen-, Beisetzungs- und Rechteprozesse
+6. Gebühren-, Dokument- und Bescheidwesen
+7. optionale Winyard-Integration und priorisierte Auswertungen
+8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe
+9. Pilotbetrieb, Cutover und Nachkontrolle
 
-Der Abschluss einer Phase und ihr konkreter Umfang werden anhand dokumentierter Ergebnisse entschieden.
+Die Schritte laufen dort parallel, wo keine ungeklärte Fachentscheidung
+vorweggenommen wird. Der Abschluss eines Inkrements und sein konkreter Umfang
+werden anhand dokumentierter Ergebnisse entschieden.
 
 ## Mitwirkung
 

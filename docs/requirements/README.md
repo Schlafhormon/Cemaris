@@ -20,6 +20,10 @@ Jede spätere Anforderung sollte eine ID, Beschreibung, Quelle, Geltungsbereich,
 
 Die ersten Umsetzungsentscheidungen fuer die lesende Suche und Detailansicht
 stehen in [MVP-Entscheidungen: Lesende Suche und Detailansicht](mvp-read-search-decisions.md).
+Der zweite technische Produktinkrement ist in
+[Implementierungsentscheidungen: schreibende Fallakten-Grundlage](case-record-write-decisions.md)
+begrenzt. Diese technische Schreibfreigabe für Development ersetzt keine
+offene Fach-, Datenschutz-, Berechtigungs- oder Produktiventscheidung.
 
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -45,6 +49,13 @@ stehen in [MVP-Entscheidungen: Lesende Suche und Detailansicht](mvp-read-search-
 | REQ-MVP-003 | BESTÄTIGT | In der lesenden Detailansicht zusammengehörige Friedhofs-/Grabdaten, Verstorbene, Beisetzungen, Nutzungsrechte/Laufzeiten, Berechtigte/Adressen sowie Bescheid-/Gebühreninformationen anzeigen; keinen Zahlungsstatus und keine Mahnungen anzeigen | INT-016/030/033 | erster Entwicklungsabschnitt | Muss | konservative technische Feldliste dokumentiert; fachliche Feldprüfung bleibt offen |
 | REQ-BER-001 | BESTÄTIGT | Der IT-Administrator darf sämtliche fachlichen Personen- und Falldaten sehen | INT-012/034 | Berechtigung | Muss | Protokollierung administrativer Zugriffe und spätere feinere Rollentrennung offen |
 | REQ-MVP-004 | BESTÄTIGT | Den ersten Abschnitt anhand eines kontrolliert migrierten Testbestands fachlich abnehmen: bekannten Fall finden und alle zugehörigen Verknüpfungen lesend nachvollziehen; im Repository und in allgemeinen Entwicklungstests ausschließlich synthetische Daten verwenden | INT-035 | erster Entwicklungsabschnitt und Migrationstest | Muss | Auswahl, Schutz und Bereitstellung des lokalen Testbestands sowie messbare Vollständigkeitsprüfung noch festzulegen |
+| REQ-CASE-001 | BESTÄTIGT | Eine synthetische Fallakte mit serverseitiger ID und Grabstellenbezug anlegen | Projektentscheidung 12.08.2026, ADR-0009 | zweiter Development-Inkrement | Muss | Friedhof ist nur technische Mindestangabe, keine endgültige fachliche Pflichtfeldregel |
+| REQ-CASE-002 | BESTÄTIGT | Friedhof, Feld und Grabnummer als manuell erfasste Bezeichnungen ändern | ADR-0009, `case-record-write-decisions.md` | zweiter Development-Inkrement | Muss | keine Struktur-, Belegungs- oder Statusregel |
+| REQ-CASE-003 | BESTÄTIGT | Verstorbene Personen mit den bereits lesbaren Namens- und Datumsfeldern hinzufügen und ändern | REQ-MVP-003, ADR-0009 | zweiter Development-Inkrement | Muss | keine weiteren Attribute oder Rollen erfinden |
+| REQ-CASE-004 | BESTÄTIGT | Beisetzungen mit Datum und optionalem Verstorbenenbezug derselben Fallakte hinzufügen und ändern | REQ-MVP-003, ADR-0009 | zweiter Development-Inkrement | Muss | keine Art-, Planungs-, Status- oder Fristlogik |
+| REQ-CASE-005 | BESTÄTIGT | Änderungen unmittelbar über vorhandene Suche und Detailansicht lesen | ADR-0009 | zweiter Development-Inkrement | Muss | kein separater manueller Projektionslauf |
+| REQ-CASE-006 | BESTÄTIGT | Konkurrierende Änderungen über eine monotone Fallversion erkennen und veraltete Schreibversuche ohne Teilwirkung ablehnen | technische Integritätsentscheidung 12.08.2026 | zweiter Development-Inkrement | Muss | HTTP-Vertrag über ETag/If-Match |
+| REQ-CASE-007 | BESTÄTIGT | Schreibpfad standardmäßig deaktivieren und nur explizit in Development für synthetische Daten zulassen | ADR-0009 | zweiter Development-Inkrement | Muss | kein Ersatz für produktive Authentifizierung, Autorisierung und Auditierung |
 
 ## 1. Projektziel
 
@@ -82,6 +93,11 @@ erheben.
   Anzeige von Friedhofs-, Grab-, Personen- und Falldaten sein. Er wird vor den
   schreibenden Funktionen für Erfassung, Bearbeitung, Gebühren und Bescheide
   umgesetzt (`INT-031`, `REQ-MVP-001`).
+- BESTÄTIGT: Nach der technischen Umsetzung des lesenden Abschnitts wird die
+  Cemaris-Produktentwicklung vor der weiteren EDWALT-Importanalyse fortgesetzt
+  (Projektentscheidung 12.08.2026, ADR-0009). Der zweite technische Inkrement
+  bleibt auf synthetische Development-Fallakten und die in
+  `case-record-write-decisions.md` festgelegten Grunddaten begrenzt.
 - OFFEN: Welche weiteren begleitenden Datenkategorien aufbewahrungspflichtig,
   nur zu archivieren oder nicht zu übernehmen sind.
 
@@ -506,9 +522,11 @@ Weitere Fragen erhalten eine ID und werden bis zur Klärung nicht als Produktreg
 | --- | --- | --- | --- | --- | --- | --- |
 | OQ-001 | Friedhofsstruktur | Welche Grabarten werden benötigt? | OFFEN | OFFEN | OFFEN | – |
 
-## 27. MVP-Kandidaten
+## 27. Produktinkremente
 
-**Status:** NOCH NICHT BEWERTET. Kandidaten werden erst nach Ist- und Bedarfsanalyse priorisiert.
+**Status:** Der erste lesende Inkrement ist technisch umgesetzt. Der zweite
+Inkrement ist technisch begrenzt und priorisiert; fachlich offene Folgeprozesse
+bleiben vor ihrer Implementierung zu bestätigen.
 
 Bewertungskriterien:
 
@@ -522,4 +540,6 @@ Bewertungskriterien:
 
 | Kandidat | Belegter Bedarf | Nutzen | Abhängigkeiten | Risiko | Aufwand | Entscheidung |
 | --- | --- | --- | --- | --- | --- | --- |
-| OFFEN | noch nicht erhoben | OFFEN | OFFEN | OFFEN | OFFEN | nicht bewertet |
+| lesende Suche und Detailansicht | REQ-MVP-001 bis 004 | kontrollierter zusammenhängender Lesezugriff | synthetische Daten beziehungsweise späterer Testimport | sensible Vollsicht; noch keine Produktivfreigabe | umgesetzt | technisch abgeschlossen, fachliche Abnahme später |
+| schreibende Fallakten-Grundlage | Projektentscheidung 12.08.2026; vorhandene bestätigte Lesefelder | erster durchgängiger Anlage-/Änderungsweg ohne Fachableitungen | Feature-Grenze, Nebenläufigkeit, Persistenz, API und UI | ohne Identität/Audit nicht produktiv zulässig | mittel | nächster Development-Inkrement gemäß `case-record-write-decisions.md` |
+| vollständiger Beisetzungs- und Rechteprozess | INT-008/009, offene P0-Fragen | zentraler Fachprozess | Anwenderinterview, Rollen-, Frist-, Satzungs- und Historienregeln | sehr hoch bei geratenen Regeln | OFFEN | noch nicht implementieren |

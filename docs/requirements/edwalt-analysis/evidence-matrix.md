@@ -230,10 +230,13 @@ Die bestätigten Bereichshäufigkeiten und ihre vorläufige Zuordnung stehen im
 - `INT-028` schließt stornierte, aufgehobene und durch Umnummerierung überholte
   Vorgänge von der Migration aus (`REQ-MIG-004`, `BESTÄTIGT`, Konfidenz hoch).
   Die technische Erkennung von Altstand und gültigem Nachfolger bleibt nach
-  statischer Ablaufanalyse und aggregiertem Nachfolgerscan `OFFEN`. `W020`
-  1685/L9 ist nur ein `LETZTER-VORGANG`-Kandidat. Physische Löschsätze,
-  Finanzstorno und `W040alt` sind als Ersatzregel widerlegt. Daher wird noch
-  nichts gefiltert; die EDWALT-Quelle bleibt unverändert.
+  statischer Ablaufanalyse und den aggregierten Phase-3-/Phase-4-Hashscans
+  `OFFEN`. `W020` 1685/L9 ist nur ein `LETZTER-VORGANG`-Kandidat: sichere
+  Grenze und statischer Name liegen vor, eindeutige Datenbeziehung,
+  Aktiv-/Altregel sowie Selbst-/Kettenbehandlung fehlen. 1694/L1 ist in
+  2.718/2.718 Sätzen leer/nullwertartig. Physische Löschsätze, Finanzstorno und
+  `W040alt` sind als Ersatzregel widerlegt. Daher wird noch nichts gefiltert;
+  die EDWALT-Quelle bleibt unverändert.
 - `INT-029` bestätigt, dass ein gültiger Nachfolger nur mit seiner aktuellen
   Nummer migriert wird. Frühere Nummern werden nicht als Suchalias oder
   Historienkennung übernommen (`REQ-MIG-005`, Konfidenz hoch). Die technische
@@ -249,10 +252,18 @@ Die bestätigten Bereichshäufigkeiten und ihre vorläufige Zuordnung stehen im
   sind belegt und Gebührennummer relativ 73/L4 referenziert 42/42 verschiedene
   Stammkandidaten; Positionen 9–40 sowie W040/W040alt bleiben initialisiert.
   Die 5.200 Rechenhypothesen liefern keinen Betragsbeleg. `buch` 118/126/134
-  bestehen ausschließlich aus Nullwerten und
-  dürfen nicht als Fälligkeit geraten werden. Festgesetzter Betrag,
-  Fälligkeit, genaue Positionsfelder und weitere manuelle Eingabefelder bleiben
-  technisch beziehungsweise fachlich `OFFEN`.
+  bestehen ausschließlich aus Nullwerten und dürfen nicht als Fälligkeit
+  geraten werden. Phase 4 grenzt W021 5556/L8 als technisch belastbaren
+  `ddMMyyyy`-Fälligkeitsdatumskandidaten ab (11.607 gültig, 2.603
+  leer/nullwertartig, 1 ungültig). Die fachliche Rollenbestätigung, der
+  festgesetzte Betrag, genaue Positionsfelder und weitere manuelle
+  Eingabefelder bleiben `OFFEN`.
+- Phase 4 deckt W020 621–1.684 mit 38 und W021 5.465–5.770 mit 22 Gruppen
+  lückenlos ab. Rolle 2 und 3 besitzen einen wiederholten 239-Byte-Verbund;
+  die Namenssegmente wurden nur per SHA-256 verglichen. Grabmal, Einfassung,
+  FUG sowie sensible/technische W021-Restgruppen bleiben dort gruppiert, wo
+  keine zweite Evidenzart eine Einzelfeldsemantik trägt. Der Befund erlaubt
+  Parsergrenzen, aber noch kein Zielmapping und keine fachliche Filterung.
 - `INT-031` bis `INT-035` bestätigen den ersten nutzbaren Abschnitt: gemeinsame
   lesende Suche und verbundene Detailansicht für Friedhofs-, Grab-, Personen-,
   Fall-, Nutzungsrechts-, Bescheid- und Gebührendaten (`REQ-MVP-001` bis

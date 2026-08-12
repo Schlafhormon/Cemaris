@@ -129,6 +129,10 @@ Lokale Quellenverweise nennen Quellbereich, relativen Pfad und bei HTML-Hilfen z
     lückenlos profiliert, statische Status-/Nummernänderungsabläufe geprüft und
     mögliche Nachfolger ausschließlich aggregiert beziehungsweise gehasht
     verglichen. Die Phase-2-Basis blieb read-only.
+12. In Phase 4 wurden `W020` 621–1.684, der getrennte 9-Byte-
+    `LETZTER-VORGANG`-Kandidat, Byte 1.694 sowie `W021` 5.465–5.770 lückenlos
+    profiliert. Rollen- und Schlüsselvergleiche erfolgten ausschließlich über
+    SHA-256; Werte und sensible Texte wurden nicht ausgegeben.
 
 ## Dokumente dieser Analyse
 
@@ -143,7 +147,9 @@ Lokale Quellenverweise nennen Quellbereich, relativen Pfad und bei HTML-Hilfen z
 - [Migrationsbezogene Quellenanalyse](../../migration/edwalt-source-analysis.md)
 - [Extraktionsprototyp und technisches Datenprofil](../../migration/edwalt-extraction-prototype.md)
 - [Ausgeführter Übergabeauftrag: Personen-, Nutzungsrechts- und Statusrekonstruktion](../../migration/edwalt-person-rights-status-next-step-handoff.md)
-- [Aktueller Übergabeauftrag: weitere Adressrollen und Vorgangsnachlauf](../../migration/edwalt-additional-addresses-next-step-handoff.md)
+- [Ausgeführter Übergabeauftrag: weitere Adressrollen und Vorgangsnachlauf](../../migration/edwalt-additional-addresses-next-step-handoff.md)
+- [Vorbereiteter, derzeit pausierter Übergabeauftrag: Gebührenstamm- und Variantenabgrenzung](../../migration/edwalt-fee-master-variants-next-step-handoff.md)
+- [Aktiver Cemaris-Implementierungsplan](../../implementation/README.md)
 
 ## Übergreifende Grenzen
 
@@ -155,6 +161,7 @@ Lokale Quellenverweise nennen Quellbereich, relativen Pfad und bei HTML-Hilfen z
 | `OBS-LIM-004` | Alte OLE-Vorlagen konnten statisch auf Word-Streams und Feldnamen, nicht layoutgetreu oder semantisch vollständig geprüft werden. | Dokumentzweck und Makrofreiheit sind nicht abschließend bewiesen. | `OFFEN` | mittel | Isolierte, makrodeaktivierte Dokumentforensik an freigegebenen Kopien. |
 | `OBS-LIM-005` | Es wurde kein Winyard-Verweis in den Quellen gefunden. | Das beweist nicht, dass Ablageprozesse außerhalb von EDWALT fehlen. | `OFFEN` | mittel | DMS-Prozess außerhalb des Altverfahrens beobachten. |
 | `OBS-LIM-006` | Die ältere W021-Grenze war falsch: 40×127 Byte beginnen bei Byte 385. Positionen 1–8 sind belegt, 9–40 initialisiert; Gebührennummer relativ 73/L4 ist referenziell bestätigt. W040/W040alt bleiben nahezu/vollständig initialisiert. | Die W021-Gebührennummer ist nutzbar, übrige Unterfelder und W040-Dezimaltypen bleiben offen. | Korrektur und Gebührenreferenz `BESTÄTIGT`, übrige Feldsemantik `OFFEN` | hoch | Keine Nullpositionen erzeugen; Betrag/Fälligkeit und übrige Grenzen weiter belegen. |
+| `OBS-LIM-007` | Phase 4 trennt W020 Rolle 2/3 und die Grabmal-/Einfassungs-/FUG-Familien sowie den W021-Nachlauf technisch, aber nicht jede statische Bezeichnung als Einzelfeld. 1.685/L9 hat keine eindeutige Nachfolgerbeziehung; 1.694/L1 ist vollständig leer/nullwertartig. | Technische Grenzen sind parserfähig, unbestätigte Semantik und Nachfolgerfilter bleiben gesperrt. | Coverage `BESTÄTIGT`, Einzelfeld-/Statussemantik abgestuft `OFFEN` | hoch technisch | Fachliche Rollen/Datumsrollen bestätigen; niemals aus Restgruppen Scheingenauigkeit erzeugen. |
 
 ## Datenschutz und Urheberrecht
 
@@ -183,3 +190,5 @@ Die Dokumentation enthält keine Klartext-Datensätze, Personenbeispiele, Grabnu
 | `VAL-015` | Physischer DAT-Parser gegen logischen sequenziellen Export | alle 24 DAT-Dateien vollständig gelesen; aktive physische Sätze je Datei entsprechen exakt 53.991 logischen Sätzen | `BESTÄTIGT` technisch | hoch | Fachliche Feldsemantik bleibt offen. |
 | `VAL-016` | externer Phase-3-Profiler: Build, Bericht und Bereichsabdeckung | .NET 10.0.302: 0 Warnungen/Fehler; 24 logische/24 vollständige physische Profile; 66 Primärbereichs- und 5 Statusfeldprofile; W020 530/530 und W021 1.372/1.372 Byte; 8 Statushypothesen, 5 statische Befunde; zwei Läufe erzeugten byteidentisch 28.332.345 Byte mit SHA-256 `43F8749A4E1C3AC4390FFD56EA33106056D99A1CA03D8E8F4CA517D892438A48` | technisch `BESTÄTIGT` | hoch | Nicht bestätigte Semantik bleibt `OFFEN`; keine Statusfilterung. |
 | `VAL-017` | Phase-3-Dokumentation: Links, Tabellen, Bereichssummen und Datenschutz | 77 lokale Links in 33 Markdown-Dateien, 0 ungültig; alle Tabellen spaltenkonsistent; F020 1–2.693 und F021 1–6.265 lückenlos/überschneidungsfrei; 0 neue DAT/IDX/RAW/JSON-/Binärdateien sowie 0 definierte Zugangsdaten-/E-Mail-/UNC-Treffer | technisch `BESTÄTIGT` | hoch | Menschliche fachliche und Datenschutz-Endprüfung vor Veröffentlichung. |
+| `VAL-018` | externer Phase-4-Profiler: Build, Bericht und Bereichsabdeckung | .NET 10.0.302: 0 Warnungen/Fehler; 24 logische/24 vollständige physische Profile; 38 neue W020- und 22 neue W021-Profile; Coverage 1.064/1.064, 306/306 und 1.074/1.074 Byte; zwei Läufe byteidentisch mit `28.486.236` Byte und SHA-256 `8B87C19053477072E1994D1EFC4038AEF293DD0AA583F71748C90887CD3D7AF4` | technisch `BESTÄTIGT` | hoch | Fachliche Rollen, Druckgrenze und Nachfolgersemantik bleiben abgestuft `OFFEN`. |
+| `VAL-019` | Phase-4-Abschluss: Original-/Kopie-Hashes, Links, Tabellen, Bereichssummen, Datenschutz und Git | 148/148 reguläre `EDW3DAT`- und 444/444 reguläre `Edwalt3`-Dateien ohne Pfad-, Längen- oder Hashabweichung; 48 lokale Markdown-Links in den zehn bearbeiteten Dokumenten ohne Fehlziel; 63 Tabellen ohne Spaltenabweichung; Hauptbereiche W020 1–2.693 und W021 1–6.265 sowie Detailbereiche W020 621–1.684 und W021 5.465–5.770 jeweils lücken- und überlappungsfrei; keine Quellbinärdatei oder Bericht in Git; `git diff --check` ohne Befund | technisch `BESTÄTIGT` | hoch | Menschliche fachliche und Datenschutz-Endprüfung vor Veröffentlichung. |

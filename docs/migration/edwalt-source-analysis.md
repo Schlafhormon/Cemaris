@@ -107,7 +107,7 @@ die [Evidenzmatrix](../requirements/edwalt-analysis/evidence-matrix.md).
 |---|---|---|---|---|---|---|
 | Fachliche DAT/IDX-Paare | 24 vollständige Micro-Focus-Indexed-Paare, `IDXFORMAT(4)`, feste Sätze; 53.991 aktive Sätze | primäre strukturierte Altbestände und Neben-/Altvarianten; Satzlängen und Indexschlüssel technisch belegt, Feldsemantik offen | DAT-001 bis DAT-024, technisches Phase-2-Profil | Format `BESTÄTIGT`, Fachbedeutung `ANNAHME` | hoch | Welche Bestände und Felder sind führend, historisch, optional oder redundant? |
 | Grab-/Vorgangsdaten | W020 bis W023 | Grabschlüssel und Vorgangsbeziehung, verstorbene Person sowie Trauerfeier-, Beisetz-, Geburts-, Ruhefrist- und Sterbeereignisse sind strukturell belegt; W020-Adress-/Rechterollen und W021-Nachlauf bleiben teilweise offen | DAT-015 bis DAT-018, MAN-EDW-100 ff., technisches Phase-3-Profil | Schlüssel/Ereignisrollen teilweise `BESTÄTIGT`, übrige Semantik `OFFEN` | hoch abgestuft | Exakte erste W020-Adressrolle, weitere Rollen und Nachlauf? |
-| Finanz-/Gebührendaten | buch, KASSENZ, W006/W006dm, W040/W040alt | Bescheidnummer, Gebührenpositionen, festgesetzter Betrag, Fälligkeit und Fallbezug sind zu migrieren; W021 besitzt 40×127 Byte ab Byte 385 und eine bestätigte Gebührennummer relativ 73/L4; Zahlungsstatus und Mahnungen verbleiben im führenden FINANZ+ | DAT-001/003/006/012/019/020/022, INT-014 bis INT-016/030, REQ-MIG-006, technisches Phase-3-Profil | Migrationsgrenze und W021-Gebührenreferenz `BESTÄTIGT`, übrige Unterfelder `OFFEN` | hoch abgestuft | Betrag, Fälligkeit und restliche Unterfelder? |
+| Finanz-/Gebührendaten | buch, KASSENZ, W006/W006dm, W040/W040alt | Bescheidnummer, Gebührenpositionen, festgesetzter Betrag, Fälligkeit und Fallbezug sind zu migrieren; W021 besitzt 40×127 Byte ab Byte 385, eine bestätigte Gebührennummer relativ 73/L4 und bei 5.556/L8 einen technisch bestätigten Fälligkeitsdatumskandidaten; Zahlungsstatus und Mahnungen verbleiben im führenden FINANZ+ | DAT-001/003/006/012/019/020/022, INT-014 bis INT-016/030, REQ-MIG-006, technische Phase-3-/Phase-4-Profile | Migrationsgrenze, W021-Gebührenreferenz und Datumstyp des Kandidaten `BESTÄTIGT`; fachliche Datumsrolle und übrige Unterfelder `OFFEN` | hoch abgestuft | Betrag, fachliche Bestätigung des Fälligkeitskandidaten und restliche Unterfelder? |
 | Struktur-/Konfigurationsdaten | W001, W004, W005/W005dm, W007, W010, W002/oliW002, INI | Organisation, Bediener, Friedhof/Grabart, Adressen, Termine und Pfade; Fach- und Betriebskonfiguration vermischt | DAT-008 bis DAT-014, DAT-023/024, TECH-009/010 | ANNAHME | hoch | Welche Inhalte sind fachlich zu migrieren, welche neu zu konfigurieren oder zu verwerfen? |
 | Krematorium | W080 und KREMA/P080/P081 | eigener sensibler Fall-/Statusbereich; im vorliegenden nichtproduktiven Bestand 0 aktive und 0 gelöschte Sätze, ein späterer strukturierter Bestand bleibt zu migrieren | DAT-021, FUN-400 ff., INT-008/027/036, REQ-MIG-003, technisches Phase-2-Profil | Leerstand technisch `BESTÄTIGT`, fachlicher späterer Inhalt `ANNAHME`, Migrationsumfang `BESTÄTIGT` | hoch | Feldsemantik und Beziehungen müssen anhand statischer Artefakte oder eines späteren Bestands geklärt werden. |
 | Statistik/Druckaufträge | STATIST, DRAUF, STATIST.TXT, LISTE.LST | abgeleitete Daten, Zwischenprodukte oder Historie; nicht ungeprüft als Primärquelle behandeln | DAT-004/007, DOC-005 | ANNAHME | hoch | regenerierbar, revisionsrelevant oder nur technisch flüchtig? |
@@ -139,7 +139,7 @@ sind **keine** vorgeschlagenen Cemaris-Entities oder Tabellen.
 | MIG-R01 | Keine Copybooks und keine vollständige fachliche Satzbeschreibung; Hersteller nicht mehr verfügbar | technische Extraktion ist inzwischen belegt, aber Feldtypisierung und Semantik müssen aus mehreren lokalen Evidenzen rekonstruiert werden | alle DAT/IDX, TECH-004, INT-037, technisches Phase-2-Profil | sehr hoch; teilweise gelöst; hoch | Quellfeldkatalog aus Schlüsseloffsets, Profilen, Hilfe, Masken, Programmstrings und Vorlagen erstellen; Unsicherheiten explizit erhalten. |
 | MIG-R02 | Live-/Fileshare-Konsistenz unbekannt | Datei-Kopie kann logisch inkonsistent sein, auch bei passenden Hashes | TECH-005/006, FUN-601 | sehr hoch; ANNAHME; hoch | konsistenten Stillstands-/Sicherungs-/Snapshotprozess mit Betreiber festlegen. |
 | MIG-R03 | Alt-, DM- und alternative Varianten ohne fachliche Abgrenzung | Dubletten, Lücken oder falsche Historie; technische Schlüsselvergleiche beweisen sowohl Überlappungen als auch exklusive Sätze und geänderte Inhalte | DAT-002/003/011/020/022/024, INT-038, technisches Phase-2-Profil | hoch; ANNAHME; hoch | Zeitfelder, Satzinhalte und Programmzugriffe rekonstruieren; Varianten nicht pauschal vereinigen oder verwerfen. |
-| MIG-R04 | Führende Schlüssel unbekannt; Umnummerierung/Löschung vorhanden; überholte Vorgänge und frühere Nummern sind gemäß INT-028/029 auszuschließen | Bei unsicherer Klassifikation kann statt des Altstands der gültige Nachfolger ausgeschlossen werden oder eine Beziehung verloren gehen | FUN-109/111, DAT-001/015–020, INT-028/029, REQ-MIG-004/005, statische Abläufe `NUMMER-AENDERN`, Phase-3-Nachfolgerscan | sehr hoch; Ausschlussziel `BESTÄTIGT`, Erkennungsregel nach statischem und aggregiertem Negativbefund weiterhin `OFFEN`; hoch | Keine Filterung. `W020` 1685/L9 ist nur `LETZTER-VORGANG`-Kandidat; erst eindeutigen Alt-/Neuschlüssel und abhängige Beziehungen nachweisen. |
+| MIG-R04 | Führende Schlüssel unbekannt; Umnummerierung/Löschung vorhanden; überholte Vorgänge und frühere Nummern sind gemäß INT-028/029 auszuschließen | Bei unsicherer Klassifikation kann statt des Altstands der gültige Nachfolger ausgeschlossen werden oder eine Beziehung verloren gehen | FUN-109/111, DAT-001/015–020, INT-028/029, REQ-MIG-004/005, statische Abläufe `NUMMER-AENDERN`, Phase-3-/Phase-4-Nachfolgerscans | sehr hoch; Ausschlussziel `BESTÄTIGT`, Erkennungsregel nach statischem und aggregiertem Negativbefund weiterhin `OFFEN`; hoch | Keine Filterung. `W020` 1685/L9 ist nur `LETZTER-VORGANG`-Kandidat; eindeutige Datenbeziehung sowie Selbst-/Kettenregel fehlen. Byte 1694/L1 ist im Bestand vollständig leer/nullwertartig. |
 | MIG-R05 | EDWALT und FINANZ+ sind nur durch kontrollierte manuelle Einbuchung verbunden; Zahlungsstatus und Mahnungen verbleiben in FINANZ+ | Abweichungen, Dubletten oder fehlende Zuordnung bei Forderungen, Kassenzeichen, Stornos/Gutschriften; EDWALT ist keine vollständige Finanzhistorie | FUN-103/106/302/500, REL-320/330, INT-014 bis INT-016 | sehr hoch; `BESTÄTIGT`; hoch | weitere Übertragungsfelder, Korrekturweg, Schlüsselabgleich und Bedeutung der EDWALT-Buchungsbestände erheben; FINANZ+ als führend behandeln. |
 | MIG-R06 | Fachregeln in Stamm/INI/Programm vermischt | unzulässige Übernahme veralteter Regeln | FUN-012/014/015/017 | hoch; ANNAHME; hoch | jede Regelquelle fachlich datieren und bestätigen; nicht aus Code/Datei allein übernehmen. |
 | MIG-R07 | Freitexte, Bank-/Adress- und Krematoriumsdaten | Datenschutzverletzung und Datenübernahme ohne Zweck | DAT-013/017/018/021, DOC-004 | sehr hoch; ANNAHME; hoch | Zweck, Rechtsgrundlage, Berechtigung, Minimierung und Löschung vor Export entscheiden. |
@@ -195,7 +195,23 @@ externen Arbeitskopie und gibt keine Quellwerte aus. Belegt sind:
   von/bis und Sterbedatum (`ddMMyyyy`); die Datumsdeutung 29/37 ist widerlegt;
 - statisch vorhandene Storno-, Erledigt- und Nummernänderungsabläufe, aber kein
   sicherer alter/neuer Schlüssel. Physische Löschsätze, Finanzstorno und
-  `W040alt` sind als fachliche Nachfolgerregel widerlegt.
+  `W040alt` sind als fachliche Nachfolgerregel widerlegt;
+- zusätzlich 38 lückenlose W020-Bereiche für 621–1.684 und 22 lückenlose
+  W021-Bereiche für 5.465–5.770. W020 Rolle 2 (630–868) und Rolle 3
+  (1.445–1.683) besitzen eine wiederholte 239-Byte-Struktur; Namenssegmente,
+  der Rolle-3-Index sowie PLZ-/Ortskandidaten sind technisch belegt, feinere
+  Anrede-/Titel-/Post- und Empfängersemantik bleibt `OFFEN`;
+- die lückenlose technische Gruppierung von W020 878–1.440 in Grabmal-,
+  Einfassungs- und FUG-Familien. Die Familienfolge ist statisch und
+  strukturell gestützt; nicht unabhängig belegte Einzelfeldgrenzen bleiben
+  ausdrücklich untrennbare Restgruppen;
+- W021 5.556/L8 und 5.576/L8 mit `ddMMyyyy`-Profilen sowie 5.706/L8 mit
+  `yyyyMMdd`-Profil. Fälligkeit, Beerdigungsdatum und Überführungsdatum sind
+  statisch passende Kandidaten, aber ohne fachliche Freigabe noch keine
+  Importregel;
+- die erneute Widerlegung einer sofort nutzbaren Nachfolgerregel: W020
+  1.685/L9 hat keine eindeutige gehashte Schlüsselbeziehung, Selbst- oder
+  Kettenregel. 1.694/L1 ist in 2.718/2.718 Sätzen leer/nullwertartig.
 
 Das vollständige aggregierte Profil steht in
 [Extraktionsprototyp und technisches Datenprofil](edwalt-extraction-prototype.md).
@@ -250,7 +266,7 @@ Noch nicht belastbar ableitbar sind:
 Status: `OFFEN`; Konfidenz hoch; Evidenz: Lücken in der Evidenzmatrix und
 [Interviewleitfaden](../requirements/edwalt-analysis/open-questions-and-interview-guide.md).
 
-## Nächster migrationsbezogener Schritt
+## Vorbereiteter, derzeit pausierter Migrationsschritt
 
 Der erste nutzbare Cemaris-Abschnitt ist durch `INT-031` bis `INT-035` fachlich
 abgegrenzt: lesende gemeinsame Suche und verbundene Detailansicht. Seine
@@ -265,23 +281,27 @@ Aufbewahrung zu klären. Die festen Satzlängen, Indexbeziehungen, lückenlosen
 Layoutzonen und die priorisierten Gebühren-/Bescheidblöcke sind technisch
 profiliert. Die frühere Aussage eines ausschließlich nullinitialisierten
 W021-Positionsbestands ist korrigiert: Positionen 1–8 sind belegt, 9–40 nicht.
-Festgesetzter Betrag und Fälligkeit bleiben dennoch bis zur feldgenauen
-Lokalisierung `OFFEN`; Zahlungs- und Mahndaten bleiben unabhängig davon
-ausgeschlossen.
+Festgesetzter Betrag bleibt bis zur feldgenauen Lokalisierung `OFFEN`.
+W021 5.556/L8 ist technisch ein belastbarer Fälligkeitsdatumskandidat mit
+11.607 gültigen, 2.603 leeren/nullwertartigen und einem ungültigen
+`ddMMyyyy`-Wert; seine fachliche Rolle ist vor Import zu bestätigen. Zahlungs-
+und Mahndaten bleiben unabhängig davon ausgeschlossen.
 
 Die
-[feldgenaue Personen-, Nutzungsrechts- und Statusrekonstruktion](edwalt-person-rights-status-next-step-handoff.md)
-ist ausgeführt. Der nächste lokale Analyseschritt ist der
-[Übergabeauftrag zu weiteren Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md):
-`W020` 621–1.684 und `W021` 5.465–5.770 werden feldgenau abgegrenzt. Der
-`LETZTER-VORGANG`-Kandidat 1685/L9 bleibt dabei eine eng begrenzte
-Statusgegenprüfung, aber keine Filterregel; das anschließende Byte 1694/L1
-wird getrennt klassifiziert. Damit ist W020 621–1.694 ohne Layoutlücke im
-Scope. Ohne eindeutigen Nachfolgerbeleg darf `INT-028/029` weiterhin keinen
-Satz ausschließen.
+[Analyse weiterer Adressrollen und des Vorgangsnachlaufs](edwalt-additional-addresses-next-step-handoff.md)
+ist ausgeführt. `W020` 621–1.684, 1.685/L9 und 1.694/L1 sowie `W021`
+5.465–5.770 sind ohne Layoutlücke geprüft. Ohne eindeutigen Nachfolgerbeleg
+darf `INT-028/029` weiterhin keinen Satz ausschließen.
 
-Erst nach ausreichenden Quellbelegen folgt ein Vorschlag für das unabhängige
-Cemaris-Zielmodell. Eine
-kontrollierte Prozessbeobachtung mit tatsächlichen Sachbearbeitern bleibt für
-spätere schreibende Fachfunktionen erforderlich, blockiert aber nicht die
-synthetische Umsetzung des bestätigten lesenden ersten Abschnitts.
+Der nächste lokale Migrationsanalyseschritt ist die
+[Gebührenstamm- und Variantenabgrenzung](edwalt-fee-master-variants-next-step-handoff.md).
+Sie soll `W005/W005dm` und `W006/W006dm` feldweise gegenüberstellen,
+Gültigkeits-/Währungs-/Variantenregeln nur bei unabhängiger Evidenz zulassen und
+noch kein Cemaris-Gebührenmapping erzeugen.
+
+Nach der Projektentscheidung vom 12.08.2026 ist dieser Analyseschritt bis zur
+konkreten Mapping-/Importphase pausiert. Die unabhängige
+[Cemaris-Produktentwicklung](../implementation/README.md) wird mit
+synthetischen, fachregelarmen Inkrementen fortgesetzt. Kontrollierte
+Prozessbeobachtung mit tatsächlichen Sachbearbeitern bleibt vor produktiver
+Freigabe und vor der Implementierung fachlicher Regeln erforderlich.

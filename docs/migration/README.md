@@ -26,11 +26,14 @@
 > Die Quellartefakte sind technisch read-only inventarisiert. Das Micro-Focus-
 > Speicherformat, feste Satzlängen, Indexdefinitionen, aktive Satzmengen,
 > physische Löschsatztypen und mehrere Schlüsselbeziehungen sind inzwischen
-> auf einer externen Arbeitskopie belegt. `W020` 91–620 und `W021` 29–1.400
-> sind lückenlos profiliert; mehrere W021-Ereignisfelder sind bestätigt.
+> auf einer externen Arbeitskopie belegt. `W020` 91–1.694 und `W021` 29–1.400
+> sowie 5.465–5.770 sind in den untersuchten Intervallen lückenlos profiliert;
+> mehrere W021-Ereignisfelder sind bestätigt.
 > `W021` enthält 40×127 Gebührenpositionen ab Byte 385, davon sind die ersten
-> acht belegt. Eine sichere Storno-/Umnummerierungs-/Nachfolgerregel wurde
-> nicht gefunden; deshalb ist derzeit keine entsprechende Filterung erlaubt.
+> acht belegt. W021 5.556/L8 und 5.576/L8 sind technisch als `ddMMyyyy`,
+> 5.706/L8 als `yyyyMMdd` belegt; die Ereignisrollen bleiben Kandidaten. Eine
+> sichere Storno-/Umnummerierungs-/Nachfolgerregel wurde nicht gefunden;
+> deshalb ist derzeit keine entsprechende Filterung erlaubt.
 > Weitere Ausschlüsse und ein fachliches
 > Cemaris-Zielmodell sind weiterhin nicht vollständig bekannt.
 
@@ -47,8 +50,14 @@ dokumentiert Arbeitsbereiche, Schutzregeln, Prioritäten und Abschlusskriterien.
 Der
 [ausgeführte Auftrag zur Personen-, Nutzungsrechts- und Statusrekonstruktion](edwalt-person-rights-status-next-step-handoff.md)
 dokumentiert die Schutz- und Abnahmekriterien dieser Phase. Der
-[Folgeauftrag zu weiteren Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md)
-ist der nächste eigenständige Arbeitsauftrag.
+[ausgeführte Folgeauftrag zu weiteren Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md)
+dokumentiert Phase 4. Der
+[Folgeauftrag zur Gebührenstamm- und Variantenabgrenzung](edwalt-fee-master-variants-next-step-handoff.md)
+ist vorbereitet, aber nach der Projektentscheidung vom 12.08.2026 zugunsten
+der Cemaris-Produktentwicklung zurückgestellt. Der aktive Produktauftrag steht
+im [Cemaris-Implementierungsplan](../implementation/README.md). Sämtliche
+EDWALT-Quellen und externen Phase-2-/3-/4-Arbeitsbereiche bleiben unverändert
+read-only; eine Phase-5-Wurzel wurde noch nicht angelegt.
 
 **EDWALT** ist die kanonische
 Bezeichnung; **EDWALT3** bezeichnet dasselbe Produkt beziehungsweise die
@@ -193,32 +202,53 @@ Eine erfolgreiche technische Zeilenzahl ersetzt keine fachliche Abnahme.
 - Migrationsfenster, Delta und Rückfall,
 - Verantwortliche für technische und fachliche Freigabe.
 
-## Unmittelbarer nächster Arbeitsschritt
+## Abschluss Phase 4 und pausierter Migrationsfolgeschritt
 
 Das Cemaris-Fachmodell wird noch nicht aufgrund der EDWALT-Struktur erweitert.
-Die Personen-/Rechte-/Statusphase ist abgeschlossen: `W020` 91–620 ist in 32,
-`W021` 29–1.400 in 34 lückenlose Bereiche zerlegt. Trauerfeierdatum,
-Beisetzdatum, Geburtsdatum, Ruhefrist von/bis und Sterbedatum sind in `W021`
-mehrfach belegt. Die erste W020-Adressgruppe ist technisch getrennt, aber noch
-nicht sicher als Nutzungsberechtigte, Empfänger oder Zahler benennbar.
+Phase 4 ist abgeschlossen. Zusätzlich zu den unveränderten Phase-3-Ergebnissen
+sind `W020` 621–1.684 in 38 und `W021` 5.465–5.770 in 22 lückenlose Bereiche
+zerlegt. Die Summen betragen 1.064 beziehungsweise 306 Byte; zusammen mit
+`W020` 1.685/L9 und 1.694/L1 sind 621–1.694 exakt 1.074 Byte abgedeckt.
+
+In W020 wiederholt sich zwischen Rolle 2 (630–868) und Rolle 3 (1.445–1.683)
+eine 239-Byte-Struktur. Die 30-Byte-Namenssegmente sind durch statische
+Feldnamen, die harte Rolle-3-Indexgrenze und SHA-256-Schnittmengen gestützt.
+PLZ und Ort der dritten Rolle sind technisch als 1.648/L5 und 1.653/L30
+abgegrenzt. Anrede, Titel, Postzusatz und mehrere Abschlusskennzeichen bleiben
+semantisch `OFFEN`. Grabmal, Einfassung und FUG sind zwischen Byte 878 und
+1.440 als Familien und technische Restgruppen getrennt; nicht unabhängig
+belegte Innengrenzen wurden ausdrücklich nicht erfunden.
 
 Die ältere W021-Blockgrenze ist korrigiert: 40×127 Byte beginnen bei Byte 385;
 Positionen 1–8 sind belegt und die Gebührennummer relativ 73/L4 referenziert
 42/42 verschiedene Gebührenstammkandidaten. Positionen 9–40 sind initialisiert.
-Festgesetzter Betrag, Fälligkeit und die übrigen Positionsunterfelder bleiben
-`OFFEN`.
+Festgesetzter Betrag und die übrigen Positionsunterfelder bleiben `OFFEN`.
+Der W021-Nachlauf beginnt nach Position 40 mit einem echten Strukturwechsel.
+5.556/L8 und 5.576/L8 besitzen gültige `ddMMyyyy`-Profile, 5.706/L8 ein
+vollständiges `yyyyMMdd`-Profil. Die statischen Rollen Fälligkeit,
+Beerdigungsdatum und Überführungsdatum sind dadurch Kandidaten mit mittlerer
+fachlicher Konfidenz, aber noch keine freigegebenen Importfelder. Sensible
+Text-, Überführungs- und Druckrestgruppen bleiben erhalten und `OFFEN`.
 
 Storno-, Erledigt- und Nummernänderungsabläufe sind statisch vorhanden. Ein
 eindeutiger alter/neuer Schlüssel oder gültiger Nachfolger wurde jedoch nicht
 gefunden. Physische Löschsätze, Finanzstorno, `W040alt` und die identischen
 Module `STATUS_1.GS`/`STATUS~1.GS` sind als Nachfolgerregel widerlegt. Bis zu
 einem eindeutigen Beleg wird aufgrund dieser Kandidaten nichts ausgeschlossen.
+Phase 4 bestätigt diese Sperre: 1.685/L9 hat zwar eine sichere Grenze und einen
+statischen Namen, aber keine eindeutige gehashte Schlüsselbeziehung und keine
+Selbst-/Kettenregel. Byte 1.694/L1 ist in 2.718/2.718 Sätzen leer oder
+nullwertartig und besitzt keine belegte Statusbedeutung.
 
-Als Nächstes werden `W020` 621–1.684 (Adressrollen 2/3, Grabmal, Einfassung,
-FUG), der `LETZTER-VORGANG`-Kandidat 1.685/L9, das getrennte Kennzeichen
-1.694/L1 und `W021` 5.465–5.770 (fachlicher Nachlauf gegenüber Drucktechnik)
-untersucht. Damit wird W020 621–1.694 ohne Layoutlücke geprüft. Der vollständige
-Auftrag steht im
-[aktuellen Übergabedokument](edwalt-additional-addresses-next-step-handoff.md).
+Der externe Phase-4-Bericht liegt unter
+`C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase4-additional-addresses-20260812`.
+Der nächste lokal ausführbare Migrationsschritt würde die aktuellen und
+DM-Varianten von `W005/W005dm` und `W006/W006dm` abgrenzen, ohne daraus bereits
+ein Gebührenmapping zu erzeugen. Er ist im
+[Übergabedokument](edwalt-fee-master-variants-next-step-handoff.md) vollständig
+vorbereitet, wird aber erst vor der konkreten Mapping-/Importphase ausgeführt.
+Bis dahin hat die
+[inkrementelle Cemaris-Produktentwicklung](../implementation/README.md)
+Vorrang.
 Unklare Felder bleiben sichtbar `OFFEN`; es gibt weiterhin weder Import noch
 Quell-zu-Ziel-Mapping.

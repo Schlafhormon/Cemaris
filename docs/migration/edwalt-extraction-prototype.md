@@ -283,19 +283,22 @@ numerische Bereiche bleiben typisiert.
 
 ## Reproduzierbarer Profiling-Lauf
 
-Der aktuelle Phase-3-Prototyp wird mit dem separaten SDK so ausgeführt:
+Der aktuelle Phase-4-Prototyp wird mit dem separaten SDK so ausgeführt:
 
 ```powershell
 & 'C:\Users\Benke\AppData\Local\Cemaris\dotnet-10.0.302-complete\dotnet.exe' `
-  run --project 'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase3-person-rights-status-20260812\prototype\Edwalt.Phase2Profiler.csproj' -- `
+  run --project 'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase4-additional-addresses-20260812\prototype\Edwalt.Phase2Profiler.csproj' `
+  --configuration Release --no-build -- `
   'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811\raw-uncompressed' `
   'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811' `
-  'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase3-person-rights-status-20260812\report.json'
+  'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase4-additional-addresses-20260812\report.json'
 ```
 
 Der Lauf gibt JSON mit technischen Aggregaten aus. Er schreibt weder in die
 Originalquellen noch in die Arbeitskopie. Eine erneute Extraktion ist für den
-nächsten Analyseschritt nicht erforderlich.
+nächsten Analyseschritt nicht erforderlich. Der Phase-4-Code, statische
+Aggregate und Bericht liegen vollständig außerhalb des Repositories unter
+`C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase4-additional-addresses-20260812`.
 
 Der zuletzt neu erzeugte Bericht enthält weiterhin 24 logische Dateiprofile, 10
 definierte Beziehungen, 116 automatische Vergleiche gleich langer
@@ -306,13 +309,19 @@ feldweise Variantenvergleiche und 4 Periodenkandidaten. Hinzu kommen 66
 lückenlose W020-/W021-Bereichsprofile, fünf gezielte Statusfeldprofile, 157
 positionsweise Grenzsignale, acht Status-/Nachfolgerhypothesen, ein über alle
 2.692 möglichen 2-Byte-Offsets aggregierter Nachfolgerscan und fünf statische
-Negativ-/Positivbefunde. Beobachtung und Interpretation stehen getrennt im
-JSON; Textlängen erscheinen nur als Histogramme, Distinct-Werte nur als
-SHA-256-Anzahlen. Alle physischen Parserläufe sind vollständig und ohne Fehler.
-Der Build mit .NET SDK 10.0.302 endet ohne Warnungen und Fehler.
-Der Bericht ist 28.332.345 Byte groß und hat den SHA-256-Wert
-`43F8749A4E1C3AC4390FFD56EA33106056D99A1CA03D8E8F4CA517D892438A48`.
-Ein zweiter Lauf mit demselben Aufruf erzeugte byteidentisch denselben Hash.
+Negativ-/Positivbefunde. Phase 4 ergänzt 38 lückenlose W020-Profile für
+621–1.684, 22 lückenlose W021-Profile für 5.465–5.770, zwölf SHA-256-basierte
+Rollenvergleiche, einen getrennten Nachfolgergegencheck, Byte 1.694/L1,
+statische Vorkommensaggregate und sieben Positiv-/Negativbefunde. Die Coverage
+ist 1.064/1.064, 306/306 und kombiniert 1.074/1.074 Byte.
+
+Beobachtung und Interpretation stehen getrennt im JSON; Textlängen erscheinen
+nur als Histogramme, Distinct-Werte nur als SHA-256-Anzahlen. Alle 24
+physischen Parserläufe sind vollständig und ohne Fehler. Der Build mit .NET SDK
+10.0.302 endet ohne Warnungen und Fehler. Der abschließend zweimal
+byteidentisch erzeugte Bericht ist `28.486.236` Byte groß und hat den
+SHA-256-Wert
+`8B87C19053477072E1994D1EFC4038AEF293DD0AA583F71748C90887CD3D7AF4`.
 
 ## Noch nicht bewiesen
 
@@ -323,26 +332,29 @@ Ein zweiter Lauf mit demselben Aufruf erzeugte byteidentisch denselben Hash.
 - sichere Erkennung von Storno, Aufhebung, Umnummerierung und gültigem
   Nachfolger;
 - fachlicher Zeitbezug und Vorrang der Alt-/DM-Varianten;
-- genaue Rolle und Innengrenzen der ersten W020-Adresse sowie Rollen der
-  weiteren Adressen, Personen- und Organisationsdubletten;
+- genaue Rolle und Innengrenzen der ersten W020-Adresse sowie fachliche
+  Benennung der technisch getrennten Rollen 2/3, Personen- und
+  Organisationsdubletten;
 - Herkunft und Vollständigkeit von Gebührenpositionen und Bescheiddaten;
-  insbesondere sind festgesetzter Betrag und Fälligkeit noch nicht feldgenau
-  lokalisiert;
+  insbesondere ist der festgesetzte Betrag noch nicht feldgenau lokalisiert;
+  W021 5.556/L8 ist nur technisch als Fälligkeitsdatumskandidat belegt;
 - Inhalt eines späteren Krematoriumsbestands, da `W080` hier leer ist;
 - ein vollständiges Cemaris-Zielmodell oder Feldmapping.
 
-## Verbleibender nächster Schritt
+## Vorbereiteter, derzeit pausierter Migrationsschritt
 
 Die
-[Personen-, Nutzungsrechts- und Statusrekonstruktion](edwalt-person-rights-status-next-step-handoff.md)
-ist technisch durchgeführt. Die eingebetteten Feldnamen sind nutzbar, das
-binäre Symbolformat liefert aber kein reproduzierbar validiertes DAT-Layout.
-Storno, Aufhebung und ein gültiger Umnummerierungsnachfolger bleiben deshalb
-nicht filterfähig. Der nächste mit dem vorhandenen Bestand ausführbare Schritt
-ist die im
-[Übergabeauftrag zu weiteren Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md)
-beschriebene Zerlegung von `W020` 621–1.684 und `W021` 5.465–5.770. Zusätzlich
-werden der Statuskandidat 1685/L9 und das getrennte Kennzeichen 1694/L1
-geprüft, sodass W020 621–1.694 ohne Lücke im Scope liegt. Unbekannte Bereiche
-bleiben erhalten und `OFFEN`; es folgt weiterhin weder ein Import noch ein aus
-EDWALT abgeleitetes 1:1-Zielmodell.
+[Analyse weiterer Adressrollen und des Vorgangsnachlaufs](edwalt-additional-addresses-next-step-handoff.md)
+ist technisch durchgeführt. Das binäre Symbolformat liefert weiterhin kein
+reproduzierbar validiertes DAT-Layout. Storno, Aufhebung und ein gültiger
+Umnummerierungsnachfolger bleiben nicht filterfähig; auch 1.694/L1 trägt im
+untersuchten Bestand keinen Nutzwert.
+
+Der nächste mit dem vorhandenen Bestand ausführbare Migrationsschritt ist die
+[Gebührenstamm- und Variantenabgrenzung](edwalt-fee-master-variants-next-step-handoff.md)
+für `W005/W005dm` und `W006/W006dm`. Unbekannte Bereiche bleiben erhalten und
+`OFFEN`; es folgt weiterhin weder ein Import noch ein aus EDWALT abgeleitetes
+1:1-Zielmodell. Nach der Projektentscheidung vom 12.08.2026 ist dieser Schritt
+zugunsten der
+[inkrementellen Cemaris-Produktentwicklung](../implementation/README.md)
+pausiert. Phase 2 bis 4 bleiben unverändert read-only.

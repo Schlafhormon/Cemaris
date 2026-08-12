@@ -230,3 +230,12 @@ Weiterhin bewusst ausserhalb von Version 1 liegen:
 - EDWALT-Migration sowie produktive oder echte personenbezogene Testdaten,
 - Paginierung, unscharfe Suche und fachlich noch ungeklaerte Regeln,
 - ein endgueltiges Domainmodell oder eine fachlich freigegebene Feldsemantik.
+
+## Nachfolgender Produktinkrement
+
+Nach der Projektpriorisierung vom 12.08.2026 wird die Produktentwicklung vor
+der weiteren EDWALT-Importanalyse fortgesetzt. Der nächste, weiterhin nicht
+produktive Development-Inkrement ergänzt eine schreibende Fallakten-Grundlage
+für Grabstellenbezug, verstorbene Personen und Beisetzungen. Sein verbindlicher
+Umfang und seine Sicherheitsgrenze stehen in
+[Implementierungsentscheidungen: schreibende Fallakten-Grundlage](case-record-write-decisions.md).
