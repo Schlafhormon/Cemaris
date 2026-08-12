@@ -18,6 +18,13 @@ nicht fachlich oder produktiv freigegebener Read-only-MVP mit:
 - optionalem SQL-Server-Lesemodell und EF-Migration;
 - ASP.NET-Core-API, React-Oberfläche sowie Unit- und Integrationstests.
 
+Auch Inkrement 2 ist technisch abgeschlossen. Die standardmäßig deaktivierte
+Development-Funktion kann synthetische Fallakten anlegen und Grabstellenbezug,
+verstorbene Personen sowie Beisetzungen mit ETag/If-Match ändern. Domain,
+Application, prozesslokaler synthetischer Store, SQL-Server-Persistenz, API, React-UI
+und automatisierte Tests verwenden denselben Vertrag. Eine Produktivfreigabe
+ist damit ausdrücklich nicht verbunden.
+
 ## Verbindliche Entwicklungsregel
 
 „Fertig“ bezeichnet immer einen klar abgegrenzten, Ende-zu-Ende getesteten
@@ -31,7 +38,7 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | Reihenfolge | Inkrement | Ergebnis | Freigabegate |
 | ---: | --- | --- | --- |
 | 1 | Lesende Suche und Detailansicht | technisch umgesetzt | fachliche Abnahme mit kontrolliertem Testbestand später |
-| 2 | Schreibende Fallakten-Grundlage | Grabstellenbezug, Verstorbene und Beisetzungen als manuell erfasste Tatsachen anlegen und ändern; keine Löschung oder Ableitung | zunächst nur Development und synthetische Daten |
+| 2 | Schreibende Fallakten-Grundlage | technisch umgesetzt: Grabstellenbezug, Verstorbene und Beisetzungen als manuell erfasste Tatsachen anlegen und ändern; keine Löschung oder Ableitung | erfüllt nur für Development und synthetische Daten; keine Produktivfreigabe |
 | 3 | Identität, produktive Berechtigungen und Audit | abgesicherter Schreibbetrieb für Sachbearbeitung und Administration | Identitätsquelle, Rechte- und Auditmatrix |
 | 4 | Fachliche Stammdaten und vollständiger Beisetzungsprozess | Friedhöfe/Felder, Grabarten, Prozessschritte und Prüfungen | Anwenderinterview, Satzungs- und Prozessfreigabe |
 | 5 | Personenrollen, Nutzungsrechte, Ruhefristen und Wiedervorlagen | fachlich freigegebene Rechte- und Fristenlogik | Rollen-, Historien- und Fristregeln |
@@ -44,13 +51,15 @@ Arbeiten dürfen vorgezogen werden, wenn sie keine offenen Fachentscheidungen
 vorwegnehmen. Eine produktive Freigabe erfolgt erst, wenn die jeweiligen
 Sicherheits-, Datenschutz-, Betriebs- und Fachgates erfüllt sind.
 
-## Nächster ausführbarer Auftrag
+## Nächstes Freigabegate
 
-Der vollständige Arbeitsauftrag für Inkrement 2 steht in
-[Übergabe: schreibende Fallakten-Grundlage](cemaris-case-record-write-next-step-handoff.md).
-Er ist eigenständig formuliert und enthält Arbeitsverzeichnisse, Schutzregeln,
-Scope, Abnahmekriterien und einen direkt kopierbaren Prompt für einen neuen
-kontextlosen Chat.
+Identitätsquelle, Rollen-/Berechtigungsmatrix und Audit-Mindestanforderungen
+sind weiterhin nicht technisch ermittelbar. Der nächste eigenständige Auftrag
+ist deshalb eine entscheidungsorientierte
+[Folgeübergabe](cemaris-identity-authorization-audit-next-step-handoff.md).
+Solange diese Ergebnisse fehlen, bleibt der Schreibpfad Development-only,
+synthetisch und standardmäßig deaktiviert. Kein Authentifizierungsanbieter
+wird durch Vermutung ausgewählt.
 
 ## Bewusst nicht mit dem nächsten Inkrement behauptet
 

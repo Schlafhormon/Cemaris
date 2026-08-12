@@ -12,6 +12,6 @@ public sealed record ProjectInformation(
     public static ProjectInformation Current { get; } = new(
         "Cemaris",
         "Open-Source-Friedhofsverwaltung für Kommunen",
-        "Konzeptions- und Anforderungsphase",
+        "Inkrementelle Produktentwicklung",
         ProductionReady: false);
 }

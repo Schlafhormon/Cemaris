@@ -5,6 +5,7 @@ export interface HealthResponse {
 
 export interface SystemInformationResponse {
   name: string
+  caseEditingEnabled: boolean
   productionReady: boolean
   status: string
   subtitle: string

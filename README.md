@@ -5,7 +5,8 @@
 ## Status
 
 > **Cemaris befindet sich in aktiver, inkrementeller Produktentwicklung. Der
-> erste lesende MVP ist technisch umgesetzt; die Software ist noch nicht für
+> erste lesende MVP und die synthetische Development-Fallaktenbearbeitung
+> sind technisch umgesetzt; die Software ist noch nicht für
 > den Produktivbetrieb oder echte Verwaltungsdaten freigegeben.**
 
 Die Produktentwicklung wird jetzt vor der weiteren EDWALT-Importanalyse
@@ -59,17 +60,19 @@ Vorbereitet sind:
 - eine React-/TypeScript-/Vite-Oberfläche,
 - REST-Grundlage mit OpenAPI, zentraler Fehlerbehandlung, Health Check und nicht sensitiver Systeminfo,
 - ein erster ausschliesslich lesender MVP fuer Suche und Detailansicht mit klar synthetischen Daten,
-- ein bewusst schmales EF-Core-Leseschema mit synthetischem Standardprovider und optionaler SQL-Server-Anbindung,
+- eine standardmäßig deaktivierte, ausschließlich synthetische Development-
+  Bearbeitung für Grabstellenbezug, verstorbene Personen und Beisetzungen,
+- ein bewusst schmales EF-Core-Fall-/Leseschema mit synthetischem Standardprovider und optionaler SQL-Server-Anbindung,
 - eine minimale herstellerneutrale DMS-Erweiterungsstelle,
 - Unit- und Integrationstests,
 - Docker- und CI-Konfiguration,
 - ADRs sowie Arbeitsunterlagen für EDWALT-Inventur, Anforderungen und Migration.
 
 Die technische EDWALT-Analyse ist nach Phase 4 kontrolliert pausiert. Der
-nächste Produktinkrement ist eine standardmäßig deaktivierte, ausschließlich
-synthetische Development-Fallaktenbearbeitung für Grabstellenbezug,
-verstorbene Personen und Beisetzungen. Der vollständige Auftrag steht in der
-[Implementierungsübergabe](docs/implementation/cemaris-case-record-write-next-step-handoff.md).
+zweite Produktinkrement ist technisch abgeschlossen, aber weder fachlich noch
+produktiv freigegeben. Der nächste Schritt klärt die derzeit nicht technisch
+ermittelbaren Freigabegates in der
+[Folgeübergabe](docs/implementation/cemaris-identity-authorization-audit-next-step-handoff.md).
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -104,7 +107,7 @@ Details stehen in der [Architekturübersicht](docs/architecture/README.md) und d
 ├── src/
 │   ├── Cemaris.Api/          # ASP.NET-Core-Host und HTTP-Endpunkte
 │   ├── Cemaris.Application/  # Anwendungsgrenzen und externe Ports
-│   ├── Cemaris.Domain/       # bewusst noch leere fachliche Kernschicht
+│   ├── Cemaris.Domain/       # minimale Fallakten-Grundlage ohne offene Fachregeln
 │   ├── Cemaris.Infrastructure/ # EF Core, SQL Server, spätere Adapter
 │   └── Cemaris.Web/          # React-/TypeScript-Frontend
 ├── tests/
@@ -120,7 +123,8 @@ Details stehen in der [Architekturübersicht](docs/architecture/README.md) und d
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) – `global.json` verwendet SDK 10.0.302 mit Feature-Band-Rollforward,
 - Node.js `^20.19.0 || >=22.12.0` und npm,
 - optional Docker für die containerisierte Umgebung,
-- optional ein SQL Server; die vorhandenen neutralen Endpunkte greifen noch nicht auf ein Fachschema zu.
+- optional ein SQL Server; die vorhandenen neutralen Endpunkte verwenden nur
+  das vorläufige Fall-/Leseschema und kein freigegebenes Fachschema.
 
 ### Backend starten
 
@@ -140,6 +144,28 @@ Danach sind verfügbar:
 - Lesende Falldetails: `http://localhost:5050/api/cases/{id}`
 - OpenAPI (nur Development): <http://localhost:5050/openapi/v1.json>
 
+Die Schreibfunktion ist standardmäßig aus. Für eine lokale, ausschließlich
+synthetische Development-Sitzung muss sie ausdrücklich aktiviert werden:
+
+```powershell
+$env:ASPNETCORE_ENVIRONMENT = "Development"
+$env:Features__CaseEditingEnabled = "true"
+dotnet run --project src/Cemaris.Api
+```
+
+Außerhalb von `Development` verweigert die API bei diesem Aktivierungsversuch
+den Start. Diese Grenze ersetzt keine Authentifizierung, Autorisierung oder
+Auditierung. Nach dem Start sind zusätzlich verfügbar:
+
+- `POST /api/cases`;
+- `PUT /api/cases/{caseId}/grave`;
+- `POST` und `PUT /api/cases/{caseId}/deceased-persons[/personId]`;
+- `POST` und `PUT /api/cases/{caseId}/burials[/burialId]`.
+
+Änderungen benötigen den zuletzt gelesenen starken ETag in `If-Match`. Ein
+fehlender Header ergibt `428`, ein veralteter ETag `412` ohne Teilwirkung.
+Die UI bietet bei aktiver Capability `/cases/new` und `/cases/{id}/edit` an.
+
 ### Frontend starten
 
 In einem zweiten Terminal:
@@ -152,7 +178,7 @@ npm run dev
 
 Das Frontend läuft unter <http://localhost:5173>. Vite leitet `/health` und `/api` in der Entwicklung standardmäßig an `http://localhost:5050` weiter. Die Statuskarte zeigt die erfolgreiche Verbindung.
 
-### Lokales SQL-Server-Leseschema
+### Lokales SQL-Server-Fall-/Leseschema
 
 Die normale Entwicklung und alle allgemeinen Tests verwenden weiterhin den
 synthetischen Provider. Fuer einen lokalen SQL-Server-Test werden
@@ -194,6 +220,8 @@ dotnet test Cemaris.sln --configuration Release --no-build
 dotnet format Cemaris.sln --verify-no-changes --no-restore
 
 cd src/Cemaris.Web
+npm ci
+npm test -- --run
 npm run lint
 npm run build
 ```
@@ -225,7 +253,8 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `ConnectionStrings__CemarisDatabase` | externer SQL-Server-Connection-String | `Server=localhost,1433;Database=Cemaris;User Id=cemaris;Password=CHANGE_ME;Encrypt=True;TrustServerCertificate=True` |
 | `Cors__AllowedOrigins__0` | erlaubter Entwicklungs-Frontend-Origin | `http://localhost:5173` |
 | `OpenApi__Enabled` | OpenAPI-Dokument aktivieren | `true` nur in kontrollierten Umgebungen |
-| `ReadModel__Provider` | Quelle des Lesemodells (`Synthetic` oder `SqlServer`) | `Synthetic` fuer normale Entwicklung und Tests |
+| `ReadModel__Provider` | kanonischer Fall-/Lesestore (`Synthetic` oder `SqlServer`) | `Synthetic` fuer normale Entwicklung und Tests |
+| `Features__CaseEditingEnabled` | synthetische Fallaktenbearbeitung; nur in `Development` zulässig | `false` (Standard), lokal ausdrücklich `true` |
 | `Search__MaxResults` | maximales Suchergebnis ohne Paginierung | `10` |
 | `Maintenance__SeedSynthetic` | einmaliger expliziter SQL-Seed statt API-Start | `true` nur fuer kontrollierte lokale Entwicklung |
 | `Maintenance__ExpectedDatabase` | Sicherheitspruefung fuer den SQL-Seed | `Cemaris_Dev` |

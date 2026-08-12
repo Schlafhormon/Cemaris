@@ -1,6 +1,10 @@
 import type { PropsWithChildren } from 'react'
 
-export function AppLayout({ children }: PropsWithChildren) {
+interface AppLayoutProps extends PropsWithChildren {
+  caseEditingEnabled: boolean
+}
+
+export function AppLayout({ children, caseEditingEnabled }: AppLayoutProps) {
   const currentPath = window.location.pathname
 
   return (
@@ -27,8 +31,19 @@ export function AppLayout({ children }: PropsWithChildren) {
           >
             Suche
           </a>
+          {caseEditingEnabled && (
+            <a
+              className={currentPath === '/cases/new' ? 'active' : undefined}
+              href="/cases/new"
+              aria-current={currentPath === '/cases/new' ? 'page' : undefined}
+            >
+              Neue Fallakte
+            </a>
+          )}
         </nav>
-        <span className="header-phase">Read-only MVP</span>
+        <span className="header-phase">
+          {caseEditingEnabled ? 'Synthetische Development-Bearbeitung' : 'Read-only MVP'}
+        </span>
       </header>
 
       <main className="page-content">{children}</main>

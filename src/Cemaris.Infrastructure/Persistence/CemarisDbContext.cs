@@ -43,6 +43,7 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
         entity.ToTable("ReadCases");
         entity.HasKey(item => item.Id);
         entity.Property(item => item.IsSynthetic).IsRequired();
+        entity.Property(item => item.Version).IsConcurrencyToken().IsRequired();
         entity.HasOne(item => item.Grave)
             .WithOne(item => item.Case)
             .HasForeignKey<GraveReadEntity>(item => item.CaseId)

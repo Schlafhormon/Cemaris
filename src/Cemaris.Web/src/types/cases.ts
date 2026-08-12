@@ -110,6 +110,7 @@ export interface NoticeDetails {
 export interface CaseOverview {
   id: string
   isSynthetic: boolean
+  version: number
   grave: GraveDetails
   deceasedPersons: DeceasedDetails[]
   burials: BurialDetails[]
@@ -117,4 +118,28 @@ export interface CaseOverview {
   entitledPersons: EntitledPersonDetails[]
   notices: NoticeDetails[]
   dataQualityNotes: string[]
+}
+
+export interface CaseWithEtag {
+  caseOverview: CaseOverview
+  etag: string
+  location?: string
+}
+
+export interface GraveInput {
+  cemetery: string
+  field: string
+  graveNumber: string
+}
+
+export interface DeceasedPersonInput {
+  firstName: string
+  lastName: string
+  birthDate: string
+  deathDate: string
+}
+
+export interface BurialInput {
+  deceasedPersonId: string
+  burialDate: string
 }

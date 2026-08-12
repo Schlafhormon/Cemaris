@@ -10,6 +10,6 @@ public sealed class ProjectInformationTests
         var status = ProjectInformation.Current;
 
         Assert.False(status.ProductionReady);
-        Assert.Equal("Konzeptions- und Anforderungsphase", status.Phase);
+        Assert.Equal("Inkrementelle Produktentwicklung", status.Phase);
     }
 }

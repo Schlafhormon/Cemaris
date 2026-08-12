@@ -22,5 +22,6 @@ Architecture Decision Records (ADRs) dokumentieren wesentliche technische und pr
 | [0007](ADR-0007-requirements-before-implementation.md) | Fachanforderungen vor Implementierung | Accepted |
 | [0008](ADR-0008-open-source-license.md) | Open-Source-Lizenz | Proposed |
 | [0009](ADR-0009-product-development-before-edwalt-import.md) | Produktentwicklung vor Fortsetzung des EDWALT-Imports | Accepted |
+| [0010](ADR-0010-canonical-provisional-case-store.md) | Kanonischer vorläufiger Fall-/Lesestore | Accepted |
 
 Für neue ADRs kann [ADR-Template](ADR-template.md) kopiert werden.

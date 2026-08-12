@@ -331,6 +331,7 @@ public sealed class EfCaseReadStore(CemarisDbContext dbContext) : ICaseReadStore
         return new CaseOverview(
             entity.Id,
             entity.IsSynthetic,
+            entity.Version,
             new GraveDetails(
                 entity.Grave?.Cemetery,
                 entity.Grave?.Field,

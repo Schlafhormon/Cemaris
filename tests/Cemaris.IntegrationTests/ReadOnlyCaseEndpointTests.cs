@@ -105,5 +105,25 @@ public sealed class ReadOnlyCaseEndpointTests(CemarisWebApplicationFactory facto
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.True(paths.TryGetProperty("/api/search", out _));
         Assert.True(paths.TryGetProperty("/api/cases/{id}", out _));
+        Assert.False(paths.TryGetProperty("/api/cases", out _));
+        Assert.False(paths.TryGetProperty("/api/cases/{caseId}/grave", out _));
+    }
+
+    [Fact]
+    public async Task DefaultConfigurationExposesNoEditingCapabilityOrWriteEndpoint()
+    {
+        using var client = factory.CreateClient();
+
+        var information = await client.GetFromJsonAsync<Cemaris.Api.Contracts.SystemInformationResponse>(
+            "/api/system/info",
+            CancellationToken.None);
+        var writeResponse = await client.PostAsJsonAsync(
+            "/api/cases",
+            new { cemetery = "Synthetischer Testfriedhof" },
+            CancellationToken.None);
+
+        Assert.NotNull(information);
+        Assert.False(information.CaseEditingEnabled);
+        Assert.Equal(HttpStatusCode.NotFound, writeResponse.StatusCode);
     }
 }

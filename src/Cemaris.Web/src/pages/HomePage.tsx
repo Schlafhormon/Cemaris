@@ -36,8 +36,9 @@ export function HomePage() {
             </span>
             <p>
               <strong>Frühe Projektphase.</strong> Cemaris befindet sich derzeit
-              in der Konzeptions- und Anforderungsanalyse. Funktionen und
-              Datenmodell sind noch nicht für den Produktivbetrieb freigegeben.
+              in inkrementeller Entwicklung. Die Fallaktenbearbeitung ist nur
+              für synthetische Development-Daten verfügbar; Funktionen und
+              Datenmodell sind nicht für den Produktivbetrieb freigegeben.
             </p>
           </div>
 
@@ -72,14 +73,14 @@ export function HomePage() {
       </section>
 
       <section className="next-step" aria-labelledby="next-step-heading">
-        <p className="next-step-label">Nächster Schritt</p>
+        <p className="next-step-label">Nächstes Freigabegate</p>
         <div>
           <h2 id="next-step-heading">
-            EDWALT-Bestandsaufnahme und fachliche Bedarfsanalyse
+            Identität, Berechtigungen und Audit entscheiden
           </h2>
           <p>
-            Erst wenn Prozesse, Daten und Anforderungen verstanden sind, werden
-            Fachmodell und Kernfunktionen definiert.
+            Erst nach autorisierten Entscheidungen zu Identitätsquelle,
+            Rechte-Matrix und Audit darf ein produktiver Schreibschutz umgesetzt werden.
           </p>
         </div>
       </section>

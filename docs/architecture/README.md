@@ -24,14 +24,14 @@ Reverse Proxy / TLS
 
 | Projekt | Verantwortung | Darf nicht enthalten |
 | --- | --- | --- |
-| `Cemaris.Domain` | Spätere fachliche Entities, Value Objects und Regeln | EF Core, HTTP, Winyard-Details |
-| `Cemaris.Application` | Spätere Anwendungsfälle und Ports zu externen Systemen | SQL-Server- oder Herstellerimplementierungen |
+| `Cemaris.Domain` | minimale persistenzunabhängige Fallakten-Entities, Faktenvalidierung und monotone Version | EF Core, HTTP, Winyard-Details |
+| `Cemaris.Application` | Lese- und Schreibanwendungsfälle sowie Providerports | SQL-Server- oder Herstellerimplementierungen |
 | `Cemaris.Infrastructure` | EF Core, SQL Server und spätere technische Adapter | UI und fachliche Entscheidungen |
 | `Cemaris.Api` | Hosting, DI, HTTP-Endpunkte, Fehlerbehandlung, OpenAPI, Health Checks | Friedhofsfachlogik |
 | `Cemaris.Web` | Responsive und barrierearme Browseroberfläche | Direkter Datenbank- oder DMS-Zugriff |
 
-Das Domainprojekt ist derzeit noch fast leer. Der nächste Inkrement führt dort
-eine minimale Fallakten-Grundlage für gespeicherte Tatsachen ein, ohne daraus
+Das Domainprojekt enthält eine minimale Fallakten-Grundlage für gespeicherte
+Tatsachen, ohne daraus
 bereits Grabarten, Status, Fristen, Gebühren oder andere offene Fachregeln
 abzuleiten. Umfang und Sicherheitsgrenze stehen in den
 [Fallakten-Implementierungsentscheidungen](../requirements/case-record-write-decisions.md).
@@ -42,17 +42,28 @@ abzuleiten. Umfang und Sicherheitsgrenze stehen in den
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.
 - `GET /api/search` und `GET /api/cases/{id}` bilden den technisch
   abgeschlossenen lesenden ersten Produktinkrement.
+- Bei expliziter Development-Capability bilden sechs Schreibendpunkte Anlage
+  und Änderung von Grabstellenbezug, Verstorbenen und Beisetzungen ab. Starke
+  Fallversions-ETags und `If-Match` verhindern Last-write-wins.
 - `/openapi/v1.json` ist in der Entwicklungsumgebung aktiviert.
 - `IDocumentManagementService` bildet eine minimale herstellerneutrale Erweiterungsstelle für die spätere Archivierung erzeugter Dokumente.
-- `CemarisDbContext` enthält ein bewusst vorläufiges relationales Leseschema
+- `CemarisDbContext` enthält ein bewusst vorläufiges relationales Fall-/Leseschema
   für Fall, Grabstelle, Verstorbene, Beisetzungen, Nutzungsrechte,
   Berechtigte/Adressen und Bescheid-/Gebühreninformationen. Es ist kein
   freigegebenes endgültiges Fachmodell.
 
-Der nächste Schreibpfad bleibt bis zur Identitäts-, Berechtigungs- und
+Der Schreibpfad bleibt bis zur Identitäts-, Berechtigungs- und
 Auditentscheidung standardmäßig deaktiviert und ausschließlich in einer
 explizit aktivierten Development-Umgebung für synthetische Daten zulässig.
 Diese Feature-Grenze ist kein produktiver Zugriffsschutz.
+
+Schreib- und Lesezugriff verwenden denselben kanonischen Zustand. Der
+synthetische Provider hält ihn threadsicher pro Prozess; Neustarts verwerfen
+Änderungen. Der SQL-Provider erhöht `ReadCases.Version` bedingt auf die
+erwartete Version und ändert Root beziehungsweise Kind in derselben
+Transaktion. Das vorläufige Schema wird dadurch nicht zum endgültigen
+Fachmodell. Details dokumentiert
+[ADR-0010](../decisions/ADR-0010-canonical-provisional-case-store.md).
 
 ## Konfiguration und Betrieb
 

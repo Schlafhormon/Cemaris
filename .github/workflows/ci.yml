@@ -54,5 +54,8 @@ jobs:
       - name: Frontend prüfen
         run: npm run lint
 
+      - name: Frontend-Tests ausführen
+        run: npm test -- --run
+
       - name: Frontend bauen
         run: npm run build

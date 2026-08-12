@@ -1,4 +1,5 @@
 using Cemaris.Application.Cases;
+using Cemaris.Domain.Cases;
 
 namespace Cemaris.Infrastructure.ReadModel;
 
@@ -6,9 +7,10 @@ namespace Cemaris.Infrastructure.ReadModel;
 /// Repository-safe demonstration data. Every name, address and identifier is
 /// intentionally artificial and must never be interpreted as production data.
 /// </summary>
-public sealed class SyntheticCaseReadStore : ICaseReadStore
+public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
 {
-    private static readonly IReadOnlyList<CaseOverview> Cases = CreateCases();
+    private readonly object gate = new();
+    private readonly List<CaseOverview> cases = CreateCases().ToList();
 
     public Task<CaseSearchStoreResult> SearchAsync(
         SearchCriteria criteria,
@@ -16,13 +18,207 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return Task.FromResult(InMemoryCaseSearch.Search(Cases, criteria, maximumResults));
+        lock (gate)
+        {
+            return Task.FromResult(InMemoryCaseSearch.Search(cases, criteria, maximumResults));
+        }
     }
 
     public Task<CaseOverview?> FindAsync(Guid id, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return Task.FromResult(Cases.SingleOrDefault(item => item.Id == id));
+        lock (gate)
+        {
+            return Task.FromResult(cases.SingleOrDefault(item => item.Id == id));
+        }
+    }
+
+    public Task CreateAsync(CaseRecord caseRecord, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(caseRecord);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        lock (gate)
+        {
+            if (cases.Any(item => item.Id == caseRecord.Id))
+            {
+                throw new InvalidOperationException("Die serverseitig erzeugte Fall-ID ist bereits vorhanden.");
+            }
+
+            cases.Add(new CaseOverview(
+                caseRecord.Id,
+                true,
+                caseRecord.Version.Value,
+                new GraveDetails(
+                    caseRecord.Grave.Cemetery,
+                    caseRecord.Grave.Field,
+                    caseRecord.Grave.GraveNumber),
+                [],
+                [],
+                [],
+                [],
+                [],
+                ["Ausschließlich synthetische Development-Fallakte."]));
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public Task<CaseMutationResult> ChangeGraveAsync(
+        Guid caseId,
+        CaseVersion expectedVersion,
+        GraveReference grave,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(grave);
+        return MutateAsync(caseId, expectedVersion, current => current with
+        {
+            Grave = new GraveDetails(grave.Cemetery, grave.Field, grave.GraveNumber),
+        }, cancellationToken);
+    }
+
+    public Task<CaseMutationResult> AddDeceasedPersonAsync(
+        Guid caseId,
+        CaseVersion expectedVersion,
+        DeceasedPerson deceasedPerson,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(deceasedPerson);
+        return MutateAsync(caseId, expectedVersion, current => current with
+        {
+            DeceasedPersons =
+            [
+                .. current.DeceasedPersons,
+                new DeceasedDetails(
+                    deceasedPerson.Id,
+                    deceasedPerson.FirstName,
+                    deceasedPerson.LastName,
+                    deceasedPerson.BirthDate,
+                    deceasedPerson.DeathDate),
+            ],
+        }, cancellationToken);
+    }
+
+    public Task<CaseMutationResult> ChangeDeceasedPersonAsync(
+        Guid caseId,
+        Guid personId,
+        CaseVersion expectedVersion,
+        DeceasedPerson deceasedPerson,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(deceasedPerson);
+        return MutateAsync(
+            caseId,
+            expectedVersion,
+            current => current with
+            {
+                DeceasedPersons = current.DeceasedPersons
+                    .Select(person => person.Id == personId
+                        ? new DeceasedDetails(
+                            personId,
+                            deceasedPerson.FirstName,
+                            deceasedPerson.LastName,
+                            deceasedPerson.BirthDate,
+                            deceasedPerson.DeathDate)
+                        : person)
+                    .ToArray(),
+            },
+            cancellationToken,
+            current => current.DeceasedPersons.Any(person => person.Id == personId));
+    }
+
+    public Task<CaseMutationResult> AddBurialAsync(
+        Guid caseId,
+        CaseVersion expectedVersion,
+        Burial burial,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(burial);
+        return MutateAsync(
+            caseId,
+            expectedVersion,
+            current => current with
+            {
+                Burials =
+                [
+                    .. current.Burials,
+                    new BurialDetails(burial.Id, burial.DeceasedPersonId, burial.BurialDate),
+                ],
+            },
+            cancellationToken,
+            referenceIsValid: current => burial.DeceasedPersonId is null
+                || current.DeceasedPersons.Any(person => person.Id == burial.DeceasedPersonId));
+    }
+
+    public Task<CaseMutationResult> ChangeBurialAsync(
+        Guid caseId,
+        Guid burialId,
+        CaseVersion expectedVersion,
+        Burial burial,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(burial);
+        return MutateAsync(
+            caseId,
+            expectedVersion,
+            current => current with
+            {
+                Burials = current.Burials
+                    .Select(item => item.Id == burialId
+                        ? new BurialDetails(burialId, burial.DeceasedPersonId, burial.BurialDate)
+                        : item)
+                    .ToArray(),
+            },
+            cancellationToken,
+            current => current.Burials.Any(item => item.Id == burialId),
+            current => burial.DeceasedPersonId is null
+                || current.DeceasedPersons.Any(person => person.Id == burial.DeceasedPersonId));
+    }
+
+    private Task<CaseMutationResult> MutateAsync(
+        Guid caseId,
+        CaseVersion expectedVersion,
+        Func<CaseOverview, CaseOverview> mutation,
+        CancellationToken cancellationToken,
+        Func<CaseOverview, bool>? childExists = null,
+        Func<CaseOverview, bool>? referenceIsValid = null)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        lock (gate)
+        {
+            var index = cases.FindIndex(item => item.Id == caseId);
+            if (index < 0)
+            {
+                return Task.FromResult(CaseMutationResult.Failed(CaseMutationOutcome.CaseNotFound));
+            }
+
+            var current = cases[index];
+            if (!current.IsSynthetic)
+            {
+                return Task.FromResult(CaseMutationResult.Failed(CaseMutationOutcome.CaseNotFound));
+            }
+
+            if (current.Version != expectedVersion.Value)
+            {
+                return Task.FromResult(CaseMutationResult.Failed(CaseMutationOutcome.VersionConflict));
+            }
+
+            if (childExists is not null && !childExists(current))
+            {
+                return Task.FromResult(CaseMutationResult.Failed(CaseMutationOutcome.ChildNotFound));
+            }
+
+            if (referenceIsValid is not null && !referenceIsValid(current))
+            {
+                return Task.FromResult(CaseMutationResult.Failed(
+                    CaseMutationOutcome.InvalidDeceasedPersonReference));
+            }
+
+            var nextVersion = expectedVersion.Next();
+            cases[index] = mutation(current) with { Version = nextVersion.Value };
+            return Task.FromResult(CaseMutationResult.Succeeded(nextVersion));
+        }
     }
 
     internal static IReadOnlyList<CaseOverview> CreateCases()
@@ -50,6 +246,7 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore
         return new CaseOverview(
             Id(1),
             true,
+            CaseVersion.InitialValue,
             new GraveDetails("Synthetischer Testfriedhof Nord", "Testfeld A", "1001"),
             [
                 new DeceasedDetails(
@@ -132,6 +329,7 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore
         return new CaseOverview(
             Id(2),
             true,
+            CaseVersion.InitialValue,
             new GraveDetails("Synthetischer Testfriedhof Süd", null, "2"),
             [
                 new DeceasedDetails(
@@ -176,6 +374,7 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore
         return new CaseOverview(
             Id(index),
             true,
+            CaseVersion.InitialValue,
             new GraveDetails(
                 index % 2 == 0
                     ? "Synthetischer Testfriedhof Nord"

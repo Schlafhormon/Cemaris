@@ -28,7 +28,7 @@ export function SystemStatusCard() {
         </div>
         <div>
           <dt>Projektphase</dt>
-          <dd>{information?.status ?? 'Anforderungsanalyse'}</dd>
+          <dd>{information?.status ?? 'Produktentwicklung'}</dd>
         </div>
         <div>
           <dt>Version</dt>

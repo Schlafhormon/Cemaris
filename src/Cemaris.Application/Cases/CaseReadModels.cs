@@ -7,6 +7,7 @@ namespace Cemaris.Application.Cases;
 public sealed record CaseOverview(
     Guid Id,
     bool IsSynthetic,
+    long Version,
     GraveDetails Grave,
     IReadOnlyList<DeceasedDetails> DeceasedPersons,
     IReadOnlyList<BurialDetails> Burials,

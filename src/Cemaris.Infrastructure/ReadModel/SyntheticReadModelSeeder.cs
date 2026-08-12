@@ -84,6 +84,7 @@ public sealed class SyntheticReadModelSeeder(CemarisDbContext dbContext)
             {
                 Id = source.Id,
                 IsSynthetic = true,
+                Version = source.Version,
                 Grave = new GraveReadEntity
                 {
                     CaseId = source.Id,

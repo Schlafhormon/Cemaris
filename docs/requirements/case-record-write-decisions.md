@@ -85,6 +85,39 @@ Vorhandene lesende Informationen zu Nutzungsrechten, Berechtigten, Adressen,
 Bescheiden und Gebühren bleiben unverändert sichtbar, sind über den neuen
 Schreibpfad aber nicht änderbar.
 
+## Tatsächlich umgesetzter Vertrag
+
+Stand 12.08.2026 ist die technische Grundlage Ende zu Ende umgesetzt:
+
+- Fall-, Personen- und Beisetzungs-IDs erzeugt ausschließlich der Server als
+  GUID; die Initialversion einer Fallakte ist `1`.
+- Alle sechs Schreibendpunkte liegen unter `/api/cases`. `POST /api/cases`
+  antwortet mit `201 Created`, `Location`, Projektion und starkem ETag. Jede
+  Mutation benötigt genau einen starken numerischen ETag in `If-Match` und
+  liefert Projektion und neuen ETag.
+- Fehlendes `If-Match` ergibt `428`, ein syntaktisch ungültiger Header `400`,
+  eine veraltete Version `412`, unbekannte Root-/Kind-IDs `404` und ein
+  fallfremder oder unbekannter Verstorbenenbezug einen datensparsamen
+  feldbezogenen Validierungsfehler `400`.
+- `GET /api/cases/{id}` enthält die additive Eigenschaft `version` und liefert
+  denselben ETag. Bestehende Such- und Detailstrukturen bleiben ansonsten
+  kompatibel.
+- Der synthetische Store serialisiert Versionsprüfung und Änderung
+  threadsicher im Prozess. Der SQL-Store verwendet ein bedingtes Root-Update
+  und dieselbe Datenbanktransaktion für Versionssprung und Kindänderung.
+- `Features:CaseEditingEnabled` ist in allen Beispielkonfigurationen `false`.
+  Bei `true` außerhalb von `Development` verweigert die Anwendung den Start;
+  bei `false` fehlen Endpunkte, OpenAPI-Operationen und UI-Capability.
+- Die React-UI besitzt `/cases/new` und `/cases/{id}/edit`, übernimmt nach
+  Erfolg den neuesten Serverstand, zeigt Servervalidierung feldbezogen und
+  behält bei `412` lokale Eingaben bis zum bewusst ausgelösten Neuladen.
+
+Es bestehen keine fachlichen Abweichungen vom vereinbarten Umfang. Das
+vorläufige relationale Schema wird für diesen Inkrement als kanonischer
+Fall-/Lesestore verwendet; diese wesentliche technische Grenze ist in
+[ADR-0010](../decisions/ADR-0010-canonical-provisional-case-store.md)
+dokumentiert.
+
 ## Abnahme
 
 Der Inkrement ist umgesetzt, wenn bei explizit aktivierter Development-
@@ -98,3 +131,19 @@ Lint und Produktionsbuild müssen automatisiert erfolgreich sein. Ein
 SQL-Server-Integrationstest bleibt optional über die bestehende geschützte
 Umgebungsvariable, muss den Schreibpfad bei Verfügbarkeit aber ebenfalls
 abdecken.
+
+Der technische Abnahmebefund ist positiv. Die reguläre Suite deckt zusätzlich
+gleichzeitige Mutationen mit derselben erwarteten Version, fehlende und
+veraltete ETags, Teilwirkungsfreiheit, fremde Bezüge, Längengrenzen,
+Capability-Grenze und den vollständigen Anlage-/Änderungs-/Such-/Detailablauf
+ab. Der SQL-Server-Schreibtest bleibt wie zuvor ausschließlich über
+`CEMARIS_SQL_TEST_CONNECTION_STRING` aktivierbar. Fachliche Abnahme,
+Produktividentität, Berechtigung und Audit bleiben `OFFEN` und sind ein echtes
+Freigabegate.
+
+Abschlussprüfung am 12.08.2026: Release-Build mit 0 Warnungen und 0 Fehlern;
+10 Unit- und 15 reguläre Integrationstests bestanden; 4 SQL-Server-Tests
+mangels ausdrücklich gesetzter Testverbindung planmäßig übersprungen; 5
+Frontendtests, Lint, Produktionsbuild und .NET-Formatprüfung erfolgreich.
+Standardstart und aktivierter Development-Start wurden zusätzlich gegen
+Capability, Endpunktangebot, OpenAPI und initialen ETag geprüft.

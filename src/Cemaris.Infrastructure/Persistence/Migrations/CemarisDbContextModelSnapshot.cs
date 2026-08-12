@@ -91,6 +91,10 @@ namespace Cemaris.Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsSynthetic")
                         .HasColumnType("bit");
 
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.ToTable("ReadCases", (string)null);

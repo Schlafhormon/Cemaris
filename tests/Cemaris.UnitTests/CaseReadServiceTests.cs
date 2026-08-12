@@ -102,6 +102,7 @@ public sealed class CaseReadServiceTests
         return new CaseOverview(
             caseId,
             true,
+            1,
             new GraveDetails(cemetery, field, graveNumber),
             [
                 new DeceasedDetails(

@@ -56,7 +56,11 @@ function caseDetailsUrl(caseId: string) {
   return `/cases/${encodeURIComponent(caseId)}?returnTo=${encodeURIComponent(returnTo)}`
 }
 
-export function SearchPage() {
+interface SearchPageProps {
+  caseEditingEnabled?: boolean
+}
+
+export function SearchPage({ caseEditingEnabled = false }: SearchPageProps) {
   const initialFilters = filtersFromLocation()
   const [draftFilters, setDraftFilters] = useState(initialFilters)
   const [submittedFilters, setSubmittedFilters] = useState(initialFilters)
@@ -118,6 +122,14 @@ export function SearchPage() {
           Synthetischer Demonstrationsbestand
         </div>
       </div>
+
+      {caseEditingEnabled && (
+        <div className="detail-actions">
+          <a className="button button--primary" href="/cases/new">
+            Synthetische Fallakte anlegen
+          </a>
+        </div>
+      )}
 
       <form className="search-form" onSubmit={submit} aria-label="Suchfilter">
         <div className="filter-grid">

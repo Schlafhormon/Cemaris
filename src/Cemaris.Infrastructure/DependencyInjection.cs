@@ -16,7 +16,11 @@ public static class DependencyInjection
         var provider = configuration["ReadModel:Provider"] ?? "Synthetic";
         if (provider.Equals("Synthetic", StringComparison.OrdinalIgnoreCase))
         {
-            services.AddSingleton<ICaseReadStore, SyntheticCaseReadStore>();
+            services.AddSingleton<SyntheticCaseReadStore>();
+            services.AddSingleton<ICaseReadStore>(serviceProvider =>
+                serviceProvider.GetRequiredService<SyntheticCaseReadStore>());
+            services.AddSingleton<ICaseWriteStore>(serviceProvider =>
+                serviceProvider.GetRequiredService<SyntheticCaseReadStore>());
             return services;
         }
 
@@ -36,6 +40,7 @@ public static class DependencyInjection
         services.AddDbContext<CemarisDbContext>(options =>
             options.UseSqlServer(connectionString));
         services.AddScoped<ICaseReadStore, EfCaseReadStore>();
+        services.AddScoped<ICaseWriteStore, EfCaseWriteStore>();
         services.AddScoped<SyntheticReadModelSeeder>();
 
         return services;

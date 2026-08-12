@@ -8,6 +8,7 @@ import type {
 
 interface CaseDetailsPageProps {
   caseId: string
+  caseEditingEnabled?: boolean
 }
 
 function displayValue(value: ReactNode) {
@@ -90,7 +91,7 @@ function searchReturnUrl() {
   }
 }
 
-export function CaseDetailsPage({ caseId }: CaseDetailsPageProps) {
+export function CaseDetailsPage({ caseId, caseEditingEnabled = false }: CaseDetailsPageProps) {
   const returnTo = searchReturnUrl()
   const [caseOverview, setCaseOverview] = useState<CaseOverview>()
   const [loading, setLoading] = useState(true)
@@ -105,7 +106,7 @@ export function CaseDetailsPage({ caseId }: CaseDetailsPageProps) {
 
     getCaseDetails(caseId, controller.signal)
       .then((response) => {
-        setCaseOverview(response)
+        setCaseOverview(response.caseOverview)
         setLoading(false)
       })
       .catch((requestError: unknown) => {
@@ -169,6 +170,17 @@ export function CaseDetailsPage({ caseId }: CaseDetailsPageProps) {
           </div>
         )}
       </div>
+
+      {caseEditingEnabled && caseOverview.isSynthetic && (
+        <div className="detail-actions">
+          <a
+            className="button button--primary"
+            href={`/cases/${encodeURIComponent(caseId)}/edit?returnTo=${encodeURIComponent(returnTo)}`}
+          >
+            Fallakte bearbeiten
+          </a>
+        </div>
+      )}
 
       {caseOverview.dataQualityNotes.length > 0 && (
         <aside className="data-quality-notes" aria-labelledby="quality-heading">

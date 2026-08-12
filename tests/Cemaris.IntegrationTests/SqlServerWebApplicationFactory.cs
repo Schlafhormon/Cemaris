@@ -14,16 +14,19 @@ internal sealed class SqlServerWebApplicationFactory(string connectionString)
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("Testing");
+        builder.UseEnvironment("Development");
+        builder.UseSetting("Features:CaseEditingEnabled", "true");
         builder.ConfigureServices(services =>
         {
             services.RemoveAll<ICaseReadStore>();
+            services.RemoveAll<ICaseWriteStore>();
             services.RemoveAll<CemarisDbContext>();
             services.RemoveAll<DbContextOptions<CemarisDbContext>>();
 
             services.AddDbContext<CemarisDbContext>(options =>
                 options.UseSqlServer(connectionString));
             services.AddScoped<ICaseReadStore, EfCaseReadStore>();
+            services.AddScoped<ICaseWriteStore, EfCaseWriteStore>();
         });
     }
 }

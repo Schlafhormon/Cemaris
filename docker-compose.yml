@@ -9,6 +9,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_HTTP_PORTS: 8080
       ConnectionStrings__CemarisDatabase: ${CEMARIS_CONNECTION_STRING:-Server=host.docker.internal,1433;Database=Cemaris;User Id=cemaris;Password=CHANGE_ME;Encrypt=True;TrustServerCertificate=True}
+      Features__CaseEditingEnabled: ${CEMARIS_CASE_EDITING_ENABLED:-false}
     ports:
       - "${CEMARIS_API_PORT:-5050}:8080"
     restart: unless-stopped

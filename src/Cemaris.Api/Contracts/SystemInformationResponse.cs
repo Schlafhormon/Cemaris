@@ -5,4 +5,5 @@ public sealed record SystemInformationResponse(
     string Subtitle,
     string Status,
     bool ProductionReady,
+    bool CaseEditingEnabled,
     string Version);
