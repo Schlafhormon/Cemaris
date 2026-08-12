@@ -62,12 +62,19 @@ fort:
 3. Prüfe `W020` Byte 1.685/Länge 9 als eng begrenzten Kandidaten für
    `LETZTER-VORGANG` weiter. Eine Status- oder Nachfolgerregel darf nur bei
    unabhängigem statischem und datenstrukturellem Beleg entstehen.
+4. Profiliere das unmittelbar folgende `W020` Byte 1.694/Länge 1 als eigenen
+   späten Kennzeichenkandidaten. Behandle es weder stillschweigend als Teil von
+   `LETZTER-VORGANG` noch als bestätigten Statuscode.
 
 Entwirf noch kein endgültiges Cemaris-Fachmodell, kein Quell-zu-Ziel-Mapping
 und keinen Import. Baue EDWALT weder funktional noch technisch 1:1 nach. Ziel
 ist eine datensparsame, parserfähige Quellspezifikation mit sichtbaren
 Unsicherheiten und technisch belastbaren Regeln für spätere
 Migrationsentscheidungen.
+
+Stelle nur dann eine Frage, wenn eine nicht technisch ermittelbare Entscheidung
+die weitere Analyse tatsächlich blockiert. Nicht entscheidbare Semantik
+ansonsten als `OFFEN` dokumentieren und mit den übrigen Arbeiten fortfahren.
 
 `W022` ist in diesem Schritt nicht inhaltlich auszuwerten. `W023` darf ohne
 ausdrückliche Datenschutz- und Zweckfreigabe ebenfalls nicht semantisch
@@ -91,6 +98,23 @@ Prüfe vor jeder Änderung:
 Nicht committete Änderungen gehören zum aktuellen Arbeitsstand. Nicht
 zurücksetzen, überschreiben, verwerfen oder committen. Arbeite um fremde oder
 unabhängige Änderungen herum und erhalte sie vollständig.
+
+Zum Zeitpunkt der abschließenden Übergabe steht `main` auf
+`f7c3cbfe105795793977456730c85362b6289230` (`edwalt migration docs #1`) und
+damit einen Commit vor `origin/main`. Dieser Commit wurde während der
+Übergabeprüfung extern erstellt und enthält den abgeschlossenen Phase-3-Stand.
+Danach sind fünf Markdown-Dateien durch die Schärfung dieses Folgeauftrags
+geändert:
+
+- `docs/migration/README.md`;
+- `docs/migration/edwalt-additional-addresses-next-step-handoff.md`;
+- `docs/migration/edwalt-extraction-prototype.md`;
+- `docs/migration/edwalt-source-analysis.md`;
+- `docs/migration/edwalt-source-field-catalog.md`.
+
+Diese Liste ist eine Übergabeorientierung, kein Anlass zum Zurücksetzen. Wenn
+der Arbeitsbaum inzwischen weitere Benutzeränderungen enthält, lies und
+erhalte auch diese.
 
 Lies insbesondere vollständig:
 
@@ -149,6 +173,15 @@ Behandle diese verifizierte Phase-2-Basis read-only:
 - feste Satzextrakte: `...\phase2-20260811\raw-uncompressed`
 - maßgeblicher Basisbericht: `...\phase2-20260811\report.json`
 
+Vergleiche vor der Analyse die aktuellen regulären Originaldateien read-only
+per Länge und SHA-256 mit diesen Kopien. Erwartet sind 148 Dateien in
+`EDW3DAT` und 444 in `Edwalt3`, jeweils ohne fehlende, zusätzliche, Längen-
+oder Hashabweichungen. Die historischen 150/447 schließen zwei flüchtige
+Office-Sperrdateien und drei `Thumbs.db` ein und sind nicht die aktuelle
+reguläre Sollzahl. Bei einer Abweichung darf die betroffene Kopie nicht als
+Analysegrundlage verwendet werden; dokumentiere den Befund und frage nur dann
+nach, wenn keine unveränderte sichere Grundlage technisch herstellbar ist.
+
 Behandle auch die abgeschlossene Phase 3 read-only:
 
 - Wurzel:
@@ -156,6 +189,30 @@ Behandle auch die abgeschlossene Phase 3 read-only:
 - Profiler: `...\phase3-person-rights-status-20260812\prototype`
 - maßgeblicher Bericht:
   `...\phase3-person-rights-status-20260812\report.json`
+
+Prüfe vor dem Kopieren den Phase-3-Ausgangsstand:
+
+- `report.json`: 28.332.345 Byte, SHA-256
+  `43F8749A4E1C3AC4390FFD56EA33106056D99A1CA03D8E8F4CA517D892438A48`;
+- 24 logische und 24 vollständig gelesene physische Dateiprofile,
+  0 Parserfehler;
+- 66 Primärbereichs- und 5 Statusfeldprofile;
+- Coverage `W020` 530/530 und `W021` 1.372/1.372 Byte;
+- 8 Statushypothesen und 5 statische Positiv-/Negativbefunde.
+
+Diese vier Phase-3-Dateien bilden die zu kopierende Profilerbasis:
+
+- `prototype\Program.cs`, SHA-256
+  `6516CCB97B1F2F54CFB392722439DFCE1A6021FF69AC34CB14F8256E036CB822`;
+- `prototype\FinancialProfiler.cs`, SHA-256
+  `886F4FD3C691058DEAA6A3625513824B96F175367C4EC6D07B9CBE3C06E7C783`;
+- `prototype\PersonRightsStatusProfiler.cs`, SHA-256
+  `0DD9325C7AE13454443A3A286341D980A6B39F0AF7706AF9B4BF7CEA1358EC98`;
+- `prototype\Edwalt.Phase2Profiler.csproj`, SHA-256
+  `CBDA77BE076F6FF67D1A510C950892AB127591D8DEC1E78EB4F9A23D48B41661`.
+
+Der Phase-3-Code hasht auch interne Vergleichsschlüssel. Ersetze diese
+Schutzwirkung nicht durch Klartext- oder Base64-Schlüssel.
 
 Lege für diesen Schritt einen neuen beschreibbaren Arbeitsbereich an:
 
@@ -167,11 +224,16 @@ Lege für diesen Schritt einen neuen beschreibbaren Arbeitsbereich an:
 - statische Aggregate, falls nötig:
   `...\phase4-additional-addresses-20260812\static-analysis`
 
-Kopiere nur die für die Weiterentwicklung nötigen Quelltexte und Projektdateien
-aus Phase 3 in Phase 4. Kopiere keine Rohdaten, Quellkopien, Berichte,
-`bin`-/`obj`-Verzeichnisse oder temporären Dateien. Schreibe niemals in Phase 2
-oder Phase 3. Prüfe vor dem Kopieren, dass Phase 4 nicht bereits fremde Arbeit
-enthält.
+Zum Zeitpunkt dieser Übergabe existiert die Phase-4-Wurzel noch nicht. Prüfe
+das dennoch erneut. Falls sie inzwischen existiert, untersuche ihren Inhalt
+vor jeder Änderung und überschreibe keine fremde Arbeit. Lege andernfalls die
+Wurzel sowie `prototype` und `static-analysis` neu an.
+
+Kopiere genau die vier oben genannten Quell-/Projektdateien aus Phase 3 nach
+`prototype`. Kopiere keine Rohdaten, Quellkopien, Berichte, `README.md`, Logs,
+PID-/Hash-Hilfsdateien, `bin`-/`obj`-Verzeichnisse oder temporären Dateien.
+Erstelle eine neue Phase-4-README mit Zweck, Schutzregeln, Aufruf, Sollmengen
+und Ergebnis. Schreibe niemals in Phase 2 oder Phase 3.
 
 Verwende ausschließlich dieses lokal bereitgestellte SDK:
 
@@ -283,7 +345,21 @@ Nachfolgerkette erzeugen und keine alte/neue Grabnummer ableiten.
 `STATUS~1.GS` oder physischen Löschsätzen; deren negative beziehungsweise
 andersartige Befunde sind bereits dokumentiert.
 
+Profiliere `W020` Byte 1.694/Länge 1 unmittelbar anschließend separat. Prüfe
+nur aggregierte Codeklassen, Null-/Leerbelegung, Hash-Anzahl und statische
+Nachbarschaft. Eine Übereinstimmung mit einzelnen Statuscodes reicht nicht für
+eine Semantik. Der kombinierte Phase-4-Prüfbereich `W020` 621–1.694 umfasst
+1.074 Byte: 1.064 Byte Adress-/Grabzustandsbereich, 9 Byte
+`LETZTER-VORGANG`-Kandidat und 1 Byte spätes Kennzeichen.
+
 ## Externer Profiler und Bericht
+
+Lege die neue Logik vorzugsweise in
+`prototype\AdditionalAddressesProfiler.cs` ab und binde sie in `Program.cs`
+als eigenen Berichtsteil ein. Erhalte die bestehenden Finanz- und
+Personen-/Rechte-/Statusausgaben unverändert; korrigiere sie nur, wenn eine
+neue reproduzierbare Evidenz einen ausdrücklich dokumentierten Widerspruch
+beweist. Jeder interne Schlüsselvergleich bleibt SHA-256-basiert.
 
 Erweitere den Phase-4-Profiler so, dass er zusätzlich zu den unveränderten
 Phase-3-Ergebnissen mindestens ausgibt:
@@ -295,13 +371,18 @@ Phase-3-Ergebnissen mindestens ausgibt:
 - passende Datumsformathypothesen nur für technisch plausible Feldlängen;
 - aggregierte Strukturvergleiche zwischen den Adressrollen;
 - einen separaten Bericht für W020 1.685/Länge 9;
+- einen separaten Bericht für W020 1.694/Länge 1 sowie eine zusätzliche
+  Coverage-Prüfung für den gesamten Bereich W020 621–1.694 = 1.074 Byte;
 - explizite Beobachtungen, Interpretationen, Konfidenzen, Status und sichere
   Folgen für jede neue Hypothese;
 - Positiv- und Negativbefunde ohne Quellwerte.
 
 Der Profiler muss beim Start interne Coverage-Verletzungen abbrechen und darf
 keine Feldwerte ausgeben. Baue und starte ihn nur gegen die sicheren
-Phase-2-Kopien und -Extrakte. Ein zulässiger Aufruf ist:
+Phase-2-Kopien und -Extrakte. Verwende für statische Analysen vorrangig die
+sicheren Phase-2-Kopien; greife auf Originale nur für den rein lesenden
+abschließenden Hashvergleich zu. Führe den Profiler stets mit allen drei
+Parametern aus, damit der Bericht in Phase 4 landet. Ein zulässiger Aufruf ist:
 
 ```powershell
 & 'C:\Users\Benke\AppData\Local\Cemaris\dotnet-10.0.302-complete\dotnet.exe' `
@@ -343,7 +424,8 @@ Migrationsdokumenten auf diese neue Übergabe.
 ## Abschlussprüfung
 
 - Phase-4-Prototyp mit .NET SDK 10.0.302 bauen; keine Warnungen oder Fehler;
-- aggregierten Phase-4-Bericht reproduzierbar erzeugen;
+- aggregierten Phase-4-Bericht zweimal mit identischen Argumenten erzeugen und
+  per Dateigröße und SHA-256 auf Byteidentität prüfen;
 - weiterhin 24 logische und 24 vollständige physische Profile sowie
   fehlerfreie Parserläufe prüfen;
 - neue Feldbereiche, Hypothesen, Negativbefunde und Coverage-Mengen prüfen;
@@ -360,6 +442,9 @@ Migrationsdokumenten auf diese neue Übergabe.
 - neue Tabellen auf konsistente Spalten prüfen;
 - alle verfeinerten Bereiche auf lückenlose, überschneidungsfreie Summen und
   unveränderte Satzlängen prüfen;
+- W020 621–1.684 = 1.064 Byte, 1.685–1.693 = 9 Byte und 1.694 = 1 Byte
+  einzeln sowie gemeinsam als 621–1.694 = 1.074 Byte prüfen;
+- W021 5.465–5.770 = 306 Byte prüfen;
 - nach personenbezogenen Beispieldaten, Zugangsdaten und versehentlich in Git
   gelangten DAT-/IDX-/RAW-/JSON-/Binärdateien suchen;
 - bestätigen, dass Originale, Phase-2-Basis und Phase-3-Arbeitsstand
@@ -375,10 +460,11 @@ Berichte abschließend nach Priorität:
 3. welche fachlichen W021-Nachlauffelder von technischen Bereichen getrennt
    wurden;
 4. ob W020 1.685/Länge 9 als Status-/Nachfolgermerkmal belastbar ist;
-5. welche Parser- oder Filterregel dadurch erlaubt ist oder ausdrücklich offen
+5. ob W020 1.694/Länge 1 eine belastbare eigene Bedeutung besitzt;
+6. welche Parser- oder Filterregel dadurch erlaubt ist oder ausdrücklich offen
    bleibt;
-6. welche Bytebereiche und Semantiken offen bleiben;
-7. welcher danach folgende Arbeitsschritt konkret empfohlen wird.
+7. welche Bytebereiche und Semantiken offen bleiben;
+8. welcher danach folgende Arbeitsschritt konkret empfohlen wird.
 ````
 
 ## Erwarteter Abschlusszustand
@@ -387,5 +473,7 @@ Der Folgechat ist abgeschlossen, wenn `W020` Byte 621–1.684 und `W021` Byte
 5.465–5.770 lückenlos technisch dokumentiert sind, Rollen- und
 Grabzustandssemantiken nur im Umfang unabhängiger Evidenz vergeben wurden und
 der Gegencheck von `W020` Byte 1.685/Länge 9 entweder belastbar belegt oder
-sichtbar `OFFEN` abgeschlossen ist. Eine offene Nachfolgerregel blockiert die
-übrige Quellrekonstruktion nicht und erlaubt weiterhin keinen Ausschluss.
+sichtbar `OFFEN` abgeschlossen ist. Auch Byte 1.694/Länge 1 ist separat
+klassifiziert, sodass W020 621–1.694 ohne Lücke geprüft ist. Eine offene
+Nachfolgerregel blockiert die übrige Quellrekonstruktion nicht und erlaubt
+weiterhin keinen Ausschluss.

@@ -275,8 +275,10 @@ ist ausgeführt. Der nächste lokale Analyseschritt ist der
 [Übergabeauftrag zu weiteren Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md):
 `W020` 621–1.684 und `W021` 5.465–5.770 werden feldgenau abgegrenzt. Der
 `LETZTER-VORGANG`-Kandidat 1685/L9 bleibt dabei eine eng begrenzte
-Statusgegenprüfung, aber keine Filterregel. Ohne eindeutigen Nachfolgerbeleg
-darf `INT-028/029` weiterhin keinen Satz ausschließen.
+Statusgegenprüfung, aber keine Filterregel; das anschließende Byte 1694/L1
+wird getrennt klassifiziert. Damit ist W020 621–1.694 ohne Layoutlücke im
+Scope. Ohne eindeutigen Nachfolgerbeleg darf `INT-028/029` weiterhin keinen
+Satz ausschließen.
 
 Erst nach ausreichenden Quellbelegen folgt ein Vorschlag für das unabhängige
 Cemaris-Zielmodell. Eine

@@ -341,6 +341,8 @@ Storno, Aufhebung und ein gültiger Umnummerierungsnachfolger bleiben deshalb
 nicht filterfähig. Der nächste mit dem vorhandenen Bestand ausführbare Schritt
 ist die im
 [Übergabeauftrag zu weiteren Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md)
-beschriebene Zerlegung von `W020` 621–1.684 und `W021` 5.465–5.770. Unbekannte
-Bereiche bleiben erhalten und `OFFEN`; es folgt weiterhin weder ein Import
-noch ein aus EDWALT abgeleitetes 1:1-Zielmodell.
+beschriebene Zerlegung von `W020` 621–1.684 und `W021` 5.465–5.770. Zusätzlich
+werden der Statuskandidat 1685/L9 und das getrennte Kennzeichen 1694/L1
+geprüft, sodass W020 621–1.694 ohne Lücke im Scope liegt. Unbekannte Bereiche
+bleiben erhalten und `OFFEN`; es folgt weiterhin weder ein Import noch ein aus
+EDWALT abgeleitetes 1:1-Zielmodell.

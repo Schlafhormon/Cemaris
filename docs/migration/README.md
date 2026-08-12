@@ -215,8 +215,10 @@ Module `STATUS_1.GS`/`STATUS~1.GS` sind als Nachfolgerregel widerlegt. Bis zu
 einem eindeutigen Beleg wird aufgrund dieser Kandidaten nichts ausgeschlossen.
 
 Als Nächstes werden `W020` 621–1.684 (Adressrollen 2/3, Grabmal, Einfassung,
-FUG) und `W021` 5.465–5.770 (fachlicher Nachlauf gegenüber Drucktechnik)
-untersucht. Der vollständige Auftrag steht im
+FUG), der `LETZTER-VORGANG`-Kandidat 1.685/L9, das getrennte Kennzeichen
+1.694/L1 und `W021` 5.465–5.770 (fachlicher Nachlauf gegenüber Drucktechnik)
+untersucht. Damit wird W020 621–1.694 ohne Layoutlücke geprüft. Der vollständige
+Auftrag steht im
 [aktuellen Übergabedokument](edwalt-additional-addresses-next-step-handoff.md).
 Unklare Felder bleiben sichtbar `OFFEN`; es gibt weiterhin weder Import noch
 Quell-zu-Ziel-Mapping.

@@ -546,7 +546,8 @@ Der nächste Schritt ist in dieser Reihenfolge priorisiert:
 
 1. `W020` 621–1.684 in die Adressrollen 2/3 sowie Grabmal-, Einfassungs- und
    FUG-Bereiche zerlegen; dabei den `LETZTER-VORGANG`-Kandidaten 1685/L9 nur
-   als Gegenprüfung verwenden;
+   als Gegenprüfung verwenden und das anschließende Kennzeichen 1694/L1
+   getrennt klassifizieren, sodass 621–1.694 ohne Layoutlücke geprüft ist;
 2. den W021-Nachlauf 5.465–5.770 auf eigenständige Erwerbs-, Einlieferungs- und
    Überführungsdaten gegenüber technischen Druckfeldern abgrenzen;
 3. nur bei ausdrücklicher Datenschutz-/Zweckfreigabe `W023` 29–127
