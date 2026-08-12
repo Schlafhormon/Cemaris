@@ -4,6 +4,15 @@
 > für einen neuen Chat ohne vorherigen Gesprächskontext. Es beschreibt den
 > nächsten abgegrenzten Analyseschritt, nicht das Cemaris-Zielmodell und keine
 > Importimplementierung.
+>
+> **Status:** Der Auftrag ist ausgeführt. Der daraufhin ausgeführte
+> Folgeauftrag steht in
+> [EDWALT-Personen-, Nutzungsrechts- und Statusrekonstruktion](edwalt-person-rights-status-next-step-handoff.md).
+> Die im kopierbaren historischen Prompt verwendete Annahme von 32
+> W021-Blöcken ab Byte 1.401 ist inzwischen korrigiert: Der Gesamtbereich
+> beginnt bei Byte 385 und enthält 40 Blöcke; Byte 1.401 beginnt Block 9. Der
+> heute aktuelle Auftrag steht unter
+> [weitere Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md).
 
 ## Ziel des nächsten Arbeitsschritts
 
@@ -122,7 +131,7 @@ Repositories:
 - Prototypquelltext:
   `...\phase2-20260811\prototype\Program.cs`
 - aggregierter Bericht:
-  `...\phase2-20260811\prototype\report.json`
+  `...\phase2-20260811\report.json`
 - temporäre Runtime-Dateien:
   `...\phase2-20260811\runtime-temp`
 - verwendbares .NET SDK 10.0.302:
@@ -139,7 +148,7 @@ Variantenvergleiche und 24 physische Dateiprofile. Der korrigierte Aufruf ist:
   run --project 'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811\prototype\Edwalt.Phase2Profiler.csproj' -- `
   'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811\raw-uncompressed' `
   'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811' `
-  'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811\prototype\report.json'
+  'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811\report.json'
 
 Der externe Prototyp darf außerhalb des Repositories mit `apply_patch`
 erweitert werden. Verwende strukturierte Parser und Bereichsspezifikationen,
@@ -172,9 +181,9 @@ lokaler Programme ist erlaubt.
 - `W005` enthält gegenüber `W005dm` eingeschobene Bereiche 237–266 und
   285–289; die Folgebereiche sind um insgesamt 35 Byte verschoben;
 - `W006/W006dm` besitzen dasselbe 392-Byte-Grundlayout; 202–392 ist in beiden
-  Beständen vollständig gefüllt;
-- Original und sichere Arbeitskopie wurden zuletzt über 148 Dateien in
-  `EDW3DAT` und 444 Dateien in `Edwalt3` ohne fehlende Dateien, Längen- oder
+  Beständen vollständig SP-gefüllt;
+- Original und sichere Arbeitskopie wurden zuletzt über 150 Dateien in
+  `EDW3DAT` und 447 Dateien in `Edwalt3` ohne fehlende Dateien, Längen- oder
   SHA-256-Abweichungen verglichen.
 
 ## Fachlich verbindliche Abgrenzung
@@ -232,7 +241,7 @@ Die Variantenverschiebung ist zwingend zu berücksichtigen:
 - `W005` 267–284 entspricht `W005dm` 237–254;
 - `W005` 285–289 ohne Gegenstück;
 - `W005` 290–358 entspricht `W005dm` 255–323;
-- `W005` 359–1.414 ist im untersuchten Bestand vollständig gefüllt.
+- `W005` 359–1.414 ist im untersuchten Bestand vollständig SP-gefüllt.
 
 ### 3. `W021`-Positionsblock
 

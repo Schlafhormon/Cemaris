@@ -26,9 +26,12 @@
 > Die Quellartefakte sind technisch read-only inventarisiert. Das Micro-Focus-
 > Speicherformat, feste Satzlängen, Indexdefinitionen, aktive Satzmengen,
 > physische Löschsatztypen und mehrere Schlüsselbeziehungen sind inzwischen
-> auf einer externen Arbeitskopie belegt. Auch die priorisierten Gebühren-/
-> Bescheidblöcke sind aggregiert profiliert; ihr Nullinitialisierungsbefund
-> begrenzt die feldgenaue Semantik. Weitere Ausschlüsse und ein fachliches
+> auf einer externen Arbeitskopie belegt. `W020` 91–620 und `W021` 29–1.400
+> sind lückenlos profiliert; mehrere W021-Ereignisfelder sind bestätigt.
+> `W021` enthält 40×127 Gebührenpositionen ab Byte 385, davon sind die ersten
+> acht belegt. Eine sichere Storno-/Umnummerierungs-/Nachfolgerregel wurde
+> nicht gefunden; deshalb ist derzeit keine entsprechende Filterung erlaubt.
+> Weitere Ausschlüsse und ein fachliches
 > Cemaris-Zielmodell sind weiterhin nicht vollständig bekannt.
 
 Die konkrete
@@ -41,6 +44,12 @@ grenzt die priorisierten Sätze lückenlos ab und kennzeichnet die noch vor eine
 fachlichen Mapping zu klärenden Punkte. Der
 [ausgeführte Übergabeauftrag zur Gebühren-/Bescheidvertiefung](edwalt-next-step-handoff.md)
 dokumentiert Arbeitsbereiche, Schutzregeln, Prioritäten und Abschlusskriterien.
+Der
+[ausgeführte Auftrag zur Personen-, Nutzungsrechts- und Statusrekonstruktion](edwalt-person-rights-status-next-step-handoff.md)
+dokumentiert die Schutz- und Abnahmekriterien dieser Phase. Der
+[Folgeauftrag zu weiteren Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md)
+ist der nächste eigenständige Arbeitsauftrag.
+
 **EDWALT** ist die kanonische
 Bezeichnung; **EDWALT3** bezeichnet dasselbe Produkt beziehungsweise die
 untersuchte Version (`INT-001`, `BESTÄTIGT`, Konfidenz hoch).
@@ -187,20 +196,27 @@ Eine erfolgreiche technische Zeilenzahl ersetzt keine fachliche Abnahme.
 ## Unmittelbarer nächster Arbeitsschritt
 
 Das Cemaris-Fachmodell wird noch nicht aufgrund der EDWALT-Struktur erweitert.
-Der erste evidenzbasierte Quellfeldkatalog für `W005`, `W006`, `W020`, `W021`,
-`W023`, `buch` und `W040` liegt vor. Die priorisierte Gebühren-/Bescheid-
-vertiefung ist durchgeführt: W021/W040-Positionsblöcke sind im untersuchten
-Bestand nahezu beziehungsweise vollständig nullinitialisiert, 124
-Gebührenreferenz- und 5.200 Dezimal-/Rechenhypothesen liefern daher keinen
-belastbaren Positions- oder Betragsbeleg. Die `buch`-Erweiterung besitzt eine
-stark bestätigte 236-Byte-Periode; ihre statische Unterfeldreihenfolge lässt
-sich ohne nichtleeren Referenzbestand oder Copybook noch nicht sicher
-ausrichten. `buch` 118/126/134 sind nur Nullwerte und keine nutzbaren
-Datumsspalten.
+Die Personen-/Rechte-/Statusphase ist abgeschlossen: `W020` 91–620 ist in 32,
+`W021` 29–1.400 in 34 lückenlose Bereiche zerlegt. Trauerfeierdatum,
+Beisetzdatum, Geburtsdatum, Ruhefrist von/bis und Sterbedatum sind in `W021`
+mehrfach belegt. Die erste W020-Adressgruppe ist technisch getrennt, aber noch
+nicht sicher als Nutzungsberechtigte, Empfänger oder Zahler benennbar.
 
-Als Nächstes sind ein freigegebener nichtleerer Referenzbestand oder eine
-fachkundige Feldbreitenbestätigung sowie die fachliche Lokalisierung von
-festgesetztem Betrag, Fälligkeit und Variantenvorrang erforderlich. Unklare
-Felder und unbekannte Bytebereiche bleiben sichtbar `OFFEN`; sie werden weder
-erfunden noch mit stillen Standardwerten belegt. Bis dahin gibt es weder Import
-noch Quell-zu-Ziel-Mapping.
+Die ältere W021-Blockgrenze ist korrigiert: 40×127 Byte beginnen bei Byte 385;
+Positionen 1–8 sind belegt und die Gebührennummer relativ 73/L4 referenziert
+42/42 verschiedene Gebührenstammkandidaten. Positionen 9–40 sind initialisiert.
+Festgesetzter Betrag, Fälligkeit und die übrigen Positionsunterfelder bleiben
+`OFFEN`.
+
+Storno-, Erledigt- und Nummernänderungsabläufe sind statisch vorhanden. Ein
+eindeutiger alter/neuer Schlüssel oder gültiger Nachfolger wurde jedoch nicht
+gefunden. Physische Löschsätze, Finanzstorno, `W040alt` und die identischen
+Module `STATUS_1.GS`/`STATUS~1.GS` sind als Nachfolgerregel widerlegt. Bis zu
+einem eindeutigen Beleg wird aufgrund dieser Kandidaten nichts ausgeschlossen.
+
+Als Nächstes werden `W020` 621–1.684 (Adressrollen 2/3, Grabmal, Einfassung,
+FUG) und `W021` 5.465–5.770 (fachlicher Nachlauf gegenüber Drucktechnik)
+untersucht. Der vollständige Auftrag steht im
+[aktuellen Übergabedokument](edwalt-additional-addresses-next-step-handoff.md).
+Unklare Felder bleiben sichtbar `OFFEN`; es gibt weiterhin weder Import noch
+Quell-zu-Ziel-Mapping.

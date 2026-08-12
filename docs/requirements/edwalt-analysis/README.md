@@ -125,6 +125,10 @@ Lokale Quellenverweise nennen Quellbereich, relativen Pfad und bei HTML-Hilfen z
 10. Ein eigener .NET-Prototyp profilierte ausschließlich technische Aggregate,
     gehashte Schlüsselbeziehungen, Datumskandidaten, Zeichensatzindizien und
     physische Satztypen. Er gab keine Quellwerte aus.
+11. In Phase 3 wurden `W020` 91–620 und `W021` 29–1.400 deklarativ und
+    lückenlos profiliert, statische Status-/Nummernänderungsabläufe geprüft und
+    mögliche Nachfolger ausschließlich aggregiert beziehungsweise gehasht
+    verglichen. Die Phase-2-Basis blieb read-only.
 
 ## Dokumente dieser Analyse
 
@@ -138,6 +142,8 @@ Lokale Quellenverweise nennen Quellbereich, relativen Pfad und bei HTML-Hilfen z
 - [Fortlaufendes Interviewprotokoll](interview-record.md)
 - [Migrationsbezogene Quellenanalyse](../../migration/edwalt-source-analysis.md)
 - [Extraktionsprototyp und technisches Datenprofil](../../migration/edwalt-extraction-prototype.md)
+- [Ausgeführter Übergabeauftrag: Personen-, Nutzungsrechts- und Statusrekonstruktion](../../migration/edwalt-person-rights-status-next-step-handoff.md)
+- [Aktueller Übergabeauftrag: weitere Adressrollen und Vorgangsnachlauf](../../migration/edwalt-additional-addresses-next-step-handoff.md)
 
 ## Übergreifende Grenzen
 
@@ -148,7 +154,7 @@ Lokale Quellenverweise nennen Quellbereich, relativen Pfad und bei HTML-Hilfen z
 | `OBS-LIM-003` | Vorhandene Module und aktuelle Zeitstempel beweisen keine Nutzung. | Nutzungsstatus bleibt je Funktion offen. | `OFFEN` | hoch | Interviews, Nutzungsbeobachtung und freigegebene Betriebsprotokolle. |
 | `OBS-LIM-004` | Alte OLE-Vorlagen konnten statisch auf Word-Streams und Feldnamen, nicht layoutgetreu oder semantisch vollständig geprüft werden. | Dokumentzweck und Makrofreiheit sind nicht abschließend bewiesen. | `OFFEN` | mittel | Isolierte, makrodeaktivierte Dokumentforensik an freigegebenen Kopien. |
 | `OBS-LIM-005` | Es wurde kein Winyard-Verweis in den Quellen gefunden. | Das beweist nicht, dass Ablageprozesse außerhalb von EDWALT fehlen. | `OFFEN` | mittel | DMS-Prozess außerhalb des Altverfahrens beobachten. |
-| `OBS-LIM-006` | Die 127-/115-Byte-Gebührenpositionsblöcke des vorliegenden Bestands sind vollständig beziehungsweise nahezu vollständig nullinitialisiert; 124 Referenz- und 5.200 Rechenhypothesen enthalten keinen belastbaren Finanzwert. | Statische Feldreihenfolgen und Blockgrenzen sind belegt, innere Feldbreiten, Dezimaltypen und Fachrollen können an diesem Bestand nicht weiter validiert werden. | Struktur `BESTÄTIGT`, Feldsemantik `OFFEN` | hoch | Freigegebenen nichtleeren Referenzbestand, Copybook oder fachkundige Feldbreitenbestätigung beschaffen; keine Nullpositionen erzeugen. |
+| `OBS-LIM-006` | Die ältere W021-Grenze war falsch: 40×127 Byte beginnen bei Byte 385. Positionen 1–8 sind belegt, 9–40 initialisiert; Gebührennummer relativ 73/L4 ist referenziell bestätigt. W040/W040alt bleiben nahezu/vollständig initialisiert. | Die W021-Gebührennummer ist nutzbar, übrige Unterfelder und W040-Dezimaltypen bleiben offen. | Korrektur und Gebührenreferenz `BESTÄTIGT`, übrige Feldsemantik `OFFEN` | hoch | Keine Nullpositionen erzeugen; Betrag/Fälligkeit und übrige Grenzen weiter belegen. |
 
 ## Datenschutz und Urheberrecht
 
@@ -166,12 +172,14 @@ Die Dokumentation enthält keine Klartext-Datensätze, Personenbeispiele, Grabnu
 | `VAL-004` | DAT/IDX-Partner | 24 DAT- und 24 IDX-Zeilen; 0 verwaiste Partner | `ANNAHME` | hoch | Satz-/Indexkonsistenz ist damit nicht bewiesen. |
 | `VAL-005` | Hilfestruktur | 127 EDW- und 76 EDK-Anker in 72 bzw. 45 Ankerpositionen vollständig registriert | `ANNAHME` | hoch | Versionsgleichheit zur produktiven Binärdatei. |
 | `VAL-006` | Hilfebilder | 82 EDW- und 41 EDK-GIFs einzeln zugeordnet; 0 fehlende und 0 nicht referenzierte GIFs | `ANNAHME` | hoch | Produktive Nutzung der gezeigten Masken. |
-| `VAL-007` | lokale Markdown-Links der Analyse und aktualisierten Indexdokumente | 65 Links in 31 Markdown-Dateien geprüft; 0 ungültig | `ANNAHME` | hoch | Keine. |
+| `VAL-007` | lokale Markdown-Links der Analyse und aktualisierten Indexdokumente | 72 Links in 32 Markdown-Dateien geprüft; 0 ungültig | `ANNAHME` | hoch | Keine. |
 | `VAL-008` | Repository-Inhalt | keine unversionierte Binärdatei; nur Markdown und CSV neu; keine Handbücher, Bilder, Programme oder Vorlagen kopiert | `ANNAHME` | hoch | Redaktionelle/Datenschutz-Freigabe vor Veröffentlichung. |
 | `VAL-009` | Klartextmuster für Passwortwert, Server/Benutzer/DSN, UNC-Pfad und E-Mail in neuen Analysedateien | 0 Treffer; Konfigurationswerte blieben maskiert/nicht dokumentiert | `ANNAHME` | hoch | Eine menschliche Datenschutz-Endprüfung bleibt vor Veröffentlichung sinnvoll. |
 | `VAL-010` | externer Finanzprofiler: Build und reproduzierbarer Bericht | Build mit .NET SDK 10.0.302: 0 Warnungen/Fehler; Bericht: 24 logische und 24 vollständige physische Profile, 52 Finanzfeldprofile, 7 Wiederholungsblöcke, 124 Referenz- und 5.200 Rechenhypothesen | technisch `BESTÄTIGT` | hoch | Fachsemantik der nullinitialisierten Bereiche bleibt OFFEN. |
-| `VAL-011` | erneuter SHA-256-Vergleich Originale gegen sichere Arbeitskopien | 150 `EDW3DAT`- und 447 `Edwalt3`-Dateien; 0 fehlende/zusätzliche Dateien, 0 Längen- und 0 Hashabweichungen | formale Unverändertheit `BESTÄTIGT` | hoch | Keine. |
+| `VAL-011` | erneuter SHA-256-Vergleich Originale gegen sichere Arbeitskopien | aktuell 148 reguläre `EDW3DAT`- und 444 reguläre `Edwalt3`-Dateien; 0 fehlende/zusätzliche Dateien, 0 Längen- und 0 Hashabweichungen. Die historischen 150/447 aus Phase 1 enthalten zwei Office-Sperrdateien und drei `Thumbs.db`. | formale Unverändertheit `BESTÄTIGT` | hoch | Keine; Bestandszählungen nicht mehr vermischen. |
 | `VAL-012` | neue Tabellen, Bereichssummen und Repository-Datenschutzscan | konsistente Spalten; 10 Layout-/Blocksummen korrekt; 0 geänderte DAT/IDX/RAW/JSON-Dateien; 0 Treffer der definierten Zugangsdaten-/E-Mail-/UNC-Muster | `ANNAHME` | hoch | Menschliche fachliche und Datenschutz-Endprüfung bleibt erforderlich. |
-| `VAL-010` | Git-Whitespace-/Patchprüfung | `git diff --check` ohne Befund | `ANNAHME` | hoch | Unversionierte Dateien werden zusätzlich separat auf Whitespace geprüft. |
-| `VAL-011` | Phase-2-Arbeitskopie gegen aktuelle Originalquellen: relative Pfade, Größen und SHA-256 | 592 Dateien je Seite; 0 Abweichungen | `BESTÄTIGT` für den Prüfzeitpunkt 11.08.2026 | hoch | Keine; die fünf flüchtigen Phase-1-Dateien sind separat erläutert. |
-| `VAL-012` | Physischer DAT-Parser gegen logischen sequenziellen Export | alle 24 DAT-Dateien vollständig gelesen; aktive physische Sätze je Datei entsprechen exakt 53.991 logischen Sätzen | `BESTÄTIGT` technisch | hoch | Fachliche Feldsemantik bleibt offen. |
+| `VAL-013` | Git-Whitespace-/Patchprüfung | `git diff --check` ohne Befund | `ANNAHME` | hoch | Unversionierte Dateien werden zusätzlich separat auf Whitespace geprüft. |
+| `VAL-014` | Phase-2-Arbeitskopie gegen aktuelle Originalquellen: relative Pfade, Größen und SHA-256 | 592 Dateien je Seite; 0 Abweichungen | `BESTÄTIGT` für den Prüfzeitpunkt 11.08.2026 | hoch | Keine; die fünf flüchtigen Phase-1-Dateien sind separat erläutert. |
+| `VAL-015` | Physischer DAT-Parser gegen logischen sequenziellen Export | alle 24 DAT-Dateien vollständig gelesen; aktive physische Sätze je Datei entsprechen exakt 53.991 logischen Sätzen | `BESTÄTIGT` technisch | hoch | Fachliche Feldsemantik bleibt offen. |
+| `VAL-016` | externer Phase-3-Profiler: Build, Bericht und Bereichsabdeckung | .NET 10.0.302: 0 Warnungen/Fehler; 24 logische/24 vollständige physische Profile; 66 Primärbereichs- und 5 Statusfeldprofile; W020 530/530 und W021 1.372/1.372 Byte; 8 Statushypothesen, 5 statische Befunde; zwei Läufe erzeugten byteidentisch 28.332.345 Byte mit SHA-256 `43F8749A4E1C3AC4390FFD56EA33106056D99A1CA03D8E8F4CA517D892438A48` | technisch `BESTÄTIGT` | hoch | Nicht bestätigte Semantik bleibt `OFFEN`; keine Statusfilterung. |
+| `VAL-017` | Phase-3-Dokumentation: Links, Tabellen, Bereichssummen und Datenschutz | 77 lokale Links in 33 Markdown-Dateien, 0 ungültig; alle Tabellen spaltenkonsistent; F020 1–2.693 und F021 1–6.265 lückenlos/überschneidungsfrei; 0 neue DAT/IDX/RAW/JSON-/Binärdateien sowie 0 definierte Zugangsdaten-/E-Mail-/UNC-Treffer | technisch `BESTÄTIGT` | hoch | Menschliche fachliche und Datenschutz-Endprüfung vor Veröffentlichung. |

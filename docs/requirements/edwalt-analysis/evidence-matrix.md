@@ -41,18 +41,18 @@ Die bestätigten Bereichshäufigkeiten und ihre vorläufige Zuordnung stehen im
 
 | Funktions-ID | Handbuch / Screenshot | Programmkomponente | Datenbestand | Vorlage/Ausgabe/Release | Nutzungsindiz | fachliche Bestätigung; Status; Konfidenz | Wichtigste Lücke |
 |---|---|---|---|---|---|---|---|
-| FUN-100 | MAN-EDW-100 / IMG-EDW-130 | TECH-014 | DAT-015/010 | TPL-001/002 u. a. | W020 2026 | nein; ANNAHME; hoch | dauerhafter Grab-/Lageschlüssel |
-| FUN-101 | MAN-EDW-101 / IMG-EDW-131–133 | TECH-014 | DAT-016/010/012 | TPL-001/003/006 u. a. | W021 2026 | nein; ANNAHME; hoch | Vorgangsarten, Pflichtdaten und Fristregeln |
+| FUN-100 | MAN-EDW-100 / IMG-EDW-130 | TECH-014 | DAT-015/010 | TPL-001/002 u. a. | W020 2026; 91–620 in 32 lückenlose Teilbereiche profiliert | Struktur teilweise `BESTÄTIGT`, Rollen-/Rechtesemantik `OFFEN`; hoch abgestuft | dauerhafter Grab-/Lageschlüssel und genaue erste Adressrolle |
+| FUN-101 | MAN-EDW-101 / IMG-EDW-131–133 | TECH-014 | DAT-016/010/012 | TPL-001/003/006 u. a. | W021 2026; Trauerfeier-, Beisetz-, Geburts-, Ruhefrist- und Sterbedatum feldgenau belegt | Ereignisfelder `BESTÄTIGT`, Vorgangsarten/Pflichtregeln `OFFEN`; hoch | Vorgangsarten, Pflichtdaten und Fristregeln |
 | FUN-102 | MAN-EDW-102 / IMG-EDW-134 | TECH-014 | DAT-018 | keine sichere Zuordnung | W023 2026; 28-Byte-W021-Schlüssel und 16×30-Byte-Hinweisbereich technisch bestätigt | Struktur `BESTÄTIGT`, Zweck/Inhalt `OFFEN`; hoch | Zweck/Rechtsgrundlage freier Zusatzfelder und Bedeutung des Zusatzkopfs 29–127 |
-| FUN-103 | MAN-EDW-103 / IMG-EDW-135–137 | TECH-014/017/018 | DAT-001/006/012/016 | Bescheid-/Finanzdokumente | Buch/W006/W021 2026; W021-Positionsblock vollständig initialisiert, 26 Gebührenhypothesen ohne Treffer | Migrationsgrenze `BESTÄTIGT`, konkrete Positionsfelder `OFFEN`; hoch | Feldoffset und Dezimaldarstellung von festgesetztem Betrag/Fälligkeit; nichtleerer Referenzbestand |
+| FUN-103 | MAN-EDW-103 / IMG-EDW-135–137 | TECH-014/017/018 | DAT-001/006/012/016 | Bescheid-/Finanzdokumente | Buch/W006/W021 2026; W021 385–5.464 = 40×127 Byte, Positionen 1–8 belegt; Gebührennummer relativ 73/L4 mit 42/42 Referenzen | Migrationsgrenze, Blockgrenze und Gebührennummer `BESTÄTIGT`, übrige Positionsfelder `OFFEN`; hoch | Feldoffset/Dezimaldarstellung von Betrag und Fälligkeit |
 | FUN-104 | MAN-EDW-104/200 / IMG-EDW-138/139/145/146 | TECH-014 | DAT-015/016 | keines | W020/W021 2026 | nein; ANNAHME; hoch | harte versus weiche Belegungsprüfung |
 | FUN-105 | MAN-EDW-105 / IMG-EDW-140 | TECH-013/016/017 | DAT-004/001 | TPL-001 ff.; DOC-001 ff. | DRAUF 2026, Vorlagen bis 2025 | nein; ANNAHME; hoch | Druck-, Buchungs-, Nummern- und Ablagewirkung |
 | FUN-106 | MAN-EDW-106 / IMG-EDW-141 | TECH-017 | DAT-001/016 | Gutschrift/Storno; REL-320/330 indirekt | Buch 2026 | nein; ANNAHME; hoch | finanzrechtliche Historie |
 | FUN-107 | MAN-EDW-107 / IMG-EDW-142–144 | TECH-014 | DAT-015/016/001 | Gutschrift möglich | nur Handbuch | nein; ANNAHME; mittel | heutige Nutzung und Rechtskontext |
 | FUN-108 | MAN-EDW-201 / IMG-EDW-147 | TECH-014 | DAT-015/016 | REL-330 nennt reparierte Grabsuche | Daten aktuell, Suchnutzung offen | nein; ANNAHME; hoch | Suchpraxis, Rechte, Protokollierung |
-| FUN-109 | MAN-EDW-203 / IMG-EDW-149 | TECH-014 | DAT-015/016 | keines | nur Handbuch + Daten | nein; ANNAHME; hoch | Referenz- und Historienfortschreibung |
+| FUN-109 | MAN-EDW-203 / IMG-EDW-149 | TECH-014 | DAT-015/016/018/004 | keines | statische `NUMMER-AENDERN`-Abläufe; kein altes/neues Feld; aggregierter Nachfolgerscan ohne eindeutige Regel | Ablauf `BESTÄTIGT`, Persistenz-/Nachfolgerregel `OFFEN`; hoch | Referenz- und Historienfortschreibung; bis dahin keine Filterung |
 | FUN-110 | MAN-EDW-204 / IMG-EDW-150/151 | TECH-014 | DAT-015/017 | keines | nur Handbuch + Daten | nein; ANNAHME; hoch | führende Adressrollen |
-| FUN-111 | MAN-EDW-205 / IMG-EDW-152 | TECH-014 | DAT-015–018 | keines | nur Handbuch; keine Löschung beobachtet | nein; ANNAHME; hoch | Zulässigkeit, Protokoll, Wiederherstellung |
+| FUN-111 | MAN-EDW-205 / IMG-EDW-152 | TECH-014 | DAT-015–018 | keines | statische Lösch-/Erledigt-/Stornoabläufe; 4.119 physische Löschsätze sind kein Fachstatus | Abläufe `BESTÄTIGT`, fachliche Statuscodes `OFFEN`; hoch | Zulässigkeit, Protokoll, Wiederherstellung und sichere Filterregel |
 | FUN-112 | MAN-EDW-206/307 / IMG-EDW-153/170 | TECH-014/015 | DAT-015 | REP-EDW-007; REL-320/330 | Releaseänderungen, Nutzung offen | nein; ANNAHME; hoch | Status-/Frist-/Schreibsemantik |
 | FUN-113 | MAN-EDW-207 / IMG-EDW-154 | TECH-014 | DAT-017 | REP-EDW-001/003 optional | W022 2026 | nein; ANNAHME; hoch | Datenminimierung, Aufbewahrung, Migration |
 | FUN-114 | MAN-EDW-208/209 / IMG-EDW-155/156 | TECH-014/017 | DAT-015/001 | Bescheid/PK-Ausgaben | W020/buch 2026 | nein; ANNAHME; hoch | Rollen, PK-Führung, Dubletten |
@@ -229,8 +229,11 @@ Die bestätigten Bereichshäufigkeiten und ihre vorläufige Zuordnung stehen im
   `OFFEN`; mögliche Schreib- und Laufzeitabhängigkeiten sind als MIG-R14 erfasst.
 - `INT-028` schließt stornierte, aufgehobene und durch Umnummerierung überholte
   Vorgänge von der Migration aus (`REQ-MIG-004`, `BESTÄTIGT`, Konfidenz hoch).
-  Die technische Erkennung von Altstand und gültigem Nachfolger bleibt `OFFEN`;
-  die EDWALT-Quelle wird durch den Ausschluss nicht verändert.
+  Die technische Erkennung von Altstand und gültigem Nachfolger bleibt nach
+  statischer Ablaufanalyse und aggregiertem Nachfolgerscan `OFFEN`. `W020`
+  1685/L9 ist nur ein `LETZTER-VORGANG`-Kandidat. Physische Löschsätze,
+  Finanzstorno und `W040alt` sind als Ersatzregel widerlegt. Daher wird noch
+  nichts gefiltert; die EDWALT-Quelle bleibt unverändert.
 - `INT-029` bestätigt, dass ein gültiger Nachfolger nur mit seiner aktuellen
   Nummer migriert wird. Frühere Nummern werden nicht als Suchalias oder
   Historienkennung übernommen (`REQ-MIG-005`, Konfidenz hoch). Die technische
@@ -241,10 +244,12 @@ Die bestätigten Bereichshäufigkeiten und ihre vorläufige Zuordnung stehen im
   EDWALT übernommen; Zahlungsstatus und Mahnungen nicht (`REQ-MIG-006`,
   `BESTÄTIGT`, Konfidenz hoch). Technisch bestätigt sind `buch` 1/L16 als
   Quellnummer, 17/L24 als Fallbezugskandidat, 41/L8 als Bescheiddatum sowie die
-  statische Trennung der Zahlungs-/Mahnfelder. Die Positionsblöcke in
-  `W021/W040` sind im vorliegenden Bestand initialisiert; 124
-  Gebührenreferenz- und 5.200 Rechenhypothesen liefern daher keinen
-  Betragsbeleg. `buch` 118/126/134 bestehen ausschließlich aus Nullwerten und
+  statische Trennung der Zahlungs-/Mahnfelder. Für `W021` ist die frühere
+  Nullbefund-Aussage korrigiert: 40×127 Byte beginnen bei 385, Positionen 1–8
+  sind belegt und Gebührennummer relativ 73/L4 referenziert 42/42 verschiedene
+  Stammkandidaten; Positionen 9–40 sowie W040/W040alt bleiben initialisiert.
+  Die 5.200 Rechenhypothesen liefern keinen Betragsbeleg. `buch` 118/126/134
+  bestehen ausschließlich aus Nullwerten und
   dürfen nicht als Fälligkeit geraten werden. Festgesetzter Betrag,
   Fälligkeit, genaue Positionsfelder und weitere manuelle Eingabefelder bleiben
   technisch beziehungsweise fachlich `OFFEN`.

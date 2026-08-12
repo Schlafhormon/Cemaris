@@ -1,6 +1,6 @@
 # EDWALT-Quellfeldkatalog und Satzlayoutrekonstruktion
 
-> **Stand:** 11.08.2026. Dieser Katalog beschreibt die Quelle, nicht das
+> **Stand:** 12.08.2026. Dieser Katalog beschreibt die Quelle, nicht das
 > Cemaris-Zielmodell. Er ist weder Importspezifikation noch Freigabe zur
 > Datenübernahme. Ungeklärte Feldgrenzen und Bedeutungen werden nicht ergänzt
 > oder mit Standardwerten belegt.
@@ -45,7 +45,7 @@ Zielfeld.
 | `W005dm` | 323 | 1–15 Schlüssel; 16–236 Stamm; 237–254 Folgebereich; 255–323 Folgebereich | Index, Positionen, Variantenvergleich |
 | `W006`, `W006dm` | 392 | 1–10 Schlüssel; 11–115 drei Bezeichnungsteile; 116–138 Mengeneinheit/Dezimalstellen; 139–194 Gebührenblock; 195–201 Erweiterung; 202–392 Reserve | Index, Positionen, `STAMM.GS` |
 | `W020` | 2.693 | 1–26 PK; 27–90 vier Suchcodes; 91–306 Adress-/Suchblock; 307–620 Grab-/Nutzungsblock; 621–1.694 weitere Adressen und Grabzustands-/FUG-Daten; 1.695–2.429 Reserve; 2.430–2.693 Erweiterung | 20 Indexsegmente, Positionen, `EDW.GS`, Hilfe |
-| `W021` | 6.265 | 1–28 PK; 29–292 Vorgangs-/Gebühren-/Personen-/Datumsindizes; 293–1.400 Vorgangsdetails; 1.401–5.464 32×127 Positionsblock; 5.465–5.770 Nachlauf; 5.771–6.265 Reserve | 8 Indexsegmente, Periodizität, `EDW.GS`, Hilfe |
+| `W021` | 6.265 | 1–28 PK; 29–384 Vorgangs-/Personen-/Ereigniskopf; 385–5.464 40×127 Gebührenpositionen; 5.465–5.770 Nachlauf; 5.771–6.265 Reserve | 8 Indexsegmente, korrigierte Periodizität, `EDW.GS`, Hilfe |
 | `W023` | 808 | 1–28 PK; 29–127 Zusatzkopf; 128–607 16×30 Hinweise; 608 Kennzeichen; 609–808 Reserve | Index, Periodizität, `MAN-EDW-102`, Positionsprofile |
 | `buch` | 27.360 | 1–141 neun Indexbereiche; 142–710 Grundblock; 711–1.878 16×73 Historienstruktur; 1.879–2.348 Legacy-Nachlauf; 2.349–27.360 aktuelle Erweiterung mit 236-Byte-Periodizität | 9 Indexsegmente, `BUCHSCHN.GS`, `BUCHA`, Positionen |
 | `BUCHA`, `Buchalt` | 2.348 | gemeinsames Legacy-Layout 1–2.348 wie Präfix von `buch` | identische Indexdefinitionen und Positionsstruktur |
@@ -92,33 +92,86 @@ sind damit sichtbar erfasst; es gibt keine stillschweigend ausgelassenen Bytes.
 | F020-02 | `W020` | 3 | 4 | PK | Windows-1252-Code, SP | belegt | Friedhof | Programmliste; hoch | PK-Teil, Beziehung zu `W021/W022` | P | Padding | migrieren | Quellbytes referenziell vergleichen | führender Friedhofscode? |
 | F020-03 | `W020` | 7 | 20 | PK | Windows-1252-Code, SP | variable Länge, rechts gefüllt | Feld-/Grabnummer | Programmliste, Hilfe, 26-Byte-Schlüsselgleichheit; hoch | Elternschlüssel zu `W021`, Schlüssel zu `W022` | P | Formatvarianten, Umnummerierung | migrieren – zentraler Fallbezug | nicht normalisiert verknüpfen; gültigen Nachfolger erst fachlich bestimmen | Wie sind aufgehobene/umbenannte Nummern markiert? |
 | F020-04 | `W020` | 27 | 64 | vier Alternativindizes à 16 Byte; jeweils zusätzlich Teilindex ab +4/L12 | Windows-1252-Suchcodes | variabel, SP | Suchcode 1–4 | exakte wiederholte Indexstruktur und Programmnamen; hoch | Suche, keine bestätigten Fremdschlüssel | P | abgeleitete/alte Suchwerte, Dubletten | ungeklärt – nur übernehmen, wenn fachlicher Suchnutzen bestätigt | 4×16 Byte erhalten; keine Personenzusammenführung | Welche Suchcodes sind abgeleitet oder historisch? |
-| F020-05 | `W020` | 91 | 216 | Indizes 91/L34, 95/L30, 125/L8, 129/L4, 206/L12, 210/L8 | Windows-1252-/DISPLAY-Adress- und Suchgruppe | variabel, SP | erste nutzungsberechtigte/empfangende Person: Namen, Anrede, Titel, Anschrift und Such-/Datumsanteile; Einzelfeldgrenzen OFFEN | geordnete `D-W020-*1`-Felder, überlappende Indizes, Hilfe; mittel | Personen-/Adresssuche; Offset 210 ist gültiger `yyyyMMdd`-Kandidat in 2.473 Sätzen | P | Rollenwechsel, Mehrfachadressen, Datum fachlich unbenannt | ungeklärt – migrationsrelevant, aber nicht als fertige Person importieren | Text nur feldweise; Offset 210/L8 separat als Datumskandidat validieren | Exakte Breiten, Rolle der Person und Bedeutung des Datums? |
-| F020-06 | `W020` | 307 | 305 | Index 307/L50 | gemischte Text-/DISPLAY-Gruppe | variabel, SP | Grabname/-art/-texte, Stellen/Kapazitäten, Nutzungsbeginn und Nutzungsrecht, erste Rechte und Hinweise gemäß Programmliste | Programmreihenfolge, Hilfe, Index; mittel | Grab-/Nutzungsrechtskern | P | mehrere Datums-/Zahltypen, historische Rechte | ungeklärt – hoher Migrationswert, Grenzen noch offen | Unterfelder anhand Masken und Datums-/Zahlenprofilen isolieren | Wo beginnen/endigen Nutzungsrechts- und Grabartfelder? |
-| F020-07 | `W020` | 612 | 9 | Index 612/L9 | DISPLAY-/Codekandidat | befüllt | indexiertes Grab-/Nutzungsmerkmal, fachlich noch nicht benannt | Index und Positionsprofil; niedrig fachlich | Suchindex | P | falsche Benennung würde Selektion verfälschen | ungeklärt | als 9-Byte-Hash vergleichen, nicht numerisch umformen | Welches Programmlistenfeld ist indexiert? |
-| F020-08 | `W020` | 621 | 820 | – | gemischte Text-/DISPLAY-Gruppe | variabel, SP | Kennzeichen, Empfänger 2/3, weitere Adressen sowie Grabmal-, Einfassungs- und FUG-Verwaltungsdaten; Einzelfeldgrenzen OFFEN | geordnete Programmliste und Hilfe; mittel | interne Rollen/Unterobjekte, keine bestätigten FKs | P/P+ | Bank-/Einzugsangaben, historische Zustände und Freitext vermischt | ungeklärt – Feldgruppen einzeln bewerten | keine Pauschaldekodierung; Bank-/Freitextkandidaten besonders schützen | Welche FUG-/Grabmalfelder werden noch benötigt und aufbewahrt? |
-| F020-09 | `W020` | 1.441 | 84 | überlappende Indizes 1441/L84 und 1445/L80 | Windows-1252-Such-/Adressverbund | variabel | weiterer Such-/Adressschlüssel | Indexpaar und Programmliste; mittel | vermutlich Empfänger-/Adresssuche | P | möglicherweise abgeleitet, nicht eindeutig | ungeklärt | Bytebeziehung zu Adressrollen nur gehasht prüfen | Welche Adressrolle? |
-| F020-10 | `W020` | 1.525 | 160 | – | gemischte Fachgruppe | variabel/SP | später Grabzustands-/FUG-/Verwaltungsblock | Programmlistenrest und aktive Positionen; niedrig-mittel | – | P/P+ | sensible Bank-/Einzugs- oder Hinweisfelder möglich | ungeklärt | binär erhalten; Teilfelder vor Dekodierung belegen | Exakte Zuordnung? |
-| F020-11 | `W020` | 1.685 | 9 | Index 1685/L9 | DISPLAY-Code/Datumskandidat | befüllt | spätes indexiertes Verwaltungsmerkmal | Index und Ziffernprofil; niedrig fachlich | Suchindex | P/T | kann Status, Nummer oder Datum sein | ungeklärt | nur definierte 9-Byte-Maske nach Feldbeleg | Welches Feld? |
-| F020-12 | `W020` | 1.694 | 1 | – | DISPLAY-Kennzeichenkandidat | befüllt | spätes Kennzeichen | Positionsprofil; niedrig | – | P/T | Codebedeutung unbekannt | ungeklärt | zulässige Zeichen aggregiert ermitteln | fachliche Bedeutung? |
-| F020-13 | `W020` | 1.695 | 735 | – | unbekannt/reserviert | vollständig SP | Satzreserve | Positionsprofil; hoch | – | T | Versionsreserve | nicht migrieren – im Bestand leer | vollständige SP-Prüfung | im späteren Bestand leer? |
-| F020-14 | `W020` | 2.430 | 264 | – | gemischte späte Erweiterung | variabel; enthält auch 257 Nullbytes und einzelne Steuerbytes im Gesamtsatz | Kandidaten aus Programmlistenende: Erfassungs-/Änderungsdaten, Überführung und technische Felder; Grenzen OFFEN | aktive Positionsprofile und spätere `D-W020-*`-Namen; niedrig-mittel | – | P/T | Null-/Steuerbytes verbieten Pauschaltext; technischer und fachlicher Inhalt vermischt | ungeklärt | byteweise Typisierung; keine CP1252-Dekodierung des Gesamtbereichs | Exakte Erweiterungsdefinition? |
+| F020-05 | `W020` | 91 | 4 | Index 91/L34 | DISPLAY-Code | 2 leer/SP; 25 Hashklassen | Rollen-/Sortierpräfix, Semantik `OFFEN` | harte Indexgrenze und Positionsprofil; hoch technisch, niedrig fachlich | Präfix zu F020-06 | P | kein Personenschlüssel | ungeklärt | exakt vier Byte, nur gehasht vergleichen | Bedeutung des Präfixes? |
+| F020-06 | `W020` | 95 | 30 | Index 95/L30 | Windows-1252-Textkandidat | 51 leer/SP; 1.487 Hashklassen | `FAMNAME1`-/Adresssuchkandidat; keine Personen-ID | Teilindex, SP-Padding, statische Rollenfolge; mittel | Personensuche | P | Dubletten und Ableitungen | ungeklärt | nur diese Spanne CP1252-dekodieren; keine automatische Zusammenführung | Name oder abgeleiteter Suchtext? |
+| F020-07 | `W020` | 125 | 4 | Index 125/L8 | DISPLAY-Code | 7 leer/SP; 22 Hashklassen | zweites Sortierpräfix, Semantik `OFFEN` | Indexüberlappung; hoch technisch | Präfix zu F020-08 | P | Rollenverwechslung | ungeklärt | bytegenau erhalten | Bedeutung? |
+| F020-08 | `W020` | 129 | 4 | Index 129/L4 | DISPLAY-Ziffern | 34 leer/SP; 71 nullwertartig; 13 Hashklassen | Rollen-/Adresscode, Semantik `OFFEN` | Teilindex und Ziffernprofil; hoch technisch | Suchindex | P | Codewerte unbekannt | ungeklärt | keine numerische Normalisierung | Codeliste und Rolle? |
+| F020-09 | `W020` | 133 | 28 | – | gemischt | 66 leer/SP; 20 Hashklassen | Namen-/Anrede-/Titelgruppe; Einzelzuordnung `OFFEN` | statische Reihenfolge plus Zeichenklassenzone, aber keine belastbare Innengrenze; niedrig-mittel | erste Adressrolle | P | Namen und Kennzeichen vermischt | ungeklärt | als Segment erhalten, nicht pauschal als Text | Welche Unterfelder? |
+| F020-10 | `W020` | 161 | 2 | – | Füll-/Codebereich | 2.692 SP; 26 weitere nullwertartige | Füllbereich, einzelne Abweichungen `OFFEN` | Positionsprofil; hoch | – | P/T | Abweichungen könnten Kennzeichen sein | ungeklärt | SP/Null getrennt zählen | Sind die 26 Abweichungen fachlich? |
+| F020-11 | `W020` | 163 | 16 | – | gemischt | 2.207 leer/SP; 22 Hashklassen | Anschrift-/Codekandidat | eigener Belegungsanstieg; statische Adressfolge nur Gegenhypothese; niedrig | erste Adressrolle | P | Grenze nicht semantisch bestätigt | ungeklärt | keine Gesamttestdekodierung | Unterteilung? |
+| F020-12 | `W020` | 179 | 14 | – | gemischt | 2.687 leer/SP; 23 Hashklassen | Anschrift-/Kennzeichenteil | überwiegend SP, geringe DISPLAY-/Textbelegung; niedrig | erste Adressrolle | P | seltene Werte | ungeklärt | Zeichenklasse je Teilhypothese | Bedeutung? |
+| F020-13 | `W020` | 193 | 13 | – | DISPLAY-Ziffern | 29 leer/SP; 114 nullwertartig; 379 Hashklassen | Adress-/Verwaltungsnummer, Semantik `OFFEN` | stabile Ziffernzone; mittel technisch | – | P | führende Nullen | ungeklärt | als Zeichenfolge, nicht als Zahl | Empfänger-/Adressnummer? |
+| F020-14 | `W020` | 206 | 4 | Index 206/L12 | DISPLAY-Code | 7 leer/SP; 22 Hashklassen | Präfix eines Datumssuchschlüssels | Indexüberlappung; hoch technisch | Präfix zu F020-15 | P | Präfixsemantik offen | ungeklärt | exakt vier Byte | Bedeutung? |
+| F020-15 | `W020` | 210 | 8 | Index 210/L8 | `yyyyMMdd` | 2.473 gültig; 237 nullwertartig; 8 ungültig | Ereignisdatum, Rolle `OFFEN` | Formatprofil und Teilindex; hoch technisch, niedrig fachlich | Suchindex; keine FK-Beziehung | P | Ereignisverwechslung | ungeklärt | gültig/leer/ungültig getrennt; nie raten | Welches Ereignis? |
+| F020-16 | `W020` | 218 | 20 | – | gemischt | 1.460 leer/SP; 434 Hashklassen | Adress-/Text-/Codekandidat | eigenständiges Profil, statische Reihenfolge nicht eindeutig; niedrig | erste Adressrolle | P | Text und Nummern vermischt | ungeklärt | binär erhalten | Bedeutung? |
+| F020-17 | `W020` | 238 | 20 | – | gemischt | 2.456 leer/SP; 168 Hashklassen | Adress-/Text-/Codekandidat | eigenständiges Profil; niedrig | erste Adressrolle | P | selten belegt | ungeklärt | binär erhalten | Bedeutung? |
+| F020-18 | `W020` | 258 | 15 | – | gemischt | 1.651 leer/SP; 1.654 nullwertartig; 427 Hashklassen | Adress-/Verwaltungskandidat | mehrere interne Zeichenklassenwechsel widerlegen ein einzelnes Textfeld; mittel negativ | – | P | kein sicherer Typ | ungeklärt | nicht als CP1252-Gesamtfeld | Unterteilung? |
+| F020-19 | `W020` | 273 | 18 | – | gemischt | 2.524 leer/SP; 74 Hashklassen | Rest der ersten Rollen-/Adressgruppe | starke SP-Füllung; niedrig | – | P | seltene Altwerte | ungeklärt | segmentweise erhalten | Bedeutung? |
+| F020-20 | `W020` | 291 | 7 | – | Füllbereich | 2.718/2.718 SP | Füllbereich | Positionsprofil; hoch | – | T | spätere Belegung möglich | nicht migrieren – aktuell leer | vor Import erneut vollständig SP-prüfen | später ebenfalls leer? |
+| F020-21 | `W020` | 298 | 9 | – | DISPLAY-Ziffern | 34 leer/SP; 1.787 nullwertartig; 13 Hashklassen | abschließendes Verwaltungsmerkmal, Semantik `OFFEN` | stabile Ziffernzone; mittel technisch | – | P/T | möglicher Code/Datumsteil | ungeklärt | als neun Zeichen erhalten | Bedeutung? |
+| F020-22 | `W020` | 307 | 34 | Teil von Index 307/L50 | Füllbereich | 2.718/2.718 SP | aktuell leerer Indexanteil | Index und Profil; hoch | mit F020-23 gemeinsamer Index | P/T | späterer Bestand kann belegen | nicht migrieren – aktuell leer | vollständige SP-Prüfung | Zweck des Indexes? |
+| F020-23 | `W020` | 341 | 16 | Teil von Index 307/L50 | gemischt | 2.715 leer/SP; 3 Hashklassen | seltener indexierter Such-/Grabkandidat | Index und drei abweichende Sätze; mittel technisch | Suchindex | P | Ausreißer/Altwerte | ungeklärt | nur gehasht auswerten | Bedeutung? |
+| F020-24 | `W020` | 357 | 30 | – | Windows-1252-Textkandidat | 2.488 leer/SP; 183 Hashklassen | Grabname/-art/-text-Kandidat | klarer Textstart, statische Folge `GRABNAME/GRABART/GRABTEXT`; mittel | Grabkern | P | genaue Rolle offen | ungeklärt | CP1252 nur feldweise; Länge prüfen | Welches der statischen Felder? |
+| F020-25 | `W020` | 387 | 30 | – | Windows-1252-Textkandidat | 2.492 leer/SP; 163 Hashklassen | Grabname/-art/-text-Kandidat | zweiter klarer Textstart; mittel | Grabkern | P | genaue Rolle offen | ungeklärt | wie F020-24 | Welches Feld? |
+| F020-26 | `W020` | 417 | 30 | – | gemischt | 2.714 leer/SP; 5 Hashklassen | Grabtext-/Reservekandidat | fast leer; statische Reihenfolge trägt Grenze nicht allein; niedrig | Grabkern | P+ | möglicher Freitext | ungeklärt | Inhalt nicht ausgeben | Feld oder Reserve? |
+| F020-27 | `W020` | 447 | 40 | – | Windows-1252-Textkandidat | 2.501 leer/SP; 30 Hashklassen | Grabtext-/Hinweiskandidat | klarer Textstart, aber keine eindeutige statische Bindung; niedrig-mittel | Grabkern | P+ | Freitext und Zweckbindung | ungeklärt | keine Inhaltsauswertung | Rolle und Migrationsfreigabe? |
+| F020-28 | `W020` | 487 | 53 | – | gemischt | 2.484 leer/SP; 206 Hashklassen | Kapazitäts-/Nutzungsrechtsgruppe | statische Folge `STELLEN-*`, `QM`, `NUTZ-*`; interne Übergänge widersprechen Einzelfeld; mittel strukturell | Grab-/Rechtekern | P | Zahl-/Textmischung | ungeklärt | keine Mengen berechnen | Unterfelder und Skalen? |
+| F020-29 | `W020` | 540 | 5 | – | DISPLAY-Ziffern | 2.497 leer/SP; 54 Hashklassen | Kapazitäts-/Zahlkandidat | Ziffernprofil; mittel technisch | Grab-/Rechtekern | P | Skala/Null offen | ungeklärt | nur Zeichenmaske prüfen | Sarg, Urne, QM oder Nutzungsanteil? |
+| F020-30 | `W020` | 545 | 18 | – | Windows-1252-Textkandidat | 2.481 leer/SP; 70 Hashklassen | Nutzungsrechts-/Grabhinweiskandidat | eigener Textstart; statische Reihenfolge nicht eindeutig; niedrig-mittel | Rechtekern | P+ | Hinweis oder strukturierter Text | ungeklärt | keine Inhaltsausgabe | Feldname und Zweck? |
+| F020-31 | `W020` | 563 | 12 | – | gemischt | 2.672 leer/SP; 2.703 nullwertartig; 17 Hashklassen | Kennzeichen-/Zahlkandidat | Profil; niedrig | Rechtekern | P | seltene Codes | ungeklärt | Zeichenklassen zählen | Bedeutung? |
+| F020-32 | `W020` | 575 | 24 | – | gemischt | 2.674 leer/SP; 2.705 nullwertartig; 17 Hashklassen | Nutzungsrechtskandidat, Semantik `OFFEN` | Ziffern-/Textmischung; niedrig | Rechtekern | P | historische Rechte | ungeklärt | binär erhalten | Unterteilung? |
+| F020-33 | `W020` | 599 | 6 | – | gemischt | 2.714 leer/SP; 5 Hashklassen | Rest-/Kennzeichenbereich | fast leer; niedrig | – | P/T | seltene Abweichungen | ungeklärt | Abweichungen nur zählen | Bedeutung? |
+| F020-34 | `W020` | 605 | 5 | – | DISPLAY-Ziffern | 34 leer/SP; alle 2.718 nullwertartig; 2 Hashklassen | initialisierter Zahl-/Datumsteil | durchgehend Ziffern, aber nur Null-/Leerzustand; hoch negativ | – | P/T | Scheinnull | nicht migrieren – aktuell ohne Nutzwert | vor Import Nullwertprofil wiederholen | später belegt? |
+| F020-35 | `W020` | 610 | 2 | – | Füllbereich | 2.718/2.718 SP | Füllbereich | Positionsprofil; hoch | – | T | spätere Belegung | nicht migrieren – aktuell leer | SP-Prüfung | später leer? |
+| F020-36 | `W020` | 612 | 9 | Index 612/L9 | DISPLAY-Ziffern | 9 leer/SP; alle 2.718 nullwertartig; 4 Hashklassen | indexiertes Nutzungs-/Verwaltungsmerkmal, Semantik `OFFEN` | Index plus Ziffernprofil; hoch technisch, niedrig fachlich | Suchindex | P | Nullfüllung und unbekannte Codierung | ungeklärt | als 9-Byte-Zeichenfolge; keine Datumsdeutung | Welches statische Feld? |
+| F020-37 | `W020` | 621 | 820 | – | gemischte Text-/DISPLAY-Gruppe | variabel, SP | Kennzeichen, Empfänger 2/3, weitere Adressen sowie Grabmal-, Einfassungs- und FUG-Verwaltungsdaten; Einzelfeldgrenzen `OFFEN` | geordnete Programmliste und Hilfe; mittel | interne Rollen/Unterobjekte, keine bestätigten FKs | P/P+ | Bank-/Einzugsangaben, historische Zustände und Freitext vermischt | ungeklärt – nächster Analyseschritt | keine Pauschaldekodierung | Welche FUG-/Grabmalfelder werden benötigt? |
+| F020-38 | `W020` | 1.441 | 84 | Indizes 1441/L84 und 1445/L80 | Windows-1252-Such-/Adressverbund | variabel | weiterer Such-/Adressschlüssel | Indexpaar und Programmliste; mittel | vermutlich Empfänger-/Adresssuche | P | abgeleitete Daten | ungeklärt | nur gehasht prüfen | Welche Adressrolle? |
+| F020-39 | `W020` | 1.525 | 160 | – | gemischte Fachgruppe | variabel/SP | später Grabzustands-/FUG-/Verwaltungsblock | Programmlistenrest; niedrig-mittel | – | P/P+ | sensible Felder möglich | ungeklärt | binär erhalten | Exakte Zuordnung? |
+| F020-40 | `W020` | 1.685 | 9 | Index 1685/L9 | DISPLAY-Ziffern | 31 leer/SP; 1.810 Hashklassen | `LETZTER-VORGANG`-Kandidat, direkte Nachfolgersemantik nicht bestätigt | Lage nach Adressrollen, Index und Profil; mittel als Kandidat | nur 533/2.641 Treffer des besten 2-Byte-Teilfensters zu irgendeiner W021-Vorgangsnummer | P/T | zufällige Teiltreffer; kein eindeutiger Nachfolger | ungeklärt – niemals filtern | alle Teilfenster nur gehasht; abhängige Schlüssel müssten eindeutig folgen | Kodierung und wirkliche Feldbindung? |
+| F020-41 | `W020` | 1.694 | 1 | – | DISPLAY-Kennzeichenkandidat | 117 SP, sonst Ziffern | spätes Kennzeichen | Profil; niedrig | – | P/T | Code unbekannt | ungeklärt | Codeklasse aggregieren | Bedeutung? |
+| F020-42 | `W020` | 1.695 | 735 | – | unbekannt/reserviert | vollständig SP | Satzreserve | Profil; hoch | – | T | Versionsreserve | nicht migrieren – aktuell leer | vollständige SP-Prüfung | später leer? |
+| F020-43 | `W020` | 2.430 | 264 | – | gemischte Erweiterung | variabel, auch Null-/Steuerbytes | Erfassungs-/Änderungs-, Überführungs- und technische Kandidaten | späte Programmnamen; niedrig-mittel | – | P/T | Fach-/Technikmischung | ungeklärt | byteweise typisieren | Exakte Definition? |
 | F021-01 | `W021` | 1 | 2 | PK 1–28 | DISPLAY-Code | belegt | Anwendernummer | Programmliste; hoch | PK-Teil | P/T | – | migrieren | zwei Codebytes | fachlich oder technisch? |
 | F021-02 | `W021` | 3 | 4 | PK | Windows-1252-Code, SP | belegt | Friedhof | Programmliste; hoch | PK-Präfix zu `W020` | P | Padding | migrieren | exakter Bytevergleich | führender Friedhof? |
 | F021-03 | `W021` | 7 | 20 | PK | Windows-1252-Code, SP | variabel | Feld-/Grabnummer | Programmliste und Beziehung; hoch | PK-Präfix zu `W020` | P | Umnummerierung | migrieren | 26-Byte-Präfix muss gegen `W020` geprüft werden | gültiger Nachfolger? |
 | F021-04 | `W021` | 27 | 2 | PK | DISPLAY-Zifferncode | belegt | Vorgangsnummer | Programmliste; hoch | vervollständigt PK; gleicher PK in `W023/DRAUF` | P | lokale Nummernkreise | migrieren | zwei Ziffern, Eindeutigkeit im Grab | fachliche Vorgangsart separat? |
-| F021-05 | `W021` | 29 | 47 | – | gemischte DISPLAY-/Codegruppe | variabel/SP | Nutzungszeitraum, Jahre, Empfänger, Vorgangsbezeichnung/-kennzeichen und erste Gebührenangaben; Grenzen OFFEN | Programmlistenreihenfolge; mittel | – | P | Datum/Betrag/Code vermischt | ungeklärt | Teilfelder erst nach Maskenbeleg typisieren | Exakte Feldbreiten? |
-| F021-06 | `W021` | 76 | 14 | Index 76/L14 | fester Code | befüllt | Kassenzeichen-Kandidat | Lage in Programmliste und Indexlänge; mittel-hoch | möglicher Bescheid-/Finanzbezug | P | Nummernformat und führendes System | migrieren – falls als Fall-/Bescheidbezug bestätigt | exakt 14 Byte, nur gehasht korrelieren | Ist es immer das Kassenzeichen? |
-| F021-07 | `W021` | 90 | 54 | – | gemischte Gebühren-/Vorgangsgruppe | variabel/SP | Gebührenkennzeichen, Beträge, Rechnungskreis sowie Vorverstorben-/Vorgangskennzeichen | Programmlistenreihenfolge; mittel | – | P | Finanz- und Statussemantik offen | ungeklärt | Betragsfelder nicht vor Dezimalbeleg rechnen | Welche Felder gehören zum zu migrierenden Bescheidumfang? |
-| F021-08 | `W021` | 144 | 64 | Indizes 144/L64 und 148/L60 | Windows-1252-Suchverbund | variabel, SP | Verstorbener: Namens-/Suchcodeverbund | Feldreihenfolge, Indexpaar, 520 Hashüberschneidungen mit `buch` 49/L60; mittel-hoch | Personensuche, kein FK-Beweis | P+ | Namensdubletten, abgeleiteter Suchcode | migrieren – Personendaten relevant, keine automatische Zusammenführung | 64 Byte strukturell erhalten; Teilfelder einzeln dekodieren | genaue Aufteilung von Name/Vorname/Suchcode? |
-| F021-09 | `W021` | 208 | 12 | Index 208/L12 | Datums-/Suchcodeverbund | variabel | Trauerfeier-/Beisetzungsnahes Suchmerkmal, genaue Bedeutung OFFEN | Programmlistenposition und Index; mittel technisch | Suchindex | P+ | unvollständige Datumsangaben möglich | ungeklärt | Masken `yyyyMMdd`, `ddMMyyyy` und Teilkomponenten aggregiert testen | Welches Ereignis? |
-| F021-10 | `W021` | 220 | 12 | Index 220/L12 | Datums-/Suchcodeverbund | variabel | weiteres Ereignis-/Personensuchmerkmal | Programmlistenposition und Index; mittel technisch | Suchindex | P+ | wie oben | ungeklärt | wie F021-09 | Welches Ereignis? |
-| F021-11 | `W021` | 232 | 8 | Index 232/L8 | DISPLAY-Datumskandidat `yyyyMMdd` | 4.422 formatgültige Kandidaten | Ereignisdatum, genaue Rolle OFFEN | Formatprofil, Index, Programmliste; hoch technisch/mittel fachlich | 307 Hashüberschneidungen mit `buch`-Datum sind ergänzende, keine relationale Evidenz | P+ | Null-/Scheindaten und Ereignisverwechslung | ungeklärt | kalendergültig oder definierter Leerwert; keine automatische Benennung | Beisetzung, Trauerfeier oder anderes Datum? |
-| F021-12 | `W021` | 240 | 45 | – | Text-/Codegruppe | variabel/SP | Ort-/Hinweis-/Ruhefrist- oder Sterbedaten aus der folgenden Feldreihenfolge | Programmliste und Positionsprofile; niedrig-mittel | – | P+ | besonders sensible Sterbe-/Religionsangaben | ungeklärt | Teilfelder separat schützen und validieren | Exakte Grenzen? |
-| F021-13 | `W021` | 285 | 8 | Index 285/L8 | DISPLAY-Datumskandidat `ddMMyyyy` | 4.369 formatgültige Kandidaten | weiteres Ereignisdatum, Rolle OFFEN | Formatprofil und Index; hoch technisch/mittel fachlich | Suchindex | P+ | Format unterscheidet sich vom Kandidaten 232 | ungeklärt | kalendergültig nach `ddMMyyyy`, Leerwerte separat | Welches Ereignis und warum anderes Format? |
-| F021-14 | `W021` | 293 | 1.108 | – | gemischte Text-/DISPLAY-Gruppe | variabel/SP | Verstorbene, Geburt/Sterben, Beisetzung, Lage, Hinweise, Bestatter/Pfarrer/Konfession, Fälligkeit und Überführungsdaten gemäß Programmliste; Einzelfeldgrenzen OFFEN | umfangreiche geordnete `D-W021-*`-Liste und Hilfe; mittel | – | P+ | hochsensible und freie Felder; technische Druckdaten können enthalten sein | ungeklärt – fachlich wichtig, aber zwingend feldweise | nur belegte Textspannen dekodieren; Freitext und Religion separat minimieren | Welche Felder sind erforderlich, aufbewahrungspflichtig oder auszuschließen? |
-| F021-15 | `W021` | 1.401 | 4.064 | – | 32 Wiederholungen à 127 Byte; je Block 8/64/4/20/15/16 Byte | alle 454.752 Blockinstanzen sind als Ganzes nullwertartig; 8-, 4- und 15-Byte-Zonen enthalten nur Ziffernnullen/SP, die übrigen Zonen ausschließlich SP | statische Struktur für zusätzliche Gebühren-/Buchungspositionen; Einzelfeldsemantik mangels belegter Position im Bestand OFFEN | exakte 127-Byte-Periodizität und `SCS-TAB5-*`; hoch strukturell, fachlich nicht am Bestand validierbar | 26 geprüfte Gebührenreferenzhypothesen ohne Treffer; kein nicht-nullwertiger Gebührenkandidat | P | Initialnullen dürfen nicht als echte Positionen/Beträge importiert werden | ungeklärt – fachlich im Scope, aus diesem Bestand keine Position | Struktur für spätere Bestände berücksichtigen; keine Initialnullposition erzeugen | Ein nichtleerer Referenzbestand oder Copybook fehlt; welche statischen Begriffe liegen auf welchen Unterbytes? |
-| F021-16 | `W021` | 5.465 | 306 | – | gemischter Nachlauf | teils befüllt, teils SP | Erwerb/Einlieferung/Überführung sowie Druck-, Formular- und Steuerfelder aus Programmlistenende; Grenzen OFFEN | Programmnamen und aktive Positionen; mittel | – | P/T | fachliche Überführungsdaten und technische Ausgabeparameter vermischt | ungeklärt | Druck-/Laser-/Formularfelder nach Lokalisierung ausschließen; Fachfelder separat prüfen | Exakte Grenze zwischen Fach- und Druckdaten? |
-| F021-17 | `W021` | 5.771 | 495 | – | unbekannt/reserviert | vollständig SP | Satzreserve | Positionsprofil; hoch | – | T | Versionsreserve | nicht migrieren | vollständige SP-Prüfung | im späteren Bestand leer? |
+| F021-05 | `W021` | 29 | 8 | – | Datumshypothesen widerlegt | 13.881 nullwertartig; 330 ungültig; 8 Hashklassen | `NUTZ-VON`-Kandidat, Grenze/Rolle `OFFEN` | statische Reihenfolge, aber 0 gültige `yyyyMMdd`/`ddMMyyyy`; niedrig, Gegenbeleg hoch | Vorgangskopf | P | keine Datumsdekodierung erlaubt | ungeklärt | als Zifferncode erhalten | Kodierung oder falsche Grenze? |
+| F021-06 | `W021` | 37 | 8 | – | Datumshypothesen widerlegt | 11.537 nullwertartig; nur 1 `ddMMyyyy`; 2.673 weitere ungültig | `NUTZ-BIS`-Kandidat, Grenze/Rolle `OFFEN` | statische Reihenfolge, Formatprofile als Gegenbeleg; niedrig | Vorgangskopf | P | Einzelzufall ist kein Beleg | ungeklärt | nicht als Datum importieren | Kodierung/Grenze? |
+| F021-07 | `W021` | 45 | 4 | – | DISPLAY-Ziffern | 12.101 nullwertartig; 302 Hashklassen | Laufzeit-/`JAHRE`-Kandidat | statische Reihenfolge und Zahlzone; mittel | Vorgangskopf | P | Skala/Null offen | ungeklärt | Wertebereich erst fachlich belegen | Jahre oder Teil eines anderen Felds? |
+| F021-08 | `W021` | 49 | 12 | – | DISPLAY-Ziffern | 12.848 nullwertartig; 200 Hashklassen | Empfänger-/Vorgangs-/Gebührenkopf, Einzelzuordnung `OFFEN` | stabile Zahlzone; niedrig | – | P | Felder vermischt | ungeklärt | binär/zeichengetreu erhalten | Unterteilung? |
+| F021-09 | `W021` | 61 | 13 | – | gemischt | 11.380 leer/SP; 11 Hashklassen | Vorgangsbezeichnungs-/kennzeichen- oder Gebührenkopf | statische Reihenfolge, geringe Belegung; niedrig | – | P | Statusverwechslung | ungeklärt | keine Statusfilterung | Unterteilung/Codes? |
+| F021-10 | `W021` | 74 | 2 | – | Füllbereich | 14.211/14.211 SP | Füllbereich | Profil; hoch | – | T | spätere Belegung | nicht migrieren – aktuell leer | SP-Prüfung | später leer? |
+| F021-11 | `W021` | 76 | 14 | Index 76/L14 | DISPLAY-Code | 2.255 leer/SP; 11.951 Hashklassen | Kassenzeichen-Kandidat | Index und statischer Name; mittel-hoch | kein belastbarer W040-Bezug: nur 1 Hashüberschneidung | P | Nummernformat | ungeklärt – Finanzabgrenzung beachten | exakt 14 Byte, nur gehasht | Ist es durchgängig Kassenzeichen? |
+| F021-12 | `W021` | 90 | 1 | – | Code | 10.415 SP; 3 Hashklassen | GKZ/RKZ/Vorgangskennzeichen-Kandidat | eigener Klassenwechsel; niedrig | – | P | Status und Finanzcode verwechselbar | ungeklärt | keine Filterung | Welcher statische Name? |
+| F021-13 | `W021` | 91 | 32 | – | DISPLAY-Ziffern | 986 nullwertartig; 4.213 Hashklassen | bereits abgegrenzter Finanz-/Vorgangsbereich | durchgehende Ziffernzone; mittel technisch | – | P | Dezimal-/Feldgrenzen offen | ungeklärt | keine neue Dezimaldeutung | Unterteilung? |
+| F021-14 | `W021` | 123 | 9 | – | binär/gemischt | 1 leer; 32 Hashklassen; High-/Steuerbytes | COMP-artiges Finanz-/Verwaltungsfeld | Zeichenklassen widerlegen DISPLAY-Text; hoch negativ | – | P/T | falsche Textdekodierung | ungeklärt | niemals als CP1252 dekodieren | Binärformat? |
+| F021-15 | `W021` | 132 | 8 | – | gemischt | 9.443 leer/SP; 50 Hashklassen | `VORVERSTORB`-/`VORGANGKZ`-Kandidat | statische Nähe und Codezone, keine Einzelgrenze; niedrig | Statuskandidat | P+ | sensible/statusrelevante Codes | ungeklärt – keine Filterung | nur Klassen/Hashes | Feldgrenzen und Codeliste? |
+| F021-16 | `W021` | 140 | 4 | – | DISPLAY-Ziffern | alle 14.211 nullwertartig | Vorgangs-/Suchpräfix ohne Nutzwert | Profil; hoch negativ | – | P/T | Scheinnull | nicht migrieren – aktuell initialisiert | Nullprüfung | später belegt? |
+| F021-17 | `W021` | 144 | 4 | Index 144/L64 | DISPLAY-Code | belegt; 7 Hashklassen | Präfix des Namensuchverbunds | Indexpaar; hoch technisch | Präfix zu F021-18/19 | P | abgeleiteter Suchcode | ungeklärt | keine Personen-ID | Bedeutung? |
+| F021-18 | `W021` | 148 | 30 | Index 148/L60 | Windows-1252-Text | 9.754 leer/SP; 1.690 Hashklassen | erste Namenssuchhälfte des Verstorbenen; Nachname/Vorname einzeln `OFFEN` | statische Verstorbener-Folge, Index, Textprofil; mittel-hoch | Personensuche, kein FK | P+ | Dubletten | migrieren – erst nach Einzelrollenklärung | CP1252, keine Zusammenführung | Nachname oder Vorname? |
+| F021-19 | `W021` | 178 | 30 | Index 148/L60 | Windows-1252-Text | 9.783 leer/SP; 600 Hashklassen | zweite Namenssuchhälfte des Verstorbenen; Einzelrolle `OFFEN` | wie F021-18; mittel-hoch | Personensuche | P+ | Dubletten | migrieren – erst nach Einzelrollenklärung | CP1252, keine Zusammenführung | Nachname oder Vorname? |
+| F021-20 | `W021` | 208 | 12 | Index 208/L12 | Windows-1252-Code | 14.202 leer/SP; 5 Hashklassen | `SUCHCODE1-VERSTORBENER`-Kandidat | statische Folge plus fast leerer eigener Index; mittel | Suchindex, keine Personen-ID | P+ | neun seltene Werte | ungeklärt | nur gehasht | Feldbindung? |
+| F021-21 | `W021` | 220 | 8 | Teil von Index 220/L12 | `yyyyMMdd` | 156 gültig; 14.055 nullwertartig; 0 ungültig | Trauerfeierdatum | statische Reihenfolge, Index und fehlerfreies Formatprofil; hoch | Ereignissuche | P+ | selten belegt | migrieren – strukturiertes Ereignis | gültig oder definierter Leerwert | Pflicht/Plausibilitätsgrenze? |
+| F021-22 | `W021` | 228 | 4 | Teil von Index 220/L12 | DISPLAY-Ziffern | 14.065 nullwertartig; 15 Hashklassen | Trauerfeieruhrzeit-Kandidat | Rest des Datumsindex und statische Reihenfolge; mittel | Ereignissuche | P+ | Zeitformat offen | ungeklärt | HHmm erst nach Formatbeleg | genaue Zeitkodierung? |
+| F021-23 | `W021` | 232 | 8 | Index 232/L8 | `yyyyMMdd` | 4.422 gültig; 9.786 nullwertartig; 3 ungültig | Beisetzdatum | Index, statische Folge, Bedienmaske und Formatprofil; hoch | zentrale Vorgangs-/Ereignissuche | P+ | drei Fehlerwerte | migrieren | kalendergültig; Fehler separat | Behandlung der drei Fehler? |
+| F021-24 | `W021` | 240 | 1 | – | DISPLAY-Code | 12.302 SP; 14.200 nullwertartig; 4 Hashklassen | Beisetzdatum-Kennzeichen | unmittelbare Lage und statischer Feldname; hoch strukturell | zu F021-23 | P+ | Codebedeutung offen | ungeklärt | keine implizite Datumsänderung | Codeliste? |
+| F021-25 | `W021` | 241 | 8 | – | `ddMMyyyy` | 4.341 gültig; 9.867 nullwertartig; 3 ungültig | Geburtsdatum | statische Folge, Format und nachfolgender Ortsblock; hoch | verstorbene Person | P+ | drei Fehlerwerte | migrieren | `ddMMyyyy`, kalendergültig | Behandlung Fehler? |
+| F021-26 | `W021` | 249 | 20 | – | Windows-1252-Text | 12.287 leer/SP; 808 Hashklassen | Geburtsort | statische Folge und Textgrenze; hoch | verstorbene Person | P+ | freie Schreibweisen | migrieren – Zweckbindung prüfen | CP1252, getrimmte Länge | Normalisierung später? |
+| F021-27 | `W021` | 269 | 8 | – | `ddMMyyyy` | 4.421 gültig; 9.789 nullwertartig; 1 ungültig | Ruhefrist von | statischer Kontrollfluss prüft VON/BIS und berechnet aus Beisetzdatum; hoch | abgeleitet/verwaltungsrelevant | P | ein Fehlerwert | migrieren – Quelle und Ableitung kennzeichnen | kalendergültig; gemeinsam mit BIS prüfen | Vorrang gespeicherter/berechneter Wert? |
+| F021-28 | `W021` | 277 | 8 | – | `ddMMyyyy` | 4.417 gültig; 9.791 nullwertartig; 3 ungültig | Ruhefrist bis | wie F021-27; hoch | abgeleitet/verwaltungsrelevant | P | drei Fehlerwerte | migrieren – Quelle/Ableitung kennzeichnen | kalendergültig; Paarregel | Vorrangregel? |
+| F021-29 | `W021` | 285 | 8 | Index 285/L8 | `ddMMyyyy` | 4.369 gültig; 9.836 nullwertartig; 6 ungültig | Sterbedatum | Index, statische Folge, Format und nachfolgender Ortsblock; hoch | Person-/Ereignissuche | P+ | sechs Fehlerwerte | migrieren | kalendergültig; Fehler separat | Behandlung Fehler? |
+| F021-30 | `W021` | 293 | 20 | – | Windows-1252-Text | 11.844 leer/SP; 363 Hashklassen | Sterbeort | statische Folge und Textgrenze; hoch | verstorbene Person | P+ | freie Schreibweisen | migrieren – Zweckbindung prüfen | CP1252 | Normalisierung später? |
+| F021-31 | `W021` | 313 | 16 | – | DISPLAY-Ziffern | 9.780 nullwertartig; 979 Hashklassen | `ALTER`/`VJAHRE`-Gruppe, Einzelgrenze `OFFEN` | statische Folge und Zahlzone; mittel | verstorbene Person | P+ | redundant zu Geburts-/Sterbedatum | ungeklärt | nicht neu berechnen/überschreiben | Unterteilung und Zweck? |
+| F021-32 | `W021` | 329 | 5 | – | DISPLAY-Code | 9.788 leer/SP; 18 Hashklassen | `BEISETZNR`-Kandidat | eigene Codezone und statische Folge; mittel | Beisetzungsereignis | P | lokale Nummer | ungeklärt | Zeichenfolge erhalten | Feldbindung? |
+| F021-33 | `W021` | 334 | 9 | – | DISPLAY-Code | 12.327 leer/SP; 18 Hashklassen | `BEISETZZEIT`-Kandidat | eigene Codezone; mittel | Beisetzungsereignis | P+ | Format offen | ungeklärt | nicht als Uhrzeit parsen | Format/Feldbindung? |
+| F021-34 | `W021` | 343 | 2 | – | DISPLAY-Code | 13.800 leer/SP; 6 Hashklassen | `BEISETZKZ`-Kandidat | Kurzcodezone; mittel | Beisetzungsereignis | P | Code offen | ungeklärt | keine Statusfilterung | Codeliste? |
+| F021-35 | `W021` | 345 | 5 | – | Füll-/Textkandidat | 14.211/14.211 SP | `BEISETZART`-Kandidat ist in diesem Bestand nicht belegt | statische Folge gegen vollständige Leere; hoch negativ | – | P | spätere Belegung möglich | nicht migrieren – aktuell leer | SP-Prüfung | liegt BEISETZART woanders? |
+| F021-36 | `W021` | 350 | 9 | – | gemischt | 9.889 leer/SP; 626 Hashklassen | Beisetz-Hinweis/Stelle/Lage-Kandidaten | eigenständige Mischzone; niedrig | Beisetzung | P+ | Hinweis und Codes vermischt | ungeklärt | keine Inhaltsausgabe | Unterteilung? |
+| F021-37 | `W021` | 359 | 26 | – | gemischt | 3.670 leer/SP; 1.096 Hashklassen | Lage/Nutzungsrecht/Urnenplatz/Erfassungs-/Update-Kandidaten | Zone vor harter Periodengrenze; statische Folge; niedrig-mittel | Vorgangsdetails | P/P+ | Fach-/Datums-/Freitextmischung | ungeklärt | binär erhalten | Unterteilung? |
+| F021-38 | `W021` | 385 | 1.016 | 8 Perioden | 8×127 Byte; je Block 1/L72, 73/L4, 77/L20, 97/L15, 112/L16 | Positionen 1–8 haben 3.984/11.918/2.490/1.465/873/374/97/19 verschiedene Nichtnull-Hashes; nicht leer | erste acht von insgesamt 40 Gebührenpositionen; keine Personen-/Ereignisfelder | exakte Fortsetzung der 127-Byte-Periodizität bis 5.464; hoch | relativ 73/L4: 42/42 Hashklassen referenzieren `W006/W006dm` | P | ältere Grenze 1.401 war falsch; Unterfelder außer Gebührennummer offen | ungeklärt – Gebührennummer strukturell migrieren, übrige Unterfelder nicht deuten | nur nicht-nullartige Blöcke; rel. 73/L4 referenziell prüfen | restliche Unterfelder? |
+| F021-39 | `W021` | 1.401 | 4.064 | 32 Perioden | 32×127 Byte, Fortsetzung von F021-38 | Positionen 9–40 vollständig nullwertartig | weitere Gebührenpositionen | korrigierte Gesamtperiodizität; hoch | gleiche Struktur, keine Nutzwerte | P/T | Initialnullen | nicht migrieren – aktuell ohne Position | Nullwertprüfung | später belegt? |
+| F021-40 | `W021` | 5.465 | 306 | – | gemischter Nachlauf | teils befüllt/SP | Erwerb/Einlieferung/Überführung und technische Felder | Programmnamen; mittel | – | P/T | Fach-/Technikmischung | ungeklärt | technische Felder ausschließen | Exakte Grenzen? |
+| F021-41 | `W021` | 5.771 | 495 | – | unbekannt/reserviert | vollständig SP | Satzreserve | Profil; hoch | – | T | Versionsreserve | nicht migrieren | vollständige SP-Prüfung | später leer? |
 | F023-01 | `W023` | 1 | 2 | PK 1–28 | DISPLAY-Code | belegt | Anwendernummer | gleiche Programmlogik wie `W021`; hoch | PK-Teil | P/T | – | migrieren | exakter Vergleich | – |
 | F023-02 | `W023` | 3 | 4 | PK | Windows-1252-Code, SP | belegt | Friedhof | PK-Ausrichtung; hoch | PK-Teil | P | Padding | migrieren | exakter Vergleich | – |
 | F023-03 | `W023` | 7 | 20 | PK | Windows-1252-Code, SP | variabel | Feld-/Grabnummer | PK-Ausrichtung; hoch | PK-Präfix zu `W021` | P | Umnummerierung | migrieren | exakter Vergleich | – |
@@ -269,14 +322,50 @@ Offset in `buch`. Sie wird weder auf den 73-Byte-Legacyblock noch auf die
 | Quelle / Feld | Stichprobe | bestätigt | widerlegt / Fehler | Ergebnis |
 | --- | ---: | ---: | ---: | --- |
 | `W020` 210/L8 | 2.718 | 2.473 `yyyyMMdd` | 237 nullwertartig, 8 weitere ungültig | Format für 2.473 Werte `BESTÄTIGT`, Ereignisrolle `OFFEN` |
-| `W021` 232/L8 | 14.211 | 4.422 `yyyyMMdd` | 9.786 nullwertartig, 3 weitere ungültig | Format `BESTÄTIGT`, Ereignisrolle `OFFEN` |
-| `W021` 285/L8 | 14.211 | 4.369 `ddMMyyyy` | 9.836 nullwertartig, 6 weitere ungültig | Format `BESTÄTIGT`, Ereignisrolle `OFFEN` |
+| `W021` 29/L8 | 14.211 | 0 | 13.881 nullwertartig, 330 in beiden getesteten Formaten ungültig | Datumsdeutung `WIDERLEGT`; `NUTZ-VON`-Bindung `OFFEN` |
+| `W021` 37/L8 | 14.211 | 1 einzelnes `ddMMyyyy` | 11.537 nullwertartig, 2.673 weitere ungültig | Datumsdeutung `WIDERLEGT`; Einzeltreffer ist Zufall/Gegenbeleg |
+| `W021` 220/L8 | 14.211 | 156 `yyyyMMdd` | 14.055 nullwertartig, 0 ungültig | Trauerfeierdatum `BESTÄTIGT` |
+| `W021` 232/L8 | 14.211 | 4.422 `yyyyMMdd` | 9.786 nullwertartig, 3 ungültig | Beisetzdatum `BESTÄTIGT` |
+| `W021` 241/L8 | 14.211 | 4.341 `ddMMyyyy` | 9.867 nullwertartig, 3 ungültig | Geburtsdatum `BESTÄTIGT` |
+| `W021` 269/L8 | 14.211 | 4.421 `ddMMyyyy` | 9.789 nullwertartig, 1 ungültig | Ruhefrist von `BESTÄTIGT` |
+| `W021` 277/L8 | 14.211 | 4.417 `ddMMyyyy` | 9.791 nullwertartig, 3 ungültig | Ruhefrist bis `BESTÄTIGT` |
+| `W021` 285/L8 | 14.211 | 4.369 `ddMMyyyy` | 9.836 nullwertartig, 6 ungültig | Sterbedatum `BESTÄTIGT` |
 | `buch` 41/L8 | 11.955 | 11.955 `yyyyMMdd` | 0 | Bescheiddatum `BESTÄTIGT` |
 | `buch` 118/126/134, je L8 | je 11.955 | 0 | je 11.955 `00000000` | Datumshypothesen für diesen Bestand `WIDERLEGT` |
-| W021-Block relativ 97/L15 | 454.752 | 0 gültige Daten | vollständig nullwertartig | Rechnungsdatum nicht lokalisierbar |
+| W021-Positionen 9–40 | 454.752 | 0 Nutzwerte | vollständig nullwertartig | spätere Positionen leer; nicht auf Positionen 1–8 verallgemeinern |
 | W040-Block relativ 79/L8 | 12.012; alt 4.956 | 0 gültige Daten | vollständig nullwertartig | Rechnungsdatum nicht lokalisierbar |
 | `W006` 136/L3 | 26; DM 335 | 342 nichtleere DISPLAY-Ganzzahlen | alle außerhalb direkter Skala 0–4 und getesteter Teiler 1/10/100 | statischer Feldname „Nachkommastellen“ bestätigt, Kodierung `OFFEN` |
 | W040 24-Byte-Zahlzone | 2 × 2.600 Hypothesen | 0 prüfbare Rechenhypothesen | alle Kandidatentripel nullwertartig | Dezimalbreiten und Rundung `OFFEN` |
+
+### Rollenmatrix
+
+| Rolle | Quelle/Bereich | technisch trennbar | Evidenz und Gegenbeleg | Status / Konfidenz | Migrationsregel |
+| --- | --- | --- | --- | --- | --- |
+| erste W020-Adressrolle | `W020` 91–306 | nur in technische Teilspannen, nicht in Name/Vorname/Anschrift-Einzelfelder | `FAMNAME1`, `VORNAME1`, Anrede, Titel und Anschrift werden statisch in dieser Reihenfolge genannt; Bytegrenzen und die Rolle als Nutzungsberechtigte/Empfänger/Zahler tragen nicht | `OFFEN`; mittel für Gruppe, niedrig für Rollenname | keine fertige Person bilden; Segmentdaten bis zur Feldbindung getrennt halten |
+| Nutzungsberechtigte | W020-Rechtekern und W021-Vorgangskopf | nein | Masken und Fachfunktion belegen die Kategorie; kein sicher gebundenes Personenfeld | `OFFEN`; niedrig | nicht aus Suchcodes oder Empfängerfeldern ableiten |
+| Empfänger | W020 Rollen 1–3, W021 Vorgangskopf | Rollenfamilie statisch, konkrete Instanz nicht | statische `EMPFAENGER*`-Namen, aber Mehrfachverwendung und unbekannte Grenzen | `OFFEN`; mittel strukturell | Rollen nicht zusammenführen |
+| verstorbene Person | `W021` 144–208 und 241–313 | als Rollenblock ja; Nachname/Vorname innerhalb 148/L60 noch nicht | eigener Namensindex, `VERST-*`-Feldfolge, Geburts-/Sterbedaten und Orte | `BESTÄTIGT`; hoch als Rolle | migrationsrelevant; keine Dublettenverschmelzung anhand Suchcode |
+| Bestatter | später W021-Kopf/Nachlauf, Offset noch nicht lokalisiert | nein | `BESTATTER-NR` und `BESTATTER` statisch genannt; keine belastbare Bytebindung | `OFFEN`; mittel statisch | erst nach Offsetbeleg migrieren |
+| Pfarrer/Konfession | später W021-/W023-Bereich | nein | nur statische Namen/Hilfemaske; besonders sensible Kategorie | `OFFEN`; mittel statisch | ohne Zweck-/Datenschutzfreigabe nicht migrieren |
+| weitere Adressrollen 2/3 | `W020` 621–1.684 | als Gesamtbereich ja, Einzelfelder nein | statische `FAMNAME2/3`- und `EMPFAENGER2/3`-Folgen sowie Indizes 1441/L84 und 1445/L80 | `OFFEN`; mittel | Gegenstand des nächsten Arbeitsschritts; strikt getrennt halten |
+
+### Status-, Umnummerierungs- und Nachfolgermatrix
+
+| Kandidat | Offset/Länge | statischer Name / Kontrollverwendung | aggregierte Belegung / Beziehung | Gegenbeleg / Verwechslungsrisiko | Status / Konfidenz | sichere Regel |
+| --- | --- | --- | --- | --- | --- | --- |
+| W021-Vorgangskennzeichenbereich | `W021` 132/L8 als Gruppenkandidat | `D-W021-VORGANGKZ`, `D-W021-VORVERSTORB`; exakte Innengrenze unbekannt | 9.443/14.211 leer; 50 Hashklassen | mehrere Codes teilen die Zone; keine Codeliste und kein abhängiger Nachfolgerbeleg | `OFFEN`; niedrig | keine Filterung |
+| W020-`LETZTER-VORGANG`-Kandidat | `W020` 1685/L9 | Feldname statisch; Lage nach den Adressrollen und eigener Index | 31 leer, 2.687 Ziffernsätze, 1.810 Hashklassen; bestes 2-Byte-Teilfenster trifft nur 533/2.641 W021-Präfixgruppen | kein eindeutiges Teilfeld, viele Zufallstreffer, kein Bezug auf `W023/DRAUF` nachgewiesen | `OFFEN`; mittel als Kandidat, niedrig semantisch | keine Nachfolger- oder Ausschlussregel |
+| Grabnummer ändern | altes/neues Persistenzfeld nicht lokalisiert | `BEARBEITEN-NUMMER-AENDERN`, `F-NUMMER-AENDERN-JA`, Prüf- und Enable/Disable-Abläufe | eigener Kontrollablauf belegt | keine alte und neue Nummer, kein atomarer Verweis und keine validierte Aktualisierungsreihenfolge der abhängigen Bestände | `OFFEN`; hoch für Ablauf, niedrig für Datenregel | keine Nummer als überholt ausschließen; keine Aliasbildung |
+| fachliches Storno/Aufhebung | kein Feld sicher lokalisiert | `CHECK-STORNO`, `STORNO-MOEGLICH`, `VORGANG-LOESCHEN`, `PRUEFE-ERLEDIGUNGS-KZ` | mehrere getrennte Kontrollpfade | Löschung, Erledigung, Storno und Finanzgutschrift dürfen nicht gleichgesetzt werden | `OFFEN`; mittel | keine Filterung |
+| physischer Micro-Focus-Löschsatz | physischer Satztyp 2 | technischer Speicherzustand | 4.119 physische Löschsätze | kein fachlicher Status und kein Nachfolger | `WIDERLEGT`; hoch | niemals allein fachlich filtern |
+| `buch`-Storno/Gutschrift | Feldoffset `OFFEN` | Finanzkontrollfluss in `P025/P026/P050/EDW` | Finanzfamilie, nicht W020/W021-Schlüsselzustand | finanzielle Gutschrift ist kein Grab-/Vorgangsnachfolger | `WIDERLEGT` als Vorgangsfilter; hoch | nicht als Grab-/Vorgangsfilter verwenden |
+| `W040alt` als Vorgänger | `W040/W040alt` 1/L16 | Variantenfamilie | 59 gemeinsame Schlüssel, alle Alt-Schlüssel auch aktuell | gleiche Nummer statt alter/neuer Nummer; Inhalte variieren | `WIDERLEGT` als Umnummerierungsregel; hoch | Varianten getrennt halten |
+| `STATUS_1.GS`/`STATUS~1.GS` | statische Module, kein DAT-Feld | gleiche Modulnamenfamilie | beide 12.032 Byte und SHA-256-identisch | Programmkopie, kein Satzstatusfeld | `WIDERLEGT` als Datenquelle; hoch | nicht für Filter verwenden |
+
+Damit ist keine sichere Regel für `INT-028/029` bestätigt. Stornierte,
+aufgehobene oder durch Umnummerierung überholte Sätze werden erst nach einer
+eindeutigen Alt-/Neuschlüsselbeziehung ausgeschlossen; bis dahin lautet die
+verbindliche Filterregel **nichts aufgrund dieser Kandidaten ausschließen**.
 
 ## Aktualisierte Quellbeziehungsmatrix
 
@@ -303,7 +392,7 @@ Fremdschlüssel bezeichnet.
 | `buch` 41/L8 | `W020` 210/L8 | 1.452 / 2.175 | 148 | Datumskollision; kein Fremdschlüsselbeleg |
 | `W020` 210/L8 | `W021` 232/L8 | 2.175 / 3.955 | 175 | gleiches Datumsformat, Ereignisgleichheit nicht bewiesen |
 | `W021` 76/L14 | `W040` 45/L14 | 11.950 / 136 | 1 | ein Zufalls-/Einzeltreffer reicht nicht für einen Bescheidbezug |
-| W021-Positionsblock, 26 Gebührenhypothesen | `W006/W006dm` PK/Teilsegmente | 0 nicht-nullwertige direkte Gebührenwerte | 0 | Referenz am vorliegenden Bestand nicht prüfbar |
+| W021-Positionen, 26 Gebührenhypothesen | `W006/W006dm` PK/Teilsegmente | relativ 73/L4: 42 verschiedene Nichtnullkandidaten | 42 | Gebührennummer an relativ 73/L4 `BESTÄTIGT`; die frühere Blockgrenze und Nullbefund-Aussage sind widerlegt |
 | W040/W040alt-Positionsblock, 98 Gebührenhypothesen | `W006/W006dm` PK/Teilsegmente | höchstens 3 zusammengesetzte Nichtnullkandidaten je Hypothese | 0 | Gebührenreferenzhypothesen für diesen Bestand ohne Treffer |
 
 ### Aggregierte Datenqualität und Referenzauffälligkeiten
@@ -317,7 +406,8 @@ Fremdschlüssel bezeichnet.
 | `buch` ↔ `BUCHA` | 602 gemeinsame, 11.353 nur `buch`, 121 nur `BUCHA`; 598/602 Legacypräfixe identisch | Varianten getrennt inventarisieren; 121 Archivschlüssel nicht still verwerfen |
 | `buch` ↔ `Buchalt` | 0 gemeinsame Schlüssel | historischer Zusatzbestand, keine Dublettenannahme |
 | `W040` ↔ `W040alt` | 59 gemeinsame Schlüssel; Positionsblock bei 54/59 identisch, 5 abweichend | Variantenentscheidung bleibt fachlich OFFEN |
-| W021/W040-Positionsblöcke | keine belastbare Gebührenreferenz; alle Betragstripel nullwertartig | Initialwerte nicht als Positionen oder Betrag importieren |
+| W021-Positionen | Start bei Byte 385; Positionen 1–8 belegt, 9–40 nullwertartig; Gebührennummer relativ 73/L4 mit 42/42 Referenzen bestätigt | nur nicht-nullartige Positionen berücksichtigen; übrige Unterfelder bleiben `OFFEN` |
+| W040-Positionsblöcke | keine belastbare Gebührenreferenz; Zahlentripel nullwertartig | Initialwerte nicht als Positionen oder Betrag importieren |
 | BUCH-Erweiterung | nur Perioden 1–9 mit Nichtnullinstanzen; 10–101 initialisiert, 102–105 und 232-Byte-Rest SP | nur Belegung zählen; Feldwerte erst nach Offsetbeleg verwenden |
 
 ## Variantenanalyse
@@ -377,10 +467,10 @@ fachliche Entität. Die Bedeutung von `oli` bleibt `OFFEN`.
 | --- | --- | --- |
 | `W022` 27–2.026 | ausschließlich Notizinhalt; keine weiteren strukturierten Felder | nicht migrieren; Inhalt nie protokollieren oder dekodieren |
 | `W001` vollständig | Benutzer-/Berechtigungsbestand | nicht migrieren; nur technische Vollständigkeit zählen |
-| nachweislich vollständig SP-gefüllte Reserven F005-12, F006-11, F020-13, F021-17, F023-11, `buch` 27.129–27.360 sowie die kleineren Füllspannen | in diesem Bestand keine Nutzinformation | nicht migrieren; im späteren Bestand zwingend erneut SP-prüfen |
+| nachweislich vollständig SP-gefüllte Reserven F005-12, F006-11, F020-42, F021-41, F023-11, `buch` 27.129–27.360 sowie die kleineren Füllspannen | in diesem Bestand keine Nutzinformation | nicht migrieren; im späteren Bestand zwingend erneut SP-prüfen |
 | statische Felder `DRUCK*`, `LASER*`, `FORMULAR*`, `ANZ-ZEILEN*`, Ausgabeschacht | technische Ausgabeparameter | nach exakter Offsetlokalisierung nicht migrieren |
 | statische BUCH-Felder Zahlungsdatum/-betrag, Rest, Zahlungsart, Mahnstufe/-datum | laut `INT-030` ist FINANZ+ führend | nicht aus EDWALT migrieren; Bescheidnummer, Positionen, festgesetzter Betrag, Fälligkeit und Fallbezug davon trennen |
-| W021-Positionsblock und alle Zahlfelder des W040-Positionsblocks im untersuchten Bestand | ausschließlich SP-/Initialnullen; keine belastbare Gebührenreferenz oder Rechnung | keine künstlichen Positionen erzeugen; Struktur nur als Schemaevidenz erhalten |
+| W021-Positionen 9–40 und alle Zahlfelder des W040-Positionsblocks im untersuchten Bestand | ausschließlich SP-/Initialnullen; W021-Positionen 1–8 sind ausdrücklich ausgenommen | keine künstlichen Positionen aus initialisierten Blöcken erzeugen |
 | alte/supersedierte Nummern | laut `INT-028/029` ausgeschlossen | nicht migrieren; technisch sichere Erkennungsregel ist noch OFFEN |
 | `W080` im vorliegenden Bestand | null aktive Sätze, null Löschsätze | nicht inhaltlich validierbar; historischer Krematoriumsbestand bleibt grundsätzlich im Scope |
 
@@ -392,7 +482,7 @@ fachliche Entität. Die Bedeutung von `oli` bleibt `OFFEN`.
 | Fall-/Grabbezug | `buch` 17/L24 und `W040` 17/L24 mit 54 Hashüberschneidungen | `migrieren`, aber Verbund noch nicht sicher in Friedhof und Grabnummer aufteilen |
 | Bescheiddatum | `buch` 41/L8, 11.955/11.955 gültige `yyyyMMdd`-Werte | `migrieren`; fachliche Plausibilitätsgrenzen zusätzlich definieren |
 | Gebührenstamm | `W006/W006dm` 1–138 sicher, 139–201 nur als Sammelbereich | Gebührennummer und Texte `migrieren`; Preise/Skalen erst nach Zahlenbeleg |
-| Gebührenpositionen | statische W021-/W040-Tabellenreihenfolge, aber vorliegende Positionsblöcke ohne belastbare Werte | fachlich im Scope, aus diesem Bestand keine künstlichen Zeilen; bei späterem nichtleerem Bestand erneut feldweise belegen |
+| Gebührenpositionen | `W021` 385–5.464 enthält 40×127 Byte; Positionen 1–8 sind belegt, 9–40 initialisiert; Gebührennummer relativ 73/L4 referenziert 42/42 verschiedene `W006/W006dm`-Kandidaten | Gebührennummer strukturell `migrieren`; weitere W021-Unterfelder und W040 bleiben `OFFEN`; aus Initialblöcken keine Zeilen erzeugen |
 | festgesetzter Betrag | statisch in W021/W040/BUCH genannt, Offset im befüllten Bescheidgrundblock 142–710 oder in der Erweiterung nicht eindeutig lokalisiert | `OFFEN`; keine Übernahme und kein Default, bis Feld und Dezimaldarstellung belegt sind |
 | Fälligkeit | statisch belegt; `buch` 118/126/134 sind nur Nullwerte und damit keine nutzbare Quelle | `OFFEN`; anderes EDWALT-Feld oder führende freigegebene Quelle bestimmen |
 | Zahlungsdatum/-betrag, Rest, Zahlungsart, Zahlungsstatus/„gebucht“, Mahnstufe/-datum | statische `BUCH-TAB-*`-Felder; FINANZ+ ist fachlich führend | `nicht aus EDWALT migrieren` |
@@ -436,51 +526,42 @@ werden kann, ist noch zu entscheiden; stille Defaults sind unzulässig.
 | `form`, `KASSENZ`, `W007` | 10.057/171/803, jeweils 0 aktive Sätze | Satzlängen und Indexdefinitionen gesichert | am vorliegenden Bestand nicht inhaltlich validierbar; Leere nicht auf späteren Bestand verallgemeinern |
 | `W080` | 6.130 / 0 | Satzlänge und 13 Indexsegmente gesichert | historischer Krematoriumsbestand bleibt im Scope; an diesem Bestand keine Semantik- oder Qualitätsvalidierung möglich |
 
-## Ergebnis des Gebühren-/Bescheidauftrags und verbleibender Rest
+## Ergebnis der Personen-/Rechte-/Statusphase und verbleibender Rest
 
-Der im
-[Übergabedokument zur Gebühren- und Bescheidrekonstruktion](edwalt-next-step-handoff.md)
-beschriebene technische Auftrag wurde am 11.08.2026 auf der externen
-Arbeitskopie ausgeführt. Der Profiler enthält nun deklarative Feld- und
-Wiederholungsdefinitionen, 52 Feldprofile, 7 Wiederholungsblöcke mit 48
-Unterfeldern, 124 Gebührenreferenz- und 5.200 Dezimal-/Rechenhypothesen, 11
-feldweise Variantenvergleiche und vier Periodenkandidaten. Die Negativbefunde
-zu initialisierten Positionsblöcken und unbrauchbaren BUCH-Datumsindizes sind
-reproduzierbare Ergebnisse, keine fehlende Ausführung.
+Der Auftrag aus dem
+[Übergabedokument zur Personen-, Nutzungsrechts- und Statusrekonstruktion](edwalt-person-rights-status-next-step-handoff.md)
+wurde am 12.08.2026 statisch und aggregiert ausgeführt. `W020` 91–620 ist in
+32 und `W021` 29–1.400 in 34 deklarative, zusammenhängende Bereiche zerlegt;
+ihre Summen sind exakt 530 beziehungsweise 1.372 Byte. Die Grenzen sind
+parserfähig, ihre fachliche Feingranularität bleibt sichtbar abgestuft.
 
-Verbleibend und ohne neue Quelle nicht sicher entscheidbar sind:
+Die statischen `EDW.GS`-Feldnamen, Kontrollnamen und der 65-Byte-Symbolbereich
+sind reproduzierbar lesbar. Die internen Verweise des Symbolbereichs ließen
+sich jedoch weder an den bekannten Primärschlüssellängen noch an beiden
+Satzlängen und einer zweiten Evidenzart als DAT-Offset-/Längenschema
+validieren. Dieses Binärformat bleibt deshalb `OFFEN`; Programmnamen werden
+nicht als erfundene Bytegrenzen übernommen.
 
-1. die Einzelgrenzen in `W005` 16–358 und `W006` 139–201; Programmlisten und
-   Masken liefern Reihenfolge, der Bestand aber zu wenige voneinander
-   unabhängige Nutzwerte für eine eindeutige Längenzuordnung;
-2. die innere Zuordnung der W021-/W040-Positionsblöcke; hierfür ist ein
-   nicht-nullwertiger, freigegebener Referenzbestand oder ein Copybook nötig;
-3. die genaue Ausrichtung der statischen `BUCH-TAB-*`-Felder auf die
-   236-Byte-Periode sowie die Einzelfelder in `buch` 142–710; die zunächst
-   plausible Maskenbreitenhypothese wurde durch das Byteklassenprofil
-   widerlegt;
-4. der Quellort und die Dezimaldarstellung von festgesetztem Betrag und
-   Fälligkeit; insbesondere sind `buch` 118/126/134 keine nutzbaren Daten;
-5. fachliche Vorrang-, Gültigkeits- und Währungsregeln für `dm`, `alt` und
-   `BUCHA`. Bis dahin wird keine Variante automatisch bevorzugt;
-6. erst nach diesen Quell- und Fachbelegen ein EDWALT-unabhängiges Zielkonzept
-   und Quell-zu-Konzept-Mapping. Es wurde weder ein Import noch ein
-   EDWALT-1:1-Zielmodell erstellt.
+Der nächste Schritt ist in dieser Reihenfolge priorisiert:
 
-Danach ist die weitere Quellrekonstruktion in dieser Reihenfolge sinnvoll:
+1. `W020` 621–1.684 in die Adressrollen 2/3 sowie Grabmal-, Einfassungs- und
+   FUG-Bereiche zerlegen; dabei den `LETZTER-VORGANG`-Kandidaten 1685/L9 nur
+   als Gegenprüfung verwenden;
+2. den W021-Nachlauf 5.465–5.770 auf eigenständige Erwerbs-, Einlieferungs- und
+   Überführungsdaten gegenüber technischen Druckfeldern abgrenzen;
+3. nur bei ausdrücklicher Datenschutz-/Zweckfreigabe `W023` 29–127
+   strukturell untersuchen; die 16×30 Hinweise und `W022`-Notizen nicht
+   inhaltlich dekodieren;
+4. anschließend Gültigkeits-/Variantenregeln für `W005dm/W006dm`,
+   `BUCHA/Buchalt` und `W040alt` bestimmen;
+5. erst nach einem eindeutigen alten/neuen Schlüsselbeleg die
+   `INT-028/029`-Filterregel erneut bewerten. Bis dahin wird nichts wegen
+   Storno, Aufhebung oder vermuteter Umnummerierung ausgeschlossen.
 
-1. `W020` 91–620 und `W021` 29–1.400: Personenrollen, Nutzungsrecht,
-   Beisetzung/Sterbefall und die bereits formatbestätigten Ereignisdaten
-   feldweise abgrenzen;
-2. Storno-, Aufhebungs-, Umnummerierungs- und Nachfolgerkennzeichen in
-   `W020/W021/buch/W040` lokalisieren, damit `INT-028/029` ohne Verlust der
-   aktuellen Nummer umgesetzt werden kann;
-3. `W023` 29–127 und die 16×30-Byte-Hinweise nur mit Datenschutz-/Zweckfreigabe
-   semantisch untersuchen; ohne Freigabe bleiben die Inhalte ausgeschlossen;
-4. Änderungs-/Gültigkeitsfelder für `W005dm/W006dm`, `BUCHA/Buchalt` und
-   `W040alt` bestimmen und erst dann eine Vorrangregel vorschlagen;
-5. anschließend `DRAUF`, `STATIST`, `W004`, `W010` und `W002/oliW002` auf
-   eigenständige Fachinformation gegenüber den Kernquellen prüfen.
+Für die Punkte 1 und 2 liegt der eigenständige
+[Übergabeauftrag zu weiteren Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md)
+vor. Ein Cemaris-Fachmodell, Quell-zu-Ziel-Mapping oder Import wurde nicht
+erstellt.
 
 Nach den priorisierten Dateien folgen `DRAUF` (vorgangsbezogener Druck-/Aufsatz-
 bestand), `STATIST` (abgeleitetes Statistiklayout), `W004`, `W010` sowie

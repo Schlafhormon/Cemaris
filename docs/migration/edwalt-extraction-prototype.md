@@ -1,6 +1,6 @@
 # EDWALT-Extraktionsprototyp und technisches Datenprofil
 
-Stand: 11. August 2026
+Stand: 12. August 2026
 
 ## Ergebnis
 
@@ -32,7 +32,8 @@ Arbeitskopie außerhalb des Repositories statt:
 - kopierte Quellen: Unterverzeichnisse `EDW3DAT` und `Edwalt3`
 - unkomprimierte Satzextrakte: `raw-uncompressed` (24 Dateien)
 - nicht eingecheckter .NET-Prototyp: `prototype`
-- maschinenlesbarer aggregierter Bericht: `prototype\report.json`
+- maßgeblicher maschinenlesbarer aggregierter Bericht: `report.json` direkt in
+  der Arbeitswurzel; `prototype\report.json` ist ein älterer Zwischenstand
 - isoliertes temporäres Laufzeitverzeichnis: `runtime-temp`
 - vollständiges lokales .NET-SDK 10.0.302:
   `C:\Users\Benke\AppData\Local\Cemaris\dotnet-10.0.302-complete`
@@ -44,6 +45,18 @@ Die Arbeitskopie und insbesondere `raw-uncompressed` und `report.json` dürfen
 nicht in Git aufgenommen oder an externe Dienste übermittelt werden. Obwohl
 der Bericht nur technische Aggregate enthält, bleibt er zusammen mit dem
 Prototyp bis zur abschließenden Datenschutzprüfung außerhalb des Repositories.
+
+Die Personen-/Rechte-/Statusvertiefung liest diese Phase-2-Basis nur und
+schreibt ausschließlich in den neuen externen Arbeitsbereich:
+
+- Arbeitswurzel:
+  `C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase3-person-rights-status-20260812`
+- erweiterter, nicht eingecheckter Profiler: Unterverzeichnis `prototype`
+- maßgeblicher aggregierter Phase-3-Bericht: `report.json` direkt in dieser
+  Arbeitswurzel
+
+Es wurden keine Quelldaten, Reports, `bin`-/`obj`-Verzeichnisse oder
+Binärdateien ins Repository übernommen.
 
 ## Nachweis des Speicherformats und Extraktionsweg
 
@@ -174,7 +187,8 @@ weitere Herstellerunterlagen oder Copybooks existieren nicht.
 
 Der Prototyp wurde um ein Positionsprofil für jedes Byte, Vergleiche aller
 gleich langen Indexsegmente und positionsweise Variantenvergleiche erweitert.
-Die Finanzvertiefung ergänzt deklarative Feld-/Bereichs- und
+Die Finanzvertiefung sowie die Personen-/Rechte-/Statusphase ergänzen
+deklarative Feld-/Bereichs- und
 Wiederholungsdefinitionen, Blockordinalprofile, Nullwertklassifikation,
 feldweise Variantenvergleiche sowie Gebührenreferenz-, Dezimal-, Rechen- und
 Periodenhypothesen. Der Bericht enthält ausschließlich Häufigkeiten,
@@ -189,7 +203,8 @@ Damit sind zusätzlich technisch belegt:
 - `W006`: drei aufeinanderfolgende 35-Byte-Bezeichnungsbereiche, ein
   Gebühren-/Konfigurationsblock bis Byte 201 und eine vollständig SP-gefüllte
   Reserve 202–392;
-- `W021`: 32 wiederkehrende Blöcke à 127 Byte in 1.401–5.464;
+- `W021`: 40 wiederkehrende Blöcke à 127 Byte in 385–5.464; die frühere
+  Grenze 1.401 bezeichnet nur den Beginn von Block 9 und ist korrigiert;
 - `W023`: ein exakt 480 Byte langer Bereich 128–607, der zusammen mit der
   Handbuchangabe 16 feste Zusatzfelder à 30 Byte belegt;
 - `buch`, `BUCHA`, `Buchalt`: gemeinsames 2.348-Byte-Legacy-Layout; `buch`
@@ -199,15 +214,19 @@ Damit sind zusätzlich technisch belegt:
 - `W022`: exakt 26 Byte Schlüssel plus 2.000 Byte Notiz; keine weiteren
   strukturierten Felder.
 
-Die feldgenaue Finanzprofilierung präzisiert die Wiederholungsblöcke:
+Die erneute Grenzvalidierung präzisiert die Wiederholungsblöcke:
 
-- `W021` verwendet exakt `8/64/4/20/15/16` Byte. Sämtliche 454.752
-  Blockinstanzen sind nullwertartig; kein Blockordinal enthält Nutzwerte.
+- `W021` beginnt bereits bei Byte 385. Positionen 1–8 enthalten Nutzwerte,
+  Positionen 9–40 sind nullwertartig. Die ältere Unterteilung
+  `8/64/4/20/15/16` trägt nicht. Innerhalb jedes 127-Byte-Blocks ist relativ
+  73/L4 als Gebührennummer bestätigt: alle 42 verschiedenen Nichtnullkandidaten
+  referenzieren `W006/W006dm`. Die übrigen Unterfelder bleiben `OFFEN`.
 - `W040/W040alt` verwenden exakt `8/30/24/16/8/29` Byte. In `W040` sind nur
   die Ordinale 27 und 28 jeweils einmal nicht nullwertartig, ohne belegten
   Mengen-/Betragswert; `W040alt` ist vollständig initialisiert.
-- 124 Gebührenreferenzhypothesen gegen vollständige und partielle
-  `W006/W006dm`-Schlüssel ergaben keinen Treffer.
+- Von den 26 W021-Gebührenreferenzhypothesen liefern sieben Treffer; der
+  stärkste und semantisch passende Befund ist relativ 73/L4 mit 42/42
+  verschiedenen Referenzen. Die W040/W040alt-Hypothesen bleiben ohne Treffer.
 - Je W040-Variante wurden 2.600 plausible Grenzen und Skalen für
   `Menge × Einzelbetrag = Gesamtbetrag` geprüft. Keine Hypothese besaß auch nur
   ein nicht-nullwertiges prüfbares Tripel.
@@ -230,8 +249,16 @@ Belegte Formatkandidaten innerhalb indexierter Bytebereiche:
 - `buch`, `BUCHA`, `Buchalt`, Schlüssel ab Position 41, Länge 8: alle aktiven
   Sätze enthalten einen gültigen `yyyyMMdd`-Kandidaten;
 - `W020`, Position 210, Länge 8: 2.473 gültige `yyyyMMdd`-Kandidaten;
-- `W021`, Position 232, Länge 8: 4.422 gültige `yyyyMMdd`-Kandidaten;
-- `W021`, Position 285, Länge 8: 4.369 gültige `ddMMyyyy`-Kandidaten.
+- `W021`, Position 220, Länge 8: 156 gültige `yyyyMMdd`-Werte,
+  Trauerfeierdatum;
+- `W021`, Position 232, Länge 8: 4.422 gültige `yyyyMMdd`-Werte,
+  Beisetzdatum;
+- `W021`, Position 241, Länge 8: 4.341 gültige `ddMMyyyy`-Werte,
+  Geburtsdatum;
+- `W021`, Positionen 269 und 277, je Länge 8: 4.421 beziehungsweise 4.417
+  gültige `ddMMyyyy`-Werte, Ruhefrist von/bis;
+- `W021`, Position 285, Länge 8: 4.369 gültige `ddMMyyyy`-Werte,
+  Sterbedatum.
 
 Die Restmengen wurden ebenfalls geprüft: `W020` 210/L8 enthält neben 2.473
 gültigen Werten 237 Nullwerte und 8 weitere ungültige Werte; `W021` 232/L8
@@ -240,9 +267,12 @@ und 6 weitere ungültige Werte. Die drei indexierten `buch`-Felder 118/126/134
 sind in allen 11.955 Sätzen `00000000` und damit für diesen Bestand als
 Datumshypothese widerlegt.
 
-Die Positionen sind technisch bestätigt, ihre konkrete fachliche
-Datumsbedeutung noch nicht. Datumskandidaten dürfen deshalb noch nicht als
-Zielfelder benannt werden.
+`W021` 29/L8 und 37/L8 wurden trotz der statischen Nähe zu `NUTZ-VON/-BIS`
+separat geprüft: Beide üblichen 8-Byte-Datumsformate sind dort widerlegt. Diese
+Bereiche dürfen nicht als Nutzungsdaten importiert werden. Die oben benannten
+W021-Ereignisrollen sind durch Programmnamen/-kontrolle, angrenzende
+Textgrenzen beziehungsweise Indizes und Formatprofile mehrfach gestützt. Die
+Rolle von `W020` 210/L8 bleibt dagegen `OFFEN`.
 
 Die Analyse wahrscheinlich textueller Byteumgebungen spricht bei den zentralen
 Beständen deutlich für Windows-1252. Beispielsweise stehen in `W020` 3.412
@@ -253,39 +283,48 @@ numerische Bereiche bleiben typisiert.
 
 ## Reproduzierbarer Profiling-Lauf
 
-Der bestehende Prototyp wird mit dem separaten SDK so ausgeführt:
+Der aktuelle Phase-3-Prototyp wird mit dem separaten SDK so ausgeführt:
 
 ```powershell
 & 'C:\Users\Benke\AppData\Local\Cemaris\dotnet-10.0.302-complete\dotnet.exe' `
-  run --project 'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811\prototype\Edwalt.Phase2Profiler.csproj' -- `
+  run --project 'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase3-person-rights-status-20260812\prototype\Edwalt.Phase2Profiler.csproj' -- `
   'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811\raw-uncompressed' `
   'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811' `
-  'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811\report.json'
+  'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase3-person-rights-status-20260812\report.json'
 ```
 
 Der Lauf gibt JSON mit technischen Aggregaten aus. Er schreibt weder in die
 Originalquellen noch in die Arbeitskopie. Eine erneute Extraktion ist für den
 nächsten Analyseschritt nicht erforderlich.
 
-Der zuletzt neu erzeugte Bericht enthält 24 logische Dateiprofile, 10
+Der zuletzt neu erzeugte Bericht enthält weiterhin 24 logische Dateiprofile, 10
 definierte Beziehungen, 116 automatische Vergleiche gleich langer
 Indexsegmente, 6 Variantenvergleiche und 24 vollständig gelesene physische
-Dateiprofile. Hinzu kommen 52 Finanzfeldprofile, 7 Wiederholungsblöcke mit 48
+Dateiprofile. Hinzu kommen 52 Finanzfeldprofile, 7 Wiederholungsblöcke mit 47
 Unterfeldern, 124 Gebührenreferenz-, 5.200 Dezimal-/Rechenhypothesen, 11
-feldweise Variantenvergleiche und 4 Periodenkandidaten. Alle physischen
-Parserläufe sind vollständig und ohne Fehler. Der Build mit .NET SDK 10.0.302
-endet ohne Warnungen und Fehler.
+feldweise Variantenvergleiche und 4 Periodenkandidaten. Hinzu kommen 66
+lückenlose W020-/W021-Bereichsprofile, fünf gezielte Statusfeldprofile, 157
+positionsweise Grenzsignale, acht Status-/Nachfolgerhypothesen, ein über alle
+2.692 möglichen 2-Byte-Offsets aggregierter Nachfolgerscan und fünf statische
+Negativ-/Positivbefunde. Beobachtung und Interpretation stehen getrennt im
+JSON; Textlängen erscheinen nur als Histogramme, Distinct-Werte nur als
+SHA-256-Anzahlen. Alle physischen Parserläufe sind vollständig und ohne Fehler.
+Der Build mit .NET SDK 10.0.302 endet ohne Warnungen und Fehler.
+Der Bericht ist 28.332.345 Byte groß und hat den SHA-256-Wert
+`43F8749A4E1C3AC4390FFD56EA33106056D99A1CA03D8E8F4CA517D892438A48`.
+Ein zweiter Lauf mit demselben Aufruf erzeugte byteidentisch denselben Hash.
 
 ## Noch nicht bewiesen
 
 - Einzelfeldgrenzen innerhalb der im Quellkatalog markierten Sammelbereiche
-  sowie COBOL-Dezimal-/Vorzeichendarstellung; bei W021/W040 verhindert der
+  sowie COBOL-Dezimal-/Vorzeichendarstellung; bei W040 verhindert der
   nullinitialisierte Bestand eine weitere datengestützte Aufteilung;
 - fachliche Bezeichnung jedes Quellfelds und Bedeutung von Leer-/Null-/Codewerten;
 - sichere Erkennung von Storno, Aufhebung, Umnummerierung und gültigem
   Nachfolger;
 - fachlicher Zeitbezug und Vorrang der Alt-/DM-Varianten;
-- Rollen der Adressen, Personen- und Organisationsdubletten;
+- genaue Rolle und Innengrenzen der ersten W020-Adresse sowie Rollen der
+  weiteren Adressen, Personen- und Organisationsdubletten;
 - Herkunft und Vollständigkeit von Gebührenpositionen und Bescheiddaten;
   insbesondere sind festgesetzter Betrag und Fälligkeit noch nicht feldgenau
   lokalisiert;
@@ -294,13 +333,14 @@ endet ohne Warnungen und Fehler.
 
 ## Verbleibender nächster Schritt
 
-Der
-[Arbeitsauftrag zur feldgenauen Gebühren- und Bescheidrekonstruktion](edwalt-next-step-handoff.md)
-ist technisch durchgeführt. Für die verbliebenen Grenzen in `W005/W006`, den
-W021-/W040-Unterfeldern und der `buch`-Erweiterung reicht der vorhandene
-initialisierte Bestand nicht aus. Der nächste sichere Beleg wäre ein
-freigegebener nichtleerer Referenzbestand, ein Copybook oder eine fachkundige
-Bestätigung der Feldbreiten und Masken. Parallel müssen Betrag, Fälligkeit und
-Variantenvorrang fachlich geklärt werden. Unbekannte Bytebereiche bleiben
-erhalten und `OFFEN`; es folgt weiterhin weder ein Import noch ein aus EDWALT
-abgeleitetes 1:1-Zielmodell.
+Die
+[Personen-, Nutzungsrechts- und Statusrekonstruktion](edwalt-person-rights-status-next-step-handoff.md)
+ist technisch durchgeführt. Die eingebetteten Feldnamen sind nutzbar, das
+binäre Symbolformat liefert aber kein reproduzierbar validiertes DAT-Layout.
+Storno, Aufhebung und ein gültiger Umnummerierungsnachfolger bleiben deshalb
+nicht filterfähig. Der nächste mit dem vorhandenen Bestand ausführbare Schritt
+ist die im
+[Übergabeauftrag zu weiteren Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md)
+beschriebene Zerlegung von `W020` 621–1.684 und `W021` 5.465–5.770. Unbekannte
+Bereiche bleiben erhalten und `OFFEN`; es folgt weiterhin weder ein Import
+noch ein aus EDWALT abgeleitetes 1:1-Zielmodell.
