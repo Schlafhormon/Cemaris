@@ -37,7 +37,10 @@ public sealed record DeceasedDetails(
 public sealed record BurialDetails(
     Guid Id,
     Guid? DeceasedPersonId,
-    DateOnly? BurialDate);
+    DateOnly? BurialDate,
+    Guid? GraveSiteId = null,
+    Domain.Cases.BurialProcessStatus? Status = null,
+    DateOnly? PlanningDate = null);
 
 public sealed record UsageRightDetails(
     Guid Id,

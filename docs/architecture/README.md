@@ -41,6 +41,8 @@ abzuleiten. Umfang und Sicherheitsgrenze stehen in den
 Die technisch umgesetzte Friedhofs- und Grabstellenstruktur ist in
 [Architektur der Friedhofs- und Grabstellenstammdaten](cemetery-master-data.md)
 dokumentiert.
+Der einfache atomare Beisetzungsprozess ist in der
+[Architektur des Beisetzungsprozesses](burial-process.md) dokumentiert.
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.

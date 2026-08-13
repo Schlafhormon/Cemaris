@@ -101,9 +101,17 @@ public sealed class BurialReadEntity
 
     public DateOnly? BurialDate { get; set; }
 
+    public Guid? GraveSiteId { get; set; }
+
+    public string? ProcessStatus { get; set; }
+
+    public DateOnly? PlanningDate { get; set; }
+
     public CaseReadEntity Case { get; set; } = null!;
 
     public DeceasedReadEntity? DeceasedPerson { get; set; }
+
+    public Cemeteries.GraveSiteEntity? GraveSite { get; set; }
 }
 
 public sealed class UsageRightReadEntity

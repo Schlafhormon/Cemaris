@@ -27,5 +27,6 @@ Architecture Decision Records (ADRs) dokumentieren wesentliche technische und pr
 | [0012](ADR-0012-local-accounts-and-role-boundaries.md) | Lokale Konten als Standard und administrative Rollengrenze | Accepted |
 | [0013](ADR-0013-local-cookie-session-and-security-stamp.md) | Lokale Cookie-Sitzung, CSRF und Security-Stamp | Accepted |
 | [0014](ADR-0014-canonical-cemetery-master-data.md) | Kanonische Friedhofsstammdaten und restriktives Löschen | Accepted |
+| [0015](ADR-0015-atomic-burial-process.md) | Atomarer providerneutraler Beisetzungsprozess | Accepted |
 
 Für neue ADRs kann [ADR-Template](ADR-template.md) kopiert werden.

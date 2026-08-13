@@ -189,6 +189,58 @@
   border-top: 1px solid var(--border-color, #d9e0dc);
 }
 
+.burial-process-card {
+  border-inline-start: 0.35rem solid var(--color-accent, #315f54);
+}
+
+.process-progress {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.process-progress li {
+  padding: 0.45rem 0.3rem;
+  border-block-end: 0.25rem solid #cbd5d1;
+  color: #5b6662;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.process-progress li.is-reached {
+  border-color: #315f54;
+  color: #173a32;
+  font-weight: 700;
+}
+
+.process-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-block-start: 1rem;
+}
+
+.duplicate-warning {
+  margin-block: 1rem;
+  padding: 1rem;
+  border: 1px solid #b7791f;
+  border-radius: 0.35rem;
+  background: #fffaf0;
+}
+
+@media (max-width: 700px) {
+  .process-progress {
+    grid-template-columns: 1fr;
+  }
+
+  .process-progress li {
+    text-align: start;
+  }
+}
+
 .editor-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

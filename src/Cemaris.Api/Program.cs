@@ -28,6 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var caseEditingEnabled = builder.Configuration.GetValue<bool>("Features:CaseEditingEnabled");
 var cemeteryMasterDataEditingEnabled = builder.Configuration.GetValue<bool>("Features:CemeteryMasterDataEditingEnabled");
+var burialProcessEditingEnabled = builder.Configuration.GetValue<bool>("Features:BurialProcessEditingEnabled");
 if (caseEditingEnabled && !builder.Environment.IsDevelopment())
 {
     throw new InvalidOperationException(
@@ -38,6 +39,12 @@ if (cemeteryMasterDataEditingEnabled && (!builder.Environment.IsDevelopment() ||
 {
     throw new InvalidOperationException(
         "Cemetery master-data editing may be enabled only in Development with the Synthetic provider.");
+}
+if (burialProcessEditingEnabled && (!builder.Environment.IsDevelopment() ||
+    !string.Equals(builder.Configuration["ReadModel:Provider"], "Synthetic", StringComparison.OrdinalIgnoreCase)))
+{
+    throw new InvalidOperationException(
+        "Burial-process editing may be enabled only in Development with the Synthetic provider.");
 }
 
 builder.Logging.ClearProviders();
@@ -137,6 +144,10 @@ if (caseEditingEnabled)
         serviceProvider.GetRequiredService<TimeProvider>(),
         serviceProvider.GetRequiredService<ICemeteryMasterDataStore>(),
         cemeteryMasterDataEditingEnabled));
+}
+if (burialProcessEditingEnabled)
+{
+    builder.Services.AddScoped<BurialProcessService>();
 }
 if (cemeteryMasterDataEditingEnabled)
 {
@@ -379,6 +390,7 @@ systemEndpoints.MapGet("/info", () =>
         project.ProductionReady,
         caseEditingEnabled,
         cemeteryMasterDataEditingEnabled,
+        burialProcessEditingEnabled,
         typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "unbekannt"));
 })
     .WithName("GetSystemInformation")
@@ -404,21 +416,25 @@ caseEndpoints.MapGet("/cases/{id:guid}", GetCaseAsync)
     .ProducesProblem(StatusCodes.Status401Unauthorized)
     .ProducesProblem(StatusCodes.Status403Forbidden);
 
-if (caseEditingEnabled)
+if (caseEditingEnabled || burialProcessEditingEnabled)
 {
     var writeEndpoints = app.MapGroup("/api/cases")
         .WithTags("Synthetic Development case editing")
-        .RequireAuthorization(CemarisPolicies.CaseWork)
+        .RequireAuthorization(burialProcessEditingEnabled
+            ? CemarisPolicies.BurialProcess
+            : CemarisPolicies.CaseWork)
         .RequireCemarisAntiforgery();
 
-    writeEndpoints.MapPost("/", CreateCaseAsync)
+    if (caseEditingEnabled)
+    {
+        writeEndpoints.MapPost("/", CreateCaseAsync)
         .WithName("CreateCase")
         .WithSummary("Creates one synthetic Development case record with a server-generated ID.")
         .WithDescription("Returns Location, the current projection and a strong ETag containing the case version.")
         .Produces<CaseResponse>(StatusCodes.Status201Created)
-        .ProducesValidationProblem(StatusCodes.Status400BadRequest);
+            .ProducesValidationProblem(StatusCodes.Status400BadRequest);
 
-    writeEndpoints.MapPut("/{caseId:guid}/grave", ChangeGraveAsync)
+        writeEndpoints.MapPut("/{caseId:guid}/grave", ChangeGraveAsync)
         .WithName("ChangeCaseGrave")
         .WithSummary("Changes the stored grave reference of a synthetic Development case.")
         .WithDescription("Requires the last strong case ETag in If-Match.")
@@ -426,49 +442,57 @@ if (caseEditingEnabled)
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .ProducesProblem(StatusCodes.Status412PreconditionFailed)
-        .ProducesProblem(StatusCodes.Status428PreconditionRequired);
+            .ProducesProblem(StatusCodes.Status428PreconditionRequired);
+    }
 
-    writeEndpoints.MapPost("/{caseId:guid}/deceased-persons", AddDeceasedPersonAsync)
-        .WithName("AddCaseDeceasedPerson")
-        .WithSummary("Adds a deceased person with a server-generated ID.")
-        .WithDescription("Requires the last strong case ETag in If-Match.")
-        .Produces<CaseResponse>(StatusCodes.Status200OK)
-        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
-        .ProducesProblem(StatusCodes.Status404NotFound)
-        .ProducesProblem(StatusCodes.Status412PreconditionFailed)
-        .ProducesProblem(StatusCodes.Status428PreconditionRequired);
+    if (burialProcessEditingEnabled)
+    {
+        writeEndpoints.MapPost("/{caseId:guid}/deceased-persons", AddProcessDeceasedPersonAsync)
+            .WithName("AddCaseDeceasedPerson")
+            .WithSummary("Legt eine verstorbene Person nach serverseitiger Dublettenprüfung an.")
+            .Produces<CaseResponse>().ProducesValidationProblem().ProducesProblem(409).ProducesProblem(412).ProducesProblem(428);
+        writeEndpoints.MapPut("/{caseId:guid}/deceased-persons/{personId:guid}", ChangeProcessDeceasedPersonAsync)
+            .WithName("ChangeCaseDeceasedPerson")
+            .WithSummary("Korrigiert eine verstorbene Person unter Wahrung der Beisetzungsdatumsregeln.")
+            .Produces<CaseResponse>().ProducesValidationProblem().ProducesProblem(404).ProducesProblem(412).ProducesProblem(428);
+        writeEndpoints.MapPost("/{caseId:guid}/burials", CreateBurialProcessAsync)
+            .WithName("CreateBurialProcessDraft")
+            .WithSummary("Legt eine Beisetzung im Zustand Entwurf an.")
+            .Produces<CaseResponse>().ProducesValidationProblem().ProducesProblem(409).ProducesProblem(412).ProducesProblem(428);
+        writeEndpoints.MapPut("/{caseId:guid}/burials/{burialId:guid}", ChangeBurialProcessAsync)
+            .WithName("ChangeBurialProcess")
+            .WithSummary("Korrigiert die im aktuellen Zustand bearbeitbaren Beisetzungsfakten.")
+            .Produces<CaseResponse>().ProducesValidationProblem().ProducesProblem(409).ProducesProblem(412).ProducesProblem(428);
+        writeEndpoints.MapPost("/{caseId:guid}/burials/{burialId:guid}/transitions", TransitionBurialProcessAsync)
+            .WithName("TransitionBurialProcess")
+            .WithSummary("Führt genau einen zulässigen Beisetzungsprozessübergang aus.")
+            .Produces<CaseResponse>().ProducesValidationProblem().ProducesProblem(409).ProducesProblem(412).ProducesProblem(428);
+        writeEndpoints.MapPost("/{caseId:guid}/burials/{burialId:guid}/adopt", AdoptLegacyBurialAsync)
+            .WithName("AdoptLegacyBurial")
+            .WithSummary("Übernimmt eine bestehende nullable Altbeisetzung ausdrücklich in den Prozess.")
+            .Produces<CaseResponse>().ProducesValidationProblem().ProducesProblem(409).ProducesProblem(412).ProducesProblem(428);
+    }
+    else
+    {
+        writeEndpoints.MapPost("/{caseId:guid}/deceased-persons", AddDeceasedPersonAsync)
+            .WithName("AddCaseDeceasedPerson").Produces<CaseResponse>().ProducesValidationProblem().ProducesProblem(404).ProducesProblem(412).ProducesProblem(428);
+        writeEndpoints.MapPut("/{caseId:guid}/deceased-persons/{personId:guid}", ChangeDeceasedPersonAsync)
+            .WithName("ChangeCaseDeceasedPerson").Produces<CaseResponse>().ProducesValidationProblem().ProducesProblem(404).ProducesProblem(412).ProducesProblem(428);
+        writeEndpoints.MapPost("/{caseId:guid}/burials", AddBurialAsync)
+            .WithName("AddCaseBurial").Produces<CaseResponse>().ProducesValidationProblem().ProducesProblem(404).ProducesProblem(412).ProducesProblem(428);
+        writeEndpoints.MapPut("/{caseId:guid}/burials/{burialId:guid}", ChangeBurialAsync)
+            .WithName("ChangeCaseBurial").Produces<CaseResponse>().ProducesValidationProblem().ProducesProblem(404).ProducesProblem(412).ProducesProblem(428);
+    }
+}
 
-    writeEndpoints.MapPut(
-            "/{caseId:guid}/deceased-persons/{personId:guid}",
-            ChangeDeceasedPersonAsync)
-        .WithName("ChangeCaseDeceasedPerson")
-        .WithSummary("Changes a deceased person already stored in the case.")
-        .WithDescription("Requires the last strong case ETag in If-Match.")
-        .Produces<CaseResponse>(StatusCodes.Status200OK)
-        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
-        .ProducesProblem(StatusCodes.Status404NotFound)
-        .ProducesProblem(StatusCodes.Status412PreconditionFailed)
-        .ProducesProblem(StatusCodes.Status428PreconditionRequired);
-
-    writeEndpoints.MapPost("/{caseId:guid}/burials", AddBurialAsync)
-        .WithName("AddCaseBurial")
-        .WithSummary("Adds a burial with a server-generated ID.")
-        .WithDescription("Requires the last strong case ETag in If-Match.")
-        .Produces<CaseResponse>(StatusCodes.Status200OK)
-        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
-        .ProducesProblem(StatusCodes.Status404NotFound)
-        .ProducesProblem(StatusCodes.Status412PreconditionFailed)
-        .ProducesProblem(StatusCodes.Status428PreconditionRequired);
-
-    writeEndpoints.MapPut("/{caseId:guid}/burials/{burialId:guid}", ChangeBurialAsync)
-        .WithName("ChangeCaseBurial")
-        .WithSummary("Changes a burial already stored in the case.")
-        .WithDescription("Requires the last strong case ETag in If-Match.")
-        .Produces<CaseResponse>(StatusCodes.Status200OK)
-        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
-        .ProducesProblem(StatusCodes.Status404NotFound)
-        .ProducesProblem(StatusCodes.Status412PreconditionFailed)
-        .ProducesProblem(StatusCodes.Status428PreconditionRequired);
+if (burialProcessEditingEnabled)
+{
+    app.MapGet("/api/burial-process/master-data",
+            (ICemeteryMasterDataStore store, CancellationToken token) => store.ReadAsync(true, token))
+        .WithTags("Synthetic Development burial process")
+        .WithName("GetBurialProcessMasterData")
+        .RequireAuthorization(CemarisPolicies.BurialProcess)
+        .Produces<CemeteryMasterDataSnapshot>();
 }
 
 if (cemeteryMasterDataEditingEnabled)
@@ -891,6 +915,15 @@ static Task<IResult> AddDeceasedPersonAsync(
             request.ToCommand(),
             cancellationToken));
 
+static Task<IResult> AddProcessDeceasedPersonAsync(
+    Guid caseId,
+    SaveDeceasedPersonRequest request,
+    BurialProcessService service,
+    HttpContext context,
+    CancellationToken cancellationToken) =>
+    ExecuteBurialProcessMutationAsync(context, expectedVersion =>
+        service.AddDeceasedPersonAsync(caseId, expectedVersion, request.ToCommand(), cancellationToken));
+
 static Task<IResult> ChangeDeceasedPersonAsync(
     Guid caseId,
     Guid personId,
@@ -906,6 +939,16 @@ static Task<IResult> ChangeDeceasedPersonAsync(
             expectedVersion,
             request.ToCommand(),
             cancellationToken));
+
+static Task<IResult> ChangeProcessDeceasedPersonAsync(
+    Guid caseId,
+    Guid personId,
+    SaveDeceasedPersonRequest request,
+    BurialProcessService service,
+    HttpContext context,
+    CancellationToken cancellationToken) =>
+    ExecuteBurialProcessMutationAsync(context, expectedVersion =>
+        service.ChangeDeceasedPersonAsync(caseId, personId, expectedVersion, request.ToCommand(), cancellationToken));
 
 static Task<IResult> AddBurialAsync(
     Guid caseId,
@@ -936,6 +979,100 @@ static Task<IResult> ChangeBurialAsync(
             expectedVersion,
             request.ToCommand(),
             cancellationToken));
+
+static Task<IResult> CreateBurialProcessAsync(
+    Guid caseId,
+    CreateBurialProcessRequest request,
+    BurialProcessService service,
+    HttpContext context,
+    CancellationToken cancellationToken) =>
+    ExecuteBurialProcessMutationAsync(context, expectedVersion =>
+        service.CreateBurialDraftAsync(caseId, expectedVersion, request.ToCommand(), cancellationToken));
+
+static Task<IResult> ChangeBurialProcessAsync(
+    Guid caseId,
+    Guid burialId,
+    ChangeBurialProcessRequest request,
+    BurialProcessService service,
+    HttpContext context,
+    CancellationToken cancellationToken) =>
+    ExecuteBurialProcessMutationAsync(context, expectedVersion =>
+        service.ChangeBurialAsync(caseId, burialId, expectedVersion, request.ToCommand(), cancellationToken));
+
+static Task<IResult> TransitionBurialProcessAsync(
+    Guid caseId,
+    Guid burialId,
+    TransitionBurialProcessRequest request,
+    BurialProcessService service,
+    HttpContext context,
+    CancellationToken cancellationToken) =>
+    ExecuteBurialProcessMutationAsync(context, expectedVersion =>
+        service.TransitionBurialAsync(caseId, burialId, expectedVersion, request.ToCommand(), cancellationToken));
+
+static Task<IResult> AdoptLegacyBurialAsync(
+    Guid caseId,
+    Guid burialId,
+    AdoptLegacyBurialRequest request,
+    BurialProcessService service,
+    HttpContext context,
+    CancellationToken cancellationToken) =>
+    ExecuteBurialProcessMutationAsync(context, expectedVersion =>
+        service.AdoptLegacyBurialAsync(caseId, burialId, expectedVersion, request.ToCommand(), cancellationToken));
+
+static async Task<IResult> ExecuteBurialProcessMutationAsync(
+    HttpContext context,
+    Func<long, Task<CaseOverview>> mutation)
+{
+    var preconditionProblem = ParseExpectedVersion(context.Request, out var expectedVersion);
+    if (preconditionProblem is not null)
+    {
+        return preconditionProblem;
+    }
+
+    try
+    {
+        var updated = await mutation(expectedVersion);
+        SetCaseEtag(context.Response, updated.Version);
+        return Results.Ok(updated.ToResponse());
+    }
+    catch (BurialProcessValidationException exception)
+    {
+        return ValidationProblem(new Dictionary<string, string[]> { [exception.Field] = [exception.Message] }, "Die Beisetzungsangaben sind ungültig.");
+    }
+    catch (CaseValidationException exception) { return ValidationProblem(exception.Errors, exception.Message); }
+    catch (CaseReferenceValidationException exception) { return ValidationProblem(exception.Errors, exception.Message); }
+    catch (GraveSiteReferenceValidationException exception) { return ValidationProblem(exception.Errors, exception.Message); }
+    catch (PossibleDeceasedDuplicateException exception)
+    {
+        return Results.Problem(new ProblemDetails
+        {
+            Status = StatusCodes.Status409Conflict,
+            Title = exception.Message,
+            Type = "https://cemaris.local/problems/possible-deceased-duplicate",
+            Extensions =
+            {
+                ["code"] = "possible-deceased-duplicate",
+                ["candidates"] = exception.Candidates,
+            },
+        });
+    }
+    catch (DeceasedPersonAlreadyHasBurialException exception) { return ConflictProblem(exception.Message, "deceased-person-already-has-burial"); }
+    catch (BurialProcessStateConflictException exception) { return ConflictProblem(exception.Message, "burial-process-state-conflict"); }
+    catch (CaseRecordNotFoundException exception) { return NotFoundProblem(exception.Message); }
+    catch (CaseChildNotFoundException exception) { return NotFoundProblem(exception.Message); }
+    catch (CaseVersionConflictException exception)
+    {
+        return Results.Problem(statusCode: StatusCodes.Status412PreconditionFailed, title: exception.Message, type: "https://httpstatuses.com/412");
+    }
+}
+
+static IResult ConflictProblem(string title, string code) => Results.Problem(new ProblemDetails
+{
+    Status = StatusCodes.Status409Conflict,
+    Title = title,
+    Type = $"https://cemaris.local/problems/{code}",
+    Extensions = { ["code"] = code },
+});
 
 static async Task<IResult> ExecuteMutationAsync(
     HttpContext context,

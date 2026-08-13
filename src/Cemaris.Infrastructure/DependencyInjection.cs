@@ -31,6 +31,7 @@ public static class DependencyInjection
 
         if (provider.Equals("Synthetic", StringComparison.OrdinalIgnoreCase))
         {
+            services.AddSingleton<SyntheticStoreCoordinator>();
             services.AddSingleton<SyntheticCemeteryMasterDataStore>();
             services.AddSingleton<ICemeteryMasterDataStore>(serviceProvider =>
                 serviceProvider.GetRequiredService<SyntheticCemeteryMasterDataStore>());
@@ -38,6 +39,8 @@ public static class DependencyInjection
             services.AddSingleton<ICaseReadStore>(serviceProvider =>
                 serviceProvider.GetRequiredService<SyntheticCaseReadStore>());
             services.AddSingleton<ICaseWriteStore>(serviceProvider =>
+                serviceProvider.GetRequiredService<SyntheticCaseReadStore>());
+            services.AddSingleton<IBurialProcessStore>(serviceProvider =>
                 serviceProvider.GetRequiredService<SyntheticCaseReadStore>());
             return services;
         }
@@ -50,6 +53,7 @@ public static class DependencyInjection
 
         services.AddScoped<ICaseReadStore, EfCaseReadStore>();
         services.AddScoped<ICaseWriteStore, EfCaseWriteStore>();
+        services.AddScoped<IBurialProcessStore, EfBurialProcessStore>();
         services.AddScoped<ICemeteryMasterDataStore, EfCemeteryMasterDataStore>();
         services.AddScoped<SyntheticReadModelSeeder>();
 

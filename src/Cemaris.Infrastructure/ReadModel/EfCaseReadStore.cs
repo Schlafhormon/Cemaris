@@ -354,7 +354,12 @@ public sealed class EfCaseReadStore(CemarisDbContext dbContext) : ICaseReadStore
                 .Select(item => new BurialDetails(
                     item.Id,
                     item.DeceasedPersonId,
-                    item.BurialDate))
+                    item.BurialDate,
+                    item.GraveSiteId,
+                    item.ProcessStatus == null
+                        ? null
+                        : Enum.Parse<Cemaris.Domain.Cases.BurialProcessStatus>(item.ProcessStatus),
+                    item.PlanningDate))
                 .ToArray(),
             entity.UsageRights
                 .Select(item => new UsageRightDetails(

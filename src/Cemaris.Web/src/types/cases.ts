@@ -64,7 +64,12 @@ export interface BurialDetails {
   id: string
   deceasedPersonId: string | null
   burialDate: string | null
+  graveSiteId: string | null
+  status: BurialProcessStatus | null
+  planningDate: string | null
 }
+
+export type BurialProcessStatus = 'Draft' | 'Planned' | 'Confirmed' | 'Performed' | 'Completed'
 
 export interface UsageRightDetails {
   id: string
@@ -150,4 +155,11 @@ export interface DeceasedPersonInput {
 export interface BurialInput {
   deceasedPersonId: string
   burialDate: string
+}
+
+export interface BurialProcessInput {
+  deceasedPersonId: string
+  graveSiteId: string
+  planningDate: string
+  actualBurialDate: string
 }

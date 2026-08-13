@@ -128,3 +128,12 @@ allgemeine Dublettenfreigabe entsteht nicht.
 - keine Gebühren, Bescheide, Formulare oder Dokumenterzeugung;
 - keine Winyard-, LDAP- oder EDWALT-Integration;
 - keine echten Verwaltungsdaten und keine Produktivfreigabe.
+
+## Technischer Umsetzungsstand
+
+Die Entscheidungen sind mit Inkrement 4b technisch Ende zu Ende umgesetzt.
+Architektur und Transaktionsgrenze stehen in der
+[Prozessarchitektur](../architecture/burial-process.md), der verifizierte
+Prüfstand in der
+[Abschlussdokumentation](../implementation/cemaris-increment-4b-completion.md).
+Dieser Status ändert die oben beschriebene Freigabegrenze nicht.

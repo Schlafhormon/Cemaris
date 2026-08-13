@@ -6,6 +6,7 @@ namespace Cemaris.Api.Security;
 public static class CemarisPolicies
 {
     public const string CaseWork = "CaseWork";
+    public const string BurialProcess = "BurialProcess";
     public const string MasterData = "MasterData";
     public const string MasterDataDeletion = "MasterDataDeletion";
     public const string UserAdministration = "UserAdministration";
@@ -16,6 +17,7 @@ public static class CemarisPolicies
         new Dictionary<string, IReadOnlyList<SystemRole>>(StringComparer.Ordinal)
         {
             [CaseWork] = SystemRole.All,
+            [BurialProcess] = SystemRole.All,
             [MasterData] = SystemRole.All,
             [MasterDataDeletion] = [SystemRole.Administration],
             [UserAdministration] = [SystemRole.Administration],

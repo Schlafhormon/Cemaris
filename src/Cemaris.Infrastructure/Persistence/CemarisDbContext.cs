@@ -235,8 +235,14 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
     private static void ConfigureBurial(ModelBuilder modelBuilder)
     {
         var entity = modelBuilder.Entity<BurialReadEntity>();
-        entity.ToTable("ReadBurials");
+        entity.ToTable("ReadBurials", table => table.HasCheckConstraint(
+            "CK_ReadBurials_ProcessStatus",
+            "[ProcessStatus] IS NULL OR [ProcessStatus] IN (N'Draft', N'Planned', N'Confirmed', N'Performed', N'Completed')"));
         entity.HasKey(item => item.Id);
+        entity.Property(item => item.ProcessStatus).HasMaxLength(32);
+        entity.HasIndex(item => item.DeceasedPersonId)
+            .IsUnique()
+            .HasFilter("[DeceasedPersonId] IS NOT NULL AND [ProcessStatus] IS NOT NULL");
         entity.HasOne(item => item.Case)
             .WithMany(item => item.Burials)
             .HasForeignKey(item => item.CaseId)
@@ -244,6 +250,10 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
         entity.HasOne(item => item.DeceasedPerson)
             .WithMany(item => item.Burials)
             .HasForeignKey(item => item.DeceasedPersonId)
+            .OnDelete(DeleteBehavior.NoAction);
+        entity.HasOne(item => item.GraveSite)
+            .WithMany()
+            .HasForeignKey(item => item.GraveSiteId)
             .OnDelete(DeleteBehavior.NoAction);
     }
 

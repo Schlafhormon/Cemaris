@@ -236,6 +236,43 @@ describe('Schreibformulare', () => {
     expect(cemetery).toHaveValue('Lokaler, noch nicht gespeicherter Stand')
     expect(screen.getByRole('button', { name: 'Aktuellen Serverstand laden' })).toBeInTheDocument()
   })
+
+  it('führt einen Beisetzungsentwurf über den primären Prozessschritt weiter', async () => {
+    const user = userEvent.setup()
+    const personId = '00000000-0000-0000-0000-000000009201'
+    const burialId = '00000000-0000-0000-0000-000000009301'
+    const siteId = '00000000-0000-0000-0000-000000009101'
+    const processData = {
+      cemeteries: [{ id: 'c', name: 'Synthetischer UI-Testfriedhof', code: null, address: null, note: null, isActive: true, version: 1 }],
+      areas: [], fields: [], rows: [],
+      graveTypes: [{ id: 'g', name: 'Synthetische UI-Grabart', code: null, burialForm: 'Mixed', note: null, isActive: true, version: 1 }],
+      cemeteryGraveTypes: [{ id: 'a', cemeteryId: 'c', graveTypeId: 'g', isActive: true, version: 1 }],
+      graveSites: masterData.graveSites,
+    }
+    const draftCase = caseOverview({
+      deceasedPersons: [{ id: personId, firstName: 'Synthetische', lastName: 'Prozessperson', birthDate: '1950-01-01', deathDate: '2026-01-01' }],
+      burials: [{ id: burialId, deceasedPersonId: personId, burialDate: null, graveSiteId: siteId, status: 'Draft', planningDate: null }],
+    })
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const path = String(input)
+      if (path.endsWith('/api/auth/csrf')) return jsonResponse({ requestToken: 'csrf-process-token', headerName: 'X-Cemaris-CSRF' })
+      if (path.endsWith('/api/burial-process/master-data')) return jsonResponse(processData)
+      if (path.endsWith('/transitions') && init?.method === 'POST') {
+        return jsonResponse({ ...draftCase, version: 2, burials: [{ ...draftCase.burials[0], status: 'Planned', planningDate: '2026-08-14' }] }, 200, { ETag: '"2"' })
+      }
+      return jsonResponse(draftCase, 200, { ETag: '"1"' })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    render(<CaseEditPage caseId={draftCase.id} caseEditingEnabled={false} burialProcessEditingEnabled />)
+    const planningDate = (await screen.findAllByLabelText(/Planungstag/))[0]
+    await user.type(planningDate, '2026-08-14')
+    await user.click(screen.getByRole('button', { name: 'Weiter zu Geplant' }))
+
+    expect(await screen.findByText('Änderung gespeichert. Fallversion 2.')).toBeInTheDocument()
+    const transitionCall = fetchMock.mock.calls.find(([input]) => String(input).endsWith('/transitions'))
+    expect(JSON.parse(String(transitionCall?.[1]?.body))).toMatchObject({ targetStatus: 'Planned', planningDate: '2026-08-14' })
+  })
 })
 
 describe('Letzte Änderungszuordnung', () => {

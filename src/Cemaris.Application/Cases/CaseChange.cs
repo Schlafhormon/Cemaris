@@ -11,6 +11,16 @@ public enum CaseChangeOperation
     DeceasedPersonChanged = 4,
     BurialAdded = 5,
     BurialChanged = 6,
+    BurialDraftCreated = 7,
+    BurialFactsChanged = 8,
+    BurialPlanned = 9,
+    BurialPlanningWithdrawn = 10,
+    BurialConfirmed = 11,
+    BurialConfirmationWithdrawn = 12,
+    BurialPerformed = 13,
+    BurialCompleted = 14,
+    BurialReopened = 15,
+    LegacyBurialAdopted = 16,
 }
 
 public sealed record CaseChange

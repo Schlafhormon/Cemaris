@@ -16,7 +16,8 @@ public sealed record SaveDeceasedPersonCommand(
     string? FirstName,
     string? LastName,
     DateOnly? BirthDate,
-    DateOnly? DeathDate);
+    DateOnly? DeathDate,
+    bool ConfirmPossibleDuplicate = false);
 
 public sealed record SaveBurialCommand(
     Guid? DeceasedPersonId,

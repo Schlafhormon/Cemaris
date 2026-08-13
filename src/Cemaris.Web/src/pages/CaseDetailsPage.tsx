@@ -10,6 +10,7 @@ import type {
 interface CaseDetailsPageProps {
   caseId: string
   caseEditingEnabled?: boolean
+  burialProcessEditingEnabled?: boolean
 }
 
 function displayValue(value: ReactNode) {
@@ -92,7 +93,7 @@ function searchReturnUrl() {
   }
 }
 
-export function CaseDetailsPage({ caseId, caseEditingEnabled = false }: CaseDetailsPageProps) {
+export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProcessEditingEnabled = false }: CaseDetailsPageProps) {
   const returnTo = searchReturnUrl()
   const [caseOverview, setCaseOverview] = useState<CaseOverview>()
   const [loading, setLoading] = useState(true)
@@ -172,7 +173,7 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false }: CaseDeta
         )}
       </div>
 
-      {caseEditingEnabled && caseOverview.isSynthetic && (
+      {(caseEditingEnabled || burialProcessEditingEnabled) && caseOverview.isSynthetic && (
         <div className="detail-actions">
           <a
             className="button button--primary"
@@ -243,6 +244,9 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false }: CaseDeta
                     <DetailField label="Beisetzungsdatum">
                       {formatDate(burial.burialDate)}
                     </DetailField>
+                    <DetailField label="Prozessstatus">{burial.status ? processStatusLabel(burial.status) : 'Altbestand – nicht übernommen'}</DetailField>
+                    <DetailField label="Planungstag">{formatDate(burial.planningDate)}</DetailField>
+                    <DetailField label="Kanonische Grabstelle">{burial.graveSiteId}</DetailField>
                     <DetailField label="Zugeordnete verstorbene Person">
                       {deceased ? formatName(deceased) : null}
                     </DetailField>
@@ -360,4 +364,8 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false }: CaseDeta
       </div>
     </div>
   )
+}
+
+function processStatusLabel(status: string) {
+  return ({ Draft: 'Entwurf', Planned: 'Geplant', Confirmed: 'Bestätigt', Performed: 'Durchgeführt', Completed: 'Abgeschlossen' } as Record<string, string>)[status] ?? status
 }

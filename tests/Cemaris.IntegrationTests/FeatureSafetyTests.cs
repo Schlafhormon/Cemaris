@@ -18,6 +18,14 @@ public sealed class FeatureSafetyTests
             StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void BurialProcessActivationOutsideDevelopmentFailsAtStartup()
+    {
+        using var factory = new UnsafeBurialProcessProductionFactory();
+        var exception = Assert.ThrowsAny<Exception>(() => factory.CreateClient());
+        Assert.Contains("Burial-process editing may be enabled only in Development with the Synthetic provider", FlattenMessages(exception), StringComparison.Ordinal);
+    }
+
     private static string FlattenMessages(Exception exception)
     {
         var messages = new List<string>();
@@ -39,6 +47,15 @@ public sealed class FeatureSafetyTests
         {
             builder.UseEnvironment("Production");
             builder.UseSetting("Features:CaseEditingEnabled", "true");
+        }
+    }
+
+    private sealed class UnsafeBurialProcessProductionFactory : WebApplicationFactory<Program>
+    {
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.UseEnvironment("Production");
+            builder.UseSetting("Features:BurialProcessEditingEnabled", "true");
         }
     }
 }

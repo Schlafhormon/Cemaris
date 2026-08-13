@@ -23,6 +23,10 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
 
     public bool LegacyMigrationPreservedNullableAttribution { get; private set; }
 
+    public bool LegacyBurialRemainedReadable { get; private set; }
+
+    public int VerifiedPredecessorMigrations { get; private set; }
+
     public int SeededCaseCount { get; private set; }
 
     public int SeededChangeCount { get; private set; }
@@ -59,19 +63,23 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
 
         try
         {
+            VerifiedPredecessorMigrations = await VerifyAllPredecessorsAsync();
             await ExecuteOnMasterAsync($"CREATE DATABASE [{databaseName}];");
 
             var options = new DbContextOptionsBuilder<CemarisDbContext>()
                 .UseSqlServer(DatabaseConnectionString)
                 .Options;
             await using var dbContext = new CemarisDbContext(options);
-            await dbContext.Database.MigrateAsync("20260812103956_AddCaseVersion");
+            await dbContext.Database.MigrateAsync("20260813104713_AddCemeteryMasterData");
 
             var legacyCaseId = Guid.NewGuid();
+            var legacyBurialId = Guid.NewGuid();
             await dbContext.Database.ExecuteSqlInterpolatedAsync(
                 $"INSERT INTO ReadCases (Id, IsSynthetic, Version) VALUES ({legacyCaseId}, CAST(1 AS bit), 1)");
             await dbContext.Database.ExecuteSqlInterpolatedAsync(
                 $"INSERT INTO ReadGraves (CaseId, Cemetery, Field, GraveNumber) VALUES ({legacyCaseId}, {"Synthetischer Migrations-Testfriedhof"}, NULL, {"SYN-MIG-1"})");
+            await dbContext.Database.ExecuteSqlInterpolatedAsync(
+                $"INSERT INTO ReadBurials (Id, CaseId, DeceasedPersonId, BurialDate) VALUES ({legacyBurialId}, {legacyCaseId}, NULL, {new DateOnly(2026, 8, 1)})");
             await dbContext.Database.MigrateAsync();
 
             var legacyProjection = await new EfCaseReadStore(dbContext)
@@ -79,6 +87,13 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
             LegacyMigrationPreservedNullableAttribution = legacyProjection is not null
                 && legacyProjection.LastChange is null
                 && !await dbContext.CaseChanges.AnyAsync(item => item.CaseId == legacyCaseId);
+            var legacyBurial = Assert.Single(legacyProjection?.Burials ?? []);
+            LegacyBurialRemainedReadable = legacyBurial.Id == legacyBurialId
+                && legacyBurial.DeceasedPersonId is null
+                && legacyBurial.BurialDate == new DateOnly(2026, 8, 1)
+                && legacyBurial.Status is null
+                && legacyBurial.GraveSiteId is null
+                && legacyBurial.PlanningDate is null;
 
             var seeder = new SyntheticReadModelSeeder(dbContext);
             SeedResult = await seeder.ResetAsync(databaseName, CancellationToken.None);
@@ -91,6 +106,66 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
             await DropDatabaseAsync();
             throw;
         }
+    }
+
+    private async Task<int> VerifyAllPredecessorsAsync()
+    {
+        var baseBuilder = new SqlConnectionStringBuilder(masterConnectionString);
+        var migrations = new[]
+        {
+            "20260811110042_InitialReadModel",
+            "20260812103956_AddCaseVersion",
+            "20260813064742_AddCaseChangeAttribution",
+            "20260813080626_AddLocalAccountsAndSecurityState",
+            "20260813104713_AddCemeteryMasterData",
+        };
+        var verified = 0;
+        foreach (var migration in migrations)
+        {
+            var auxiliaryName = $"{DatabasePrefix}Migration_{Guid.NewGuid():N}";
+            if (!auxiliaryName.StartsWith(DatabasePrefix, StringComparison.Ordinal))
+            {
+                throw new InvalidOperationException("Invalid migration-test database prefix.");
+            }
+
+            try
+            {
+                await ExecuteOnMasterAsync($"CREATE DATABASE [{auxiliaryName}];");
+                var builder = new SqlConnectionStringBuilder(baseBuilder.ConnectionString)
+                {
+                    InitialCatalog = auxiliaryName,
+                    Pooling = false,
+                };
+                var options = new DbContextOptionsBuilder<CemarisDbContext>().UseSqlServer(builder.ConnectionString).Options;
+                await using var context = new CemarisDbContext(options);
+                await context.Database.MigrateAsync(migration);
+                var caseId = Guid.NewGuid();
+                var burialId = Guid.NewGuid();
+                await context.Database.ExecuteSqlInterpolatedAsync($"INSERT INTO ReadCases (Id, IsSynthetic) VALUES ({caseId}, CAST(1 AS bit))");
+                await context.Database.ExecuteSqlInterpolatedAsync($"INSERT INTO ReadBurials (Id, CaseId, DeceasedPersonId, BurialDate) VALUES ({burialId}, {caseId}, NULL, {new DateOnly(2026, 7, 31)})");
+                await context.Database.MigrateAsync();
+                var burial = await context.Burials.AsNoTracking().SingleAsync(item => item.Id == burialId);
+                if (burial.ProcessStatus is not null || burial.GraveSiteId is not null || burial.PlanningDate is not null || burial.BurialDate != new DateOnly(2026, 7, 31))
+                {
+                    throw new InvalidOperationException("A representative legacy burial was not preserved.");
+                }
+                verified++;
+            }
+            finally
+            {
+                var resolvedAuxiliaryName = new SqlConnectionStringBuilder(baseBuilder.ConnectionString)
+                {
+                    InitialCatalog = auxiliaryName,
+                }.InitialCatalog;
+                if (auxiliaryName.StartsWith(DatabasePrefix, StringComparison.Ordinal)
+                    && auxiliaryName.Length > DatabasePrefix.Length
+                    && string.Equals(resolvedAuxiliaryName, auxiliaryName, StringComparison.Ordinal))
+                {
+                    await ExecuteOnMasterAsync($"IF DB_ID(N'{auxiliaryName}') IS NOT NULL BEGIN ALTER DATABASE [{auxiliaryName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE [{auxiliaryName}]; END;");
+                }
+            }
+        }
+        return verified;
     }
 
     public async Task DisposeAsync()

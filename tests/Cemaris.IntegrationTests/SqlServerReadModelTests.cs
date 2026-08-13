@@ -31,6 +31,8 @@ public sealed class SqlServerReadModelTests(SqlServerIntegrationFixture fixture)
 
         Assert.Empty(pendingMigrations);
         Assert.True(fixture.LegacyMigrationPreservedNullableAttribution);
+        Assert.True(fixture.LegacyBurialRemainedReadable);
+        Assert.Equal(5, fixture.VerifiedPredecessorMigrations);
         Assert.Equal(15, fixture.SeededCaseCount);
         Assert.Equal(15, fixture.SeededChangeCount);
         Assert.True(caseCount >= fixture.SeededCaseCount);

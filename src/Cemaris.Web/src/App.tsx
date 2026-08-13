@@ -18,6 +18,7 @@ function App() {
   const [path, setPath] = useState(window.location.pathname.replace(/\/$/, '') || '/')
   const [caseEditingEnabled, setCaseEditingEnabled] = useState<boolean>()
   const [cemeteryMasterDataEditingEnabled, setCemeteryMasterDataEditingEnabled] = useState<boolean>()
+  const [burialProcessEditingEnabled, setBurialProcessEditingEnabled] = useState<boolean>()
   const [forbidden, setForbidden] = useState(false)
 
   useEffect(() => {
@@ -38,8 +39,9 @@ function App() {
       .then((information) => {
         setCaseEditingEnabled(information.caseEditingEnabled)
         setCemeteryMasterDataEditingEnabled(information.cemeteryMasterDataEditingEnabled)
+        setBurialProcessEditingEnabled(information.burialProcessEditingEnabled)
       })
-      .catch(() => { setCaseEditingEnabled(false); setCemeteryMasterDataEditingEnabled(false) })
+      .catch(() => { setCaseEditingEnabled(false); setCemeteryMasterDataEditingEnabled(false); setBurialProcessEditingEnabled(false) })
     return () => controller.abort()
   }, [])
 
@@ -74,8 +76,8 @@ function App() {
       <FeatureUnavailablePage loading={caseEditingEnabled === undefined} />
     )
   } else if (!account.mustChangePassword && editMatch) {
-    page = caseEditingEnabled === true ? (
-      <CaseEditPage caseId={decodeURIComponent(editMatch[1])} cemeteryMasterDataEditingEnabled={cemeteryMasterDataEditingEnabled === true} />
+    page = caseEditingEnabled === true || burialProcessEditingEnabled === true ? (
+      <CaseEditPage caseId={decodeURIComponent(editMatch[1])} caseEditingEnabled={caseEditingEnabled === true} burialProcessEditingEnabled={burialProcessEditingEnabled === true} cemeteryMasterDataEditingEnabled={cemeteryMasterDataEditingEnabled === true} />
     ) : (
       <FeatureUnavailablePage loading={caseEditingEnabled === undefined} />
     )
@@ -84,6 +86,7 @@ function App() {
       <CaseDetailsPage
         caseId={decodeURIComponent(caseMatch[1])}
         caseEditingEnabled={caseEditingEnabled === true}
+        burialProcessEditingEnabled={burialProcessEditingEnabled === true}
       />
     )
   }

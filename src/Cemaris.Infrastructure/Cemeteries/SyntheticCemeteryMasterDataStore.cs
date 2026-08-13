@@ -5,7 +5,7 @@ namespace Cemaris.Infrastructure.Cemeteries;
 
 public sealed class SyntheticCemeteryMasterDataStore : ICemeteryMasterDataStore
 {
-    private readonly object gate = new();
+    private readonly object gate;
     private readonly Dictionary<Guid, CemeteryView> cemeteries = [];
     private readonly Dictionary<Guid, CemeteryLevelView> areas = [];
     private readonly Dictionary<Guid, CemeteryLevelView> fields = [];
@@ -15,6 +15,11 @@ public sealed class SyntheticCemeteryMasterDataStore : ICemeteryMasterDataStore
     private readonly Dictionary<Guid, GraveSiteView> graveSites = [];
     private readonly List<CemeteryMasterDataChange> changes = [];
     private readonly Dictionary<Guid, int> graveSiteReferences = [];
+
+    public SyntheticCemeteryMasterDataStore(SyntheticStoreCoordinator? coordinator = null)
+    {
+        gate = coordinator?.Gate ?? new object();
+    }
 
     public Task<CemeteryMasterDataSnapshot> ReadAsync(bool includeInactive, CancellationToken cancellationToken)
     {
@@ -224,6 +229,60 @@ public sealed class SyntheticCemeteryMasterDataStore : ICemeteryMasterDataStore
             {
                 graveSiteReferences[current.Value] = graveSiteReferences.GetValueOrDefault(current.Value) + 1;
             }
+        }
+    }
+
+    internal bool CanUseForBurialProcess(Guid graveSiteId, bool requireSelectable)
+    {
+        lock (gate)
+        {
+            return graveSites.TryGetValue(graveSiteId, out var site)
+                && (!requireSelectable
+                    || SiteIsSelectable(site) && site.Status == GraveSiteStatus.Available);
+        }
+    }
+
+    internal bool CanConfirmForBurialProcess(Guid graveSiteId)
+    {
+        lock (gate)
+        {
+            return graveSites.TryGetValue(graveSiteId, out var site)
+                && SiteIsSelectable(site)
+                && site.Status is GraveSiteStatus.Available or GraveSiteStatus.Reserved;
+        }
+    }
+
+    internal bool PromoteForBurialProcess(
+        Guid graveSiteId,
+        GraveSiteStatus? minimumStatus,
+        bool requireSelectable)
+    {
+        lock (gate)
+        {
+            if (!graveSites.TryGetValue(graveSiteId, out var site)
+                || requireSelectable
+                    && (!SiteIsSelectable(site) || site.Status != GraveSiteStatus.Available))
+            {
+                return false;
+            }
+
+            var nextStatus = minimumStatus switch
+            {
+                GraveSiteStatus.Occupied => GraveSiteStatus.Occupied,
+                GraveSiteStatus.Reserved when site.Status == GraveSiteStatus.Available =>
+                    GraveSiteStatus.Reserved,
+                _ => site.Status,
+            };
+            if (nextStatus != site.Status)
+            {
+                graveSites[graveSiteId] = site with
+                {
+                    Status = nextStatus,
+                    Version = site.Version + 1,
+                };
+            }
+
+            return true;
         }
     }
 }

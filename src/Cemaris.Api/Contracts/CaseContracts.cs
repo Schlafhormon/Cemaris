@@ -1,4 +1,5 @@
 using Cemaris.Application.Cases;
+using Cemaris.Domain.Cases;
 
 namespace Cemaris.Api.Contracts;
 
@@ -16,15 +17,53 @@ public sealed record SaveDeceasedPersonRequest(
     string? FirstName,
     string? LastName,
     DateOnly? BirthDate,
-    DateOnly? DeathDate)
+    DateOnly? DeathDate,
+    bool ConfirmPossibleDuplicate = false)
 {
     public SaveDeceasedPersonCommand ToCommand() =>
-        new(FirstName, LastName, BirthDate, DeathDate);
+        new(FirstName, LastName, BirthDate, DeathDate, ConfirmPossibleDuplicate);
 }
 
 public sealed record SaveBurialRequest(Guid? DeceasedPersonId, DateOnly? BurialDate)
 {
     public SaveBurialCommand ToCommand() => new(DeceasedPersonId, BurialDate);
+}
+
+public sealed record CreateBurialProcessRequest(
+    Guid DeceasedPersonId,
+    Guid GraveSiteId,
+    DateOnly? PlanningDate)
+{
+    public CreateBurialDraftCommand ToCommand() => new(DeceasedPersonId, GraveSiteId, PlanningDate);
+}
+
+public sealed record ChangeBurialProcessRequest(
+    Guid DeceasedPersonId,
+    Guid GraveSiteId,
+    DateOnly? PlanningDate,
+    DateOnly? ActualBurialDate)
+{
+    public ChangeBurialProcessCommand ToCommand() =>
+        new(DeceasedPersonId, GraveSiteId, PlanningDate, ActualBurialDate);
+}
+
+public sealed record TransitionBurialProcessRequest(
+    BurialProcessStatus TargetStatus,
+    DateOnly? PlanningDate,
+    DateOnly? ActualBurialDate)
+{
+    public TransitionBurialCommand ToCommand() => new(TargetStatus, PlanningDate, ActualBurialDate);
+}
+
+public sealed record AdoptLegacyBurialRequest(
+    Guid DeceasedPersonId,
+    Guid GraveSiteId,
+    BurialProcessStatus TargetStatus,
+    DateOnly? PlanningDate,
+    DateOnly? ActualBurialDate)
+{
+    public AdoptLegacyBurialCommand ToCommand() =>
+        new(DeceasedPersonId, GraveSiteId, TargetStatus, PlanningDate, ActualBurialDate);
 }
 
 public sealed record CaseResponse(
@@ -53,7 +92,13 @@ public sealed record DeceasedPersonResponse(
     DateOnly? BirthDate,
     DateOnly? DeathDate);
 
-public sealed record BurialResponse(Guid Id, Guid? DeceasedPersonId, DateOnly? BurialDate);
+public sealed record BurialResponse(
+    Guid Id,
+    Guid? DeceasedPersonId,
+    DateOnly? BurialDate,
+    Guid? GraveSiteId,
+    BurialProcessStatus? Status,
+    DateOnly? PlanningDate);
 
 public sealed record UsageRightResponse(
     Guid Id,
@@ -142,7 +187,10 @@ internal static class CaseContractMapper
             source.Burials.Select(item => new BurialResponse(
                 item.Id,
                 item.DeceasedPersonId,
-                item.BurialDate)).ToArray(),
+                item.BurialDate,
+                item.GraveSiteId,
+                item.Status,
+                item.PlanningDate)).ToArray(),
             source.UsageRights.Select(item => new UsageRightResponse(
                 item.Id,
                 item.Reference,

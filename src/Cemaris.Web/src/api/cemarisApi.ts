@@ -1,6 +1,8 @@
 import type { HealthResponse, SystemInformationResponse } from '../types/system'
 import type {
   BurialInput,
+  BurialProcessInput,
+  BurialProcessStatus,
   CaseOverview,
   CaseWithEtag,
   DeceasedPersonInput,
@@ -24,6 +26,15 @@ let unauthorizedHandler: (() => void) | undefined
 interface ProblemDetails {
   title?: string
   errors?: Record<string, string[]>
+  code?: string
+  candidates?: PossibleDeceasedDuplicate[]
+}
+
+export interface PossibleDeceasedDuplicate {
+  id: string
+  displayName: string
+  birthDate: string | null
+  deathDate: string | null
 }
 
 async function readProblem(response: Response): Promise<ProblemDetails | undefined> {
@@ -56,12 +67,16 @@ async function getJson<T>(path: string, signal: AbortSignal): Promise<T> {
 export class ApiError extends Error {
   readonly status: number
   readonly fieldErrors: Record<string, string[]>
+  readonly code?: string
+  readonly duplicateCandidates: PossibleDeceasedDuplicate[]
 
   constructor(status: number, problem?: ProblemDetails) {
     super(problem?.title ?? `API request failed with status ${status}`)
     this.name = 'ApiError'
     this.status = status
     this.fieldErrors = problem?.errors ?? {}
+    this.code = problem?.code
+    this.duplicateCandidates = problem?.candidates ?? []
   }
 }
 
@@ -181,6 +196,10 @@ export function getCemeteryMasterData(signal: AbortSignal, includeInactive = tru
   return getJson<CemeteryMasterData>(`/api/master-data/cemeteries?includeInactive=${includeInactive}`, signal)
 }
 
+export function getBurialProcessMasterData(signal: AbortSignal) {
+  return getJson<CemeteryMasterData>('/api/burial-process/master-data', signal)
+}
+
 export async function createMasterData<T>(route: string, input: unknown) {
   return await sendJson<T>(`/api/master-data/${route}`, 'POST', input) as T
 }
@@ -277,13 +296,42 @@ export function addDeceasedPerson(
   caseId: string,
   etag: string,
   input: DeceasedPersonInput,
+  confirmPossibleDuplicate = false,
   signal?: AbortSignal,
 ) {
   return requestCase(`/api/cases/${encodeURIComponent(caseId)}/deceased-persons`, {
     method: 'POST',
     headers: mutationHeaders(etag),
-    body: JSON.stringify(input),
+    body: JSON.stringify({ ...input, confirmPossibleDuplicate }),
     signal,
+  })
+}
+
+export function createBurialProcess(caseId: string, etag: string, input: BurialProcessInput) {
+  return requestCase(`/api/cases/${encodeURIComponent(caseId)}/burials`, {
+    method: 'POST', headers: mutationHeaders(etag),
+    body: JSON.stringify({ deceasedPersonId: input.deceasedPersonId, graveSiteId: input.graveSiteId, planningDate: input.planningDate || null }),
+  })
+}
+
+export function changeBurialProcess(caseId: string, burialId: string, etag: string, input: BurialProcessInput) {
+  return requestCase(`/api/cases/${encodeURIComponent(caseId)}/burials/${encodeURIComponent(burialId)}`, {
+    method: 'PUT', headers: mutationHeaders(etag),
+    body: JSON.stringify({ ...input, planningDate: input.planningDate || null, actualBurialDate: input.actualBurialDate || null }),
+  })
+}
+
+export function transitionBurialProcess(caseId: string, burialId: string, etag: string, targetStatus: BurialProcessStatus, input: BurialProcessInput) {
+  return requestCase(`/api/cases/${encodeURIComponent(caseId)}/burials/${encodeURIComponent(burialId)}/transitions`, {
+    method: 'POST', headers: mutationHeaders(etag),
+    body: JSON.stringify({ targetStatus, planningDate: input.planningDate || null, actualBurialDate: input.actualBurialDate || null }),
+  })
+}
+
+export function adoptLegacyBurial(caseId: string, burialId: string, etag: string, input: BurialProcessInput, targetStatus: BurialProcessStatus) {
+  return requestCase(`/api/cases/${encodeURIComponent(caseId)}/burials/${encodeURIComponent(burialId)}/adopt`, {
+    method: 'POST', headers: mutationHeaders(etag),
+    body: JSON.stringify({ ...input, targetStatus, planningDate: input.planningDate || null, actualBurialDate: input.actualBurialDate || null }),
   })
 }
 

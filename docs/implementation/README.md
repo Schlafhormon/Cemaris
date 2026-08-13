@@ -49,7 +49,9 @@ geteilt. 4a ist gemäß
 umgesetzt und gegen `CEMARISDEV` verifiziert. Der bewusst einfache
 synthetische Beisetzungsprozess ist in
 [`burial-process-decisions.md`](../requirements/burial-process-decisions.md)
-für 4b abgegrenzt; seine spätere fachliche Vorstellung und Abnahme durch die
+für 4b abgegrenzt und gemäß
+[Abschlussdokumentation 4b](cemaris-increment-4b-completion.md) technisch
+umgesetzt. Seine spätere fachliche Vorstellung und Abnahme durch die
 Friedhofsverwaltung bleibt erforderlich. Lokale Satzungswerte dienen als
 Evidenz, nicht als allgemein fest eingebaute Open-Source-Defaults.
 
@@ -70,7 +72,7 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 3a | Providerneutrale Änderungszuordnung und Auditgrundlage | technisch umgesetzt und gegen `CEMARISDEV` verifiziert: atomarer Änderungsnachweis und Anzeige der letzten Änderung für den synthetischen Development-Pfad | erfüllt nur für Development und synthetische Daten; keine Produktivfreigabe |
 | 3b | Lokale Identität und Berechtigungsgrundlage | technisch umgesetzt und gegen `CEMARISDEV` verifiziert: lokale Konten, sichere Sitzungen, geschützte Fachfunktionen und administrative Benutzerverwaltung | technische Abnahme erfüllt; Datenschutz- und Betriebsfreigabe stehen aus |
 | 4a | Friedhofsstruktur und Grabstättenstammdaten | technisch umgesetzt: frei konfigurierbare Hierarchie, Grabarten, Grabstellen, Status und kanonischer Fallbezug | technische Abnahme erfüllt; fachliche Vorstellung/Abnahme folgt |
-| 4b | Einfacher Beisetzungsprozess | Entwurf, Planung, Bestätigung, Durchführung, Abschluss, kontrollierte Korrektur und Dublettenhinweis | Produktentscheidungen für synthetischen technischen Inkrement bestätigt; fachliche Verwaltungsabnahme bleibt offen |
+| 4b | Einfacher Beisetzungsprozess | technisch umgesetzt: Zustandslauf, kontrollierte Korrektur, Dublettenhinweis und atomare Grabstellenkopplung | technische Abnahme erfüllt; fachliche Verwaltungsabnahme bleibt offen |
 | 5 | Personenrollen, Nutzungsrechte, Ruhefristen und Wiedervorlagen | fachlich freigegebene Rechte- und Fristenlogik | Rollen-, Historien- und Fristregeln |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
@@ -91,14 +93,11 @@ Stammdatenpflege. Benutzerverwaltung, administrative Programmkonfiguration
 und Formularvorlagen bleiben `Administration` vorbehalten. Vollständige
 Auditdaten erhalten keine Cemaris-Oberfläche.
 
-Inkrement 4a ist gemäß
-[Abschlussdokumentation](cemaris-increment-4a-completion.md) technisch
-abgenommen und nach einer Korrekturrunde zur hierarchischen Auswahl auch
-manuell im Browser bestätigt. Der nächste eigenständige Auftrag ist
-[Inkrement 4b](cemaris-increment-4b-next-step-handoff.md).
-Der einfache technische Prozess ist durch
-`USR-2026-08-13-INCREMENT-4B` verbindlich abgegrenzt und kann im nächsten
-kontextlosen Arbeitslauf Ende zu Ende implementiert werden.
+Inkrement 4a ist nach einer Korrekturrunde zur hierarchischen Auswahl auch
+manuell im Browser bestätigt. Inkrement 4b ist gemäß
+[Abschlussdokumentation](cemaris-increment-4b-completion.md) technisch
+abgenommen. Der nächste sichere Auftrag ist die
+[fachliche Klärung und der Zuschnitt von Inkrement 5](cemaris-increment-5-next-step-handoff.md).
 Solange die weiterhin offenen fachlichen, Datenschutz- und Betriebsgates
 fehlen, bleibt der Schreibpfad Development-only, synthetisch und standardmäßig
 deaktiviert.

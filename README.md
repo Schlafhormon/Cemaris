@@ -69,6 +69,8 @@ Vorbereitet sind:
   administrative Benutzerverwaltung,
 - eine standardmäßig deaktivierte synthetische Friedhofs- und
   Grabstellenstammdatenpflege mit kanonischem Fallaktenbezug,
+- einen standardmäßig deaktivierten einfachen synthetischen
+  Beisetzungsprozess mit atomarer Grabstellenstatuskopplung,
 - ein bewusst schmales EF-Core-Fall-/Leseschema mit synthetischem Standardprovider und optionaler SQL-Server-Anbindung,
 - eine minimale herstellerneutrale DMS-Erweiterungsstelle,
 - Unit- und Integrationstests,
@@ -76,7 +78,7 @@ Vorbereitet sind:
 - ADRs sowie Arbeitsunterlagen für EDWALT-Inventur, Anforderungen und Migration.
 
 Die technische EDWALT-Analyse ist nach Phase 4 kontrolliert pausiert. Die
-Produktinkremente 1, 2, 3a, 3b und 4a sind technisch abgeschlossen, aber weder
+Produktinkremente 1, 2, 3a, 3b, 4a und 4b sind technisch abgeschlossen, aber weder
 fachlich noch produktiv freigegeben. Der SQL-Schreibpfad, seine atomare
 Änderungszuordnung und die Migration wurden gegen `CEMARISDEV` verifiziert.
 Lokale Konten, sichere Cookie-Sitzung, CSRF, serverseitige Policies und
@@ -84,9 +86,12 @@ administrative Benutzerverwaltung sind umgesetzt. Die frei konfigurierbare
 Friedhofsstruktur, der leere Grabartenkatalog, Grabstellen und der kanonische
 Fallbezug sind gemäß
 [Abschlussdokumentation 4a](docs/implementation/cemaris-increment-4a-completion.md)
-technisch umgesetzt. Der einfache synthetische Beisetzungsprozess ist als
-Inkrement 4b produktseitig abgegrenzt; sein Auftrag steht in der
-[Folgeübergabe](docs/implementation/cemaris-increment-4b-next-step-handoff.md).
+technisch umgesetzt. Der einfache synthetische Beisetzungsprozess ist gemäß
+[Abschlussdokumentation 4b](docs/implementation/cemaris-increment-4b-completion.md)
+technisch umgesetzt. Die sichere
+[Folgeübergabe für Inkrement 5](docs/implementation/cemaris-increment-5-next-step-handoff.md)
+beginnt wegen offener Rollen-, Rechte- und Fristregeln mit einem fachlichen
+Klärungsgate.
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
