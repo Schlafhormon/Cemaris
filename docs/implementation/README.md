@@ -34,6 +34,15 @@ SQL-Store atomar gespeichert. Detail und Bearbeitung zeigen die letzte
 auf `CEMARISDEV` verifiziert. Dies ist weiterhin keine produktive Identität,
 Berechtigung oder Freigabe.
 
+Inkrement 3b ist technisch abgeschlossen. Lokale SQL-Konten,
+frameworkgehashte Passwörter, sichere Cookie-Sitzungen, Antiforgery,
+Security-Stamp-Prüfung und benannte Policies schützen die vorhandenen
+Fachoperationen. Beide Rollen dürfen Facharbeit ausführen; ausschließlich
+`Administration` verwaltet Benutzer. Der authentifizierte lokale Benutzer wird
+atomar als Änderungsakteur gespeichert. Migration und Parallelitätsgrenzen
+wurden auf `CEMARISDEV` verifiziert. Datenschutz- und Betriebsfreigabe bleiben
+offen.
+
 ## Verbindliche Entwicklungsregel
 
 „Fertig“ bezeichnet immer einen klar abgegrenzten, Ende-zu-Ende getesteten
@@ -49,7 +58,7 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 1 | Lesende Suche und Detailansicht | technisch umgesetzt | fachliche Abnahme mit kontrolliertem Testbestand später |
 | 2 | Schreibende Fallakten-Grundlage | technisch umgesetzt: Grabstellenbezug, Verstorbene und Beisetzungen als manuell erfasste Tatsachen anlegen und ändern; keine Löschung oder Ableitung | erfüllt nur für Development und synthetische Daten; keine Produktivfreigabe |
 | 3a | Providerneutrale Änderungszuordnung und Auditgrundlage | technisch umgesetzt und gegen `CEMARISDEV` verifiziert: atomarer Änderungsnachweis und Anzeige der letzten Änderung für den synthetischen Development-Pfad | erfüllt nur für Development und synthetische Daten; keine Produktivfreigabe |
-| 3b | Lokale Identität und Berechtigungsgrundlage | lokale Konten, sichere Sitzungen, geschützte Fachfunktionen und administrative Benutzerverwaltung | lokale Konten und Grundmatrix bestätigt; technische Umsetzung, SQL-Verifikation sowie spätere Datenschutz- und Betriebsfreigabe stehen aus |
+| 3b | Lokale Identität und Berechtigungsgrundlage | technisch umgesetzt und gegen `CEMARISDEV` verifiziert: lokale Konten, sichere Sitzungen, geschützte Fachfunktionen und administrative Benutzerverwaltung | technische Abnahme erfüllt; Datenschutz- und Betriebsfreigabe stehen aus |
 | 4 | Fachliche Stammdaten und vollständiger Beisetzungsprozess | Friedhöfe/Felder, Grabarten, Prozessschritte und Prüfungen | Anwenderinterview, Satzungs- und Prozessfreigabe |
 | 5 | Personenrollen, Nutzungsrechte, Ruhefristen und Wiedervorlagen | fachlich freigegebene Rechte- und Fristenlogik | Rollen-, Historien- und Fristregeln |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
@@ -71,13 +80,13 @@ Stammdatenpflege. Benutzerverwaltung, administrative Programmkonfiguration
 und Formularvorlagen bleiben `Administration` vorbehalten. Vollständige
 Auditdaten erhalten keine Cemaris-Oberfläche.
 
-Inkrement 3a ist gemäß
-[Abschlussdokumentation](cemaris-case-change-attribution-completion.md)
-abgenommen. Der nächste eigenständige Auftrag ist die
-[Implementierung lokaler Konten und der bestätigten Berechtigungsgrundlage](cemaris-production-identity-authorization-next-step-handoff.md).
-Solange diese weiterhin offenen Gates fehlen, bleibt der Schreibpfad
-Development-only, synthetisch und standardmäßig deaktiviert. Kein produktiver
-Authentifizierungsanbieter wird durch Vermutung ausgewählt.
+Inkrement 3b ist gemäß
+[Abschlussdokumentation](cemaris-local-identity-authorization-completion.md)
+technisch abgenommen. Der nächste eigenständige Auftrag ist die
+[fachlich freizugebende Stammdaten- und Beisetzungsgrundlage](cemaris-increment-4-next-step-handoff.md).
+Solange die weiterhin offenen fachlichen, Datenschutz- und Betriebsgates
+fehlen, bleibt der Schreibpfad Development-only, synthetisch und standardmäßig
+deaktiviert.
 
 ## Bewusst nicht mit dem nächsten Inkrement behauptet
 

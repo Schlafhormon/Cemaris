@@ -5,8 +5,10 @@ using Cemaris.Api.Contracts;
 using Cemaris.Application.Cases;
 using Cemaris.Application.Identity;
 using Cemaris.Domain.Cases;
+using Cemaris.Infrastructure.Identity;
 using Cemaris.Infrastructure.Persistence;
 using Cemaris.Infrastructure.ReadModel;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cemaris.IntegrationTests;
@@ -94,6 +96,7 @@ public sealed class SqlServerReadModelTests(SqlServerIntegrationFixture fixture)
     public async Task WritePathUsesSameProjectionAndRejectsStaleVersionAtomically()
     {
         using var client = fixture.CreateClient();
+        await client.SetDefaultCsrfHeaderAsync();
 
         var createResponse = await client.PostAsJsonAsync(
             "/api/cases",
@@ -111,7 +114,7 @@ public sealed class SqlServerReadModelTests(SqlServerIntegrationFixture fixture)
         Assert.NotNull(created);
         Assert.True(created.IsSynthetic);
         Assert.Equal(1, created.Version);
-        Assert.Equal(SyntheticDevelopmentActorProvider.ActorDisplayName, created.LastChange?.ActorDisplayName);
+        Assert.Equal("Synthetische Testsachbearbeitung", created.LastChange?.ActorDisplayName);
 
         using var firstChange = new HttpRequestMessage(
             HttpMethod.Put,
@@ -240,8 +243,8 @@ public sealed class SqlServerReadModelTests(SqlServerIntegrationFixture fixture)
             changes.Select(item => Enum.Parse<CaseChangeOperation>(item.Operation)));
         Assert.All(changes, item =>
         {
-            Assert.Equal(SyntheticDevelopmentActorProvider.ActorId, item.ActorId);
-            Assert.Equal(SyntheticDevelopmentActorProvider.ActorDisplayName, item.ActorDisplayName);
+            Assert.Equal(TestIdentity.CaseWorkerId.ToString("D"), item.ActorId);
+            Assert.Equal("Synthetische Testsachbearbeitung", item.ActorDisplayName);
             Assert.Equal(TimeSpan.Zero, item.OccurredAtUtc.Offset);
         });
     }
@@ -250,6 +253,7 @@ public sealed class SqlServerReadModelTests(SqlServerIntegrationFixture fixture)
     public async Task ConcurrentSqlMutationsWithSameVersionHaveOneWinnerAndOneAuditRow()
     {
         using var client = fixture.CreateClient();
+        await client.SetDefaultCsrfHeaderAsync();
         var createResponse = await client.PostAsJsonAsync(
             "/api/cases",
             new { cemetery = "Synthetischer SQL-Parallelfriedhof" },
@@ -345,6 +349,110 @@ public sealed class SqlServerReadModelTests(SqlServerIntegrationFixture fixture)
         Assert.Single(changes);
     }
 
+    [SqlServerFact]
+    public async Task LocalAccountsEnforceNormalizedUniquenessConcurrencyAndSessionStamp()
+    {
+        var options = new DbContextOptionsBuilder<CemarisDbContext>()
+            .UseSqlServer(fixture.DatabaseConnectionString)
+            .Options;
+        var first = CreateAccount("sql-account", SystemRole.Sachbearbeitung);
+        LocalAccountOperationResult created;
+        await using (var createContext = new CemarisDbContext(options))
+        {
+            created = await new EfLocalAccountStore(createContext).CreateAsync(first, CancellationToken.None);
+        }
+        Assert.Equal(LocalAccountOperationStatus.Success, created.Status);
+        Assert.NotNull(created.Account);
+        var originalSecurityStamp = created.Account.SecurityStamp;
+
+        LocalAccountSnapshot? locked = null;
+        await using (var lockoutContext = new CemarisDbContext(options))
+        {
+            var lockoutStore = new EfLocalAccountStore(lockoutContext);
+            for (var attempt = 0; attempt < 5; attempt++)
+            {
+                locked = await lockoutStore.RegisterFailedLoginAsync(
+                    first.NormalizedUsername,
+                    new DateTimeOffset(2026, 8, 13, 10, attempt, 0, TimeSpan.Zero),
+                    5,
+                    TimeSpan.FromMinutes(15),
+                    CancellationToken.None);
+            }
+        }
+        Assert.NotNull(locked);
+        Assert.Equal(5, locked.FailedLoginAttempts);
+        Assert.Equal(new DateTimeOffset(2026, 8, 13, 10, 19, 0, TimeSpan.Zero), locked.LockoutEndUtc);
+
+        await using (var duplicateContext = new CemarisDbContext(options))
+        {
+            var duplicate = CreateAccount("SQL-ACCOUNT", SystemRole.Sachbearbeitung);
+            var duplicateResult = await new EfLocalAccountStore(duplicateContext).CreateAsync(
+                duplicate,
+                CancellationToken.None);
+            Assert.Equal(LocalAccountOperationStatus.DuplicateUsername, duplicateResult.Status);
+        }
+
+        LocalAccountOperationResult changed;
+        await using (var changeContext = new CemarisDbContext(options))
+        {
+            changed = await new EfLocalAccountStore(changeContext).ChangePasswordAsync(
+                created.Account.Id,
+                locked.Version,
+                "synthetic-framework-hash-for-store-test",
+                true,
+                new DateTimeOffset(2026, 8, 13, 11, 0, 0, TimeSpan.Zero),
+                CancellationToken.None);
+        }
+        Assert.Equal(LocalAccountOperationStatus.Success, changed.Status);
+        Assert.NotNull(changed.Account);
+        Assert.NotEqual(originalSecurityStamp, changed.Account.SecurityStamp);
+        Assert.True(changed.Account.MustChangePassword);
+
+        await using var staleContext = new CemarisDbContext(options);
+        var stale = await new EfLocalAccountStore(staleContext).ChangePasswordAsync(
+            created.Account.Id,
+            created.Account.Version,
+            "another-synthetic-framework-hash",
+            false,
+            new DateTimeOffset(2026, 8, 13, 11, 1, 0, TimeSpan.Zero),
+            CancellationToken.None);
+        Assert.Equal(LocalAccountOperationStatus.ConcurrencyConflict, stale.Status);
+    }
+
+    [SqlServerFact]
+    public async Task ParallelAdministratorDemotionPreservesAtLeastOneActiveAdministrator()
+    {
+        var options = new DbContextOptionsBuilder<CemarisDbContext>()
+            .UseSqlServer(fixture.DatabaseConnectionString)
+            .Options;
+        LocalAccountSnapshot first;
+        LocalAccountSnapshot second;
+        await using (var createContext = new CemarisDbContext(options))
+        {
+            var store = new EfLocalAccountStore(createContext);
+            first = (await store.CreateAsync(CreateAccount("parallel-admin-a", SystemRole.Administration), CancellationToken.None)).Account!;
+            second = (await store.CreateAsync(CreateAccount("parallel-admin-b", SystemRole.Administration), CancellationToken.None)).Account!;
+        }
+
+        async Task<LocalAccountOperationResult> Demote(LocalAccountSnapshot account)
+        {
+            await using var context = new CemarisDbContext(options);
+            return await new EfLocalAccountStore(context).UpdateAsync(
+                Guid.NewGuid(), account.Id, account.Version, account.Username,
+                account.NormalizedUsername, account.DisplayName, SystemRole.Sachbearbeitung,
+                new DateTimeOffset(2026, 8, 13, 12, 0, 0, TimeSpan.Zero),
+                CancellationToken.None);
+        }
+
+        var results = await Task.WhenAll(Demote(first), Demote(second));
+        await using var verification = new CemarisDbContext(options);
+        var activeAdministrators = await verification.LocalAccounts.CountAsync(
+            item => item.IsActive && item.Role == "Administration");
+
+        Assert.True(activeAdministrators >= 1);
+        Assert.Contains(results, item => item.Status != LocalAccountOperationStatus.Success);
+    }
+
     private static async Task<HttpResponseMessage> SendGraveChangeAsync(
         HttpClient client,
         Guid caseId,
@@ -357,5 +465,20 @@ public sealed class SqlServerReadModelTests(SqlServerIntegrationFixture fixture)
         };
         request.Headers.IfMatch.Add(EntityTagHeaderValue.Parse(etag));
         return await client.SendAsync(request, CancellationToken.None);
+    }
+
+    private static LocalAccountSnapshot CreateAccount(string username, SystemRole role)
+    {
+        var now = new DateTimeOffset(2026, 8, 13, 10, 0, 0, TimeSpan.Zero);
+        var account = new LocalAccountSnapshot(
+            Guid.NewGuid(), username, LocalAccountNormalizer.NormalizeUsername(username),
+            $"Synthetisches SQL-Konto {username}", role, string.Empty, true, 0, null,
+            false, Guid.NewGuid(), now, now, now, null, []);
+        return account with
+        {
+            PasswordHash = new PasswordHasher<LocalAccountSnapshot>().HashPassword(
+                account,
+                "Synthetisches-SQL-Passwort-2026"),
+        };
     }
 }

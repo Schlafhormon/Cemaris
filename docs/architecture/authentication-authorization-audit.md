@@ -1,7 +1,7 @@
 # Authentifizierung, Autorisierung und Auditierung
 
-> **Status:** Lokale Konten und die erste Rollenmatrix sind entschieden.
-> LDAP-Import, Betriebsparameter und Produktivfreigaben bleiben offen. Details
+> **Status:** Lokale Konten, Cookie-Sitzung, CSRF und die erste Rollenmatrix
+> sind implementiert. LDAP-Import, Betriebsparameter und Produktivfreigaben bleiben offen. Details
 > und Quelle stehen in den
 > [Produktvorgaben](../requirements/identity-authorization-audit-decisions.md).
 
@@ -25,6 +25,26 @@ Fallaktenlogik kennt weder `HttpContext` noch Claims, LDAP, Passwortkonten oder
 EF Core. Der aktuell registrierte `SyntheticDevelopmentActorProvider` ist
 eine feste serverseitige Development-Implementierung und keine Anmeldung.
 
+### Umgesetzte lokale Sitzung
+
+`LocalAccounts` speichert stabile GUID, Benutzername und Normalform,
+Anzeigename, genau eine Rolle, Framework-Passworthash, Aktiv-/Lockoutstatus,
+UTC-Sicherheitszeitpunkte, Security-Stamp und SQL-`rowversion`. Benutzername
+und Anzeigename dürfen geändert werden; historische Auditzeilen behalten ID
+und damaligen Anzeigenamen.
+
+ASP.NET Core Cookie Authentication stellt ein `HttpOnly`-, `SameSite=Lax`-
+Cookie mit standardmäßig 30 Minuten Inaktivitätsdauer aus. Außerhalb von
+Development ist `Secure` zwingend. Jede Anfrage gleicht Aktivstatus und
+Security-Stamp mit der Datenbank ab. Passwort-, Rollen-, Namens- und
+Aktivstatusänderungen erneuern den Stamp und entwerten ältere Sitzungen bei der
+nächsten Prüfung. Das Frontend speichert keine Tokens in Web Storage.
+
+Alle zustandsändernden Cookie-Endpunkte einschließlich Login validieren den
+ASP.NET-Core-Antiforgery-Vertrag aus HttpOnly-Cookie und Requestheader
+`X-Cemaris-CSRF`. Login wird zusätzlich pro Clientadresse begrenzt; fünf
+Fehlversuche sperren ein Konto 15 Minuten. Antworten bleiben generisch.
+
 ## Autorisierung
 
 Die erste Berechtigungsstufe umfasst genau die Systemrollen
@@ -44,6 +64,9 @@ Die erste Berechtigungsstufe umfasst genau die Systemrollen
 Löschen, Storno und weitere noch unbekannte Fachoperationen werden aus dieser
 Matrix nicht abgeleitet. Autorisierung wird über benannte serverseitige
 Policies durchgesetzt; ausgeblendete Navigation allein ist kein Schutz.
+Die Policies heißen `CaseWork`, `MasterData`, `UserAdministration`,
+`ProgramConfiguration` und `FormTemplates`. Die letzten beiden bereiten nur
+die bestätigte Grenze vor und erzeugen keine neuen Module.
 
 ## Auditierung
 

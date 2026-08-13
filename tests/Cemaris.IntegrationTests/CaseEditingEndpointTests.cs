@@ -110,7 +110,7 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
         Assert.Equal("SYN-900", finalMutation.Grave.GraveNumber);
         Assert.Equal("Testvorname-Neu", finalMutation.DeceasedPersons[0].FirstName);
         Assert.Equal(new DateOnly(2026, 1, 11), finalMutation.Burials[0].BurialDate);
-        Assert.Equal(SyntheticDevelopmentActorProvider.ActorDisplayName, finalMutation.LastChange?.ActorDisplayName);
+        Assert.Equal("Synthetische Testsachbearbeitung", finalMutation.LastChange?.ActorDisplayName);
         Assert.Equal(TimeSpan.Zero, finalMutation.LastChange?.ChangedAtUtc.Offset);
 
         var changes = GetChanges(created.Id);
@@ -150,10 +150,10 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
         using var client = factory.CreateClient();
         var (created, etag) = await CreateCaseAsync(client, "Synthetischer Konfliktfriedhof");
 
-        var missingHeader = await client.PutAsJsonAsync(
+        var missingHeader = await client.SendWithCsrfAsync(
+            HttpMethod.Put,
             $"/api/cases/{created.Id}/grave",
-            new { cemetery = "Nicht gespeichert" },
-            CancellationToken.None);
+            new { cemetery = "Nicht gespeichert" });
         Assert.Equal((HttpStatusCode)428, missingHeader.StatusCode);
 
         var successful = await SendWithEtagAsync(
@@ -180,7 +180,7 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
         Assert.Equal("Synthetischer Konfliktfriedhof neu", current.Grave.Cemetery);
         Assert.Empty(current.DeceasedPersons);
         Assert.Equal(2, GetChanges(created.Id).Count);
-        Assert.Equal(SyntheticDevelopmentActorProvider.ActorDisplayName, current.LastChange?.ActorDisplayName);
+        Assert.Equal("Synthetische Testsachbearbeitung", current.LastChange?.ActorDisplayName);
     }
 
     [Fact]
@@ -275,10 +275,10 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
     {
         using var client = factory.CreateClient();
 
-        var missingCemetery = await client.PostAsJsonAsync(
+        var missingCemetery = await client.SendWithCsrfAsync(
+            HttpMethod.Post,
             "/api/cases",
-            new { cemetery = "   ", field = "Testfeld", graveNumber = "1" },
-            CancellationToken.None);
+            new { cemetery = "   ", field = "Testfeld", graveNumber = "1" });
         var cemeteryProblem = await missingCemetery.Content
             .ReadFromJsonAsync<ValidationProblemDetails>(CancellationToken.None);
 
@@ -309,10 +309,10 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
         HttpClient client,
         string cemetery)
     {
-        var response = await client.PostAsJsonAsync(
+        var response = await client.SendWithCsrfAsync(
+            HttpMethod.Post,
             "/api/cases",
-            new { cemetery, field = "Testfeld", graveNumber = "SYN-001" },
-            CancellationToken.None);
+            new { cemetery, field = "Testfeld", graveNumber = "SYN-001" });
         var created = await ReadCaseAsync(response);
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -327,12 +327,7 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
         string etag,
         object body)
     {
-        using var request = new HttpRequestMessage(method, uri)
-        {
-            Content = JsonContent.Create(body),
-        };
-        request.Headers.TryAddWithoutValidation("If-Match", etag);
-        return await client.SendAsync(request, CancellationToken.None);
+        return await client.SendWithCsrfAsync(method, uri, body, etag);
     }
 
     private static async Task<CaseResponse> ReadCaseAsync(HttpResponseMessage response)

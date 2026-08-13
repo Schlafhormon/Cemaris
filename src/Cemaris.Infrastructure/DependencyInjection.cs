@@ -1,4 +1,6 @@
 using Cemaris.Application.Cases;
+using Cemaris.Application.Identity;
+using Cemaris.Infrastructure.Identity;
 using Cemaris.Infrastructure.Persistence;
 using Cemaris.Infrastructure.ReadModel;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,17 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         var provider = configuration["ReadModel:Provider"] ?? "Synthetic";
+        var connectionString = configuration.GetConnectionString("CemarisDatabase");
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException(
+                "The connection string 'CemarisDatabase' must be configured for local accounts.");
+        }
+
+        services.AddDbContext<CemarisDbContext>(options =>
+            options.UseSqlServer(connectionString));
+        services.AddScoped<ILocalAccountStore, EfLocalAccountStore>();
+
         if (provider.Equals("Synthetic", StringComparison.OrdinalIgnoreCase))
         {
             services.AddSingleton<SyntheticCaseReadStore>();
@@ -30,15 +43,6 @@ public static class DependencyInjection
                 $"The read model provider '{provider}' is not supported. Use 'Synthetic' or 'SqlServer'.");
         }
 
-        var connectionString = configuration.GetConnectionString("CemarisDatabase");
-        if (string.IsNullOrWhiteSpace(connectionString))
-        {
-            throw new InvalidOperationException(
-                "The connection string 'CemarisDatabase' must be configured for the SQL Server read model provider.");
-        }
-
-        services.AddDbContext<CemarisDbContext>(options =>
-            options.UseSqlServer(connectionString));
         services.AddScoped<ICaseReadStore, EfCaseReadStore>();
         services.AddScoped<ICaseWriteStore, EfCaseWriteStore>();
         services.AddScoped<SyntheticReadModelSeeder>();

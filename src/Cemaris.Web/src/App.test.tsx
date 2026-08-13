@@ -6,6 +6,7 @@ import { CaseEditPage } from './pages/CaseEditPage'
 import { CaseDetailsPage } from './pages/CaseDetailsPage'
 import { NewCasePage } from './pages/NewCasePage'
 import type { CaseOverview } from './types/cases'
+import { AuthProvider } from './auth/AuthContext'
 
 const emptySearch = {
   items: [],
@@ -45,11 +46,75 @@ function caseOverview(overrides: Partial<CaseOverview> = {}): CaseOverview {
   }
 }
 
+const currentAccount = {
+  id: '10000000-0000-0000-0000-000000000001',
+  username: 'test-admin',
+  displayName: 'Synthetische Testadministration',
+  role: 'Administration',
+  mustChangePassword: false,
+}
+
+describe('Lokale Anmeldung und Sitzung', () => {
+  it('führt anonyme Benutzer über CSRF-geschützte Anmeldung in die Anwendung', async () => {
+    window.history.replaceState(null, '', '/')
+    const user = userEvent.setup()
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, _init?: RequestInit) => {
+      const path = String(input)
+      if (path.endsWith('/api/auth/me')) {
+        return jsonResponse({ title: 'Nicht angemeldet' }, 401)
+      }
+      if (path.endsWith('/api/auth/csrf')) {
+        return jsonResponse({ requestToken: 'csrf-login-token', headerName: 'X-Cemaris-CSRF' })
+      }
+      if (path.endsWith('/api/auth/login')) {
+        return jsonResponse(currentAccount)
+      }
+      if (path.endsWith('/api/system/info')) {
+        return jsonResponse({ caseEditingEnabled: false })
+      }
+      return jsonResponse({ service: 'Cemaris.Api', status: 'Healthy' })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    render(<AuthProvider><App /></AuthProvider>)
+    await user.type(await screen.findByRole('textbox', { name: 'Benutzername' }), 'test-admin')
+    await user.type(screen.getByLabelText('Passwort'), 'Synthetisch-Admin-2026')
+    await user.click(screen.getByRole('button', { name: 'Anmelden' }))
+
+    expect(await screen.findByText('Synthetische Testadministration')).toBeInTheDocument()
+    const loginCall = fetchMock.mock.calls.find(([input]) => String(input).endsWith('/api/auth/login'))
+    expect(loginCall?.[1]).toMatchObject({ credentials: 'include' })
+    expect(new Headers(loginCall?.[1]?.headers).get('X-Cemaris-CSRF')).toBe('csrf-login-token')
+  })
+
+  it('sperrt Fachnavigation bis zum erzwungenen Passwortwechsel', async () => {
+    window.history.replaceState(null, '', '/search')
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
+      const path = String(input)
+      if (path.endsWith('/api/auth/me')) {
+        return jsonResponse({ ...currentAccount, mustChangePassword: true })
+      }
+      if (path.endsWith('/api/system/info')) {
+        return jsonResponse({ caseEditingEnabled: true })
+      }
+      return jsonResponse({ service: 'Cemaris.Api', status: 'Healthy' })
+    }))
+
+    render(<AuthProvider><App /></AuthProvider>)
+
+    expect(await screen.findByRole('heading', { name: 'Passwortwechsel erforderlich' })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Fall- und Grabstellensuche' })).not.toBeInTheDocument()
+  })
+})
+
 describe('Capability-Grenze', () => {
   it('zeigt Bearbeitung nur bei aktiver Server-Capability', async () => {
     window.history.replaceState(null, '', '/search')
     const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
       const path = String(input)
+      if (path.endsWith('/api/auth/me')) {
+        return jsonResponse(currentAccount)
+      }
       if (path.endsWith('/api/system/info')) {
         return jsonResponse({
           name: 'Cemaris',
@@ -67,7 +132,7 @@ describe('Capability-Grenze', () => {
     })
     vi.stubGlobal('fetch', fetchMock)
 
-    render(<App />)
+    render(<AuthProvider><App /></AuthProvider>)
 
     await screen.findByText('Keine Treffer für die gesetzten Filter.')
     expect(screen.queryByRole('link', { name: 'Neue Fallakte' })).not.toBeInTheDocument()
@@ -78,6 +143,9 @@ describe('Capability-Grenze', () => {
     window.history.replaceState(null, '', '/search')
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
       const path = String(input)
+      if (path.endsWith('/api/auth/me')) {
+        return jsonResponse(currentAccount)
+      }
       if (path.endsWith('/api/system/info')) {
         return jsonResponse({
           name: 'Cemaris',
@@ -94,7 +162,7 @@ describe('Capability-Grenze', () => {
       return jsonResponse({ service: 'Cemaris.Api', status: 'Healthy' })
     }))
 
-    render(<App />)
+    render(<AuthProvider><App /></AuthProvider>)
 
     expect(await screen.findByRole('link', { name: 'Neue Fallakte' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Synthetische Fallakte anlegen' })).toBeInTheDocument()
@@ -105,11 +173,10 @@ describe('Schreibformulare', () => {
   it('legt eine Fallakte an und wechselt ohne Vollseitenneustart in die Bearbeitung', async () => {
     window.history.replaceState(null, '', '/cases/new')
     const user = userEvent.setup()
-    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(
-      caseOverview(),
-      201,
-      { ETag: '"1"', Location: '/api/cases/00000000-0000-0000-0000-000000009001' },
-    )))
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) =>
+      String(input).endsWith('/api/auth/csrf')
+        ? jsonResponse({ requestToken: 'csrf-test-token', headerName: 'X-Cemaris-CSRF' })
+        : jsonResponse(caseOverview(), 201, { ETag: '"1"', Location: '/api/cases/00000000-0000-0000-0000-000000009001' })))
 
     render(<NewCasePage />)
     await user.type(screen.getByRole('textbox', { name: /Friedhof/ }), 'Synthetischer UI-Testfriedhof')
@@ -123,10 +190,10 @@ describe('Schreibformulare', () => {
 
   it('zeigt Servervalidierung feldbezogen und fokussiert das erste Fehlerfeld', async () => {
     const user = userEvent.setup()
-    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse({
-      title: 'Die Fallaktendaten sind ungültig.',
-      errors: { cemetery: ['Dieses Feld ist erforderlich.'] },
-    }, 400)))
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) =>
+      String(input).endsWith('/api/auth/csrf')
+        ? jsonResponse({ requestToken: 'csrf-test-token', headerName: 'X-Cemaris-CSRF' })
+        : jsonResponse({ title: 'Die Fallaktendaten sind ungültig.', errors: { cemetery: ['Dieses Feld ist erforderlich.'] } }, 400)))
 
     render(<NewCasePage />)
     await user.click(screen.getByRole('button', { name: 'Fallakte anlegen' }))
@@ -138,6 +205,9 @@ describe('Schreibformulare', () => {
   it('erklärt einen Versionskonflikt und behält den lokalen Formularstand', async () => {
     const user = userEvent.setup()
     const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+      if (String(_input).endsWith('/api/auth/csrf')) {
+        return jsonResponse({ requestToken: 'csrf-test-token', headerName: 'X-Cemaris-CSRF' })
+      }
       if (!init?.method || init.method === 'GET') {
         return jsonResponse(caseOverview(), 200, { ETag: '"1"' })
       }

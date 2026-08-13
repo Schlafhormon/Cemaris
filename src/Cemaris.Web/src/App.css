@@ -66,6 +66,82 @@
   text-transform: uppercase;
 }
 
+.account-menu {
+  align-items: center;
+  display: flex;
+  gap: 0.65rem;
+}
+
+.account-menu > span {
+  display: grid;
+  font-size: 0.78rem;
+  line-height: 1.25;
+  text-align: right;
+}
+
+.account-menu small { color: var(--color-muted); }
+.account-menu a,
+.account-menu button {
+  background: transparent;
+  border: 0;
+  color: var(--color-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.25rem;
+}
+
+.permission-banner {
+  align-items: center;
+  background: #fff4ed;
+  border: 1px solid #b55232;
+  color: #70230c;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.permission-banner button { background: transparent; border: 0; color: inherit; cursor: pointer; font-weight: 700; }
+
+.login-page {
+  align-items: center;
+  display: grid;
+  min-height: 100vh;
+  padding: 1.5rem;
+  place-items: center;
+}
+
+.login-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  box-shadow: 0 1rem 4rem rgb(31 61 49 / 12%);
+  max-width: 29rem;
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  width: 100%;
+}
+
+.login-card h1 { margin: 0; }
+.login-card form,
+.account-form { display: grid; gap: 1rem; }
+.login-card label,
+.account-form label,
+.password-reset-form label { display: grid; font-weight: 650; gap: 0.3rem; }
+.login-card input,
+.account-form input,
+.password-reset-form input { border: 1px solid var(--color-border-strong); border-radius: 0.35rem; font: inherit; min-height: 2.6rem; padding: 0.5rem; }
+.compact-form-page { max-width: 38rem; }
+
+.account-list { display: grid; gap: 1rem; margin-top: 1rem; }
+.account-card > header { align-items: flex-start; display: flex; justify-content: space-between; }
+.account-card h2 { margin-bottom: 0; }
+.account-status { background: #eee; border-radius: 999px; font-size: 0.78rem; font-weight: 700; padding: 0.3rem 0.65rem; }
+.account-status--active { background: #dff1e7; color: #17633e; }
+.password-reset-form { align-items: end; border-top: 1px solid var(--color-border); display: flex; gap: 0.75rem; margin-top: 1rem; padding-top: 1rem; }
+.password-reset-form label { flex: 1; }
+
 .detail-actions {
   display: flex;
   justify-content: flex-end;
@@ -910,6 +986,10 @@
     flex-wrap: wrap;
     gap: 0.75rem;
   }
+
+  .account-menu { align-items: flex-start; flex-wrap: wrap; width: 100%; }
+  .account-menu > span { text-align: left; }
+  .password-reset-form { align-items: stretch; flex-direction: column; }
 
   .primary-navigation {
     margin: 0;

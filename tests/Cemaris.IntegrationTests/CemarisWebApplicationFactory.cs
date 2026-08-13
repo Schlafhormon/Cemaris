@@ -13,6 +13,7 @@ public sealed class CemarisWebApplicationFactory : WebApplicationFactory<Program
     {
         builder.UseEnvironment("Development");
         builder.UseSetting("Features:CaseEditingEnabled", "false");
+        TestIdentity.ConfigureAutomaticCaseWorker(builder);
         builder.ConfigureServices(services =>
         {
             services.RemoveAll<ICaseReadStore>();

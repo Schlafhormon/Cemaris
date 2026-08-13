@@ -1,3 +1,4 @@
+using Cemaris.Infrastructure.Persistence.Identity;
 using Cemaris.Infrastructure.Persistence.ReadModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,11 +26,14 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
 
     public DbSet<CaseChangeEntity> CaseChanges => Set<CaseChangeEntity>();
 
+    public DbSet<LocalAccountEntity> LocalAccounts => Set<LocalAccountEntity>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         ArgumentNullException.ThrowIfNull(modelBuilder);
 
         ConfigureCase(modelBuilder);
+        ConfigureLocalAccount(modelBuilder);
         ConfigureCaseChange(modelBuilder);
         ConfigureGrave(modelBuilder);
         ConfigureDeceasedPerson(modelBuilder);
@@ -38,6 +42,28 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
         ConfigureEntitledPerson(modelBuilder);
         ConfigureNotice(modelBuilder);
         ConfigureDataQualityNote(modelBuilder);
+    }
+
+    private static void ConfigureLocalAccount(ModelBuilder modelBuilder)
+    {
+        var entity = modelBuilder.Entity<LocalAccountEntity>();
+        entity.ToTable("LocalAccounts", table =>
+        {
+            table.HasCheckConstraint(
+                "CK_LocalAccounts_Role",
+                "[Role] IN (N'Sachbearbeitung', N'Administration')");
+            table.HasCheckConstraint(
+                "CK_LocalAccounts_FailedLoginAttempts",
+                "[FailedLoginAttempts] >= 0 AND [FailedLoginAttempts] <= 5");
+        });
+        entity.HasKey(item => item.Id);
+        entity.Property(item => item.Username).HasMaxLength(100).IsRequired();
+        entity.Property(item => item.NormalizedUsername).HasMaxLength(100).IsRequired();
+        entity.Property(item => item.DisplayName).HasMaxLength(200).IsRequired();
+        entity.Property(item => item.Role).HasMaxLength(32).IsRequired();
+        entity.Property(item => item.PasswordHash).HasMaxLength(1000).IsRequired();
+        entity.Property(item => item.Version).IsRowVersion();
+        entity.HasIndex(item => item.NormalizedUsername).IsUnique();
     }
 
     private static void ConfigureCase(ModelBuilder modelBuilder)

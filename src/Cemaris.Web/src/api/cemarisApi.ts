@@ -8,9 +8,17 @@ import type {
   SearchFilters,
   SearchResponse,
 } from '../types/cases'
+import type {
+  CreateAccountInput,
+  CurrentAccount,
+  LocalAccount,
+  UpdateAccountInput,
+} from '../types/identity'
 
 const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim() ?? ''
 const apiBaseUrl = configuredBaseUrl.replace(/\/$/, '')
+let antiforgeryToken: string | undefined
+let unauthorizedHandler: (() => void) | undefined
 
 interface ProblemDetails {
   title?: string
@@ -31,11 +39,13 @@ async function readProblem(response: Response): Promise<ProblemDetails | undefin
 
 async function getJson<T>(path: string, signal: AbortSignal): Promise<T> {
   const response = await fetch(`${apiBaseUrl}${path}`, {
+    credentials: 'include',
     headers: { Accept: 'application/json' },
     signal,
   })
 
   if (!response.ok) {
+    notifySecurityStatus(response.status)
     throw new ApiError(response.status, await readProblem(response))
   }
 
@@ -52,6 +62,109 @@ export class ApiError extends Error {
     this.status = status
     this.fieldErrors = problem?.errors ?? {}
   }
+}
+
+export function setUnauthorizedHandler(handler: (() => void) | undefined) {
+  unauthorizedHandler = handler
+}
+
+function notifySecurityStatus(status: number) {
+  if (status === 401) {
+    unauthorizedHandler?.()
+  } else if (status === 403) {
+    window.dispatchEvent(new CustomEvent('cemaris-forbidden'))
+  }
+}
+
+async function getAntiforgeryToken(): Promise<string> {
+  if (antiforgeryToken) {
+    return antiforgeryToken
+  }
+
+  const response = await fetch(`${apiBaseUrl}/api/auth/csrf`, {
+    credentials: 'include',
+    headers: { Accept: 'application/json' },
+  })
+  if (!response.ok) {
+    throw new ApiError(response.status, await readProblem(response))
+  }
+  const token = (await response.json()) as { requestToken: string }
+  antiforgeryToken = token.requestToken
+  return antiforgeryToken
+}
+
+async function sendJson<T>(path: string, method: string, body?: unknown): Promise<T | undefined> {
+  const token = await getAntiforgeryToken()
+  const response = await fetch(`${apiBaseUrl}${path}`, {
+    method,
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-Cemaris-CSRF': token,
+    },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  })
+  if (!response.ok) {
+    notifySecurityStatus(response.status)
+    throw new ApiError(response.status, await readProblem(response))
+  }
+  return response.status === 204 ? undefined : response.json() as Promise<T>
+}
+
+export function getCurrentAccount(signal: AbortSignal) {
+  return getJson<CurrentAccount>('/api/auth/me', signal)
+}
+
+export async function login(username: string, password: string) {
+  antiforgeryToken = undefined
+  return await sendJson<CurrentAccount>(
+    '/api/auth/login',
+    'POST',
+    { username, password },
+  ) as CurrentAccount
+}
+
+export async function logout() {
+  await sendJson('/api/auth/logout', 'POST')
+  antiforgeryToken = undefined
+}
+
+export async function changeOwnPassword(currentPassword: string, newPassword: string) {
+  await sendJson('/api/auth/change-password', 'POST', { currentPassword, newPassword })
+  antiforgeryToken = undefined
+}
+
+export function listAccounts(signal: AbortSignal) {
+  return getJson<LocalAccount[]>('/api/admin/accounts', signal)
+}
+
+export async function createAccount(input: CreateAccountInput) {
+  return await sendJson<LocalAccount>('/api/admin/accounts', 'POST', input) as LocalAccount
+}
+
+export async function updateAccount(id: string, input: UpdateAccountInput) {
+  return await sendJson<LocalAccount>(
+    `/api/admin/accounts/${encodeURIComponent(id)}`,
+    'PUT',
+    input,
+  ) as LocalAccount
+}
+
+export async function setAccountActive(account: LocalAccount, isActive: boolean) {
+  return await sendJson<LocalAccount>(
+    `/api/admin/accounts/${encodeURIComponent(account.id)}/active`,
+    'PUT',
+    { isActive, version: account.version },
+  ) as LocalAccount
+}
+
+export async function resetAccountPassword(account: LocalAccount, temporaryPassword: string) {
+  return await sendJson<LocalAccount>(
+    `/api/admin/accounts/${encodeURIComponent(account.id)}/reset-password`,
+    'POST',
+    { temporaryPassword, version: account.version },
+  ) as LocalAccount
 }
 
 export function getHealth(signal: AbortSignal) {
@@ -89,13 +202,18 @@ async function requestCase(path: string, init: RequestInit): Promise<CaseWithEta
   if (init.body) {
     headers.set('Content-Type', 'application/json')
   }
+  if (init.method && init.method !== 'GET') {
+    headers.set('X-Cemaris-CSRF', await getAntiforgeryToken())
+  }
 
   const response = await fetch(`${apiBaseUrl}${path}`, {
     ...init,
+    credentials: 'include',
     headers,
   })
 
   if (!response.ok) {
+    notifySecurityStatus(response.status)
     throw new ApiError(response.status, await readProblem(response))
   }
 

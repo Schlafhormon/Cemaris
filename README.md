@@ -65,6 +65,8 @@ Vorbereitet sind:
   Bearbeitung für Grabstellenbezug, verstorbene Personen und Beisetzungen,
 - einen providerneutralen Akteursvertrag, einen atomaren minimalen
   Falländerungsnachweis und die Anzeige der letzten Änderung,
+- persistierte lokale Konten, Cookie-Sitzung, CSRF, Rollenpolicies und eine
+  administrative Benutzerverwaltung,
 - ein bewusst schmales EF-Core-Fall-/Leseschema mit synthetischem Standardprovider und optionaler SQL-Server-Anbindung,
 - eine minimale herstellerneutrale DMS-Erweiterungsstelle,
 - Unit- und Integrationstests,
@@ -72,14 +74,14 @@ Vorbereitet sind:
 - ADRs sowie Arbeitsunterlagen für EDWALT-Inventur, Anforderungen und Migration.
 
 Die technische EDWALT-Analyse ist nach Phase 4 kontrolliert pausiert. Die
-Produktinkremente 1, 2 und 3a sind technisch abgeschlossen, aber weder
+Produktinkremente 1, 2, 3a und 3b sind technisch abgeschlossen, aber weder
 fachlich noch produktiv freigegeben. Der SQL-Schreibpfad, seine atomare
 Änderungszuordnung und die Migration wurden gegen `CEMARISDEV` verifiziert.
-Lokale Konten als Standard sowie die erste fachliche und administrative
-Rollenabgrenzung sind jetzt bestätigt. Als nächstes werden lokale Anmeldung,
-sichere Sitzungen, serverseitige Policies und Benutzerverwaltung umgesetzt;
-der Auftrag steht in der
-[Folgeübergabe](docs/implementation/cemaris-production-identity-authorization-next-step-handoff.md).
+Lokale Konten, sichere Cookie-Sitzung, CSRF, serverseitige Policies und
+administrative Benutzerverwaltung sind umgesetzt. Als nächstes werden nur auf
+Basis bestätigter Fachregeln Stammdaten und Beisetzungsprozess bearbeitet; der
+Auftrag steht in der
+[Folgeübergabe](docs/implementation/cemaris-increment-4-next-step-handoff.md).
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -143,13 +145,14 @@ dotnet tool restore
 dotnet run --project src/Cemaris.Api --launch-profile http
 ```
 
-Danach sind verfügbar:
+Danach sind anonym verfügbar:
 
 - Health Check: <http://localhost:5050/health>
 - Systeminfo: <http://localhost:5050/api/system/info>
-- Lesende Suche: <http://localhost:5050/api/search>
-- Lesende Falldetails: `http://localhost:5050/api/cases/{id}`
 - OpenAPI (nur Development): <http://localhost:5050/openapi/v1.json>
+
+Suche, Falldetails und optionale Fallmutationen erfordern eine lokale
+Anmeldung. Das Frontend führt nicht angemeldete Benutzer auf die Loginseite.
 
 Die Schreibfunktion ist standardmäßig aus. Für eine lokale, ausschließlich
 synthetische Development-Sitzung muss sie ausdrücklich aktiviert werden:
@@ -162,9 +165,9 @@ dotnet run --project src/Cemaris.Api
 
 Außerhalb von `Development` verweigert die API bei diesem Aktivierungsversuch
 den Start. Diese Grenze ersetzt keine Authentifizierung oder Autorisierung.
-Jede erfolgreiche Mutation wird dem fest serverseitig bestimmten Akteur
-`Synthetische Development-Sachbearbeitung` zugeordnet und atomar minimal
-nachgewiesen; dies ist keine Anmeldung. Nach dem Start sind zusätzlich verfügbar:
+Jede erfolgreiche Mutation wird dem serverseitig authentifizierten lokalen
+Benutzer zugeordnet und atomar minimal nachgewiesen. Nach dem Start sind
+zusätzlich verfügbar:
 
 - `POST /api/cases`;
 - `PUT /api/cases/{caseId}/grave`;
@@ -223,6 +226,31 @@ Die Migrationen liegen unter
 Schemadeployments erfolgen spaeter kontrolliert ueber ein geprueftes SQL-Skript
 und nicht beim Anwendungsstart.
 
+### Ersten lokalen Administrator bereitstellen
+
+Der Bootstrap ist ein expliziter Wartungsbefehl und kein HTTP-Endpunkt. Er
+läuft nur gegen den SQL-Provider, nur bei vollständig migriertem Schema, nur
+bei exakt übereinstimmendem erwarteten Datenbanknamen und nur solange noch kein
+Konto existiert. Es existiert kein Defaultpasswort; Benutzername, Anzeigename
+und Passwort werden nicht protokolliert.
+
+Für Development werden die Werte in User Secrets abgelegt:
+
+```powershell
+dotnet user-secrets set --project src/Cemaris.Api "Bootstrap:Username" "lokaler-admin"
+dotnet user-secrets set --project src/Cemaris.Api "Bootstrap:DisplayName" "Lokale Administration"
+dotnet user-secrets set --project src/Cemaris.Api "Bootstrap:Password" "<extern erzeugtes starkes Passwort>"
+
+$env:ASPNETCORE_ENVIRONMENT = "Development"
+dotnet run --project src/Cemaris.Api -- --ReadModel:Provider=SqlServer --Maintenance:BootstrapAdministrator=true --Maintenance:ExpectedDatabase=Cemaris_Dev
+```
+
+Im Betrieb müssen diese Werte aus einem externen Secret Store kommen und nach
+dem einmaligen Lauf wieder entzogen werden. Die Kommandozeile darf kein Secret
+enthalten. Vor produktiver Nutzung sind außerdem TLS/Reverse Proxy,
+Data-Protection-Schlüsselring, Backup, Monitoring und Logaufbewahrung
+verbindlich zu konfigurieren und abzunehmen.
+
 ### Qualität prüfen
 
 ```powershell
@@ -268,9 +296,15 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `OpenApi__Enabled` | OpenAPI-Dokument aktivieren | `true` nur in kontrollierten Umgebungen |
 | `ReadModel__Provider` | kanonischer Fall-/Lesestore (`Synthetic` oder `SqlServer`) | `Synthetic` fuer normale Entwicklung und Tests |
 | `Features__CaseEditingEnabled` | synthetische Fallaktenbearbeitung; nur in `Development` zulässig | `false` (Standard), lokal ausdrücklich `true` |
+| `Identity__Security__PasswordMinimumLength` | untere Passwortgrenze, nicht unter 12 konfigurierbar | `12` |
+| `Identity__Security__PasswordMaximumLength` | obere Passwortgrenze, nicht über 128 konfigurierbar | `128` |
+| `Identity__Security__MaximumFailedLoginAttempts` | Fehlversuche bis zur Sperre, höchstens 5 | `5` |
+| `Identity__Security__LockoutDuration` | Sperrdauer, mindestens 15 Minuten | `00:15:00` |
+| `Identity__Security__SessionIdleTimeout` | Inaktivitätsdauer der Cookie-Sitzung | `00:30:00` |
 | `Search__MaxResults` | maximales Suchergebnis ohne Paginierung | `10` |
 | `Maintenance__SeedSynthetic` | einmaliger expliziter SQL-Seed statt API-Start | `true` nur fuer kontrollierte lokale Entwicklung |
 | `Maintenance__ExpectedDatabase` | Sicherheitspruefung fuer den SQL-Seed | `Cemaris_Dev` |
+| `Maintenance__BootstrapAdministrator` | einmaliger nicht HTTP-basierter Erstadmin-Bootstrap | `false` |
 | `VITE_API_BASE_URL` | API-Basis-URL im gebauten Browserclient | leer für denselben Origin |
 | `VITE_API_PROXY_TARGET` | Vite-Dev-Proxy | `http://localhost:5050` |
 

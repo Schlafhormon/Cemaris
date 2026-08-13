@@ -1,10 +1,13 @@
 import type { PropsWithChildren } from 'react'
+import type { CurrentAccount } from '../types/identity'
 
 interface AppLayoutProps extends PropsWithChildren {
   caseEditingEnabled: boolean
+  account: CurrentAccount
+  onLogout: () => Promise<void>
 }
 
-export function AppLayout({ children, caseEditingEnabled }: AppLayoutProps) {
+export function AppLayout({ children, caseEditingEnabled, account, onLogout }: AppLayoutProps) {
   const currentPath = window.location.pathname
 
   return (
@@ -40,10 +43,11 @@ export function AppLayout({ children, caseEditingEnabled }: AppLayoutProps) {
               Neue Fallakte
             </a>
           )}
+          {account.role === 'Administration' && (
+            <a className={currentPath === '/admin/accounts' ? 'active' : undefined} href="/admin/accounts" aria-current={currentPath === '/admin/accounts' ? 'page' : undefined}>Benutzerverwaltung</a>
+          )}
         </nav>
-        <span className="header-phase">
-          {caseEditingEnabled ? 'Synthetische Development-Bearbeitung' : 'Read-only MVP'}
-        </span>
+        <div className="account-menu"><span><strong>{account.displayName}</strong><small>{account.role}</small></span><a href="/account/password">Passwort</a><button type="button" onClick={() => void onLogout()}>Abmelden</button></div>
       </header>
 
       <main className="page-content">{children}</main>

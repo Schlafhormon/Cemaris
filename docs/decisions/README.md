@@ -25,5 +25,6 @@ Architecture Decision Records (ADRs) dokumentieren wesentliche technische und pr
 | [0010](ADR-0010-canonical-provisional-case-store.md) | Kanonischer vorläufiger Fall-/Lesestore | Accepted |
 | [0011](ADR-0011-provider-neutral-actor-and-atomic-case-audit.md) | Providerneutraler Akteur und atomarer Fallakten-Änderungsnachweis | Accepted |
 | [0012](ADR-0012-local-accounts-and-role-boundaries.md) | Lokale Konten als Standard und administrative Rollengrenze | Accepted |
+| [0013](ADR-0013-local-cookie-session-and-security-stamp.md) | Lokale Cookie-Sitzung, CSRF und Security-Stamp | Accepted |
 
 Für neue ADRs kann [ADR-Template](ADR-template.md) kopiert werden.

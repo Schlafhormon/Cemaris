@@ -16,6 +16,7 @@ internal sealed class SqlServerWebApplicationFactory(string connectionString)
     {
         builder.UseEnvironment("Development");
         builder.UseSetting("Features:CaseEditingEnabled", "true");
+        TestIdentity.ConfigureAutomaticCaseWorker(builder);
         builder.ConfigureServices(services =>
         {
             services.RemoveAll<ICaseReadStore>();

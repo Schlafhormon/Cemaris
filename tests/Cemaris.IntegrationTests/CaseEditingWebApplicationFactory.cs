@@ -14,6 +14,7 @@ public sealed class CaseEditingWebApplicationFactory : WebApplicationFactory<Pro
         builder.UseEnvironment("Development");
         builder.UseSetting("Features:CaseEditingEnabled", "true");
         builder.UseSetting("ReadModel:Provider", "Synthetic");
+        TestIdentity.ConfigureAutomaticCaseWorker(builder);
         builder.ConfigureServices(services =>
         {
             services.RemoveAll<ICaseReadStore>();
