@@ -1,6 +1,6 @@
 # Cemaris-Implementierungsplan
 
-Stand: 12.08.2026
+Stand: 13.08.2026
 
 ## Aktueller Schwerpunkt
 
@@ -39,7 +39,8 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | ---: | --- | --- | --- |
 | 1 | Lesende Suche und Detailansicht | technisch umgesetzt | fachliche Abnahme mit kontrolliertem Testbestand später |
 | 2 | Schreibende Fallakten-Grundlage | technisch umgesetzt: Grabstellenbezug, Verstorbene und Beisetzungen als manuell erfasste Tatsachen anlegen und ändern; keine Löschung oder Ableitung | erfüllt nur für Development und synthetische Daten; keine Produktivfreigabe |
-| 3 | Identität, produktive Berechtigungen und Audit | abgesicherter Schreibbetrieb für Sachbearbeitung und Administration | Identitätsquelle, Rechte- und Auditmatrix |
+| 3a | Providerneutrale Änderungszuordnung und Auditgrundlage | atomarer Änderungsnachweis und Anzeige der letzten Änderung für den synthetischen Development-Pfad | Mindestnachweis bestätigt; Umsetzung und SQL-Verifikation stehen als nächster Auftrag an |
+| 3b | Produktive Identität und Berechtigungen | abgesicherter Schreibbetrieb für Sachbearbeitung und Administration | Auswahl LDAP oder lokale Konten, operationsgenaue Rechtematrix, Audit-Einsicht und Betriebsfreigabe |
 | 4 | Fachliche Stammdaten und vollständiger Beisetzungsprozess | Friedhöfe/Felder, Grabarten, Prozessschritte und Prüfungen | Anwenderinterview, Satzungs- und Prozessfreigabe |
 | 5 | Personenrollen, Nutzungsrechte, Ruhefristen und Wiedervorlagen | fachlich freigegebene Rechte- und Fristenlogik | Rollen-, Historien- und Fristregeln |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
@@ -53,13 +54,17 @@ Sicherheits-, Datenschutz-, Betriebs- und Fachgates erfüllt sind.
 
 ## Nächstes Freigabegate
 
-Identitätsquelle, Rollen-/Berechtigungsmatrix und Audit-Mindestanforderungen
-sind weiterhin nicht technisch ermittelbar. Der nächste eigenständige Auftrag
-ist deshalb eine entscheidungsorientierte
-[Folgeübergabe](cemaris-identity-authorization-audit-next-step-handoff.md).
-Solange diese Ergebnisse fehlen, bleibt der Schreibpfad Development-only,
-synthetisch und standardmäßig deaktiviert. Kein Authentifizierungsanbieter
-wird durch Vermutung ausgewählt.
+Die zulässigen Identitätsvarianten LDAP oder lokale Konten, die beiden
+Rollennamen `Sachbearbeitung` und `Administration` sowie der minimale
+Änderungsnachweis wurden am 13.08.2026 als Produktvorgaben dokumentiert. Die
+Anbieterwahl und operationsgenaue Berechtigungsmatrix bleiben offen.
+
+Der nächste eigenständige Auftrag ist deshalb die
+[SQL-Verifikation und der atomare Fallakten-Änderungsnachweis](cemaris-case-change-attribution-next-step-handoff.md)
+mit genau einem serverseitig festgelegten synthetischen Development-Akteur.
+Solange die danach weiterhin offenen Gates fehlen, bleibt der Schreibpfad
+Development-only, synthetisch und standardmäßig deaktiviert. Kein produktiver
+Authentifizierungsanbieter wird durch Vermutung ausgewählt.
 
 ## Bewusst nicht mit dem nächsten Inkrement behauptet
 

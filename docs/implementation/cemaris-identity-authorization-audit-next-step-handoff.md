@@ -2,6 +2,13 @@
 
 Stand: 12.08.2026
 
+> **Fortschreibung vom 13.08.2026:** Die zulässigen Identitätsvarianten, zwei
+> Rollennamen und der minimale Änderungsnachweis wurden teilweise geklärt.
+> Anbieterwahl und operationsgenaue Berechtigungen bleiben offen. Der daraus
+> sicher ausführbare technische Zwischenschritt steht in der
+> [Folgeübergabe zu SQL-Verifikation und atomarem Fallakten-Änderungsnachweis](cemaris-case-change-attribution-next-step-handoff.md).
+> Dieses Dokument bleibt als ursprüngliches Freigabegate erhalten.
+
 ## Ziel des nächsten Schritts
 
 Der technisch abgeschlossene zweite Produktinkrement bleibt standardmäßig

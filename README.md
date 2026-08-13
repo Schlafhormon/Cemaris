@@ -70,9 +70,11 @@ Vorbereitet sind:
 
 Die technische EDWALT-Analyse ist nach Phase 4 kontrolliert pausiert. Der
 zweite Produktinkrement ist technisch abgeschlossen, aber weder fachlich noch
-produktiv freigegeben. Der nächste Schritt klärt die derzeit nicht technisch
-ermittelbaren Freigabegates in der
-[Folgeübergabe](docs/implementation/cemaris-identity-authorization-audit-next-step-handoff.md).
+produktiv freigegeben. Zulässige Identitätsvarianten, zwei Rollennamen und der
+minimale Änderungsnachweis sind inzwischen teilweise geklärt. Der nächste
+technische Schritt verifiziert SQL und ergänzt die atomare
+Änderungszuordnung gemäß der
+[Folgeübergabe](docs/implementation/cemaris-case-change-attribution-next-step-handoff.md).
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 

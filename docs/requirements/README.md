@@ -24,6 +24,9 @@ Der zweite technische Produktinkrement ist in
 [Implementierungsentscheidungen: schreibende Fallakten-Grundlage](case-record-write-decisions.md)
 begrenzt. Diese technische Schreibfreigabe für Development ersetzt keine
 offene Fach-, Datenschutz-, Berechtigungs- oder Produktiventscheidung.
+Die am 13.08.2026 bestätigten Teilvorgaben und weiterhin offenen Gates für
+Identität, Rollen, Änderungsnachweis und On-Premises-Betrieb stehen in den
+[Produktvorgaben zu Identität, Rollen, Änderungsnachweis und Betrieb](identity-authorization-audit-decisions.md).
 
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
