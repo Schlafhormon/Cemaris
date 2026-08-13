@@ -14,7 +14,12 @@ public sealed record CaseOverview(
     IReadOnlyList<UsageRightDetails> UsageRights,
     IReadOnlyList<EntitledPersonDetails> EntitledPersons,
     IReadOnlyList<NoticeDetails> Notices,
-    IReadOnlyList<string> DataQualityNotes);
+    IReadOnlyList<string> DataQualityNotes,
+    LastCaseChangeDetails? LastChange = null);
+
+public sealed record LastCaseChangeDetails(
+    string ActorDisplayName,
+    DateTimeOffset ChangedAtUtc);
 
 public sealed record GraveDetails(
     string? Cemetery,

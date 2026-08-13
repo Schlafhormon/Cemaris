@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { ApiError, getCaseDetails } from '../api/cemarisApi'
+import { LastChangeNotice } from '../components/LastChangeNotice'
 import type {
   AddressDetails,
   CaseOverview,
@@ -181,6 +182,8 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false }: CaseDeta
           </a>
         </div>
       )}
+
+      <LastChangeNotice lastChange={caseOverview.lastChange} />
 
       {caseOverview.dataQualityNotes.length > 0 && (
         <aside className="data-quality-notes" aria-labelledby="quality-heading">

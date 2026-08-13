@@ -45,6 +45,9 @@ abzuleiten. Umfang und Sicherheitsgrenze stehen in den
 - Bei expliziter Development-Capability bilden sechs Schreibendpunkte Anlage
   und Änderung von Grabstellenbezug, Verstorbenen und Beisetzungen ab. Starke
   Fallversions-ETags und `If-Match` verhindern Last-write-wins.
+- Jede erfolgreiche Development-Mutation erhält serverseitig Akteur und
+  UTC-Zeitpunkt; Fachänderung, Version, letzte Zuordnung und minimaler
+  Auditdatensatz werden atomar gespeichert.
 - `/openapi/v1.json` ist in der Entwicklungsumgebung aktiviert.
 - `IDocumentManagementService` bildet eine minimale herstellerneutrale Erweiterungsstelle für die spätere Archivierung erzeugter Dokumente.
 - `CemarisDbContext` enthält ein bewusst vorläufiges relationales Fall-/Leseschema
@@ -52,9 +55,10 @@ abzuleiten. Umfang und Sicherheitsgrenze stehen in den
   Berechtigte/Adressen und Bescheid-/Gebühreninformationen. Es ist kein
   freigegebenes endgültiges Fachmodell.
 
-Der Schreibpfad bleibt bis zur Identitäts-, Berechtigungs- und
-Auditentscheidung standardmäßig deaktiviert und ausschließlich in einer
-explizit aktivierten Development-Umgebung für synthetische Daten zulässig.
+Der Schreibpfad bleibt bis zur Umsetzung der lokalen Identitätsgrundlage und
+den späteren Datenschutz-, Betriebs- und Fachfreigaben standardmäßig
+deaktiviert und ausschließlich in einer explizit aktivierten
+Development-Umgebung für synthetische Daten zulässig.
 Diese Feature-Grenze ist kein produktiver Zugriffsschutz.
 
 Schreib- und Lesezugriff verwenden denselben kanonischen Zustand. Der
@@ -69,23 +73,33 @@ Fachmodell. Details dokumentiert
 
 Konfiguration wird über `appsettings.json`, umgebungsspezifische Dateien, Environment Variables und Kommandozeilenargumente geladen. Secrets gehören in einen sicheren betrieblichen Speicher und nie in das Repository.
 
-TLS soll am kontrollierten Reverse Proxy terminiert werden. Authentifizierung und Autorisierung werden später am API-Rand ergänzt. Die konkrete Auswahl zwischen lokalen Konten, AD/LDAP und OpenID Connect ist offen. Gleiches gilt für Rollen und Berechtigungen.
+TLS soll am kontrollierten Reverse Proxy terminiert werden. Lokale
+Benutzerkonten sind als erste produktive Identitätsgrundlage bestätigt; ein
+späterer LDAP-Kontoimport oder eine Synchronisation bleibt über Adapter
+erweiterbar. Fachfunktionen einschließlich künftiger Stammdatenpflege sind für
+`Sachbearbeitung` und `Administration` vorgesehen. Benutzerverwaltung,
+administrative Programmkonfiguration und Formularvorlagen sind ausschließlich
+`Administration` vorbehalten. OpenID Connect ist derzeit nicht bestätigt.
 
 ## Audit und Datenschutz
 
-Ein fachliches Audit Log wird erst zusammen mit dem Fach- und Berechtigungsmodell entworfen. Bereits jetzt gelten diese Leitplanken:
+Für die vorhandenen sechs Mutationen ist ein datensparsamer Mindestnachweis
+umgesetzt. Audit-Einsicht, Export, Aufbewahrung, zulässige Löschung und
+Integritätskontrolle bleiben offen. Weiterhin gelten diese Leitplanken:
 
 - keine unnötigen Personen- oder Inhaltsdaten in Logs,
 - strukturierte technische Logs mit Trace-ID,
 - zentral behandelte, standardisierte Fehlerantworten ohne interne Details,
 - minimale Berechtigungen für Datenbank- und Integrationskonten,
 - keine echten Verwaltungsdaten in Entwicklung und Tests,
-- spätere Audit-Einträge müssen handelnde Identität, Zeitpunkt, Vorgang und Änderung nachvollziehbar machen, ohne unkontrollierte Datenkopien zu erzeugen.
+- Audit-Einträge machen Akteur, Zeitpunkt, Operation, Fall/Ziel und
+  resultierende Version nachvollziehbar, ohne unkontrollierte Datenkopien zu
+  erzeugen.
 
 ## Noch zu entscheiden
 
 - fachliches Datenmodell und Modulgrenzen,
-- Authentifizierungsverfahren und konkrete Rollen,
+- technische Betriebsparameter lokaler Konten und späteres LDAP-Importmodell,
 - Audit- und Aufbewahrungskonzept,
 - Dokument- und PDF-Engine,
 - Winyard-Schnittstelle und Adaptervertrag,

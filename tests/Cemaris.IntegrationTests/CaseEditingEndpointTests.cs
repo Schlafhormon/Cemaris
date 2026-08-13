@@ -2,7 +2,11 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Cemaris.Api.Contracts;
+using Cemaris.Application.Cases;
+using Cemaris.Application.Identity;
+using Cemaris.Infrastructure.ReadModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Cemaris.IntegrationTests;
 
@@ -28,6 +32,7 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
         Assert.True(paths.TryGetProperty("/api/cases/{caseId}/grave", out _));
         Assert.True(paths.TryGetProperty("/api/cases/{caseId}/deceased-persons", out _));
         Assert.True(paths.TryGetProperty("/api/cases/{caseId}/burials", out _));
+        Assert.Contains("\"lastChange\"", document.RootElement.GetRawText());
     }
 
     [Fact]
@@ -105,6 +110,23 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
         Assert.Equal("SYN-900", finalMutation.Grave.GraveNumber);
         Assert.Equal("Testvorname-Neu", finalMutation.DeceasedPersons[0].FirstName);
         Assert.Equal(new DateOnly(2026, 1, 11), finalMutation.Burials[0].BurialDate);
+        Assert.Equal(SyntheticDevelopmentActorProvider.ActorDisplayName, finalMutation.LastChange?.ActorDisplayName);
+        Assert.Equal(TimeSpan.Zero, finalMutation.LastChange?.ChangedAtUtc.Offset);
+
+        var changes = GetChanges(created.Id);
+        Assert.Equal(6, changes.Count);
+        Assert.Equal(
+            [
+                CaseChangeOperation.CaseCreated,
+                CaseChangeOperation.DeceasedPersonAdded,
+                CaseChangeOperation.BurialAdded,
+                CaseChangeOperation.GraveChanged,
+                CaseChangeOperation.DeceasedPersonChanged,
+                CaseChangeOperation.BurialChanged,
+            ],
+            changes.Select(item => item.Operation));
+        Assert.Equal([1L, 2L, 3L, 4L, 5L, 6L], changes.Select(item => item.ResultingVersion.Value));
+        Assert.Equal([null, person.Id, burial.Id, null, person.Id, burial.Id], changes.Select(item => item.TargetEntityId));
 
         var search = await client.GetFromJsonAsync<SearchCasesResponse>(
             "/api/search?firstName=Testvorname-Neu&graveNumber=SYN-900",
@@ -157,6 +179,8 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
         Assert.Equal(2, current.Version);
         Assert.Equal("Synthetischer Konfliktfriedhof neu", current.Grave.Cemetery);
         Assert.Empty(current.DeceasedPersons);
+        Assert.Equal(2, GetChanges(created.Id).Count);
+        Assert.Equal(SyntheticDevelopmentActorProvider.ActorDisplayName, current.LastChange?.ActorDisplayName);
     }
 
     [Fact]
@@ -190,6 +214,7 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
         Assert.True(
             current.Grave.Cemetery is "Synthetischer Parallelfriedhof A"
                 or "Synthetischer Parallelfriedhof B");
+        Assert.Equal(2, GetChanges(created.Id).Count);
     }
 
     [Fact]
@@ -242,6 +267,7 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
         Assert.Equal(1, unchanged.Version);
         Assert.Empty(unchanged.Burials);
         Assert.Empty(unchanged.DeceasedPersons);
+        Assert.Single(GetChanges(firstCase.Id));
     }
 
     [Fact]
@@ -276,6 +302,7 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
             etag,
             new { cemetery = new string('S', 201) });
         Assert.Equal(HttpStatusCode.BadRequest, tooLong.StatusCode);
+        Assert.Single(GetChanges(created.Id));
     }
 
     private static async Task<(CaseResponse Case, string Etag)> CreateCaseAsync(
@@ -318,4 +345,7 @@ public sealed class CaseEditingEndpointTests(CaseEditingWebApplicationFactory fa
     private static string GetEtag(HttpResponseMessage response) =>
         response.Headers.ETag?.ToString()
         ?? throw new Xunit.Sdk.XunitException("Die Antwort enthält keinen ETag.");
+
+    private IReadOnlyList<CaseChange> GetChanges(Guid caseId) =>
+        factory.Services.GetRequiredService<SyntheticCaseReadStore>().GetChanges(caseId);
 }

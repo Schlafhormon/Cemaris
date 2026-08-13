@@ -23,11 +23,14 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
 
     public DbSet<NoticeReadEntity> Notices => Set<NoticeReadEntity>();
 
+    public DbSet<CaseChangeEntity> CaseChanges => Set<CaseChangeEntity>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         ArgumentNullException.ThrowIfNull(modelBuilder);
 
         ConfigureCase(modelBuilder);
+        ConfigureCaseChange(modelBuilder);
         ConfigureGrave(modelBuilder);
         ConfigureDeceasedPerson(modelBuilder);
         ConfigureBurial(modelBuilder);
@@ -44,10 +47,27 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
         entity.HasKey(item => item.Id);
         entity.Property(item => item.IsSynthetic).IsRequired();
         entity.Property(item => item.Version).IsConcurrencyToken().IsRequired();
+        entity.Property(item => item.LastChangedByActorId).HasMaxLength(200);
+        entity.Property(item => item.LastChangedByActorName).HasMaxLength(200);
         entity.HasOne(item => item.Grave)
             .WithOne(item => item.Case)
             .HasForeignKey<GraveReadEntity>(item => item.CaseId)
             .OnDelete(DeleteBehavior.Cascade);
+    }
+
+    private static void ConfigureCaseChange(ModelBuilder modelBuilder)
+    {
+        var entity = modelBuilder.Entity<CaseChangeEntity>();
+        entity.ToTable("CaseChanges");
+        entity.HasKey(item => item.Id);
+        entity.Property(item => item.ActorId).HasMaxLength(200).IsRequired();
+        entity.Property(item => item.ActorDisplayName).HasMaxLength(200).IsRequired();
+        entity.Property(item => item.Operation).HasMaxLength(64).IsRequired();
+        entity.HasIndex(item => new { item.CaseId, item.ResultingVersion }).IsUnique();
+        entity.HasOne(item => item.Case)
+            .WithMany(item => item.Changes)
+            .HasForeignKey(item => item.CaseId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 
     private static void ConfigureGrave(ModelBuilder modelBuilder)

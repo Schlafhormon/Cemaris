@@ -1,8 +1,13 @@
+using Cemaris.Application.Identity;
 using Cemaris.Domain.Cases;
 
 namespace Cemaris.Application.Cases;
 
-public sealed class CaseWriteService(ICaseWriteStore writeStore, ICaseReadStore readStore)
+public sealed class CaseWriteService(
+    ICaseWriteStore writeStore,
+    ICaseReadStore readStore,
+    ICurrentActorProvider currentActorProvider,
+    TimeProvider timeProvider)
 {
     public async Task<CaseOverview> CreateAsync(
         CreateCaseCommand command,
@@ -14,7 +19,13 @@ public sealed class CaseWriteService(ICaseWriteStore writeStore, ICaseReadStore 
             Guid.NewGuid(),
             GraveReference.Create(command.Cemetery, command.Field, command.GraveNumber));
 
-        await writeStore.CreateAsync(caseRecord, cancellationToken);
+        await writeStore.CreateAsync(
+            caseRecord,
+            CreateChange(
+                caseRecord.Id,
+                caseRecord.Version,
+                CaseChangeOperation.CaseCreated),
+            cancellationToken);
         return await GetWrittenCaseAsync(caseRecord.Id, cancellationToken);
     }
 
@@ -29,6 +40,10 @@ public sealed class CaseWriteService(ICaseWriteStore writeStore, ICaseReadStore 
             caseId,
             new CaseVersion(expectedVersion),
             GraveReference.Create(command.Cemetery, command.Field, command.GraveNumber),
+            CreateChange(
+                caseId,
+                new CaseVersion(expectedVersion).Next(),
+                CaseChangeOperation.GraveChanged),
             cancellationToken);
 
         return await CompleteMutationAsync(caseId, result, cancellationToken);
@@ -51,6 +66,11 @@ public sealed class CaseWriteService(ICaseWriteStore writeStore, ICaseReadStore 
             caseId,
             new CaseVersion(expectedVersion),
             deceasedPerson,
+            CreateChange(
+                caseId,
+                new CaseVersion(expectedVersion).Next(),
+                CaseChangeOperation.DeceasedPersonAdded,
+                deceasedPerson.Id),
             cancellationToken);
 
         return await CompleteMutationAsync(caseId, result, cancellationToken);
@@ -75,6 +95,11 @@ public sealed class CaseWriteService(ICaseWriteStore writeStore, ICaseReadStore 
             personId,
             new CaseVersion(expectedVersion),
             deceasedPerson,
+            CreateChange(
+                caseId,
+                new CaseVersion(expectedVersion).Next(),
+                CaseChangeOperation.DeceasedPersonChanged,
+                personId),
             cancellationToken);
 
         return await CompleteMutationAsync(caseId, result, cancellationToken);
@@ -92,6 +117,11 @@ public sealed class CaseWriteService(ICaseWriteStore writeStore, ICaseReadStore 
             caseId,
             new CaseVersion(expectedVersion),
             burial,
+            CreateChange(
+                caseId,
+                new CaseVersion(expectedVersion).Next(),
+                CaseChangeOperation.BurialAdded,
+                burial.Id),
             cancellationToken);
 
         return await CompleteMutationAsync(caseId, result, cancellationToken);
@@ -111,6 +141,11 @@ public sealed class CaseWriteService(ICaseWriteStore writeStore, ICaseReadStore 
             burialId,
             new CaseVersion(expectedVersion),
             burial,
+            CreateChange(
+                caseId,
+                new CaseVersion(expectedVersion).Next(),
+                CaseChangeOperation.BurialChanged,
+                burialId),
             cancellationToken);
 
         return await CompleteMutationAsync(caseId, result, cancellationToken);
@@ -143,4 +178,18 @@ public sealed class CaseWriteService(ICaseWriteStore writeStore, ICaseReadStore 
         CancellationToken cancellationToken) =>
         await readStore.FindAsync(caseId, cancellationToken)
         ?? throw new InvalidOperationException("Die gespeicherte Fallakte ist nicht unmittelbar lesbar.");
+
+    private CaseChange CreateChange(
+        Guid caseId,
+        CaseVersion resultingVersion,
+        CaseChangeOperation operation,
+        Guid? targetEntityId = null) =>
+        new(
+            Guid.NewGuid(),
+            caseId,
+            resultingVersion,
+            timeProvider.GetUtcNow(),
+            currentActorProvider.Current,
+            operation,
+            targetEntityId);
 }

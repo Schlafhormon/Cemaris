@@ -4,6 +4,7 @@ using Cemaris.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cemaris.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CemarisDbContext))]
-    partial class CemarisDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260813064742_AddCaseChangeAttribution")]
+    partial class AddCaseChangeAttribution
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

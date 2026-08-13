@@ -1,4 +1,7 @@
+using System.Security.Cryptography;
+using System.Text;
 using Cemaris.Application.Cases;
+using Cemaris.Application.Identity;
 using Cemaris.Domain.Cases;
 
 namespace Cemaris.Infrastructure.ReadModel;
@@ -9,8 +12,18 @@ namespace Cemaris.Infrastructure.ReadModel;
 /// </summary>
 public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
 {
+    private static readonly DateTimeOffset SeedChangedAtUtc =
+        new(2026, 8, 13, 0, 0, 0, TimeSpan.Zero);
+
     private readonly object gate = new();
-    private readonly List<CaseOverview> cases = CreateCases().ToList();
+    private readonly List<CaseOverview> cases;
+    private readonly List<CaseChange> changes;
+
+    public SyntheticCaseReadStore()
+    {
+        cases = CreateCases().ToList();
+        changes = CreateInitialChanges(cases).ToList();
+    }
 
     public Task<CaseSearchStoreResult> SearchAsync(
         SearchCriteria criteria,
@@ -33,9 +46,18 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
         }
     }
 
-    public Task CreateAsync(CaseRecord caseRecord, CancellationToken cancellationToken)
+    public Task CreateAsync(
+        CaseRecord caseRecord,
+        CaseChange change,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(caseRecord);
+        ValidateChange(
+            caseRecord.Id,
+            caseRecord.Version,
+            CaseChangeOperation.CaseCreated,
+            null,
+            change);
         cancellationToken.ThrowIfCancellationRequested();
 
         lock (gate)
@@ -45,6 +67,7 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
                 throw new InvalidOperationException("Die serverseitig erzeugte Fall-ID ist bereits vorhanden.");
             }
 
+            EnsureChangeCanBeStored(change);
             cases.Add(new CaseOverview(
                 caseRecord.Id,
                 true,
@@ -58,7 +81,9 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
                 [],
                 [],
                 [],
-                ["Ausschließlich synthetische Development-Fallakte."]));
+                ["Ausschließlich synthetische Development-Fallakte."],
+                ToLastChange(change)));
+            changes.Add(change);
         }
 
         return Task.CompletedTask;
@@ -68,10 +93,11 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
         Guid caseId,
         CaseVersion expectedVersion,
         GraveReference grave,
+        CaseChange change,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(grave);
-        return MutateAsync(caseId, expectedVersion, current => current with
+        return MutateAsync(caseId, expectedVersion, CaseChangeOperation.GraveChanged, null, change, current => current with
         {
             Grave = new GraveDetails(grave.Cemetery, grave.Field, grave.GraveNumber),
         }, cancellationToken);
@@ -81,10 +107,11 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
         Guid caseId,
         CaseVersion expectedVersion,
         DeceasedPerson deceasedPerson,
+        CaseChange change,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(deceasedPerson);
-        return MutateAsync(caseId, expectedVersion, current => current with
+        return MutateAsync(caseId, expectedVersion, CaseChangeOperation.DeceasedPersonAdded, deceasedPerson.Id, change, current => current with
         {
             DeceasedPersons =
             [
@@ -104,12 +131,16 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
         Guid personId,
         CaseVersion expectedVersion,
         DeceasedPerson deceasedPerson,
+        CaseChange change,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(deceasedPerson);
         return MutateAsync(
             caseId,
             expectedVersion,
+            CaseChangeOperation.DeceasedPersonChanged,
+            personId,
+            change,
             current => current with
             {
                 DeceasedPersons = current.DeceasedPersons
@@ -131,12 +162,16 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
         Guid caseId,
         CaseVersion expectedVersion,
         Burial burial,
+        CaseChange change,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(burial);
         return MutateAsync(
             caseId,
             expectedVersion,
+            CaseChangeOperation.BurialAdded,
+            burial.Id,
+            change,
             current => current with
             {
                 Burials =
@@ -155,12 +190,16 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
         Guid burialId,
         CaseVersion expectedVersion,
         Burial burial,
+        CaseChange change,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(burial);
         return MutateAsync(
             caseId,
             expectedVersion,
+            CaseChangeOperation.BurialChanged,
+            burialId,
+            change,
             current => current with
             {
                 Burials = current.Burials
@@ -178,11 +217,16 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
     private Task<CaseMutationResult> MutateAsync(
         Guid caseId,
         CaseVersion expectedVersion,
+        CaseChangeOperation operation,
+        Guid? targetEntityId,
+        CaseChange change,
         Func<CaseOverview, CaseOverview> mutation,
         CancellationToken cancellationToken,
         Func<CaseOverview, bool>? childExists = null,
         Func<CaseOverview, bool>? referenceIsValid = null)
     {
+        var nextVersion = expectedVersion.Next();
+        ValidateChange(caseId, nextVersion, operation, targetEntityId, change);
         cancellationToken.ThrowIfCancellationRequested();
 
         lock (gate)
@@ -215,9 +259,23 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
                     CaseMutationOutcome.InvalidDeceasedPersonReference));
             }
 
-            var nextVersion = expectedVersion.Next();
-            cases[index] = mutation(current) with { Version = nextVersion.Value };
+            var changedCase = mutation(current) with
+            {
+                Version = nextVersion.Value,
+                LastChange = ToLastChange(change),
+            };
+            EnsureChangeCanBeStored(change);
+            changes.Add(change);
+            cases[index] = changedCase;
             return Task.FromResult(CaseMutationResult.Succeeded(nextVersion));
+        }
+    }
+
+    internal IReadOnlyList<CaseChange> GetChanges(Guid caseId)
+    {
+        lock (gate)
+        {
+            return changes.Where(item => item.CaseId == caseId).ToArray();
         }
     }
 
@@ -234,7 +292,63 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
             cases.Add(CreateGeneratedExample(index));
         }
 
-        return cases;
+        return cases
+            .Select(item => item with
+            {
+                LastChange = new LastCaseChangeDetails(
+                    SyntheticDevelopmentActorProvider.ActorDisplayName,
+                    SeedChangedAtUtc),
+            })
+            .ToArray();
+    }
+
+    internal static IReadOnlyList<CaseChange> CreateInitialChanges(
+        IReadOnlyList<CaseOverview> cases) =>
+        cases.Select(item => new CaseChange(
+            DeterministicId($"case-change:{item.Id}:1"),
+            item.Id,
+            new CaseVersion(item.Version),
+            SeedChangedAtUtc,
+            SyntheticDevelopmentActorProvider.Actor,
+            CaseChangeOperation.CaseCreated,
+            null)).ToArray();
+
+    private static LastCaseChangeDetails ToLastChange(CaseChange change) =>
+        new(change.Actor.DisplayName, change.OccurredAtUtc);
+
+    private void EnsureChangeCanBeStored(CaseChange change)
+    {
+        if (changes.Any(item => item.Id == change.Id)
+            || changes.Any(item => item.CaseId == change.CaseId
+                && item.ResultingVersion == change.ResultingVersion))
+        {
+            throw new InvalidOperationException(
+                "Der Änderungsnachweis kann nicht eindeutig gespeichert werden.");
+        }
+    }
+
+    private static void ValidateChange(
+        Guid caseId,
+        CaseVersion resultingVersion,
+        CaseChangeOperation operation,
+        Guid? targetEntityId,
+        CaseChange change)
+    {
+        ArgumentNullException.ThrowIfNull(change);
+        if (change.CaseId != caseId
+            || change.ResultingVersion != resultingVersion
+            || change.Operation != operation
+            || change.TargetEntityId != targetEntityId)
+        {
+            throw new InvalidOperationException(
+                "Der Änderungsnachweis passt nicht zur auszuführenden Fallaktenmutation.");
+        }
+    }
+
+    private static Guid DeterministicId(string value)
+    {
+        var hash = SHA256.HashData(Encoding.UTF8.GetBytes(value));
+        return new Guid(hash.AsSpan(0, 16));
     }
 
     private static CaseOverview CreateLinkedExample()

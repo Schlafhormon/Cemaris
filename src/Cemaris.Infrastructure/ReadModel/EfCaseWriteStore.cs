@@ -12,15 +12,29 @@ namespace Cemaris.Infrastructure.ReadModel;
 /// </summary>
 public sealed class EfCaseWriteStore(CemarisDbContext dbContext) : ICaseWriteStore
 {
-    public async Task CreateAsync(CaseRecord caseRecord, CancellationToken cancellationToken)
+    public async Task CreateAsync(
+        CaseRecord caseRecord,
+        CaseChange change,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(caseRecord);
+        ValidateChange(
+            caseRecord.Id,
+            caseRecord.Version,
+            CaseChangeOperation.CaseCreated,
+            null,
+            change);
 
-        dbContext.Cases.Add(new CaseReadEntity
+        await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
+
+        var entity = new CaseReadEntity
         {
             Id = caseRecord.Id,
             IsSynthetic = true,
             Version = caseRecord.Version.Value,
+            LastChangedAtUtc = change.OccurredAtUtc,
+            LastChangedByActorId = change.Actor.Id,
+            LastChangedByActorName = change.Actor.DisplayName,
             Grave = new GraveReadEntity
             {
                 CaseId = caseRecord.Id,
@@ -37,19 +51,26 @@ public sealed class EfCaseWriteStore(CemarisDbContext dbContext) : ICaseWriteSto
                     Text = "Ausschließlich synthetische Development-Fallakte.",
                 },
             },
-        });
+        };
+        entity.Changes.Add(MapChange(change));
+        dbContext.Cases.Add(entity);
 
         await dbContext.SaveChangesAsync(cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
     }
 
     public Task<CaseMutationResult> ChangeGraveAsync(
         Guid caseId,
         CaseVersion expectedVersion,
         GraveReference grave,
+        CaseChange change,
         CancellationToken cancellationToken) =>
         ExecuteMutationAsync(
             caseId,
             expectedVersion,
+            CaseChangeOperation.GraveChanged,
+            null,
+            change,
             async () =>
             {
                 var affected = await dbContext.Graves
@@ -75,10 +96,14 @@ public sealed class EfCaseWriteStore(CemarisDbContext dbContext) : ICaseWriteSto
         Guid caseId,
         CaseVersion expectedVersion,
         DeceasedPerson deceasedPerson,
+        CaseChange change,
         CancellationToken cancellationToken) =>
         ExecuteMutationAsync(
             caseId,
             expectedVersion,
+            CaseChangeOperation.DeceasedPersonAdded,
+            deceasedPerson.Id,
+            change,
             async () =>
             {
                 dbContext.DeceasedPersons.Add(new DeceasedReadEntity
@@ -100,10 +125,14 @@ public sealed class EfCaseWriteStore(CemarisDbContext dbContext) : ICaseWriteSto
         Guid personId,
         CaseVersion expectedVersion,
         DeceasedPerson deceasedPerson,
+        CaseChange change,
         CancellationToken cancellationToken) =>
         ExecuteMutationAsync(
             caseId,
             expectedVersion,
+            CaseChangeOperation.DeceasedPersonChanged,
+            personId,
+            change,
             async () =>
             {
                 var affected = await dbContext.DeceasedPersons
@@ -124,10 +153,14 @@ public sealed class EfCaseWriteStore(CemarisDbContext dbContext) : ICaseWriteSto
         Guid caseId,
         CaseVersion expectedVersion,
         Burial burial,
+        CaseChange change,
         CancellationToken cancellationToken) =>
         ExecuteMutationAsync(
             caseId,
             expectedVersion,
+            CaseChangeOperation.BurialAdded,
+            burial.Id,
+            change,
             async () =>
             {
                 if (!await IsDeceasedReferenceValidAsync(
@@ -155,10 +188,14 @@ public sealed class EfCaseWriteStore(CemarisDbContext dbContext) : ICaseWriteSto
         Guid burialId,
         CaseVersion expectedVersion,
         Burial burial,
+        CaseChange change,
         CancellationToken cancellationToken) =>
         ExecuteMutationAsync(
             caseId,
             expectedVersion,
+            CaseChangeOperation.BurialChanged,
+            burialId,
+            change,
             async () =>
             {
                 if (!await IsDeceasedReferenceValidAsync(
@@ -184,17 +221,25 @@ public sealed class EfCaseWriteStore(CemarisDbContext dbContext) : ICaseWriteSto
     private async Task<CaseMutationResult> ExecuteMutationAsync(
         Guid caseId,
         CaseVersion expectedVersion,
+        CaseChangeOperation operation,
+        Guid? targetEntityId,
+        CaseChange change,
         Func<Task<CaseMutationOutcome?>> applyMutationAsync,
         CancellationToken cancellationToken)
     {
-        await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
         var nextVersion = expectedVersion.Next();
+        ValidateChange(caseId, nextVersion, operation, targetEntityId, change);
+        await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
         var affectedRoots = await dbContext.Cases
             .Where(item => item.Id == caseId
                 && item.IsSynthetic
                 && item.Version == expectedVersion.Value)
             .ExecuteUpdateAsync(
-                setters => setters.SetProperty(item => item.Version, nextVersion.Value),
+                setters => setters
+                    .SetProperty(item => item.Version, nextVersion.Value)
+                    .SetProperty(item => item.LastChangedAtUtc, change.OccurredAtUtc)
+                    .SetProperty(item => item.LastChangedByActorId, change.Actor.Id)
+                    .SetProperty(item => item.LastChangedByActorName, change.Actor.DisplayName),
                 cancellationToken);
 
         if (affectedRoots == 0)
@@ -213,8 +258,40 @@ public sealed class EfCaseWriteStore(CemarisDbContext dbContext) : ICaseWriteSto
             return CaseMutationResult.Failed(failedOutcome.Value);
         }
 
+        dbContext.CaseChanges.Add(MapChange(change));
+        await dbContext.SaveChangesAsync(cancellationToken);
         await transaction.CommitAsync(cancellationToken);
         return CaseMutationResult.Succeeded(nextVersion);
+    }
+
+    private static CaseChangeEntity MapChange(CaseChange change) => new()
+    {
+        Id = change.Id,
+        CaseId = change.CaseId,
+        ResultingVersion = change.ResultingVersion.Value,
+        OccurredAtUtc = change.OccurredAtUtc,
+        ActorId = change.Actor.Id,
+        ActorDisplayName = change.Actor.DisplayName,
+        Operation = change.Operation.ToString(),
+        TargetEntityId = change.TargetEntityId,
+    };
+
+    private static void ValidateChange(
+        Guid caseId,
+        CaseVersion resultingVersion,
+        CaseChangeOperation operation,
+        Guid? targetEntityId,
+        CaseChange change)
+    {
+        ArgumentNullException.ThrowIfNull(change);
+        if (change.CaseId != caseId
+            || change.ResultingVersion != resultingVersion
+            || change.Operation != operation
+            || change.TargetEntityId != targetEntityId)
+        {
+            throw new InvalidOperationException(
+                "Der Änderungsnachweis passt nicht zur auszuführenden Fallaktenmutation.");
+        }
     }
 
     private Task<bool> IsDeceasedReferenceValidAsync(

@@ -6,7 +6,8 @@
 
 > **Cemaris befindet sich in aktiver, inkrementeller Produktentwicklung. Der
 > erste lesende MVP und die synthetische Development-Fallaktenbearbeitung
-> sind technisch umgesetzt; die Software ist noch nicht für
+> mit atomarem Änderungsnachweis sind technisch umgesetzt; die Software ist
+> noch nicht für
 > den Produktivbetrieb oder echte Verwaltungsdaten freigegeben.**
 
 Die Produktentwicklung wird jetzt vor der weiteren EDWALT-Importanalyse
@@ -62,19 +63,23 @@ Vorbereitet sind:
 - ein erster ausschliesslich lesender MVP fuer Suche und Detailansicht mit klar synthetischen Daten,
 - eine standardmäßig deaktivierte, ausschließlich synthetische Development-
   Bearbeitung für Grabstellenbezug, verstorbene Personen und Beisetzungen,
+- einen providerneutralen Akteursvertrag, einen atomaren minimalen
+  Falländerungsnachweis und die Anzeige der letzten Änderung,
 - ein bewusst schmales EF-Core-Fall-/Leseschema mit synthetischem Standardprovider und optionaler SQL-Server-Anbindung,
 - eine minimale herstellerneutrale DMS-Erweiterungsstelle,
 - Unit- und Integrationstests,
 - Docker- und CI-Konfiguration,
 - ADRs sowie Arbeitsunterlagen für EDWALT-Inventur, Anforderungen und Migration.
 
-Die technische EDWALT-Analyse ist nach Phase 4 kontrolliert pausiert. Der
-zweite Produktinkrement ist technisch abgeschlossen, aber weder fachlich noch
-produktiv freigegeben. Zulässige Identitätsvarianten, zwei Rollennamen und der
-minimale Änderungsnachweis sind inzwischen teilweise geklärt. Der nächste
-technische Schritt verifiziert SQL und ergänzt die atomare
-Änderungszuordnung gemäß der
-[Folgeübergabe](docs/implementation/cemaris-case-change-attribution-next-step-handoff.md).
+Die technische EDWALT-Analyse ist nach Phase 4 kontrolliert pausiert. Die
+Produktinkremente 1, 2 und 3a sind technisch abgeschlossen, aber weder
+fachlich noch produktiv freigegeben. Der SQL-Schreibpfad, seine atomare
+Änderungszuordnung und die Migration wurden gegen `CEMARISDEV` verifiziert.
+Lokale Konten als Standard sowie die erste fachliche und administrative
+Rollenabgrenzung sind jetzt bestätigt. Als nächstes werden lokale Anmeldung,
+sichere Sitzungen, serverseitige Policies und Benutzerverwaltung umgesetzt;
+der Auftrag steht in der
+[Folgeübergabe](docs/implementation/cemaris-production-identity-authorization-next-step-handoff.md).
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -156,8 +161,10 @@ dotnet run --project src/Cemaris.Api
 ```
 
 Außerhalb von `Development` verweigert die API bei diesem Aktivierungsversuch
-den Start. Diese Grenze ersetzt keine Authentifizierung, Autorisierung oder
-Auditierung. Nach dem Start sind zusätzlich verfügbar:
+den Start. Diese Grenze ersetzt keine Authentifizierung oder Autorisierung.
+Jede erfolgreiche Mutation wird dem fest serverseitig bestimmten Akteur
+`Synthetische Development-Sachbearbeitung` zugeordnet und atomar minimal
+nachgewiesen; dies ist keine Anmeldung. Nach dem Start sind zusätzlich verfügbar:
 
 - `POST /api/cases`;
 - `PUT /api/cases/{caseId}/grave`;
@@ -166,7 +173,9 @@ Auditierung. Nach dem Start sind zusätzlich verfügbar:
 
 Änderungen benötigen den zuletzt gelesenen starken ETag in `If-Match`. Ein
 fehlender Header ergibt `428`, ein veralteter ETag `412` ohne Teilwirkung.
-Die UI bietet bei aktiver Capability `/cases/new` und `/cases/{id}/edit` an.
+Die UI bietet bei aktiver Capability `/cases/new` und `/cases/{id}/edit` an
+und zeigt in Detail und Bearbeitung „Zuletzt geändert durch …“. Migrierte
+Altzeilen ohne Zuordnung erhalten einen neutralen Hinweis.
 
 ### Frontend starten
 
@@ -231,7 +240,7 @@ npm run build
 ### Optionale SQL-Server-Integrationstests
 
 Die regulaere Testsuite benoetigt keinen SQL Server. Fuer einen zusaetzlichen
-End-to-End-Test des EF-Read-Stores kann eine Verbindung zu einer lokalen
+End-to-End-Test des EF-/SQL-Stores kann eine Verbindung zu einer lokalen
 SQL-Server-Instanz explizit bereitgestellt werden:
 
 ```powershell
@@ -240,11 +249,13 @@ dotnet test tests/Cemaris.IntegrationTests --filter "Category=SqlServer"
 Remove-Item Env:CEMARIS_SQL_TEST_CONNECTION_STRING
 ```
 
-Der verwendete Login muss Datenbanken anlegen und loeschen duerfen. Der Test
-erzeugt eine eindeutig benannte temporaere Datenbank, wendet alle Migrationen
-an, schreibt die synthetischen Testdaten, prueft Suche und Detailansicht und
-entfernt die Datenbank anschliessend wieder. Ohne die Umgebungsvariable werden
-diese Tests uebersprungen.
+Der verwendete Login muss Datenbanken anlegen und loeschen duerfen. Die sechs
+SQL-Tests erzeugen ausschließlich eine eindeutig benannte temporäre Datenbank
+`Cemaris_IntegrationTests_*`, prüfen additive Migration, Seed, Suche,
+Detailansicht, Schreib-/Auditatomarität, Parallelität und Rollback und entfernen
+die Datenbank anschließend wieder. Vor dem Löschen werden Präfix und
+aufgelöster Datenbankname erneut geprüft. Ohne die Umgebungsvariable werden
+diese Tests übersprungen.
 
 ## Konfiguration
 

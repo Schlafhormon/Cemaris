@@ -37,7 +37,12 @@ public sealed record CaseResponse(
     IReadOnlyList<UsageRightResponse> UsageRights,
     IReadOnlyList<EntitledPersonResponse> EntitledPersons,
     IReadOnlyList<NoticeResponse> Notices,
-    IReadOnlyList<string> DataQualityNotes);
+    IReadOnlyList<string> DataQualityNotes,
+    LastCaseChangeResponse? LastChange);
+
+public sealed record LastCaseChangeResponse(
+    string ActorDisplayName,
+    DateTimeOffset ChangedAtUtc);
 
 public sealed record GraveResponse(string? Cemetery, string? Field, string? GraveNumber);
 
@@ -167,7 +172,12 @@ internal static class CaseContractMapper
                     feeItem.Description,
                     feeItem.Amount,
                     feeItem.CurrencyCode)).ToArray())).ToArray(),
-            source.DataQualityNotes);
+            source.DataQualityNotes,
+            source.LastChange is null
+                ? null
+                : new LastCaseChangeResponse(
+                    source.LastChange.ActorDisplayName,
+                    source.LastChange.ChangedAtUtc));
 
     internal static SearchCasesResponse ToResponse(this SearchResponse source) =>
         new(

@@ -1,6 +1,12 @@
-# Folgeübergabe: SQL-Verifikation und atomarer Fallakten-Änderungsnachweis
+# Abgeschlossene Übergabe: SQL-Verifikation und atomarer Fallakten-Änderungsnachweis
 
 Stand: 13.08.2026
+
+> **Status:** Dieser Auftrag ist gemäß der
+> [Abschlussdokumentation](cemaris-case-change-attribution-completion.md)
+> technisch abgeschlossen. Für die Fortsetzung gilt ausschließlich die
+> [Übergabe zu lokalen Konten und serverseitiger Autorisierung](cemaris-production-identity-authorization-next-step-handoff.md).
+> Die folgenden Aussagen beschreiben den damaligen Ausgangsstand.
 
 ## Ziel des nächsten Schritts
 
@@ -443,4 +449,3 @@ Der Auftrag ist erst abgeschlossen, wenn:
 - Freigabe für echte Verwaltungsdaten oder Produktivbetrieb;
 - neue Friedhofsfachregeln, Datenlöschung oder Historienrekonstruktion;
 - EDWALT-Import, Mapping oder Phase 5.
-

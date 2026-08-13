@@ -118,6 +118,12 @@ export interface CaseOverview {
   entitledPersons: EntitledPersonDetails[]
   notices: NoticeDetails[]
   dataQualityNotes: string[]
+  lastChange: LastCaseChangeDetails | null
+}
+
+export interface LastCaseChangeDetails {
+  actorDisplayName: string
+  changedAtUtc: string
 }
 
 export interface CaseWithEtag {

@@ -1,6 +1,12 @@
-# Folgeübergabe: Identitäts-, Berechtigungs- und Audit-Freigabegate
+# Historische Folgeübergabe: Identitäts-, Berechtigungs- und Audit-Freigabegate
 
 Stand: 12.08.2026
+
+> **Status:** Das damalige Entscheidungs- und Auditgate wurde mit den
+> Produktvorgaben vom 13.08.2026 und Inkrement 3a fortgeschrieben. Der aktuell
+> ausführbare Auftrag ist die
+> [Übergabe zu lokalen Konten und serverseitiger Autorisierung](cemaris-production-identity-authorization-next-step-handoff.md).
+> Dieses Dokument bleibt nur als historische Arbeitsgrundlage erhalten.
 
 > **Fortschreibung vom 13.08.2026:** Die zulässigen Identitätsvarianten, zwei
 > Rollennamen und der minimale Änderungsnachweis wurden teilweise geklärt.

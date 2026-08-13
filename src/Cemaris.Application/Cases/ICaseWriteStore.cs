@@ -4,18 +4,23 @@ namespace Cemaris.Application.Cases;
 
 public interface ICaseWriteStore
 {
-    Task CreateAsync(CaseRecord caseRecord, CancellationToken cancellationToken);
+    Task CreateAsync(
+        CaseRecord caseRecord,
+        CaseChange change,
+        CancellationToken cancellationToken);
 
     Task<CaseMutationResult> ChangeGraveAsync(
         Guid caseId,
         CaseVersion expectedVersion,
         GraveReference grave,
+        CaseChange change,
         CancellationToken cancellationToken);
 
     Task<CaseMutationResult> AddDeceasedPersonAsync(
         Guid caseId,
         CaseVersion expectedVersion,
         DeceasedPerson deceasedPerson,
+        CaseChange change,
         CancellationToken cancellationToken);
 
     Task<CaseMutationResult> ChangeDeceasedPersonAsync(
@@ -23,12 +28,14 @@ public interface ICaseWriteStore
         Guid personId,
         CaseVersion expectedVersion,
         DeceasedPerson deceasedPerson,
+        CaseChange change,
         CancellationToken cancellationToken);
 
     Task<CaseMutationResult> AddBurialAsync(
         Guid caseId,
         CaseVersion expectedVersion,
         Burial burial,
+        CaseChange change,
         CancellationToken cancellationToken);
 
     Task<CaseMutationResult> ChangeBurialAsync(
@@ -36,6 +43,7 @@ public interface ICaseWriteStore
         Guid burialId,
         CaseVersion expectedVersion,
         Burial burial,
+        CaseChange change,
         CancellationToken cancellationToken);
 }
 

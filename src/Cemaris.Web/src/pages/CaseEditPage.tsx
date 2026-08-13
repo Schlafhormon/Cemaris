@@ -17,6 +17,7 @@ import {
   changeGrave,
   getCaseDetails,
 } from '../api/cemarisApi'
+import { LastChangeNotice } from '../components/LastChangeNotice'
 import type {
   BurialDetails,
   BurialInput,
@@ -128,6 +129,8 @@ export function CaseEditPage({ caseId }: CaseEditPageProps) {
         </div>
         <div className="synthetic-badge" role="note">Ausschließlich synthetische Daten</div>
       </div>
+
+      <LastChangeNotice lastChange={caseOverview.lastChange} />
 
       {conflict && (
         <div className="conflict-message" role="alert">

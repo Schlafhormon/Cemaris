@@ -25,6 +25,15 @@ Application, prozesslokaler synthetischer Store, SQL-Server-Persistenz, API, Rea
 und automatisierte Tests verwenden denselben Vertrag. Eine Produktivfreigabe
 ist damit ausdrücklich nicht verbunden.
 
+Inkrement 3a ist ebenfalls technisch abgeschlossen. Ein providerneutraler
+Akteursvertrag liefert dem Fallaktenservice genau einen fest serverseitig
+definierten synthetischen Development-Akteur. Falländerung, Version, letzte
+Zuordnung und datensparsamer Auditdatensatz werden im synthetischen und im
+SQL-Store atomar gespeichert. Detail und Bearbeitung zeigen die letzte
+Änderung. Migration und SQL-Parallelität wurden gegen eine temporäre Datenbank
+auf `CEMARISDEV` verifiziert. Dies ist weiterhin keine produktive Identität,
+Berechtigung oder Freigabe.
+
 ## Verbindliche Entwicklungsregel
 
 „Fertig“ bezeichnet immer einen klar abgegrenzten, Ende-zu-Ende getesteten
@@ -39,8 +48,8 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | ---: | --- | --- | --- |
 | 1 | Lesende Suche und Detailansicht | technisch umgesetzt | fachliche Abnahme mit kontrolliertem Testbestand später |
 | 2 | Schreibende Fallakten-Grundlage | technisch umgesetzt: Grabstellenbezug, Verstorbene und Beisetzungen als manuell erfasste Tatsachen anlegen und ändern; keine Löschung oder Ableitung | erfüllt nur für Development und synthetische Daten; keine Produktivfreigabe |
-| 3a | Providerneutrale Änderungszuordnung und Auditgrundlage | atomarer Änderungsnachweis und Anzeige der letzten Änderung für den synthetischen Development-Pfad | Mindestnachweis bestätigt; Umsetzung und SQL-Verifikation stehen als nächster Auftrag an |
-| 3b | Produktive Identität und Berechtigungen | abgesicherter Schreibbetrieb für Sachbearbeitung und Administration | Auswahl LDAP oder lokale Konten, operationsgenaue Rechtematrix, Audit-Einsicht und Betriebsfreigabe |
+| 3a | Providerneutrale Änderungszuordnung und Auditgrundlage | technisch umgesetzt und gegen `CEMARISDEV` verifiziert: atomarer Änderungsnachweis und Anzeige der letzten Änderung für den synthetischen Development-Pfad | erfüllt nur für Development und synthetische Daten; keine Produktivfreigabe |
+| 3b | Lokale Identität und Berechtigungsgrundlage | lokale Konten, sichere Sitzungen, geschützte Fachfunktionen und administrative Benutzerverwaltung | lokale Konten und Grundmatrix bestätigt; technische Umsetzung, SQL-Verifikation sowie spätere Datenschutz- und Betriebsfreigabe stehen aus |
 | 4 | Fachliche Stammdaten und vollständiger Beisetzungsprozess | Friedhöfe/Felder, Grabarten, Prozessschritte und Prüfungen | Anwenderinterview, Satzungs- und Prozessfreigabe |
 | 5 | Personenrollen, Nutzungsrechte, Ruhefristen und Wiedervorlagen | fachlich freigegebene Rechte- und Fristenlogik | Rollen-, Historien- und Fristregeln |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
@@ -54,15 +63,19 @@ Sicherheits-, Datenschutz-, Betriebs- und Fachgates erfüllt sind.
 
 ## Nächstes Freigabegate
 
-Die zulässigen Identitätsvarianten LDAP oder lokale Konten, die beiden
-Rollennamen `Sachbearbeitung` und `Administration` sowie der minimale
-Änderungsnachweis wurden am 13.08.2026 als Produktvorgaben dokumentiert. Die
-Anbieterwahl und operationsgenaue Berechtigungsmatrix bleiben offen.
+Lokale Konten sind am 13.08.2026 als Standard bestätigt worden. Ein späterer
+LDAP-Ausbau soll Konten importieren oder synchronisieren, wird aber nicht im
+nächsten Inkrement umgesetzt. `Sachbearbeitung` und `Administration` dürfen
+fachliche Daten erfassen und bearbeiten, einschließlich künftiger
+Stammdatenpflege. Benutzerverwaltung, administrative Programmkonfiguration
+und Formularvorlagen bleiben `Administration` vorbehalten. Vollständige
+Auditdaten erhalten keine Cemaris-Oberfläche.
 
-Der nächste eigenständige Auftrag ist deshalb die
-[SQL-Verifikation und der atomare Fallakten-Änderungsnachweis](cemaris-case-change-attribution-next-step-handoff.md)
-mit genau einem serverseitig festgelegten synthetischen Development-Akteur.
-Solange die danach weiterhin offenen Gates fehlen, bleibt der Schreibpfad
+Inkrement 3a ist gemäß
+[Abschlussdokumentation](cemaris-case-change-attribution-completion.md)
+abgenommen. Der nächste eigenständige Auftrag ist die
+[Implementierung lokaler Konten und der bestätigten Berechtigungsgrundlage](cemaris-production-identity-authorization-next-step-handoff.md).
+Solange diese weiterhin offenen Gates fehlen, bleibt der Schreibpfad
 Development-only, synthetisch und standardmäßig deaktiviert. Kein produktiver
 Authentifizierungsanbieter wird durch Vermutung ausgewählt.
 

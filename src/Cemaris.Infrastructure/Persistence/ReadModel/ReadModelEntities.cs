@@ -11,6 +11,12 @@ public sealed class CaseReadEntity
 
     public long Version { get; set; }
 
+    public DateTimeOffset? LastChangedAtUtc { get; set; }
+
+    public string? LastChangedByActorId { get; set; }
+
+    public string? LastChangedByActorName { get; set; }
+
     public GraveReadEntity? Grave { get; set; }
 
     public ICollection<DeceasedReadEntity> DeceasedPersons { get; } = [];
@@ -24,6 +30,29 @@ public sealed class CaseReadEntity
     public ICollection<NoticeReadEntity> Notices { get; } = [];
 
     public ICollection<DataQualityNoteReadEntity> DataQualityNotes { get; } = [];
+
+    public ICollection<CaseChangeEntity> Changes { get; } = [];
+}
+
+public sealed class CaseChangeEntity
+{
+    public Guid Id { get; set; }
+
+    public Guid CaseId { get; set; }
+
+    public long ResultingVersion { get; set; }
+
+    public DateTimeOffset OccurredAtUtc { get; set; }
+
+    public string ActorId { get; set; } = string.Empty;
+
+    public string ActorDisplayName { get; set; } = string.Empty;
+
+    public string Operation { get; set; } = string.Empty;
+
+    public Guid? TargetEntityId { get; set; }
+
+    public CaseReadEntity Case { get; set; } = null!;
 }
 
 public sealed class GraveReadEntity

@@ -1,6 +1,7 @@
 using Cemaris.Api.Contracts;
 using Cemaris.Api.ErrorHandling;
 using Cemaris.Application.Cases;
+using Cemaris.Application.Identity;
 using Cemaris.Application.System;
 using Cemaris.Domain.Cases;
 using Cemaris.Infrastructure;
@@ -49,6 +50,8 @@ builder.Services.AddScoped(serviceProvider => new CaseReadService(
     maximumSearchResults));
 if (caseEditingEnabled)
 {
+    builder.Services.AddSingleton<ICurrentActorProvider, SyntheticDevelopmentActorProvider>();
+    builder.Services.AddSingleton(TimeProvider.System);
     builder.Services.AddScoped<CaseWriteService>();
 }
 

@@ -390,7 +390,12 @@ public sealed class EfCaseReadStore(CemarisDbContext dbContext) : ICaseReadStore
                             feeItem.CurrencyCode))
                         .ToArray()))
                 .ToArray(),
-            dataQualityNotes);
+            dataQualityNotes,
+            entity.LastChangedByActorName is null || entity.LastChangedAtUtc is null
+                ? null
+                : new LastCaseChangeDetails(
+                    entity.LastChangedByActorName,
+                    entity.LastChangedAtUtc.Value));
     }
 
     private sealed record NormalizedFilters(

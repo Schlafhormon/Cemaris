@@ -71,8 +71,8 @@ Screenshots, Logs und Demonstrationsdaten weiterhin verboten.
 Nicht Bestandteil dieses Inkrements sind:
 
 - Löschen, Archivieren, Storno, Aufhebung, Umnummerierung oder Historisierung;
-- Login, produktive Rollen, endgültiges Audit oder eine produktive
-  Schreibfreigabe;
+- Login, produktive Berechtigungen, Audit-Einsicht/-Export/-Aufbewahrung oder
+  eine produktive Schreibfreigabe;
 - Adressen und Personenrollen außerhalb der bestehenden lesenden Darstellung;
 - Anlage oder Änderung von Nutzungsrechten;
 - Grabarten, Belegungsprüfung, Tiefe, Status, Karten oder GIS;
@@ -118,6 +118,39 @@ Fall-/Lesestore verwendet; diese wesentliche technische Grenze ist in
 [ADR-0010](../decisions/ADR-0010-canonical-provisional-case-store.md)
 dokumentiert.
 
+## Tatsächlich umgesetzter Änderungsnachweis
+
+Stand 13.08.2026 ergänzt Inkrement 3a den Schreibvertrag additiv:
+
+- `CaseWriteService` erzeugt für jede erfolgreiche Mutation eine GUID als
+  Änderungs-ID, einen Zeitpunkt aus `TimeProvider.GetUtcNow()`, die Operation,
+  die resultierende Version und gegebenenfalls die serverseitige Kind-ID.
+- Der Akteur kommt ausschließlich aus dem providerneutralen
+  `ICurrentActorProvider`. Im Development-Pfad ist dies fest
+  `synthetic-development-case-worker` mit dem Anzeigenamen
+  `Synthetische Development-Sachbearbeitung` und der Rolle
+  `Sachbearbeitung`; Requests können diese Werte nicht überschreiben.
+- Die stabilen Operationen sind exakt `CaseCreated`, `GraveChanged`,
+  `DeceasedPersonAdded`, `DeceasedPersonChanged`, `BurialAdded` und
+  `BurialChanged`.
+- Auditdatensätze enthalten nur Änderungs-ID, Fall-ID, resultierende Version,
+  UTC-Zeitpunkt, Akteurskennung, historischen Anzeigenamen, Operation und
+  optionale Ziel-ID. Feldwerte, Request-Bodies sowie Vorher-/Nachher-Kopien
+  werden nicht gespeichert.
+- Fachänderung, monotone Version, letzte Änderungszuordnung und genau ein
+  Nachweis derselben resultierenden Version liegen im SQL-Store in derselben
+  Transaktion und im synthetischen Store unter derselben Sperre.
+- Der eindeutige SQL-Index auf `(CaseId, ResultingVersion)` verhindert mehr als
+  einen erfolgreichen Nachweis je Fallversion. Scheitert der Auditanteil,
+  bleibt auch die Fachänderung aus.
+- `GET /api/cases/{id}` und alle Schreibantworten enthalten additiv
+  `lastChange` mit Anzeigename und UTC-Zeitpunkt. Bei migrierten Altzeilen
+  bleibt `lastChange` neutral `null`.
+
+Es existiert bewusst kein Audit-Listen-, Such- oder Exportendpunkt. Die beiden
+bestätigten Rollennamen treffen in diesem Inkrement keine
+Berechtigungsentscheidung.
+
 ## Abnahme
 
 Der Inkrement ist umgesetzt, wenn bei explizit aktivierter Development-
@@ -138,12 +171,12 @@ veraltete ETags, Teilwirkungsfreiheit, fremde Bezüge, Längengrenzen,
 Capability-Grenze und den vollständigen Anlage-/Änderungs-/Such-/Detailablauf
 ab. Der SQL-Server-Schreibtest bleibt wie zuvor ausschließlich über
 `CEMARIS_SQL_TEST_CONNECTION_STRING` aktivierbar. Fachliche Abnahme,
-Produktividentität, Berechtigung und Audit bleiben `OFFEN` und sind ein echtes
-Freigabegate.
+Produktividentität, Berechtigungen sowie Audit-Einsicht und -Betrieb bleiben
+`OFFEN` und sind echte Freigabegates.
 
-Abschlussprüfung am 12.08.2026: Release-Build mit 0 Warnungen und 0 Fehlern;
-10 Unit- und 15 reguläre Integrationstests bestanden; 4 SQL-Server-Tests
-mangels ausdrücklich gesetzter Testverbindung planmäßig übersprungen; 5
-Frontendtests, Lint, Produktionsbuild und .NET-Formatprüfung erfolgreich.
-Standardstart und aktivierter Development-Start wurden zusätzlich gegen
-Capability, Endpunktangebot, OpenAPI und initialen ETag geprüft.
+Abschlussprüfung des erweiterten Vertrags am 13.08.2026: Release-Build mit 0
+Warnungen und 0 Fehlern; 13 Unit- und 16 reguläre Integrationstests bestanden;
+6 SQL-Server-Tests gegen `CEMARISDEV` bestanden; 7 Frontendtests, Lint,
+Produktionsbuild und .NET-Formatprüfung erfolgreich. Das idempotente
+Migrationsskript wurde plausibilisiert. Details stehen in der
+[Abschlussdokumentation](../implementation/cemaris-case-change-attribution-completion.md).

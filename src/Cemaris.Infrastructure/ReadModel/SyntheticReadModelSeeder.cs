@@ -2,6 +2,7 @@ using System.Data;
 using System.Security.Cryptography;
 using System.Text;
 using Cemaris.Application.Cases;
+using Cemaris.Application.Identity;
 using Cemaris.Infrastructure.Persistence;
 using Cemaris.Infrastructure.Persistence.ReadModel;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,9 @@ public sealed class SyntheticReadModelSeeder(CemarisDbContext dbContext)
                 "Seeding was refused because the database contains at least one non-synthetic case.");
         }
 
+        await dbContext.CaseChanges
+            .ExecuteDeleteAsync(cancellationToken);
+
         await dbContext.Cases
             .Where(item => item.IsSynthetic)
             .ExecuteDeleteAsync(cancellationToken);
@@ -65,7 +69,10 @@ public sealed class SyntheticReadModelSeeder(CemarisDbContext dbContext)
         await dbContext.SaveChangesAsync(cancellationToken);
         await transaction.CommitAsync(cancellationToken);
 
-        return new SyntheticSeedResult(mapping.Cases.Count, mapping.SkippedUnresolvedUsageRightHolders);
+        return new SyntheticSeedResult(
+            mapping.Cases.Count,
+            mapping.SkippedUnresolvedUsageRightHolders,
+            mapping.ChangesWritten);
     }
 
     private static SyntheticSeedMapping MapCases(IReadOnlyList<CaseOverview> cases)
@@ -77,6 +84,8 @@ public sealed class SyntheticReadModelSeeder(CemarisDbContext dbContext)
 
         var mappedCases = new List<CaseReadEntity>(cases.Count);
         var skippedUnresolvedUsageRightHolders = 0;
+        var changesByCaseId = SyntheticCaseReadStore.CreateInitialChanges(cases)
+            .ToDictionary(item => item.CaseId);
 
         foreach (var source in cases)
         {
@@ -85,6 +94,11 @@ public sealed class SyntheticReadModelSeeder(CemarisDbContext dbContext)
                 Id = source.Id,
                 IsSynthetic = true,
                 Version = source.Version,
+                LastChangedAtUtc = source.LastChange?.ChangedAtUtc,
+                LastChangedByActorId = source.LastChange is null
+                    ? null
+                    : SyntheticDevelopmentActorProvider.ActorId,
+                LastChangedByActorName = source.LastChange?.ActorDisplayName,
                 Grave = new GraveReadEntity
                 {
                     CaseId = source.Id,
@@ -94,6 +108,19 @@ public sealed class SyntheticReadModelSeeder(CemarisDbContext dbContext)
                     GraveNumber = source.Grave.GraveNumber,
                 },
             };
+
+            var change = changesByCaseId[source.Id];
+            mappedCase.Changes.Add(new CaseChangeEntity
+            {
+                Id = change.Id,
+                CaseId = change.CaseId,
+                ResultingVersion = change.ResultingVersion.Value,
+                OccurredAtUtc = change.OccurredAtUtc,
+                ActorId = change.Actor.Id,
+                ActorDisplayName = change.Actor.DisplayName,
+                Operation = change.Operation.ToString(),
+                TargetEntityId = change.TargetEntityId,
+            });
 
             foreach (var deceased in source.DeceasedPersons)
             {
@@ -222,7 +249,10 @@ public sealed class SyntheticReadModelSeeder(CemarisDbContext dbContext)
             mappedCases.Add(mappedCase);
         }
 
-        return new SyntheticSeedMapping(mappedCases, skippedUnresolvedUsageRightHolders);
+        return new SyntheticSeedMapping(
+            mappedCases,
+            skippedUnresolvedUsageRightHolders,
+            changesByCaseId.Count);
     }
 
     private static Guid DeterministicId(string value)
@@ -233,9 +263,11 @@ public sealed class SyntheticReadModelSeeder(CemarisDbContext dbContext)
 
     private sealed record SyntheticSeedMapping(
         IReadOnlyList<CaseReadEntity> Cases,
-        int SkippedUnresolvedUsageRightHolders);
+        int SkippedUnresolvedUsageRightHolders,
+        int ChangesWritten);
 }
 
 public sealed record SyntheticSeedResult(
     int CasesWritten,
-    int SkippedUnresolvedUsageRightHolders);
+    int SkippedUnresolvedUsageRightHolders,
+    int ChangesWritten);

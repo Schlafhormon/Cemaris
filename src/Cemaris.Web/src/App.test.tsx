@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import App from './App'
 import { CaseEditPage } from './pages/CaseEditPage'
+import { CaseDetailsPage } from './pages/CaseDetailsPage'
 import { NewCasePage } from './pages/NewCasePage'
 import type { CaseOverview } from './types/cases'
 
@@ -36,6 +37,10 @@ function caseOverview(overrides: Partial<CaseOverview> = {}): CaseOverview {
     entitledPersons: [],
     notices: [],
     dataQualityNotes: ['Ausschließlich synthetische UI-Testdaten.'],
+    lastChange: {
+      actorDisplayName: 'Synthetische Development-Sachbearbeitung',
+      changedAtUtc: '2026-08-13T07:30:00Z',
+    },
     ...overrides,
   }
 }
@@ -149,5 +154,35 @@ describe('Schreibformulare', () => {
     expect(await screen.findByText('Die Fallakte wurde zwischenzeitlich geändert.')).toBeInTheDocument()
     expect(cemetery).toHaveValue('Lokaler, noch nicht gespeicherter Stand')
     expect(screen.getByRole('button', { name: 'Aktuellen Serverstand laden' })).toBeInTheDocument()
+  })
+})
+
+describe('Letzte Änderungszuordnung', () => {
+  it('zeigt Akteur und lokal formatierten Zeitpunkt in der Detailansicht', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(
+      caseOverview(),
+      200,
+      { ETag: '"1"' },
+    )))
+
+    render(<CaseDetailsPage caseId="00000000-0000-0000-0000-000000009001" />)
+
+    expect(await screen.findByText(
+      /Zuletzt geändert durch Synthetische Development-Sachbearbeitung am/,
+    )).toBeInTheDocument()
+  })
+
+  it('zeigt bei migrierten Altzeilen in der Bearbeitung einen neutralen Hinweis', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(
+      caseOverview({ lastChange: null }),
+      200,
+      { ETag: '"1"' },
+    )))
+
+    render(<CaseEditPage caseId="00000000-0000-0000-0000-000000009001" />)
+
+    expect(await screen.findByText(
+      'Für diese Fallakte liegen noch keine Angaben zur letzten Änderung vor.',
+    )).toBeInTheDocument()
   })
 })
