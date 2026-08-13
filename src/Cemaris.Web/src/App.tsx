@@ -11,11 +11,13 @@ import { useAuth } from './auth/useAuth'
 import { LoginPage } from './pages/LoginPage'
 import { PasswordPage } from './pages/PasswordPage'
 import { UserAdministrationPage } from './pages/UserAdministrationPage'
+import { CemeteryMasterDataPage } from './pages/CemeteryMasterDataPage'
 
 function App() {
   const { state: authState, account, logout } = useAuth()
   const [path, setPath] = useState(window.location.pathname.replace(/\/$/, '') || '/')
   const [caseEditingEnabled, setCaseEditingEnabled] = useState<boolean>()
+  const [cemeteryMasterDataEditingEnabled, setCemeteryMasterDataEditingEnabled] = useState<boolean>()
   const [forbidden, setForbidden] = useState(false)
 
   useEffect(() => {
@@ -33,8 +35,11 @@ function App() {
   useEffect(() => {
     const controller = new AbortController()
     getSystemInformation(controller.signal)
-      .then((information) => setCaseEditingEnabled(information.caseEditingEnabled))
-      .catch(() => setCaseEditingEnabled(false))
+      .then((information) => {
+        setCaseEditingEnabled(information.caseEditingEnabled)
+        setCemeteryMasterDataEditingEnabled(information.cemeteryMasterDataEditingEnabled)
+      })
+      .catch(() => { setCaseEditingEnabled(false); setCemeteryMasterDataEditingEnabled(false) })
     return () => controller.abort()
   }, [])
 
@@ -58,15 +63,19 @@ function App() {
     page = account.role === 'Administration'
       ? <UserAdministrationPage />
       : <div className="state-message state-message--error detail-state" role="alert">Für die Benutzerverwaltung fehlt die administrative Berechtigung.</div>
+  } else if (!account.mustChangePassword && path === '/master-data/cemeteries') {
+    page = cemeteryMasterDataEditingEnabled === true
+      ? <CemeteryMasterDataPage administrator={account.role === 'Administration'} />
+      : <div className="state-message detail-state">Die synthetische Stammdatenpflege ist in dieser Umgebung nicht aktiviert.</div>
   } else if (!account.mustChangePassword && path === '/cases/new') {
     page = caseEditingEnabled === true ? (
-      <NewCasePage />
+      <NewCasePage cemeteryMasterDataEditingEnabled={cemeteryMasterDataEditingEnabled === true} />
     ) : (
       <FeatureUnavailablePage loading={caseEditingEnabled === undefined} />
     )
   } else if (!account.mustChangePassword && editMatch) {
     page = caseEditingEnabled === true ? (
-      <CaseEditPage caseId={decodeURIComponent(editMatch[1])} />
+      <CaseEditPage caseId={decodeURIComponent(editMatch[1])} cemeteryMasterDataEditingEnabled={cemeteryMasterDataEditingEnabled === true} />
     ) : (
       <FeatureUnavailablePage loading={caseEditingEnabled === undefined} />
     )
@@ -80,7 +89,7 @@ function App() {
   }
 
   return (
-    <AppLayout account={account} caseEditingEnabled={caseEditingEnabled === true} onLogout={logout}>
+    <AppLayout account={account} caseEditingEnabled={caseEditingEnabled === true} cemeteryMasterDataEditingEnabled={cemeteryMasterDataEditingEnabled === true} onLogout={logout}>
       {forbidden && <div className="permission-banner" role="alert"><span>Diese Aktion ist für Ihr Konto nicht erlaubt. Ihre Eingaben bleiben erhalten.</span><button type="button" onClick={() => setForbidden(false)}>Hinweis schließen</button></div>}
       {page}
     </AppLayout>

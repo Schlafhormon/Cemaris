@@ -1,18 +1,34 @@
-import { useRef, useState, type FormEvent, type RefObject } from 'react'
-import { ApiError, createCase } from '../api/cemarisApi'
+import { useEffect, useRef, useState, type FormEvent, type RefObject } from 'react'
+import { ApiError, createCase, getCemeteryMasterData } from '../api/cemarisApi'
 import { navigateTo } from '../navigation'
 import type { GraveInput } from '../types/cases'
+import type { GraveSite } from '../types/cemeteries'
 
-const initialInput: GraveInput = { cemetery: '', field: '', graveNumber: '' }
+const initialInput: GraveInput = { cemetery: '', field: '', graveNumber: '', graveSiteId: '' }
 
-export function NewCasePage() {
+export function NewCasePage({ cemeteryMasterDataEditingEnabled = false }: { cemeteryMasterDataEditingEnabled?: boolean }) {
   const [input, setInput] = useState(initialInput)
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({})
   const [saving, setSaving] = useState(false)
   const [unexpectedError, setUnexpectedError] = useState(false)
+  const [graveSites, setGraveSites] = useState<GraveSite[]>([])
   const cemeteryRef = useRef<HTMLInputElement>(null)
   const fieldRef = useRef<HTMLInputElement>(null)
   const graveNumberRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (!cemeteryMasterDataEditingEnabled) return
+    const controller = new AbortController()
+    getCemeteryMasterData(controller.signal, false)
+      .then(data => setGraveSites(data.graveSites.filter(site => !site.isBlocked)))
+      .catch(() => setUnexpectedError(true))
+    return () => controller.abort()
+  }, [cemeteryMasterDataEditingEnabled])
+
+  function selectGraveSite(id: string) {
+    const site = graveSites.find(item => item.id === id)
+    setInput(site ? { cemetery: site.cemeteryName, field: site.fieldName ?? '', graveNumber: site.graveNumber, graveSiteId: site.id } : initialInput)
+  }
 
   function setField(name: keyof GraveInput, value: string) {
     setInput((current) => ({ ...current, [name]: value }))
@@ -59,12 +75,20 @@ export function NewCasePage() {
       <form className="editor-card" onSubmit={submit} aria-busy={saving} noValidate>
         <h2>Grabstellenbezug</h2>
         <div className="editor-grid">
+          {cemeteryMasterDataEditingEnabled && <label>
+            Kanonische Grabstelle <span aria-hidden="true">*</span>
+            <select required value={input.graveSiteId} onChange={event => selectGraveSite(event.target.value)}>
+              <option value="">Bitte auswählen</option>
+              {graveSites.map(site => <option key={site.id} value={site.id}>{site.cemeteryName} · {[site.areaName, site.fieldName, site.rowName, site.graveNumber].filter(Boolean).join(' / ')}</option>)}
+            </select>
+          </label>}
           <label>
             Friedhof <span aria-hidden="true">*</span>
             <input
               ref={cemeteryRef}
               value={input.cemetery}
               required
+              readOnly={cemeteryMasterDataEditingEnabled}
               maxLength={200}
               aria-invalid={Boolean(fieldErrors.cemetery)}
               aria-describedby={fieldErrors.cemetery ? 'cemetery-error' : undefined}
@@ -78,6 +102,7 @@ export function NewCasePage() {
               ref={fieldRef}
               value={input.field}
               maxLength={100}
+              readOnly={cemeteryMasterDataEditingEnabled}
               aria-invalid={Boolean(fieldErrors.field)}
               onChange={(event) => setField('field', event.target.value)}
             />
@@ -89,6 +114,7 @@ export function NewCasePage() {
               ref={graveNumberRef}
               value={input.graveNumber}
               maxLength={100}
+              readOnly={cemeteryMasterDataEditingEnabled}
               aria-invalid={Boolean(fieldErrors.graveNumber)}
               onChange={(event) => setField('graveNumber', event.target.value)}
             />

@@ -2,14 +2,14 @@ using Cemaris.Application.Cases;
 
 namespace Cemaris.Api.Contracts;
 
-public sealed record CreateCaseRequest(string? Cemetery, string? Field, string? GraveNumber)
+public sealed record CreateCaseRequest(string? Cemetery, string? Field, string? GraveNumber, Guid? GraveSiteId = null)
 {
-    public CreateCaseCommand ToCommand() => new(Cemetery, Field, GraveNumber);
+    public CreateCaseCommand ToCommand() => new(Cemetery, Field, GraveNumber, GraveSiteId);
 }
 
-public sealed record ChangeGraveRequest(string? Cemetery, string? Field, string? GraveNumber)
+public sealed record ChangeGraveRequest(string? Cemetery, string? Field, string? GraveNumber, Guid? GraveSiteId = null)
 {
-    public ChangeGraveCommand ToCommand() => new(Cemetery, Field, GraveNumber);
+    public ChangeGraveCommand ToCommand() => new(Cemetery, Field, GraveNumber, GraveSiteId);
 }
 
 public sealed record SaveDeceasedPersonRequest(
@@ -44,7 +44,7 @@ public sealed record LastCaseChangeResponse(
     string ActorDisplayName,
     DateTimeOffset ChangedAtUtc);
 
-public sealed record GraveResponse(string? Cemetery, string? Field, string? GraveNumber);
+public sealed record GraveResponse(string? Cemetery, string? Field, string? GraveNumber, Guid? GraveSiteId);
 
 public sealed record DeceasedPersonResponse(
     Guid Id,
@@ -131,7 +131,8 @@ internal static class CaseContractMapper
             new GraveResponse(
                 source.Grave.Cemetery,
                 source.Grave.Field,
-                source.Grave.GraveNumber),
+                source.Grave.GraveNumber,
+                source.Grave.GraveSiteId),
             source.DeceasedPersons.Select(item => new DeceasedPersonResponse(
                 item.Id,
                 item.FirstName,

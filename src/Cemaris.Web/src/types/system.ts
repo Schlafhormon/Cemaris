@@ -6,6 +6,7 @@ export interface HealthResponse {
 export interface SystemInformationResponse {
   name: string
   caseEditingEnabled: boolean
+  cemeteryMasterDataEditingEnabled: boolean
   productionReady: boolean
   status: string
   subtitle: string

@@ -16,7 +16,9 @@ import {
   changeDeceasedPerson,
   changeGrave,
   getCaseDetails,
+  getCemeteryMasterData,
 } from '../api/cemarisApi'
+import type { GraveSite } from '../types/cemeteries'
 import { LastChangeNotice } from '../components/LastChangeNotice'
 import type {
   BurialDetails,
@@ -30,12 +32,13 @@ import type {
 
 interface CaseEditPageProps {
   caseId: string
+  cemeteryMasterDataEditingEnabled?: boolean
 }
 
 type FieldErrors = Record<string, string[]>
 type InputRefs = Record<string, RefObject<HTMLInputElement | HTMLSelectElement | null>>
 
-export function CaseEditPage({ caseId }: CaseEditPageProps) {
+export function CaseEditPage({ caseId, cemeteryMasterDataEditingEnabled = false }: CaseEditPageProps) {
   const detailUrl = caseDetailUrl(caseId)
   const [caseOverview, setCaseOverview] = useState<CaseOverview>()
   const [etag, setEtag] = useState('')
@@ -155,6 +158,7 @@ export function CaseEditPage({ caseId }: CaseEditPageProps) {
           caseId={caseId}
           etag={etag}
           grave={caseOverview.grave}
+          cemeteryMasterDataEditingEnabled={cemeteryMasterDataEditingEnabled}
           onSaved={acceptSaved}
           onConflict={reportConflict}
           onUnexpected={reportUnexpected}
@@ -222,17 +226,32 @@ interface GraveEditorProps extends EditorCallbacks {
   caseId: string
   etag: string
   grave: CaseOverview['grave']
+  cemeteryMasterDataEditingEnabled: boolean
 }
 
-function GraveEditor({ caseId, etag, grave, ...callbacks }: GraveEditorProps) {
+function GraveEditor({ caseId, etag, grave, cemeteryMasterDataEditingEnabled, ...callbacks }: GraveEditorProps) {
   const [input, setInput] = useState<GraveInput>(toGraveInput(grave))
   const [errors, setErrors] = useState<FieldErrors>({})
   const [saving, setSaving] = useState(false)
+  const [graveSites, setGraveSites] = useState<GraveSite[]>([])
   const cemeteryRef = useRef<HTMLInputElement>(null)
   const fieldRef = useRef<HTMLInputElement>(null)
   const graveNumberRef = useRef<HTMLInputElement>(null)
 
   useLayoutEffect(() => setInput(toGraveInput(grave)), [grave])
+  useEffect(() => {
+    if (!cemeteryMasterDataEditingEnabled) return
+    const controller = new AbortController()
+    getCemeteryMasterData(controller.signal, false)
+      .then(data => setGraveSites(data.graveSites.filter(site => !site.isBlocked)))
+      .catch(callbacks.onUnexpected)
+    return () => controller.abort()
+  }, [callbacks.onUnexpected, cemeteryMasterDataEditingEnabled])
+
+  function selectGraveSite(id: string) {
+    const site = graveSites.find(item => item.id === id)
+    if (site) setInput({ cemetery: site.cemeteryName, field: site.fieldName ?? '', graveNumber: site.graveNumber, graveSiteId: site.id })
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -256,6 +275,7 @@ function GraveEditor({ caseId, etag, grave, ...callbacks }: GraveEditorProps) {
       <h2 id="grave-editor-heading">Grabstellenbezug</h2>
       <form onSubmit={submit} aria-busy={saving} noValidate>
         <div className="editor-grid">
+          {cemeteryMasterDataEditingEnabled && <label>Kanonische Grabstelle<select value={input.graveSiteId ?? ''} onChange={event => selectGraveSite(event.target.value)}><option value="">Bestehender Altbezug</option>{graveSites.map(site => <option key={site.id} value={site.id}>{site.cemeteryName} · {[site.areaName, site.fieldName, site.rowName, site.graveNumber].filter(Boolean).join(' / ')}</option>)}</select></label>}
           <EditorInput label="Friedhof" name="cemetery" required maxLength={200} value={input.cemetery} errors={errors} inputRef={cemeteryRef} onChange={(value) => setInput({ ...input, cemetery: value })} />
           <EditorInput label="Feld" name="field" maxLength={100} value={input.field} errors={errors} inputRef={fieldRef} onChange={(value) => setInput({ ...input, field: value })} />
           <EditorInput label="Grabnummer" name="graveNumber" maxLength={100} value={input.graveNumber} errors={errors} inputRef={graveNumberRef} onChange={(value) => setInput({ ...input, graveNumber: value })} />
@@ -455,6 +475,7 @@ function toGraveInput(grave: CaseOverview['grave']): GraveInput {
     cemetery: grave.cemetery ?? '',
     field: grave.field ?? '',
     graveNumber: grave.graveNumber ?? '',
+    graveSiteId: grave.graveSiteId ?? '',
   }
 }
 

@@ -140,7 +140,7 @@ internal sealed class TestAuthenticationHandler(
     }
 }
 
-internal sealed class CookieIdentityWebApplicationFactory : Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory<Program>
+public sealed class CookieIdentityWebApplicationFactory : Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory<Program>
 {
     internal TestLogCollector Logs { get; } = new();
 

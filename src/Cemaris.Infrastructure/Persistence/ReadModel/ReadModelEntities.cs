@@ -65,6 +65,10 @@ public sealed class GraveReadEntity
 
     public string? GraveNumber { get; set; }
 
+    public Guid? GraveSiteId { get; set; }
+
+    public Cemeteries.GraveSiteEntity? GraveSite { get; set; }
+
     public CaseReadEntity Case { get; set; } = null!;
 }
 

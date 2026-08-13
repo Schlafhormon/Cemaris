@@ -1,3 +1,4 @@
+using Cemaris.Application.Cemeteries;
 using Cemaris.Application.Identity;
 using Cemaris.Domain.Cases;
 
@@ -7,7 +8,9 @@ public sealed class CaseWriteService(
     ICaseWriteStore writeStore,
     ICaseReadStore readStore,
     ICurrentActorProvider currentActorProvider,
-    TimeProvider timeProvider)
+    TimeProvider timeProvider,
+    ICemeteryMasterDataStore? masterDataStore = null,
+    bool requireCanonicalGraveSite = false)
 {
     public async Task<CaseOverview> CreateAsync(
         CreateCaseCommand command,
@@ -15,9 +18,10 @@ public sealed class CaseWriteService(
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var caseRecord = CaseRecord.CreateSynthetic(
-            Guid.NewGuid(),
-            GraveReference.Create(command.Cemetery, command.Field, command.GraveNumber));
+        var grave = await ResolveGraveAsync(
+            command.GraveSiteId, command.Cemetery, command.Field, command.GraveNumber,
+            cancellationToken);
+        var caseRecord = CaseRecord.CreateSynthetic(Guid.NewGuid(), grave);
 
         await writeStore.CreateAsync(
             caseRecord,
@@ -36,10 +40,13 @@ public sealed class CaseWriteService(
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(command);
+        var grave = await ResolveGraveAsync(
+            command.GraveSiteId, command.Cemetery, command.Field, command.GraveNumber,
+            cancellationToken);
         var result = await writeStore.ChangeGraveAsync(
             caseId,
             new CaseVersion(expectedVersion),
-            GraveReference.Create(command.Cemetery, command.Field, command.GraveNumber),
+            grave,
             CreateChange(
                 caseId,
                 new CaseVersion(expectedVersion).Next(),
@@ -192,4 +199,44 @@ public sealed class CaseWriteService(
             currentActorProvider.Current,
             operation,
             targetEntityId);
+
+    private async Task<GraveReference> ResolveGraveAsync(
+        Guid? graveSiteId,
+        string? cemetery,
+        string? field,
+        string? graveNumber,
+        CancellationToken cancellationToken)
+    {
+        if (requireCanonicalGraveSite && !graveSiteId.HasValue)
+        {
+            throw new GraveSiteReferenceValidationException();
+        }
+
+        if (!graveSiteId.HasValue)
+        {
+            return GraveReference.Create(cemetery, field, graveNumber);
+        }
+
+        if (masterDataStore is null)
+        {
+            throw new GraveSiteReferenceValidationException();
+        }
+
+        var data = await masterDataStore.ReadAsync(true, cancellationToken);
+        var site = data.GraveSites.SingleOrDefault(item => item.Id == graveSiteId.Value);
+        var cemeteryEntry = site is null ? null : data.Cemeteries.SingleOrDefault(item => item.Id == site.CemeteryId);
+        var graveType = site is null ? null : data.GraveTypes.SingleOrDefault(item => item.Id == site.GraveTypeId);
+        var assignment = site is null ? null : data.CemeteryGraveTypes.SingleOrDefault(item =>
+            item.CemeteryId == site.CemeteryId && item.GraveTypeId == site.GraveTypeId);
+        if (site is null || cemeteryEntry is null || graveType is null || assignment is null ||
+            !site.IsActive || !cemeteryEntry.IsActive || !graveType.IsActive || !assignment.IsActive || site.IsBlocked ||
+            site.AreaId.HasValue && !data.Areas.Any(item => item.Id == site.AreaId && item.IsActive) ||
+            site.FieldId.HasValue && !data.Fields.Any(item => item.Id == site.FieldId && item.IsActive) ||
+            site.RowId.HasValue && !data.Rows.Any(item => item.Id == site.RowId && item.IsActive))
+        {
+            throw new GraveSiteReferenceValidationException();
+        }
+
+        return GraveReference.CreateCanonical(site.Id, site.CemeteryName, site.FieldName, site.GraveNumber);
+    }
 }

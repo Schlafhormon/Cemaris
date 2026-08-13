@@ -15,6 +15,12 @@ const emptySearch = {
   isTruncated: false,
 }
 
+const emptyMasterData = { cemeteries: [], areas: [], fields: [], rows: [], graveTypes: [], cemeteryGraveTypes: [], graveSites: [] }
+const masterData = {
+  ...emptyMasterData,
+  graveSites: [{ id: '00000000-0000-0000-0000-000000009101', cemeteryId: 'c', areaId: null, fieldId: null, rowId: null, graveTypeId: 'g', graveNumber: 'SYN-UI-1', status: 'Available', isBlocked: false, blockNote: null, targetCapacity: null, note: null, isActive: true, version: 1, cemeteryName: 'Synthetischer UI-Testfriedhof', areaName: null, fieldName: null, rowName: null, graveTypeName: 'Synthetische UI-Grabart' }],
+}
+
 function jsonResponse(body: unknown, status = 200, headers: Record<string, string> = {}) {
   return new Response(JSON.stringify(body), {
     status,
@@ -173,14 +179,15 @@ describe('Schreibformulare', () => {
   it('legt eine Fallakte an und wechselt ohne Vollseitenneustart in die Bearbeitung', async () => {
     window.history.replaceState(null, '', '/cases/new')
     const user = userEvent.setup()
-    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) =>
-      String(input).endsWith('/api/auth/csrf')
-        ? jsonResponse({ requestToken: 'csrf-test-token', headerName: 'X-Cemaris-CSRF' })
-        : jsonResponse(caseOverview(), 201, { ETag: '"1"', Location: '/api/cases/00000000-0000-0000-0000-000000009001' })))
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
+      const path = String(input)
+      if (path.includes('/api/master-data/cemeteries')) return jsonResponse(masterData)
+      if (path.endsWith('/api/auth/csrf')) return jsonResponse({ requestToken: 'csrf-test-token', headerName: 'X-Cemaris-CSRF' })
+      return jsonResponse(caseOverview(), 201, { ETag: '"1"', Location: '/api/cases/00000000-0000-0000-0000-000000009001' })
+    }))
 
-    render(<NewCasePage />)
-    await user.type(screen.getByRole('textbox', { name: /Friedhof/ }), 'Synthetischer UI-Testfriedhof')
-    await user.type(screen.getByRole('textbox', { name: 'Feld' }), 'Testfeld UI')
+    render(<NewCasePage cemeteryMasterDataEditingEnabled />)
+    await user.selectOptions(await screen.findByRole('combobox', { name: /Kanonische Grabstelle/ }), '00000000-0000-0000-0000-000000009101')
     await user.click(screen.getByRole('button', { name: 'Fallakte anlegen' }))
 
     await waitFor(() => expect(window.location.pathname).toBe(
@@ -190,12 +197,15 @@ describe('Schreibformulare', () => {
 
   it('zeigt Servervalidierung feldbezogen und fokussiert das erste Fehlerfeld', async () => {
     const user = userEvent.setup()
-    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) =>
-      String(input).endsWith('/api/auth/csrf')
-        ? jsonResponse({ requestToken: 'csrf-test-token', headerName: 'X-Cemaris-CSRF' })
-        : jsonResponse({ title: 'Die Fallaktendaten sind ungültig.', errors: { cemetery: ['Dieses Feld ist erforderlich.'] } }, 400)))
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
+      const path = String(input)
+      if (path.includes('/api/master-data/cemeteries')) return jsonResponse(masterData)
+      if (path.endsWith('/api/auth/csrf')) return jsonResponse({ requestToken: 'csrf-test-token', headerName: 'X-Cemaris-CSRF' })
+      return jsonResponse({ title: 'Die Fallaktendaten sind ungültig.', errors: { cemetery: ['Dieses Feld ist erforderlich.'] } }, 400)
+    }))
 
-    render(<NewCasePage />)
+    render(<NewCasePage cemeteryMasterDataEditingEnabled />)
+    await user.selectOptions(await screen.findByRole('combobox', { name: /Kanonische Grabstelle/ }), '00000000-0000-0000-0000-000000009101')
     await user.click(screen.getByRole('button', { name: 'Fallakte anlegen' }))
 
     expect(await screen.findByText('Dieses Feld ist erforderlich.')).toBeInTheDocument()
@@ -208,6 +218,7 @@ describe('Schreibformulare', () => {
       if (String(_input).endsWith('/api/auth/csrf')) {
         return jsonResponse({ requestToken: 'csrf-test-token', headerName: 'X-Cemaris-CSRF' })
       }
+      if (String(_input).includes('/api/master-data/cemeteries')) return jsonResponse(emptyMasterData)
       if (!init?.method || init.method === 'GET') {
         return jsonResponse(caseOverview(), 200, { ETag: '"1"' })
       }
@@ -243,11 +254,9 @@ describe('Letzte Änderungszuordnung', () => {
   })
 
   it('zeigt bei migrierten Altzeilen in der Bearbeitung einen neutralen Hinweis', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(
-      caseOverview({ lastChange: null }),
-      200,
-      { ETag: '"1"' },
-    )))
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => String(input).includes('/api/master-data/cemeteries')
+      ? jsonResponse(emptyMasterData)
+      : jsonResponse(caseOverview({ lastChange: null }), 200, { ETag: '"1"' })))
 
     render(<CaseEditPage caseId="00000000-0000-0000-0000-000000009001" />)
 

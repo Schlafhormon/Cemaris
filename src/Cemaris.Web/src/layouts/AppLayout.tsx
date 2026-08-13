@@ -3,11 +3,12 @@ import type { CurrentAccount } from '../types/identity'
 
 interface AppLayoutProps extends PropsWithChildren {
   caseEditingEnabled: boolean
+  cemeteryMasterDataEditingEnabled: boolean
   account: CurrentAccount
   onLogout: () => Promise<void>
 }
 
-export function AppLayout({ children, caseEditingEnabled, account, onLogout }: AppLayoutProps) {
+export function AppLayout({ children, caseEditingEnabled, cemeteryMasterDataEditingEnabled, account, onLogout }: AppLayoutProps) {
   const currentPath = window.location.pathname
 
   return (
@@ -42,6 +43,9 @@ export function AppLayout({ children, caseEditingEnabled, account, onLogout }: A
             >
               Neue Fallakte
             </a>
+          )}
+          {cemeteryMasterDataEditingEnabled && (
+            <a className={currentPath.startsWith('/master-data/cemeteries') ? 'active' : undefined} href="/master-data/cemeteries" aria-current={currentPath.startsWith('/master-data/cemeteries') ? 'page' : undefined}>Friedhofsstammdaten</a>
           )}
           {account.role === 'Administration' && (
             <a className={currentPath === '/admin/accounts' ? 'active' : undefined} href="/admin/accounts" aria-current={currentPath === '/admin/accounts' ? 'page' : undefined}>Benutzerverwaltung</a>

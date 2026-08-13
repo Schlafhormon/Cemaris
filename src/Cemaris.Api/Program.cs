@@ -1,9 +1,12 @@
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
+using Cemaris.Api;
 using Cemaris.Api.Contracts;
 using Cemaris.Api.ErrorHandling;
 using Cemaris.Api.Security;
 using Cemaris.Application.Cases;
+using Cemaris.Application.Cemeteries;
 using Cemaris.Application.Identity;
 using Cemaris.Application.System;
 using Cemaris.Domain.Cases;
@@ -24,10 +27,17 @@ using Microsoft.OpenApi;
 var builder = WebApplication.CreateBuilder(args);
 
 var caseEditingEnabled = builder.Configuration.GetValue<bool>("Features:CaseEditingEnabled");
+var cemeteryMasterDataEditingEnabled = builder.Configuration.GetValue<bool>("Features:CemeteryMasterDataEditingEnabled");
 if (caseEditingEnabled && !builder.Environment.IsDevelopment())
 {
     throw new InvalidOperationException(
         "Case editing may be enabled only in the Development environment with synthetic data.");
+}
+if (cemeteryMasterDataEditingEnabled && (!builder.Environment.IsDevelopment() ||
+    !string.Equals(builder.Configuration["ReadModel:Provider"], "Synthetic", StringComparison.OrdinalIgnoreCase)))
+{
+    throw new InvalidOperationException(
+        "Cemetery master-data editing may be enabled only in Development with the Synthetic provider.");
 }
 
 builder.Logging.ClearProviders();
@@ -51,6 +61,8 @@ var openApiEnabled = builder.Configuration.GetValue(
     builder.Environment.IsDevelopment());
 
 builder.Services.AddProblemDetails();
+builder.Services.ConfigureHttpJsonOptions(options =>
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddHealthChecks();
 builder.Services.AddCemarisInfrastructure(builder.Configuration);
@@ -118,7 +130,17 @@ builder.Services.AddScoped(serviceProvider => new CaseReadService(
     maximumSearchResults));
 if (caseEditingEnabled)
 {
-    builder.Services.AddScoped<CaseWriteService>();
+    builder.Services.AddScoped(serviceProvider => new CaseWriteService(
+        serviceProvider.GetRequiredService<ICaseWriteStore>(),
+        serviceProvider.GetRequiredService<ICaseReadStore>(),
+        serviceProvider.GetRequiredService<ICurrentActorProvider>(),
+        serviceProvider.GetRequiredService<TimeProvider>(),
+        serviceProvider.GetRequiredService<ICemeteryMasterDataStore>(),
+        cemeteryMasterDataEditingEnabled));
+}
+if (cemeteryMasterDataEditingEnabled)
+{
+    builder.Services.AddScoped<CemeteryMasterDataService>();
 }
 
 if (openApiEnabled)
@@ -356,6 +378,7 @@ systemEndpoints.MapGet("/info", () =>
         project.Phase,
         project.ProductionReady,
         caseEditingEnabled,
+        cemeteryMasterDataEditingEnabled,
         typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "unbekannt"));
 })
     .WithName("GetSystemInformation")
@@ -446,6 +469,11 @@ if (caseEditingEnabled)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .ProducesProblem(StatusCodes.Status412PreconditionFailed)
         .ProducesProblem(StatusCodes.Status428PreconditionRequired);
+}
+
+if (cemeteryMasterDataEditingEnabled)
+{
+    app.MapCemeteryMasterData();
 }
 
 app.Run();
@@ -829,6 +857,10 @@ static async Task<IResult> CreateCaseAsync(
     {
         return ValidationProblem(exception.Errors, exception.Message);
     }
+    catch (GraveSiteReferenceValidationException exception)
+    {
+        return ValidationProblem(exception.Errors, exception.Message);
+    }
 }
 
 static Task<IResult> ChangeGraveAsync(
@@ -926,6 +958,10 @@ static async Task<IResult> ExecuteMutationAsync(
         return ValidationProblem(exception.Errors, exception.Message);
     }
     catch (CaseReferenceValidationException exception)
+    {
+        return ValidationProblem(exception.Errors, exception.Message);
+    }
+    catch (GraveSiteReferenceValidationException exception)
     {
         return ValidationProblem(exception.Errors, exception.Message);
     }

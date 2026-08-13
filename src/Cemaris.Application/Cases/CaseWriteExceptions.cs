@@ -19,3 +19,13 @@ public sealed class CaseReferenceValidationException()
             ["Der Verstorbenenbezug gehört nicht zu dieser Fallakte oder ist nicht vorhanden."],
         };
 }
+
+public sealed class GraveSiteReferenceValidationException()
+    : Exception("Die Grabstelle ist nicht vorhanden, gesperrt oder für neue Zuordnungen nicht aktiv verfügbar.")
+{
+    public IReadOnlyDictionary<string, string[]> Errors { get; } =
+        new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["graveSiteId"] = ["Die Grabstelle ist nicht vorhanden, gesperrt oder für neue Zuordnungen nicht aktiv verfügbar."],
+        };
+}

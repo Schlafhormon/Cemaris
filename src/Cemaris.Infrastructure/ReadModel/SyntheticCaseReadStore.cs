@@ -3,6 +3,7 @@ using System.Text;
 using Cemaris.Application.Cases;
 using Cemaris.Application.Identity;
 using Cemaris.Domain.Cases;
+using Cemaris.Infrastructure.Cemeteries;
 
 namespace Cemaris.Infrastructure.ReadModel;
 
@@ -18,9 +19,11 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
     private readonly object gate = new();
     private readonly List<CaseOverview> cases;
     private readonly List<CaseChange> changes;
+    private readonly SyntheticCemeteryMasterDataStore? masterDataStore;
 
-    public SyntheticCaseReadStore()
+    public SyntheticCaseReadStore(SyntheticCemeteryMasterDataStore? masterDataStore = null)
     {
+        this.masterDataStore = masterDataStore;
         cases = CreateCases().ToList();
         changes = CreateInitialChanges(cases).ToList();
     }
@@ -33,7 +36,7 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
         cancellationToken.ThrowIfCancellationRequested();
         lock (gate)
         {
-            return Task.FromResult(InMemoryCaseSearch.Search(cases, criteria, maximumResults));
+            return Task.FromResult(InMemoryCaseSearch.Search(ProjectCurrentNames(cases), criteria, maximumResults));
         }
     }
 
@@ -42,8 +45,18 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
         cancellationToken.ThrowIfCancellationRequested();
         lock (gate)
         {
-            return Task.FromResult(cases.SingleOrDefault(item => item.Id == id));
+            return Task.FromResult(ProjectCurrentNames(cases).SingleOrDefault(item => item.Id == id));
         }
+    }
+
+    private CaseOverview[] ProjectCurrentNames(IEnumerable<CaseOverview> source)
+    {
+        if (masterDataStore is null) return source.ToArray();
+        var snapshot = masterDataStore.ReadAsync(true, CancellationToken.None).GetAwaiter().GetResult();
+        var sites = snapshot.GraveSites.ToDictionary(item => item.Id);
+        return source.Select(item => item.Grave.GraveSiteId.HasValue && sites.TryGetValue(item.Grave.GraveSiteId.Value, out var site)
+            ? item with { Grave = new GraveDetails(site.CemeteryName, site.FieldName, site.GraveNumber, site.Id) }
+            : item).ToArray();
     }
 
     public Task CreateAsync(
@@ -75,7 +88,8 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
                 new GraveDetails(
                     caseRecord.Grave.Cemetery,
                     caseRecord.Grave.Field,
-                    caseRecord.Grave.GraveNumber),
+                    caseRecord.Grave.GraveNumber,
+                    caseRecord.Grave.GraveSiteId),
                 [],
                 [],
                 [],
@@ -84,6 +98,7 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
                 ["Ausschließlich synthetische Development-Fallakte."],
                 ToLastChange(change)));
             changes.Add(change);
+            masterDataStore?.ChangeGraveSiteReference(null, caseRecord.Grave.GraveSiteId);
         }
 
         return Task.CompletedTask;
@@ -99,8 +114,9 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
         ArgumentNullException.ThrowIfNull(grave);
         return MutateAsync(caseId, expectedVersion, CaseChangeOperation.GraveChanged, null, change, current => current with
         {
-            Grave = new GraveDetails(grave.Cemetery, grave.Field, grave.GraveNumber),
-        }, cancellationToken);
+            Grave = new GraveDetails(grave.Cemetery, grave.Field, grave.GraveNumber, grave.GraveSiteId),
+        }, cancellationToken, onCommitted: (previous, current) =>
+            masterDataStore?.ChangeGraveSiteReference(previous.Grave.GraveSiteId, current.Grave.GraveSiteId));
     }
 
     public Task<CaseMutationResult> AddDeceasedPersonAsync(
@@ -223,7 +239,8 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
         Func<CaseOverview, CaseOverview> mutation,
         CancellationToken cancellationToken,
         Func<CaseOverview, bool>? childExists = null,
-        Func<CaseOverview, bool>? referenceIsValid = null)
+        Func<CaseOverview, bool>? referenceIsValid = null,
+        Action<CaseOverview, CaseOverview>? onCommitted = null)
     {
         var nextVersion = expectedVersion.Next();
         ValidateChange(caseId, nextVersion, operation, targetEntityId, change);
@@ -265,6 +282,7 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore
                 LastChange = ToLastChange(change),
             };
             EnsureChangeCanBeStored(change);
+            onCommitted?.Invoke(current, changedCase);
             changes.Add(change);
             cases[index] = changedCase;
             return Task.FromResult(CaseMutationResult.Succeeded(nextVersion));

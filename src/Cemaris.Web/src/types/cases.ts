@@ -49,6 +49,7 @@ export interface GraveDetails {
   cemetery: string | null
   field: string | null
   graveNumber: string | null
+  graveSiteId?: string | null
 }
 
 export interface DeceasedDetails {
@@ -136,6 +137,7 @@ export interface GraveInput {
   cemetery: string
   field: string
   graveNumber: string
+  graveSiteId?: string
 }
 
 export interface DeceasedPersonInput {

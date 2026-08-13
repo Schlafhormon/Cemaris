@@ -67,6 +67,8 @@ Vorbereitet sind:
   Falländerungsnachweis und die Anzeige der letzten Änderung,
 - persistierte lokale Konten, Cookie-Sitzung, CSRF, Rollenpolicies und eine
   administrative Benutzerverwaltung,
+- eine standardmäßig deaktivierte synthetische Friedhofs- und
+  Grabstellenstammdatenpflege mit kanonischem Fallaktenbezug,
 - ein bewusst schmales EF-Core-Fall-/Leseschema mit synthetischem Standardprovider und optionaler SQL-Server-Anbindung,
 - eine minimale herstellerneutrale DMS-Erweiterungsstelle,
 - Unit- und Integrationstests,
@@ -74,14 +76,17 @@ Vorbereitet sind:
 - ADRs sowie Arbeitsunterlagen für EDWALT-Inventur, Anforderungen und Migration.
 
 Die technische EDWALT-Analyse ist nach Phase 4 kontrolliert pausiert. Die
-Produktinkremente 1, 2, 3a und 3b sind technisch abgeschlossen, aber weder
+Produktinkremente 1, 2, 3a, 3b und 4a sind technisch abgeschlossen, aber weder
 fachlich noch produktiv freigegeben. Der SQL-Schreibpfad, seine atomare
 Änderungszuordnung und die Migration wurden gegen `CEMARISDEV` verifiziert.
 Lokale Konten, sichere Cookie-Sitzung, CSRF, serverseitige Policies und
-administrative Benutzerverwaltung sind umgesetzt. Als nächstes werden nur auf
-Basis bestätigter Fachregeln Stammdaten und Beisetzungsprozess bearbeitet; der
-Auftrag steht in der
-[Folgeübergabe](docs/implementation/cemaris-increment-4-next-step-handoff.md).
+administrative Benutzerverwaltung sind umgesetzt. Die frei konfigurierbare
+Friedhofsstruktur, der leere Grabartenkatalog, Grabstellen und der kanonische
+Fallbezug sind gemäß
+[Abschlussdokumentation 4a](docs/implementation/cemaris-increment-4a-completion.md)
+technisch umgesetzt. Der einfache synthetische Beisetzungsprozess ist als
+Inkrement 4b produktseitig abgegrenzt; sein Auftrag steht in der
+[Folgeübergabe](docs/implementation/cemaris-increment-4b-next-step-handoff.md).
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -160,6 +165,7 @@ synthetische Development-Sitzung muss sie ausdrücklich aktiviert werden:
 ```powershell
 $env:ASPNETCORE_ENVIRONMENT = "Development"
 $env:Features__CaseEditingEnabled = "true"
+$env:Features__CemeteryMasterDataEditingEnabled = "true"
 dotnet run --project src/Cemaris.Api
 ```
 
@@ -173,6 +179,10 @@ zusätzlich verfügbar:
 - `PUT /api/cases/{caseId}/grave`;
 - `POST` und `PUT /api/cases/{caseId}/deceased-persons[/personId]`;
 - `POST` und `PUT /api/cases/{caseId}/burials[/burialId]`.
+- `GET /api/master-data/cemeteries` sowie `POST`/`PUT` für Friedhöfe,
+  Bereiche, Felder, Reihen, Grabarten, Zuordnungen und Grabstellen;
+- `DELETE /api/master-data/{kind}/{id}` ausschließlich für Administration
+  und vollständig unbenutzte Datensätze.
 
 Änderungen benötigen den zuletzt gelesenen starken ETag in `If-Match`. Ein
 fehlender Header ergibt `428`, ein veralteter ETag `412` ohne Teilwirkung.
@@ -277,7 +287,7 @@ dotnet test tests/Cemaris.IntegrationTests --filter "Category=SqlServer"
 Remove-Item Env:CEMARIS_SQL_TEST_CONNECTION_STRING
 ```
 
-Der verwendete Login muss Datenbanken anlegen und loeschen duerfen. Die sechs
+Der verwendete Login muss Datenbanken anlegen und loeschen duerfen. Die neun
 SQL-Tests erzeugen ausschließlich eine eindeutig benannte temporäre Datenbank
 `Cemaris_IntegrationTests_*`, prüfen additive Migration, Seed, Suche,
 Detailansicht, Schreib-/Auditatomarität, Parallelität und Rollback und entfernen
@@ -296,6 +306,7 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `OpenApi__Enabled` | OpenAPI-Dokument aktivieren | `true` nur in kontrollierten Umgebungen |
 | `ReadModel__Provider` | kanonischer Fall-/Lesestore (`Synthetic` oder `SqlServer`) | `Synthetic` fuer normale Entwicklung und Tests |
 | `Features__CaseEditingEnabled` | synthetische Fallaktenbearbeitung; nur in `Development` zulässig | `false` (Standard), lokal ausdrücklich `true` |
+| `Features__CemeteryMasterDataEditingEnabled` | synthetische Friedhofsstammdatenpflege; nur in `Development` mit `Synthetic` zulässig | `false` (Standard), lokal ausdrücklich `true` |
 | `Identity__Security__PasswordMinimumLength` | untere Passwortgrenze, nicht unter 12 konfigurierbar | `12` |
 | `Identity__Security__PasswordMaximumLength` | obere Passwortgrenze, nicht über 128 konfigurierbar | `128` |
 | `Identity__Security__MaximumFailedLoginAttempts` | Fehlversuche bis zur Sperre, höchstens 5 | `5` |

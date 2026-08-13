@@ -43,6 +43,16 @@ atomar als Änderungsakteur gespeichert. Migration und Parallelitätsgrenzen
 wurden auf `CEMARISDEV` verifiziert. Datenschutz- und Betriebsfreigabe bleiben
 offen.
 
+Inkrement 4 wurde am 13.08.2026 produktseitig verbindlich in 4a und 4b
+geteilt. 4a ist gemäß
+[Abschlussdokumentation](cemaris-increment-4a-completion.md) technisch
+umgesetzt und gegen `CEMARISDEV` verifiziert. Der bewusst einfache
+synthetische Beisetzungsprozess ist in
+[`burial-process-decisions.md`](../requirements/burial-process-decisions.md)
+für 4b abgegrenzt; seine spätere fachliche Vorstellung und Abnahme durch die
+Friedhofsverwaltung bleibt erforderlich. Lokale Satzungswerte dienen als
+Evidenz, nicht als allgemein fest eingebaute Open-Source-Defaults.
+
 ## Verbindliche Entwicklungsregel
 
 „Fertig“ bezeichnet immer einen klar abgegrenzten, Ende-zu-Ende getesteten
@@ -59,7 +69,8 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 2 | Schreibende Fallakten-Grundlage | technisch umgesetzt: Grabstellenbezug, Verstorbene und Beisetzungen als manuell erfasste Tatsachen anlegen und ändern; keine Löschung oder Ableitung | erfüllt nur für Development und synthetische Daten; keine Produktivfreigabe |
 | 3a | Providerneutrale Änderungszuordnung und Auditgrundlage | technisch umgesetzt und gegen `CEMARISDEV` verifiziert: atomarer Änderungsnachweis und Anzeige der letzten Änderung für den synthetischen Development-Pfad | erfüllt nur für Development und synthetische Daten; keine Produktivfreigabe |
 | 3b | Lokale Identität und Berechtigungsgrundlage | technisch umgesetzt und gegen `CEMARISDEV` verifiziert: lokale Konten, sichere Sitzungen, geschützte Fachfunktionen und administrative Benutzerverwaltung | technische Abnahme erfüllt; Datenschutz- und Betriebsfreigabe stehen aus |
-| 4 | Fachliche Stammdaten und vollständiger Beisetzungsprozess | Friedhöfe/Felder, Grabarten, Prozessschritte und Prüfungen | Anwenderinterview, Satzungs- und Prozessfreigabe |
+| 4a | Friedhofsstruktur und Grabstättenstammdaten | technisch umgesetzt: frei konfigurierbare Hierarchie, Grabarten, Grabstellen, Status und kanonischer Fallbezug | technische Abnahme erfüllt; fachliche Vorstellung/Abnahme folgt |
+| 4b | Einfacher Beisetzungsprozess | Entwurf, Planung, Bestätigung, Durchführung, Abschluss, kontrollierte Korrektur und Dublettenhinweis | Produktentscheidungen für synthetischen technischen Inkrement bestätigt; fachliche Verwaltungsabnahme bleibt offen |
 | 5 | Personenrollen, Nutzungsrechte, Ruhefristen und Wiedervorlagen | fachlich freigegebene Rechte- und Fristenlogik | Rollen-, Historien- und Fristregeln |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
@@ -80,10 +91,14 @@ Stammdatenpflege. Benutzerverwaltung, administrative Programmkonfiguration
 und Formularvorlagen bleiben `Administration` vorbehalten. Vollständige
 Auditdaten erhalten keine Cemaris-Oberfläche.
 
-Inkrement 3b ist gemäß
-[Abschlussdokumentation](cemaris-local-identity-authorization-completion.md)
-technisch abgenommen. Der nächste eigenständige Auftrag ist die
-[fachlich freizugebende Stammdaten- und Beisetzungsgrundlage](cemaris-increment-4-next-step-handoff.md).
+Inkrement 4a ist gemäß
+[Abschlussdokumentation](cemaris-increment-4a-completion.md) technisch
+abgenommen und nach einer Korrekturrunde zur hierarchischen Auswahl auch
+manuell im Browser bestätigt. Der nächste eigenständige Auftrag ist
+[Inkrement 4b](cemaris-increment-4b-next-step-handoff.md).
+Der einfache technische Prozess ist durch
+`USR-2026-08-13-INCREMENT-4B` verbindlich abgegrenzt und kann im nächsten
+kontextlosen Arbeitslauf Ende zu Ende implementiert werden.
 Solange die weiterhin offenen fachlichen, Datenschutz- und Betriebsgates
 fehlen, bleibt der Schreibpfad Development-only, synthetisch und standardmäßig
 deaktiviert.

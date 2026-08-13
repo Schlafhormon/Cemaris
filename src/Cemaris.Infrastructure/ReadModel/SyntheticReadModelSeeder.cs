@@ -106,6 +106,7 @@ public sealed class SyntheticReadModelSeeder(CemarisDbContext dbContext)
                         ?? throw new InvalidOperationException($"Synthetic case '{source.Id}' has no cemetery."),
                     Field = source.Grave.Field,
                     GraveNumber = source.Grave.GraveNumber,
+                    GraveSiteId = source.Grave.GraveSiteId,
                 },
             };
 

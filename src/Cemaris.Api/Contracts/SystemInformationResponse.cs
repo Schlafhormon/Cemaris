@@ -6,4 +6,5 @@ public sealed record SystemInformationResponse(
     string Status,
     bool ProductionReady,
     bool CaseEditingEnabled,
+    bool CemeteryMasterDataEditingEnabled,
     string Version);

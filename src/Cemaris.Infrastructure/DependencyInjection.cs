@@ -1,5 +1,7 @@
 using Cemaris.Application.Cases;
+using Cemaris.Application.Cemeteries;
 using Cemaris.Application.Identity;
+using Cemaris.Infrastructure.Cemeteries;
 using Cemaris.Infrastructure.Identity;
 using Cemaris.Infrastructure.Persistence;
 using Cemaris.Infrastructure.ReadModel;
@@ -29,6 +31,9 @@ public static class DependencyInjection
 
         if (provider.Equals("Synthetic", StringComparison.OrdinalIgnoreCase))
         {
+            services.AddSingleton<SyntheticCemeteryMasterDataStore>();
+            services.AddSingleton<ICemeteryMasterDataStore>(serviceProvider =>
+                serviceProvider.GetRequiredService<SyntheticCemeteryMasterDataStore>());
             services.AddSingleton<SyntheticCaseReadStore>();
             services.AddSingleton<ICaseReadStore>(serviceProvider =>
                 serviceProvider.GetRequiredService<SyntheticCaseReadStore>());
@@ -45,6 +50,7 @@ public static class DependencyInjection
 
         services.AddScoped<ICaseReadStore, EfCaseReadStore>();
         services.AddScoped<ICaseWriteStore, EfCaseWriteStore>();
+        services.AddScoped<ICemeteryMasterDataStore, EfCemeteryMasterDataStore>();
         services.AddScoped<SyntheticReadModelSeeder>();
 
         return services;

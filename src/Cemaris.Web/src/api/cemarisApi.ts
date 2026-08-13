@@ -14,6 +14,7 @@ import type {
   LocalAccount,
   UpdateAccountInput,
 } from '../types/identity'
+import type { CemeteryMasterData } from '../types/cemeteries'
 
 const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim() ?? ''
 const apiBaseUrl = configuredBaseUrl.replace(/\/$/, '')
@@ -93,7 +94,7 @@ async function getAntiforgeryToken(): Promise<string> {
   return antiforgeryToken
 }
 
-async function sendJson<T>(path: string, method: string, body?: unknown): Promise<T | undefined> {
+async function sendJson<T>(path: string, method: string, body?: unknown, etag?: string): Promise<T | undefined> {
   const token = await getAntiforgeryToken()
   const response = await fetch(`${apiBaseUrl}${path}`, {
     method,
@@ -102,6 +103,7 @@ async function sendJson<T>(path: string, method: string, body?: unknown): Promis
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-Cemaris-CSRF': token,
+      ...(etag ? { 'If-Match': etag } : {}),
     },
     body: body === undefined ? undefined : JSON.stringify(body),
   })
@@ -173,6 +175,22 @@ export function getHealth(signal: AbortSignal) {
 
 export function getSystemInformation(signal: AbortSignal) {
   return getJson<SystemInformationResponse>('/api/system/info', signal)
+}
+
+export function getCemeteryMasterData(signal: AbortSignal, includeInactive = true) {
+  return getJson<CemeteryMasterData>(`/api/master-data/cemeteries?includeInactive=${includeInactive}`, signal)
+}
+
+export async function createMasterData<T>(route: string, input: unknown) {
+  return await sendJson<T>(`/api/master-data/${route}`, 'POST', input) as T
+}
+
+export async function updateMasterData<T>(route: string, id: string, version: number, input: unknown) {
+  return await sendJson<T>(`/api/master-data/${route}/${encodeURIComponent(id)}`, 'PUT', input, `"${version}"`) as T
+}
+
+export async function deleteMasterData(kind: string, id: string, version: number) {
+  await sendJson(`/api/master-data/${kind}/${encodeURIComponent(id)}`, 'DELETE', undefined, `"${version}"`)
 }
 
 export function searchCases(filters: SearchFilters, signal: AbortSignal) {

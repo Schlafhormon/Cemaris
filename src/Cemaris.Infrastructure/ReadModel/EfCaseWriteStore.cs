@@ -41,6 +41,7 @@ public sealed class EfCaseWriteStore(CemarisDbContext dbContext) : ICaseWriteSto
                 Cemetery = caseRecord.Grave.Cemetery,
                 Field = caseRecord.Grave.Field,
                 GraveNumber = caseRecord.Grave.GraveNumber,
+                GraveSiteId = caseRecord.Grave.GraveSiteId,
             },
             DataQualityNotes =
             {
@@ -79,7 +80,8 @@ public sealed class EfCaseWriteStore(CemarisDbContext dbContext) : ICaseWriteSto
                         setters => setters
                             .SetProperty(item => item.Cemetery, grave.Cemetery)
                             .SetProperty(item => item.Field, grave.Field)
-                            .SetProperty(item => item.GraveNumber, grave.GraveNumber),
+                            .SetProperty(item => item.GraveNumber, grave.GraveNumber)
+                            .SetProperty(item => item.GraveSiteId, grave.GraveSiteId),
                         cancellationToken);
 
                 if (affected != 1)

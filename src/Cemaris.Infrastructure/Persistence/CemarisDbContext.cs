@@ -1,3 +1,4 @@
+using Cemaris.Infrastructure.Persistence.Cemeteries;
 using Cemaris.Infrastructure.Persistence.Identity;
 using Cemaris.Infrastructure.Persistence.ReadModel;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,14 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
     public DbSet<CaseChangeEntity> CaseChanges => Set<CaseChangeEntity>();
 
     public DbSet<LocalAccountEntity> LocalAccounts => Set<LocalAccountEntity>();
+    public DbSet<CemeteryEntity> Cemeteries => Set<CemeteryEntity>();
+    public DbSet<CemeteryAreaEntity> CemeteryAreas => Set<CemeteryAreaEntity>();
+    public DbSet<CemeteryFieldEntity> CemeteryFields => Set<CemeteryFieldEntity>();
+    public DbSet<CemeteryRowEntity> CemeteryRows => Set<CemeteryRowEntity>();
+    public DbSet<GraveTypeEntity> GraveTypes => Set<GraveTypeEntity>();
+    public DbSet<CemeteryGraveTypeEntity> CemeteryGraveTypes => Set<CemeteryGraveTypeEntity>();
+    public DbSet<GraveSiteEntity> GraveSites => Set<GraveSiteEntity>();
+    public DbSet<CemeteryMasterDataChangeEntity> CemeteryMasterDataChanges => Set<CemeteryMasterDataChangeEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -42,6 +51,7 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
         ConfigureEntitledPerson(modelBuilder);
         ConfigureNotice(modelBuilder);
         ConfigureDataQualityNote(modelBuilder);
+        ConfigureCemeteryMasterData(modelBuilder);
     }
 
     private static void ConfigureLocalAccount(ModelBuilder modelBuilder)
@@ -104,6 +114,109 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
         entity.Property(item => item.Cemetery).HasMaxLength(200).IsRequired();
         entity.Property(item => item.Field).HasMaxLength(100);
         entity.Property(item => item.GraveNumber).HasMaxLength(100);
+        entity.HasOne(item => item.GraveSite)
+            .WithMany()
+            .HasForeignKey(item => item.GraveSiteId)
+            .OnDelete(DeleteBehavior.NoAction);
+    }
+
+    private static void ConfigureCemeteryMasterData(ModelBuilder modelBuilder)
+    {
+        ConfigureCemetery(modelBuilder.Entity<CemeteryEntity>());
+        ConfigureLevel(modelBuilder.Entity<CemeteryAreaEntity>(), "CemeteryAreas", "CemeteryId", "Cemeteries");
+        ConfigureLevel(modelBuilder.Entity<CemeteryFieldEntity>(), "CemeteryFields", "AreaId", "CemeteryAreas");
+        ConfigureLevel(modelBuilder.Entity<CemeteryRowEntity>(), "CemeteryRows", "FieldId", "CemeteryFields");
+
+        var graveType = modelBuilder.Entity<GraveTypeEntity>();
+        graveType.ToTable("GraveTypes", table => table.HasCheckConstraint("CK_GraveTypes_BurialForm", "[BurialForm] IN (N'EarthBurial', N'UrnBurial', N'Mixed')"));
+        ConfigureVersioned(graveType);
+        ConfigureNameAndCode(graveType);
+        graveType.Property(x => x.BurialForm).HasMaxLength(32).IsRequired();
+        graveType.Property(x => x.Note).HasMaxLength(2000);
+        graveType.HasIndex(x => x.NormalizedName).IsUnique();
+        graveType.HasIndex(x => x.NormalizedCode).IsUnique().HasFilter("[NormalizedCode] IS NOT NULL");
+
+        var assignment = modelBuilder.Entity<CemeteryGraveTypeEntity>();
+        assignment.ToTable("CemeteryGraveTypes");
+        ConfigureVersioned(assignment);
+        assignment.HasIndex(x => new { x.CemeteryId, x.GraveTypeId }).IsUnique();
+        assignment.HasOne<CemeteryEntity>().WithMany().HasForeignKey(x => x.CemeteryId).OnDelete(DeleteBehavior.NoAction);
+        assignment.HasOne<GraveTypeEntity>().WithMany().HasForeignKey(x => x.GraveTypeId).OnDelete(DeleteBehavior.NoAction);
+
+        var graveSite = modelBuilder.Entity<GraveSiteEntity>();
+        graveSite.ToTable("GraveSites", table =>
+        {
+            table.HasCheckConstraint("CK_GraveSites_Status", "[Status] IN (N'Available', N'Reserved', N'Occupied')");
+            table.HasCheckConstraint("CK_GraveSites_TargetCapacity", "[TargetCapacity] IS NULL OR [TargetCapacity] > 0");
+            table.HasCheckConstraint("CK_GraveSites_OptionalHierarchy", "([AreaId] IS NOT NULL OR ([FieldId] IS NULL AND [RowId] IS NULL)) AND ([FieldId] IS NOT NULL OR [RowId] IS NULL)");
+        });
+        ConfigureVersioned(graveSite);
+        graveSite.Property(x => x.GraveNumber).HasMaxLength(50).IsRequired();
+        graveSite.Property(x => x.NormalizedGraveNumber).HasMaxLength(50).IsRequired();
+        graveSite.Property(x => x.Status).HasMaxLength(32).IsRequired();
+        graveSite.Property(x => x.BlockNote).HasMaxLength(2000);
+        graveSite.Property(x => x.Note).HasMaxLength(2000);
+        graveSite.HasIndex(x => new { x.CemeteryId, x.NormalizedGraveNumber }).IsUnique()
+            .HasFilter("[AreaId] IS NULL AND [FieldId] IS NULL AND [RowId] IS NULL");
+        graveSite.HasIndex(x => new { x.CemeteryId, x.AreaId, x.NormalizedGraveNumber }).IsUnique()
+            .HasFilter("[AreaId] IS NOT NULL AND [FieldId] IS NULL AND [RowId] IS NULL");
+        graveSite.HasIndex(x => new { x.CemeteryId, x.AreaId, x.FieldId, x.NormalizedGraveNumber }).IsUnique()
+            .HasFilter("[AreaId] IS NOT NULL AND [FieldId] IS NOT NULL AND [RowId] IS NULL");
+        graveSite.HasIndex(x => new { x.CemeteryId, x.AreaId, x.FieldId, x.RowId, x.NormalizedGraveNumber }).IsUnique()
+            .HasFilter("[AreaId] IS NOT NULL AND [FieldId] IS NOT NULL AND [RowId] IS NOT NULL");
+        graveSite.HasOne(x => x.Cemetery).WithMany().HasForeignKey(x => x.CemeteryId).OnDelete(DeleteBehavior.NoAction);
+        graveSite.HasOne(x => x.Area).WithMany().HasForeignKey(x => x.AreaId).OnDelete(DeleteBehavior.NoAction);
+        graveSite.HasOne(x => x.Field).WithMany().HasForeignKey(x => x.FieldId).OnDelete(DeleteBehavior.NoAction);
+        graveSite.HasOne(x => x.Row).WithMany().HasForeignKey(x => x.RowId).OnDelete(DeleteBehavior.NoAction);
+        graveSite.HasOne(x => x.GraveType).WithMany().HasForeignKey(x => x.GraveTypeId).OnDelete(DeleteBehavior.NoAction);
+
+        var change = modelBuilder.Entity<CemeteryMasterDataChangeEntity>();
+        change.ToTable("CemeteryMasterDataChanges");
+        change.HasKey(x => x.Id);
+        change.Property(x => x.EntityKind).HasMaxLength(32).IsRequired();
+        change.Property(x => x.ActorId).HasMaxLength(200).IsRequired();
+        change.Property(x => x.ActorDisplayName).HasMaxLength(200).IsRequired();
+        change.Property(x => x.Operation).HasMaxLength(32).IsRequired();
+        change.HasIndex(x => new { x.EntityKind, x.EntityId, x.ResultingVersion }).IsUnique();
+    }
+
+    private static void ConfigureCemetery(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<CemeteryEntity> entity)
+    {
+        entity.ToTable("Cemeteries");
+        ConfigureVersioned(entity);
+        ConfigureNameAndCode(entity);
+        entity.Property(x => x.Address).HasMaxLength(500);
+        entity.Property(x => x.Note).HasMaxLength(2000);
+        entity.HasIndex(x => x.NormalizedName).IsUnique();
+        entity.HasIndex(x => x.NormalizedCode).IsUnique().HasFilter("[NormalizedCode] IS NOT NULL");
+    }
+
+    private static void ConfigureLevel<T>(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<T> entity, string table, string parentColumn, string parentTable) where T : CemeteryLevelEntity
+    {
+        entity.ToTable(table);
+        ConfigureVersioned(entity);
+        ConfigureNameAndCode(entity);
+        entity.Property(x => x.ParentId).HasColumnName(parentColumn);
+        entity.Property(x => x.Note).HasMaxLength(2000);
+        entity.HasIndex(x => new { x.ParentId, x.NormalizedName }).IsUnique();
+        entity.HasIndex(x => new { x.ParentId, x.NormalizedCode }).IsUnique().HasFilter("[NormalizedCode] IS NOT NULL");
+        entity.HasOne(parentTable == "Cemeteries" ? typeof(CemeteryEntity) : parentTable == "CemeteryAreas" ? typeof(CemeteryAreaEntity) : typeof(CemeteryFieldEntity))
+            .WithMany().HasForeignKey(nameof(CemeteryLevelEntity.ParentId)).OnDelete(DeleteBehavior.NoAction);
+    }
+
+    private static void ConfigureVersioned<T>(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<T> entity) where T : VersionedMasterDataEntity
+    {
+        entity.HasKey(x => x.Id);
+        entity.Property(x => x.IsActive).IsRequired();
+        entity.Property(x => x.Version).IsConcurrencyToken().IsRequired();
+    }
+
+    private static void ConfigureNameAndCode<T>(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<T> entity) where T : VersionedMasterDataEntity
+    {
+        entity.Property("Name").HasMaxLength(200).IsRequired();
+        entity.Property("NormalizedName").HasMaxLength(200).IsRequired();
+        entity.Property("Code").HasMaxLength(50);
+        entity.Property("NormalizedCode").HasMaxLength(50);
     }
 
     private static void ConfigureDeceasedPerson(ModelBuilder modelBuilder)

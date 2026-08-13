@@ -1,6 +1,9 @@
 # Arbeitsgrundlage für Bestands- und Bedarfsanalyse
 
-> **Gesamtstatus: UNBEKANNT / ZU PRÜFEN.** Dieses Dokument enthält Erhebungsfelder und offene Fragen, keine bestätigten Friedhofsfachanforderungen.
+> **Gesamtstatus: GEMISCHT.** Dieses Dokument enthält bestätigte
+> Produktentscheidungen für klar begrenzte synthetische Inkremente sowie
+> weiterhin offene Erhebungsfelder. Eine fachliche Abnahme durch die
+> Friedhofsverwaltung und eine Produktivfreigabe liegen noch nicht vor.
 
 ## Arbeitsweise
 
@@ -27,6 +30,12 @@ offene Fach-, Datenschutz-, Berechtigungs- oder Produktiventscheidung.
 Die am 13.08.2026 bestätigten Teilvorgaben und weiterhin offenen Gates für
 Identität, Rollen, Änderungsnachweis und On-Premises-Betrieb stehen in den
 [Produktvorgaben zu Identität, Rollen, Änderungsnachweis und Betrieb](identity-authorization-audit-decisions.md).
+Die für den nächsten synthetischen Produktinkrement bestätigte
+Friedhofsstruktur und ihre Grenzen stehen in den
+[Produktentscheidungen zu Friedhofsstruktur und Grabstättenstammdaten](cemetery-master-data-decisions.md).
+Der einfache technische Beisetzungsprozess für Inkrement 4b ist in den
+[Produktentscheidungen zum Beisetzungsprozess](burial-process-decisions.md)
+verbindlich abgegrenzt.
 
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -59,6 +68,11 @@ Identität, Rollen, Änderungsnachweis und On-Premises-Betrieb stehen in den
 | REQ-CASE-005 | BESTÄTIGT | Änderungen unmittelbar über vorhandene Suche und Detailansicht lesen | ADR-0009 | zweiter Development-Inkrement | Muss | kein separater manueller Projektionslauf |
 | REQ-CASE-006 | BESTÄTIGT | Konkurrierende Änderungen über eine monotone Fallversion erkennen und veraltete Schreibversuche ohne Teilwirkung ablehnen | technische Integritätsentscheidung 12.08.2026 | zweiter Development-Inkrement | Muss | HTTP-Vertrag über ETag/If-Match |
 | REQ-CASE-007 | BESTÄTIGT | Schreibpfad standardmäßig deaktivieren und nur explizit in Development für synthetische Daten zulassen | ADR-0009 | zweiter Development-Inkrement | Muss | kein Ersatz für produktive Authentifizierung, Autorisierung und Auditierung |
+| REQ-CEM-001 bis 009 | BESTÄTIGT FÜR 4a | Allgemein konfigurierbare Hierarchie `Friedhof → Bereich → Feld → Reihe → Grabstelle`, stabile IDs, kontextbezogene Eindeutigkeit, Umbenennung, Aktivierung und geschütztes Löschen | USR-2026-08-13-INCREMENT-4A | synthetischer Stammdateninkrement 4a | Muss | fachliche Abnahme durch Friedhofsverwaltung folgt nach vorstellbarem Produktstand |
+| REQ-GTYPE-001 bis 004 | BESTÄTIGT FÜR 4a | Leerer, durch beide Rollen pflegbarer Grabartenkatalog mit friedhofsbezogener Gültigkeit | USR-2026-08-13-INCREMENT-4A, Satzung-DK-2023 | synthetischer Stammdateninkrement 4a | Muss | keine kommunalen Werte oder Fristen fest einbauen |
+| REQ-GRAVE-001 bis 005 | BESTÄTIGT FÜR 4a | Grabnummer, Grabart, manueller Status, getrennte Sperre, optionale Soll-Kapazität und kanonischer Fallbezug | USR-2026-08-13-INCREMENT-4A | synthetischer Stammdateninkrement 4a | Muss | keine automatische Nummerierung, Kapazitäts- oder Belegungsberechnung |
+| REQ-BUR-001 bis 009 | BESTÄTIGT FÜR 4b | Einfacher Beisetzungsprozess von Entwurf bis Abschluss mit Person, kanonischer Grabstelle, Planungs-/Durchführungstag, kontrollierten Rückschritten und atomarer Grabstellenstatuskopplung | USR-2026-08-13-INCREMENT-4B | synthetischer Beisetzungsinkrement 4b | Muss | fachliche Abnahme durch Friedhofsverwaltung bleibt offen; keine Unterlagen, Ressourcen oder Kollisionen |
+| REQ-DUP-002 | BESTÄTIGT FÜR 4b | Serverseitiger Hinweis auf mögliche Personendubletten mit ausdrücklich bestätigtem zweiten Schreibversuch | USR-2026-08-13-INCREMENT-4B | Personenanlage innerhalb der synthetischen Fallakte | Muss | Hinweis statt dauerhaftem Verbot; keine globale Dublettenfreigabe |
 
 ## 1. Projektziel
 
@@ -177,11 +191,9 @@ liegt in der IT-Abteilung; fachliche Stammdaten pflegen auch Sachbearbeiter
 
 ## 5. Stammdaten
 
-**Status:** Die fachliche Stammdatenpflege durch Sachbearbeiter ist
-`BESTÄTIGT` (`INT-012`, `INT-013`, Konfidenz hoch). Belegt sind
-Friedhöfe/Felder, Grabarten, Gebührenarten/-sätze, allgemeine Adressen und
-Auswahllisten. Weitere Stammdaten sowie Freigabe und Historisierung bleiben
-`OFFEN`.
+**Status:** Friedhofsstruktur, Grabarten und Grabstellen sind für den
+synthetischen Inkrement 4a `BESTÄTIGT`. Die fachliche Abnahme durch die
+Friedhofsverwaltung und weitere Stammdaten bleiben `OFFEN`.
 
 Im Erhebungskontext bezeichnet „Stammdaten“ relativ dauerhafte fachliche Grund-
 und Katalogdaten, nicht einzelne Beisetzungsfälle. Das EDWALT-Handbuch nennt als
@@ -196,6 +208,12 @@ Pflege oder einer späteren Cemaris-Ausgestaltung.
 - BESTÄTIGT: Die IT besitzt nicht die fachliche Kenntnis über die lokalen
   Friedhofsinhalte; technische Betreuung ist keine fachliche Datenhoheit
   (`INT-013`).
+- BESTÄTIGT FÜR 4a: Beide Rollen pflegen Friedhofsstruktur und Grabarten als
+  fachliche Stammdaten. Nur `Administration` darf unbenutzte Stammdaten
+  physisch löschen; verwendete Werte werden ausschließlich deaktiviert.
+- BESTÄTIGT FÜR 4a: Umbenennungen gelten unmittelbar, ohne fachliche
+  Namenshistorie. Stabile IDs und der datensparsame Änderungsnachweis bleiben
+  erhalten.
 - OFFEN: Welche weiteren Kataloge, Schlüssel, Nummernkreise und
   organisatorischen Daten werden benötigt?
 - OFFEN: Wer genehmigt und historisiert Änderungen an fachlichen Stammdaten?
@@ -205,13 +223,19 @@ Pflege oder einer späteren Cemaris-Ausgestaltung.
 
 ## 6. Friedhofsstruktur
 
-**Status:** UNBEKANNT. Keine Grabarten oder Hierarchieregeln sind festgelegt.
+**Status:** Für Inkrement 4a `BESTÄTIGT`; spätere örtliche Fachabnahme bleibt
+erforderlich.
 
-- OFFEN: Wie werden Friedhöfe, Bereiche, Felder, Reihen und Grabstellen tatsächlich strukturiert?
-- OFFEN: Welche Ebenen sind verpflichtend, optional oder lokal abweichend?
-- OFFEN: Welche Identifikatoren, Bezeichnungen, Lageinformationen und Statuswerte existieren?
-- OFFEN: Welche räumlichen Beziehungen und historischen Änderungen müssen abgebildet werden?
-- OFFEN: Welche Anforderungen bestehen an Karten, Koordinaten, GIS oder mobile Nutzung?
+- BESTÄTIGT: Hierarchie `Friedhof → Bereich → Feld → Reihe → Grabstelle`;
+  Friedhof und Grabstelle verpflichtend, Zwischenebenen eigenständig optional.
+- BESTÄTIGT: serverseitige stabile GUIDs; Friedhof systemweit eindeutig,
+  untergeordnete Bezeichnungen und Grabnummer nur in ihrem Elternpfad.
+- BESTÄTIGT: Belegungsstatus `Frei`, `Reserviert`, `Belegt`; Sperrung als
+  unabhängiges Merkmal; Statusänderungen in 4a ausschließlich manuell.
+- BESTÄTIGT: Grabarten sind frei konfigurierbar und je Friedhof aktivierbar;
+  der lokale Satzungskatalog wird nicht global fest eingebaut.
+- OFFEN: automatische Nummerierung, Kapazitätsprüfung, Schließung,
+  Entwidmung, Umnummerierung, Karten, Koordinaten, GIS und mobile Nutzung.
 
 ## 7. Personen
 
@@ -235,13 +259,28 @@ Pflege oder einer späteren Cemaris-Ausgestaltung.
 
 ## 9. Beisetzungen
 
-**Status:** UNBEKANNT.
+**Status:** Der einfache synthetische Prozess für Inkrement 4b ist durch
+`USR-2026-08-13-INCREMENT-4B` bestätigt. Die fachliche Abnahme durch die
+Friedhofsverwaltung bleibt `OFFEN`.
 
-- OFFEN: Welche Arten und Prozessvarianten müssen unterschieden werden?
-- OFFEN: Welche Planung, Termine, Ressourcen, Nachweise und Statusübergänge existieren?
-- OFFEN: Welche Prüfungen erfolgen vor, während und nach einer Beisetzung?
+- BESTÄTIGT FÜR 4b: einfacher Ablauf `Entwurf → Geplant → Bestätigt →
+  Durchgeführt → Abgeschlossen` mit den dokumentierten kontrollierten
+  Rückschritten; keine weiteren Prozessvarianten.
+- BESTÄTIGT FÜR 4b: Planungstag und tatsächlicher Beisetzungstag werden als
+  Kalendertage ohne Uhrzeit erfasst; keine Ressourcen- oder Kollisionsprüfung.
+- BESTÄTIGT FÜR 4b: keine Unterlagen, Checklisten oder EDWALT-Prozessschritte.
 - OFFEN: Welche Änderungen, Umbettungen oder Stornierungen sind möglich?
 - OFFEN: Welche Dokumente, Gebühren und DMS-Vorgänge werden ausgelöst?
+- BESTÄTIGT FÜR 4b: mehrere Verstorbene und Beisetzungen je Fall; jede neue
+  Beisetzung gehört genau zu einer verstorbenen Person und einer Grabstelle;
+  höchstens eine Beisetzung je verstorbener Person in diesem Ausbaustand.
+- BESTÄTIGT FÜR 4b: beide Rollen dürfen Fachschritte ausführen; kontrollierte
+  Korrekturen sind zulässig; Storno und Umbettung werden nicht implementiert.
+- BESTÄTIGT FÜR 4b: sofern Werte vorliegen gilt Geburt ≤ Tod ≤ ausgeführte
+  Beisetzung; nur ein Planungstermin darf in der Zukunft liegen.
+- BESTÄTIGT FÜR 4b: Bestätigung reserviert eine freie Grabstelle;
+  Durchführung setzt eine freie oder reservierte Grabstelle auf belegt.
+  Rückschritte stufen den Grabstatus niemals automatisch zurück.
 
 ## 10. Nutzungsrechte
 
@@ -455,6 +494,11 @@ Schlüssel und Zieldatenmodell sind weiterhin nicht verstanden.
 
 **Status:** ZU PRÜFEN mit Datenschutzverantwortlichen.
 
+- MITGETEILT: Die Projektverantwortung gibt eine lokale Datenschutzfreigabe
+  an. Dokument, Geltungsbereich und verantwortliche Stelle sind im Repository
+  nicht belegt. Die Angabe ist nicht auf andere Open-Source-Betreiber
+  übertragbar und hebt die Synthetik-/Development-Grenze nicht auf.
+
 - Zwecke, Rechtsgrundlagen, Datenkategorien und betroffene Personen je Verarbeitung erfassen.
 - OFFEN: Welche Daten sind zwingend, optional oder unzulässig?
 - OFFEN: Welche Informations-, Auskunfts-, Berichtigungs- und Löschprozesse gelten?
@@ -471,6 +515,8 @@ Schlüssel und Zieldatenmodell sind weiterhin nicht verstanden.
 - OFFEN: Welche Daten müssen dauerhaft nachvollziehbar, gesperrt oder archiviert bleiben?
 - OFFEN: Wie wirken DMS-Aufbewahrung und Cemaris-Löschung zusammen?
 - OFFEN: Welche Anforderungen bestehen an Backupkopien und Wiederherstellung?
+- VORLÄUFIGE GRENZE: Bis zu einer fachlich und rechtlich bestätigten Regel
+  erfolgt keine automatische Löschung oder Fristberechnung.
 
 ## 23. Auditierung
 
@@ -510,7 +556,8 @@ Schlüssel und Zieldatenmodell sind weiterhin nicht verstanden.
 
 Zentrale, noch unbeantwortete Beispiele:
 
-- OFFEN: Welche Grabarten werden benötigt?
+- GEKLÄRT FÜR 4a: Grabarten sind frei konfigurierbar; kommunale Katalogwerte
+  werden nicht fest eingebaut.
 - OFFEN: Wie wird die Ruhefrist bestimmt?
 - OFFEN: Können mehrere Verstorbene einer Grabstelle zugeordnet sein und unter welchen fachlichen Regeln?
 - OFFEN: Welche Gebührenpositionen existieren?
@@ -523,7 +570,7 @@ Weitere Fragen erhalten eine ID und werden bis zur Klärung nicht als Produktreg
 
 | Frage-ID | Themenbereich | Frage | Verantwortlich | Zieltermin | Status | Ergebnis / Quelle |
 | --- | --- | --- | --- | --- | --- | --- |
-| OQ-001 | Friedhofsstruktur | Welche Grabarten werden benötigt? | OFFEN | OFFEN | OFFEN | – |
+| OQ-001 | Friedhofsstruktur | Welche Grabarten werden benötigt? | Projektverantwortung | 13.08.2026 | GEKLÄRT FÜR 4a | frei konfigurierbarer leerer Katalog; Satzung-DK-2023 nur lokale Evidenz |
 
 ## 27. Produktinkremente
 
@@ -545,4 +592,6 @@ Bewertungskriterien:
 | --- | --- | --- | --- | --- | --- | --- |
 | lesende Suche und Detailansicht | REQ-MVP-001 bis 004 | kontrollierter zusammenhängender Lesezugriff | synthetische Daten beziehungsweise späterer Testimport | sensible Vollsicht; noch keine Produktivfreigabe | umgesetzt | technisch abgeschlossen, fachliche Abnahme später |
 | schreibende Fallakten-Grundlage | Projektentscheidung 12.08.2026; vorhandene bestätigte Lesefelder | erster durchgängiger Anlage-/Änderungsweg ohne Fachableitungen | Feature-Grenze, Nebenläufigkeit, Persistenz, API und UI | ohne Identität/Audit nicht produktiv zulässig | umgesetzt | technisch abgeschlossen gemäß `case-record-write-decisions.md`; Development-only, synthetisch, keine Produktivfreigabe |
+| einfacher Beisetzungsprozess 4b | USR-2026-08-13-INCREMENT-4B | vorstellbarer Ablauf von Entwurf bis Abschluss mit kontrollierter Korrektur | kanonische Personen-/Grabstellenbezüge und 4a-Sicherheitsgrundlage | spätere fachliche Verwaltungsabnahme; keine Ressourcen-, Unterlagen- oder Fristlogik | FREIGEGEBEN ZUR TECHNISCHEN UMSETZUNG | verbindlicher Auftrag in `cemaris-increment-4b-next-step-handoff.md` |
 | vollständiger Beisetzungs- und Rechteprozess | INT-008/009, offene P0-Fragen | zentraler Fachprozess | Anwenderinterview, Rollen-, Frist-, Satzungs- und Historienregeln | sehr hoch bei geratenen Regeln | OFFEN | noch nicht implementieren |
+| Friedhofsstruktur und Grabstättenstammdaten 4a | USR-2026-08-13-INCREMENT-4A, Satzung-DK-2023 | kanonische frei konfigurierbare Struktur statt freier Falltexte | bestehende Identitäts-/Policy-/Auditgrundlage | fachliche Abnahme folgt; Löschung und Referenzen sicher begrenzt | umgesetzt | technisch Ende zu Ende mit synthetischen Daten umgesetzt; keine Produktivfreigabe |

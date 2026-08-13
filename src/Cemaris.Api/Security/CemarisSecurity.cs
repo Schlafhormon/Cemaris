@@ -7,6 +7,7 @@ public static class CemarisPolicies
 {
     public const string CaseWork = "CaseWork";
     public const string MasterData = "MasterData";
+    public const string MasterDataDeletion = "MasterDataDeletion";
     public const string UserAdministration = "UserAdministration";
     public const string ProgramConfiguration = "ProgramConfiguration";
     public const string FormTemplates = "FormTemplates";
@@ -16,6 +17,7 @@ public static class CemarisPolicies
         {
             [CaseWork] = SystemRole.All,
             [MasterData] = SystemRole.All,
+            [MasterDataDeletion] = [SystemRole.Administration],
             [UserAdministration] = [SystemRole.Administration],
             [ProgramConfiguration] = [SystemRole.Administration],
             [FormTemplates] = [SystemRole.Administration],

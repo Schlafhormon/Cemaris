@@ -23,9 +23,9 @@ public sealed class EfCaseReadStore(CemarisDbContext dbContext) : ICaseReadStore
             .Select(item => new
             {
                 item.Id,
-                Cemetery = item.Grave == null ? null : item.Grave.Cemetery,
-                Field = item.Grave == null ? null : item.Grave.Field,
-                GraveNumber = item.Grave == null ? null : item.Grave.GraveNumber,
+                Cemetery = item.Grave == null ? null : item.Grave.GraveSite != null ? item.Grave.GraveSite.Cemetery.Name : item.Grave.Cemetery,
+                Field = item.Grave == null ? null : item.Grave.GraveSite != null ? item.Grave.GraveSite.Field == null ? null : item.Grave.GraveSite.Field.Name : item.Grave.Field,
+                GraveNumber = item.Grave == null ? null : item.Grave.GraveSite != null ? item.Grave.GraveSite.GraveNumber : item.Grave.GraveNumber,
                 ExactMatchCount =
                     (filters.Name != null && item.DeceasedPersons.Any(person =>
                         person.LastName != null
@@ -38,12 +38,12 @@ public sealed class EfCaseReadStore(CemarisDbContext dbContext) : ICaseReadStore
                     + (filters.DeathDate != null && item.DeceasedPersons.Any(person =>
                         person.DeathDate == filters.DeathDate) ? 1 : 0)
                     + (filters.Cemetery != null && item.Grave != null
-                        && item.Grave.Cemetery.Trim().ToUpper() == filters.Cemetery ? 1 : 0)
-                    + (filters.Field != null && item.Grave != null && item.Grave.Field != null
-                        && item.Grave.Field.Trim().ToUpper() == filters.Field ? 1 : 0)
+                        && (item.Grave.GraveSite != null ? item.Grave.GraveSite.Cemetery.Name : item.Grave.Cemetery).Trim().ToUpper() == filters.Cemetery ? 1 : 0)
+                    + (filters.Field != null && item.Grave != null && (item.Grave.GraveSite != null ? item.Grave.GraveSite.Field == null ? null : item.Grave.GraveSite.Field.Name : item.Grave.Field) != null
+                        && (item.Grave.GraveSite != null ? item.Grave.GraveSite.Field!.Name : item.Grave.Field!).Trim().ToUpper() == filters.Field ? 1 : 0)
                     + (filters.GraveNumber != null && item.Grave != null
-                        && item.Grave.GraveNumber != null
-                        && item.Grave.GraveNumber.Trim().ToUpper() == filters.GraveNumber ? 1 : 0)
+                        && (item.Grave.GraveSite != null ? item.Grave.GraveSite.GraveNumber : item.Grave.GraveNumber) != null
+                        && (item.Grave.GraveSite != null ? item.Grave.GraveSite.GraveNumber : item.Grave.GraveNumber!).Trim().ToUpper() == filters.GraveNumber ? 1 : 0)
                     + (filters.BurialDate != null && item.Burials.Any(burial =>
                         burial.BurialDate == filters.BurialDate) ? 1 : 0)
                     + (filters.EntitledPerson != null && item.EntitledPersons.Any(person =>
@@ -88,12 +88,12 @@ public sealed class EfCaseReadStore(CemarisDbContext dbContext) : ICaseReadStore
                     + (filters.DeathDate != null && item.DeceasedPersons.Any(person =>
                         person.DeathDate == filters.DeathDate) ? 1 : 0)
                     + (filters.Cemetery != null && item.Grave != null
-                        && item.Grave.Cemetery.Trim().ToUpper().StartsWith(filters.Cemetery) ? 1 : 0)
-                    + (filters.Field != null && item.Grave != null && item.Grave.Field != null
-                        && item.Grave.Field.Trim().ToUpper().StartsWith(filters.Field) ? 1 : 0)
+                        && (item.Grave.GraveSite != null ? item.Grave.GraveSite.Cemetery.Name : item.Grave.Cemetery).Trim().ToUpper().StartsWith(filters.Cemetery) ? 1 : 0)
+                    + (filters.Field != null && item.Grave != null && (item.Grave.GraveSite != null ? item.Grave.GraveSite.Field == null ? null : item.Grave.GraveSite.Field.Name : item.Grave.Field) != null
+                        && (item.Grave.GraveSite != null ? item.Grave.GraveSite.Field!.Name : item.Grave.Field!).Trim().ToUpper().StartsWith(filters.Field) ? 1 : 0)
                     + (filters.GraveNumber != null && item.Grave != null
-                        && item.Grave.GraveNumber != null
-                        && item.Grave.GraveNumber.Trim().ToUpper().StartsWith(filters.GraveNumber) ? 1 : 0)
+                        && (item.Grave.GraveSite != null ? item.Grave.GraveSite.GraveNumber : item.Grave.GraveNumber) != null
+                        && (item.Grave.GraveSite != null ? item.Grave.GraveSite.GraveNumber : item.Grave.GraveNumber!).Trim().ToUpper().StartsWith(filters.GraveNumber) ? 1 : 0)
                     + (filters.BurialDate != null && item.Burials.Any(burial =>
                         burial.BurialDate == filters.BurialDate) ? 1 : 0)
                     + (filters.EntitledPerson != null && item.EntitledPersons.Any(person =>
@@ -138,12 +138,12 @@ public sealed class EfCaseReadStore(CemarisDbContext dbContext) : ICaseReadStore
                     + (filters.DeathDate == null ? 0 : item.DeceasedPersons.Count(person =>
                         person.DeathDate == filters.DeathDate))
                     + (filters.Cemetery != null && item.Grave != null
-                        && item.Grave.Cemetery.Trim().ToUpper().Contains(filters.Cemetery) ? 1 : 0)
-                    + (filters.Field != null && item.Grave != null && item.Grave.Field != null
-                        && item.Grave.Field.Trim().ToUpper().Contains(filters.Field) ? 1 : 0)
+                        && (item.Grave.GraveSite != null ? item.Grave.GraveSite.Cemetery.Name : item.Grave.Cemetery).Trim().ToUpper().Contains(filters.Cemetery) ? 1 : 0)
+                    + (filters.Field != null && item.Grave != null && (item.Grave.GraveSite != null ? item.Grave.GraveSite.Field == null ? null : item.Grave.GraveSite.Field.Name : item.Grave.Field) != null
+                        && (item.Grave.GraveSite != null ? item.Grave.GraveSite.Field!.Name : item.Grave.Field!).Trim().ToUpper().Contains(filters.Field) ? 1 : 0)
                     + (filters.GraveNumber != null && item.Grave != null
-                        && item.Grave.GraveNumber != null
-                        && item.Grave.GraveNumber.Trim().ToUpper().Contains(filters.GraveNumber) ? 1 : 0)
+                        && (item.Grave.GraveSite != null ? item.Grave.GraveSite.GraveNumber : item.Grave.GraveNumber) != null
+                        && (item.Grave.GraveSite != null ? item.Grave.GraveSite.GraveNumber : item.Grave.GraveNumber!).Trim().ToUpper().Contains(filters.GraveNumber) ? 1 : 0)
                     + (filters.BurialDate == null ? 0 : item.Burials.Count(burial =>
                         burial.BurialDate == filters.BurialDate))
                     + (filters.EntitledPerson == null ? 0
@@ -249,19 +249,19 @@ public sealed class EfCaseReadStore(CemarisDbContext dbContext) : ICaseReadStore
         if (filters.Cemetery is not null)
         {
             query = query.Where(item => item.Grave != null
-                && item.Grave.Cemetery.Trim().ToUpper().Contains(filters.Cemetery));
+                && (item.Grave.GraveSite != null ? item.Grave.GraveSite.Cemetery.Name : item.Grave.Cemetery).Trim().ToUpper().Contains(filters.Cemetery));
         }
 
         if (filters.Field is not null)
         {
-            query = query.Where(item => item.Grave != null && item.Grave.Field != null
-                && item.Grave.Field.Trim().ToUpper().Contains(filters.Field));
+            query = query.Where(item => item.Grave != null && (item.Grave.GraveSite != null ? item.Grave.GraveSite.Field == null ? null : item.Grave.GraveSite.Field.Name : item.Grave.Field) != null
+                && (item.Grave.GraveSite != null ? item.Grave.GraveSite.Field!.Name : item.Grave.Field!).Trim().ToUpper().Contains(filters.Field));
         }
 
         if (filters.GraveNumber is not null)
         {
-            query = query.Where(item => item.Grave != null && item.Grave.GraveNumber != null
-                && item.Grave.GraveNumber.Trim().ToUpper().Contains(filters.GraveNumber));
+            query = query.Where(item => item.Grave != null && (item.Grave.GraveSite != null ? item.Grave.GraveSite.GraveNumber : item.Grave.GraveNumber) != null
+                && (item.Grave.GraveSite != null ? item.Grave.GraveSite.GraveNumber : item.Grave.GraveNumber!).Trim().ToUpper().Contains(filters.GraveNumber));
         }
 
         if (filters.BurialDate is not null)
@@ -310,6 +310,11 @@ public sealed class EfCaseReadStore(CemarisDbContext dbContext) : ICaseReadStore
             .AsNoTracking()
             .AsSplitQuery()
             .Include(item => item.Grave)
+                .ThenInclude(item => item!.GraveSite)
+                    .ThenInclude(item => item!.Cemetery)
+            .Include(item => item.Grave)
+                .ThenInclude(item => item!.GraveSite)
+                    .ThenInclude(item => item!.Field)
             .Include(item => item.DeceasedPersons)
             .Include(item => item.Burials)
             .Include(item => item.UsageRights)
@@ -333,9 +338,10 @@ public sealed class EfCaseReadStore(CemarisDbContext dbContext) : ICaseReadStore
             entity.IsSynthetic,
             entity.Version,
             new GraveDetails(
-                entity.Grave?.Cemetery,
-                entity.Grave?.Field,
-                entity.Grave?.GraveNumber),
+                entity.Grave?.GraveSite?.Cemetery.Name ?? entity.Grave?.Cemetery,
+                entity.Grave?.GraveSite?.Field?.Name ?? entity.Grave?.Field,
+                entity.Grave?.GraveSite?.GraveNumber ?? entity.Grave?.GraveNumber,
+                entity.Grave?.GraveSiteId),
             entity.DeceasedPersons
                 .Select(item => new DeceasedDetails(
                     item.Id,

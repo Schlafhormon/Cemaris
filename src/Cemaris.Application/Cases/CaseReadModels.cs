@@ -24,7 +24,8 @@ public sealed record LastCaseChangeDetails(
 public sealed record GraveDetails(
     string? Cemetery,
     string? Field,
-    string? GraveNumber);
+    string? GraveNumber,
+    Guid? GraveSiteId = null);
 
 public sealed record DeceasedDetails(
     Guid Id,

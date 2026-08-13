@@ -1048,3 +1048,28 @@
     transition-duration: 0.01ms !important;
   }
 }
+.master-list {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.master-row {
+  align-items: center;
+  background: var(--surface-subtle, #f5f7f6);
+  border-radius: 0.45rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 0.7rem;
+}
+
+.master-row > span:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.master-row small {
+  color: var(--text-muted, #53605a);
+}
