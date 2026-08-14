@@ -23,6 +23,9 @@ TestResults/
 coverage/
 output/
 
+# Local runtime and manual test logs
+tmp/
+
 # Operating system files
 .DS_Store
 Thumbs.db

@@ -59,7 +59,10 @@ Das Entscheidungsgate 5a ist geschlossen. Inkrement 5b ist gemäß
 [Abschlussdokumentation](cemaris-increment-5b-completion.md) als manueller,
 historisierbarer Beteiligten-/Nutzungsrechtskern technisch umgesetzt und
 gegen `CEMARISDEV` verifiziert. Frist-, Status-, Beendigungs- und
-Wiedervorlagenregeln wurden dabei bewusst nicht vorweggenommen.
+Wiedervorlagenregeln wurden dabei bewusst nicht vorweggenommen. Die
+anschließende manuelle Bedienrunde führte ausschließlich zu dokumentierten
+Design-, Navigations- und Suchpaginationverbesserungen; sie änderte keine
+5b-Fachregel.
 
 ## Verbindliche Entwicklungsregel
 
@@ -80,7 +83,7 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 4a | Friedhofsstruktur und Grabstättenstammdaten | technisch umgesetzt: frei konfigurierbare Hierarchie, Grabarten, Grabstellen, Status und kanonischer Fallbezug | technische Abnahme erfüllt; fachliche Vorstellung/Abnahme folgt |
 | 4b | Einfacher Beisetzungsprozess | technisch umgesetzt: Zustandslauf, kontrollierte Korrektur, Dublettenhinweis und atomare Grabstellenkopplung | technische Abnahme erfüllt; fachliche Verwaltungsabnahme bleibt offen |
 | 5a | Entscheidungsgate für Personenrollen, Nutzungsrechte, Ruhefristen und Wiedervorlagen | abgeschlossen: Evidenz und bestätigte Produktentscheidungen trennen den manuellen 5b-Kern von offenen Automatiken | keine technische, fachliche oder produktive Freigabe |
-| 5b | manueller Beteiligten-/Nutzungsrechtskern | technisch umgesetzt: kanonische Beteiligte, Adress-/Inhaberhistorie, manuelle Rechteänderungen und konfigurierbarer Startbezug | technische Abnahme erfüllt; fachliche Vorstellung, Datenschutz und Betrieb offen |
+| 5b | manueller Beteiligten-/Nutzungsrechtskern | technisch umgesetzt: kanonische Beteiligte, Adress-/Inhaberhistorie, manuelle Rechteänderungen, konfigurierbarer Startbezug sowie nachgelagerte UI-, Navigations- und Suchpaginationverbesserungen | technische Abnahme erfüllt; fachliche Vorstellung, Datenschutz und Betrieb offen |
 | 5c | fachliches Abnahme- und Lebenszyklus-Entscheidungsgate | synthetische 5b-Vorstellung, Befundprotokoll und bestätigter kleinster Folgeumfang | keine Implementierung offener Frist-, Status- oder Beendigungsregeln |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |

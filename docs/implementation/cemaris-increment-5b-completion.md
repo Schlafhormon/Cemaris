@@ -115,6 +115,26 @@ Beschriftungen, Statusmeldungen, Formularbeziehungen und Konflikthinweise
 sind barrierearm aufgebaut. Die nullable Altprojektionen bleiben sichtbar,
 aber klar vom kanonischen 5b-Kern getrennt.
 
+## Nachgelagerte Bedien- und Suchverbesserungen
+
+Die anschließende manuelle Erprobung führte zu technischen
+Bediennachbesserungen, ohne den bestätigten 5b-Fachumfang zu erweitern:
+
+- ein durchgängiges, responsives Erscheinungsbild für Login, Suche,
+  Falldetail, Fallbearbeitung, Stammdaten, Benutzerverwaltung und
+  Startregelpflege;
+- gruppierte, tastaturbedienbare Dropdownnavigation mit erweiterbaren
+  Bereichen für Übersicht, Fallakten, Stammdaten, Administration und Konto;
+- besser auffindbare Falldetails über die Trefferliste;
+- stabile serverseitige Suchpagination für Synthetic und EF/SQL mit
+  `page` und `pageSize`, direkter Seitenauswahl, Vor-/Zurück-Navigation und
+  fünf oder zehn Treffern pro Seite;
+- URL-Erhalt von Suchfiltern, Seite und Seitengröße sowie Rücksprung auf die
+  erste Seite nach einer Filter- oder Seitengrößenänderung.
+
+Diese Folgeanpassungen ändern keine Identität, Historie, Berechtigung,
+Fristregel oder sonstige fachliche 5b-Semantik.
+
 ## Technische Verifikation
 
 Die vollständige Abschlussprüfung am 14.08.2026 ergab:
@@ -143,6 +163,16 @@ Inhaber- und Revisionshistorie, sparsamen Audit, erzwungenen atomaren
 Rollback sowie ein gleichzeitig freigegebenes Unique-Index-Rennen zweier
 Anlagen auf derselben Grabstelle. Die prozesslokale Verbindungsvariable wurde
 im `finally`-Pfad entfernt; ihr Wert wurde nicht ausgegeben oder dokumentiert.
+
+Die Nachprüfung der Bedien- und Suchverbesserungen ergab zusätzlich einen
+Release-Build mit null Warnungen und null Fehlern, 32 bestandene Unit-Tests,
+48 bestandene reguläre Integrationstests, 14 bestandene Frontendtests in vier
+Testdateien, erfolgreiche Format-, Lint- und Produktionsbuildprüfungen sowie
+einen direkten synthetischen Laufzeittest mit 15 Treffern auf drei getrennten
+Seiten. OpenAPI weist `Page` und `PageSize` am Suchendpunkt aus. Die reale
+SQL-Suite wurde während der anschließenden laufenden manuellen Sitzung nicht
+erneut ausgeführt; die oben dokumentierte reale SQL-Prüfung des 5b-Kerns
+bleibt davon unberührt.
 
 ## Bewusste Grenzen
 

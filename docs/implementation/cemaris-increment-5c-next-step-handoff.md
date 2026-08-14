@@ -18,6 +18,29 @@ Entscheidung sein, dass noch keine Implementierung sicher ist.
 
 ## Verbindlicher Ausgangsstand
 
+Der letzte committed Ausgangsstand beim Aktualisieren dieser Übergabe war:
+
+- Branch `main`;
+- HEAD `85b5bbb6aa4fd813ca3c3625e22dcf9de899c826`;
+- Upstream `origin/main`;
+- Ahead/Behind `0/0`;
+- sauberer Index und Arbeitsbaum.
+
+Danach wurden ausschließlich folgende vorbereitete
+Dokumentations-/Repository-Hygieneänderungen angelegt und sind als
+verbindlicher Eingang zu erhalten:
+
+- `tmp/` wird in `.gitignore` als lokales Laufzeitverzeichnis ignoriert;
+- acht versehentlich mit 5b committed Laufzeitprotokolle unter `tmp/` sind
+  zur Entfernung vorgemerkt; sie bleiben über Git wiederherstellbar;
+- die 5b-Abschlussdokumentation, dieser 5c-Auftrag und der
+  Implementierungsindex berücksichtigen die nachgelagerten UI-, Navigations-
+  und Suchpaginationverbesserungen.
+
+Falls der tatsächliche Git-Stand davon abweicht, untersuche die Abweichung
+vollständig und setze nicht auf den genannten Hash zurück. Überschreibe,
+verwerfe, stage oder committe keine fremde Arbeit.
+
 Arbeite ausschließlich im Repository
 `C:\Users\Benke\Documents\Friedhofsverwaltung\Cemaris`. Lies zuerst
 vollständig:
@@ -43,6 +66,14 @@ Für .NET darf ausschließlich
 verwendet werden. Ein technischer Baseline-Lauf ist erlaubt, Änderungen an
 Produktcode, Migration, API oder React sind in 5c nicht erlaubt.
 
+Beim Abschluss der letzten manuellen Sitzung waren API und Frontend beendet;
+die Ports `5050` und `5173` waren frei. Eine ausschließlich synthetische
+manuelle 5b-Datenbank kann auf der freigegebenen lokalen SQL-Instanz noch
+vorhanden sein. Vorhandene Datenbanken niemals auf Verdacht löschen oder
+verändern. Für eine erneute Sitzung dürfen Verbindungswerte ausschließlich
+prozesslokal gesetzt und weder ausgegeben noch in Logs, Quellcode oder
+Dokumentation geschrieben werden.
+
 ## Daten- und Quellgrenzen
 
 - Nur vollständig synthetische Demonstrationsdaten verwenden.
@@ -58,6 +89,12 @@ Produktcode, Migration, API oder React sind in 5c nicht erlaubt.
 - Keine Phase-5-Wurzel oder anderen externen Arbeitsbereiche anlegen.
 
 ## Manuelle 5b-Vorführung
+
+Aus der ersten manuellen Bedienrunde sind folgende technische Befunde bereits
+behoben und nur noch auf Regression zu prüfen: Auffindbarkeit der
+Falldetailansicht über die Suche, uneinheitliches Seitenstyling, eine zu volle
+Menüleiste sowie fehlende Navigation über mehrere Suchergebnisseiten. Diese
+Punkte sind keine bestätigten fachlichen Lebenszyklusentscheidungen.
 
 Aktiviere die vier Development-Capabilities nur prozesslokal mit Synthetic.
 Prüfe mit je einem synthetischen Konto für `Sachbearbeitung` und
@@ -110,6 +147,11 @@ werden. Mindestens zu klären sind:
 Die in der 5a-Evidenz dokumentierten Widersprüche, insbesondere Verlängerung
 „nach Ablauf“ gegenüber Verlängerung vor weiterer Beisetzung, dürfen nicht
 still aufgelöst werden.
+
+Kann eine der Fragen nicht anhand der Pflichtlektüre und ausdrücklich
+freigegebener Evidenz beantwortet werden, lege dem Benutzer einen kompakten,
+nummerierten Entscheidungsblock vor. Ohne dessen Antwort bleibt die Frage
+`OFFEN`; eine Fachregel darf weder geraten noch implementiert werden.
 
 ## Erwartete Ergebnisse
 
