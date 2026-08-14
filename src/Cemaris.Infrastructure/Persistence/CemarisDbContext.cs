@@ -1,5 +1,6 @@
 using Cemaris.Infrastructure.Persistence.Cemeteries;
 using Cemaris.Infrastructure.Persistence.Identity;
+using Cemaris.Infrastructure.Persistence.PersonUsageRights;
 using Cemaris.Infrastructure.Persistence.ReadModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +37,15 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
     public DbSet<CemeteryGraveTypeEntity> CemeteryGraveTypes => Set<CemeteryGraveTypeEntity>();
     public DbSet<GraveSiteEntity> GraveSites => Set<GraveSiteEntity>();
     public DbSet<CemeteryMasterDataChangeEntity> CemeteryMasterDataChanges => Set<CemeteryMasterDataChangeEntity>();
+    public DbSet<PartyEntity> Parties => Set<PartyEntity>();
+    public DbSet<PartyAddressEntity> PartyAddresses => Set<PartyAddressEntity>();
+    public DbSet<PartyRevisionEntity> PartyRevisions => Set<PartyRevisionEntity>();
+    public DbSet<UsageRightEntity> CanonicalUsageRights => Set<UsageRightEntity>();
+    public DbSet<UsageRightHolderPeriodEntity> UsageRightHolderPeriods => Set<UsageRightHolderPeriodEntity>();
+    public DbSet<UsageRightRevisionEntity> UsageRightRevisions => Set<UsageRightRevisionEntity>();
+    public DbSet<UsageRightStartRuleEntity> UsageRightStartRules => Set<UsageRightStartRuleEntity>();
+    public DbSet<UsageRightStartRuleRevisionEntity> UsageRightStartRuleRevisions => Set<UsageRightStartRuleRevisionEntity>();
+    public DbSet<PersonUsageRightAuditEntity> PersonUsageRightAudits => Set<PersonUsageRightAuditEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -52,6 +62,40 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
         ConfigureNotice(modelBuilder);
         ConfigureDataQualityNote(modelBuilder);
         ConfigureCemeteryMasterData(modelBuilder);
+        ConfigurePersonUsageRights(modelBuilder);
+    }
+
+    private static void ConfigurePersonUsageRights(ModelBuilder modelBuilder)
+    {
+        var party = modelBuilder.Entity<PartyEntity>();
+        party.ToTable("Parties", table => table.HasCheckConstraint("CK_Parties_TypeNames", "([PartyType] = N'NaturalPerson' AND [FirstName] IS NOT NULL AND [LastName] IS NOT NULL AND [OrganizationName] IS NULL) OR ([PartyType] = N'Organization' AND [FirstName] IS NULL AND [LastName] IS NULL AND [OrganizationName] IS NOT NULL)"));
+        party.HasKey(x => x.Id); party.Property(x => x.PartyType).HasMaxLength(32).IsRequired(); party.Property(x => x.FirstName).HasMaxLength(200); party.Property(x => x.LastName).HasMaxLength(200); party.Property(x => x.OrganizationName).HasMaxLength(250); party.Property(x => x.NormalizedName).HasMaxLength(500).IsRequired(); party.Property(x => x.Version).IsConcurrencyToken();
+
+        var address = modelBuilder.Entity<PartyAddressEntity>();
+        address.ToTable("PartyAddresses", table => table.HasCheckConstraint("CK_PartyAddresses_Period", "[ValidUntilExclusive] IS NULL OR [ValidUntilExclusive] > [ValidFromInclusive]"));
+        address.HasKey(x => x.Id); address.Property(x => x.Street).HasMaxLength(200).IsRequired(); address.Property(x => x.HouseNumber).HasMaxLength(30).IsRequired(); address.Property(x => x.PostalCode).HasMaxLength(20).IsRequired(); address.Property(x => x.City).HasMaxLength(200).IsRequired(); address.Property(x => x.AdditionalInformation).HasMaxLength(250); address.Property(x => x.NormalizedAddress).HasMaxLength(1000).IsRequired();
+        address.HasAlternateKey(x => new { x.PartyId, x.Id });
+        address.HasOne(x => x.Party).WithMany(x => x.Addresses).HasForeignKey(x => x.PartyId).OnDelete(DeleteBehavior.NoAction);
+        party.HasOne<PartyAddressEntity>().WithMany()
+            .HasForeignKey(nameof(PartyEntity.Id), nameof(PartyEntity.CurrentPrimaryAddressId))
+            .HasPrincipalKey(nameof(PartyAddressEntity.PartyId), nameof(PartyAddressEntity.Id))
+            .OnDelete(DeleteBehavior.NoAction);
+
+        var partyRevision = modelBuilder.Entity<PartyRevisionEntity>(); ConfigureRevision(partyRevision, "PartyRevisions"); partyRevision.HasIndex(x => new { x.PartyId, x.ResultingVersion }).IsUnique(); partyRevision.Property(x => x.StateJson).HasColumnType("nvarchar(max)").IsRequired(); partyRevision.HasOne<PartyEntity>().WithMany(x => x.Revisions).HasForeignKey(x => x.PartyId).OnDelete(DeleteBehavior.NoAction);
+
+        var right = modelBuilder.Entity<UsageRightEntity>(); right.ToTable("CanonicalUsageRights", table => table.HasCheckConstraint("CK_CanonicalUsageRights_Dates", "[EndDate] > [StartDate]")); right.HasKey(x => x.Id); right.Property(x => x.SourceReference).HasMaxLength(250).IsRequired(); right.Property(x => x.StartRuleCodeSnapshot).HasMaxLength(50).IsRequired(); right.Property(x => x.StartRuleDisplayNameSnapshot).HasMaxLength(200).IsRequired(); right.Property(x => x.Version).IsConcurrencyToken(); right.HasIndex(x => x.GraveSiteId).IsUnique(); right.HasOne<Cemeteries.GraveSiteEntity>().WithMany().HasForeignKey(x => x.GraveSiteId).OnDelete(DeleteBehavior.NoAction); right.HasOne<UsageRightStartRuleEntity>().WithMany().HasForeignKey(x => x.UsageRightStartRuleId).OnDelete(DeleteBehavior.NoAction);
+        var holder = modelBuilder.Entity<UsageRightHolderPeriodEntity>(); holder.ToTable("UsageRightHolderPeriods", table => table.HasCheckConstraint("CK_UsageRightHolderPeriods_Period", "[ValidUntilExclusive] IS NULL OR [ValidUntilExclusive] > [ValidFromInclusive]")); holder.HasKey(x => x.Id); holder.HasIndex(x => x.UsageRightId).IsUnique().HasFilter("[ValidUntilExclusive] IS NULL"); holder.HasOne<UsageRightEntity>().WithMany(x => x.HolderPeriods).HasForeignKey(x => x.UsageRightId).OnDelete(DeleteBehavior.NoAction); holder.HasOne<PartyEntity>().WithMany().HasForeignKey(x => x.PartyId).OnDelete(DeleteBehavior.NoAction);
+        var rightRevision = modelBuilder.Entity<UsageRightRevisionEntity>(); ConfigureRevision(rightRevision, "UsageRightRevisions"); rightRevision.HasIndex(x => new { x.UsageRightId, x.ResultingVersion }).IsUnique(); rightRevision.Property(x => x.StateJson).HasColumnType("nvarchar(max)").IsRequired(); rightRevision.HasOne<UsageRightEntity>().WithMany(x => x.Revisions).HasForeignKey(x => x.UsageRightId).OnDelete(DeleteBehavior.NoAction);
+
+        var rule = modelBuilder.Entity<UsageRightStartRuleEntity>(); rule.ToTable("UsageRightStartRules"); rule.HasKey(x => x.Id); rule.Property(x => x.Code).HasMaxLength(50).IsRequired(); rule.Property(x => x.DisplayName).HasMaxLength(200).IsRequired(); rule.Property(x => x.Version).IsConcurrencyToken(); rule.HasIndex(x => x.CemeteryId).IsUnique(); rule.HasOne<CemeteryEntity>().WithMany().HasForeignKey(x => x.CemeteryId).OnDelete(DeleteBehavior.NoAction);
+        var ruleRevision = modelBuilder.Entity<UsageRightStartRuleRevisionEntity>(); ConfigureRevision(ruleRevision, "UsageRightStartRuleRevisions"); ruleRevision.Property(x => x.Code).HasMaxLength(50).IsRequired(); ruleRevision.Property(x => x.DisplayName).HasMaxLength(200).IsRequired(); ruleRevision.HasIndex(x => new { x.UsageRightStartRuleId, x.ResultingVersion }).IsUnique(); ruleRevision.HasOne<UsageRightStartRuleEntity>().WithMany(x => x.Revisions).HasForeignKey(x => x.UsageRightStartRuleId).OnDelete(DeleteBehavior.NoAction);
+
+        var audit = modelBuilder.Entity<PersonUsageRightAuditEntity>(); audit.ToTable("PersonUsageRightAudits"); audit.HasKey(x => x.Id); audit.Property(x => x.EntityType).HasMaxLength(64).IsRequired(); audit.Property(x => x.Operation).HasMaxLength(64).IsRequired(); audit.Property(x => x.ActorId).HasMaxLength(200).IsRequired(); audit.Property(x => x.ActorDisplayName).HasMaxLength(200).IsRequired(); audit.HasIndex(x => new { x.EntityType, x.EntityId, x.ResultingVersion }).IsUnique();
+    }
+
+    private static void ConfigureRevision<T>(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<T> entity, string table) where T : class
+    {
+        entity.ToTable(table); entity.HasKey("Id"); entity.Property<string>("MutationType").HasMaxLength(64).IsRequired(); entity.Property<string>("Reason").HasMaxLength(1000); entity.Property<string>("ActorId").HasMaxLength(200).IsRequired(); entity.Property<string>("ActorDisplayName").HasMaxLength(200).IsRequired();
     }
 
     private static void ConfigureLocalAccount(ModelBuilder modelBuilder)

@@ -8,6 +8,7 @@ using Cemaris.Api.Security;
 using Cemaris.Application.Cases;
 using Cemaris.Application.Cemeteries;
 using Cemaris.Application.Identity;
+using Cemaris.Application.PersonUsageRights;
 using Cemaris.Application.System;
 using Cemaris.Domain.Cases;
 using Cemaris.Infrastructure;
@@ -29,6 +30,7 @@ var builder = WebApplication.CreateBuilder(args);
 var caseEditingEnabled = builder.Configuration.GetValue<bool>("Features:CaseEditingEnabled");
 var cemeteryMasterDataEditingEnabled = builder.Configuration.GetValue<bool>("Features:CemeteryMasterDataEditingEnabled");
 var burialProcessEditingEnabled = builder.Configuration.GetValue<bool>("Features:BurialProcessEditingEnabled");
+var personUsageRightsEditingEnabled = builder.Configuration.GetValue<bool>("Features:PersonUsageRightsEditingEnabled");
 if (caseEditingEnabled && !builder.Environment.IsDevelopment())
 {
     throw new InvalidOperationException(
@@ -45,6 +47,12 @@ if (burialProcessEditingEnabled && (!builder.Environment.IsDevelopment() ||
 {
     throw new InvalidOperationException(
         "Burial-process editing may be enabled only in Development with the Synthetic provider.");
+}
+if (personUsageRightsEditingEnabled && (!builder.Environment.IsDevelopment() ||
+    !string.Equals(builder.Configuration["ReadModel:Provider"], "Synthetic", StringComparison.OrdinalIgnoreCase)))
+{
+    throw new InvalidOperationException(
+        "Person and usage-right editing may be enabled only in Development with the Synthetic provider.");
 }
 
 builder.Logging.ClearProviders();
@@ -152,6 +160,10 @@ if (burialProcessEditingEnabled)
 if (cemeteryMasterDataEditingEnabled)
 {
     builder.Services.AddScoped<CemeteryMasterDataService>();
+}
+if (personUsageRightsEditingEnabled)
+{
+    builder.Services.AddScoped<PersonUsageRightService>();
 }
 
 if (openApiEnabled)
@@ -391,6 +403,7 @@ systemEndpoints.MapGet("/info", () =>
         caseEditingEnabled,
         cemeteryMasterDataEditingEnabled,
         burialProcessEditingEnabled,
+        personUsageRightsEditingEnabled,
         typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "unbekannt"));
 })
     .WithName("GetSystemInformation")
@@ -498,6 +511,10 @@ if (burialProcessEditingEnabled)
 if (cemeteryMasterDataEditingEnabled)
 {
     app.MapCemeteryMasterData();
+}
+if (personUsageRightsEditingEnabled)
+{
+    app.MapPersonUsageRights();
 }
 
 app.Run();
@@ -834,7 +851,11 @@ static async Task<IResult> SearchCasesAsync(
 {
     try
     {
-        var response = await service.SearchAsync(request.ToCriteria(), cancellationToken);
+        var response = await service.SearchAsync(
+            request.ToCriteria(),
+            request.Page ?? 1,
+            request.PageSize,
+            cancellationToken);
         return Results.Ok(response.ToResponse());
     }
     catch (SearchValidationException exception)

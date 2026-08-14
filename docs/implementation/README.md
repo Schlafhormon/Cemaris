@@ -1,6 +1,6 @@
 # Cemaris-Implementierungsplan
 
-Stand: 13.08.2026
+Stand: 14.08.2026
 
 ## Aktueller Schwerpunkt
 
@@ -55,6 +55,12 @@ umgesetzt. Seine spätere fachliche Vorstellung und Abnahme durch die
 Friedhofsverwaltung bleibt erforderlich. Lokale Satzungswerte dienen als
 Evidenz, nicht als allgemein fest eingebaute Open-Source-Defaults.
 
+Das Entscheidungsgate 5a ist geschlossen. Inkrement 5b ist gemäß
+[Abschlussdokumentation](cemaris-increment-5b-completion.md) als manueller,
+historisierbarer Beteiligten-/Nutzungsrechtskern technisch umgesetzt und
+gegen `CEMARISDEV` verifiziert. Frist-, Status-, Beendigungs- und
+Wiedervorlagenregeln wurden dabei bewusst nicht vorweggenommen.
+
 ## Verbindliche Entwicklungsregel
 
 „Fertig“ bezeichnet immer einen klar abgegrenzten, Ende-zu-Ende getesteten
@@ -73,7 +79,9 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 3b | Lokale Identität und Berechtigungsgrundlage | technisch umgesetzt und gegen `CEMARISDEV` verifiziert: lokale Konten, sichere Sitzungen, geschützte Fachfunktionen und administrative Benutzerverwaltung | technische Abnahme erfüllt; Datenschutz- und Betriebsfreigabe stehen aus |
 | 4a | Friedhofsstruktur und Grabstättenstammdaten | technisch umgesetzt: frei konfigurierbare Hierarchie, Grabarten, Grabstellen, Status und kanonischer Fallbezug | technische Abnahme erfüllt; fachliche Vorstellung/Abnahme folgt |
 | 4b | Einfacher Beisetzungsprozess | technisch umgesetzt: Zustandslauf, kontrollierte Korrektur, Dublettenhinweis und atomare Grabstellenkopplung | technische Abnahme erfüllt; fachliche Verwaltungsabnahme bleibt offen |
-| 5 | Personenrollen, Nutzungsrechte, Ruhefristen und Wiedervorlagen | fachlich freigegebene Rechte- und Fristenlogik | Rollen-, Historien- und Fristregeln |
+| 5a | Entscheidungsgate für Personenrollen, Nutzungsrechte, Ruhefristen und Wiedervorlagen | abgeschlossen: Evidenz und bestätigte Produktentscheidungen trennen den manuellen 5b-Kern von offenen Automatiken | keine technische, fachliche oder produktive Freigabe |
+| 5b | manueller Beteiligten-/Nutzungsrechtskern | technisch umgesetzt: kanonische Beteiligte, Adress-/Inhaberhistorie, manuelle Rechteänderungen und konfigurierbarer Startbezug | technische Abnahme erfüllt; fachliche Vorstellung, Datenschutz und Betrieb offen |
+| 5c | fachliches Abnahme- und Lebenszyklus-Entscheidungsgate | synthetische 5b-Vorstellung, Befundprotokoll und bestätigter kleinster Folgeumfang | keine Implementierung offener Frist-, Status- oder Beendigungsregeln |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme und Abnahme | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
@@ -96,8 +104,15 @@ Auditdaten erhalten keine Cemaris-Oberfläche.
 Inkrement 4a ist nach einer Korrekturrunde zur hierarchischen Auswahl auch
 manuell im Browser bestätigt. Inkrement 4b ist gemäß
 [Abschlussdokumentation](cemaris-increment-4b-completion.md) technisch
-abgenommen. Der nächste sichere Auftrag ist die
-[fachliche Klärung und der Zuschnitt von Inkrement 5](cemaris-increment-5-next-step-handoff.md).
+abgenommen. Das Entscheidungsgate
+[Inkrement 5a](cemaris-increment-5-next-step-handoff.md) ist gemäß
+[Abschlussdokumentation](cemaris-increment-5a-completion.md) geschlossen.
+Der [manuelle Beteiligten-/Nutzungsrechtskern 5b](cemaris-increment-5b-completion.md)
+ist technisch abgeschlossen. Der nächste sichere Auftrag ist das rein
+dokumentarische und manuelle
+[5c-Abnahme- und Lebenszyklus-Entscheidungsgate](cemaris-increment-5c-next-step-handoff.md).
+Automatische Fristberechnung, Statuswirkung, Beendigung und Wiedervorlagen
+bleiben offen.
 Solange die weiterhin offenen fachlichen, Datenschutz- und Betriebsgates
 fehlen, bleibt der Schreibpfad Development-only, synthetisch und standardmäßig
 deaktiviert.

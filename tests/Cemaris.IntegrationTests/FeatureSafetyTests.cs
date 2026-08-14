@@ -26,6 +26,14 @@ public sealed class FeatureSafetyTests
         Assert.Contains("Burial-process editing may be enabled only in Development with the Synthetic provider", FlattenMessages(exception), StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void PersonUsageRightsActivationOutsideDevelopmentFailsAtStartup()
+    {
+        using var factory = new UnsafePersonUsageRightsProductionFactory();
+        var exception = Assert.ThrowsAny<Exception>(() => factory.CreateClient());
+        Assert.Contains("Person and usage-right editing may be enabled only in Development with the Synthetic provider", FlattenMessages(exception), StringComparison.Ordinal);
+    }
+
     private static string FlattenMessages(Exception exception)
     {
         var messages = new List<string>();
@@ -56,6 +64,15 @@ public sealed class FeatureSafetyTests
         {
             builder.UseEnvironment("Production");
             builder.UseSetting("Features:BurialProcessEditingEnabled", "true");
+        }
+    }
+
+    private sealed class UnsafePersonUsageRightsProductionFactory : WebApplicationFactory<Program>
+    {
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.UseEnvironment("Production");
+            builder.UseSetting("Features:PersonUsageRightsEditingEnabled", "true");
         }
     }
 }

@@ -20,6 +20,8 @@ const emptyFilters: SearchFilters = {
   noticeNumber: '',
 }
 
+const pageSizeOptions = [5, 10] as const
+
 function filtersFromLocation(): SearchFilters {
   const query = new URLSearchParams(window.location.search)
   return Object.fromEntries(
@@ -39,13 +41,25 @@ function personName(person: SearchDeceasedPerson) {
   return [person.firstName, person.lastName].filter(Boolean).join(' ') || 'Nicht angegeben'
 }
 
-function updateLocation(filters: SearchFilters) {
+function paginationFromLocation() {
+  const query = new URLSearchParams(window.location.search)
+  const requestedPage = Number(query.get('page'))
+  const requestedPageSize = Number(query.get('pageSize'))
+  return {
+    page: Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1,
+    pageSize: pageSizeOptions.includes(requestedPageSize as 5 | 10) ? requestedPageSize : 10,
+  }
+}
+
+function updateLocation(filters: SearchFilters, page: number, pageSize: number) {
   const query = new URLSearchParams()
   for (const [key, value] of Object.entries(filters)) {
     if (value.trim()) {
       query.set(key, value.trim())
     }
   }
+  if (page > 1) query.set('page', String(page))
+  if (pageSize !== 10) query.set('pageSize', String(pageSize))
 
   const queryString = query.toString()
   window.history.replaceState(null, '', `/search${queryString ? `?${queryString}` : ''}`)
@@ -62,8 +76,11 @@ interface SearchPageProps {
 
 export function SearchPage({ caseEditingEnabled = false }: SearchPageProps) {
   const initialFilters = filtersFromLocation()
+  const initialPagination = paginationFromLocation()
   const [draftFilters, setDraftFilters] = useState(initialFilters)
   const [submittedFilters, setSubmittedFilters] = useState(initialFilters)
+  const [page, setPage] = useState(initialPagination.page)
+  const [pageSize, setPageSize] = useState(initialPagination.pageSize)
   const [result, setResult] = useState<SearchResponse>()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -73,8 +90,13 @@ export function SearchPage({ caseEditingEnabled = false }: SearchPageProps) {
     setLoading(true)
     setError(false)
 
-    searchCases(submittedFilters, controller.signal)
+    searchCases(submittedFilters, { page, pageSize }, controller.signal)
       .then((response) => {
+        if (response.totalPages > 0 && page > response.totalPages) {
+          setPage(response.totalPages)
+          updateLocation(submittedFilters, response.totalPages, pageSize)
+          return
+        }
         setResult(response)
         setLoading(false)
       })
@@ -88,7 +110,7 @@ export function SearchPage({ caseEditingEnabled = false }: SearchPageProps) {
       })
 
     return () => controller.abort()
-  }, [submittedFilters])
+  }, [submittedFilters, page, pageSize])
 
   function setFilter(name: keyof SearchFilters, value: string) {
     setDraftFilters((current) => ({ ...current, [name]: value }))
@@ -96,7 +118,8 @@ export function SearchPage({ caseEditingEnabled = false }: SearchPageProps) {
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    updateLocation(draftFilters)
+    setPage(1)
+    updateLocation(draftFilters, 1, pageSize)
     setSubmittedFilters({ ...draftFilters })
   }
 
@@ -104,11 +127,23 @@ export function SearchPage({ caseEditingEnabled = false }: SearchPageProps) {
     const filters = { ...emptyFilters }
     setDraftFilters(filters)
     setSubmittedFilters(filters)
-    updateLocation(filters)
+    setPage(1)
+    updateLocation(filters, 1, pageSize)
+  }
+
+  function changePage(nextPage: number) {
+    setPage(nextPage)
+    updateLocation(submittedFilters, nextPage, pageSize)
+  }
+
+  function changePageSize(nextPageSize: number) {
+    setPageSize(nextPageSize)
+    setPage(1)
+    updateLocation(submittedFilters, 1, nextPageSize)
   }
 
   return (
-    <div className="work-page">
+    <div className="work-page search-page">
       <div className="work-page-heading">
         <div>
           <p className="eyebrow">Version 1 · Nur lesen</p>
@@ -132,6 +167,7 @@ export function SearchPage({ caseEditingEnabled = false }: SearchPageProps) {
       )}
 
       <form className="search-form" onSubmit={submit} aria-label="Suchfilter">
+        <div className="search-form-heading"><div><span className="card-heading-icon" aria-hidden="true">⌕</span><div><h2>Suchkriterien</h2><p>Mehrere Angaben grenzen das Ergebnis gemeinsam ein.</p></div></div><span className="filter-count">{Object.values(draftFilters).filter(value => value.trim()).length} aktiv</span></div>
         <div className="filter-grid">
           <label>
             Name
@@ -237,8 +273,7 @@ export function SearchPage({ caseEditingEnabled = false }: SearchPageProps) {
           <h2 id="results-heading">Treffer</h2>
           {result && !loading && !error && (
             <span>
-              {result.items.length} von {result.totalMatches} angezeigt
-              {result.isTruncated ? ` · begrenzt auf ${result.limit}` : ''}
+              {result.totalMatches === 0 ? 'Keine Treffer' : `${((result.page - 1) * result.pageSize) + 1}–${((result.page - 1) * result.pageSize) + result.items.length} von ${result.totalMatches}`}
             </span>
           )}
         </div>
@@ -333,7 +368,30 @@ export function SearchPage({ caseEditingEnabled = false }: SearchPageProps) {
             </table>
           </div>
         )}
+        {!loading && !error && result && result.totalMatches > 0 && <SearchPagination result={result} onPageChange={changePage} onPageSizeChange={changePageSize} />}
       </section>
     </div>
   )
+}
+
+function SearchPagination({ result, onPageChange, onPageSizeChange }: { result: SearchResponse; onPageChange: (page: number) => void; onPageSizeChange: (pageSize: number) => void }) {
+  const pages = visiblePages(result.page, result.totalPages)
+  return <nav className="search-pagination" aria-label="Suchergebnisseiten">
+    <label>Einträge pro Seite<select aria-label="Einträge pro Seite" value={result.pageSize} onChange={event => onPageSizeChange(Number(event.target.value))}>{pageSizeOptions.map(size => <option value={size} key={size}>{size}</option>)}</select></label>
+    <div className="pagination-controls">
+      <button className="pagination-arrow" type="button" disabled={result.page <= 1} aria-label="Vorherige Seite" onClick={() => onPageChange(result.page - 1)}>←</button>
+      {pages.map((item, index) => item === null
+        ? <span className="pagination-ellipsis" aria-hidden="true" key={`ellipsis-${index}`}>…</span>
+        : <button className={item === result.page ? 'pagination-page active' : 'pagination-page'} type="button" aria-label={`Seite ${item}`} aria-current={item === result.page ? 'page' : undefined} onClick={() => onPageChange(item)} key={item}>{item}</button>)}
+      <button className="pagination-arrow" type="button" disabled={result.page >= result.totalPages} aria-label="Nächste Seite" onClick={() => onPageChange(result.page + 1)}>→</button>
+    </div>
+    <span className="pagination-summary">Seite {result.page} von {result.totalPages}</span>
+  </nav>
+}
+
+function visiblePages(current: number, total: number): Array<number | null> {
+  if (total <= 7) return Array.from({ length: total }, (_, index) => index + 1)
+  const pages = new Set([1, total, current - 1, current, current + 1].filter(page => page >= 1 && page <= total))
+  const ordered = [...pages].sort((left, right) => left - right)
+  return ordered.flatMap((page, index) => index > 0 && page - ordered[index - 1] > 1 ? [null, page] : [page])
 }

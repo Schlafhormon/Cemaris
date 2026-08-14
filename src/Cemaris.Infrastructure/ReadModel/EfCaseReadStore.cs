@@ -12,6 +12,7 @@ public sealed class EfCaseReadStore(CemarisDbContext dbContext) : ICaseReadStore
 {
     public async Task<CaseSearchStoreResult> SearchAsync(
         SearchCriteria criteria,
+        int offset,
         int maximumResults,
         CancellationToken cancellationToken)
     {
@@ -190,6 +191,7 @@ public sealed class EfCaseReadStore(CemarisDbContext dbContext) : ICaseReadStore
             .ThenBy(item => item.Field)
             .ThenBy(item => item.GraveNumber)
             .ThenBy(item => item.Id)
+            .Skip(offset)
             .Take(maximumResults)
             .Select(item => item.Id)
             .ToArrayAsync(cancellationToken);

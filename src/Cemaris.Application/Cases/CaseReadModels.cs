@@ -106,7 +106,10 @@ public sealed record SearchResponse(
     IReadOnlyList<SearchRecord> Items,
     int TotalMatches,
     int Limit,
-    bool IsTruncated);
+    bool IsTruncated,
+    int Page,
+    int PageSize,
+    int TotalPages);
 
 public sealed record CaseSearchStoreResult(
     IReadOnlyList<CaseOverview> Items,

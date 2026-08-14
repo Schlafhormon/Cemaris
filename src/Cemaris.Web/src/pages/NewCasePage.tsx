@@ -62,8 +62,8 @@ export function NewCasePage({ cemeteryMasterDataEditingEnabled = false }: { ceme
   }
 
   return (
-    <div className="work-page form-page">
-      <a className="back-link" href="/search">← Zurück zur Suche</a>
+    <div className="work-page form-page new-case-page">
+      <nav className="work-page-toolbar" aria-label="Seitennavigation"><a className="button button--back" href="/search"><span aria-hidden="true">←</span> Zurück zur Suche</a></nav>
       <div className="work-page-heading">
         <div>
           <p className="eyebrow">Nur Development · synthetische Daten</p>
@@ -72,8 +72,8 @@ export function NewCasePage({ cemeteryMasterDataEditingEnabled = false }: { ceme
         </div>
       </div>
 
-      <form className="editor-card" onSubmit={submit} aria-busy={saving} noValidate>
-        <h2>Grabstellenbezug</h2>
+      <form className="editor-card creation-card" onSubmit={submit} aria-busy={saving} noValidate>
+        <header className="card-heading"><span className="card-heading-icon" aria-hidden="true">01</span><div><h2>Grabstellenbezug</h2><p>Wählen Sie die kanonische Grabstelle für die neue synthetische Fallakte.</p></div></header>
         <div className="editor-grid">
           {cemeteryMasterDataEditingEnabled && <label>
             Kanonische Grabstelle <span aria-hidden="true">*</span>

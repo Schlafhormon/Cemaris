@@ -68,7 +68,7 @@ export function CemeteryMasterDataPage({ administrator }: { administrator: boole
   const areaOption = (area: OptionItem) => areaPath(data, area.id)
   const fieldOption = (field: OptionItem) => fieldPath(data, field.id)
 
-  return <div className="work-page form-page">
+  return <div className="work-page form-page master-data-page">
     <div className="work-page-heading">
       <div>
         <p className="eyebrow">Nur Development · synthetische Daten</p>
@@ -367,7 +367,7 @@ function GraveSiteCreateForm({ data, execute }: { data: CemeteryMasterData; exec
 }
 
 function MasterSection({ title, form, children }: { title: string; form: React.ReactNode; children: React.ReactNode }) {
-  return <section className="editor-card"><h2>{title}</h2>{form}<div className="master-list">{children}</div></section>
+  return <section className="editor-card master-section"><header className="card-heading"><span className="card-heading-icon" aria-hidden="true">◆</span><div><h2>{title}</h2><p>Einträge anlegen und vorhandene Stammdaten verwalten</p></div></header>{form}<div className="master-list">{children}</div></section>
 }
 
 interface LevelSectionProps {
@@ -466,11 +466,11 @@ interface RowProps {
 
 function Row({ label, active, administrator, onRename, onToggle, onDelete }: RowProps) {
   return <div className="master-row">
-    <span>{label} <small>{active ? 'Aktiv' : 'Deaktiviert'}</small></span>
-    <span>
-      {onRename && <button type="button" onClick={onRename}>Umbenennen</button>}
-      <button type="button" onClick={onToggle}>{active ? 'Deaktivieren' : 'Aktivieren'}</button>
-      {administrator && <button type="button" onClick={onDelete}>Löschen</button>}
+    <span className="master-row-label"><strong>{label}</strong><small className={active ? 'row-status row-status--active' : 'row-status'}>{active ? 'Aktiv' : 'Deaktiviert'}</small></span>
+    <span className="master-row-actions">
+      {onRename && <button className="button button--small" type="button" onClick={onRename}>Umbenennen</button>}
+      <button className="button button--small" type="button" onClick={onToggle}>{active ? 'Deaktivieren' : 'Aktivieren'}</button>
+      {administrator && <button className="button button--small button--danger" type="button" onClick={onDelete}>Löschen</button>}
     </span>
   </div>
 }

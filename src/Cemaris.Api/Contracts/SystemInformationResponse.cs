@@ -8,4 +8,5 @@ public sealed record SystemInformationResponse(
     bool CaseEditingEnabled,
     bool CemeteryMasterDataEditingEnabled,
     bool BurialProcessEditingEnabled,
+    bool PersonUsageRightsEditingEnabled,
     string Version);

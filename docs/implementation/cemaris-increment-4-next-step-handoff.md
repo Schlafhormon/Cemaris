@@ -26,7 +26,7 @@ kann.
 - lokale SQL-Instanz: `localhost\CEMARISDEV`
 - Development-Testverbindung ausschließlich prozesslokal und ohne Ausgabe
   eines Secrets:
-  `Server=localhost\CEMARISDEV;Database=master;Integrated Security=True;Encrypt=True;TrustServerCertificate=True`
+  `<prozesslokal bereitgestellte Testverbindung>`
 - lokale Satzungsquelle, ausschließlich lesend:
   `C:\Users\Benke\Documents\Friedhofsverwaltung\Satzungen Doberlug-Kirchhain`
 

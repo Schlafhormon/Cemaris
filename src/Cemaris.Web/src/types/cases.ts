@@ -43,6 +43,9 @@ export interface SearchResponse {
   totalMatches: number
   limit: number
   isTruncated: boolean
+  page: number
+  pageSize: number
+  totalPages: number
 }
 
 export interface GraveDetails {

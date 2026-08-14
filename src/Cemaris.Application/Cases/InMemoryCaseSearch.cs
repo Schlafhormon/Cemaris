@@ -9,7 +9,8 @@ public static class InMemoryCaseSearch
     public static CaseSearchStoreResult Search(
         IEnumerable<CaseOverview> cases,
         SearchCriteria criteria,
-        int maximumResults)
+        int maximumResults,
+        int offset = 0)
     {
         ArgumentNullException.ThrowIfNull(cases);
         ArgumentNullException.ThrowIfNull(criteria);
@@ -27,7 +28,7 @@ public static class InMemoryCaseSearch
             .ToArray();
 
         return new CaseSearchStoreResult(
-            rankedCases.Take(maximumResults).Select(result => result.CaseOverview).ToArray(),
+            rankedCases.Skip(offset).Take(maximumResults).Select(result => result.CaseOverview).ToArray(),
             rankedCases.Length);
     }
 

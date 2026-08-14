@@ -523,6 +523,402 @@ namespace Cemaris.Infrastructure.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.PartyAddressEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AdditionalInformation")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("HouseNumber")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("NormalizedAddress")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("PartyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateOnly>("ValidFromInclusive")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("ValidUntilExclusive")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PartyAddresses", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_PartyAddresses_Period", "[ValidUntilExclusive] IS NULL OR [ValidUntilExclusive] > [ValidFromInclusive]");
+                        });
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.PartyEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CurrentPrimaryAddressId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NormalizedName")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("OrganizationName")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("PartyType")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id", "CurrentPrimaryAddressId");
+
+                    b.ToTable("Parties", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_Parties_TypeNames", "([PartyType] = N'NaturalPerson' AND [FirstName] IS NOT NULL AND [LastName] IS NOT NULL AND [OrganizationName] IS NULL) OR ([PartyType] = N'Organization' AND [FirstName] IS NULL AND [LastName] IS NULL AND [OrganizationName] IS NOT NULL)");
+                        });
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.PartyRevisionEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ActorDisplayName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ActorId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("MutationType")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<DateTimeOffset>("OccurredAtUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("PartyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Reason")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<long>("ResultingVersion")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("StateJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartyId", "ResultingVersion")
+                        .IsUnique();
+
+                    b.ToTable("PartyRevisions", (string)null);
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.PersonUsageRightAuditEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ActorDisplayName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ActorId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("EntityType")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<DateTimeOffset>("OccurredAtUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Operation")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<long>("ResultingVersion")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityType", "EntityId", "ResultingVersion")
+                        .IsUnique();
+
+                    b.ToTable("PersonUsageRightAudits", (string)null);
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("EndDate")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("GraveSiteId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SourceReference")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("StartRuleCodeSnapshot")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("StartRuleDisplayNameSnapshot")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<Guid>("UsageRightStartRuleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GraveSiteId")
+                        .IsUnique();
+
+                    b.HasIndex("UsageRightStartRuleId");
+
+                    b.ToTable("CanonicalUsageRights", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_CanonicalUsageRights_Dates", "[EndDate] > [StartDate]");
+                        });
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightHolderPeriodEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PartyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UsageRightId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("ValidFromInclusive")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("ValidUntilExclusive")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartyId");
+
+                    b.HasIndex("UsageRightId")
+                        .IsUnique()
+                        .HasFilter("[ValidUntilExclusive] IS NULL");
+
+                    b.ToTable("UsageRightHolderPeriods", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_UsageRightHolderPeriods_Period", "[ValidUntilExclusive] IS NULL OR [ValidUntilExclusive] > [ValidFromInclusive]");
+                        });
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightRevisionEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ActorDisplayName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ActorId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("MutationType")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<DateTimeOffset>("OccurredAtUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Reason")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<long>("ResultingVersion")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("StateJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UsageRightId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsageRightId", "ResultingVersion")
+                        .IsUnique();
+
+                    b.ToTable("UsageRightRevisions", (string)null);
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightStartRuleEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CemeteryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CemeteryId")
+                        .IsUnique();
+
+                    b.ToTable("UsageRightStartRules", (string)null);
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightStartRuleRevisionEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ActorDisplayName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ActorId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("MutationType")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<DateTimeOffset>("OccurredAtUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Reason")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<long>("ResultingVersion")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("UsageRightStartRuleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsageRightStartRuleId", "ResultingVersion")
+                        .IsUnique();
+
+                    b.ToTable("UsageRightStartRuleRevisions", (string)null);
+                });
+
             modelBuilder.Entity("Cemaris.Infrastructure.Persistence.ReadModel.AddressReadEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -969,6 +1365,92 @@ namespace Cemaris.Infrastructure.Persistence.Migrations
                     b.Navigation("Row");
                 });
 
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.PartyAddressEntity", b =>
+                {
+                    b.HasOne("Cemaris.Infrastructure.Persistence.PersonUsageRights.PartyEntity", "Party")
+                        .WithMany("Addresses")
+                        .HasForeignKey("PartyId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Party");
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.PartyEntity", b =>
+                {
+                    b.HasOne("Cemaris.Infrastructure.Persistence.PersonUsageRights.PartyAddressEntity", null)
+                        .WithMany()
+                        .HasForeignKey("Id", "CurrentPrimaryAddressId")
+                        .HasPrincipalKey("PartyId", "Id")
+                        .OnDelete(DeleteBehavior.NoAction);
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.PartyRevisionEntity", b =>
+                {
+                    b.HasOne("Cemaris.Infrastructure.Persistence.PersonUsageRights.PartyEntity", null)
+                        .WithMany("Revisions")
+                        .HasForeignKey("PartyId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightEntity", b =>
+                {
+                    b.HasOne("Cemaris.Infrastructure.Persistence.Cemeteries.GraveSiteEntity", null)
+                        .WithMany()
+                        .HasForeignKey("GraveSiteId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightStartRuleEntity", null)
+                        .WithMany()
+                        .HasForeignKey("UsageRightStartRuleId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightHolderPeriodEntity", b =>
+                {
+                    b.HasOne("Cemaris.Infrastructure.Persistence.PersonUsageRights.PartyEntity", null)
+                        .WithMany()
+                        .HasForeignKey("PartyId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightEntity", null)
+                        .WithMany("HolderPeriods")
+                        .HasForeignKey("UsageRightId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightRevisionEntity", b =>
+                {
+                    b.HasOne("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightEntity", null)
+                        .WithMany("Revisions")
+                        .HasForeignKey("UsageRightId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightStartRuleEntity", b =>
+                {
+                    b.HasOne("Cemaris.Infrastructure.Persistence.Cemeteries.CemeteryEntity", null)
+                        .WithMany()
+                        .HasForeignKey("CemeteryId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightStartRuleRevisionEntity", b =>
+                {
+                    b.HasOne("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightStartRuleEntity", null)
+                        .WithMany("Revisions")
+                        .HasForeignKey("UsageRightStartRuleId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Cemaris.Infrastructure.Persistence.ReadModel.AddressReadEntity", b =>
                 {
                     b.HasOne("Cemaris.Infrastructure.Persistence.ReadModel.EntitledPersonReadEntity", "EntitledPerson")
@@ -1117,6 +1599,25 @@ namespace Cemaris.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Case");
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.PartyEntity", b =>
+                {
+                    b.Navigation("Addresses");
+
+                    b.Navigation("Revisions");
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightEntity", b =>
+                {
+                    b.Navigation("HolderPeriods");
+
+                    b.Navigation("Revisions");
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.UsageRightStartRuleEntity", b =>
+                {
+                    b.Navigation("Revisions");
                 });
 
             modelBuilder.Entity("Cemaris.Infrastructure.Persistence.ReadModel.CaseReadEntity", b =>

@@ -242,6 +242,21 @@ public sealed class SyntheticCemeteryMasterDataStore : ICemeteryMasterDataStore
         }
     }
 
+    internal bool TryGetGraveSite(Guid graveSiteId, out GraveSiteView? graveSite)
+    {
+        lock (gate)
+        {
+            if (graveSites.TryGetValue(graveSiteId, out var value))
+            {
+                graveSite = value;
+                return true;
+            }
+
+            graveSite = null;
+            return false;
+        }
+    }
+
     internal bool CanConfirmForBurialProcess(Guid graveSiteId)
     {
         lock (gate)

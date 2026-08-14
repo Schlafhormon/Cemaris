@@ -22,7 +22,44 @@ public sealed class ReadOnlyCaseEndpointTests(CemarisWebApplicationFactory facto
         Assert.Equal(10, result.Items.Count);
         Assert.True(result.TotalMatches > result.Items.Count);
         Assert.True(result.IsTruncated);
+        Assert.Equal(1, result.Page);
+        Assert.Equal(10, result.PageSize);
+        Assert.True(result.TotalPages > 1);
         Assert.All(result.Items, item => Assert.True(item.IsSynthetic));
+    }
+
+    [Fact]
+    public async Task SearchSupportsStableServerSidePagination()
+    {
+        using var client = factory.CreateClient();
+
+        var first = await client.GetFromJsonAsync<SearchResponse>(
+            "/api/search?page=1&pageSize=5",
+            CancellationToken.None);
+        var second = await client.GetFromJsonAsync<SearchResponse>(
+            "/api/search?page=2&pageSize=5",
+            CancellationToken.None);
+
+        Assert.NotNull(first);
+        Assert.NotNull(second);
+        Assert.Equal(5, first.Items.Count);
+        Assert.Equal(5, second.Items.Count);
+        Assert.Empty(first.Items.Select(item => item.CaseId).Intersect(second.Items.Select(item => item.CaseId)));
+        Assert.Equal(2, second.Page);
+        Assert.Equal(first.TotalPages, second.TotalPages);
+    }
+
+    [Fact]
+    public async Task SearchRejectsPageSizeAboveConfiguredMaximum()
+    {
+        using var client = factory.CreateClient();
+
+        var response = await client.GetAsync("/api/search?page=1&pageSize=11", CancellationToken.None);
+        var problem = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>(CancellationToken.None);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.NotNull(problem);
+        Assert.Contains("pageSize", problem.Errors.Keys);
     }
 
     [Fact]

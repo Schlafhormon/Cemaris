@@ -330,7 +330,7 @@ ihn anschließend sicher:
 
 ```powershell
 $cemarisDotnet = 'C:\Users\Benke\AppData\Local\Cemaris\dotnet-10.0.302-complete\dotnet.exe'
-$env:CEMARIS_SQL_TEST_CONNECTION_STRING = 'Server=localhost\CEMARISDEV;Database=master;Integrated Security=True;Encrypt=True;TrustServerCertificate=True'
+$env:CEMARIS_SQL_TEST_CONNECTION_STRING = '<prozesslokal bereitgestellte Testverbindung>'
 try {
     & $cemarisDotnet test tests/Cemaris.IntegrationTests/Cemaris.IntegrationTests.csproj `
         --configuration Release `

@@ -143,10 +143,13 @@ export function CaseEditPage({ caseId, caseEditingEnabled = true, burialProcessE
   )
 
   return (
-    <div className="work-page form-page">
-      <a className="back-link" href={detailUrl}>
-        ← Zur lesenden Detailansicht
-      </a>
+    <div className="work-page form-page edit-page">
+      <nav className="work-page-toolbar" aria-label="Seitennavigation">
+        <a className="button button--back" href={detailUrl}>
+          <span aria-hidden="true">←</span> Detailansicht öffnen
+        </a>
+        <a className="back-link" href="/search">Zur Fallsuche</a>
+      </nav>
       <div className="work-page-heading">
         <div>
           <p className="eyebrow">Nur Development · synthetische Daten</p>

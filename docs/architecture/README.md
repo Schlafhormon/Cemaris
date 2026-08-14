@@ -43,14 +43,23 @@ Die technisch umgesetzte Friedhofs- und Grabstellenstruktur ist in
 dokumentiert.
 Der einfache atomare Beisetzungsprozess ist in der
 [Architektur des Beisetzungsprozesses](burial-process.md) dokumentiert.
+Der technisch umgesetzte manuelle Beteiligten-/Nutzungsrechtskern aus 5b ist
+in der
+[Personen- und Nutzungsrechtsarchitektur](person-usage-rights-deadlines.md)
+beschrieben. Fristberechnung und Wiedervorlagen gehören ausdrücklich noch
+nicht dazu.
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.
 - `GET /api/search` und `GET /api/cases/{id}` bilden den technisch
-  abgeschlossenen lesenden ersten Produktinkrement.
-- Bei expliziter Development-Capability bilden sechs Schreibendpunkte Anlage
-  und Änderung von Grabstellenbezug, Verstorbenen und Beisetzungen ab. Starke
-  Fallversions-ETags und `If-Match` verhindern Last-write-wins.
+  abgeschlossenen lesenden ersten Produktinkrement. Die Suche paginiert
+  providerneutral und stabil über `page` und `pageSize`; ohne Parameter bleibt
+  die bisherige erste Seite mit konfigurierter Größe erhalten.
+- Bei expliziten, voneinander unabhängigen Development-Capabilities bilden
+  Schreibendpunkte die Fallaktenbearbeitung, kanonische Stammdatenpflege und
+  den einfachen Beisetzungsprozess sowie Beteiligte und Nutzungsrechte ab.
+  Starke Fallversions- beziehungsweise
+  Entitäts-ETags und `If-Match` verhindern Last-write-wins.
 - Jede erfolgreiche Development-Mutation erhält serverseitig Akteur und
   UTC-Zeitpunkt; Fachänderung, Version, letzte Zuordnung und minimaler
   Auditdatensatz werden atomar gespeichert.
@@ -61,7 +70,7 @@ Der einfache atomare Beisetzungsprozess ist in der
   Berechtigte/Adressen und Bescheid-/Gebühreninformationen. Es ist kein
   freigegebenes endgültiges Fachmodell.
 
-Der Schreibpfad bleibt bis zur Umsetzung der lokalen Identitätsgrundlage und
+Der Schreibpfad bleibt trotz umgesetzter lokaler Identitätsgrundlage bis zu
 den späteren Datenschutz-, Betriebs- und Fachfreigaben standardmäßig
 deaktiviert und ausschließlich in einer explizit aktivierten
 Development-Umgebung für synthetische Daten zulässig.
@@ -89,7 +98,7 @@ administrative Programmkonfiguration und Formularvorlagen sind ausschließlich
 
 ## Audit und Datenschutz
 
-Für die vorhandenen sechs Mutationen ist ein datensparsamer Mindestnachweis
+Für die vorhandenen Fachmutationen ist ein datensparsamer Mindestnachweis
 umgesetzt. Audit-Einsicht, Export, Aufbewahrung, zulässige Löschung und
 Integritätskontrolle bleiben offen. Weiterhin gelten diese Leitplanken:
 

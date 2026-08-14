@@ -31,15 +31,10 @@ export function PasswordPage({ required = false }: { required?: boolean }) {
   }
 
   return (
-    <div className="work-page form-page compact-form-page">
-      <p className="eyebrow">Kontosicherheit</p>
-      <h1>{required ? 'Passwortwechsel erforderlich' : 'Eigenes Passwort ändern'}</h1>
-      <p>
-        {required
-          ? 'Das temporäre Passwort muss vor der Nutzung der Fachfunktionen geändert werden.'
-          : 'Nach dem Passwortwechsel werden alle Sitzungen beendet. Melden Sie sich anschließend erneut an.'}
-      </p>
-      <form className="editor-card account-form" onSubmit={submit} aria-busy={saving}>
+    <div className="work-page form-page compact-form-page account-security-page">
+      <div className="security-page-heading"><span className="security-icon" aria-hidden="true">●</span><div><p className="eyebrow">Kontosicherheit</p><h1>{required ? 'Passwortwechsel erforderlich' : 'Eigenes Passwort ändern'}</h1><p>{required ? 'Das temporäre Passwort muss vor der Nutzung der Fachfunktionen geändert werden.' : 'Nach dem Passwortwechsel werden alle Sitzungen beendet. Melden Sie sich anschließend erneut an.'}</p></div></div>
+      <form className="editor-card account-form security-form" onSubmit={submit} aria-busy={saving}>
+        <div className="card-heading"><span className="card-heading-icon" aria-hidden="true">•••</span><div><h2>Passwort festlegen</h2><p>Mindestens 12 Zeichen; verwenden Sie ein ausschließlich für Cemaris bestimmtes Passwort.</p></div></div>
         <label>Aktuelles Passwort<input type="password" autoComplete="current-password" required maxLength={128} value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} /></label>
         <label>Neues Passwort<input type="password" autoComplete="new-password" required minLength={12} maxLength={128} value={newPassword} onChange={(event) => setNewPassword(event.target.value)} /></label>
         <label>Neues Passwort wiederholen<input type="password" autoComplete="new-password" required minLength={12} maxLength={128} value={confirmation} onChange={(event) => setConfirmation(event.target.value)} /></label>

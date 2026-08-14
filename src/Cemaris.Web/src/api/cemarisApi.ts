@@ -17,6 +17,7 @@ import type {
   UpdateAccountInput,
 } from '../types/identity'
 import type { CemeteryMasterData } from '../types/cemeteries'
+import type { Party, PartySearchItem, StartRule, UsageRight, Versioned } from '../types/personUsageRights'
 
 const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim() ?? ''
 const apiBaseUrl = configuredBaseUrl.replace(/\/$/, '')
@@ -129,6 +130,39 @@ async function sendJson<T>(path: string, method: string, body?: unknown, etag?: 
   return response.status === 204 ? undefined : response.json() as Promise<T>
 }
 
+async function getVersioned<T>(path: string, signal?: AbortSignal): Promise<Versioned<T> | null> {
+  const response = await fetch(`${apiBaseUrl}${path}`, { credentials: 'include', headers: { Accept: 'application/json' }, signal })
+  if (response.status === 204) return null
+  if (!response.ok) { notifySecurityStatus(response.status); throw new ApiError(response.status, await readProblem(response)) }
+  const etag = response.headers.get('ETag')
+  if (!etag) throw new Error('Die API-Antwort enthält keinen starken ETag.')
+  return { value: await response.json() as T, etag }
+}
+
+async function sendVersioned<T>(path: string, method: string, body: unknown, etag?: string): Promise<Versioned<T>> {
+  const token = await getAntiforgeryToken()
+  const response = await fetch(`${apiBaseUrl}${path}`, { method, credentials: 'include', headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Cemaris-CSRF': token, ...(etag ? { 'If-Match': etag } : {}) }, body: JSON.stringify(body) })
+  if (!response.ok) { notifySecurityStatus(response.status); throw new ApiError(response.status, await readProblem(response)) }
+  const nextEtag = response.headers.get('ETag')
+  if (!nextEtag) throw new Error('Die API-Antwort enthält keinen starken ETag.')
+  return { value: await response.json() as T, etag: nextEtag }
+}
+
+export function searchParties(query: string, signal: AbortSignal) { return getJson<PartySearchItem[]>(`/api/parties?query=${encodeURIComponent(query)}`, signal) }
+export function getParty(id: string, signal?: AbortSignal) { return getVersioned<Party>(`/api/parties/${encodeURIComponent(id)}`, signal) }
+export function createParty(input: unknown) { return sendVersioned<Party>('/api/parties', 'POST', input) }
+export function correctParty(id: string, etag: string, input: unknown) { return sendVersioned<Party>(`/api/parties/${encodeURIComponent(id)}/corrections`, 'POST', input, etag) }
+export function addPartyAddress(id: string, etag: string, input: unknown) { return sendVersioned<Party>(`/api/parties/${encodeURIComponent(id)}/addresses`, 'POST', input, etag) }
+export function correctPartyAddress(id: string, addressId: string, etag: string, input: unknown) { return sendVersioned<Party>(`/api/parties/${encodeURIComponent(id)}/addresses/${encodeURIComponent(addressId)}/corrections`, 'POST', input, etag) }
+export function getUsageRightByGraveSite(id: string, signal?: AbortSignal) { return getVersioned<UsageRight>(`/api/grave-sites/${encodeURIComponent(id)}/usage-rights`, signal) }
+export function createUsageRight(input: unknown) { return sendVersioned<UsageRight>('/api/usage-rights', 'POST', input) }
+export function transferUsageRight(id: string, etag: string, input: unknown) { return sendVersioned<UsageRight>(`/api/usage-rights/${encodeURIComponent(id)}/transfers`, 'POST', input, etag) }
+export function extendUsageRight(id: string, etag: string, input: unknown) { return sendVersioned<UsageRight>(`/api/usage-rights/${encodeURIComponent(id)}/extensions`, 'POST', input, etag) }
+export function correctUsageRight(id: string, etag: string, input: unknown) { return sendVersioned<UsageRight>(`/api/usage-rights/${encodeURIComponent(id)}/corrections`, 'POST', input, etag) }
+export function getUsageRightStartRules(signal: AbortSignal) { return getJson<StartRule[]>('/api/program-configuration/usage-right-start-rules', signal) }
+export function createUsageRightStartRule(input: unknown) { return sendVersioned<StartRule>('/api/program-configuration/usage-right-start-rules', 'POST', input) }
+export function updateUsageRightStartRule(id: string, etag: string, input: unknown) { return sendVersioned<StartRule>(`/api/program-configuration/usage-right-start-rules/${encodeURIComponent(id)}`, 'PUT', input, etag) }
+
 export function getCurrentAccount(signal: AbortSignal) {
   return getJson<CurrentAccount>('/api/auth/me', signal)
 }
@@ -212,7 +246,7 @@ export async function deleteMasterData(kind: string, id: string, version: number
   await sendJson(`/api/master-data/${kind}/${encodeURIComponent(id)}`, 'DELETE', undefined, `"${version}"`)
 }
 
-export function searchCases(filters: SearchFilters, signal: AbortSignal) {
+export function searchCases(filters: SearchFilters, pagination: { page: number; pageSize: number }, signal: AbortSignal) {
   const query = new URLSearchParams()
 
   for (const [key, value] of Object.entries(filters)) {
@@ -221,6 +255,8 @@ export function searchCases(filters: SearchFilters, signal: AbortSignal) {
       query.set(key, normalizedValue)
     }
   }
+  query.set('page', String(pagination.page))
+  query.set('pageSize', String(pagination.pageSize))
 
   const queryString = query.toString()
   return getJson<SearchResponse>(

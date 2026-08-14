@@ -13,22 +13,39 @@ public sealed class CaseReadService(ICaseReadStore store, int maximumResults = 1
 
     public async Task<SearchResponse> SearchAsync(
         SearchCriteria criteria,
+        int page,
+        int? pageSize,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(criteria);
         Validate(criteria);
 
-        var result = await store.SearchAsync(criteria, maximumResults, cancellationToken);
+        var effectivePageSize = pageSize ?? maximumResults;
+        ValidatePagination(page, effectivePageSize);
+        var offset = checked((page - 1) * effectivePageSize);
+
+        var result = await store.SearchAsync(criteria, offset, effectivePageSize, cancellationToken);
         var items = result.Items
             .Select(ToSearchRecord)
             .ToArray();
+        var totalPages = result.TotalMatches == 0
+            ? 0
+            : (int)Math.Ceiling(result.TotalMatches / (double)effectivePageSize);
 
         return new SearchResponse(
             items,
             result.TotalMatches,
-            maximumResults,
-            result.TotalMatches > maximumResults);
+            effectivePageSize,
+            result.TotalMatches > items.Length,
+            page,
+            effectivePageSize,
+            totalPages);
     }
+
+    public Task<SearchResponse> SearchAsync(
+        SearchCriteria criteria,
+        CancellationToken cancellationToken) =>
+        SearchAsync(criteria, 1, null, cancellationToken);
 
     public Task<CaseOverview?> GetAsync(Guid id, CancellationToken cancellationToken) =>
         store.FindAsync(id, cancellationToken);
@@ -114,6 +131,27 @@ public sealed class CaseReadService(ICaseReadStore store, int maximumResults = 1
             errors[fieldName] = [
                 $"Der Textfilter muss mindestens {MinimumTextLength} Zeichen enthalten.",
             ];
+        }
+    }
+
+    private void ValidatePagination(int page, int pageSize)
+    {
+        var errors = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);
+        if (page < 1)
+        {
+            errors["page"] = ["Die Seitennummer muss mindestens 1 sein."];
+        }
+        if (pageSize < 1 || pageSize > maximumResults)
+        {
+            errors["pageSize"] = [$"Die Seitengröße muss zwischen 1 und {maximumResults} liegen."];
+        }
+        if (page > 0 && pageSize > 0 && (long)(page - 1) * pageSize > int.MaxValue)
+        {
+            errors["page"] = ["Die angeforderte Seitennummer ist zu groß."];
+        }
+        if (errors.Count > 0)
+        {
+            throw new SearchValidationException(errors);
         }
     }
 

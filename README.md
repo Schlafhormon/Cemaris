@@ -88,10 +88,14 @@ Fallbezug sind gemäß
 [Abschlussdokumentation 4a](docs/implementation/cemaris-increment-4a-completion.md)
 technisch umgesetzt. Der einfache synthetische Beisetzungsprozess ist gemäß
 [Abschlussdokumentation 4b](docs/implementation/cemaris-increment-4b-completion.md)
-technisch umgesetzt. Die sichere
-[Folgeübergabe für Inkrement 5](docs/implementation/cemaris-increment-5-next-step-handoff.md)
-beginnt wegen offener Rollen-, Rechte- und Fristregeln mit einem fachlichen
-Klärungsgate.
+technisch umgesetzt. Das fachliche
+[Entscheidungsgate 5a](docs/implementation/cemaris-increment-5a-completion.md)
+ist dokumentarisch abgeschlossen. Der
+[manuelle 5b-Beteiligten-/Nutzungsrechtskern](docs/implementation/cemaris-increment-5b-completion.md)
+ist technisch umgesetzt und gegen reales SQL verifiziert. Der nächste sichere
+Schritt ist das
+[5c-Abnahme- und Lebenszyklus-Entscheidungsgate](docs/implementation/cemaris-increment-5c-next-step-handoff.md);
+Fristberechnung und Wiedervorlagen bleiben bis zu dessen Abschluss offen.
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -163,6 +167,11 @@ Danach sind anonym verfügbar:
 
 Suche, Falldetails und optionale Fallmutationen erfordern eine lokale
 Anmeldung. Das Frontend führt nicht angemeldete Benutzer auf die Loginseite.
+Die Suche unterstützt eine stabile serverseitige Seitennavigation. Ohne
+Parameter liefert `GET /api/search` altkompatibel die erste Seite mit zehn
+Treffern; `page` und `pageSize` wählen Seite und Seitengröße. Die Oberfläche
+hält Filter, Seite und Seitengröße in der URL und bietet derzeit fünf oder zehn
+Treffer pro Seite an.
 
 Die Schreibfunktion ist standardmäßig aus. Für eine lokale, ausschließlich
 synthetische Development-Sitzung muss sie ausdrücklich aktiviert werden:
@@ -171,6 +180,8 @@ synthetische Development-Sitzung muss sie ausdrücklich aktiviert werden:
 $env:ASPNETCORE_ENVIRONMENT = "Development"
 $env:Features__CaseEditingEnabled = "true"
 $env:Features__CemeteryMasterDataEditingEnabled = "true"
+$env:Features__BurialProcessEditingEnabled = "true"
+$env:Features__PersonUsageRightsEditingEnabled = "true"
 dotnet run --project src/Cemaris.Api
 ```
 
@@ -187,7 +198,19 @@ zusätzlich verfügbar:
 - `GET /api/master-data/cemeteries` sowie `POST`/`PUT` für Friedhöfe,
   Bereiche, Felder, Reihen, Grabarten, Zuordnungen und Grabstellen;
 - `DELETE /api/master-data/{kind}/{id}` ausschließlich für Administration
-  und vollständig unbenutzte Datensätze.
+  und vollständig unbenutzte Datensätze;
+- bei aktiver Beisetzungsprozess-Capability die Prozessanlage, kontrollierte
+  Faktenkorrektur, festgelegte Übergänge und ausdrückliche Altzeilenübernahme;
+- bei aktiver Beteiligten-/Nutzungsrechts-Capability kanonische Beteiligte,
+  Anschriften, manuelle Rechteanlage, Übertragung, Verlängerung, Korrektur
+  und Lesen der Startregeln;
+- Startregeln schreiben ausschließlich über die administrative
+  Programmkonfiguration.
+
+Ist `Features__BurialProcessEditingEnabled` aktiv, ersetzt der 4b-Prozess die
+alten einfachen Beisetzungsschreibendpunkte. Die vier fachlichen Capabilities
+bleiben ansonsten unabhängig. Der 5b-Kern ersetzt die nullable
+Berechtigten-/Adress-/Nutzungsrechts-Altprojektionen nicht.
 
 Änderungen benötigen den zuletzt gelesenen starken ETag in `If-Match`. Ein
 fehlender Header ergibt `428`, ein veralteter ETag `412` ohne Teilwirkung.
@@ -287,15 +310,16 @@ End-to-End-Test des EF-/SQL-Stores kann eine Verbindung zu einer lokalen
 SQL-Server-Instanz explizit bereitgestellt werden:
 
 ```powershell
-$env:CEMARIS_SQL_TEST_CONNECTION_STRING = "Server=localhost\CEMARISDEV;Database=master;Integrated Security=True;Encrypt=True;TrustServerCertificate=True"
+$env:CEMARIS_SQL_TEST_CONNECTION_STRING = "<prozesslokal bereitgestellte Testverbindung>"
 dotnet test tests/Cemaris.IntegrationTests --filter "Category=SqlServer"
 Remove-Item Env:CEMARIS_SQL_TEST_CONNECTION_STRING
 ```
 
-Der verwendete Login muss Datenbanken anlegen und loeschen duerfen. Die neun
+Der verwendete Login muss Datenbanken anlegen und loeschen duerfen. Die zwölf
 SQL-Tests erzeugen ausschließlich eine eindeutig benannte temporäre Datenbank
 `Cemaris_IntegrationTests_*`, prüfen additive Migration, Seed, Suche,
-Detailansicht, Schreib-/Auditatomarität, Parallelität und Rollback und entfernen
+Detailansicht, Schreib-/Auditatomarität, 5b-Historie, echte Parallelrennen und
+Rollback und entfernen
 die Datenbank anschließend wieder. Vor dem Löschen werden Präfix und
 aufgelöster Datenbankname erneut geprüft. Ohne die Umgebungsvariable werden
 diese Tests übersprungen.
@@ -312,12 +336,14 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `ReadModel__Provider` | kanonischer Fall-/Lesestore (`Synthetic` oder `SqlServer`) | `Synthetic` fuer normale Entwicklung und Tests |
 | `Features__CaseEditingEnabled` | synthetische Fallaktenbearbeitung; nur in `Development` zulässig | `false` (Standard), lokal ausdrücklich `true` |
 | `Features__CemeteryMasterDataEditingEnabled` | synthetische Friedhofsstammdatenpflege; nur in `Development` mit `Synthetic` zulässig | `false` (Standard), lokal ausdrücklich `true` |
+| `Features__BurialProcessEditingEnabled` | synthetischer einfacher Beisetzungsprozess; nur in `Development` mit `Synthetic` zulässig | `false` (Standard), lokal ausdrücklich `true` |
+| `Features__PersonUsageRightsEditingEnabled` | synthetischer kanonischer Beteiligten-/Nutzungsrechtskern; nur in `Development` mit `Synthetic` zulässig | `false` (Standard), lokal ausdrücklich `true` |
 | `Identity__Security__PasswordMinimumLength` | untere Passwortgrenze, nicht unter 12 konfigurierbar | `12` |
 | `Identity__Security__PasswordMaximumLength` | obere Passwortgrenze, nicht über 128 konfigurierbar | `128` |
 | `Identity__Security__MaximumFailedLoginAttempts` | Fehlversuche bis zur Sperre, höchstens 5 | `5` |
 | `Identity__Security__LockoutDuration` | Sperrdauer, mindestens 15 Minuten | `00:15:00` |
 | `Identity__Security__SessionIdleTimeout` | Inaktivitätsdauer der Cookie-Sitzung | `00:30:00` |
-| `Search__MaxResults` | maximales Suchergebnis ohne Paginierung | `10` |
+| `Search__MaxResults` | maximale Seitengröße und Standardgröße der Suche | `10` |
 | `Maintenance__SeedSynthetic` | einmaliger expliziter SQL-Seed statt API-Start | `true` nur fuer kontrollierte lokale Entwicklung |
 | `Maintenance__ExpectedDatabase` | Sicherheitspruefung fuer den SQL-Seed | `Cemaris_Dev` |
 | `Maintenance__BootstrapAdministrator` | einmaliger nicht HTTP-basierter Erstadmin-Bootstrap | `false` |
@@ -354,7 +380,9 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
 2. lesender MVP mit synthetischen Daten
 3. inkrementelle Implementierung der validierbaren Kernfunktionen
 4. Identität, Berechtigungen, Audit, Datenschutz- und Betriebsfreigabe
-5. fachliche Stammdaten, Fall-, Personen-, Beisetzungs- und Rechteprozesse
+5. fachliche Stammdaten, Fall-, Personen-, Beisetzungs- und Rechteprozesse;
+   5a und der technische manuelle 5b-Durchstich sind abgeschlossen, als
+   nächster sicherer Schritt folgt das 5c-Abnahme- und Entscheidungsgate
 6. Gebühren-, Dokument- und Bescheidwesen
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe

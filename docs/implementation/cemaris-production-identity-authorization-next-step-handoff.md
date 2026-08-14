@@ -26,7 +26,7 @@ deaktiviert, Development-only und auf synthetische Daten begrenzt.
   `Cemaris_IntegrationTests_`
 - Development-Testverbindung ausschließlich prozesslokal und ohne Ausgabe von
   Secrets:
-  `Server=localhost\CEMARISDEV;Database=master;Integrated Security=True;Encrypt=True;TrustServerCertificate=True`
+  `<prozesslokal bereitgestellte Testverbindung>`
 
 Keine bestehende Benutzer- oder Produktdatenbank verändern oder löschen. Vor
 dem Löschen einer Testdatenbank Präfix und tatsächlich aufgelösten

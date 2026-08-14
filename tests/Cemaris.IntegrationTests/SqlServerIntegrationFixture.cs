@@ -30,6 +30,8 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
     public int SeededCaseCount { get; private set; }
 
     public int SeededChangeCount { get; private set; }
+    public int CanonicalPartiesAfterMigration { get; private set; }
+    public int CanonicalUsageRightsAfterMigration { get; private set; }
 
     public HttpClient CreateClient() =>
         (applicationFactory ?? throw new InvalidOperationException("The SQL test fixture is not initialized."))
@@ -94,6 +96,8 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
                 && legacyBurial.Status is null
                 && legacyBurial.GraveSiteId is null
                 && legacyBurial.PlanningDate is null;
+            CanonicalPartiesAfterMigration = await dbContext.Parties.CountAsync();
+            CanonicalUsageRightsAfterMigration = await dbContext.CanonicalUsageRights.CountAsync();
 
             var seeder = new SyntheticReadModelSeeder(dbContext);
             SeedResult = await seeder.ResetAsync(databaseName, CancellationToken.None);
@@ -118,6 +122,7 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
             "20260813064742_AddCaseChangeAttribution",
             "20260813080626_AddLocalAccountsAndSecurityState",
             "20260813104713_AddCemeteryMasterData",
+            "20260813134826_AddBurialProcess",
         };
         var verified = 0;
         foreach (var migration in migrations)

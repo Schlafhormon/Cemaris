@@ -58,10 +58,10 @@ export function UserAdministrationPage() {
   }
 
   return (
-    <div className="work-page form-page">
+    <div className="work-page form-page user-admin-page">
       <div className="work-page-heading"><div><p className="eyebrow">Nur Administration</p><h1>Benutzerverwaltung</h1><p>Lokale Konten werden deaktiviert, nicht gelöscht. Passwörter und Hashes sind niemals einsehbar.</p></div></div>
-      <form className="editor-card account-create-form" onSubmit={submit}>
-        <h2>Konto anlegen</h2>
+      <form className="editor-card account-create-form creation-card" onSubmit={submit}>
+        <header className="card-heading"><span className="card-heading-icon" aria-hidden="true">＋</span><div><h2>Konto anlegen</h2><p>Ein lokales Konto mit temporärem Startpasswort erstellen</p></div></header>
         <div className="editor-grid editor-grid--four">
           <label>Benutzername<input required maxLength={100} autoComplete="off" value={draft.username} onChange={(event) => setDraft({ ...draft, username: event.target.value })} /></label>
           <label>Anzeigename<input required maxLength={200} value={draft.displayName} onChange={(event) => setDraft({ ...draft, displayName: event.target.value })} /></label>

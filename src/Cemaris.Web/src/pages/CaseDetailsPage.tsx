@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { ApiError, getCaseDetails } from '../api/cemarisApi'
 import { LastChangeNotice } from '../components/LastChangeNotice'
+import { PersonUsageRightsPanel } from '../components/PersonUsageRightsPanel'
 import type {
   AddressDetails,
   CaseOverview,
@@ -11,6 +12,7 @@ interface CaseDetailsPageProps {
   caseId: string
   caseEditingEnabled?: boolean
   burialProcessEditingEnabled?: boolean
+  personUsageRightsEditingEnabled?: boolean
 }
 
 function displayValue(value: ReactNode) {
@@ -93,7 +95,7 @@ function searchReturnUrl() {
   }
 }
 
-export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProcessEditingEnabled = false }: CaseDetailsPageProps) {
+export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProcessEditingEnabled = false, personUsageRightsEditingEnabled = false }: CaseDetailsPageProps) {
   const returnTo = searchReturnUrl()
   const [caseOverview, setCaseOverview] = useState<CaseOverview>()
   const [loading, setLoading] = useState(true)
@@ -153,9 +155,7 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProc
 
   return (
     <div className="work-page detail-page">
-      <a className="back-link" href={returnTo}>
-        ← Zurück zur Suche
-      </a>
+      <nav className="work-page-toolbar" aria-label="Seitennavigation"><a className="button button--back" href={returnTo}><span aria-hidden="true">←</span> Zurück zur Suche</a></nav>
       <div className="work-page-heading">
         <div>
           <p className="eyebrow">Lesende Detailansicht</p>
@@ -198,6 +198,7 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProc
       )}
 
       <div className="detail-sections">
+        {personUsageRightsEditingEnabled && caseOverview.grave.graveSiteId && <PersonUsageRightsPanel graveSiteId={caseOverview.grave.graveSiteId} />}
         <section className="detail-section">
           <h2>Grabstelle</h2>
           <DetailsList>
@@ -261,7 +262,7 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProc
         </section>
 
         <section className="detail-section">
-          <h2>Nutzungsrechte / Laufzeiten</h2>
+          <h2>Vorläufige Altprojektion: Nutzungsrechte / Laufzeiten</h2>
           {caseOverview.usageRights.length === 0 ? (
             <p className="missing-value">Keine Nutzungsrechte vorhanden.</p>
           ) : (
@@ -292,7 +293,7 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProc
         </section>
 
         <section className="detail-section detail-section--wide">
-          <h2>Berechtigte / Adressen</h2>
+          <h2>Vorläufige Altprojektion: Berechtigte / Adressen</h2>
           {caseOverview.entitledPersons.length === 0 ? (
             <p className="missing-value">Keine berechtigte Person zugeordnet.</p>
           ) : (

@@ -24,11 +24,15 @@ export function LoginPage() {
 
   return (
     <main className="login-page">
-      <section className="login-card" aria-labelledby="login-heading">
-        <p className="eyebrow">Lokales Cemaris-Konto</p>
-        <h1 id="login-heading">Anmelden</h1>
-        <p>Bitte melden Sie sich mit Ihrem lokalen Benutzernamen und Passwort an.</p>
-        <form onSubmit={submit} aria-busy={submitting}>
+      <div className="login-shell">
+        <section className="login-intro" aria-label="Cemaris">
+          <a className="login-brand" href="/" aria-label="Cemaris Startseite"><span className="brand-mark" aria-hidden="true">C</span><span><strong>Cemaris</strong><small>Friedhofsverwaltung</small></span></a>
+          <div><p className="eyebrow">Open Source · Kommunal</p><h2>Verlässlich arbeiten.<br />Nachvollziehbar entscheiden.</h2><p>Die browserbasierte Arbeitsoberfläche für eine moderne kommunale Friedhofsverwaltung.</p></div>
+          <p className="login-development-note"><span aria-hidden="true">i</span><span><strong>Development-Umgebung</strong> Ausschließlich für synthetische Testdaten.</span></p>
+        </section>
+        <section className="login-card" aria-labelledby="login-heading">
+          <div className="login-card-heading"><span className="login-lock" aria-hidden="true">●</span><div><p className="eyebrow">Lokales Cemaris-Konto</p><h1 id="login-heading">Willkommen zurück</h1><p>Bitte melden Sie sich mit Ihrem Benutzernamen und Passwort an.</p></div></div>
+          <form onSubmit={submit} aria-busy={submitting}>
           <label>
             Benutzername
             <input
@@ -59,8 +63,10 @@ export function LoginPage() {
           <button className="button button--primary" type="submit" disabled={submitting}>
             {submitting ? 'Anmeldung läuft …' : 'Anmelden'}
           </button>
-        </form>
-      </section>
+          </form>
+          <p className="login-security-note">Geschützte Sitzung · Automatische Abmeldung bei Inaktivität</p>
+        </section>
+      </div>
     </main>
   )
 }

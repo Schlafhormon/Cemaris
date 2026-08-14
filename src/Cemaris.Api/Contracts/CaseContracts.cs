@@ -141,7 +141,10 @@ public sealed record SearchCasesResponse(
     IReadOnlyList<SearchCaseResponse> Items,
     int TotalMatches,
     int Limit,
-    bool IsTruncated);
+    bool IsTruncated,
+    int Page,
+    int PageSize,
+    int TotalPages);
 
 public sealed record SearchCaseResponse(
     Guid CaseId,
@@ -250,5 +253,8 @@ internal static class CaseContractMapper
                 item.NoticeNumbers)).ToArray(),
             source.TotalMatches,
             source.Limit,
-            source.IsTruncated);
+            source.IsTruncated,
+            source.Page,
+            source.PageSize,
+            source.TotalPages);
 }

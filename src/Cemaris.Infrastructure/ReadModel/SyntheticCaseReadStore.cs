@@ -34,13 +34,14 @@ public sealed class SyntheticCaseReadStore : ICaseReadStore, ICaseWriteStore, IB
 
     public Task<CaseSearchStoreResult> SearchAsync(
         SearchCriteria criteria,
+        int offset,
         int maximumResults,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         lock (gate)
         {
-            return Task.FromResult(InMemoryCaseSearch.Search(ProjectCurrentNames(cases), criteria, maximumResults));
+            return Task.FromResult(InMemoryCaseSearch.Search(ProjectCurrentNames(cases), criteria, maximumResults, offset));
         }
     }
 

@@ -63,6 +63,47 @@ public sealed class CaseReadServiceTests
         Assert.Equal(12, result.TotalMatches);
         Assert.Equal(10, result.Limit);
         Assert.True(result.IsTruncated);
+        Assert.Equal(1, result.Page);
+        Assert.Equal(10, result.PageSize);
+        Assert.Equal(2, result.TotalPages);
+    }
+
+    [Fact]
+    public async Task SearchReturnsStableRequestedPage()
+    {
+        var cases = Enumerable.Range(1, 12)
+            .Select(index => CreateCase(
+                index,
+                "Testfriedhof",
+                $"Testfeld {index:00}",
+                index.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                $"Testperson-{index:00}"))
+            .ToArray();
+        var service = CreateService(cases, maximumResults: 10);
+
+        var first = await service.SearchAsync(new SearchCriteria(), 1, 5, CancellationToken.None);
+        var second = await service.SearchAsync(new SearchCriteria(), 2, 5, CancellationToken.None);
+
+        Assert.Equal(5, first.Items.Count);
+        Assert.Equal(5, second.Items.Count);
+        Assert.Empty(first.Items.Select(item => item.CaseId).Intersect(second.Items.Select(item => item.CaseId)));
+        Assert.Equal(2, second.Page);
+        Assert.Equal(5, second.PageSize);
+        Assert.Equal(3, second.TotalPages);
+    }
+
+    [Theory]
+    [InlineData(0, 5, "page")]
+    [InlineData(1, 0, "pageSize")]
+    [InlineData(1, 11, "pageSize")]
+    public async Task SearchRejectsInvalidPagination(int page, int pageSize, string field)
+    {
+        var service = CreateService([CreateCase(1, "Testfriedhof", "Testfeld", "1", "Testperson")]);
+
+        var exception = await Assert.ThrowsAsync<SearchValidationException>(() =>
+            service.SearchAsync(new SearchCriteria(), page, pageSize, CancellationToken.None));
+
+        Assert.Contains(field, exception.Errors.Keys);
     }
 
     [Fact]
@@ -135,9 +176,10 @@ public sealed class CaseReadServiceTests
     {
         public Task<CaseSearchStoreResult> SearchAsync(
             SearchCriteria criteria,
+            int offset,
             int maximumResults,
             CancellationToken cancellationToken) =>
-            Task.FromResult(InMemoryCaseSearch.Search(cases, criteria, maximumResults));
+            Task.FromResult(InMemoryCaseSearch.Search(cases, criteria, maximumResults, offset));
 
         public Task<CaseOverview?> FindAsync(Guid id, CancellationToken cancellationToken) =>
             Task.FromResult(cases.SingleOrDefault(item => item.Id == id));

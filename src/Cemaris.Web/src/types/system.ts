@@ -8,6 +8,7 @@ export interface SystemInformationResponse {
   caseEditingEnabled: boolean
   cemeteryMasterDataEditingEnabled: boolean
   burialProcessEditingEnabled: boolean
+  personUsageRightsEditingEnabled: boolean
   productionReady: boolean
   status: string
   subtitle: string

@@ -28,5 +28,6 @@ Architecture Decision Records (ADRs) dokumentieren wesentliche technische und pr
 | [0013](ADR-0013-local-cookie-session-and-security-stamp.md) | Lokale Cookie-Sitzung, CSRF und Security-Stamp | Accepted |
 | [0014](ADR-0014-canonical-cemetery-master-data.md) | Kanonische Friedhofsstammdaten und restriktives Löschen | Accepted |
 | [0015](ADR-0015-atomic-burial-process.md) | Atomarer providerneutraler Beisetzungsprozess | Accepted |
+| [0016](ADR-0016-canonical-parties-and-historicized-usage-rights.md) | Kanonische Beteiligte und historisierte Nutzungsrechte | Accepted |
 
 Für neue ADRs kann [ADR-Template](ADR-template.md) kopiert werden.

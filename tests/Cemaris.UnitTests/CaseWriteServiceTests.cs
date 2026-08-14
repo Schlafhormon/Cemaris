@@ -192,6 +192,7 @@ public sealed class CaseWriteServiceTests
 
         public Task<CaseSearchStoreResult> SearchAsync(
             SearchCriteria criteria,
+            int offset,
             int maximumResults,
             CancellationToken cancellationToken) =>
             Task.FromResult(new CaseSearchStoreResult([], 0));

@@ -26,6 +26,10 @@ public sealed class SearchCasesRequest
 
     public string? NoticeNumber { get; init; }
 
+    public int? Page { get; init; }
+
+    public int? PageSize { get; init; }
+
     public SearchCriteria ToCriteria() =>
         new(
             Name,

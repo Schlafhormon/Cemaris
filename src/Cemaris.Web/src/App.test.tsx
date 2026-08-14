@@ -13,6 +13,9 @@ const emptySearch = {
   totalMatches: 0,
   limit: 10,
   isTruncated: false,
+  page: 1,
+  pageSize: 10,
+  totalPages: 0,
 }
 
 const emptyMasterData = { cemeteries: [], areas: [], fields: [], rows: [], graveTypes: [], cemeteryGraveTypes: [], graveSites: [] }
@@ -131,7 +134,7 @@ describe('Capability-Grenze', () => {
           version: '1.0.0',
         })
       }
-      if (path.endsWith('/api/search')) {
+      if (path.includes('/api/search')) {
         return jsonResponse(emptySearch)
       }
       return jsonResponse({ service: 'Cemaris.Api', status: 'Healthy' })
@@ -147,6 +150,7 @@ describe('Capability-Grenze', () => {
 
   it('zeigt Navigation und Anlageweg bei aktiver Server-Capability', async () => {
     window.history.replaceState(null, '', '/search')
+    const user = userEvent.setup()
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
       const path = String(input)
       if (path.endsWith('/api/auth/me')) {
@@ -162,7 +166,7 @@ describe('Capability-Grenze', () => {
           version: '1.0.0',
         })
       }
-      if (path.endsWith('/api/search')) {
+      if (path.includes('/api/search')) {
         return jsonResponse(emptySearch)
       }
       return jsonResponse({ service: 'Cemaris.Api', status: 'Healthy' })
@@ -170,8 +174,16 @@ describe('Capability-Grenze', () => {
 
     render(<AuthProvider><App /></AuthProvider>)
 
-    expect(await screen.findByRole('link', { name: 'Neue Fallakte' })).toBeInTheDocument()
+    await user.click(await screen.findByRole('button', { name: 'Fallakten' }))
+    expect(screen.getByRole('link', { name: /Neue Fallakte/ })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Synthetische Fallakte anlegen' })).toBeInTheDocument()
+    await user.keyboard('{Escape}')
+    expect(screen.queryByRole('link', { name: /Neue Fallakte/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Fallakten' })).toHaveFocus()
+
+    await user.click(screen.getByRole('button', { name: /Kontomenü für/ }))
+    expect(screen.getByRole('link', { name: /Passwort ändern/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Abmelden/ })).toBeInTheDocument()
   })
 })
 
@@ -228,6 +240,10 @@ describe('Schreibformulare', () => {
 
     render(<CaseEditPage caseId="00000000-0000-0000-0000-000000009001" />)
     const cemetery = await screen.findByRole('textbox', { name: /Friedhof/ })
+    expect(screen.getByRole('link', { name: 'Detailansicht öffnen' })).toHaveAttribute(
+      'href',
+      '/cases/00000000-0000-0000-0000-000000009001',
+    )
     await user.clear(cemetery)
     await user.type(cemetery, 'Lokaler, noch nicht gespeicherter Stand')
     await user.click(screen.getByRole('button', { name: 'Grabstellenbezug speichern' }))

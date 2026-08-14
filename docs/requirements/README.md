@@ -36,6 +36,18 @@ Friedhofsstruktur und ihre Grenzen stehen in den
 Der einfache technische Beisetzungsprozess für Inkrement 4b ist in den
 [Produktentscheidungen zum Beisetzungsprozess](burial-process-decisions.md)
 verbindlich abgegrenzt.
+Das
+[Entscheidungsgate 5a](../implementation/cemaris-increment-5a-completion.md)
+hat Personenrollen, Nutzungsrechte, Ruhefristen und Wiedervorlagen getrennt
+und einen kleinen implementierbaren 5b-Zuschnitt bestätigt.
+Die dabei bestätigten Regeln stehen in den
+[Produktentscheidungen zu Beteiligten und Nutzungsrechten](person-usage-rights-deadlines-decisions.md).
+5b ist gemäß
+[Abschlussdokumentation](../implementation/cemaris-increment-5b-completion.md)
+als manueller historisierbarer Kern technisch umgesetzt. Fristberechnung,
+Beendigung und Wiedervorlagen sind Gegenstand des nächsten
+[5c-Entscheidungsgates](../implementation/cemaris-increment-5c-next-step-handoff.md)
+und weiterhin offen.
 
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
