@@ -46,8 +46,14 @@ Der einfache atomare Beisetzungsprozess ist in der
 Der technisch umgesetzte manuelle Beteiligten-/Nutzungsrechtskern aus 5b ist
 in der
 [Personen- und Nutzungsrechtsarchitektur](person-usage-rights-deadlines.md)
-beschrieben. Fristberechnung und Wiedervorlagen gehören ausdrücklich noch
-nicht dazu.
+beschrieben. Das
+[5c-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)
+hat keine neue Facharchitektur freigegeben. Der
+[5d-Abschluss](../implementation/cemaris-increment-5d-completion.md) verwendet
+ausschließlich die vorhandenen Verträge für Bedienkorrekturen. Auch die
+[5e-CSRF-Folgeübergabe](../implementation/cemaris-increment-5e-next-step-handoff.md)
+ist rein technisch;
+Fristberechnung und Wiedervorlagen gehören weiterhin nicht dazu.
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.

@@ -26,9 +26,14 @@ export function AppLayout({ children, caseEditingEnabled, cemeteryMasterDataEdit
       ? [{ label: 'Neue Fallakte', description: 'Synthetischen Fall anlegen', href: '/cases/new', active: currentPath === '/cases/new' }]
       : []),
   ]
-  const masterDataItems: NavigationItem[] = cemeteryMasterDataEditingEnabled
-    ? [{ label: 'Friedhofsstammdaten', description: 'Struktur, Grabarten und Grabstellen', href: '/master-data/cemeteries', active: currentPath.startsWith('/master-data/cemeteries') }]
-    : []
+  const masterDataItems: NavigationItem[] = [
+    ...(cemeteryMasterDataEditingEnabled
+      ? [{ label: 'Friedhofsstammdaten', description: 'Struktur, Grabarten und Grabstellen', href: '/master-data/cemeteries', active: currentPath.startsWith('/master-data/cemeteries') }]
+      : []),
+    ...(personUsageRightsEditingEnabled
+      ? [{ label: 'Beteiligte', description: 'Fallübergreifend suchen und pflegen', href: '/parties', active: currentPath === '/parties' }]
+      : []),
+  ]
   const administrationItems: NavigationItem[] = account.role === 'Administration'
     ? [
         { label: 'Benutzerverwaltung', description: 'Lokale Konten und Rollen', href: '/admin/accounts', active: currentPath === '/admin/accounts' },

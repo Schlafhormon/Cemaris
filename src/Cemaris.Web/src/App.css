@@ -1348,6 +1348,8 @@
   font-size: 0.76rem;
   font-weight: 700;
   gap: 0.3rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .search-control {
@@ -1371,6 +1373,7 @@
   font: inherit;
   font-size: 0.86rem;
   min-height: 2.5rem;
+  min-width: 0;
   padding: 0.48rem 0.6rem;
   width: 100%;
 }
@@ -1617,7 +1620,39 @@
   margin: 0.25rem 0 0.7rem;
 }
 
+.duplicate-warning .button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.form-error-summary {
+  background: #fff4ed;
+  border: 1px solid #d9a38f;
+  border-radius: 0.4rem;
+  color: #70230c;
+  font-size: 0.78rem;
+  margin-bottom: 0.75rem;
+  padding: 0.65rem 0.75rem;
+}
+
+.party-create-card > .form-error-summary {
+  margin: 1rem 1rem 0;
+}
+
+.form-error-summary ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.compact-form [aria-invalid='true'] {
+  border-color: #a52a2a;
+  outline-color: #a52a2a;
+}
+
 .right-details {
+  container-name: right-details;
+  container-type: inline-size;
   padding: 1rem;
 }
 
@@ -1713,8 +1748,24 @@
 .right-actions {
   display: grid;
   gap: 0.5rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   margin-top: 1rem;
+}
+
+.right-action-form .compact-form-grid,
+.right-action-form .compact-form-grid--three {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+}
+
+@container right-details (max-width: 40rem) {
+  .right-action-form .compact-form-grid,
+  .right-action-form .compact-form-grid--three {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .right-action-form .field--wide {
+    grid-column: auto;
+  }
 }
 
 .action-disclosure,
@@ -1830,8 +1881,34 @@
   margin: 0;
 }
 
+.parties-page-message {
+  border: 1px solid #b9d5c5;
+  border-radius: 0.45rem;
+  margin-bottom: 1rem;
+}
+
+.parties-workspace-layout {
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.8fr);
+  padding: 1.25rem;
+}
+
+.parties-workspace-layout > * {
+  min-width: 0;
+}
+
+.projection-boundary-note {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
 @media (max-width: 980px) {
   .usage-right-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .parties-workspace-layout {
     grid-template-columns: 1fr;
   }
 

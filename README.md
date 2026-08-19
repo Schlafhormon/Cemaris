@@ -71,6 +71,8 @@ Vorbereitet sind:
   Grabstellenstammdatenpflege mit kanonischem Fallaktenbezug,
 - einen standardmäßig deaktivierten einfachen synthetischen
   Beisetzungsprozess mit atomarer Grabstellenstatuskopplung,
+- einen standardmäßig deaktivierten synthetischen Beteiligten-/
+  Nutzungsrechtskern mit kanonischen Identitäten und Fachhistorie,
 - ein bewusst schmales EF-Core-Fall-/Leseschema mit synthetischem Standardprovider und optionaler SQL-Server-Anbindung,
 - eine minimale herstellerneutrale DMS-Erweiterungsstelle,
 - Unit- und Integrationstests,
@@ -92,10 +94,13 @@ technisch umgesetzt. Das fachliche
 [Entscheidungsgate 5a](docs/implementation/cemaris-increment-5a-completion.md)
 ist dokumentarisch abgeschlossen. Der
 [manuelle 5b-Beteiligten-/Nutzungsrechtskern](docs/implementation/cemaris-increment-5b-completion.md)
-ist technisch umgesetzt und gegen reales SQL verifiziert. Der nächste sichere
-Schritt ist das
-[5c-Abnahme- und Lebenszyklus-Entscheidungsgate](docs/implementation/cemaris-increment-5c-next-step-handoff.md);
-Fristberechnung und Wiedervorlagen bleiben bis zu dessen Abschluss offen.
+ist technisch umgesetzt und gegen reales SQL verifiziert. Das nachgelagerte
+[5c-Abnahme- und Lebenszyklus-Entscheidungsgate](docs/implementation/cemaris-increment-5c-completion.md)
+und die daraus bestätigten
+[5d-Bedienkorrekturen](docs/implementation/cemaris-increment-5d-completion.md)
+sind abgeschlossen. Der nächste belegte kleine technische Schritt ist die
+[5e-Stabilisierung des CSRF-Sitzungswechsels](docs/implementation/cemaris-increment-5e-next-step-handoff.md);
+Fristberechnung, Statuswirkung und Wiedervorlagen bleiben weiterhin offen.
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -381,8 +386,9 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
 3. inkrementelle Implementierung der validierbaren Kernfunktionen
 4. Identität, Berechtigungen, Audit, Datenschutz- und Betriebsfreigabe
 5. fachliche Stammdaten, Fall-, Personen-, Beisetzungs- und Rechteprozesse;
-   5a und der technische manuelle 5b-Durchstich sind abgeschlossen, als
-   nächster sicherer Schritt folgt das 5c-Abnahme- und Entscheidungsgate
+   5a, der technische manuelle 5b-Durchstich, das dokumentarische 5c-Gate und
+   die 5d-Bedienkorrekturen sind abgeschlossen; als nächster sicherer Schritt
+   folgt die isolierte 5e-CSRF-Sitzungsstabilisierung ohne neue Fachregel
 6. Gebühren-, Dokument- und Bescheidwesen
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe

@@ -45,9 +45,14 @@ Die dabei bestätigten Regeln stehen in den
 5b ist gemäß
 [Abschlussdokumentation](../implementation/cemaris-increment-5b-completion.md)
 als manueller historisierbarer Kern technisch umgesetzt. Fristberechnung,
-Beendigung und Wiedervorlagen sind Gegenstand des nächsten
-[5c-Entscheidungsgates](../implementation/cemaris-increment-5c-next-step-handoff.md)
-und weiterhin offen.
+Beendigung und Wiedervorlagen wurden im
+[5c-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)
+quellengebunden als weiterhin offen beziehungsweise widersprüchlich bestätigt.
+Die ausschließlich freigegebenen
+[5d-Bedienkorrekturen](../implementation/cemaris-increment-5d-completion.md)
+sind technisch umgesetzt. Der rein technische
+[5e-CSRF-Folgeumfang](../implementation/cemaris-increment-5e-next-step-handoff.md)
+ändert keine Anforderung oder Fachregel.
 
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -251,7 +256,10 @@ erforderlich.
 
 ## 7. Personen
 
-**Status:** UNBEKANNT.
+**Status:** Kanonische natürliche Personen und Organisationen, historische
+Postanschriften und warnende Dublettenprüfung sind für den manuellen 5b-Kern
+`BESTÄTIGT` und technisch umgesetzt. Weitere Kategorien, Attribute,
+Schnittstellen und Datenschutzfreigaben bleiben `OFFEN`.
 
 - OFFEN: Welche Personenkategorien treten fachlich auf, ohne daraus schon Systemrollen abzuleiten?
 - OFFEN: Welche Attribute sind für welchen Zweck erforderlich und rechtlich zulässig?
@@ -296,7 +304,11 @@ Friedhofsverwaltung bleibt `OFFEN`.
 
 ## 10. Nutzungsrechte
 
-**Status:** UNBEKANNT. Nutzungszeiten und Berechnungsregeln werden nicht vorgegeben.
+**Status:** Der manuelle historisierte 5b-Kern ist technisch umgesetzt und im
+5c-Gate synthetisch vorgeführt. Ein manuelles Enddatum besitzt allein keine
+Statuswirkung. Nutzungsrechtsarten, Lebenszyklus, Nutzungszeiten und
+Berechnungsregeln bleiben `OFFEN` beziehungsweise in 5C-05
+`WIDERSPRUCH`.
 
 - OFFEN: Welche Rechte, Inhaber, Mitberechtigte und Übergänge existieren?
 - OFFEN: Wann entstehen, beginnen, enden, ruhen oder ändern sich Rechte?
@@ -607,3 +619,7 @@ Bewertungskriterien:
 | einfacher Beisetzungsprozess 4b | USR-2026-08-13-INCREMENT-4B | vorstellbarer Ablauf von Entwurf bis Abschluss mit kontrollierter Korrektur | kanonische Personen-/Grabstellenbezüge und 4a-Sicherheitsgrundlage | spätere fachliche Verwaltungsabnahme; keine Ressourcen-, Unterlagen- oder Fristlogik | FREIGEGEBEN ZUR TECHNISCHEN UMSETZUNG | verbindlicher Auftrag in `cemaris-increment-4b-next-step-handoff.md` |
 | vollständiger Beisetzungs- und Rechteprozess | INT-008/009, offene P0-Fragen | zentraler Fachprozess | Anwenderinterview, Rollen-, Frist-, Satzungs- und Historienregeln | sehr hoch bei geratenen Regeln | OFFEN | noch nicht implementieren |
 | Friedhofsstruktur und Grabstättenstammdaten 4a | USR-2026-08-13-INCREMENT-4A, Satzung-DK-2023 | kanonische frei konfigurierbare Struktur statt freier Falltexte | bestehende Identitäts-/Policy-/Auditgrundlage | fachliche Abnahme folgt; Löschung und Referenzen sicher begrenzt | umgesetzt | technisch Ende zu Ende mit synthetischen Daten umgesetzt; keine Produktivfreigabe |
+| manueller Beteiligten-/Nutzungsrechtskern 5b | bestätigte 5a-Entscheidungen und ADR-0016 | kanonische Beteiligte, Adress-/Inhaberhistorie und manuelle Rechtefakten | 4a-Grabstellen, Identität, ETag, Audit und Startregel | keine Lebenszyklus- oder Fristwirkung | umgesetzt | technisch abgeschlossen; 5c-Vorführung bestätigt den Kern |
+| Abnahme- und Lebenszyklusgate 5c | lokale Satzungsevidenz und 5b-Vorführung | quellengebundene Trennung bestätigter Grenzen von offenen Regeln | Projekt-, Fach-, Rechts-, Datenschutz- und Betriebsgates | keine Implementierung | abgeschlossen | 5C-01 und 5C-03 bis 5C-13 bleiben offen beziehungsweise widersprüchlich |
+| Bedienkorrekturen 5d | Befunde 5C-F-01 bis 5C-F-04 | fallunabhängiger Beteiligteneinstieg und verständlichere, responsive Bedienung | ausschließlich vorhandene 5b-Verträge | keine neue Fachregel | umgesetzt | technische Rückverfolgbarkeit in `cemaris-increment-5d-completion.md` |
+| CSRF-Sitzungsstabilisierung 5e | reproduzierter erster Schreibfehler nach Anmeldung | frischer Antiforgery-Nachweis nach Identitätswechsel | vorhandener Authentifizierungs-/CSRF-Vertrag | keine Fachregel oder Datenmodelländerung | FREIGABE DURCH GESONDERTEN AUFTRAG ERFORDERLICH | ausführbare Abgrenzung in `cemaris-increment-5e-next-step-handoff.md` |

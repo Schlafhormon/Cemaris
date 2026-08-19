@@ -1,6 +1,6 @@
 # Produktentscheidungen zu Personen, Nutzungsrechten, Fristen und Wiedervorlagen
 
-Stand: 14.08.2026
+Stand: 18.08.2026
 
 ## Zweck und Entscheidungsstatus
 
@@ -8,6 +8,13 @@ Dieses Dokument schließt das fachliche Gate von Inkrement 5a und grenzt den
 ersten implementierbaren Durchstich 5b verbindlich ab. Es ist keine
 Rechtsberatung und keine fachliche, datenschutzrechtliche, betriebliche oder
 produktive Freigabe.
+
+Das nachgelagerte
+[5c-Abnahme- und Lebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)
+hat den 5b-Kern am 18.08.2026 manuell mit synthetischen Daten bestätigt und
+die weiterhin offenen Lebenszyklusfragen quellengebunden eingeordnet. Die
+5c-Ergänzung ändert keine 5b-Fachregel und erteilt keine der weiterhin
+fehlenden Freigaben.
 
 Für Aussagen gelten ausschließlich diese Kennzeichnungen:
 
@@ -193,6 +200,57 @@ für den gescheiterten Versuch teilweise geschrieben.
   Leseprotokollierung;
 - fachliche, rechtliche, datenschutzrechtliche, betriebliche und produktive
   Freigabe.
+
+## Ergänzende 5c-Entscheidungsmatrix
+
+Die ausführliche Antwort mit Geltungsbereich und erforderlicher
+Freigabefunktion steht in der
+[5c-Abschlussdokumentation](../implementation/cemaris-increment-5c-completion.md#entscheidungsmatrix-5c-01-bis-5c-14).
+Für dieses Anforderungsdokument gilt zusammenfassend:
+
+| ID | Status | Quellengebundene Grenze nach 5c |
+| --- | --- | --- |
+| 5C-01 | OFFEN | Die sieben örtlich genannten Grab-/Rechtearten sind Satzungsevidenz, kein allgemeiner Cemaris-Katalog und kein 5d-Umfang. |
+| 5C-02 | BESTÄTIGT | Das manuelle 5b-Enddatum darf historisiert geändert werden und besitzt allein keinerlei Status- oder Beendigungswirkung. |
+| 5C-03 | OFFEN | Auslösende Ereignisse und rückwirkungsfreie Regelstandzuordnung für berechnete Ruhe-/Nutzungszeiten sind nicht bestätigt. |
+| 5C-04 | OFFEN | Einheit, Rundung, Grenzen und Schaltjahre bleiben unentschieden; lokale Jahreswerte sind keine Defaults. |
+| 5C-05 | WIDERSPRUCH | Verlängerung zur Deckung der Ruhezeit vor einer Beisetzung und Gebührenaussage `nach Ablauf` werden nicht still aufgelöst. |
+| 5C-06 | OFFEN | Beendigung, Rückgabe/Verzicht, Entzug, Schließung, Entwidmung und Wiedervergabe besitzen kein freigegebenes Zustandsmodell. |
+| 5C-07 | OFFEN | Die 5b-Rollen bleiben bestätigt; Auslösen, Bestätigen und Zurücknehmen künftiger Lebenszyklusübergänge ist offen. |
+| 5C-08 | OFFEN | ETag, Atomarität, Revision und sparsamer Audit bleiben Mindestmechanismen; Quellen-/Begründungspflichten je neuem Übergang sind offen. |
+| 5C-09 | OFFEN | Lokale Schließungs-/Entwidmungsaussagen sind Evidenz; konkrete Cemaris-Statuswirkungen bleiben unmodelliert. |
+| 5C-10 | OFFEN | Keine automatische Altfallinterpretation; ein Bestandsschutz-/Satzungsstand-Snapshot benötigt ein eigenes Gate. |
+| 5C-11 | OFFEN | Es sind keine Wiedervorlagenarten oder Regeln für Entstehung, Erledigung, Verschiebung und Aufhebung bestätigt. |
+| 5C-12 | OFFEN | Der lokale Drei-Monats-Hinweis erzeugt noch keine manuelle oder automatische Erinnerung, Eskalation oder Nachricht. |
+| 5C-13 | OFFEN | Aufbewahrung, Löschung, Sperrung und Anonymisierung besitzen keine freigegebene Automatik. |
+| 5C-14 | BESTÄTIGT | Kommunale Werte sind lokale Konfiguration; Historisierung, Atomarität, ETag, Audit und rückwirkungsfreie Snapshots sind allgemeine Produktmechanismen. |
+
+Quelle der Statusbestätigung ist die Projektverantwortung vom 18.08.2026 auf
+Basis der bestehenden 5a-Entscheidungen, ADR-0016 und der erneut nur lesend
+geprüften lokalen Satzungsevidenz. `BESTÄTIGT` bezieht sich ausschließlich auf
+die genannte Produktgrenze, nicht auf eine Rechts- oder Verwaltungsabnahme.
+
+## Bestätigter nächster Umfang
+
+Die manuelle Vorführung hat keinen fachlichen Defekt des 5b-Kerns ergeben.
+Bestätigt ist ausschließlich ein technisches Bedieninkrement 5d für:
+
+- einen fallunabhängigen Beteiligteneinstieg auf vorhandenen Verträgen;
+- containergeeignet responsive Rechteaktionsformulare;
+- direkte Anzeige vorhandener Feldfehler;
+- verständlichere Hinweise zur getrennten Altprojektion.
+
+Die ausführbare Abgrenzung steht in der
+[5d-Folgeübergabe](../implementation/cemaris-increment-5d-next-step-handoff.md).
+Keine der offenen oder widersprüchlichen 5C-Fragen wird dadurch zur
+Implementierungsanforderung.
+
+Die Bedienkorrekturen sind gemäß
+[5d-Abschluss](../implementation/cemaris-increment-5d-completion.md) technisch
+umgesetzt. Die nachgelagerte
+[5e-CSRF-Sitzungsstabilisierung](../implementation/cemaris-increment-5e-next-step-handoff.md)
+ist ebenfalls rein technisch und ändert keine Produktentscheidung dieses
+Dokuments.
 
 ## Rückverfolgbarkeit der Entscheidungen
 

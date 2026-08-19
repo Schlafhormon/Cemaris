@@ -263,8 +263,9 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProc
 
         <section className="detail-section">
           <h2>Vorläufige Altprojektion: Nutzungsrechte / Laufzeiten</h2>
+          <p className="projection-boundary-note">Dieser Abschnitt zeigt ausschließlich die nullable Altprojektion. Ein kanonisches Nutzungsrecht wird davon getrennt im Bereich „Kanonisches Nutzungsrecht“ darüber angezeigt; beide Datenbereiche werden nicht zusammengeführt.</p>
           {caseOverview.usageRights.length === 0 ? (
-            <p className="missing-value">Keine Nutzungsrechte vorhanden.</p>
+            <p className="missing-value">Nur in der vorläufigen Altprojektion ist kein Nutzungsrechtseintrag vorhanden. Ein kanonisches Nutzungsrecht kann separat darüber angezeigt werden.</p>
           ) : (
             caseOverview.usageRights.map((usageRight) => {
               const holders = usageRight.entitledPersonIds.map((id) => entitledById.get(id))

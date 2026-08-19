@@ -185,6 +185,38 @@ describe('Capability-Grenze', () => {
     expect(screen.getByRole('link', { name: /Passwort ändern/ })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Abmelden/ })).toBeInTheDocument()
   })
+
+  it.each(['Sachbearbeitung', 'Administration'] as const)('öffnet Beteiligte für %s bei aktiver Capability', async (role) => {
+    window.history.replaceState(null, '', '/parties')
+    const user = userEvent.setup()
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
+      const path = String(input)
+      if (path.endsWith('/api/auth/me')) return jsonResponse({ ...currentAccount, role })
+      if (path.endsWith('/api/system/info')) return jsonResponse({ personUsageRightsEditingEnabled: true })
+      return jsonResponse({ service: 'Cemaris.Api', status: 'Healthy' })
+    }))
+
+    render(<AuthProvider><App /></AuthProvider>)
+
+    expect(await screen.findByRole('heading', { name: 'Beteiligte', level: 1 })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Stammdaten' }))
+    expect(screen.getByRole('link', { name: /Beteiligte/ })).toHaveAttribute('href', '/parties')
+  })
+
+  it('blendet Beteiligtennavigation aus und erklärt den deaktivierten Direktaufruf', async () => {
+    window.history.replaceState(null, '', '/parties')
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
+      const path = String(input)
+      if (path.endsWith('/api/auth/me')) return jsonResponse(currentAccount)
+      if (path.endsWith('/api/system/info')) return jsonResponse({ personUsageRightsEditingEnabled: false })
+      return jsonResponse({ service: 'Cemaris.Api', status: 'Healthy' })
+    }))
+
+    render(<AuthProvider><App /></AuthProvider>)
+
+    expect(await screen.findByText('Die synthetische Beteiligten- und Nutzungsrechtspflege ist in dieser Umgebung nicht aktiviert.')).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: /Beteiligte/ })).not.toBeInTheDocument()
+  })
 })
 
 describe('Schreibformulare', () => {

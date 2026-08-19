@@ -30,4 +30,14 @@ Architecture Decision Records (ADRs) dokumentieren wesentliche technische und pr
 | [0015](ADR-0015-atomic-burial-process.md) | Atomarer providerneutraler Beisetzungsprozess | Accepted |
 | [0016](ADR-0016-canonical-parties-and-historicized-usage-rights.md) | Kanonische Beteiligte und historisierte Nutzungsrechte | Accepted |
 
+Das
+[5c-Abnahme- und Lebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)
+bestätigt ADR-0016 unverändert. Für den ausgewählten reinen 5d-Bedienumfang
+war gemäß [5d-Abschluss](../implementation/cemaris-increment-5d-completion.md)
+kein neues ADR erforderlich. Auch die rein technische
+[5e-CSRF-Folgeübergabe](../implementation/cemaris-increment-5e-next-step-handoff.md)
+ändert keine Architekturentscheidung. Ein späteres Frist-, Status- oder
+Lebenszyklusmodell benötigt wegen der offenen 5C-Gates eine neue
+Architekturentscheidung.
+
 Für neue ADRs kann [ADR-Template](ADR-template.md) kopiert werden.

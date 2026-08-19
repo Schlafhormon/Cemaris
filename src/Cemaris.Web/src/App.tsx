@@ -13,6 +13,7 @@ import { PasswordPage } from './pages/PasswordPage'
 import { UserAdministrationPage } from './pages/UserAdministrationPage'
 import { CemeteryMasterDataPage } from './pages/CemeteryMasterDataPage'
 import { UsageRightStartRulesPage } from './pages/UsageRightStartRulesPage'
+import { PartiesPage } from './pages/PartiesPage'
 
 function App() {
   const { state: authState, account, logout } = useAuth()
@@ -74,6 +75,10 @@ function App() {
       : <div className="state-message detail-state">Die synthetische Stammdatenpflege ist in dieser Umgebung nicht aktiviert.</div>
   } else if (!account.mustChangePassword && path === '/program-configuration/usage-right-start-rules') {
     page = account.role === 'Administration' && personUsageRightsEditingEnabled === true ? <UsageRightStartRulesPage /> : <div className="state-message state-message--error detail-state" role="alert">Für diese Programmkonfiguration fehlt die administrative Berechtigung oder Capability.</div>
+  } else if (!account.mustChangePassword && path === '/parties') {
+    page = personUsageRightsEditingEnabled === true
+      ? <PartiesPage />
+      : <PersonUsageRightsUnavailablePage loading={personUsageRightsEditingEnabled === undefined} />
   } else if (!account.mustChangePassword && path === '/cases/new') {
     page = caseEditingEnabled === true ? (
       <NewCasePage cemeteryMasterDataEditingEnabled={cemeteryMasterDataEditingEnabled === true} />
@@ -102,6 +107,16 @@ function App() {
       {forbidden && <div className="permission-banner" role="alert"><span>Diese Aktion ist für Ihr Konto nicht erlaubt. Ihre Eingaben bleiben erhalten.</span><button type="button" onClick={() => setForbidden(false)}>Hinweis schließen</button></div>}
       {page}
     </AppLayout>
+  )
+}
+
+function PersonUsageRightsUnavailablePage({ loading }: { loading: boolean }) {
+  return (
+    <div className="state-message detail-state" role="status">
+      {loading
+        ? 'Beteiligten-Capability wird geprüft …'
+        : 'Die synthetische Beteiligten- und Nutzungsrechtspflege ist in dieser Umgebung nicht aktiviert.'}
+    </div>
   )
 }
 

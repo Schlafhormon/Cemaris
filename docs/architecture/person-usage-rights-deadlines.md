@@ -1,11 +1,17 @@
 # Architektur für Beteiligte und manuelle Nutzungsrechte
 
-Stand: 14.08.2026
+Stand: 18.08.2026
 
 > **Implementierungsstatus:** Der hier abgegrenzte 5b-Kern ist technisch
 > umgesetzt und gemäß
 > [5b-Abschlussdokumentation](../implementation/cemaris-increment-5b-completion.md)
-> verifiziert. Die beschriebenen Nicht-Ziele bleiben unverändert offen.
+> verifiziert. Das
+> [5c-Abnahme- und Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)
+> hat den Kern manuell bestätigt und ausschließlich Bedienkorrekturen für 5d
+> freigegeben. Diese sind gemäß
+> [5d-Abschluss](../implementation/cemaris-increment-5d-completion.md)
+> technisch umgesetzt. Die beschriebenen fachlichen Nicht-Ziele bleiben
+> offen.
 
 ## Geltungsbereich
 
@@ -17,6 +23,36 @@ Regelberechnung, Statusautomatik und Wiedervorlagen bleiben außerhalb.
 
 Maßgeblich ist außerdem
 [ADR-0016](../decisions/ADR-0016-canonical-parties-and-historicized-usage-rights.md).
+
+## Architekturentscheidung nach 5c
+
+Die 5c-Vorführung hat vier Bedienbefunde, aber keinen Bedarf für ein neues
+Fachaggregat, eine Persistenzänderung oder einen erweiterten API-Vertrag
+ergeben. Für den kleinsten Folgeumfang wurden drei Varianten bewertet:
+
+| Variante | Technische Wirkung | Entscheidung |
+| --- | --- | --- |
+| Bedienkorrektur auf vorhandenen Verträgen | neue fallunabhängige React-Navigation und -Ansicht, responsives Layout, vorhandene Feldfehler sichtbar machen, Altprojektion besser erklären | ausgewählt für 5d |
+| erweitertes Beteiligtenmodul | neue Such-/Listenverträge, Pagination und gegebenenfalls zusätzliche Mutationen | für 5d zu groß; Bedarf offen |
+| Lebenszyklus-/Fristdurchstich | neues Regel-/Ereignismodell, Migration, Statusübergänge und Ersatz der 5b-Eindeutigkeitsgrenze | wegen offener beziehungsweise widersprüchlicher 5C-Fragen verworfen |
+
+Für die ausgewählte Variante gelten folgende Grenzen:
+
+- `Party`, `UsageRight`, Inhaberzeiträume und Fachrevisionen bleiben
+  unverändert;
+- Fachmutation, Historisierung, Audit und Version bleiben weiterhin atomar;
+- vorhandene starke ETags und `If-Match` werden wiederverwendet;
+- reine Navigation und Leseansicht erzeugen keinen Auditdatensatz;
+- es gibt keine EF-Modelländerung, Migration oder Datenübernahme;
+- nullable Altprojektionen bleiben getrennt und API-kompatibel;
+- die neue Beteiligtenansicht darf keinen Fallbezug erfinden.
+
+Die konkrete Umsetzung war ausschließlich durch die
+[5d-Folgeübergabe](../implementation/cemaris-increment-5d-next-step-handoff.md)
+autorisiert und ist ohne Änderung dieser Architektur abgeschlossen. Jede
+unerwartet notwendige Änderung an Domain, Application-Port, API/OpenAPI,
+Persistenz oder Migration erweitert den bestätigten Umfang und benötigt
+vorher eine neue Entscheidung.
 
 ## Architekturgrenze
 

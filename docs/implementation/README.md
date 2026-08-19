@@ -1,6 +1,6 @@
 # Cemaris-Implementierungsplan
 
-Stand: 14.08.2026
+Stand: 18.08.2026
 
 ## Aktueller Schwerpunkt
 
@@ -64,6 +64,26 @@ anschließende manuelle Bedienrunde führte ausschließlich zu dokumentierten
 Design-, Navigations- und Suchpaginationverbesserungen; sie änderte keine
 5b-Fachregel.
 
+Inkrement 5c ist gemäß
+[Abschlussdokumentation](cemaris-increment-5c-completion.md) als manuelles und
+dokumentarisches Gate abgeschlossen. Die Vorführung bestätigt den 5b-Kern und
+liefert vier Bedienbefunde. Die Lebenszyklusfragen bleiben mit Ausnahme der
+engen 5b-Enddatumsgrenze und der Trennung lokaler Konfiguration von allgemeinen
+Produktmechanismen offen beziehungsweise widersprüchlich. Bestätigter nächster
+Umfang ist ausschließlich
+[5d](cemaris-increment-5d-next-step-handoff.md): ein fallunabhängiger
+Beteiligteneinstieg, responsive Rechteaktionen, konkrete Feldfehler und eine
+verständlichere Altprojektionsabgrenzung.
+
+Inkrement 5d ist gemäß
+[Abschlussdokumentation](cemaris-increment-5d-completion.md) technisch
+umgesetzt. Route und Navigation `Beteiligte`, gemeinsame Party-Komponenten,
+responsive Rechteaktionen, direkte Feldfehler sowie die erklärte
+Altprojektionsgrenze verwenden ausschließlich vorhandene 5b-Verträge. Der
+während der Vorführung reproduzierte erste Schreibfehler nach einem
+Identitätswechsel ist als kleiner rein technischer
+[5e-Folgeumfang](cemaris-increment-5e-next-step-handoff.md) abgegrenzt.
+
 ## Verbindliche Entwicklungsregel
 
 „Fertig“ bezeichnet immer einen klar abgegrenzten, Ende-zu-Ende getesteten
@@ -84,7 +104,9 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 4b | Einfacher Beisetzungsprozess | technisch umgesetzt: Zustandslauf, kontrollierte Korrektur, Dublettenhinweis und atomare Grabstellenkopplung | technische Abnahme erfüllt; fachliche Verwaltungsabnahme bleibt offen |
 | 5a | Entscheidungsgate für Personenrollen, Nutzungsrechte, Ruhefristen und Wiedervorlagen | abgeschlossen: Evidenz und bestätigte Produktentscheidungen trennen den manuellen 5b-Kern von offenen Automatiken | keine technische, fachliche oder produktive Freigabe |
 | 5b | manueller Beteiligten-/Nutzungsrechtskern | technisch umgesetzt: kanonische Beteiligte, Adress-/Inhaberhistorie, manuelle Rechteänderungen, konfigurierbarer Startbezug sowie nachgelagerte UI-, Navigations- und Suchpaginationverbesserungen | technische Abnahme erfüllt; fachliche Vorstellung, Datenschutz und Betrieb offen |
-| 5c | fachliches Abnahme- und Lebenszyklus-Entscheidungsgate | synthetische 5b-Vorstellung, Befundprotokoll und bestätigter kleinster Folgeumfang | keine Implementierung offener Frist-, Status- oder Beendigungsregeln |
+| 5c | fachliches Abnahme- und Lebenszyklus-Entscheidungsgate | abgeschlossen: synthetische 5b-Vorstellung, priorisiertes Befundprotokoll, 5C-Matrix und bestätigter kleinster Folgeumfang | keine Implementierung offener Frist-, Status- oder Beendigungsregeln |
+| 5d | Bedienkorrekturen am 5b-Kern | technisch umgesetzt: fallunabhängiger Beteiligteneinstieg, responsive Rechteaktionen, Feldfehler und verständlichere Altprojektionshinweise | ausschließlich vorhandene 5b-Verträge; keine neue Fachregel |
+| 5e | CSRF-Sitzungswechsel stabilisieren | reproduzierten ersten Schreibfehler nach Anmeldung isoliert korrigieren | rein technischer Frontendumfang; Backend-/Sicherheitsvertragsänderung nur nach neuem Auftrag |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme und Abnahme | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
@@ -111,9 +133,12 @@ abgenommen. Das Entscheidungsgate
 [Inkrement 5a](cemaris-increment-5-next-step-handoff.md) ist gemäß
 [Abschlussdokumentation](cemaris-increment-5a-completion.md) geschlossen.
 Der [manuelle Beteiligten-/Nutzungsrechtskern 5b](cemaris-increment-5b-completion.md)
-ist technisch abgeschlossen. Der nächste sichere Auftrag ist das rein
-dokumentarische und manuelle
-[5c-Abnahme- und Lebenszyklus-Entscheidungsgate](cemaris-increment-5c-next-step-handoff.md).
+ist technisch abgeschlossen. Das rein dokumentarische und manuelle
+[5c-Abnahme- und Lebenszyklus-Entscheidungsgate](cemaris-increment-5c-completion.md)
+ist ebenfalls abgeschlossen. Die ausdrücklich bestätigten
+[5d-Bedienkorrekturen](cemaris-increment-5d-completion.md) sind technisch
+umgesetzt. Der nächste sichere Auftrag ist die kleine
+[5e-CSRF-Sitzungsstabilisierung](cemaris-increment-5e-next-step-handoff.md).
 Automatische Fristberechnung, Statuswirkung, Beendigung und Wiedervorlagen
 bleiben offen.
 Solange die weiterhin offenen fachlichen, Datenschutz- und Betriebsgates
