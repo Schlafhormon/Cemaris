@@ -66,6 +66,34 @@ public sealed class CookieIdentityEndpointTests
         Assert.Contains(valid.Headers.GetValues("Set-Cookie"), value => value.Contains("Cemaris.Session", StringComparison.Ordinal) && value.Contains("httponly", StringComparison.OrdinalIgnoreCase) && value.Contains("samesite=lax", StringComparison.OrdinalIgnoreCase));
     }
 
+    [Theory]
+    [InlineData("test-admin", TestIdentity.AdministratorPassword)]
+    [InlineData("test-sach", TestIdentity.CaseWorkerPassword)]
+    public async Task AntiforgeryTokenIssuedBeforeLoginIsRejectedAfterIdentityChangeAndFreshTokenIsAccepted(
+        string username,
+        string password)
+    {
+        await using var factory = new CookieIdentityWebApplicationFactory();
+        using var client = factory.CreateClient(new() { AllowAutoRedirect = false });
+        var anonymousCsrf = await client.GetFromJsonAsync<AntiforgeryTokenResponse>("/api/auth/csrf");
+        Assert.NotNull(anonymousCsrf);
+
+        using var login = LoginRequest(anonymousCsrf, username, password);
+        using var loginResponse = await client.SendAsync(login, CancellationToken.None);
+        Assert.Equal(HttpStatusCode.OK, loginResponse.StatusCode);
+
+        using var staleRequest = CaseCreationRequest(anonymousCsrf, "Synthetischer veralteter CSRF-Nachweis");
+        using var staleResponse = await client.SendAsync(staleRequest, CancellationToken.None);
+        Assert.Equal(HttpStatusCode.BadRequest, staleResponse.StatusCode);
+
+        var authenticatedCsrf = await client.GetFromJsonAsync<AntiforgeryTokenResponse>("/api/auth/csrf");
+        Assert.NotNull(authenticatedCsrf);
+        using var freshRequest = CaseCreationRequest(authenticatedCsrf, "Synthetischer frischer CSRF-Nachweis");
+        using var freshResponse = await client.SendAsync(freshRequest, CancellationToken.None);
+
+        Assert.Equal(HttpStatusCode.Created, freshResponse.StatusCode);
+    }
+
     [Fact]
     public async Task FiveFailedLoginsLockAccountWithSameGenericResponse()
     {
@@ -479,6 +507,18 @@ public sealed class CookieIdentityEndpointTests
         var request = new HttpRequestMessage(HttpMethod.Post, "/api/auth/login")
         {
             Content = JsonContent.Create(new { username, password }),
+        };
+        request.Headers.TryAddWithoutValidation(csrf.HeaderName, csrf.RequestToken);
+        return request;
+    }
+
+    private static HttpRequestMessage CaseCreationRequest(
+        AntiforgeryTokenResponse csrf,
+        string cemetery)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, "/api/cases")
+        {
+            Content = JsonContent.Create(new { cemetery }),
         };
         request.Headers.TryAddWithoutValidation(csrf.HeaderName, csrf.RequestToken);
         return request;

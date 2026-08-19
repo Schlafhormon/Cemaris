@@ -50,10 +50,13 @@ beschrieben. Das
 [5c-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)
 hat keine neue Facharchitektur freigegeben. Der
 [5d-Abschluss](../implementation/cemaris-increment-5d-completion.md) verwendet
-ausschließlich die vorhandenen Verträge für Bedienkorrekturen. Auch die
-[5e-CSRF-Folgeübergabe](../implementation/cemaris-increment-5e-next-step-handoff.md)
-ist rein technisch;
-Fristberechnung und Wiedervorlagen gehören weiterhin nicht dazu.
+ausschließlich die vorhandenen Verträge für Bedienkorrekturen. Der
+[5e-CSRF-Abschluss](../implementation/cemaris-increment-5e-completion.md)
+stabilisiert rein clientseitig den Nachweiswechsel nach erfolgreicher
+Anmeldung und ändert keinen Sicherheitsvertrag. Das
+[5f-Folgegate](../implementation/cemaris-increment-5f-next-step-handoff.md)
+muss vor jeder Lebenszyklusimplementierung die weiterhin offenen Fach- und
+Freigabeentscheidungen klären.
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.

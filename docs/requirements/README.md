@@ -51,8 +51,10 @@ quellengebunden als weiterhin offen beziehungsweise widersprüchlich bestätigt.
 Die ausschließlich freigegebenen
 [5d-Bedienkorrekturen](../implementation/cemaris-increment-5d-completion.md)
 sind technisch umgesetzt. Der rein technische
-[5e-CSRF-Folgeumfang](../implementation/cemaris-increment-5e-next-step-handoff.md)
-ändert keine Anforderung oder Fachregel.
+[5e-CSRF-Abschluss](../implementation/cemaris-increment-5e-completion.md)
+ändert keine Anforderung oder Fachregel. Der nächste sichere Schritt ist das
+rein dokumentarische
+[5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5f-next-step-handoff.md).
 
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -622,4 +624,5 @@ Bewertungskriterien:
 | manueller Beteiligten-/Nutzungsrechtskern 5b | bestätigte 5a-Entscheidungen und ADR-0016 | kanonische Beteiligte, Adress-/Inhaberhistorie und manuelle Rechtefakten | 4a-Grabstellen, Identität, ETag, Audit und Startregel | keine Lebenszyklus- oder Fristwirkung | umgesetzt | technisch abgeschlossen; 5c-Vorführung bestätigt den Kern |
 | Abnahme- und Lebenszyklusgate 5c | lokale Satzungsevidenz und 5b-Vorführung | quellengebundene Trennung bestätigter Grenzen von offenen Regeln | Projekt-, Fach-, Rechts-, Datenschutz- und Betriebsgates | keine Implementierung | abgeschlossen | 5C-01 und 5C-03 bis 5C-13 bleiben offen beziehungsweise widersprüchlich |
 | Bedienkorrekturen 5d | Befunde 5C-F-01 bis 5C-F-04 | fallunabhängiger Beteiligteneinstieg und verständlichere, responsive Bedienung | ausschließlich vorhandene 5b-Verträge | keine neue Fachregel | umgesetzt | technische Rückverfolgbarkeit in `cemaris-increment-5d-completion.md` |
-| CSRF-Sitzungsstabilisierung 5e | reproduzierter erster Schreibfehler nach Anmeldung | frischer Antiforgery-Nachweis nach Identitätswechsel | vorhandener Authentifizierungs-/CSRF-Vertrag | keine Fachregel oder Datenmodelländerung | FREIGABE DURCH GESONDERTEN AUFTRAG ERFORDERLICH | ausführbare Abgrenzung in `cemaris-increment-5e-next-step-handoff.md` |
+| CSRF-Sitzungsstabilisierung 5e | reproduzierter erster Schreibfehler nach Anmeldung | frischer Antiforgery-Nachweis nach Identitätswechsel | vorhandener Authentifizierungs-/CSRF-Vertrag | keine Fachregel oder Datenmodelländerung | umgesetzt | technischer Abschluss in `cemaris-increment-5e-completion.md` |
+| Nutzungsrechtslebenszyklus-Gate 5f | offene beziehungsweise widersprüchliche Fragen 5C-01 und 5C-03 bis 5C-13 | kleinsten belastbaren Lebenszykluszuschnitt bestimmen oder Nichtfreigabe belegen | Fach-, Rechts-, Berechtigungs-, Datenschutz- und Betriebsgates | keine Implementierung | nächster sicherer Schritt | ausführbare Abgrenzung in `cemaris-increment-5f-next-step-handoff.md` |

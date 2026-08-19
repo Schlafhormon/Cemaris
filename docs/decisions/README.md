@@ -35,9 +35,11 @@ Das
 bestätigt ADR-0016 unverändert. Für den ausgewählten reinen 5d-Bedienumfang
 war gemäß [5d-Abschluss](../implementation/cemaris-increment-5d-completion.md)
 kein neues ADR erforderlich. Auch die rein technische
-[5e-CSRF-Folgeübergabe](../implementation/cemaris-increment-5e-next-step-handoff.md)
-ändert keine Architekturentscheidung. Ein späteres Frist-, Status- oder
-Lebenszyklusmodell benötigt wegen der offenen 5C-Gates eine neue
-Architekturentscheidung.
+[5e-CSRF-Stabilisierung](../implementation/cemaris-increment-5e-completion.md)
+ändert keine Architekturentscheidung. Das
+[5f-Entscheidungsgate](../implementation/cemaris-increment-5f-next-step-handoff.md)
+muss klären, ob ein belastbarer kleinster Lebenszykluszuschnitt existiert.
+Ein späteres Frist-, Status- oder Lebenszyklusmodell benötigt wegen der
+offenen 5C-Gates gegebenenfalls eine neue Architekturentscheidung.
 
 Für neue ADRs kann [ADR-Template](ADR-template.md) kopiert werden.

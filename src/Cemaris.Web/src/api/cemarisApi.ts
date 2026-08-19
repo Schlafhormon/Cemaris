@@ -169,11 +169,13 @@ export function getCurrentAccount(signal: AbortSignal) {
 
 export async function login(username: string, password: string) {
   antiforgeryToken = undefined
-  return await sendJson<CurrentAccount>(
+  const account = await sendJson<CurrentAccount>(
     '/api/auth/login',
     'POST',
     { username, password },
   ) as CurrentAccount
+  antiforgeryToken = undefined
+  return account
 }
 
 export async function logout() {

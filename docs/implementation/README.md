@@ -1,6 +1,6 @@
 # Cemaris-Implementierungsplan
 
-Stand: 18.08.2026
+Stand: 19.08.2026
 
 ## Aktueller Schwerpunkt
 
@@ -84,6 +84,14 @@ während der Vorführung reproduzierte erste Schreibfehler nach einem
 Identitätswechsel ist als kleiner rein technischer
 [5e-Folgeumfang](cemaris-increment-5e-next-step-handoff.md) abgegrenzt.
 
+Inkrement 5e ist gemäß
+[Abschlussdokumentation](cemaris-increment-5e-completion.md) technisch
+abgeschlossen. Der Frontendadapter verwirft den anonymen Antiforgery-Nachweis
+nach erfolgreicher Anmeldung; die unmittelbar folgende Mutation bezieht einen
+authentifizierten Nachweis. Backend-, Cookie- und Sicherheitsvertrag blieben
+unverändert. Der nächste sichere Schritt ist das rein dokumentarische
+[5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](cemaris-increment-5f-next-step-handoff.md).
+
 ## Verbindliche Entwicklungsregel
 
 „Fertig“ bezeichnet immer einen klar abgegrenzten, Ende-zu-Ende getesteten
@@ -106,7 +114,8 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 5b | manueller Beteiligten-/Nutzungsrechtskern | technisch umgesetzt: kanonische Beteiligte, Adress-/Inhaberhistorie, manuelle Rechteänderungen, konfigurierbarer Startbezug sowie nachgelagerte UI-, Navigations- und Suchpaginationverbesserungen | technische Abnahme erfüllt; fachliche Vorstellung, Datenschutz und Betrieb offen |
 | 5c | fachliches Abnahme- und Lebenszyklus-Entscheidungsgate | abgeschlossen: synthetische 5b-Vorstellung, priorisiertes Befundprotokoll, 5C-Matrix und bestätigter kleinster Folgeumfang | keine Implementierung offener Frist-, Status- oder Beendigungsregeln |
 | 5d | Bedienkorrekturen am 5b-Kern | technisch umgesetzt: fallunabhängiger Beteiligteneinstieg, responsive Rechteaktionen, Feldfehler und verständlichere Altprojektionshinweise | ausschließlich vorhandene 5b-Verträge; keine neue Fachregel |
-| 5e | CSRF-Sitzungswechsel stabilisieren | reproduzierten ersten Schreibfehler nach Anmeldung isoliert korrigieren | rein technischer Frontendumfang; Backend-/Sicherheitsvertragsänderung nur nach neuem Auftrag |
+| 5e | CSRF-Sitzungswechsel stabilisieren | technisch umgesetzt: anonymer Nachweis wird nach erfolgreicher Anmeldung verworfen; erste Mutation bezieht einen frischen Nachweis | vorhandener Backend-/Sicherheitsvertrag unverändert |
+| 5f | Nutzungsrechtslebenszyklus-Entscheidungsgate | kleinsten fachlich, rechtlich und technisch belastbaren Zuschnitt bestimmen oder Nichtfreigabe dokumentieren | keine Implementierung offener Frist-, Status- oder Beendigungsregeln |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme und Abnahme | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
@@ -137,8 +146,10 @@ ist technisch abgeschlossen. Das rein dokumentarische und manuelle
 [5c-Abnahme- und Lebenszyklus-Entscheidungsgate](cemaris-increment-5c-completion.md)
 ist ebenfalls abgeschlossen. Die ausdrücklich bestätigten
 [5d-Bedienkorrekturen](cemaris-increment-5d-completion.md) sind technisch
-umgesetzt. Der nächste sichere Auftrag ist die kleine
-[5e-CSRF-Sitzungsstabilisierung](cemaris-increment-5e-next-step-handoff.md).
+umgesetzt. Die technische
+[5e-CSRF-Sitzungsstabilisierung](cemaris-increment-5e-completion.md) ist
+ebenfalls abgeschlossen. Der nächste sichere Auftrag ist das dokumentarische
+[5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](cemaris-increment-5f-next-step-handoff.md).
 Automatische Fristberechnung, Statuswirkung, Beendigung und Wiedervorlagen
 bleiben offen.
 Solange die weiterhin offenen fachlichen, Datenschutz- und Betriebsgates
