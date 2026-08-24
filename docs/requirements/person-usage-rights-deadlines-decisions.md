@@ -1,6 +1,6 @@
 # Produktentscheidungen zu Personen, Nutzungsrechten, Fristen und Wiedervorlagen
 
-Stand: 18.08.2026
+Stand: 21.08.2026
 
 ## Zweck und Entscheidungsstatus
 
@@ -15,6 +15,15 @@ hat den 5b-Kern am 18.08.2026 manuell mit synthetischen Daten bestätigt und
 die weiterhin offenen Lebenszyklusfragen quellengebunden eingeordnet. Die
 5c-Ergänzung ändert keine 5b-Fachregel und erteilt keine der weiterhin
 fehlenden Freigaben.
+
+Das rein dokumentarische
+[5f-Entscheidungs- und Freigabegate](../implementation/cemaris-increment-5f-completion.md)
+hat am 21.08.2026 Variante A „keine Implementierung“ gewählt. Die
+Open-Source-Nachnutzung für alle Kommunen und Doberlug-Kirchhain als erster
+kommunaler Kontext wurden durch einen Administrator mit Entwicklungsauftrag
+mitgeteilt. Diese technische Funktion hat keine neue Lebenszyklusregel und
+keine Fach-, Rechts-, Datenschutz-, Sicherheits- oder Betriebsfreigabe
+erteilt.
 
 Für Aussagen gelten ausschließlich diese Kennzeichnungen:
 
@@ -230,6 +239,39 @@ Basis der bestehenden 5a-Entscheidungen, ADR-0016 und der erneut nur lesend
 geprüften lokalen Satzungsevidenz. `BESTÄTIGT` bezieht sich ausschließlich auf
 die genannte Produktgrenze, nicht auf eine Rechts- oder Verwaltungsabnahme.
 
+## Ergänzende 5f-Entscheidung
+
+Quelle `USR-2026-08-21-ADMIN-DEVELOPMENT` ist die Auskunft eines
+`Administrators mit Entwicklungsauftrag für die Friedhofsverwaltungssoftware`
+vom 21.08.2026. Sie bestätigt beziehungsweise teilt ausschließlich mit:
+
+- Cemaris ist als Open-Source-Software für alle Kommunen nachnutzbar;
+- erster Entwicklungskontext ist die Stadt Doberlug-Kirchhain;
+- EDWALT darf als Orientierung für die weitere Erhebung dienen.
+
+Die Aussage beantwortet keine operationsspezifische Frage aus 5C-01,
+5C-03 bis 5C-13 und stammt aus keiner dafür benannten fachlichen oder
+freigebenden Funktion. Für den einzigen Untersuchungskandidaten „manuelle
+vorzeitige Rückgabe nach abgelaufener Ruhezeit“ bleiben insbesondere offen:
+
+- realer Bedarf, betroffene Rechte- und Fallarten;
+- Auslöser, Pflichtnachweis, Wirksamkeit, Rückwirkung und Korrektur;
+- Rechtzustand und ausdrücklich unveränderte Fakten;
+- Funktionstrennung und Rollenfreigabe;
+- Wechselwirkung mit Beisetzungen, Inhaberzeitraum, Grabstatus, Sperre und
+  Wiedervergabe;
+- Pflichtbegründung, Quelle und Fachrevisionsinhalt;
+- Altbestand, Bestandsschutz, Migration und fehlende Nachweise;
+- Fach-, Rechts-, Datenschutz-, Sicherheits- und Betriebsfreigaben.
+
+Damit bleibt `5C-05` widersprüchlich, `5C-02` und `5C-14` bleiben in ihrer
+engen bisherigen Grenze bestätigt und alle anderen 5C-Fragen bleiben offen.
+Ausgewählt ist Variante A „keine Implementierung“. EDWALT-Beobachtungen dürfen
+nur als `ALTVERFAHRENS-EVIDENZ` zur Erhebung beitragen; aus ihnen wird weder
+ein heutiger Sollprozess noch eine allgemeine Open-Source-Produktregel
+abgeleitet. Die vollständige Begründung steht in der
+[5f-Matrix](../implementation/cemaris-increment-5f-evidence-decision-approval-matrix.md).
+
 ## Bestätigter nächster Umfang
 
 Die manuelle Vorführung hat keinen fachlichen Defekt des 5b-Kerns ergeben.
@@ -248,9 +290,11 @@ Implementierungsanforderung.
 Die Bedienkorrekturen sind gemäß
 [5d-Abschluss](../implementation/cemaris-increment-5d-completion.md) technisch
 umgesetzt. Die nachgelagerte
-[5e-CSRF-Sitzungsstabilisierung](../implementation/cemaris-increment-5e-next-step-handoff.md)
+[5e-CSRF-Sitzungsstabilisierung](../implementation/cemaris-increment-5e-completion.md)
 ist ebenfalls rein technisch und ändert keine Produktentscheidung dieses
-Dokuments.
+Dokuments. Das 5f-Gate ergänzt ebenfalls keine Fachregel. Der nächste
+Lebenszyklusschritt ist nur das dokumentarische
+[5g-Kurzentscheidungs- und Freigabegate](../implementation/cemaris-increment-5g-next-step-handoff.md).
 
 ## Rückverfolgbarkeit der Entscheidungen
 

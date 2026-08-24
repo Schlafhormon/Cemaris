@@ -52,9 +52,12 @@ Die ausschließlich freigegebenen
 [5d-Bedienkorrekturen](../implementation/cemaris-increment-5d-completion.md)
 sind technisch umgesetzt. Der rein technische
 [5e-CSRF-Abschluss](../implementation/cemaris-increment-5e-completion.md)
-ändert keine Anforderung oder Fachregel. Der nächste sichere Schritt ist das
-rein dokumentarische
-[5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5f-next-step-handoff.md).
+ändert keine Anforderung oder Fachregel. Das rein dokumentarische
+[5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5f-completion.md)
+ist mit Variante A „keine Implementierung“ abgeschlossen. EDWALT bleibt
+Altverfahrensevidenz, kein Sollmodell. Der Lebenszykluspfad kann nur mit dem
+[5g-Kurzentscheidungs- und Freigabegate](../implementation/cemaris-increment-5g-next-step-handoff.md)
+fortgesetzt werden.
 
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -625,4 +628,5 @@ Bewertungskriterien:
 | Abnahme- und Lebenszyklusgate 5c | lokale Satzungsevidenz und 5b-Vorführung | quellengebundene Trennung bestätigter Grenzen von offenen Regeln | Projekt-, Fach-, Rechts-, Datenschutz- und Betriebsgates | keine Implementierung | abgeschlossen | 5C-01 und 5C-03 bis 5C-13 bleiben offen beziehungsweise widersprüchlich |
 | Bedienkorrekturen 5d | Befunde 5C-F-01 bis 5C-F-04 | fallunabhängiger Beteiligteneinstieg und verständlichere, responsive Bedienung | ausschließlich vorhandene 5b-Verträge | keine neue Fachregel | umgesetzt | technische Rückverfolgbarkeit in `cemaris-increment-5d-completion.md` |
 | CSRF-Sitzungsstabilisierung 5e | reproduzierter erster Schreibfehler nach Anmeldung | frischer Antiforgery-Nachweis nach Identitätswechsel | vorhandener Authentifizierungs-/CSRF-Vertrag | keine Fachregel oder Datenmodelländerung | umgesetzt | technischer Abschluss in `cemaris-increment-5e-completion.md` |
-| Nutzungsrechtslebenszyklus-Gate 5f | offene beziehungsweise widersprüchliche Fragen 5C-01 und 5C-03 bis 5C-13 | kleinsten belastbaren Lebenszykluszuschnitt bestimmen oder Nichtfreigabe belegen | Fach-, Rechts-, Berechtigungs-, Datenschutz- und Betriebsgates | keine Implementierung | nächster sicherer Schritt | ausführbare Abgrenzung in `cemaris-increment-5f-next-step-handoff.md` |
+| Nutzungsrechtslebenszyklus-Gate 5f | offene beziehungsweise widersprüchliche Fragen 5C-01 und 5C-03 bis 5C-13 | genau einen Rückgabekandidaten prüfen und Nichtfreigabe belegen | Fach-, Rechts-, Berechtigungs-, Datenschutz- und Betriebsgates fehlen | keine Implementierung | abgeschlossen mit Variante A | Matrix und Abschluss in `cemaris-increment-5f-evidence-decision-approval-matrix.md` und `cemaris-increment-5f-completion.md` |
+| kommunales Kurzentscheidungs- und Freigabegate 5g | 5f-Nichtfreigabe und örtliche E-17-Evidenz | genau einen manuellen Rückgabekandidaten zuständigen Funktionen vorlegen | Friedhofsverwaltung, Produkt, Recht, Datenschutz, Sicherheit und Betrieb | keine Implementierung | nächstes Gate des Lebenszykluspfads | ausführbare Abgrenzung in `cemaris-increment-5g-next-step-handoff.md` |

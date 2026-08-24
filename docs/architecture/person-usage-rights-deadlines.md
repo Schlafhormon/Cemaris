@@ -1,6 +1,6 @@
 # Architektur für Beteiligte und manuelle Nutzungsrechte
 
-Stand: 18.08.2026
+Stand: 21.08.2026
 
 > **Implementierungsstatus:** Der hier abgegrenzte 5b-Kern ist technisch
 > umgesetzt und gemäß
@@ -11,7 +11,10 @@ Stand: 18.08.2026
 > freigegeben. Diese sind gemäß
 > [5d-Abschluss](../implementation/cemaris-increment-5d-completion.md)
 > technisch umgesetzt. Die beschriebenen fachlichen Nicht-Ziele bleiben
-> offen.
+> offen. Das rein dokumentarische
+> [5f-Gate](../implementation/cemaris-increment-5f-completion.md) hat mangels
+> fachlicher und rechtlicher Mindestentscheidungen Variante A „keine
+> Implementierung“ gewählt und ändert diese Architektur nicht.
 
 ## Geltungsbereich
 
@@ -53,6 +56,33 @@ autorisiert und ist ohne Änderung dieser Architektur abgeschlossen. Jede
 unerwartet notwendige Änderung an Domain, Application-Port, API/OpenAPI,
 Persistenz oder Migration erweitert den bestätigten Umfang und benötigt
 vorher eine neue Entscheidung.
+
+## Architekturentscheidung nach 5f
+
+5f untersuchte genau einen möglichen manuellen Schnitt: eine historisierte
+vorzeitige Rückgabe eines kanonischen Nutzungsrechts nach bereits abgelaufener
+Ruhezeit. Die Operation ist nur durch örtliche Satzungsevidenz E-17 motiviert.
+Bedarf, Fachwirkung und Freigaben sind nicht bestätigt. Die Auskunft der
+technischen Administration vom 21.08.2026 bestätigt lediglich die
+Open-Source-Nachnutzung und Doberlug-Kirchhain als ersten kommunalen Kontext.
+
+| Aspekt | A – keine Implementierung | B – eine manuelle historisierte Operation | C – Berechnung oder Automatik |
+| --- | --- | --- | --- |
+| Domainidentität | bestehende `UsageRightId` und 5b-Grenzen bleiben unverändert | müsste dieselbe Rechteidentität erhalten; spätere Wiedervergabe bliebe gemäß REQ-UR-008 eine neue Identität | zusätzliche Regel-, Frist- und Zustandsidentitäten nötig |
+| Historisierung | keine neue Revision und keine erfundene Vergangenheit | bestätigte Operation müsste eine unveränderliche Vorher-/Nachher-Revision anfügen | Ereignis-, Regelstands- und Berechnungshistorie nötig |
+| Atomarität | bestehende Transaktionsgrenzen unverändert | bestätigte Zustands-, Inhaber-, Revisions- und Auditwirkungen müssten gemeinsam schreiben oder zurückrollen | zusätzliche Frist-, Grabstellen- und Folgeprozesswirkungen zu koordinieren |
+| ETag | vorhandene starke ETags unverändert | vorhandenes starkes Rechte-ETag wäre Mindestgrenze; genaue Aggregatgrenze ist offen | mehrere versionierte Aggregate und Konfliktregeln nötig |
+| Audit | vorhandener sparsamer Audit unverändert | bestätigte Operation und Ergebnisversion wären sparsam nachzuweisen; Fachinhalte blieben in der Revision | Nachweis automatischer Akteure, Auslöser und Betriebsläufe nötig |
+| Migration | keine Migration und kein Backfill | nur additive Migration nach bestätigtem Zustandsmodell; keine erfundene Althistorie | Regelstands-, Frist- und Altfallmigration nötig |
+| Altkompatibilität | nullable Altprojektionen bleiben getrennt lesbar | Altprojektionen müssten getrennt bleiben; fehlende Nachweise wären ausdrücklich zu behandeln | Rückinterpretation ohne eigene Altfallregeln unzulässig |
+| Entscheidung | **ausgewählt** | nicht freigabefähig und nicht spezifiziert | für 5f ausgeschlossen |
+
+Variante A erweitert oder ersetzt ADR-0016 nicht. Es entsteht keine neue
+Domain-, API-, Persistenz- oder Migrationsentscheidung und daher kein neues
+ADR. Erst das
+[5g-Kurzentscheidungs- und Freigabegate](../implementation/cemaris-increment-5g-next-step-handoff.md)
+darf die fehlenden Aussagen von den zuständigen Funktionen erheben. EDWALT
+bleibt dabei Altverfahrensevidenz und kein Sollmodell.
 
 ## Architekturgrenze
 

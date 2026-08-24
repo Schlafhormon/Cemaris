@@ -1,6 +1,6 @@
 # Cemaris-Implementierungsplan
 
-Stand: 19.08.2026
+Stand: 21.08.2026
 
 ## Aktueller Schwerpunkt
 
@@ -89,8 +89,13 @@ Inkrement 5e ist gemäß
 abgeschlossen. Der Frontendadapter verwirft den anonymen Antiforgery-Nachweis
 nach erfolgreicher Anmeldung; die unmittelbar folgende Mutation bezieht einen
 authentifizierten Nachweis. Backend-, Cookie- und Sicherheitsvertrag blieben
-unverändert. Der nächste sichere Schritt ist das rein dokumentarische
-[5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](cemaris-increment-5f-next-step-handoff.md).
+unverändert. Das rein dokumentarische
+[5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](cemaris-increment-5f-completion.md)
+ist mit Variante A „keine Implementierung“ abgeschlossen. Die technische
+Administration hat Open-Source-Nachnutzung und Doberlug-Kirchhain als ersten
+kommunalen Kontext mitgeteilt, aber keine Fach- oder Rechtsregel freigegeben.
+Der Lebenszykluspfad führt deshalb nur über das dokumentarische
+[5g-Kurzentscheidungs- und Freigabegate](cemaris-increment-5g-next-step-handoff.md).
 
 ## Verbindliche Entwicklungsregel
 
@@ -115,7 +120,8 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 5c | fachliches Abnahme- und Lebenszyklus-Entscheidungsgate | abgeschlossen: synthetische 5b-Vorstellung, priorisiertes Befundprotokoll, 5C-Matrix und bestätigter kleinster Folgeumfang | keine Implementierung offener Frist-, Status- oder Beendigungsregeln |
 | 5d | Bedienkorrekturen am 5b-Kern | technisch umgesetzt: fallunabhängiger Beteiligteneinstieg, responsive Rechteaktionen, Feldfehler und verständlichere Altprojektionshinweise | ausschließlich vorhandene 5b-Verträge; keine neue Fachregel |
 | 5e | CSRF-Sitzungswechsel stabilisieren | technisch umgesetzt: anonymer Nachweis wird nach erfolgreicher Anmeldung verworfen; erste Mutation bezieht einen frischen Nachweis | vorhandener Backend-/Sicherheitsvertrag unverändert |
-| 5f | Nutzungsrechtslebenszyklus-Entscheidungsgate | kleinsten fachlich, rechtlich und technisch belastbaren Zuschnitt bestimmen oder Nichtfreigabe dokumentieren | keine Implementierung offener Frist-, Status- oder Beendigungsregeln |
+| 5f | Nutzungsrechtslebenszyklus-Entscheidungsgate | abgeschlossen mit Variante A: ein manueller Rückgabekandidat untersucht, fehlende Entscheidungen und Freigaben dokumentiert | keine Implementierung; ADR-0016 unverändert |
+| 5g | kommunales Kurzentscheidungs- und Freigabegate | denselben einzelnen Rückgabekandidaten mit Friedhofsverwaltung und zuständigen Freigabefunktionen klären | keine Implementierung; ohne vollständige Antworten erneut Variante A |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme und Abnahme | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
@@ -148,8 +154,11 @@ ist ebenfalls abgeschlossen. Die ausdrücklich bestätigten
 [5d-Bedienkorrekturen](cemaris-increment-5d-completion.md) sind technisch
 umgesetzt. Die technische
 [5e-CSRF-Sitzungsstabilisierung](cemaris-increment-5e-completion.md) ist
-ebenfalls abgeschlossen. Der nächste sichere Auftrag ist das dokumentarische
-[5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](cemaris-increment-5f-next-step-handoff.md).
+ebenfalls abgeschlossen. Das dokumentarische
+[5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](cemaris-increment-5f-completion.md)
+ist mit Variante A abgeschlossen. Der nächste Auftrag im Lebenszykluspfad ist
+das dokumentarische
+[5g-Kurzentscheidungs- und Freigabegate](cemaris-increment-5g-next-step-handoff.md).
 Automatische Fristberechnung, Statuswirkung, Beendigung und Wiedervorlagen
 bleiben offen.
 Solange die weiterhin offenen fachlichen, Datenschutz- und Betriebsgates

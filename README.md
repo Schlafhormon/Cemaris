@@ -100,9 +100,12 @@ und die daraus bestätigten
 [5d-Bedienkorrekturen](docs/implementation/cemaris-increment-5d-completion.md)
 sind abgeschlossen. Auch die isolierte
 [5e-Stabilisierung des CSRF-Sitzungswechsels](docs/implementation/cemaris-increment-5e-completion.md)
-ist technisch abgeschlossen. Der nächste sichere Schritt ist das
-[5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](docs/implementation/cemaris-increment-5f-next-step-handoff.md);
-Fristberechnung, Statuswirkung und Wiedervorlagen bleiben bis dahin offen.
+ist technisch abgeschlossen. Das
+[5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](docs/implementation/cemaris-increment-5f-completion.md)
+ist dokumentarisch mit Variante A „keine Implementierung“ abgeschlossen. Der
+Lebenszykluspfad benötigt als Nächstes das
+[5g-Kurzentscheidungs- und Freigabegate](docs/implementation/cemaris-increment-5g-next-step-handoff.md);
+Fristberechnung, Statuswirkung und Wiedervorlagen bleiben offen.
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -389,9 +392,9 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
 4. Identität, Berechtigungen, Audit, Datenschutz- und Betriebsfreigabe
 5. fachliche Stammdaten, Fall-, Personen-, Beisetzungs- und Rechteprozesse;
    5a, der technische manuelle 5b-Durchstich, das dokumentarische 5c-Gate und
-   die technischen Inkremente 5d und 5e sind abgeschlossen; als nächster
-   sicherer Schritt folgt das 5f-Nutzungsrechtslebenszyklus-Entscheidungsgate
-   ohne vorweggenommene Fachregel
+   die technischen Inkremente 5d und 5e sowie das dokumentarische 5f-Gate sind
+   abgeschlossen; im Lebenszykluspfad folgt nur das 5g-Kurzentscheidungs- und
+   Freigabegate ohne vorweggenommene Fachregel
 6. Gebühren-, Dokument- und Bescheidwesen
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe

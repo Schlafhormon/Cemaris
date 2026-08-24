@@ -37,8 +37,12 @@ war gemäß [5d-Abschluss](../implementation/cemaris-increment-5d-completion.md)
 kein neues ADR erforderlich. Auch die rein technische
 [5e-CSRF-Stabilisierung](../implementation/cemaris-increment-5e-completion.md)
 ändert keine Architekturentscheidung. Das
-[5f-Entscheidungsgate](../implementation/cemaris-increment-5f-next-step-handoff.md)
-muss klären, ob ein belastbarer kleinster Lebenszykluszuschnitt existiert.
+[5f-Entscheidungsgate](../implementation/cemaris-increment-5f-completion.md)
+hat mangels belastbarer Fach- und Freigabeentscheidungen Variante A „keine
+Implementierung“ gewählt. ADR-0016 bleibt unverändert; ein neues ADR war nicht
+erforderlich. Das
+[5g-Kurzentscheidungs- und Freigabegate](../implementation/cemaris-increment-5g-next-step-handoff.md)
+muss vor einer Lebenszyklusspezifikation die zuständigen Funktionen beteiligen.
 Ein späteres Frist-, Status- oder Lebenszyklusmodell benötigt wegen der
 offenen 5C-Gates gegebenenfalls eine neue Architekturentscheidung.
 

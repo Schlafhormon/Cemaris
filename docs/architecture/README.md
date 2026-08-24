@@ -54,9 +54,11 @@ ausschließlich die vorhandenen Verträge für Bedienkorrekturen. Der
 [5e-CSRF-Abschluss](../implementation/cemaris-increment-5e-completion.md)
 stabilisiert rein clientseitig den Nachweiswechsel nach erfolgreicher
 Anmeldung und ändert keinen Sicherheitsvertrag. Das
-[5f-Folgegate](../implementation/cemaris-increment-5f-next-step-handoff.md)
-muss vor jeder Lebenszyklusimplementierung die weiterhin offenen Fach- und
-Freigabeentscheidungen klären.
+[5f-Gate](../implementation/cemaris-increment-5f-completion.md) hat Variante A
+„keine Implementierung“ gewählt und keine Architekturänderung freigegeben.
+Vor jeder Lebenszyklusimplementierung muss zunächst das
+[5g-Kurzentscheidungs- und Freigabegate](../implementation/cemaris-increment-5g-next-step-handoff.md)
+die weiterhin offenen Fach- und Freigabeentscheidungen klären.
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.
