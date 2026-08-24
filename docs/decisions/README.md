@@ -42,8 +42,15 @@ hat mangels belastbarer Fach- und Freigabeentscheidungen Variante A „keine
 Implementierung“ gewählt. ADR-0016 bleibt unverändert; ein neues ADR war nicht
 erforderlich. Das
 [5g-Kurzentscheidungs- und Freigabegate](../implementation/cemaris-increment-5g-next-step-handoff.md)
-muss vor einer Lebenszyklusspezifikation die zuständigen Funktionen beteiligen.
-Ein späteres Frist-, Status- oder Lebenszyklusmodell benötigt wegen der
-offenen 5C-Gates gegebenenfalls eine neue Architekturentscheidung.
+ist gemäß
+[5g-Abschluss](../implementation/cemaris-increment-5g-completion.md) mangels
+zuständiger Fach- und Freigabequellen ebenfalls mit Variante A beendet.
+ADR-0016 bleibt unverändert; ein neues ADR wurde nicht erstellt. Das
+[5h-Auswahlgate](../implementation/cemaris-increment-5h-completion.md) hat
+eine additive paginierte Beteiligtenübersicht als technischen
+[5i-Schnitt](../implementation/cemaris-increment-5i-next-step-handoff.md)
+ausgewählt. Auch diese Auswahl erweitert ADR-0016 nicht. Ein späteres Frist-,
+Status- oder Lebenszyklusmodell benötigt wegen der offenen 5C-Gates
+gegebenenfalls eine neue Architekturentscheidung.
 
 Für neue ADRs kann [ADR-Template](ADR-template.md) kopiert werden.

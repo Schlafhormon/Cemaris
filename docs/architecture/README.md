@@ -56,9 +56,16 @@ stabilisiert rein clientseitig den Nachweiswechsel nach erfolgreicher
 Anmeldung und ändert keinen Sicherheitsvertrag. Das
 [5f-Gate](../implementation/cemaris-increment-5f-completion.md) hat Variante A
 „keine Implementierung“ gewählt und keine Architekturänderung freigegeben.
-Vor jeder Lebenszyklusimplementierung muss zunächst das
-[5g-Kurzentscheidungs- und Freigabegate](../implementation/cemaris-increment-5g-next-step-handoff.md)
-die weiterhin offenen Fach- und Freigabeentscheidungen klären.
+Auch das
+[5g-Gate](../implementation/cemaris-increment-5g-completion.md) endet mangels
+zuständiger Fach- und Freigabequellen mit Variante A und ändert ADR-0016
+nicht. Der Lebenszykluspfad bleibt pausiert. Das
+[5h-Auswahlgate](../implementation/cemaris-increment-5h-completion.md) hat
+außerhalb dieses Pfads eine additive, serverseitig paginierte
+Beteiligtenübersicht ausgewählt. Das
+[5i-Inkrement](../implementation/cemaris-increment-5i-next-step-handoff.md)
+darf dafür den vorhandenen Beteiligten-Lesevertrag ergänzen, ohne
+Nutzungsrechts-, Rollen-, Persistenz- oder Auditsemantik zu ändern.
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.

@@ -103,9 +103,15 @@ sind abgeschlossen. Auch die isolierte
 ist technisch abgeschlossen. Das
 [5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](docs/implementation/cemaris-increment-5f-completion.md)
 ist dokumentarisch mit Variante A „keine Implementierung“ abgeschlossen. Der
-Lebenszykluspfad benötigt als Nächstes das
-[5g-Kurzentscheidungs- und Freigabegate](docs/implementation/cemaris-increment-5g-next-step-handoff.md);
-Fristberechnung, Statuswirkung und Wiedervorlagen bleiben offen.
+nachfolgende
+[5g-Kurzentscheidungs- und Freigabegate](docs/implementation/cemaris-increment-5g-completion.md)
+bestätigt mangels kommunaler Fach- und Freigabequellen erneut Variante A.
+Fristberechnung, Statuswirkung und Wiedervorlagen bleiben offen. Das
+[5h-Auswahlgate](docs/implementation/cemaris-increment-5h-completion.md) hat
+als nächsten fachregelarmen Schnitt eine deterministische, serverseitig
+paginierte Beteiligtenübersicht ausgewählt. Ihre Umsetzung ist als
+[Inkrement 5i](docs/implementation/cemaris-increment-5i-next-step-handoff.md)
+abgegrenzt; die bestehende Nutzungsrechts-Schnellsuche bleibt kompatibel.
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -392,9 +398,9 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
 4. Identität, Berechtigungen, Audit, Datenschutz- und Betriebsfreigabe
 5. fachliche Stammdaten, Fall-, Personen-, Beisetzungs- und Rechteprozesse;
    5a, der technische manuelle 5b-Durchstich, das dokumentarische 5c-Gate und
-   die technischen Inkremente 5d und 5e sowie das dokumentarische 5f-Gate sind
-   abgeschlossen; im Lebenszykluspfad folgt nur das 5g-Kurzentscheidungs- und
-   Freigabegate ohne vorweggenommene Fachregel
+   die technischen Inkremente 5d und 5e sowie die dokumentarischen Gates 5f
+   bis 5h sind abgeschlossen; der Lebenszykluspfad bleibt pausiert und 5i
+   setzt ausschließlich eine paginierte Beteiligtenübersicht um
 6. Gebühren-, Dokument- und Bescheidwesen
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe

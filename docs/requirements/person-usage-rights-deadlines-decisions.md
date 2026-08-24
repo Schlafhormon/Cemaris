@@ -1,6 +1,6 @@
 # Produktentscheidungen zu Personen, Nutzungsrechten, Fristen und Wiedervorlagen
 
-Stand: 21.08.2026
+Stand: 24.08.2026
 
 ## Zweck und Entscheidungsstatus
 
@@ -24,6 +24,13 @@ kommunaler Kontext wurden durch einen Administrator mit Entwicklungsauftrag
 mitgeteilt. Diese technische Funktion hat keine neue Lebenszyklusregel und
 keine Fach-, Rechts-, Datenschutz-, Sicherheits- oder Betriebsfreigabe
 erteilt.
+
+Das nachfolgende
+[5g-Kurzentscheidungs- und Freigabegate](../implementation/cemaris-increment-5g-completion.md)
+hat am 24.08.2026 erneut Variante A gewählt. Die neue Auskunft stammt nach
+eigener Einordnung nicht aus einer in Friedhofsangelegenheiten beteiligten
+Funktion. Sie enthält Produktpräferenzen, aber keine kommunale Fach-, Rechts-,
+Datenschutz-, Sicherheits- oder Betriebsfreigabe.
 
 Für Aussagen gelten ausschließlich diese Kennzeichnungen:
 
@@ -272,6 +279,43 @@ ein heutiger Sollprozess noch eine allgemeine Open-Source-Produktregel
 abgeleitet. Die vollständige Begründung steht in der
 [5f-Matrix](../implementation/cemaris-increment-5f-evidence-decision-approval-matrix.md).
 
+## Ergänzende 5g-Entscheidung
+
+Quelle `USR-2026-08-24-NONFACHLICHE-PRÄFERENZEN` ist die direkte Auskunft im
+Implementierungsdialog vom 24.08.2026. Die auskunftgebende Person hat
+ausdrücklich angegeben, nicht in Friedhofsangelegenheiten involviert zu sein.
+Ein kommunaler Geltungsbereich und eine fachlich oder freigebend zuständige
+Funktion wurden nicht benannt.
+
+Als nicht bindende Produktpräferenzen wurden mitgeteilt:
+
+- Rückwirkung und nachträgliche Änderungen sollen möglich, aber dokumentiert
+  sein;
+- `Sachbearbeitung` und `Administration` sollen ohne Vier-Augen-Prinzip
+  genügen;
+- der sparsame Audit wird als ausreichend angesehen;
+- später migrierte EDWALT-Altdaten sollen neue Funktionen nicht rückwirkend
+  voraussetzen;
+- die notwendigen Fachentscheidungen werden bei der Verwaltung und nicht bei
+  der technischen Softwareerstellung verortet.
+
+Diese Aussagen begründen keine neue Anforderung. Insbesondere bleiben
+Auslöser, Nachweis, Wirksamkeitsgrenzen, expliziter Rechtszustand,
+Beisetzungskonflikte, Inhaberzeitraum, Grabstatus, Sperre, Wiedervergabe,
+Fachrevision und sämtliche funktionsgerechten Freigaben offen.
+
+Als nicht bindende Einfachheitsempfehlung gilt für ein mögliches späteres
+Gate: keine Dokumentablage als technischer Mindestumfang, sondern nur
+Quellenreferenz, Begründung und manuelle Prüfbestätigung; keine automatische
+Grabstellenwirkung; Wiedervergabe strikt getrennt; keine Rückinterpretation
+des Altbestands. Vor einer Implementierung müssen diese Punkte durch die
+zuständigen Funktionen bestätigt werden.
+
+Die vollständige Auswertung steht in der
+[5g-Matrix](../implementation/cemaris-increment-5g-evidence-decision-approval-matrix.md).
+Variante A „keine Implementierung“ bleibt ausgewählt. Variante B ist nicht
+spezifiziert; Variante C bleibt ausgeschlossen.
+
 ## Bestätigter nächster Umfang
 
 Die manuelle Vorführung hat keinen fachlichen Defekt des 5b-Kerns ergeben.
@@ -292,9 +336,17 @@ Die Bedienkorrekturen sind gemäß
 umgesetzt. Die nachgelagerte
 [5e-CSRF-Sitzungsstabilisierung](../implementation/cemaris-increment-5e-completion.md)
 ist ebenfalls rein technisch und ändert keine Produktentscheidung dieses
-Dokuments. Das 5f-Gate ergänzt ebenfalls keine Fachregel. Der nächste
-Lebenszyklusschritt ist nur das dokumentarische
-[5g-Kurzentscheidungs- und Freigabegate](../implementation/cemaris-increment-5g-next-step-handoff.md).
+Dokuments. Weder das 5f- noch das
+[5g-Gate](../implementation/cemaris-increment-5g-completion.md) ergänzt eine
+Fachregel. Der Lebenszykluspfad bleibt bis zu belastbaren kommunalen
+Entscheidungen pausiert. Das dokumentarische
+[5h-Auswahlgate](../implementation/cemaris-increment-5h-completion.md) hat
+außerhalb der offenen Lebenszyklusfragen eine deterministische, serverseitig
+paginierte Beteiligtenübersicht ausgewählt. Das
+[5i-Inkrement](../implementation/cemaris-increment-5i-next-step-handoff.md)
+darf ausschließlich diesen additiven Lesevertrag umsetzen. Die bestehende
+enge Beteiligten-Schnellsuche für die Inhaberauswahl bleibt kompatibel; es
+entsteht keine neue Fach-, Rechte-, Frist- oder Migrationsanforderung.
 
 ## Rückverfolgbarkeit der Entscheidungen
 

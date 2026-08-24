@@ -1,6 +1,6 @@
 # Cemaris-Implementierungsplan
 
-Stand: 21.08.2026
+Stand: 24.08.2026
 
 ## Aktueller Schwerpunkt
 
@@ -94,8 +94,14 @@ unverändert. Das rein dokumentarische
 ist mit Variante A „keine Implementierung“ abgeschlossen. Die technische
 Administration hat Open-Source-Nachnutzung und Doberlug-Kirchhain als ersten
 kommunalen Kontext mitgeteilt, aber keine Fach- oder Rechtsregel freigegeben.
-Der Lebenszykluspfad führt deshalb nur über das dokumentarische
-[5g-Kurzentscheidungs- und Freigabegate](cemaris-increment-5g-next-step-handoff.md).
+Der Lebenszykluspfad führte deshalb nur über das dokumentarische
+[5g-Kurzentscheidungs- und Freigabegate](cemaris-increment-5g-completion.md).
+Dieses ist mangels kommunaler Fach- und Freigabequellen ebenfalls mit Variante
+A abgeschlossen. Der Lebenszykluspfad bleibt pausiert. Das dokumentarische
+[5h-Auswahlgate](cemaris-increment-5h-completion.md) hat eine deterministische,
+serverseitig paginierte Beteiligtenübersicht als fachregelarmen technischen
+Kandidaten gewählt. Der nächste sichere Produktschritt ist ausschließlich
+ihre Umsetzung in [5i](cemaris-increment-5i-next-step-handoff.md).
 
 ## Verbindliche Entwicklungsregel
 
@@ -121,7 +127,9 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 5d | Bedienkorrekturen am 5b-Kern | technisch umgesetzt: fallunabhängiger Beteiligteneinstieg, responsive Rechteaktionen, Feldfehler und verständlichere Altprojektionshinweise | ausschließlich vorhandene 5b-Verträge; keine neue Fachregel |
 | 5e | CSRF-Sitzungswechsel stabilisieren | technisch umgesetzt: anonymer Nachweis wird nach erfolgreicher Anmeldung verworfen; erste Mutation bezieht einen frischen Nachweis | vorhandener Backend-/Sicherheitsvertrag unverändert |
 | 5f | Nutzungsrechtslebenszyklus-Entscheidungsgate | abgeschlossen mit Variante A: ein manueller Rückgabekandidat untersucht, fehlende Entscheidungen und Freigaben dokumentiert | keine Implementierung; ADR-0016 unverändert |
-| 5g | kommunales Kurzentscheidungs- und Freigabegate | denselben einzelnen Rückgabekandidaten mit Friedhofsverwaltung und zuständigen Freigabefunktionen klären | keine Implementierung; ohne vollständige Antworten erneut Variante A |
+| 5g | kommunales Kurzentscheidungs- und Freigabegate | abgeschlossen mit Variante A: Produktpräferenzen dokumentiert, aber keine zuständige kommunale Fach- oder Freigabequelle vorhanden | keine Implementierung; ADR-0016 unverändert |
+| 5h | fachregelarmes Produktauswahlgate | abgeschlossen mit Variante B: deterministische serverseitig paginierte Beteiligtenübersicht ausgewählt | dokumentarisch; keine Implementierung und keine neue Fachregel |
+| 5i | paginierte Beteiligtenübersicht | additiver Verzeichnisendpunkt und URL-gebundene Übersicht bei kompatibler Schnellsuche | ausschließlich vorhandene Beteiligten-, Policy- und Providerverträge |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme und Abnahme | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
@@ -156,11 +164,14 @@ umgesetzt. Die technische
 [5e-CSRF-Sitzungsstabilisierung](cemaris-increment-5e-completion.md) ist
 ebenfalls abgeschlossen. Das dokumentarische
 [5f-Nutzungsrechtslebenszyklus-Entscheidungsgate](cemaris-increment-5f-completion.md)
-ist mit Variante A abgeschlossen. Der nächste Auftrag im Lebenszykluspfad ist
-das dokumentarische
-[5g-Kurzentscheidungs- und Freigabegate](cemaris-increment-5g-next-step-handoff.md).
-Automatische Fristberechnung, Statuswirkung, Beendigung und Wiedervorlagen
-bleiben offen.
+und das nachfolgende
+[5g-Kurzentscheidungs- und Freigabegate](cemaris-increment-5g-completion.md)
+sind mit Variante A abgeschlossen. Automatische Fristberechnung,
+Statuswirkung, Beendigung und Wiedervorlagen bleiben offen. Als nächster
+sicherer Produktschritt folgt die im
+[5h-Auswahlgate](cemaris-increment-5h-completion.md) gewählte
+[5i-Implementierung](cemaris-increment-5i-next-step-handoff.md) einer
+paginierten Beteiligtenübersicht.
 Solange die weiterhin offenen fachlichen, Datenschutz- und Betriebsgates
 fehlen, bleibt der Schreibpfad Development-only, synthetisch und standardmäßig
 deaktiviert.

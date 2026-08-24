@@ -1,6 +1,6 @@
 # Architektur für Beteiligte und manuelle Nutzungsrechte
 
-Stand: 21.08.2026
+Stand: 24.08.2026
 
 > **Implementierungsstatus:** Der hier abgegrenzte 5b-Kern ist technisch
 > umgesetzt und gemäß
@@ -14,7 +14,10 @@ Stand: 21.08.2026
 > offen. Das rein dokumentarische
 > [5f-Gate](../implementation/cemaris-increment-5f-completion.md) hat mangels
 > fachlicher und rechtlicher Mindestentscheidungen Variante A „keine
-> Implementierung“ gewählt und ändert diese Architektur nicht.
+> Implementierung“ gewählt. Das
+> [5g-Gate](../implementation/cemaris-increment-5g-completion.md) bestätigt
+> diese Grenze mangels zuständiger Fach- und Freigabequellen; beide Gates
+> ändern diese Architektur nicht.
 
 ## Geltungsbereich
 
@@ -83,6 +86,44 @@ ADR. Erst das
 [5g-Kurzentscheidungs- und Freigabegate](../implementation/cemaris-increment-5g-next-step-handoff.md)
 darf die fehlenden Aussagen von den zuständigen Funktionen erheben. EDWALT
 bleibt dabei Altverfahrensevidenz und kein Sollmodell.
+
+## Architekturentscheidung nach 5g
+
+5g hat keine zuständige kommunale Fach- oder Freigabequelle erhalten. Die
+Auskunft vom 24.08.2026 bestätigt lediglich nicht bindende
+Produktpräferenzen: dokumentierte Rückwirkung und Korrektur, vorhandene Rollen
+ohne Vier-Augen-Prinzip, sparsamer Audit und keine rückwirkende Anwendung neuer
+Funktionen auf EDWALT-Altdaten. Der kommunale Geltungsbereich sowie Fach-,
+Rechts-, Datenschutz-, Sicherheits- und Betriebsfreigaben fehlen.
+
+Deshalb bleibt Variante A ausgewählt. Insbesondere entstehen nicht:
+
+- kein neuer Nutzungsrechtszustand und kein Rückgabeereignis;
+- keine Änderung der 5b-Eindeutigkeitsgrenze je Grabstelle;
+- kein automatisches oder manuelles Ende des offenen Inhaberzeitraums;
+- keine Kopplung an Beisetzungszustand, Grabstellenstatus oder Sperre;
+- kein Wiedervergabevertrag;
+- keine Migration, kein Backfill und keine Rückinterpretation von Altdaten;
+- keine neue Policy, Rolle oder Vier-Augen-Regel.
+
+Als nicht bindender kleinster Entwurf für ein späteres Fachgate sind eine
+Quellenreferenz, eine Begründung, eine manuelle Prüfbestätigung, eine neue
+unveränderliche Fachrevision und der vorhandene sparsame Audit ausreichend.
+Korrektur und mögliche Rücknahme wären neue Revisionen. Grabstatus und Sperre
+sollten unverändert bleiben; Wiedervergabe bliebe eine separate Operation mit
+neuer Rechteidentität. Diese Empfehlungen dürfen ohne Bestätigung der
+zuständigen Funktionen nicht in Domain, API oder Persistenz einfließen.
+
+ADR-0016 bleibt unverändert. Das außerhalb der offenen Lebenszyklussemantik
+durchgeführte
+[5h-Auswahlgate](../implementation/cemaris-increment-5h-completion.md) hat als
+rein technischen nächsten Schnitt eine additive, serverseitig paginierte
+Beteiligtenübersicht bestimmt. Das
+[5i-Inkrement](../implementation/cemaris-increment-5i-next-step-handoff.md)
+darf den vorhandenen Leseport, beide Provider und `/parties` entsprechend
+ergänzen. Die bestehende Schnellsuche für die Inhaberauswahl, Domain,
+Persistenzschema, Policy, Capability, ETag-, Revisions- und Auditverträge
+bleiben unverändert.
 
 ## Architekturgrenze
 
