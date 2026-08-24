@@ -20,6 +20,42 @@ public sealed class EfPersonUsageRightStore(CemarisDbContext db) : IPersonUsageR
         return items.Select(x => new PartySearchItem(x.Id, Enum.Parse<PartyType>(x.PartyType), Display(x), x.Addresses.SingleOrDefault(a => a.Id == x.CurrentPrimaryAddressId) is { } a ? Address(a) : null)).ToArray();
     }
 
+    public async Task<PartyDirectoryStoreResult> ReadPartyDirectoryAsync(string? normalizedQuery, int offset, int pageSize, CancellationToken token)
+    {
+        var filtered = db.Parties.AsNoTracking();
+        if (normalizedQuery is not null)
+        {
+            filtered = filtered.Where(x => x.NormalizedName.Contains(normalizedQuery));
+        }
+
+        var totalMatches = await filtered.CountAsync(token);
+        var rows = await filtered
+            .OrderBy(x => x.NormalizedName)
+            .ThenBy(x => x.Id)
+            .Skip(offset)
+            .Take(pageSize)
+            .Select(x => new
+            {
+                x.Id,
+                x.PartyType,
+                x.FirstName,
+                x.LastName,
+                x.OrganizationName,
+                CurrentPrimaryAddress = x.Addresses
+                    .Where(address => address.Id == x.CurrentPrimaryAddressId)
+                    .Select(address => address.Street + " " + address.HouseNumber + ", " + address.PostalCode + " " + address.City)
+                    .FirstOrDefault(),
+            })
+            .ToArrayAsync(token);
+
+        var items = rows.Select(x => new PartySearchItem(
+            x.Id,
+            Enum.Parse<PartyType>(x.PartyType),
+            x.PartyType == nameof(PartyType.Organization) ? x.OrganizationName! : $"{x.FirstName} {x.LastName}",
+            x.CurrentPrimaryAddress)).ToArray();
+        return new(items, totalMatches);
+    }
+
     public async Task<PartyView?> FindPartyAsync(Guid id, CancellationToken token) => await LoadPartyAsync(id, token) is { } x ? View(x) : null;
     public async Task<UsageRightView?> FindUsageRightAsync(Guid id, CancellationToken token) => await LoadRightAsync(id, token) is { } x ? View(x) : null;
     public async Task<UsageRightView?> FindUsageRightByGraveSiteAsync(Guid id, CancellationToken token) => await db.CanonicalUsageRights.AsNoTracking().Include(x => x.HolderPeriods).Include(x => x.Revisions).SingleOrDefaultAsync(x => x.GraveSiteId == id, token) is { } x ? View(x) : null;

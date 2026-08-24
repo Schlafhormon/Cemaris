@@ -12,6 +12,47 @@ namespace Cemaris.IntegrationTests;
 public sealed class SyntheticPersonUsageRightStoreTests
 {
     [Fact]
+    public async Task DirectoryCountsFiltersAndBuildsStableDisjointPagesInsideTheSyntheticStore()
+    {
+        var coordinator = new SyntheticStoreCoordinator();
+        var store = new SyntheticPersonUsageRightStore(coordinator, new SyntheticCemeteryMasterDataStore(coordinator));
+        var actor = new ActorProvider();
+        var today = new DateOnly(2026, 8, 24);
+        var alphaOne = Guid.Parse("00000000-0000-0000-0000-000000000001");
+        var alphaTwo = Guid.Parse("00000000-0000-0000-0000-000000000002");
+        var beta = Guid.Parse("00000000-0000-0000-0000-000000000003");
+        var gamma = Guid.Parse("00000000-0000-0000-0000-000000000004");
+
+        await CreateDirectoryPartyAsync(store, alphaTwo, "alpha  test", "Zweiweg", actor.Current, today);
+        await CreateDirectoryPartyAsync(store, gamma, "Gamma Test", "Gammaweg", actor.Current, today);
+        await CreateDirectoryPartyAsync(store, alphaOne, "Alpha Test", "Einweg", actor.Current, today);
+        await CreateDirectoryPartyAsync(store, beta, "Beta Test", "Betaweg", actor.Current, today);
+
+        var first = await store.ReadPartyDirectoryAsync(null, 0, 2, CancellationToken.None);
+        var repeated = await store.ReadPartyDirectoryAsync(null, 0, 2, CancellationToken.None);
+        var second = await store.ReadPartyDirectoryAsync(null, 2, 2, CancellationToken.None);
+        var filtered = await store.ReadPartyDirectoryAsync("ALPHA TEST", 0, 10, CancellationToken.None);
+        var beyondLast = await store.ReadPartyDirectoryAsync(null, 10, 2, CancellationToken.None);
+
+        Assert.Equal(4, first.TotalMatches);
+        Assert.Equal([alphaOne, alphaTwo], first.Items.Select(x => x.Id));
+        Assert.Equal(first.Items.Select(x => x.Id), repeated.Items.Select(x => x.Id));
+        Assert.Equal([beta, gamma], second.Items.Select(x => x.Id));
+        Assert.Empty(first.Items.Select(x => x.Id).Intersect(second.Items.Select(x => x.Id)));
+        Assert.Equal(2, filtered.TotalMatches);
+        Assert.Equal([alphaOne, alphaTwo], filtered.Items.Select(x => x.Id));
+        Assert.Equal("Einweg 1, 00000 Teststadt", filtered.Items[0].CurrentPrimaryAddress);
+        Assert.Equal(4, beyondLast.TotalMatches);
+        Assert.Empty(beyondLast.Items);
+
+        var emptyCoordinator = new SyntheticStoreCoordinator();
+        var empty = new SyntheticPersonUsageRightStore(emptyCoordinator, new SyntheticCemeteryMasterDataStore(emptyCoordinator));
+        var emptyPage = await empty.ReadPartyDirectoryAsync(null, 0, 10, CancellationToken.None);
+        Assert.Equal(0, emptyPage.TotalMatches);
+        Assert.Empty(emptyPage.Items);
+    }
+
+    [Fact]
     public async Task FullManualFlowKeepsRevisionsSnapshotEtagsAndDuplicateConfirmation()
     {
         var coordinator = new SyntheticStoreCoordinator();
@@ -51,6 +92,25 @@ public sealed class SyntheticPersonUsageRightStoreTests
     private static CreatePartyCommand Person(string first, string last, bool confirm) => new(
         PartyType.NaturalPerson, first, last, null,
         [new("Synthetikweg", "1", "00000", "Teststadt", null, new(2020, 1, 1), null, true)], confirm);
+
+    private static async Task CreateDirectoryPartyAsync(
+        SyntheticPersonUsageRightStore store,
+        Guid id,
+        string organizationName,
+        string street,
+        ActorIdentity actor,
+        DateOnly today)
+    {
+        var command = new CreatePartyCommand(
+            PartyType.Organization,
+            null,
+            null,
+            organizationName,
+            [new(street, "1", "00000", "Teststadt", null, new(2020, 1, 1), null, true)]);
+        var audit = new PersonUsageRightAudit(Guid.NewGuid(), "Party", id, 1, "Created", DateTimeOffset.UtcNow, actor);
+        var result = await store.CreatePartyAsync(id, command, audit, today, CancellationToken.None);
+        Assert.Equal(PersonUsageRightMutationOutcome.Success, result.Outcome);
+    }
 
     private sealed class ActorProvider : ICurrentActorProvider
     {

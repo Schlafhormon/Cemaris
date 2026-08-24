@@ -6,8 +6,49 @@ namespace Cemaris.Application.PersonUsageRights;
 
 public sealed class PersonUsageRightService(IPersonUsageRightStore store, ICurrentActorProvider actors, TimeProvider timeProvider)
 {
+    private const int DefaultDirectoryPageSize = 10;
+    private const int MaximumDirectoryPageSize = 50;
+    private const int MinimumDirectoryQueryLength = 2;
     private DateOnly Today => DateOnly.FromDateTime(timeProvider.GetUtcNow().UtcDateTime);
     public Task<IReadOnlyList<PartySearchItem>> SearchPartiesAsync(string? query, CancellationToken token) => store.SearchPartiesAsync(PartyRules.Required(query, 200, "query"), token);
+
+    public async Task<PartyDirectoryPage> ReadPartyDirectoryAsync(
+        string? query,
+        int page = 1,
+        int pageSize = DefaultDirectoryPageSize,
+        CancellationToken token = default)
+    {
+        var cleanQuery = PartyRules.Optional(query, 200, "query");
+        if (cleanQuery is not null && cleanQuery.Length < MinimumDirectoryQueryLength)
+        {
+            throw new PartyValidationException("query", $"Der Namensfilter muss mindestens {MinimumDirectoryQueryLength} Zeichen enthalten.");
+        }
+
+        if (page < 1)
+        {
+            throw new PartyValidationException("page", "Die Seitennummer muss mindestens 1 sein.");
+        }
+
+        if (pageSize < 1 || pageSize > MaximumDirectoryPageSize)
+        {
+            throw new PartyValidationException("pageSize", $"Die Seitengröße muss zwischen 1 und {MaximumDirectoryPageSize} liegen.");
+        }
+
+        var offset = ((long)page - 1) * pageSize;
+        if (offset > int.MaxValue)
+        {
+            throw new PartyValidationException("page", "Die angeforderte Seitennummer ist zu groß.");
+        }
+
+        var normalizedQuery = cleanQuery is null ? null : PartyRules.Normalize(cleanQuery);
+        var result = await store.ReadPartyDirectoryAsync(normalizedQuery, (int)offset, pageSize, token);
+        var totalPages = result.TotalMatches == 0
+            ? 0
+            : (int)(((long)result.TotalMatches + pageSize - 1) / pageSize);
+
+        return new(result.Items, result.TotalMatches, page, pageSize, totalPages);
+    }
+
     public Task<PartyView?> FindPartyAsync(Guid id, CancellationToken token) => store.FindPartyAsync(id, token);
     public Task<UsageRightView?> FindUsageRightAsync(Guid id, CancellationToken token) => store.FindUsageRightAsync(id, token);
     public Task<UsageRightView?> FindUsageRightByGraveSiteAsync(Guid id, CancellationToken token) => store.FindUsageRightByGraveSiteAsync(id, token);

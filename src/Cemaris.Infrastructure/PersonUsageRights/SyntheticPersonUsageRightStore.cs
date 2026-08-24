@@ -25,6 +25,25 @@ public sealed class SyntheticPersonUsageRightStore(SyntheticStoreCoordinator coo
         }
     }
 
+    public Task<PartyDirectoryStoreResult> ReadPartyDirectoryAsync(string? normalizedQuery, int offset, int pageSize, CancellationToken token)
+    {
+        lock (coordinator.Gate)
+        {
+            token.ThrowIfCancellationRequested();
+            var filtered = parties.Values
+                .Where(x => normalizedQuery is null || PartyRules.Normalize(Display(x)).Contains(normalizedQuery, StringComparison.Ordinal))
+                .OrderBy(x => PartyRules.Normalize(Display(x)), StringComparer.Ordinal)
+                .ThenBy(x => x.Id)
+                .ToArray();
+            var items = filtered
+                .Skip(offset)
+                .Take(pageSize)
+                .Select(x => new PartySearchItem(x.Id, x.Type, Display(x), x.Addresses.SingleOrDefault(a => a.Id == x.Primary) is { } a ? Address(a) : null))
+                .ToArray();
+            return Task.FromResult(new PartyDirectoryStoreResult(items, filtered.Length));
+        }
+    }
+
     public Task<PartyView?> FindPartyAsync(Guid id, CancellationToken token) { lock (coordinator.Gate) return Task.FromResult(parties.TryGetValue(id, out var x) ? View(x) : null); }
     public Task<UsageRightView?> FindUsageRightAsync(Guid id, CancellationToken token) { lock (coordinator.Gate) return Task.FromResult(rights.TryGetValue(id, out var x) ? View(x) : null); }
     public Task<UsageRightView?> FindUsageRightByGraveSiteAsync(Guid id, CancellationToken token) { lock (coordinator.Gate) return Task.FromResult(rights.Values.SingleOrDefault(x => x.GraveSiteId == id) is { } x ? View(x) : null); }

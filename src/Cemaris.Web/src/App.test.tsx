@@ -193,6 +193,7 @@ describe('Capability-Grenze', () => {
       const path = String(input)
       if (path.endsWith('/api/auth/me')) return jsonResponse({ ...currentAccount, role })
       if (path.endsWith('/api/system/info')) return jsonResponse({ personUsageRightsEditingEnabled: true })
+      if (path.includes('/api/parties/directory?')) return jsonResponse({ items: [], totalMatches: 0, page: 1, pageSize: 10, totalPages: 0 })
       return jsonResponse({ service: 'Cemaris.Api', status: 'Healthy' })
     }))
 

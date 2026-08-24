@@ -13,6 +13,14 @@ public static class PersonUsageRightEndpoints
         var parties = app.MapGroup("/api/parties").WithTags("Canonical parties").RequireAuthorization(CemarisPolicies.PersonUsageRights);
         parties.MapGet("/", async (string query, PersonUsageRightService service, CancellationToken token) => Results.Ok(await service.SearchPartiesAsync(query, token)))
             .WithName("SearchParties").Produces<IReadOnlyList<PartySearchItem>>().ProducesValidationProblem();
+        parties.MapGet("/directory", GetPartyDirectoryAsync)
+            .WithName("GetPartyDirectory")
+            .WithSummary("Liefert das deterministisch sortierte, serverseitig paginierte Beteiligtenverzeichnis.")
+            .WithDescription("Ein fehlender oder leerer query-Parameter liefert alle kanonischen Beteiligten. Nicht leere Namensfilter werden normalisiert und müssen 2 bis 200 Zeichen lang sein.")
+            .Produces<PartyDirectoryPage>()
+            .ProducesValidationProblem()
+            .ProducesProblem(401)
+            .ProducesProblem(403);
         parties.MapGet("/{partyId:guid}", GetPartyAsync).WithName("GetParty").Produces<PartyView>().ProducesProblem(404);
         parties.MapPost("/", CreatePartyAsync).WithName("CreateParty").RequireCemarisAntiforgery().Produces<PartyView>(201).ProducesValidationProblem().ProducesProblem(409);
         parties.MapPost("/{partyId:guid}/corrections", CorrectPartyAsync).WithName("CorrectParty").RequireCemarisAntiforgery().Produces<PartyView>().ProducesProblem(412).ProducesProblem(428);
@@ -31,6 +39,18 @@ public static class PersonUsageRightEndpoints
         rules.MapGet("/", (PersonUsageRightService service, CancellationToken token) => service.ReadStartRulesAsync(token)).WithName("GetUsageRightStartRules").RequireAuthorization(CemarisPolicies.PersonUsageRights).Produces<IReadOnlyList<UsageRightStartRuleView>>();
         rules.MapPost("/", CreateRuleAsync).WithName("CreateUsageRightStartRule").RequireAuthorization(CemarisPolicies.ProgramConfiguration).RequireCemarisAntiforgery().Produces<UsageRightStartRuleView>(201).ProducesValidationProblem().ProducesProblem(409);
         rules.MapPut("/{ruleId:guid}", ChangeRuleAsync).WithName("ChangeUsageRightStartRule").RequireAuthorization(CemarisPolicies.ProgramConfiguration).RequireCemarisAntiforgery().Produces<UsageRightStartRuleView>().ProducesProblem(412).ProducesProblem(428);
+    }
+
+    private static async Task<IResult> GetPartyDirectoryAsync(string? query, int? page, int? pageSize, PersonUsageRightService service, CancellationToken token)
+    {
+        try
+        {
+            return Results.Ok(await service.ReadPartyDirectoryAsync(query, page ?? 1, pageSize ?? 10, token));
+        }
+        catch (PartyValidationException ex)
+        {
+            return Validation(ex.Field, ex.Message);
+        }
     }
 
     private static async Task<IResult> GetPartyAsync(Guid partyId, PersonUsageRightService service, HttpResponse response, CancellationToken token) => await service.FindPartyAsync(partyId, token) is { } view ? WithEtag(view, view.Version, response) : Results.NotFound();

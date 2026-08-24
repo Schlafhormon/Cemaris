@@ -164,7 +164,7 @@ export function PartyCreateForm({ onCreated, onError }: {
   )
 }
 
-function PartyDetails({ party, onChanged, onError, onSuccess }: PartyMutationProps) {
+export function PartyDetails({ party, onChanged, onError, onSuccess }: PartyMutationProps) {
   const value = party.value
   return (
     <article className="selected-party">

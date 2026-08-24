@@ -41,6 +41,14 @@ export interface PartySearchItem {
   currentPrimaryAddress: string | null
 }
 
+export interface PartyDirectoryPage {
+  items: PartySearchItem[]
+  totalMatches: number
+  page: number
+  pageSize: number
+  totalPages: number
+}
+
 export interface HolderPeriod {
   id: string
   partyId: string

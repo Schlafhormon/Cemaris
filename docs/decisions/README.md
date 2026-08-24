@@ -48,8 +48,10 @@ zuständiger Fach- und Freigabequellen ebenfalls mit Variante A beendet.
 ADR-0016 bleibt unverändert; ein neues ADR wurde nicht erstellt. Das
 [5h-Auswahlgate](../implementation/cemaris-increment-5h-completion.md) hat
 eine additive paginierte Beteiligtenübersicht als technischen
-[5i-Schnitt](../implementation/cemaris-increment-5i-next-step-handoff.md)
-ausgewählt. Auch diese Auswahl erweitert ADR-0016 nicht. Ein späteres Frist-,
+[5i-Schnitt](../implementation/cemaris-increment-5i-completion.md) ausgewählt;
+dieser Schnitt ist nun technisch umgesetzt. Auch die Umsetzung und die
+nachfolgende interne [5j-Suchprojektion](../implementation/cemaris-increment-5j-next-step-handoff.md)
+erweitern ADR-0016 nicht. Ein späteres Frist-,
 Status- oder Lebenszyklusmodell benötigt wegen der offenen 5C-Gates
 gegebenenfalls eine neue Architekturentscheidung.
 

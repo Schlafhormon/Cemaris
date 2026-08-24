@@ -1,6 +1,6 @@
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Party } from '../types/personUsageRights'
 import { PartiesPage } from './PartiesPage'
 
@@ -8,14 +8,100 @@ const partyId = '60000000-0000-0000-0000-000000000001'
 const addressId = '60000000-0000-0000-0000-000000000002'
 
 describe('Fallunabhängige Beteiligtenpflege', () => {
-  afterEach(() => vi.unstubAllGlobals())
+  beforeEach(() => window.history.replaceState(null, '', '/parties'))
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    window.history.replaceState(null, '', '/parties')
+  })
+
+  it('lädt den Initialbestand und hält Filter, Seite und Seitengröße in der URL', async () => {
+    window.history.replaceState(null, '', '/parties?query=Start&page=2&pageSize=25')
+    const requests: string[] = []
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
+      const path = String(input)
+      requests.push(path)
+      const parameters = new URL(path, 'http://localhost').searchParams
+      const page = Number(parameters.get('page'))
+      const pageSize = Number(parameters.get('pageSize'))
+      const query = parameters.get('query') ?? ''
+      return json(directory([
+        { id: partyId, partyType: 'NaturalPerson', displayName: `${query || 'Alle'} Seite ${page}`, currentPrimaryAddress: null },
+      ], 50, page, pageSize))
+    }))
+    const user = userEvent.setup()
+    render(<PartiesPage />)
+
+    expect(await screen.findByRole('button', { name: /Start Seite 2/ })).toBeInTheDocument()
+    expect(screen.getByLabelText('Beteiligtenbestand nach Name filtern')).toHaveValue('Start')
+    expect(window.location.search).toBe('?page=2&pageSize=25&query=Start')
+
+    await user.click(screen.getByRole('button', { name: 'Vorherige Beteiligtenseite' }))
+    expect(await screen.findByRole('button', { name: /Start Seite 1/ })).toBeInTheDocument()
+    expect(window.location.search).toContain('page=1')
+
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Einträge pro Beteiligtenseite' }), '50')
+    await waitFor(() => expect(requests.at(-1)).toContain('pageSize=50'))
+    expect(window.location.search).toContain('pageSize=50')
+
+    const filter = screen.getByLabelText('Beteiligtenbestand nach Name filtern')
+    await user.clear(filter)
+    await user.type(filter, 'Neu')
+    expect(requests.at(-1)).not.toContain('query=Neu')
+    await user.click(screen.getByRole('button', { name: 'Filter anwenden' }))
+    expect(await screen.findByRole('button', { name: /Neu Seite 1/ })).toBeInTheDocument()
+    expect(window.location.search).toContain('query=Neu')
+
+    await user.click(screen.getByRole('button', { name: 'Filter löschen' }))
+    expect(await screen.findByRole('button', { name: /Alle Seite 1/ })).toBeInTheDocument()
+    expect(window.location.search).not.toContain('query=')
+  })
+
+  it('unterscheidet leeren Gesamtbestand, leeren Filter und Ladefehler', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => json(directory([], 0, 1, 10))))
+    const user = userEvent.setup()
+    const first = render(<PartiesPage />)
+    expect(await screen.findByText('Noch keine Beteiligten vorhanden.')).toBeInTheDocument()
+    await user.type(screen.getByLabelText('Beteiligtenbestand nach Name filtern'), 'Leer')
+    await user.click(screen.getByRole('button', { name: 'Filter anwenden' }))
+    expect(await screen.findByText('Keine Beteiligten für den angewendeten Namensfilter.')).toBeInTheDocument()
+    first.unmount()
+
+    vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('Synthetischer Ladefehler') }))
+    render(<PartiesPage />)
+    expect(await screen.findByRole('alert')).toHaveTextContent('Beteiligtenbestand konnte nicht geladen werden')
+  })
+
+  it('bricht veraltete Verzeichnisrequests ab und lässt keine ältere Antwort gewinnen', async () => {
+    let firstSignal: AbortSignal | undefined
+    let resolveFirst: ((response: Response) => void) | undefined
+    let directoryCalls = 0
+    vi.stubGlobal('fetch', vi.fn((input: RequestInfo | URL, init?: RequestInit) => {
+      const path = String(input)
+      if (!path.includes('/api/parties/directory?')) throw new Error(`Unerwarteter Testaufruf: ${path}`)
+      directoryCalls += 1
+      if (directoryCalls === 1) {
+        firstSignal = init?.signal ?? undefined
+        return new Promise<Response>((resolve) => { resolveFirst = resolve })
+      }
+      return Promise.resolve(json(directory([{ id: partyId, partyType: 'NaturalPerson', displayName: 'Neuer Bestand', currentPrimaryAddress: null }], 1)))
+    }))
+    const user = userEvent.setup()
+    render(<PartiesPage />)
+    await user.type(screen.getByLabelText('Beteiligtenbestand nach Name filtern'), 'Neu')
+    await user.click(screen.getByRole('button', { name: 'Filter anwenden' }))
+
+    expect(await screen.findByRole('button', { name: /Neuer Bestand/ })).toBeInTheDocument()
+    expect(firstSignal?.aborted).toBe(true)
+    resolveFirst?.(json(directory([{ id: '60000000-0000-0000-0000-000000000099', partyType: 'Organization', displayName: 'Veralteter Bestand', currentPrimaryAddress: null }], 1)))
+    await waitFor(() => expect(screen.queryByText('Veralteter Bestand')).not.toBeInTheDocument())
+  })
 
   it('sucht und zeigt Details sowie Anlagen für natürliche Person und Organisation', async () => {
     const createdTypes: string[] = []
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const path = String(input)
       if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf', headerName: 'X-Cemaris-CSRF' })
-      if (path.includes('/api/parties?query=')) return json([{ id: partyId, partyType: 'NaturalPerson', displayName: 'Synthetik Bestand', currentPrimaryAddress: 'Testweg 1' }])
+      if (path.includes('/api/parties/directory?')) return json(directory([{ id: partyId, partyType: 'NaturalPerson', displayName: 'Synthetik Bestand', currentPrimaryAddress: 'Testweg 1' }], 1))
       if (path.endsWith(`/api/parties/${partyId}`)) return json(party(), 200, { ETag: '"1"' })
       if (path.endsWith('/api/parties') && init?.method === 'POST') {
         const body = JSON.parse(String(init.body))
@@ -29,8 +115,6 @@ describe('Fallunabhängige Beteiligtenpflege', () => {
     const user = userEvent.setup()
     render(<PartiesPage />)
 
-    await user.type(screen.getByLabelText('Name des Beteiligten'), 'Bestand')
-    await user.click(screen.getByRole('button', { name: 'Suchen' }))
     await user.click(await screen.findByRole('button', { name: /Synthetik Bestand/ }))
     expect(await screen.findByRole('heading', { name: 'Synthetik Bestand', level: 4 })).toBeInTheDocument()
     expect(screen.getAllByText(/Natürliche Person/).length).toBeGreaterThan(0)
@@ -51,6 +135,7 @@ describe('Fallunabhängige Beteiligtenpflege', () => {
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const path = String(input)
       if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf', headerName: 'X-Cemaris-CSRF' })
+      if (path.includes('/api/parties/directory?')) return json(directory([], 0))
       if (path.endsWith('/api/parties') && init?.method === 'POST') {
         requestBody = JSON.parse(String(init.body))
         return json(party({ partyType: 'Organization', firstName: null, lastName: null, organizationName: 'Synthetik Organisation' }), 201, { ETag: '"1"' })
@@ -74,6 +159,7 @@ describe('Fallunabhängige Beteiligtenpflege', () => {
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const path = String(input)
       if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf', headerName: 'X-Cemaris-CSRF' })
+      if (path.includes('/api/parties/directory?')) return json(directory([], 0))
       if (path.endsWith('/api/parties') && init?.method === 'POST') {
         const body = JSON.parse(String(init.body))
         bodies.push(body)
@@ -101,13 +187,47 @@ describe('Fallunabhängige Beteiligtenpflege', () => {
     expect(bodies[2].confirmPossibleDuplicate).toBe(true)
   })
 
+  it('normalisiert eine nach Korrektur ungültige Seite und erhält Auswahl sowie Detail', async () => {
+    window.history.replaceState(null, '', '/parties?page=2&pageSize=10')
+    let corrected = false
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const path = String(input)
+      if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf', headerName: 'X-Cemaris-CSRF' })
+      if (path.includes('/api/parties/directory?')) {
+        const requestedPage = Number(new URL(path, 'http://localhost').searchParams.get('page'))
+        if (corrected && requestedPage === 2) return json(directory([], 9, 2, 10))
+        return json(directory([{ id: partyId, partyType: 'NaturalPerson', displayName: corrected ? 'Synthetik Neu' : 'Synthetik Bestand', currentPrimaryAddress: null }], corrected ? 9 : 11, requestedPage, 10))
+      }
+      if (path.endsWith(`/api/parties/${partyId}`) && !init?.method) return json(party(), 200, { ETag: '"1"' })
+      if (path.endsWith(`/api/parties/${partyId}/corrections`) && init?.method === 'POST') {
+        corrected = true
+        return json(party({ lastName: 'Neu', version: 2 }), 200, { ETag: '"2"' })
+      }
+      throw new Error(`Unerwarteter Testaufruf: ${path}`)
+    }))
+    const user = userEvent.setup()
+    render(<PartiesPage />)
+    await user.click(await screen.findByRole('button', { name: /Synthetik Bestand/ }))
+    await user.click(screen.getByText('Namensangaben korrigieren'))
+    const form = screen.getByRole('button', { name: 'Namen historisiert korrigieren' }).closest('form')!
+    await user.clear(within(form).getByLabelText('Nachname'))
+    await user.type(within(form).getByLabelText('Nachname'), 'Neu')
+    await user.type(within(form).getByLabelText('Begründung'), 'Synthetische Seitennormalisierung')
+    await user.click(within(form).getByRole('button', { name: 'Namen historisiert korrigieren' }))
+
+    await waitFor(() => expect(window.location.search).toContain('page=1'))
+    expect(await screen.findByRole('button', { name: /Synthetik Neu/ })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Synthetik Neu', level: 4 })).toBeInTheDocument()
+  })
+
   it('schreibt Namenskorrektur, Adressanlage und Adresskorrektur mit fortgeschriebenem ETag', async () => {
     const mutationEtags: string[] = []
+    let directoryLoads = 0
     const secondAddress = { ...party().addresses[0], id: '60000000-0000-0000-0000-000000000003', street: 'Neuweg', houseNumber: '2', isCurrentPrimary: false }
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const path = String(input)
       if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf', headerName: 'X-Cemaris-CSRF' })
-      if (path.includes('/api/parties?query=')) return json([{ id: partyId, partyType: 'NaturalPerson', displayName: 'Synthetik Bestand', currentPrimaryAddress: 'Testweg 1' }])
+      if (path.includes('/api/parties/directory?')) { directoryLoads += 1; return json(directory([{ id: partyId, partyType: 'NaturalPerson', displayName: 'Synthetik Bestand', currentPrimaryAddress: 'Testweg 1' }], 1)) }
       if (path.endsWith(`/api/parties/${partyId}`) && !init?.method) return json(party(), 200, { ETag: '"1"' })
       if (init?.method === 'POST') {
         mutationEtags.push(new Headers(init.headers).get('If-Match') ?? '')
@@ -146,12 +266,11 @@ describe('Fallunabhängige Beteiligtenpflege', () => {
 
     await waitFor(() => expect(mutationEtags).toEqual(['"1"', '"2"', '"3"']))
     expect(await screen.findByText('Version 4')).toBeInTheDocument()
+    await waitFor(() => expect(directoryLoads).toBeGreaterThanOrEqual(4))
   })
 })
 
 async function selectExistingParty(user: ReturnType<typeof userEvent.setup>) {
-  await user.type(screen.getByLabelText('Name des Beteiligten'), 'Bestand')
-  await user.click(screen.getByRole('button', { name: 'Suchen' }))
   await user.click(await screen.findByRole('button', { name: /Synthetik Bestand/ }))
   await screen.findByRole('heading', { name: 'Synthetik Bestand', level: 4 })
 }
@@ -181,4 +300,8 @@ function party(overrides: Partial<Party> = {}): Party {
 
 function json(value: unknown, status = 200, headers: Record<string, string> = {}) {
   return new Response(JSON.stringify(value), { status, headers: { 'Content-Type': 'application/json', ...headers } })
+}
+
+function directory(items: unknown[], totalMatches: number, page = 1, pageSize = 10) {
+  return { items, totalMatches, page, pageSize, totalPages: totalMatches === 0 ? 0 : Math.ceil(totalMatches / pageSize) }
 }

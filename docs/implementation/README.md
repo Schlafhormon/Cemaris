@@ -100,8 +100,11 @@ Dieses ist mangels kommunaler Fach- und Freigabequellen ebenfalls mit Variante
 A abgeschlossen. Der Lebenszykluspfad bleibt pausiert. Das dokumentarische
 [5h-Auswahlgate](cemaris-increment-5h-completion.md) hat eine deterministische,
 serverseitig paginierte Beteiligtenübersicht als fachregelarmen technischen
-Kandidaten gewählt. Der nächste sichere Produktschritt ist ausschließlich
-ihre Umsetzung in [5i](cemaris-increment-5i-next-step-handoff.md).
+Kandidaten gewählt. Sie ist gemäß
+[5i-Abschluss](cemaris-increment-5i-completion.md) Ende zu Ende umgesetzt. Der
+nächste sichere Schritt ist ausschließlich die interne datensparsame
+[5j-EF-Projektion](cemaris-increment-5j-next-step-handoff.md) der unveränderten
+Beteiligten-Schnellsuche.
 
 ## Verbindliche Entwicklungsregel
 
@@ -129,7 +132,8 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 5f | Nutzungsrechtslebenszyklus-Entscheidungsgate | abgeschlossen mit Variante A: ein manueller Rückgabekandidat untersucht, fehlende Entscheidungen und Freigaben dokumentiert | keine Implementierung; ADR-0016 unverändert |
 | 5g | kommunales Kurzentscheidungs- und Freigabegate | abgeschlossen mit Variante A: Produktpräferenzen dokumentiert, aber keine zuständige kommunale Fach- oder Freigabequelle vorhanden | keine Implementierung; ADR-0016 unverändert |
 | 5h | fachregelarmes Produktauswahlgate | abgeschlossen mit Variante B: deterministische serverseitig paginierte Beteiligtenübersicht ausgewählt | dokumentarisch; keine Implementierung und keine neue Fachregel |
-| 5i | paginierte Beteiligtenübersicht | additiver Verzeichnisendpunkt und URL-gebundene Übersicht bei kompatibler Schnellsuche | ausschließlich vorhandene Beteiligten-, Policy- und Providerverträge |
+| 5i | paginierte Beteiligtenübersicht | technisch umgesetzt: additiver Verzeichnisendpunkt, providerseitige stabile Pagination und URL-gebundene Übersicht bei kompatibler Schnellsuche | ausschließlich vorhandene Beteiligten-, Policy- und Providerverträge; keine neue Fachregel |
+| 5j | datensparsame kompatible Beteiligten-Schnellsuche | nur interne EF-Projektion der vorhandenen Array-Suche ohne Pagination, Limit oder Sortierungsänderung | unveränderter API-, UI-, Policy- und Capability-Vertrag |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme und Abnahme | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
@@ -167,11 +171,13 @@ ebenfalls abgeschlossen. Das dokumentarische
 und das nachfolgende
 [5g-Kurzentscheidungs- und Freigabegate](cemaris-increment-5g-completion.md)
 sind mit Variante A abgeschlossen. Automatische Fristberechnung,
-Statuswirkung, Beendigung und Wiedervorlagen bleiben offen. Als nächster
-sicherer Produktschritt folgt die im
-[5h-Auswahlgate](cemaris-increment-5h-completion.md) gewählte
-[5i-Implementierung](cemaris-increment-5i-next-step-handoff.md) einer
-paginierten Beteiligtenübersicht.
+Statuswirkung, Beendigung und Wiedervorlagen bleiben offen. Die im
+[5h-Auswahlgate](cemaris-increment-5h-completion.md) gewählte paginierte
+Beteiligtenübersicht ist mit
+[5i](cemaris-increment-5i-completion.md) technisch umgesetzt. Als nächster
+sicherer Schritt folgt ausschließlich die
+[5j-Optimierung](cemaris-increment-5j-next-step-handoff.md) der internen
+SQL-Projektion der kompatiblen Schnellsuche.
 Solange die weiterhin offenen fachlichen, Datenschutz- und Betriebsgates
 fehlen, bleibt der Schreibpfad Development-only, synthetisch und standardmäßig
 deaktiviert.

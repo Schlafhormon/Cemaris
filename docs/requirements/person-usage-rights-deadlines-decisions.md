@@ -343,10 +343,35 @@ Entscheidungen pausiert. Das dokumentarische
 [5h-Auswahlgate](../implementation/cemaris-increment-5h-completion.md) hat
 außerhalb der offenen Lebenszyklusfragen eine deterministische, serverseitig
 paginierte Beteiligtenübersicht ausgewählt. Das
-[5i-Inkrement](../implementation/cemaris-increment-5i-next-step-handoff.md)
-darf ausschließlich diesen additiven Lesevertrag umsetzen. Die bestehende
-enge Beteiligten-Schnellsuche für die Inhaberauswahl bleibt kompatibel; es
-entsteht keine neue Fach-, Rechte-, Frist- oder Migrationsanforderung.
+[5i-Inkrement](../implementation/cemaris-increment-5i-completion.md) setzt
+ausschließlich diesen additiven Lesevertrag um. Die bestehende enge
+Beteiligten-Schnellsuche für die Inhaberauswahl bleibt kompatibel; es entsteht
+keine neue Fach-, Rechte-, Frist- oder Migrationsanforderung.
+
+### Technischer Lesevertrag 5i
+
+Der Vertrag ist eine technische Bedien- und Skalierbarkeitsentscheidung auf
+dem vorhandenen kanonischen Beteiligtenbestand:
+
+- `GET /api/parties/directory` liest wahlweise alle Beteiligten oder filtert
+  den normalisierten Anzeigenamen mit einem 2 bis 200 Zeichen langen Filter;
+- `page` beginnt bei 1, `pageSize` liegt zwischen 1 und 50; Standardwerte sind
+  1 und 10;
+- die Antwort enthält `items`, `totalMatches`, `page`, `pageSize` und
+  `totalPages`; eine außerhalb liegende Seite ist leer und behält die
+  angeforderten Metadaten;
+- die Reihenfolge ist vollständig durch normalisierten Anzeigenamen und
+  stabile Beteiligten-ID bestimmt;
+- ein Listeneintrag enthält nur ID, Typ, Anzeigename und gegebenenfalls die
+  aktuelle primäre Anschrift;
+- die fallunabhängige Oberfläche hält angewendeten Filter, Seite und
+  Seitengröße in der URL und lädt Auswahl sowie vollständige Historie erst
+  gezielt über den vorhandenen Detailvertrag.
+
+Der Vertrag begründet weder eine neue Beteiligtenrolle noch eine fachliche
+Priorisierung, Dublettenentscheidung, Löschregel oder Nutzungsrechtswirkung.
+Er gilt weiterhin ausschließlich innerhalb der vorhandenen Policy und der
+standardmäßig deaktivierten Development-Capability.
 
 ## Rückverfolgbarkeit der Entscheidungen
 

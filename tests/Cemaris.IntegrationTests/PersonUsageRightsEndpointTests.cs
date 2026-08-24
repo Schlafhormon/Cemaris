@@ -4,6 +4,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Cemaris.Api.Contracts;
 using Cemaris.Application.PersonUsageRights;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Cemaris.IntegrationTests;
 
@@ -37,6 +40,97 @@ public sealed class PersonUsageRightsEndpointTests(PersonUsageRightsWebApplicati
 
         using var openApi = JsonDocument.Parse(await client.GetStreamAsync("/openapi/v1.json"));
         var paths = openApi.RootElement.GetProperty("paths"); Assert.True(paths.TryGetProperty("/api/parties", out _)); Assert.True(paths.TryGetProperty("/api/usage-rights/{usageRightId}/transfers", out _)); Assert.True(paths.TryGetProperty("/api/program-configuration/usage-right-start-rules/{ruleId}", out _)); Assert.Contains("If-Match", openApi.RootElement.GetRawText(), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task DirectoryUsesDefaultsFiltersStableFollowingPagesAndKeepsLegacyArraySearch()
+    {
+        using var client = factory.CreateClient();
+        for (var index = 11; index >= 0; index--)
+        {
+            var addresses = new[] { new { street = $"Verzeichnisweg {index:00}", houseNumber = "1", postalCode = "00000", city = "Teststadt", additionalInformation = (string?)null, validFromInclusive = "2020-01-01", validUntilExclusive = (string?)null, isCurrentPrimary = index == 0 } };
+            var response = await client.SendWithCsrfAsync(HttpMethod.Post, "/api/parties", new
+            {
+                partyType = "Organization",
+                firstName = (string?)null,
+                lastName = (string?)null,
+                organizationName = $"SYN-DIR-API-{index:00}",
+                addresses,
+            });
+            response.EnsureSuccessStatusCode();
+        }
+
+        var defaults = await client.GetFromJsonAsync<PartyDirectoryPage>("/api/parties/directory", JsonOptions);
+        Assert.NotNull(defaults);
+        Assert.Equal(1, defaults.Page);
+        Assert.Equal(10, defaults.PageSize);
+        Assert.True(defaults.TotalMatches >= 12);
+
+        var first = await client.GetFromJsonAsync<PartyDirectoryPage>("/api/parties/directory?query=%20SYN-DIR-API%20&page=1&pageSize=10", JsonOptions);
+        var repeated = await client.GetFromJsonAsync<PartyDirectoryPage>("/api/parties/directory?query=SYN-DIR-API&page=1&pageSize=10", JsonOptions);
+        var second = await client.GetFromJsonAsync<PartyDirectoryPage>("/api/parties/directory?query=SYN-DIR-API&page=2&pageSize=10", JsonOptions);
+        Assert.NotNull(first);
+        Assert.NotNull(repeated);
+        Assert.NotNull(second);
+        Assert.Equal(12, first.TotalMatches);
+        Assert.Equal(2, first.TotalPages);
+        Assert.Equal(10, first.Items.Count);
+        Assert.Equal(first.Items.Select(x => x.Id), repeated.Items.Select(x => x.Id));
+        Assert.Equal(2, second.Items.Count);
+        Assert.Empty(first.Items.Select(x => x.Id).Intersect(second.Items.Select(x => x.Id)));
+        Assert.Equal("SYN-DIR-API-00", first.Items[0].DisplayName);
+        Assert.Equal("Verzeichnisweg 00 1, 00000 Teststadt", first.Items[0].CurrentPrimaryAddress);
+
+        using var legacy = await client.GetAsync("/api/parties?query=SYN-DIR-API");
+        legacy.EnsureSuccessStatusCode();
+        using var legacyJson = JsonDocument.Parse(await legacy.Content.ReadAsStreamAsync());
+        Assert.Equal(JsonValueKind.Array, legacyJson.RootElement.ValueKind);
+        Assert.Equal(12, legacyJson.RootElement.GetArrayLength());
+
+        using var openApi = JsonDocument.Parse(await client.GetStreamAsync("/openapi/v1.json"));
+        var directoryOperation = openApi.RootElement.GetProperty("paths").GetProperty("/api/parties/directory").GetProperty("get");
+        Assert.True(directoryOperation.GetProperty("responses").TryGetProperty("400", out _));
+    }
+
+    [Theory]
+    [InlineData("/api/parties/directory?query=x")]
+    [InlineData("/api/parties/directory?page=0")]
+    [InlineData("/api/parties/directory?pageSize=51")]
+    [InlineData("/api/parties/directory?page=2147483647&pageSize=50")]
+    public async Task DirectoryReturnsStructuredValidationProblems(string path)
+    {
+        using var client = factory.CreateClient();
+        using var response = await client.GetAsync(path);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        using var problem = JsonDocument.Parse(await response.Content.ReadAsStreamAsync());
+        Assert.Equal("https://tools.ietf.org/html/rfc9110#section-15.5.1", problem.RootElement.GetProperty("type").GetString());
+        Assert.Equal(JsonValueKind.Object, problem.RootElement.GetProperty("errors").ValueKind);
+    }
+
+    [Fact]
+    public async Task DirectoryUsesTheExistingPolicyAndCapabilityBoundary()
+    {
+        using var caseWorkerFactory = factory.WithWebHostBuilder(TestIdentity.ConfigureAutomaticCaseWorker);
+        using var caseWorker = caseWorkerFactory.CreateClient();
+        using var allowed = await caseWorker.GetAsync("/api/parties/directory");
+        Assert.Equal(HttpStatusCode.OK, allowed.StatusCode);
+
+        using var anonymousFactory = factory.WithWebHostBuilder(builder => builder.ConfigureServices(services =>
+            services.Configure<AuthenticationOptions>(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultForbidScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })));
+        using var anonymous = anonymousFactory.CreateClient();
+        using var unauthorized = await anonymous.GetAsync("/api/parties/directory");
+        Assert.Equal(HttpStatusCode.Unauthorized, unauthorized.StatusCode);
+
+        using var disabledFactory = factory.WithWebHostBuilder(builder =>
+            builder.UseSetting("Features:PersonUsageRightsEditingEnabled", "false"));
+        using var disabled = disabledFactory.CreateClient();
+        using var unavailable = await disabled.GetAsync("/api/parties/directory");
+        Assert.Equal(HttpStatusCode.NotFound, unavailable.StatusCode);
     }
 
     private static async Task<Guid> CreateMasterAsync(HttpClient client, string route, object body)

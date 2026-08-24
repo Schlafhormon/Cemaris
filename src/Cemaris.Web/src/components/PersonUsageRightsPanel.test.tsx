@@ -75,7 +75,7 @@ describe('PersonUsageRightsPanel', () => {
     const partyId = '50000000-0000-0000-0000-000000000050'
     let rightLoads = 0
     let partyLoads = 0
-    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const path = String(input)
       if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf', headerName: 'X-Cemaris-CSRF' })
       if (path.includes('/grave-sites/')) { rightLoads += 1; return json(right, 200, { ETag: '"1"' }) }
@@ -83,7 +83,8 @@ describe('PersonUsageRightsPanel', () => {
       if (path.endsWith(`/api/parties/${partyId}`) && !init?.method) { partyLoads += 1; return json(party(partyId), 200, { ETag: partyLoads === 1 ? '"1"' : '"2"' }) }
       if (path.endsWith(`/api/parties/${partyId}/corrections`)) return json({ title: 'Konflikt' }, 412)
       throw new Error(`Unerwarteter Testaufruf: ${path}`)
-    }))
+    })
+    vi.stubGlobal('fetch', fetchMock)
     const user = userEvent.setup()
     render(<PersonUsageRightsPanel graveSiteId={right.graveSiteId} />)
     await user.type(await screen.findByLabelText('Name des Beteiligten'), 'Konflikt')
@@ -100,6 +101,8 @@ describe('PersonUsageRightsPanel', () => {
     expect(partyLoads).toBe(2)
     expect(rightLoads).toBe(1)
     expect(within(form).getByLabelText('Begründung')).toHaveValue('Lokale Konflikteingabe')
+    expect(fetchMock.mock.calls.some(([input]) => String(input).includes('/api/parties?query='))).toBe(true)
+    expect(fetchMock.mock.calls.some(([input]) => String(input).includes('/api/parties/directory'))).toBe(false)
   })
 })
 

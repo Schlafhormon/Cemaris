@@ -3,6 +3,7 @@ namespace Cemaris.Application.PersonUsageRights;
 public interface IPersonUsageRightStore
 {
     Task<IReadOnlyList<PartySearchItem>> SearchPartiesAsync(string query, CancellationToken token);
+    Task<PartyDirectoryStoreResult> ReadPartyDirectoryAsync(string? normalizedQuery, int offset, int pageSize, CancellationToken token);
     Task<PartyView?> FindPartyAsync(Guid id, CancellationToken token);
     Task<PersonUsageRightMutationResult> CreatePartyAsync(Guid id, CreatePartyCommand command, PersonUsageRightAudit audit, DateOnly today, CancellationToken token);
     Task<PersonUsageRightMutationResult> CorrectPartyAsync(Guid id, long expected, CorrectPartyCommand command, PersonUsageRightAudit audit, DateOnly today, CancellationToken token);

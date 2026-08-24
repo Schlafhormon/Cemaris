@@ -109,9 +109,12 @@ bestätigt mangels kommunaler Fach- und Freigabequellen erneut Variante A.
 Fristberechnung, Statuswirkung und Wiedervorlagen bleiben offen. Das
 [5h-Auswahlgate](docs/implementation/cemaris-increment-5h-completion.md) hat
 als nächsten fachregelarmen Schnitt eine deterministische, serverseitig
-paginierte Beteiligtenübersicht ausgewählt. Ihre Umsetzung ist als
-[Inkrement 5i](docs/implementation/cemaris-increment-5i-next-step-handoff.md)
-abgegrenzt; die bestehende Nutzungsrechts-Schnellsuche bleibt kompatibel.
+paginierte Beteiligtenübersicht ausgewählt. Sie ist gemäß
+[Inkrement 5i](docs/implementation/cemaris-increment-5i-completion.md) Ende zu
+Ende umgesetzt; die bestehende Nutzungsrechts-Schnellsuche bleibt kompatibel.
+Als kleinster sicherer Folgeschritt ist deren rein interne datensparsame
+[SQL-Projektion 5j](docs/implementation/cemaris-increment-5j-next-step-handoff.md)
+abgegrenzt.
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -399,8 +402,9 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
 5. fachliche Stammdaten, Fall-, Personen-, Beisetzungs- und Rechteprozesse;
    5a, der technische manuelle 5b-Durchstich, das dokumentarische 5c-Gate und
    die technischen Inkremente 5d und 5e sowie die dokumentarischen Gates 5f
-   bis 5h sind abgeschlossen; der Lebenszykluspfad bleibt pausiert und 5i
-   setzt ausschließlich eine paginierte Beteiligtenübersicht um
+   bis 5h sowie der technische 5i-Schnitt sind abgeschlossen; der
+   Lebenszykluspfad bleibt pausiert und 5j darf ausschließlich die kompatible
+   Beteiligten-Schnellsuche intern datensparsamer projizieren
 6. Gebühren-, Dokument- und Bescheidwesen
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe

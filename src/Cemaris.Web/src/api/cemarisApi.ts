@@ -17,7 +17,7 @@ import type {
   UpdateAccountInput,
 } from '../types/identity'
 import type { CemeteryMasterData } from '../types/cemeteries'
-import type { Party, PartySearchItem, StartRule, UsageRight, Versioned } from '../types/personUsageRights'
+import type { Party, PartyDirectoryPage, PartySearchItem, StartRule, UsageRight, Versioned } from '../types/personUsageRights'
 
 const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim() ?? ''
 const apiBaseUrl = configuredBaseUrl.replace(/\/$/, '')
@@ -149,6 +149,12 @@ async function sendVersioned<T>(path: string, method: string, body: unknown, eta
 }
 
 export function searchParties(query: string, signal: AbortSignal) { return getJson<PartySearchItem[]>(`/api/parties?query=${encodeURIComponent(query)}`, signal) }
+export function getPartyDirectory(query: string, page: number, pageSize: number, signal: AbortSignal) {
+  const parameters = new URLSearchParams({ page: String(page), pageSize: String(pageSize) })
+  const normalizedQuery = query.trim()
+  if (normalizedQuery) parameters.set('query', normalizedQuery)
+  return getJson<PartyDirectoryPage>(`/api/parties/directory?${parameters.toString()}`, signal)
+}
 export function getParty(id: string, signal?: AbortSignal) { return getVersioned<Party>(`/api/parties/${encodeURIComponent(id)}`, signal) }
 export function createParty(input: unknown) { return sendVersioned<Party>('/api/parties', 'POST', input) }
 export function correctParty(id: string, etag: string, input: unknown) { return sendVersioned<Party>(`/api/parties/${encodeURIComponent(id)}/corrections`, 'POST', input, etag) }

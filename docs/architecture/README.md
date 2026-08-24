@@ -63,9 +63,12 @@ nicht. Der Lebenszykluspfad bleibt pausiert. Das
 [5h-Auswahlgate](../implementation/cemaris-increment-5h-completion.md) hat
 außerhalb dieses Pfads eine additive, serverseitig paginierte
 Beteiligtenübersicht ausgewählt. Das
-[5i-Inkrement](../implementation/cemaris-increment-5i-next-step-handoff.md)
-darf dafür den vorhandenen Beteiligten-Lesevertrag ergänzen, ohne
+[5i-Inkrement](../implementation/cemaris-increment-5i-completion.md) hat dafür
+den vorhandenen Beteiligten-Lesevertrag ergänzt, ohne
 Nutzungsrechts-, Rollen-, Persistenz- oder Auditsemantik zu ändern.
+Die [5j-Folgeübergabe](../implementation/cemaris-increment-5j-next-step-handoff.md)
+beschränkt den nächsten Schritt auf die interne EF-Projektion der
+kompatiblen Schnellsuche.
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.

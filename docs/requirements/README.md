@@ -61,9 +61,11 @@ endet mangels zuständiger Fach- und Freigabequellen mit Variante A. Der
 Lebenszykluspfad bleibt pausiert. Das dokumentarische
 [5h-Auswahlgate](../implementation/cemaris-increment-5h-completion.md) hat als
 fachregelarmen technischen Kandidaten eine deterministische, serverseitig
-paginierte Beteiligtenübersicht gewählt. Nur dieser additive Lesevertrag darf
-im [Inkrement 5i](../implementation/cemaris-increment-5i-next-step-handoff.md)
-als Nächstes umgesetzt werden.
+paginierte Beteiligtenübersicht gewählt. Dieser additive Lesevertrag ist im
+[Inkrement 5i](../implementation/cemaris-increment-5i-completion.md) technisch
+umgesetzt. Die [5j-Folgeübergabe](../implementation/cemaris-increment-5j-next-step-handoff.md)
+erlaubt als Nächstes nur eine interne datensparsame EF-Projektion der
+kompatiblen Schnellsuche.
 
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -637,4 +639,5 @@ Bewertungskriterien:
 | Nutzungsrechtslebenszyklus-Gate 5f | offene beziehungsweise widersprüchliche Fragen 5C-01 und 5C-03 bis 5C-13 | genau einen Rückgabekandidaten prüfen und Nichtfreigabe belegen | Fach-, Rechts-, Berechtigungs-, Datenschutz- und Betriebsgates fehlen | keine Implementierung | abgeschlossen mit Variante A | Matrix und Abschluss in `cemaris-increment-5f-evidence-decision-approval-matrix.md` und `cemaris-increment-5f-completion.md` |
 | kommunales Kurzentscheidungs- und Freigabegate 5g | 5f-Nichtfreigabe, örtliche E-17-Evidenz und Auskunft ohne Fachfunktion | genau einen manuellen Rückgabekandidaten bewerten | Fach-, Rechts-, Datenschutz-, Sicherheits- und Betriebsfreigaben fehlen | keine Implementierung | abgeschlossen mit Variante A | Matrix und Abschluss in `cemaris-increment-5g-evidence-decision-approval-matrix.md` und `cemaris-increment-5g-completion.md` |
 | fachregelarmes Produktauswahlgate 5h | 5g-Nichtfreigabe bei gewünschter einfacher EDWALT-Ablösung | deterministische serverseitig paginierte Beteiligtenübersicht ausgewählt | Repositorybefund und synthetische Abnahme | keine Implementierung in 5h | abgeschlossen mit Variante B | Auswahl in `cemaris-increment-5h-completion.md` |
-| paginierte Beteiligtenübersicht 5i | 5h-Auswahl auf vorhandenen kanonischen Beteiligtenverträgen | additiver Verzeichnisendpunkt und URL-gebundene Übersicht; alte Schnellsuche bleibt kompatibel | vorhandene Policy, Capability und Provider | keine neue Fach-, Lebenszyklus- oder Migrationswirkung | nächster Implementierungsschritt | ausführbare Abgrenzung in `cemaris-increment-5i-next-step-handoff.md` |
+| paginierte Beteiligtenübersicht 5i | 5h-Auswahl auf vorhandenen kanonischen Beteiligtenverträgen | additiver Verzeichnisendpunkt und URL-gebundene Übersicht; alte Schnellsuche bleibt kompatibel | vorhandene Policy, Capability und Provider | keine neue Fach-, Lebenszyklus- oder Migrationswirkung | umgesetzt | technischer Abschluss in `cemaris-increment-5i-completion.md` |
+| datensparsame Schnellsuche 5j | bestehende kompatible Array-Schnellsuche | ausschließlich interne EF-Projektion der benötigten Item-Felder und aktuellen Primäranschrift | unveränderter API-, Policy- und Capability-Vertrag | keine Pagination, Sortierung oder Fachwirkung | nächster Implementierungsschritt | ausführbare Abgrenzung in `cemaris-increment-5j-next-step-handoff.md` |

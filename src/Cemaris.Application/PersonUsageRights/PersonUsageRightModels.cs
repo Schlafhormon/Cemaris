@@ -12,6 +12,8 @@ public sealed record PartyAddressView(Guid Id, string Street, string HouseNumber
 public sealed record PartyRevisionView(Guid Id, long ResultingVersion, string MutationType, string? Reason, DateTimeOffset OccurredAtUtc, string ActorDisplayName, PartyType PartyType, string? FirstName, string? LastName, string? OrganizationName, IReadOnlyList<PartyAddressView> Addresses);
 public sealed record PartyView(Guid Id, PartyType PartyType, string? FirstName, string? LastName, string? OrganizationName, Guid? CurrentPrimaryAddressId, long Version, IReadOnlyList<PartyAddressView> Addresses, IReadOnlyList<PartyRevisionView> Revisions);
 public sealed record PartySearchItem(Guid Id, PartyType PartyType, string DisplayName, string? CurrentPrimaryAddress);
+public sealed record PartyDirectoryPage(IReadOnlyList<PartySearchItem> Items, int TotalMatches, int Page, int PageSize, int TotalPages);
+public sealed record PartyDirectoryStoreResult(IReadOnlyList<PartySearchItem> Items, int TotalMatches);
 public sealed record PossiblePartyDuplicate(Guid Id, string DisplayName);
 
 public sealed record CreateUsageRightCommand(Guid GraveSiteId, Guid HolderPartyId, DateOnly StartDate, DateOnly EndDate, string? SourceReference);

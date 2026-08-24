@@ -15,6 +15,40 @@ namespace Cemaris.IntegrationTests;
 public sealed class SqlServerPersonUsageRightTests(SqlServerIntegrationFixture fixture) : IClassFixture<SqlServerIntegrationFixture>
 {
     [SqlServerFact]
+    public async Task DirectoryQueryExecutesStableSqlPagingWithNameTiesAndCurrentPrimaryAddress()
+    {
+        var options = new DbContextOptionsBuilder<CemarisDbContext>().UseSqlServer(fixture.DatabaseConnectionString).Options;
+        await using var db = new CemarisDbContext(options);
+        var store = new EfPersonUsageRightStore(db);
+        var actor = new ActorProvider().Current;
+        var today = new DateOnly(2026, 8, 24);
+        var alphaOne = Guid.Parse("00000000-0000-0000-0000-000000000101");
+        var alphaTwo = Guid.Parse("00000000-0000-0000-0000-000000000102");
+        var beta = Guid.Parse("00000000-0000-0000-0000-000000000103");
+        var gamma = Guid.Parse("00000000-0000-0000-0000-000000000104");
+
+        await CreateDirectoryPartyAsync(store, alphaTwo, "syn  sql directory alpha", "Zweiweg", actor, today);
+        await CreateDirectoryPartyAsync(store, gamma, "SYN SQL DIRECTORY GAMMA", "Gammaweg", actor, today);
+        await CreateDirectoryPartyAsync(store, alphaOne, "SYN SQL DIRECTORY ALPHA", "Einweg", actor, today);
+        await CreateDirectoryPartyAsync(store, beta, "SYN SQL DIRECTORY BETA", "Betaweg", actor, today);
+
+        var filter = PartyRules.Normalize("syn sql directory");
+        var first = await store.ReadPartyDirectoryAsync(filter, 0, 2, CancellationToken.None);
+        var repeated = await store.ReadPartyDirectoryAsync(filter, 0, 2, CancellationToken.None);
+        var second = await store.ReadPartyDirectoryAsync(filter, 2, 2, CancellationToken.None);
+        var beyondLast = await store.ReadPartyDirectoryAsync(filter, 20, 2, CancellationToken.None);
+
+        Assert.Equal(4, first.TotalMatches);
+        Assert.Equal([alphaOne, alphaTwo], first.Items.Select(x => x.Id));
+        Assert.Equal(first.Items.Select(x => x.Id), repeated.Items.Select(x => x.Id));
+        Assert.Equal([beta, gamma], second.Items.Select(x => x.Id));
+        Assert.Empty(first.Items.Select(x => x.Id).Intersect(second.Items.Select(x => x.Id)));
+        Assert.Equal("Einweg 1, 00000 SQL-Teststadt", first.Items[0].CurrentPrimaryAddress);
+        Assert.Equal(4, beyondLast.TotalMatches);
+        Assert.Empty(beyondLast.Items);
+    }
+
+    [SqlServerFact]
     public async Task CanonicalFlowIsAtomicConstrainedHistoricizedAndLeavesLegacyProjectionUntouched()
     {
         var options = new DbContextOptionsBuilder<CemarisDbContext>().UseSqlServer(fixture.DatabaseConnectionString).Options;
@@ -112,6 +146,25 @@ public sealed class SqlServerPersonUsageRightTests(SqlServerIntegrationFixture f
     }
 
     private static CreatePartyCommand Person(string first, string last) => new(PartyType.NaturalPerson, first, last, null, [new("SQL-Testweg", "1", "00000", "SQL-Teststadt", null, new(2020, 1, 1), null, true)]);
+
+    private static async Task CreateDirectoryPartyAsync(
+        EfPersonUsageRightStore store,
+        Guid id,
+        string organizationName,
+        string street,
+        ActorIdentity actor,
+        DateOnly today)
+    {
+        var command = new CreatePartyCommand(
+            PartyType.Organization,
+            null,
+            null,
+            organizationName,
+            [new(street, "1", "00000", "SQL-Teststadt", null, new(2020, 1, 1), null, true)]);
+        var audit = new PersonUsageRightAudit(Guid.NewGuid(), "Party", id, 1, "Created", DateTimeOffset.UtcNow, actor);
+        var result = await store.CreatePartyAsync(id, command, audit, today, CancellationToken.None);
+        Assert.Equal(PersonUsageRightMutationOutcome.Success, result.Outcome);
+    }
 
     private static async Task<bool> InsertCompetingRightAsync(
         DbContextOptions<CemarisDbContext> options,

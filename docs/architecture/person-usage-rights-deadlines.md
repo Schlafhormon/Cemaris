@@ -119,11 +119,42 @@ durchgeführte
 [5h-Auswahlgate](../implementation/cemaris-increment-5h-completion.md) hat als
 rein technischen nächsten Schnitt eine additive, serverseitig paginierte
 Beteiligtenübersicht bestimmt. Das
-[5i-Inkrement](../implementation/cemaris-increment-5i-next-step-handoff.md)
-darf den vorhandenen Leseport, beide Provider und `/parties` entsprechend
-ergänzen. Die bestehende Schnellsuche für die Inhaberauswahl, Domain,
-Persistenzschema, Policy, Capability, ETag-, Revisions- und Auditverträge
-bleiben unverändert.
+[5i-Inkrement](../implementation/cemaris-increment-5i-completion.md) ergänzt
+den vorhandenen Leseport, beide Provider und `/parties` entsprechend. Die
+bestehende Schnellsuche für die Inhaberauswahl, Domain, Persistenzschema,
+Policy, Capability, ETag-, Revisions- und Auditverträge bleiben unverändert.
+
+### Paginierte Leseprojektion 5i
+
+Die Anwendungsschicht validiert Filter und Pagination, normalisiert den
+optionalen Namensfilter und verhindert einen Offsetüberlauf vor dem
+Store-Aufruf. Ein eigener Page-Vertrag trennt das Verzeichnis von der
+kompatiblen Array-Schnellsuche.
+
+Der Provider-Port liefert Gesamtzahl und genau eine angeforderte Seite. Der
+EF-Provider führt Filter, `Count`, `OrderBy`/`ThenBy`, `Skip`, `Take` und die
+sparsame Projektion serverseitig aus. Er lädt weder Revisionen noch sämtliche
+Anschriften und erzeugt keine N+1-Abfragen. Der synthetische Provider bildet
+Zählung und dieselbe stabile Reihenfolge innerhalb seiner Koordinator-Sperre.
+
+```text
+GET /api/parties/directory
+          |
+          v
+validieren + normalisieren + Offset absichern
+          |
+          v
+Store: Count + Name/ID-Sortierung + genau eine Seite
+          |
+          v
+PartySearchItem-Projektion ---- gezielte Auswahl ----> vorhandenes Detail
+```
+
+Die React-Seite `/parties` verwendet diesen Vertrag für Initialbestand,
+Filter und Paging. URL-Zustand, Abbruch veralteter Requests und eine monotone
+Request-Kennung verhindern inkonsistente Ansichten; Mutationen laden das
+Verzeichnis neu, ohne das ausgewählte Detail zu verwerfen. Alle Schreibpfade,
+ETags und Konfliktabläufe bleiben die vorhandenen 5b-/5d-Verträge.
 
 ## Architekturgrenze
 
