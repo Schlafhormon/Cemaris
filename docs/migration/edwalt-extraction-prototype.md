@@ -1,5 +1,12 @@
 # EDWALT-Extraktionsprototyp und technisches Datenprofil
 
+> **Aktuelle Arbeitsgrenze vom 25.08.2026:** Vorhandene Quellen und
+> Phase-Artefakte unter
+> `C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration` bleiben read-only.
+> Für den abgegrenzten 5k-Friedhofsstammdatenimport dürfen ausschließlich die
+> dort vorhandenen Phase-2-Extrakte und erforderlichen statischen Belege
+> gelesen werden; frühere Originalpfade sind nicht freigegeben.
+
 Stand: 12. August 2026
 
 ## Ergebnis

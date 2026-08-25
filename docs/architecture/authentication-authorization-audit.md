@@ -33,6 +33,13 @@ UTC-Sicherheitszeitpunkte, Security-Stamp und SQL-`rowversion`. Benutzername
 und Anzeigename dürfen geändert werden; historische Auditzeilen behalten ID
 und damaligen Anzeigenamen.
 
+Für den lokalen Development-Betrieb gemäß ADR-0017 werden in `CEMARISDEV`
+einmalig die dauerhaften Benutzernamen `admin` mit `Administration` und `sach`
+mit `Sachbearbeitung` angelegt. Dies sind keine eingebauten Produktkonten und
+es existieren keine Defaultpasswörter. Passwortwerte kommen ausschließlich
+aus lokalen Secrets; normale Starts, Seeds und Stammdatenimporte verändern
+weder Passwort noch Security Stamp bestehender Konten.
+
 ASP.NET Core Cookie Authentication stellt ein `HttpOnly`-, `SameSite=Lax`-
 Cookie mit standardmäßig 30 Minuten Inaktivitätsdauer aus. Außerhalb von
 Development ist `Secure` zwingend. Jede Anfrage gleicht Aktivstatus und
@@ -128,6 +135,8 @@ dokumentiert.
 Cemaris ist für On-Premises-Betrieb mit einer eigenen Microsoft-SQL-Server-
 Datenbank vorgesehen. Diese Topologie reduziert keine Zugriffsschutz-,
 Minimierungs-, Aufbewahrungs-, Sicherungs- oder Freigabeanforderung. Der
-synthetische Development-Pfad bleibt daher standardmäßig deaktiviert und darf
-weiterhin weder echte Verwaltungsdaten noch eine behauptete Produktivfreigabe
-erhalten.
+Development-Pfad bleibt daher standardmäßig deaktiviert und erhält keine
+Produktivfreigabe. Die lokale Ausnahme aus ADR-0017 umfasst ausschließlich
+nicht personenbezogene Friedhofsstammdaten in `CEMARISDEV`; Personen- und
+Falldaten bleiben synthetisch und automatisierte Tests bleiben von dieser
+dauerhaften Datenbank getrennt.

@@ -5,7 +5,12 @@ Stand: 12.08.2026
 > **Status:** vollständig vorbereitet, aber nach der Projektentscheidung vom
 > 12.08.2026 zugunsten der Cemaris-Produktentwicklung pausiert. Nicht ausführen,
 > solange die Mapping-/Importphase nicht ausdrücklich wieder aufgenommen wurde.
-> Die Phase-5-Wurzel wurde noch nicht angelegt.
+> Die Projektentscheidung vom 25.08.2026 nimmt nur den getrennten,
+> nicht personenbezogenen Friedhofsstammdatenpfad gemäß ADR-0017 und der
+> [5k-Folgeübergabe](../implementation/cemaris-increment-5k-next-step-handoff.md)
+> wieder auf. Dieser Gebührenauftrag bleibt pausiert. Seine ursprünglich
+> vorgesehene Phase-5-Wurzel wurde nicht angelegt; 5k darf stattdessen nur
+> `phase5-cemetery-master-data-20260825` neu anlegen.
 
 ## Ziel des nächsten Schritts
 

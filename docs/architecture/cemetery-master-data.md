@@ -1,12 +1,19 @@
 # Architektur der Friedhofs- und Grabstellenstammdaten
 
-Stand: 13.08.2026
+Stand: 25.08.2026
 
 ## Geltungsbereich
 
 Diese Architektur beschreibt den technisch abgenommenen, weiterhin
 synthetischen und Development-only betriebenen Stand von Inkrement 4a. Sie ist
 keine fachliche, datenschutzrechtliche, betriebliche oder produktive Freigabe.
+
+ADR-0017 ergänzt ein noch umzusetzendes lokales Ziel: `CEMARISDEV` soll den
+dauerhaften Development-Zustand tragen und ausgewählte nicht personenbezogene
+Friedhofsstammdaten aus der read-only EDWALT-Arbeitswurzel aufnehmen. Bis zum
+Abschluss von Inkrement 5k bleiben die nachfolgend beschriebenen
+SQL-Aktivierungs- und Importanteile Zielarchitektur, nicht behaupteter
+Ist-Stand.
 
 Die räumliche Struktur ist `Friedhof → Bereich → Feld → Reihe → Grabstelle`.
 Friedhof und Grabstelle sind verpflichtend. Bereich, Feld und Reihe sind
@@ -88,9 +95,52 @@ Die Capability `Features:CemeteryMasterDataEditingEnabled` ist standardmäßig
 mit einem anderen Provider als `Synthetic` aktiviert wird. Sie ist unabhängig
 von `Features:CaseEditingEnabled`.
 
+Inkrement 5k soll die Providerbeschränkung für den `SqlServer`-Provider
+kontrolliert aufheben, ohne die Development-Grenze oder die vorhandenen
+Sicherheitsverträge zu ändern. Der portable Repository-Default bleibt
+deaktiviert; die dauerhafte lokale Aktivierung für `CEMARISDEV` erfolgt
+ausschließlich über User Secrets beziehungsweise lokale Umgebungswerte.
+
+## Zielarchitektur des abgegrenzten EDWALT-Imports
+
+```text
+read-only EDWALT-Arbeitskopie
+  W005/W005dm: bestätigte Friedhofs-/Grabartfelder
+  W020: ausschließlich bestätigter Struktur-/Grabstellenschlüssel
+                    |
+                    v
+versionierter Parser + explizites Mapping
+                    |
+             Dry-run/Reconciliation
+                    |
+                    v
+Application-/Store-Validierung + eine SQL-Transaktion
+                    |
+                    v
+             CEMARISDEV-Stammdaten
+```
+
+Der Parser arbeitet mit Positivlisten aus Quelle, Offset, Länge, Format und
+Zielfeld. Er darf keine vollständigen W020-Sätze dekodieren. Personen-,
+Adress-, Rechte-, Vorgangs-, Gebühren-, Notiz- und Freitextspannen bleiben
+unberührt. Unbekannte Hierarchie- oder Variantenregeln werden nicht aus
+Schreibweisen hergeleitet. Der Dry-run liefert ausschließlich technische
+Anzahlen, anonyme Quellkennungen beziehungsweise Hashes und Fehlerklassen;
+lokale Namen, Grabnummern und sonstige Quellwerte gehören weder in Logs noch
+in Repository-Artefakte.
+
+Der Ladevorgang prüft den tatsächlich aufgelösten Datenbanknamen exakt gegen
+`CEMARISDEV`, ausstehende EF-Migrationen, Mappingvollständigkeit,
+Eindeutigkeitsregeln und Referenzen. Er ist wiederholbar und transaktional,
+erhält vorhandene Konten und synthetische Falldaten und erzeugt einen
+datensparsamen Änderungsnachweis mit eindeutigem technischen Migrationsakteur.
+Ein fehlendes oder mehrdeutiges Mapping beendet den Lauf vor jeder Mutation.
+
 ## Bewusste Grenzen
 
-Nicht Bestandteil sind Beisetzungsplanung, automatische Grabnummern,
+Nicht Bestandteil des Stammdatenimports sind EDWALT-Personen, -Adressen,
+-Nutzungsrechte, -Vorgänge, -Gebühren, -Notizen oder -Dokumente. Ebenfalls
+nicht Bestandteil sind Beisetzungsplanung, automatische Grabnummern,
 Kapazitätsentscheidungen, Fristen, Umbettung, Storno, Gebühren, Bescheide,
-Dokumente, Winyard, LDAP und EDWALT-Import. Der nächste fachliche Schritt ist
-Inkrement 4b nach zusätzlicher Prozessbestätigung.
+Dokumente, Winyard und LDAP. Das aktuelle Migrationsziel ist ausschließlich
+der in ADR-0017 und Inkrement 5k abgegrenzte Friedhofsstammdatenpfad.

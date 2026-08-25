@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using System.Data.Common;
 using Cemaris.Application.Cemeteries;
 using Cemaris.Application.Identity;
 using Cemaris.Application.PersonUsageRights;
@@ -8,12 +10,82 @@ using Cemaris.Infrastructure.Persistence;
 using Cemaris.Infrastructure.Persistence.PersonUsageRights;
 using Cemaris.Infrastructure.PersonUsageRights;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Cemaris.IntegrationTests;
 
 [Trait("Category", "SqlServer")]
 public sealed class SqlServerPersonUsageRightTests(SqlServerIntegrationFixture fixture) : IClassFixture<SqlServerIntegrationFixture>
 {
+    [SqlServerFact]
+    public async Task QuickSearchProjectsOneQueryWithOnlyVisibleFieldsAndCurrentPrimaryAddress()
+    {
+        var commands = new ReadCommandCaptureInterceptor();
+        var options = new DbContextOptionsBuilder<CemarisDbContext>()
+            .UseSqlServer(fixture.DatabaseConnectionString)
+            .AddInterceptors(commands)
+            .Options;
+        await using var db = new CemarisDbContext(options);
+        var store = new EfPersonUsageRightStore(db);
+        var actor = new ActorProvider().Current;
+        var today = new DateOnly(2026, 8, 24);
+        var personId = Guid.Parse("00000000-0000-0000-0000-000000000201");
+        var organizationId = Guid.Parse("00000000-0000-0000-0000-000000000202");
+
+        await CreateSearchPartyAsync(
+            store,
+            personId,
+            new(
+                PartyType.NaturalPerson,
+                "SYN SQL SEARCH",
+                "PERSON",
+                null,
+                [
+                    new("Historienweg", "9", "00009", "Altstadt", "Nicht projizieren", new(2020, 1, 1), new(2021, 1, 1)),
+                    new("Primärweg", "1", "00001", "Teststadt", null, new(2021, 1, 1), null, true),
+                ]),
+            actor,
+            today);
+        await CreateSearchPartyAsync(
+            store,
+            organizationId,
+            new(
+                PartyType.Organization,
+                null,
+                null,
+                "SYN SQL SEARCH ORGANISATION",
+                [new("Nebenweg", "2", "00002", "Teststadt", null, new(2022, 1, 1), null)]),
+            actor,
+            today);
+
+        db.ChangeTracker.Clear();
+        commands.Clear();
+
+        var results = await store.SearchPartiesAsync(" syn   sql search ", CancellationToken.None);
+
+        Assert.Equal(2, results.Count);
+        var person = Assert.Single(results, item => item.Id == personId);
+        Assert.Equal(PartyType.NaturalPerson, person.PartyType);
+        Assert.Equal("SYN SQL SEARCH PERSON", person.DisplayName);
+        Assert.Equal("Primärweg 1, 00001 Teststadt", person.CurrentPrimaryAddress);
+        var organization = Assert.Single(results, item => item.Id == organizationId);
+        Assert.Equal(PartyType.Organization, organization.PartyType);
+        Assert.Equal("SYN SQL SEARCH ORGANISATION", organization.DisplayName);
+        Assert.Null(organization.CurrentPrimaryAddress);
+        Assert.Empty(db.ChangeTracker.Entries());
+
+        var command = Assert.Single(commands.CommandTexts);
+        Assert.Contains("Parties", command, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("PartyAddresses", command, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("CurrentPrimaryAddressId", command, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("PartyRevisions", command, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("StateJson", command, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("AdditionalInformation", command, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("NormalizedAddress", command, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("ValidFromInclusive", command, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("ValidUntilExclusive", command, StringComparison.OrdinalIgnoreCase);
+    }
+
     [SqlServerFact]
     public async Task DirectoryQueryExecutesStableSqlPagingWithNameTiesAndCurrentPrimaryAddress()
     {
@@ -147,6 +219,18 @@ public sealed class SqlServerPersonUsageRightTests(SqlServerIntegrationFixture f
 
     private static CreatePartyCommand Person(string first, string last) => new(PartyType.NaturalPerson, first, last, null, [new("SQL-Testweg", "1", "00000", "SQL-Teststadt", null, new(2020, 1, 1), null, true)]);
 
+    private static async Task CreateSearchPartyAsync(
+        EfPersonUsageRightStore store,
+        Guid id,
+        CreatePartyCommand command,
+        ActorIdentity actor,
+        DateOnly today)
+    {
+        var audit = new PersonUsageRightAudit(Guid.NewGuid(), "Party", id, 1, "Created", DateTimeOffset.UtcNow, actor);
+        var result = await store.CreatePartyAsync(id, command, audit, today, CancellationToken.None);
+        Assert.Equal(PersonUsageRightMutationOutcome.Success, result.Outcome);
+    }
+
     private static async Task CreateDirectoryPartyAsync(
         EfPersonUsageRightStore store,
         Guid id,
@@ -205,4 +289,28 @@ public sealed class SqlServerPersonUsageRightTests(SqlServerIntegrationFixture f
     }
 
     private sealed class ActorProvider : ICurrentActorProvider { public ActorIdentity Current { get; } = new("synthetic-sql-5b-actor", "Synthetischer SQL-5b-Akteur", SystemRole.Administration); }
+
+    private sealed class ReadCommandCaptureInterceptor : DbCommandInterceptor
+    {
+        private readonly ConcurrentQueue<string> commandTexts = new();
+
+        public IReadOnlyCollection<string> CommandTexts => commandTexts.ToArray();
+
+        public void Clear()
+        {
+            while (commandTexts.TryDequeue(out _))
+            {
+            }
+        }
+
+        public override ValueTask<InterceptionResult<DbDataReader>> ReaderExecutingAsync(
+            DbCommand command,
+            CommandEventData eventData,
+            InterceptionResult<DbDataReader> result,
+            CancellationToken cancellationToken = default)
+        {
+            commandTexts.Enqueue(command.CommandText);
+            return ValueTask.FromResult(result);
+        }
+    }
 }

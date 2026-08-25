@@ -2,6 +2,14 @@
 
 Stand: 12. August 2026
 
+> **Aktuelle Arbeitsgrenze vom 25.08.2026:** Für Inkrement 5k ist
+> ausschließlich die read-only Arbeitswurzel
+> `C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration` freigegeben. Die
+> früher dokumentierten Originalpfade werden nicht erneut geöffnet. Der neue
+> Auftrag betrifft nur nicht personenbezogene Friedhofsstammdaten gemäß
+> ADR-0017 und der
+> [5k-Folgeübergabe](../implementation/cemaris-increment-5k-next-step-handoff.md).
+
 ## Zweck und Abgrenzung
 
 Dieses Dokument bewertet die untersuchten EDWALT/EDWALT3-Quellen als

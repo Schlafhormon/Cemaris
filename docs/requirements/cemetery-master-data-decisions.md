@@ -1,6 +1,6 @@
 # Produktentscheidungen zu Friedhofsstruktur und Grabstättenstammdaten
 
-Stand: 13.08.2026
+Stand: 25.08.2026
 
 ## Zweck und Verbindlichkeit
 
@@ -24,6 +24,9 @@ einzubauender Produktkatalog für andere Betreiber.
 
 - `USR-2026-08-13-INCREMENT-4A`: Produktentscheidungen der
   Projektverantwortung;
+- `USR-2026-08-25-LOCAL-SQL-MASTER-DATA`: dauerhafte lokale SQL-Datenbank,
+  feste Development-Konten und abgegrenzter nicht personenbezogener
+  Friedhofsstammdatenimport;
 - `Satzung-DK-2023`: `2023_Lesefassung Friedhofsatzung der Stadt
   Doberlug-Kirchhain.pdf`, außerhalb des Repositorys unter
   `C:\Users\Benke\Documents\Friedhofsverwaltung\Satzungen Doberlug-Kirchhain`;
@@ -33,6 +36,33 @@ einzubauender Produktkatalog für andere Betreiber.
 
 Die EDWALT-Funktionsanalyse ist nur Orientierung über mögliche Themen. Sie ist
 weder Sollprozess noch Zielmodell.
+
+## Lokale SQL- und Migrationsentscheidung vom 25.08.2026
+
+`USR-2026-08-25-LOCAL-SQL-MASTER-DATA` ergänzt den rein synthetischen
+4a-Abnahmestand um ein lokales Entwicklungsziel. Die bereits vorhandene
+SQL-Datenbank `CEMARISDEV` soll für den Projektverantwortlichen dauerhaft den
+Cemaris-Zustand tragen. Diese maschinenbezogene Festlegung wird nicht zum
+allgemeinen Open-Source-Default und ist keine Produktivfreigabe.
+
+| ID | Entscheidung | Akzeptanzkern |
+| --- | --- | --- |
+| `REQ-DEVSQL-001` | Der lokale Cemaris-Standardzustand liegt dauerhaft in `CEMARISDEV`. | Normale Neustarts erhalten Stammdaten, synthetische Fälle und Konten; der prozesslokale synthetische Provider bleibt nur Repository-/Testoption. |
+| `REQ-DEVSQL-002` | Alle aktuell umgesetzten Development-Capabilities müssen mit dem SQL-Provider Ende zu Ende funktionieren. | Providerwahl ändert keine Rollen-, ETag-, CSRF-, Atomaritäts- oder Fachverträge; die Development-Grenze bleibt bestehen. |
+| `REQ-DEVSQL-003` | Die Konten `admin` und `sach` werden einmalig und dauerhaft angelegt. | `admin` besitzt `Administration`, `sach` besitzt `Sachbearbeitung`; sichere Passwörter kommen aus User Secrets beziehungsweise einem lokalen Secret Store und werden weder eingebaut noch protokolliert oder bei normalen Läufen zurückgesetzt. |
+| `REQ-MIG-CEM-001` | Aus EDWALT werden in diesem Schritt ausschließlich nicht personenbezogene Friedhofsstammdaten migriert. | Zulässig sind bestätigte Friedhöfe, Hierarchieebenen, Grabarten, Zuordnungen und Grabstellen; Personen-, Adress-, Rechte-, Vorgangs-, Gebühren-, Notiz- und Dokumentdaten sind ausgeschlossen. |
+| `REQ-MIG-CEM-002` | Die EDWALT-Arbeitswurzel wird ausschließlich read-only verwendet. | Quelle ist `C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration`; bestehende Phasen, Quelldateien, Extrakte und Berichte werden nicht verändert. |
+| `REQ-MIG-CEM-003` | Unbelegte EDWALT-Semantik wird nicht geraten. | Unklare Feldgrenzen, Hierarchiezerlegung, Beisetzungsform, Aktivstatus, Kapazität, Frist oder Variantenregel verhindern die betreffende Transformation und erscheinen nur datensparsam im Klärungsbericht. |
+| `REQ-MIG-CEM-004` | Der Import ist dry-run-fähig, transaktional, wiederholbar und zielgeschützt. | Der aufgelöste Datenbankname muss exakt `CEMARISDEV` sein; wiederholte Läufe erzeugen keine Dubletten, löschen nichts und verändern weder Benutzer noch synthetische Personen-/Falldaten. |
+| `REQ-MIG-CEM-005` | Automatisierte Tests bleiben unabhängig von `CEMARISDEV`. | Tests verwenden synthetische Daten beziehungsweise isolierte temporäre SQL-Datenbanken; `CEMARIS_SQL_TEST_CONNECTION_STRING` zeigt niemals auf `CEMARISDEV`. |
+
+`W005`/`W005dm` sind die bestätigte Ausgangsfamilie für Friedhofs- und
+Grabartenstammdaten. `W020` darf für Grabstellen ausschließlich über die
+bestätigten Strukturbytes des Schlüssels ausgewertet werden. Der Parser darf
+die nachfolgenden personenbezogenen Satzbereiche nicht einmal vorsorglich als
+Gesamttext dekodieren. Personen- und Falldaten für lokale Bedien- und
+Regressionstests bleiben synthetisch, liegen im vorgesehenen Betrieb aber
+ebenfalls dauerhaft in SQL.
 
 ## Aufteilung des fachlichen Inkrements
 
@@ -56,7 +86,7 @@ weder Sollprozess noch Zielmodell.
 | `REQ-CEM-007` | Umbenennungen gelten unmittelbar für alle referenzierenden Ansichten. | Alte Bezeichnungen werden nicht als fachliche Namenshistorie gespeichert. Der vorhandene datensparsame Änderungsnachweis bleibt davon unberührt. |
 | `REQ-CEM-008` | Beide Rollen dürfen fachliche Stammdaten aktivieren und deaktivieren. | Deaktivierte Werte bleiben in bestehenden Fällen sichtbar, sind für neue Zuordnungen aber nicht mehr auswählbar. |
 | `REQ-CEM-009` | Nur `Administration` darf Stammdaten physisch löschen. | Verwendete oder über untergeordnete Datensätze abhängige Stammdaten dürfen nicht gelöscht, sondern nur deaktiviert werden. Löschkonflikte sind teilwirkungsfrei. |
-| `REQ-GTYPE-001` | Der Grabartenkatalog startet ohne kommunal fest eingebaute Werte. | Tests und Demonstration verwenden ausschließlich synthetische Grabarten. |
+| `REQ-GTYPE-001` | Der Grabartenkatalog startet ohne kommunal fest eingebaute Werte. | Automatisierte Tests und allgemeine Demonstration verwenden ausschließlich synthetische Grabarten; die maschinenlokale `CEMARISDEV`-Ausnahme darf nach ADR-0017 kontrolliert migrierte kommunale Stammdaten enthalten. |
 | `REQ-GTYPE-002` | Grabarten sind fachliche Stammdaten. | `Sachbearbeitung` und `Administration` dürfen den Katalog pflegen; dies ist keine administrative Programmkonfiguration. |
 | `REQ-GTYPE-003` | Grabarten können je Friedhof unterschiedlich gelten. | Eine globale Grabart kann einem Friedhof zugeordnet und dort aktiviert oder deaktiviert werden. |
 | `REQ-GTYPE-004` | Eine Grabart besitzt Name, optionalen Code, Beisetzungsform, Aktivstatus und optionale Bemerkung. | Beisetzungsform ist genau `Erdbestattung`, `Urnenbeisetzung` oder `Gemischt`. Ruhe- und Nutzungszeiten gehören nicht zu 4a. |
@@ -138,9 +168,11 @@ Datenschutzfreigabe vorliegt. Art, Version, Geltungsbereich und verantwortliche
 Stelle sind im Repository nicht belegt. Diese Angabe ist nicht auf andere
 Open-Source-Betreiber übertragbar.
 
-Inkrement 4a bleibt deshalb unabhängig davon standardmäßig deaktiviert,
-Development-only und ausschließlich synthetisch. Für andere Betreiber und vor
-jeder produktiven Verarbeitung echter Verwaltungsdaten sind eine eigene
+Der technisch abgeschlossene 4a-Ausgangsstand bleibt standardmäßig
+deaktiviert. ADR-0017 erlaubt als nachgelagertes, noch umzusetzendes Inkrement
+den lokalen Development-Betrieb mit SQL und ausschließlich den abgegrenzten
+nicht personenbezogenen EDWALT-Stammdaten. Für andere Betreiber und vor jeder
+produktiven Verarbeitung echter Verwaltungsdaten sind eine eigene
 fachliche, datenschutzrechtliche, sicherheitstechnische und betriebliche
 Freigabe erforderlich. Solange keine belastbare Aufbewahrungsregel vorliegt,
 implementiert Cemaris keine automatische fachliche Löschung oder

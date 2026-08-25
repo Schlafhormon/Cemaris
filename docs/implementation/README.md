@@ -1,14 +1,18 @@
 # Cemaris-Implementierungsplan
 
-Stand: 24.08.2026
+Stand: 25.08.2026
 
 ## Aktueller Schwerpunkt
 
 Cemaris wird jetzt als eigenständige Fachsoftware inkrementell weitergebaut.
-Die EDWALT-Migrationsanalyse ist nach der reproduzierbar abgeschlossenen Phase
-4 kontrolliert pausiert. Sie bleibt erforderlich, blockiert aber nicht mehr
-die Produktentwicklung. Grundlage ist
-[ADR-0009](../decisions/ADR-0009-product-development-before-edwalt-import.md).
+Die breite EDWALT-Migrationsanalyse bleibt nach der reproduzierbar
+abgeschlossenen Phase 4 pausiert. Die Projektentscheidung vom 25.08.2026 nimmt
+jedoch den strikt nicht personenbezogenen Friedhofsstammdatenpfad wieder auf
+und macht `CEMARISDEV` zur dauerhaften lokalen Development-Datenbank.
+Grundlagen sind weiterhin
+[ADR-0009](../decisions/ADR-0009-product-development-before-edwalt-import.md)
+und ergänzend
+[ADR-0017](../decisions/ADR-0017-persistent-local-sql-and-scoped-edwalt-master-data-import.md).
 
 Der vorhandene erste Inkrement ist ein technisch abgeschlossener, aber noch
 nicht fachlich oder produktiv freigegebener Read-only-MVP mit:
@@ -102,9 +106,16 @@ A abgeschlossen. Der Lebenszykluspfad bleibt pausiert. Das dokumentarische
 serverseitig paginierte Beteiligtenübersicht als fachregelarmen technischen
 Kandidaten gewählt. Sie ist gemäß
 [5i-Abschluss](cemaris-increment-5i-completion.md) Ende zu Ende umgesetzt. Der
-nächste sichere Schritt ist ausschließlich die interne datensparsame
-[5j-EF-Projektion](cemaris-increment-5j-next-step-handoff.md) der unveränderten
-Beteiligten-Schnellsuche.
+interne datensparsame
+[5j-EF-Projektion](cemaris-increment-5j-completion.md) der unveränderten
+Beteiligten-Schnellsuche ist ebenfalls abgeschlossen. Der nächste priorisierte
+Schnitt ist nun
+[Inkrement 5k](cemaris-increment-5k-next-step-handoff.md): vollständiger
+aktueller Development-Funktionsumfang auf dauerhaftem SQL, einmalige
+persistente Einrichtung von `admin` und `sach` sowie die datensparsame
+Migration ausschließlich der nicht personenbezogenen EDWALT-
+Friedhofsstammdaten. Der kleinere Befund zur Abbruchparität bleibt als
+technischer Paritätsnachweis enthalten.
 
 ## Verbindliche Entwicklungsregel
 
@@ -133,10 +144,11 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 5g | kommunales Kurzentscheidungs- und Freigabegate | abgeschlossen mit Variante A: Produktpräferenzen dokumentiert, aber keine zuständige kommunale Fach- oder Freigabequelle vorhanden | keine Implementierung; ADR-0016 unverändert |
 | 5h | fachregelarmes Produktauswahlgate | abgeschlossen mit Variante B: deterministische serverseitig paginierte Beteiligtenübersicht ausgewählt | dokumentarisch; keine Implementierung und keine neue Fachregel |
 | 5i | paginierte Beteiligtenübersicht | technisch umgesetzt: additiver Verzeichnisendpunkt, providerseitige stabile Pagination und URL-gebundene Übersicht bei kompatibler Schnellsuche | ausschließlich vorhandene Beteiligten-, Policy- und Providerverträge; keine neue Fachregel |
-| 5j | datensparsame kompatible Beteiligten-Schnellsuche | nur interne EF-Projektion der vorhandenen Array-Suche ohne Pagination, Limit oder Sortierungsänderung | unveränderter API-, UI-, Policy- und Capability-Vertrag |
+| 5j | datensparsame kompatible Beteiligten-Schnellsuche | technisch umgesetzt: interne EF-Projektion der vorhandenen Array-Suche ohne Pagination, Limit oder Sortierungsänderung | unveränderter API-, UI-, Policy- und Capability-Vertrag |
+| 5k | dauerhafter SQL-Developmentbetrieb und EDWALT-Friedhofsstammdaten | alle aktuellen Development-Funktionen auf `CEMARISDEV`, persistente Konten `admin`/`sach`, synthetische Personen-/Falldaten in SQL und ausschließlich nicht personenbezogener EDWALT-Stammdatenimport | ADR-0017; Development-only; read-only EDWALT-Quelle; exakte Ziel- und Testdatenbanktrennung; keine geratenen Mappings |
 | 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
-| 8 | EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme und Abnahme | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
+| 8 | übriges EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme jenseits des vorgezogenen Friedhofsstammdatenpfads | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
 
 Die Reihenfolge beschreibt den derzeit sichersten Pfad. Kleine vorbereitende
 Arbeiten dürfen vorgezogen werden, wenn sie keine offenen Fachentscheidungen
@@ -175,12 +187,14 @@ Statuswirkung, Beendigung und Wiedervorlagen bleiben offen. Die im
 [5h-Auswahlgate](cemaris-increment-5h-completion.md) gewählte paginierte
 Beteiligtenübersicht ist mit
 [5i](cemaris-increment-5i-completion.md) technisch umgesetzt. Als nächster
-sicherer Schritt folgt ausschließlich die
-[5j-Optimierung](cemaris-increment-5j-next-step-handoff.md) der internen
-SQL-Projektion der kompatiblen Schnellsuche.
-Solange die weiterhin offenen fachlichen, Datenschutz- und Betriebsgates
-fehlen, bleibt der Schreibpfad Development-only, synthetisch und standardmäßig
-deaktiviert.
+sicherer Schritt wurde die interne SQL-Projektion der kompatiblen
+Schnellsuche mit [5j](cemaris-increment-5j-completion.md) umgesetzt. Nun folgt
+die durch ADR-0017 priorisierte
+[5k-SQL-/Stammdatenmigration](cemaris-increment-5k-next-step-handoff.md).
+Der Schreibpfad bleibt Development-only und repositoryseitig standardmäßig
+deaktiviert. Auf dem freigegebenen lokalen Arbeitsplatz soll er nach 5k aber
+mit dem SQL-Provider gegen `CEMARISDEV` laufen; personenbezogene Testdaten
+bleiben synthetisch.
 
 ## Bewusst nicht mit dem nächsten Inkrement behauptet
 
@@ -189,4 +203,6 @@ deaktiviert.
 - keine fachliche Berechnung von Ruhe-, Nutzungs- oder Zahlungsfristen;
 - keine Gebührenfestsetzung, Bescheiderzeugung oder Winyard-Ablage;
 - keine Storno-, Lösch-, Umnummerierungs- oder Historienregel;
-- kein EDWALT-Import oder Quell-zu-Ziel-Mapping.
+- kein EDWALT-Import außerhalb der ausdrücklich zugelassenen nicht
+  personenbezogenen Friedhofsstammdaten und kein Mapping offener Personen-,
+  Fall-, Rechte-, Gebühren- oder Dokumentbereiche.

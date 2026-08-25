@@ -16,8 +16,28 @@ public sealed class EfPersonUsageRightStore(CemarisDbContext db) : IPersonUsageR
     public async Task<IReadOnlyList<PartySearchItem>> SearchPartiesAsync(string query, CancellationToken token)
     {
         var key = PartyRules.Normalize(query);
-        var items = await db.Parties.AsNoTracking().Include(x => x.Addresses).Where(x => x.NormalizedName.Contains(key)).ToListAsync(token);
-        return items.Select(x => new PartySearchItem(x.Id, Enum.Parse<PartyType>(x.PartyType), Display(x), x.Addresses.SingleOrDefault(a => a.Id == x.CurrentPrimaryAddressId) is { } a ? Address(a) : null)).ToArray();
+        var rows = await db.Parties
+            .AsNoTracking()
+            .Where(x => x.NormalizedName.Contains(key))
+            .Select(x => new
+            {
+                x.Id,
+                x.PartyType,
+                x.FirstName,
+                x.LastName,
+                x.OrganizationName,
+                CurrentPrimaryAddress = x.Addresses
+                    .Where(address => address.Id == x.CurrentPrimaryAddressId)
+                    .Select(address => address.Street + " " + address.HouseNumber + ", " + address.PostalCode + " " + address.City)
+                    .FirstOrDefault(),
+            })
+            .ToArrayAsync(token);
+
+        return rows.Select(x => new PartySearchItem(
+            x.Id,
+            Enum.Parse<PartyType>(x.PartyType),
+            x.PartyType == nameof(PartyType.Organization) ? x.OrganizationName! : $"{x.FirstName} {x.LastName}",
+            x.CurrentPrimaryAddress)).ToArray();
     }
 
     public async Task<PartyDirectoryStoreResult> ReadPartyDirectoryAsync(string? normalizedQuery, int offset, int pageSize, CancellationToken token)

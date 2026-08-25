@@ -29,6 +29,7 @@ Architecture Decision Records (ADRs) dokumentieren wesentliche technische und pr
 | [0014](ADR-0014-canonical-cemetery-master-data.md) | Kanonische Friedhofsstammdaten und restriktives Löschen | Accepted |
 | [0015](ADR-0015-atomic-burial-process.md) | Atomarer providerneutraler Beisetzungsprozess | Accepted |
 | [0016](ADR-0016-canonical-parties-and-historicized-usage-rights.md) | Kanonische Beteiligte und historisierte Nutzungsrechte | Accepted |
+| [0017](ADR-0017-persistent-local-sql-and-scoped-edwalt-master-data-import.md) | Dauerhafte lokale SQL-Entwicklung und abgegrenzter EDWALT-Stammdatenimport | Accepted |
 
 Das
 [5c-Abnahme- und Lebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)
@@ -50,8 +51,15 @@ ADR-0016 bleibt unverändert; ein neues ADR wurde nicht erstellt. Das
 eine additive paginierte Beteiligtenübersicht als technischen
 [5i-Schnitt](../implementation/cemaris-increment-5i-completion.md) ausgewählt;
 dieser Schnitt ist nun technisch umgesetzt. Auch die Umsetzung und die
-nachfolgende interne [5j-Suchprojektion](../implementation/cemaris-increment-5j-next-step-handoff.md)
-erweitern ADR-0016 nicht. Ein späteres Frist-,
+nachfolgende interne
+[5j-Suchprojektion](../implementation/cemaris-increment-5j-completion.md)
+erweitern ADR-0016 nicht. Die Projektentscheidung vom 25.08.2026 ändert
+dagegen die lokale Entwicklungs- und Migrationsarchitektur. ADR-0017 setzt
+deshalb die EDWALT-Pause aus ADR-0009 ausschließlich für den nicht
+personenbezogenen Friedhofsstammdatenpfad aus und macht `CEMARISDEV` zur
+dauerhaften lokalen Development-Datenbank. Die
+[5k-Folgeübergabe](../implementation/cemaris-increment-5k-next-step-handoff.md)
+führt diese Entscheidung aus. Ein späteres Frist-,
 Status- oder Lebenszyklusmodell benötigt wegen der offenen 5C-Gates
 gegebenenfalls eine neue Architekturentscheidung.
 

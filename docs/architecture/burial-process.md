@@ -10,6 +10,13 @@ providerneutralen Beisetzungsprozess. Maßgeblich bleiben die
 Pfad verarbeitet ausschließlich synthetische Development-Daten und ist keine
 Produktivfreigabe.
 
+Dies beschreibt den technisch abgenommenen 4b-Ist-Stand. ADR-0017 und die
+5k-Folgeübergabe verlangen als nächsten Schritt, denselben Vertrag im
+Development auch Ende zu Ende mit `ReadModel:Provider=SqlServer` gegen die
+dauerhafte lokale Datenbank nachzuweisen. Personen- und Falldaten bleiben
+dabei synthetisch; die Development- und Produktivfreigabegrenzen ändern sich
+nicht.
+
 ## Schichten und Zuständigkeiten
 
 | Schicht | Verantwortung |

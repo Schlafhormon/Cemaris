@@ -156,6 +156,38 @@ Request-Kennung verhindern inkonsistente Ansichten; Mutationen laden das
 Verzeichnis neu, ohne das ausgewählte Detail zu verwerfen. Alle Schreibpfade,
 ETags und Konfliktabläufe bleiben die vorhandenen 5b-/5d-Verträge.
 
+### Datensparsame Schnellsuche 5j
+
+Der bestehende `GET /api/parties?query=...` bleibt eine unpaginierte,
+unsortierte JSON-Array-Schnellsuche für eingebettete Inhaberauswahlen. Die
+Anwendung validiert und trimmt den Pflichtfilter weiterhin unverändert; der
+EF-Store normalisiert ihn und filtert serverseitig gegen `NormalizedName`.
+
+Statt vollständige Beteiligtenaggregate und sämtliche Anschriften zu laden,
+projiziert der SQL-Provider nun in genau einer abbrechbaren, nicht trackenden
+Leseabfrage nur ID, Beteiligtenart, die Namensfelder und die über
+`CurrentPrimaryAddressId` referenzierte Anschrift. Revisionszeilen,
+Adresszusatz, normalisierte Adresse und Gültigkeitsfelder gehören nicht zur
+Projektion. Die Bildung von Anzeigename und `PartyType` erfolgt anschließend
+aus den projizierten Werten, ohne eine weitere Datenbankabfrage.
+
+```text
+GET /api/parties?query=...
+          |
+          v
+vorhandene Validierung + Normalisierung
+          |
+          v
+eine SQL-Abfrage: Namensfilter + schmale Projektion
+          |
+          v
+unverändertes PartySearchItem[] für die Inhaberauswahl
+```
+
+Es wurden weder Pagination, Limit oder Sortierung noch Domain-, Persistenz-,
+Policy-, Capability-, Revisions- oder Auditsemantik ergänzt. Der synthetische
+Provider blieb unverändert.
+
 ## Architekturgrenze
 
 Der neue Fachkern ist additiv und wird nicht aus den bestehenden Tabellen
@@ -499,6 +531,13 @@ ProblemDetails oder technische Audits kopiert. Schutz vor Injection erfolgt
 durch parametrisierte Persistenz und sichere React-Ausgabe. Eingabelängen und
 Zeichensätze werden begrenzt, ohne kommunale Namensformen unnötig
 auszuschließen.
+
+ADR-0017 ändert für Inkrement 5k nur die lokale Persistenzform: Die weiterhin
+synthetischen Personen- und Rechtewerte sollen dauerhaft in `CEMARISDEV`
+liegen und alle vorhandenen Funktionen mit dem SQL-Provider unterstützen.
+EDWALT-Personen-, Adress- und Nutzungsrechtsbereiche bleiben ausdrücklich
+ausgeschlossen und dürfen für den Friedhofsstammdatenimport nicht dekodiert
+werden.
 
 Aufbewahrung, Löschung, Anonymisierung, Datenschutzfreigabe,
 Berechtigungsfeingranularität und produktiver Betrieb bleiben offene Gates.

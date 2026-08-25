@@ -112,9 +112,15 @@ als nächsten fachregelarmen Schnitt eine deterministische, serverseitig
 paginierte Beteiligtenübersicht ausgewählt. Sie ist gemäß
 [Inkrement 5i](docs/implementation/cemaris-increment-5i-completion.md) Ende zu
 Ende umgesetzt; die bestehende Nutzungsrechts-Schnellsuche bleibt kompatibel.
-Als kleinster sicherer Folgeschritt ist deren rein interne datensparsame
-[SQL-Projektion 5j](docs/implementation/cemaris-increment-5j-next-step-handoff.md)
-abgegrenzt.
+Ihre rein interne datensparsame
+[SQL-Projektion 5j](docs/implementation/cemaris-increment-5j-completion.md)
+ist ebenfalls umgesetzt, ohne den Array-Vertrag oder die Inhaberauswahl zu
+ändern. Die Projektentscheidung vom 25.08.2026 priorisiert nun
+[Inkrement 5k](docs/implementation/cemaris-increment-5k-next-step-handoff.md):
+`CEMARISDEV` wird die dauerhafte lokale Development-Datenbank, alle aktuellen
+Funktionen werden auf SQL nachgewiesen, `admin` und `sach` dauerhaft
+eingerichtet und ausschließlich nicht personenbezogene EDWALT-
+Friedhofsstammdaten migriert.
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -251,13 +257,16 @@ Das Frontend läuft unter <http://localhost:5173>. Vite leitet `/health` und `/a
 
 ### Lokales SQL-Server-Fall-/Leseschema
 
-Die normale Entwicklung und alle allgemeinen Tests verwenden weiterhin den
-synthetischen Provider. Fuer einen lokalen SQL-Server-Test werden
-maschinenbezogene Einstellungen in User Secrets und nicht im Repository
-gespeichert:
+Der portable Repository-Default und allgemeine automatisierte Tests verwenden
+weiterhin den synthetischen Provider. Für den Projektverantwortlichen ist
+gemäß ADR-0017 nach Umsetzung von Inkrement 5k dagegen die bereits vorhandene
+Datenbank `CEMARISDEV` der dauerhafte lokale Development-Standard. Verbindung,
+Provider und Capabilities werden maschinenbezogen in User Secrets und nicht
+im Repository gespeichert. Ein Connection String wird nicht aus anderen
+lokalen Dateien abgeleitet oder dokumentiert:
 
 ```powershell
-dotnet user-secrets set --project src/Cemaris.Api "ConnectionStrings:CemarisDatabase" "Server=localhost\CEMARISDEV;Database=Cemaris_Dev;Integrated Security=True;Encrypt=True;TrustServerCertificate=True"
+dotnet user-secrets set --project src/Cemaris.Api "ConnectionStrings:CemarisDatabase" "<autorisierte lokale Verbindung mit Database=CEMARISDEV>"
 dotnet user-secrets set --project src/Cemaris.Api "ReadModel:Provider" "SqlServer"
 
 $env:ASPNETCORE_ENVIRONMENT = "Development"
@@ -269,7 +278,7 @@ Anschliessend koennen die klar gekennzeichneten synthetischen Demonstrationsdate
 explizit in die lokale Datenbank geschrieben werden:
 
 ```powershell
-dotnet run --project src/Cemaris.Api --launch-profile http -- --Maintenance:SeedSynthetic=true --Maintenance:ExpectedDatabase=Cemaris_Dev
+dotnet run --project src/Cemaris.Api --launch-profile http -- --Maintenance:SeedSynthetic=true --Maintenance:ExpectedDatabase=CEMARISDEV
 ```
 
 Der Wartungsbefehl ist nur in der `Development`-Umgebung erlaubt, prueft den
@@ -294,17 +303,23 @@ und Passwort werden nicht protokolliert.
 Für Development werden die Werte in User Secrets abgelegt:
 
 ```powershell
-dotnet user-secrets set --project src/Cemaris.Api "Bootstrap:Username" "lokaler-admin"
+dotnet user-secrets set --project src/Cemaris.Api "Bootstrap:Username" "admin"
 dotnet user-secrets set --project src/Cemaris.Api "Bootstrap:DisplayName" "Lokale Administration"
 dotnet user-secrets set --project src/Cemaris.Api "Bootstrap:Password" "<extern erzeugtes starkes Passwort>"
 
 $env:ASPNETCORE_ENVIRONMENT = "Development"
-dotnet run --project src/Cemaris.Api -- --ReadModel:Provider=SqlServer --Maintenance:BootstrapAdministrator=true --Maintenance:ExpectedDatabase=Cemaris_Dev
+dotnet run --project src/Cemaris.Api -- --ReadModel:Provider=SqlServer --Maintenance:BootstrapAdministrator=true --Maintenance:ExpectedDatabase=CEMARISDEV
 ```
 
-Im Betrieb müssen diese Werte aus einem externen Secret Store kommen und nach
-dem einmaligen Lauf wieder entzogen werden. Die Kommandozeile darf kein Secret
-enthalten. Vor produktiver Nutzung sind außerdem TLS/Reverse Proxy,
+Das zweite dauerhafte Konto heißt `sach` und erhält die Rolle
+`Sachbearbeitung`. Inkrement 5k ergänzt beziehungsweise dokumentiert den
+sicheren einmaligen Einrichtungsweg für beide Konten. Normale Starts, Seeds
+und EDWALT-Importläufe dürfen Konten oder Passwörter nicht neu erzeugen oder
+zurücksetzen.
+
+Im Betrieb müssen Passwortwerte aus einem externen Secret Store kommen und
+nach dem einmaligen Lauf wieder entzogen werden. Die Kommandozeile darf kein
+Secret enthalten. Vor produktiver Nutzung sind außerdem TLS/Reverse Proxy,
 Data-Protection-Schlüsselring, Backup, Monitoring und Logaufbewahrung
 verbindlich zu konfigurieren und abzunehmen.
 
@@ -349,10 +364,10 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 
 | Einstellung | Zweck | Beispiel |
 | --- | --- | --- |
-| `ConnectionStrings__CemarisDatabase` | externer SQL-Server-Connection-String | `Server=localhost,1433;Database=Cemaris;User Id=cemaris;Password=CHANGE_ME;Encrypt=True;TrustServerCertificate=True` |
+| `ConnectionStrings__CemarisDatabase` | externer SQL-Server-Connection-String | `<externer Secretwert>` |
 | `Cors__AllowedOrigins__0` | erlaubter Entwicklungs-Frontend-Origin | `http://localhost:5173` |
 | `OpenApi__Enabled` | OpenAPI-Dokument aktivieren | `true` nur in kontrollierten Umgebungen |
-| `ReadModel__Provider` | kanonischer Fall-/Lesestore (`Synthetic` oder `SqlServer`) | `Synthetic` fuer normale Entwicklung und Tests |
+| `ReadModel__Provider` | kanonischer Fall-/Lesestore (`Synthetic` oder `SqlServer`) | portabler Default `Synthetic`; maschinenlokal nach 5k `SqlServer` für `CEMARISDEV` |
 | `Features__CaseEditingEnabled` | synthetische Fallaktenbearbeitung; nur in `Development` zulässig | `false` (Standard), lokal ausdrücklich `true` |
 | `Features__CemeteryMasterDataEditingEnabled` | synthetische Friedhofsstammdatenpflege; nur in `Development` mit `Synthetic` zulässig | `false` (Standard), lokal ausdrücklich `true` |
 | `Features__BurialProcessEditingEnabled` | synthetischer einfacher Beisetzungsprozess; nur in `Development` mit `Synthetic` zulässig | `false` (Standard), lokal ausdrücklich `true` |
@@ -364,7 +379,7 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `Identity__Security__SessionIdleTimeout` | Inaktivitätsdauer der Cookie-Sitzung | `00:30:00` |
 | `Search__MaxResults` | maximale Seitengröße und Standardgröße der Suche | `10` |
 | `Maintenance__SeedSynthetic` | einmaliger expliziter SQL-Seed statt API-Start | `true` nur fuer kontrollierte lokale Entwicklung |
-| `Maintenance__ExpectedDatabase` | Sicherheitspruefung fuer den SQL-Seed | `Cemaris_Dev` |
+| `Maintenance__ExpectedDatabase` | Sicherheitsprüfung für lokale SQL-Wartungs- und Importläufe | `CEMARISDEV` |
 | `Maintenance__BootstrapAdministrator` | einmaliger nicht HTTP-basierter Erstadmin-Bootstrap | `false` |
 | `VITE_API_BASE_URL` | API-Basis-URL im gebauten Browserclient | leer für denselben Origin |
 | `VITE_API_PROXY_TARGET` | Vite-Dev-Proxy | `http://localhost:5050` |
@@ -402,9 +417,10 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
 5. fachliche Stammdaten, Fall-, Personen-, Beisetzungs- und Rechteprozesse;
    5a, der technische manuelle 5b-Durchstich, das dokumentarische 5c-Gate und
    die technischen Inkremente 5d und 5e sowie die dokumentarischen Gates 5f
-   bis 5h sowie der technische 5i-Schnitt sind abgeschlossen; der
-   Lebenszykluspfad bleibt pausiert und 5j darf ausschließlich die kompatible
-   Beteiligten-Schnellsuche intern datensparsamer projizieren
+   bis 5h sowie die technischen Schnitte 5i und 5j sind abgeschlossen; der
+   Lebenszykluspfad bleibt pausiert und 5k stellt den dauerhaften lokalen
+   SQL-Developmentbetrieb sowie den abgegrenzten nicht personenbezogenen
+   EDWALT-Friedhofsstammdatenimport her
 6. Gebühren-, Dokument- und Bescheidwesen
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe

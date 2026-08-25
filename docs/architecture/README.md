@@ -66,9 +66,16 @@ Beteiligtenübersicht ausgewählt. Das
 [5i-Inkrement](../implementation/cemaris-increment-5i-completion.md) hat dafür
 den vorhandenen Beteiligten-Lesevertrag ergänzt, ohne
 Nutzungsrechts-, Rollen-, Persistenz- oder Auditsemantik zu ändern.
-Die [5j-Folgeübergabe](../implementation/cemaris-increment-5j-next-step-handoff.md)
-beschränkt den nächsten Schritt auf die interne EF-Projektion der
-kompatiblen Schnellsuche.
+Das [5j-Inkrement](../implementation/cemaris-increment-5j-completion.md) hat
+auch die kompatible Schnellsuche intern datensparsam projiziert, ohne API-,
+UI-, Policy- oder Capability-Verträge zu ändern. Die Projektentscheidung vom
+25.08.2026 führt mit ADR-0017 einen neuen priorisierten Architekturschnitt ein:
+Die
+[5k-Folgeübergabe](../implementation/cemaris-increment-5k-next-step-handoff.md)
+macht `CEMARISDEV` zur dauerhaften lokalen Development-Datenbank, prüft alle
+aktuellen Funktionen Ende zu Ende auf SQL und migriert ausschließlich
+nicht personenbezogene EDWALT-Friedhofsstammdaten. Der kleinere
+Abbruchparitätsbefund bleibt Teil der Providerprüfung.
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.
@@ -94,7 +101,11 @@ kompatiblen Schnellsuche.
 Der Schreibpfad bleibt trotz umgesetzter lokaler Identitätsgrundlage bis zu
 den späteren Datenschutz-, Betriebs- und Fachfreigaben standardmäßig
 deaktiviert und ausschließlich in einer explizit aktivierten
-Development-Umgebung für synthetische Daten zulässig.
+Development-Umgebung zulässig. Der 4a-Ist-Stand ist noch Synthetic-only;
+ADR-0017 erlaubt 5k, diese technische Providergrenze für den dauerhaften
+lokalen SQL-Betrieb kontrolliert aufzuheben. Personen- und Falldaten bleiben
+synthetisch; ausschließlich die abgegrenzten Friedhofsstammdaten dürfen aus
+EDWALT stammen.
 Diese Feature-Grenze ist kein produktiver Zugriffsschutz.
 
 Schreib- und Lesezugriff verwenden denselben kanonischen Zustand. Der
@@ -127,7 +138,9 @@ Integritätskontrolle bleiben offen. Weiterhin gelten diese Leitplanken:
 - strukturierte technische Logs mit Trace-ID,
 - zentral behandelte, standardisierte Fehlerantworten ohne interne Details,
 - minimale Berechtigungen für Datenbank- und Integrationskonten,
-- keine echten Verwaltungsdaten in Entwicklung und Tests,
+- keine echten personenbezogenen Verwaltungsdaten in Entwicklung und Tests;
+  die lokale Ausnahme aus ADR-0017 umfasst nur abgegrenzte
+  Friedhofsstammdaten in `CEMARISDEV`, niemals allgemeine Testfixtures oder CI,
 - Audit-Einträge machen Akteur, Zeitpunkt, Operation, Fall/Ziel und
   resultierende Version nachvollziehbar, ohne unkontrollierte Datenkopien zu
   erzeugen.

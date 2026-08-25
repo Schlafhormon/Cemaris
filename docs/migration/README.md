@@ -37,6 +37,39 @@
 > Weitere Ausschlüsse und ein fachliches
 > Cemaris-Zielmodell sind weiterhin nicht vollständig bekannt.
 
+## Abgegrenzte Wiederaufnahme am 25.08.2026
+
+ADR-0017 nimmt die breite EDWALT-Migration nicht wieder auf. Freigegeben ist
+ausschließlich der nicht personenbezogene Friedhofsstammdatenpfad für die
+dauerhafte lokale Development-Datenbank `CEMARISDEV`:
+
+- Friedhöfe und Grabarten aus feldgenau bestätigten `W005`-/`W005dm`-Spannen;
+- bestätigte räumliche Hierarchie und Grabstellen ausschließlich aus
+  positiv gelisteten Strukturfeldern;
+- Friedhof-Grabart-Zuordnungen, soweit Quelle und Mapping eindeutig belegt
+  sind.
+
+Personen, Adressen, Suchcodes, Berechtigte, Nutzungsrechte, Beisetzungen,
+Vorgänge, Gebühren, Bescheide, Buchungen, Notizen, Dokumente, EDWALT-Benutzer
+und technische Konfiguration sind in diesem Schritt ausgeschlossen. Aus
+`W020` darf anfangs nur der bestätigte 26-Byte-Strukturschlüssel gelesen
+werden; weitere Spannen benötigen vor jeder Dekodierung einen feldgenauen
+Positivlistenbeleg.
+
+Die autorisierte read-only Arbeitswurzel ist:
+
+`C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration`
+
+Die vorhandenen Phase-2-, Phase-3- und Phase-4-Verzeichnisse bleiben
+unverändert. Erst Inkrement 5k darf für lokale Laufartefakte neu anlegen:
+
+`C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase5-cemetery-master-data-20260825`
+
+Parser und synthetische Tests werden im Cemaris-Repository versioniert;
+Quellextrakte, lokale Mappings, Stammdatenwerte, Laufberichte und Secrets
+bleiben außerhalb. Der vollständige ausführbare Auftrag steht in der
+[5k-Folgeübergabe](../implementation/cemaris-increment-5k-next-step-handoff.md).
+
 Die konkrete
 [EDWALT-Quellenanalyse](edwalt-source-analysis.md) dokumentiert 24 vollständige
 DAT/IDX-Paare, technische Extraktionsrisiken und historische Varianten. Der
@@ -53,11 +86,12 @@ dokumentiert die Schutz- und Abnahmekriterien dieser Phase. Der
 [ausgeführte Folgeauftrag zu weiteren Adressrollen und Vorgangsnachlauf](edwalt-additional-addresses-next-step-handoff.md)
 dokumentiert Phase 4. Der
 [Folgeauftrag zur Gebührenstamm- und Variantenabgrenzung](edwalt-fee-master-variants-next-step-handoff.md)
-ist vorbereitet, aber nach der Projektentscheidung vom 12.08.2026 zugunsten
-der Cemaris-Produktentwicklung zurückgestellt. Der aktive Produktauftrag steht
-im [Cemaris-Implementierungsplan](../implementation/README.md). Sämtliche
-EDWALT-Quellen und externen Phase-2-/3-/4-Arbeitsbereiche bleiben unverändert
-read-only; eine Phase-5-Wurzel wurde noch nicht angelegt.
+ist vorbereitet, bleibt aber für Gebühren und Varianten außerhalb des jetzt
+freigegebenen Friedhofsstammdatenumfangs zurückgestellt. Der aktive Auftrag
+steht im [Cemaris-Implementierungsplan](../implementation/README.md).
+Sämtliche vorhandenen EDWALT-Quellen und Phase-2-/3-/4-Arbeitsbereiche bleiben
+unverändert read-only; die neue Phase-5-Wurzel wird erst bei Ausführung von 5k
+angelegt.
 
 **EDWALT** ist die kanonische
 Bezeichnung; **EDWALT3** bezeichnet dasselbe Produkt beziehungsweise die
@@ -202,7 +236,7 @@ Eine erfolgreiche technische Zeilenzahl ersetzt keine fachliche Abnahme.
 - Migrationsfenster, Delta und Rückfall,
 - Verantwortliche für technische und fachliche Freigabe.
 
-## Abschluss Phase 4 und pausierter Migrationsfolgeschritt
+## Abschluss Phase 4 und abgegrenzter Migrationsfolgeschritt
 
 Das Cemaris-Fachmodell wird noch nicht aufgrund der EDWALT-Struktur erweitert.
 Phase 4 ist abgeschlossen. Zusätzlich zu den unveränderten Phase-3-Ergebnissen
@@ -242,13 +276,11 @@ nullwertartig und besitzt keine belegte Statusbedeutung.
 
 Der externe Phase-4-Bericht liegt unter
 `C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase4-additional-addresses-20260812`.
-Der nächste lokal ausführbare Migrationsschritt würde die aktuellen und
-DM-Varianten von `W005/W005dm` und `W006/W006dm` abgrenzen, ohne daraus bereits
-ein Gebührenmapping zu erzeugen. Er ist im
-[Übergabedokument](edwalt-fee-master-variants-next-step-handoff.md) vollständig
-vorbereitet, wird aber erst vor der konkreten Mapping-/Importphase ausgeführt.
-Bis dahin hat die
-[inkrementelle Cemaris-Produktentwicklung](../implementation/README.md)
-Vorrang.
-Unklare Felder bleiben sichtbar `OFFEN`; es gibt weiterhin weder Import noch
-Quell-zu-Ziel-Mapping.
+Der vorbereitete Gebühren-/Variantenauftrag in
+[edwalt-fee-master-variants-next-step-handoff.md](edwalt-fee-master-variants-next-step-handoff.md)
+bleibt pausiert. Stattdessen führt 5k nur die für Friedhofsstruktur und
+Grabarten erforderliche `W005`-/`W005dm`-Abgrenzung sowie strikt positiv
+gelistete W020-Strukturfelder fort. Unklare Felder bleiben sichtbar `OFFEN`
+und werden weder dekodiert noch geladen. Erst ein erfolgreicher Dry-run,
+vollständiges Mapping und die exakte Zielprüfung erlauben den kontrollierten,
+idempotenten Import nach `CEMARISDEV`.

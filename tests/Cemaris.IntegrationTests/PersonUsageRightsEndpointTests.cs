@@ -81,11 +81,31 @@ public sealed class PersonUsageRightsEndpointTests(PersonUsageRightsWebApplicati
         Assert.Equal("SYN-DIR-API-00", first.Items[0].DisplayName);
         Assert.Equal("Verzeichnisweg 00 1, 00000 Teststadt", first.Items[0].CurrentPrimaryAddress);
 
-        using var legacy = await client.GetAsync("/api/parties?query=SYN-DIR-API");
+        var naturalPerson = await client.SendWithCsrfAsync(HttpMethod.Post, "/api/parties", new
+        {
+            partyType = "NaturalPerson",
+            firstName = "SYN-DIR-API",
+            lastName = "PERSON",
+            organizationName = (string?)null,
+            addresses = new[] { new { street = "Personenweg", houseNumber = "1", postalCode = "00001", city = "Teststadt", additionalInformation = (string?)null, validFromInclusive = "2020-01-01", validUntilExclusive = (string?)null, isCurrentPrimary = true } },
+        });
+        naturalPerson.EnsureSuccessStatusCode();
+
+        using var legacy = await client.GetAsync("/api/parties?query=%20syn-dir-api%20");
         legacy.EnsureSuccessStatusCode();
         using var legacyJson = JsonDocument.Parse(await legacy.Content.ReadAsStreamAsync());
         Assert.Equal(JsonValueKind.Array, legacyJson.RootElement.ValueKind);
-        Assert.Equal(12, legacyJson.RootElement.GetArrayLength());
+        Assert.Equal(13, legacyJson.RootElement.GetArrayLength());
+        Assert.All(legacyJson.RootElement.EnumerateArray(), item =>
+            Assert.Equal(
+                ["currentPrimaryAddress", "displayName", "id", "partyType"],
+                item.EnumerateObject().Select(property => property.Name).OrderBy(name => name, StringComparer.Ordinal)));
+        var personItem = Assert.Single(legacyJson.RootElement.EnumerateArray(), item => item.GetProperty("displayName").GetString() == "SYN-DIR-API PERSON");
+        Assert.Equal("NaturalPerson", personItem.GetProperty("partyType").GetString());
+        Assert.Equal("Personenweg 1, 00001 Teststadt", personItem.GetProperty("currentPrimaryAddress").GetString());
+        var organizationItem = Assert.Single(legacyJson.RootElement.EnumerateArray(), item => item.GetProperty("displayName").GetString() == "SYN-DIR-API-00");
+        Assert.Equal("Organization", organizationItem.GetProperty("partyType").GetString());
+        Assert.Equal("Verzeichnisweg 00 1, 00000 Teststadt", organizationItem.GetProperty("currentPrimaryAddress").GetString());
 
         using var openApi = JsonDocument.Parse(await client.GetStreamAsync("/openapi/v1.json"));
         var directoryOperation = openApi.RootElement.GetProperty("paths").GetProperty("/api/parties/directory").GetProperty("get");
