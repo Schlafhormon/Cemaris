@@ -1,5 +1,15 @@
 # Ausführbare Folgeübergabe: Inkrement 5k – dauerhafter SQL-Developmentbetrieb und EDWALT-Friedhofsstammdaten
 
+> **Ausgeführt am 25.08.2026:** Inkrement 5k ist gemäß
+> [Abschlussdokumentation](cemaris-increment-5k-completion.md) technisch Ende zu
+> Ende abgeschlossen. Der verbindliche nächste Schritt ist das dokumentarische
+> [Entscheidungsgate 6a](cemaris-increment-6a-next-step-handoff.md).
+
+> **Ausführungskorrektur vom 25.08.2026:** Der in SSMS und per `DB_NAME()`
+> bestätigte exakte Datenbankname lautet `Cemaris_Dev`. Diese vom
+> Projektverantwortlichen ausdrücklich bestätigte Bezeichnung ersetzt für die
+> gesamte 5k-Ausführung die zuvor in dieser Übergabe verwendete Bezeichnung.
+
 Stand: 25.08.2026
 
 ## Auftrag
@@ -7,7 +17,7 @@ Stand: 25.08.2026
 Führe die Projektentscheidung `USR-2026-08-25-LOCAL-SQL-MASTER-DATA` und
 ADR-0017 vollständig Ende zu Ende aus:
 
-1. `CEMARISDEV` wird die dauerhafte lokale Development-Datenbank des
+1. `Cemaris_Dev` wird die dauerhafte lokale Development-Datenbank des
    Projektverantwortlichen;
 2. alle derzeit umgesetzten Cemaris-Funktionen müssen im Development mit dem
    EF-Core-/SQL-Server-Provider funktionieren;
@@ -16,7 +26,7 @@ ADR-0017 vollständig Ende zu Ende aus:
    Passwörtern einmalig angelegt und dauerhaft erhalten;
 4. ausschließlich nicht personenbezogene Friedhofsstammdaten werden aus der
    freigegebenen EDWALT-Arbeitskopie analysiert, explizit gemappt und nach
-   `CEMARISDEV` migriert;
+   `Cemaris_Dev` migriert;
 5. Personen-, Adress-, Fall-, Beisetzungs-, Nutzungsrechts-, Gebühren-,
    Notiz-, Dokument- und sonstige Inhaltsdaten aus EDWALT bleiben außerhalb.
    Personen- und Falldaten für lokale Tests bleiben synthetisch, werden aber
@@ -69,11 +79,11 @@ Verwende für .NET ausschließlich:
 
 Zieldatenbank:
 
-`CEMARISDEV`
+`Cemaris_Dev`
 
 Verwende die bereits maschinenlokal konfigurierte Cemaris-Verbindung nur,
 wenn der tatsächlich durch den Provider aufgelöste Datenbankname exakt
-`CEMARISDEV` lautet. Gib Connection Strings, Servernamen, Anmeldenamen oder
+`Cemaris_Dev` lautet. Gib Connection Strings, Servernamen, Anmeldenamen oder
 Secrets niemals aus. Erfinde, suche oder leite keine Zugangsdaten aus anderen
 Dateien oder Prozessen ab.
 
@@ -153,7 +163,7 @@ Lies vor Änderungen vollständig:
   Beteiligte/Nutzungsrechte. Beweise Lesen, Anlegen, Ändern,
   Konfliktverhalten, Rollen und Atomarität mit synthetischen Testwerten.
 - Prüfe sämtliche synthetischen Storekopplungen und ersetze keine EF-Logik
-  durch In-Memory-Zwischenzustand. Ein Neustart gegen `CEMARISDEV` muss den
+  durch In-Memory-Zwischenzustand. Ein Neustart gegen `Cemaris_Dev` muss den
   Zustand erhalten.
 - Erledige die bereits identifizierte Cancellation-Token-Parität der
   synthetischen Beteiligten-Schnellsuche, sofern der Befund weiterhin besteht;
@@ -164,12 +174,12 @@ Lies vor Änderungen vollständig:
 - Verwende User Secrets, nicht `appsettings*.json`, für Verbindung,
   `ReadModel:Provider=SqlServer` und die lokal aktivierten Capabilities.
 - Ändere keine Connection-String-Werte, sofern die vorhandene Konfiguration
-  bereits sicher auf `CEMARISDEV` zeigt. Zeige bei allen Prüfungen nur
+  bereits sicher auf `Cemaris_Dev` zeigt. Zeige bei allen Prüfungen nur
   Ja/Nein, Provider und den erwarteten Datenbanknamen, nie den Wert.
 - Prüfe vor EF-Änderungen Migration History, ausstehende Migrationen und das
   generierte SQL auf destruktive Operationen. Erstelle nur additive
   Migrationen, soweit der nachgewiesene Zielzustand sie benötigt.
-- Wende Migrationen kontrolliert auf `CEMARISDEV` an. Erstelle, lösche,
+- Wende Migrationen kontrolliert auf `Cemaris_Dev` an. Erstelle, lösche,
   ersetze, leere oder benenne diese Datenbank niemals um. Entferne keine
   bestehenden Tabellen oder Daten.
 - Der normale API-Start führt weder Schemaänderungen noch Seed, Import,
@@ -182,7 +192,7 @@ Lies vor Änderungen vollständig:
 - Reicht der vorhandene Erstadmin-Bootstrap für die wiederholbare Einrichtung
   nicht aus, implementiere einen expliziten Development-only-
   Wartungsbefehl. Er muss `ReadModel:Provider=SqlServer`, den exakten
-  erwarteten Datenbanknamen `CEMARISDEV`, ein vollständig migriertes Schema
+  erwarteten Datenbanknamen `Cemaris_Dev`, ein vollständig migriertes Schema
   und explizite Secretwerte verlangen.
 - Lege fehlende Konten mit festen Benutzernamen und den Rollen
   `Administration` beziehungsweise `Sachbearbeitung` an. Bereits passende
@@ -242,7 +252,7 @@ Lies vor Änderungen vollständig:
   SHA-256-basierte anonyme Quellkennungen. Keine Namen, Codes, Grabnummern,
   Pfade mit Geheimnissen oder sonstigen Quellwerte ausgeben.
 - `apply` verlangt `Development`, `SqlServer`,
-  `Maintenance:ExpectedDatabase=CEMARISDEV`, einen erfolgreichen aktuellen
+  `Maintenance:ExpectedDatabase=Cemaris_Dev`, einen erfolgreichen aktuellen
   Dry-run und explizite Bestätigung. Nach Öffnen der Verbindung wird der
   tatsächliche Datenbankname erneut geprüft.
 - Verwende die vorhandenen Domain-/Application-/Store-Regeln und einen
@@ -276,16 +286,16 @@ Lies vor Änderungen vollständig:
   Kapazitäts- oder Löschfachregeln;
 - echte Personenwerte in Cemaris, Tests, Logs, Berichten oder Git;
 - ein Connection String, Passwort, Hash oder lokaler Quellwert im Repository;
-- Nutzung von `CEMARISDEV` durch automatisierte Test-Fixtures.
+- Nutzung von `Cemaris_Dev` durch automatisierte Test-Fixtures.
 
 ## SQL-Testverbindung
 
-Die dauerhafte Anwendungsverbindung zu `CEMARISDEV` ist nicht die Verbindung
+Die dauerhafte Anwendungsverbindung zu `Cemaris_Dev` ist nicht die Verbindung
 für die reale SQL-Test-Suite. Falls
 `CEMARIS_SQL_TEST_CONNECTION_STRING` im neuen Prozess nicht ausdrücklich
 bereitgestellt ist, frage genau einmal nach einer autorisierten temporären
 Cemaris-Testverbindung. Erfinde, suche, errate oder leite keinen Wert ab und
-verwende niemals die `CEMARISDEV`-Anwendungsverbindung als Ersatz.
+verwende niemals die `Cemaris_Dev`-Anwendungsverbindung als Ersatz.
 
 Die SQL-Tests dürfen ausschließlich eindeutig benannte temporäre Datenbanken
 `Cemaris_IntegrationTests_*` des vorhandenen Fixtures anlegen. Prüfe vor dem
@@ -309,11 +319,11 @@ Führe mindestens aus:
 8. `npm ci`, vollständige Frontendtests, Lint und Produktionsbuild;
 9. Startnachweis mit allen aktuellen Capabilities und SQL-Provider in
    `Development` sowie negativer Startnachweis außerhalb von Development;
-10. Schema-/Migrationsprüfung und kontrolliertes EF-Update von `CEMARISDEV`;
+10. Schema-/Migrationsprüfung und kontrolliertes EF-Update von `Cemaris_Dev`;
 11. einmalige Konteneinrichtung, Anmeldung/Rollenwirkung und
     Neustartpersistenz von `admin` und `sach` ohne Secret-Ausgabe;
 12. EDWALT-Analyse und Dry-run, kontrollierter Import, Reconciliation und
-    zweiter idempotenter Lauf gegen `CEMARISDEV`;
+    zweiter idempotenter Lauf gegen `Cemaris_Dev`;
 13. manueller Browser-Smoke-Test der Stammdatenpflege mit beiden Rollen sowie
     einer vorhandenen synthetischen Fall-/Personenstrecke;
 14. `git diff --check`;
@@ -334,7 +344,7 @@ Connection Strings, Passwörter, lokalen Stammdatenwerte oder EDWALT-Inhalte.
 Der Abschluss muss ausdrücklich unterscheiden:
 
 - allgemeiner sicherer Repository-/Testdefault;
-- maschinenlokaler dauerhafter Development-Standard `CEMARISDEV`;
+- maschinenlokaler dauerhafter Development-Standard `Cemaris_Dev`;
 - synthetische Personen-/Falldaten in dauerhaftem SQL;
 - tatsächlich migrierte nicht personenbezogene EDWALT-Stammdatenkategorien;
 - bewusst nicht gelesene beziehungsweise nicht migrierte Quellbereiche;

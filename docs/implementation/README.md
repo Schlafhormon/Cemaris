@@ -8,7 +8,7 @@ Cemaris wird jetzt als eigenständige Fachsoftware inkrementell weitergebaut.
 Die breite EDWALT-Migrationsanalyse bleibt nach der reproduzierbar
 abgeschlossenen Phase 4 pausiert. Die Projektentscheidung vom 25.08.2026 nimmt
 jedoch den strikt nicht personenbezogenen Friedhofsstammdatenpfad wieder auf
-und macht `CEMARISDEV` zur dauerhaften lokalen Development-Datenbank.
+und macht `Cemaris_Dev` zur dauerhaften lokalen Development-Datenbank.
 Grundlagen sind weiterhin
 [ADR-0009](../decisions/ADR-0009-product-development-before-edwalt-import.md)
 und ergänzend
@@ -108,14 +108,20 @@ Kandidaten gewählt. Sie ist gemäß
 [5i-Abschluss](cemaris-increment-5i-completion.md) Ende zu Ende umgesetzt. Der
 interne datensparsame
 [5j-EF-Projektion](cemaris-increment-5j-completion.md) der unveränderten
-Beteiligten-Schnellsuche ist ebenfalls abgeschlossen. Der nächste priorisierte
-Schnitt ist nun
-[Inkrement 5k](cemaris-increment-5k-next-step-handoff.md): vollständiger
+Beteiligten-Schnellsuche ist ebenfalls abgeschlossen. Der priorisierte Schnitt
+[Inkrement 5k](cemaris-increment-5k-completion.md) ist technisch abgeschlossen.
+Die lokale `admin`-Kennwortabweichung ist ausschließlich für den bestätigten
+isolierten Testbetrieb als Restrisiko akzeptiert: vollständiger
 aktueller Development-Funktionsumfang auf dauerhaftem SQL, einmalige
 persistente Einrichtung von `admin` und `sach` sowie die datensparsame
 Migration ausschließlich der nicht personenbezogenen EDWALT-
 Friedhofsstammdaten. Der kleinere Befund zur Abbruchparität bleibt als
 technischer Paritätsnachweis enthalten.
+Der nächste priorisierte Schnitt ist das rein dokumentarische
+[Inkrement 6a](cemaris-increment-6a-next-step-handoff.md). Es trennt
+nachgewiesene Gebühren-/Bescheidbedarfe von weiterhin offenen Fach-, Rechts-,
+Rollen-, Dokument- und Migrationsentscheidungen, bevor ein Schreibmodell oder
+eine Berechnungslogik entstehen darf.
 
 ## Verbindliche Entwicklungsregel
 
@@ -145,8 +151,9 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 5h | fachregelarmes Produktauswahlgate | abgeschlossen mit Variante B: deterministische serverseitig paginierte Beteiligtenübersicht ausgewählt | dokumentarisch; keine Implementierung und keine neue Fachregel |
 | 5i | paginierte Beteiligtenübersicht | technisch umgesetzt: additiver Verzeichnisendpunkt, providerseitige stabile Pagination und URL-gebundene Übersicht bei kompatibler Schnellsuche | ausschließlich vorhandene Beteiligten-, Policy- und Providerverträge; keine neue Fachregel |
 | 5j | datensparsame kompatible Beteiligten-Schnellsuche | technisch umgesetzt: interne EF-Projektion der vorhandenen Array-Suche ohne Pagination, Limit oder Sortierungsänderung | unveränderter API-, UI-, Policy- und Capability-Vertrag |
-| 5k | dauerhafter SQL-Developmentbetrieb und EDWALT-Friedhofsstammdaten | alle aktuellen Development-Funktionen auf `CEMARISDEV`, persistente Konten `admin`/`sach`, synthetische Personen-/Falldaten in SQL und ausschließlich nicht personenbezogener EDWALT-Stammdatenimport | ADR-0017; Development-only; read-only EDWALT-Quelle; exakte Ziel- und Testdatenbanktrennung; keine geratenen Mappings |
-| 6 | Gebühren, Bescheide und Dokumente | Kataloge, Berechnung, Korrektur und Erzeugung | Gebühren-/Satzungsstände, Dokument- und Freigaberegeln |
+| 5k | dauerhafter SQL-Developmentbetrieb und EDWALT-Friedhofsstammdaten | technisch abgeschlossen: alle aktuellen Development-Funktionen auf `Cemaris_Dev`, persistente Konten `admin`/`sach`, synthetische Personen-/Falldaten in SQL und ausschließlich nicht personenbezogener EDWALT-Stammdatenimport; lokale `admin`-Kennwortabweichung im isolierten Testbetrieb akzeptiert | ADR-0017; Development-only; read-only EDWALT-Quelle; exakte Ziel- und Testdatenbanktrennung; keine geratenen Mappings |
+| 6a | Gebühren-/Bescheid-Entscheidungsgate | quellengebundene Entscheidungsmatrix und Auswahl genau eines kleinsten sicheren Folgeschnitts | ausschließlich dokumentarisch; fehlende Entscheidungen führen zu Variante A „keine Implementierung“ |
+| 6b+ | Gebühren, Bescheide und Dokumente | erst nach 6a gegebenenfalls Kataloge, manuelle Fakten, Berechnung, Korrektur oder Erzeugung | Gebühren-/Satzungsstände, Rollen-, Historien-, Dokument- und Freigaberegeln |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | übriges EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme jenseits des vorgezogenen Friedhofsstammdatenpfads | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
 
@@ -188,13 +195,22 @@ Statuswirkung, Beendigung und Wiedervorlagen bleiben offen. Die im
 Beteiligtenübersicht ist mit
 [5i](cemaris-increment-5i-completion.md) technisch umgesetzt. Als nächster
 sicherer Schritt wurde die interne SQL-Projektion der kompatiblen
-Schnellsuche mit [5j](cemaris-increment-5j-completion.md) umgesetzt. Nun folgt
-die durch ADR-0017 priorisierte
-[5k-SQL-/Stammdatenmigration](cemaris-increment-5k-next-step-handoff.md).
+Schnellsuche mit [5j](cemaris-increment-5j-completion.md) umgesetzt. Die durch
+ADR-0017 priorisierte
+[5k-SQL-/Stammdatenmigration](cemaris-increment-5k-completion.md) ist ebenfalls
+technisch abgeschlossen; die lokale Administrationskennwortabweichung ist für
+den isolierten Testbetrieb ausdrücklich als Restrisiko akzeptiert.
 Der Schreibpfad bleibt Development-only und repositoryseitig standardmäßig
-deaktiviert. Auf dem freigegebenen lokalen Arbeitsplatz soll er nach 5k aber
-mit dem SQL-Provider gegen `CEMARISDEV` laufen; personenbezogene Testdaten
+deaktiviert. Auf dem freigegebenen lokalen Arbeitsplatz läuft er nach 5k
+mit dem SQL-Provider gegen `Cemaris_Dev`; personenbezogene Testdaten
 bleiben synthetisch.
+
+Als nächstes ist die
+[ausführbare 6a-Übergabe](cemaris-increment-6a-next-step-handoff.md) umzusetzen.
+Das Gate darf den vorhandenen nullable Bescheid-/Gebühren-Lesevertrag nicht als
+freigegebenes Schreibmodell behandeln. Bleiben die entscheidenden Regeln oder
+Zuständigkeiten offen, ist 6a vollständig mit Variante A abzuschließen und die
+fehlende Information gebündelt zu dokumentieren.
 
 ## Bewusst nicht mit dem nächsten Inkrement behauptet
 

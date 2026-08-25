@@ -1,6 +1,10 @@
 # Konzept für Dokumente und Bescheide
 
-> **Status:** Zu validierende Produktvision. Es ist weder eine Template-Engine noch ein fachlicher Bescheidtyp festgelegt.
+> **Status:** Zu validierende Produktvision. Es ist weder eine Template-Engine
+> noch ein fachlicher Bescheidtyp festgelegt. Vor jeder Umsetzung ist das
+> dokumentarische
+> [Gebühren-/Bescheid-Entscheidungsgate 6a](../implementation/cemaris-increment-6a-next-step-handoff.md)
+> auszuführen.
 
 ## Zielbild
 

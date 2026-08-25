@@ -146,6 +146,7 @@ Lokale Quellenverweise nennen Quellbereich, relativen Pfad und bei HTML-Hilfen z
 - [Fortlaufendes Interviewprotokoll](interview-record.md)
 - [Migrationsbezogene Quellenanalyse](../../migration/edwalt-source-analysis.md)
 - [Extraktionsprototyp und technisches Datenprofil](../../migration/edwalt-extraction-prototype.md)
+- [Positivliste und Zielmapping der 5k-Friedhofsstammdaten](../../migration/edwalt-cemetery-master-data-mapping.md)
 - [Ausgeführter Übergabeauftrag: Personen-, Nutzungsrechts- und Statusrekonstruktion](../../migration/edwalt-person-rights-status-next-step-handoff.md)
 - [Ausgeführter Übergabeauftrag: weitere Adressrollen und Vorgangsnachlauf](../../migration/edwalt-additional-addresses-next-step-handoff.md)
 - [Vorbereiteter, derzeit pausierter Übergabeauftrag: Gebührenstamm- und Variantenabgrenzung](../../migration/edwalt-fee-master-variants-next-step-handoff.md)

@@ -8,9 +8,11 @@ public sealed class CemeteryMasterDataAdministratorWebApplicationFactory : WebAp
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Development");
-        builder.UseSetting("Features:CaseEditingEnabled", "true");
-        builder.UseSetting("Features:CemeteryMasterDataEditingEnabled", "true");
-        builder.UseSetting("ReadModel:Provider", "Synthetic");
+        builder.UseIsolatedCemarisSettings(new Dictionary<string, string?>
+        {
+            ["Features:CaseEditingEnabled"] = "true",
+            ["Features:CemeteryMasterDataEditingEnabled"] = "true",
+        });
         builder.ConfigureServices(TestIdentity.ConfigureAccounts);
     }
 }

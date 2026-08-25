@@ -33,7 +33,7 @@ UTC-Sicherheitszeitpunkte, Security-Stamp und SQL-`rowversion`. Benutzername
 und Anzeigename dürfen geändert werden; historische Auditzeilen behalten ID
 und damaligen Anzeigenamen.
 
-Für den lokalen Development-Betrieb gemäß ADR-0017 werden in `CEMARISDEV`
+Für den lokalen Development-Betrieb gemäß ADR-0017 werden in `Cemaris_Dev`
 einmalig die dauerhaften Benutzernamen `admin` mit `Administration` und `sach`
 mit `Sachbearbeitung` angelegt. Dies sind keine eingebauten Produktkonten und
 es existieren keine Defaultpasswörter. Passwortwerte kommen ausschließlich
@@ -137,6 +137,6 @@ Datenbank vorgesehen. Diese Topologie reduziert keine Zugriffsschutz-,
 Minimierungs-, Aufbewahrungs-, Sicherungs- oder Freigabeanforderung. Der
 Development-Pfad bleibt daher standardmäßig deaktiviert und erhält keine
 Produktivfreigabe. Die lokale Ausnahme aus ADR-0017 umfasst ausschließlich
-nicht personenbezogene Friedhofsstammdaten in `CEMARISDEV`; Personen- und
+nicht personenbezogene Friedhofsstammdaten in `Cemaris_Dev`; Personen- und
 Falldaten bleiben synthetisch und automatisierte Tests bleiben von dieser
 dauerhaften Datenbank getrennt.

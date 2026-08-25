@@ -16,6 +16,7 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
     private readonly string databaseName = $"{DatabasePrefix}{Guid.NewGuid():N}";
     private string? masterConnectionString;
     private SqlServerWebApplicationFactory? applicationFactory;
+    private SqlServerWebApplicationFactory? allFeaturesApplicationFactory;
 
     public string DatabaseConnectionString { get; private set; } = string.Empty;
 
@@ -36,6 +37,12 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
     public HttpClient CreateClient() =>
         (applicationFactory ?? throw new InvalidOperationException("The SQL test fixture is not initialized."))
         .CreateClient();
+
+    public HttpClient CreateAllFeaturesClient() =>
+        (allFeaturesApplicationFactory ?? throw new InvalidOperationException("The SQL test fixture is not initialized."))
+        .CreateClient();
+
+    internal string DatabaseName => databaseName;
 
     public async Task InitializeAsync()
     {
@@ -104,6 +111,9 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
             SeededCaseCount = await dbContext.Cases.CountAsync();
             SeededChangeCount = await dbContext.CaseChanges.CountAsync();
             applicationFactory = new SqlServerWebApplicationFactory(DatabaseConnectionString);
+            allFeaturesApplicationFactory = new SqlServerWebApplicationFactory(
+                DatabaseConnectionString,
+                enableAllFeatures: true);
         }
         catch
         {
@@ -178,6 +188,11 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
         if (applicationFactory is not null)
         {
             await applicationFactory.DisposeAsync();
+        }
+
+        if (allFeaturesApplicationFactory is not null)
+        {
+            await allFeaturesApplicationFactory.DisposeAsync();
         }
 
         await DropDatabaseAsync();

@@ -4,6 +4,7 @@ using Cemaris.Application.Identity;
 using Cemaris.Application.PersonUsageRights;
 using Cemaris.Infrastructure.Cemeteries;
 using Cemaris.Infrastructure.Identity;
+using Cemaris.Infrastructure.Maintenance;
 using Cemaris.Infrastructure.Persistence;
 using Cemaris.Infrastructure.PersonUsageRights;
 using Cemaris.Infrastructure.ReadModel;
@@ -30,6 +31,7 @@ public static class DependencyInjection
         services.AddDbContext<CemarisDbContext>(options =>
             options.UseSqlServer(connectionString));
         services.AddScoped<ILocalAccountStore, EfLocalAccountStore>();
+        services.AddScoped<DevelopmentDatabaseMaintenance>();
 
         if (provider.Equals("Synthetic", StringComparison.OrdinalIgnoreCase))
         {

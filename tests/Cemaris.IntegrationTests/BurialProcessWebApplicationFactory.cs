@@ -8,10 +8,11 @@ public sealed class BurialProcessWebApplicationFactory : WebApplicationFactory<P
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Development");
-        builder.UseSetting("Features:CaseEditingEnabled", "false");
-        builder.UseSetting("Features:CemeteryMasterDataEditingEnabled", "true");
-        builder.UseSetting("Features:BurialProcessEditingEnabled", "true");
-        builder.UseSetting("ReadModel:Provider", "Synthetic");
+        builder.UseIsolatedCemarisSettings(new Dictionary<string, string?>
+        {
+            ["Features:CemeteryMasterDataEditingEnabled"] = "true",
+            ["Features:BurialProcessEditingEnabled"] = "true",
+        });
         TestIdentity.ConfigureAutomaticCaseWorker(builder);
     }
 }

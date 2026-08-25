@@ -1,6 +1,4 @@
-using Cemaris.Application.Cases;
 using Cemaris.Infrastructure.Persistence;
-using Cemaris.Infrastructure.ReadModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -9,25 +7,36 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Cemaris.IntegrationTests;
 
-internal sealed class SqlServerWebApplicationFactory(string connectionString)
+internal sealed class SqlServerWebApplicationFactory(
+    string connectionString,
+    bool enableAllFeatures = false)
     : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Development");
-        builder.UseSetting("Features:CaseEditingEnabled", "true");
+        var settings = new Dictionary<string, string?>
+        {
+            ["ReadModel:Provider"] = "SqlServer",
+            ["Features:CaseEditingEnabled"] = "true",
+        };
+        if (enableAllFeatures)
+        {
+            settings["Features:CemeteryMasterDataEditingEnabled"] = "true";
+            settings["Features:BurialProcessEditingEnabled"] = "true";
+            settings["Features:PersonUsageRightsEditingEnabled"] = "true";
+        }
+
+        builder.UseIsolatedCemarisSettings(settings);
+
         TestIdentity.ConfigureAutomaticCaseWorker(builder);
         builder.ConfigureServices(services =>
         {
-            services.RemoveAll<ICaseReadStore>();
-            services.RemoveAll<ICaseWriteStore>();
             services.RemoveAll<CemarisDbContext>();
             services.RemoveAll<DbContextOptions<CemarisDbContext>>();
 
             services.AddDbContext<CemarisDbContext>(options =>
                 options.UseSqlServer(connectionString));
-            services.AddScoped<ICaseReadStore, EfCaseReadStore>();
-            services.AddScoped<ICaseWriteStore, EfCaseWriteStore>();
         });
     }
 }

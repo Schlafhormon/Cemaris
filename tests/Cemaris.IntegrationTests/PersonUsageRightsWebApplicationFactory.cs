@@ -16,9 +16,11 @@ public sealed class PersonUsageRightsWebApplicationFactory : WebApplicationFacto
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Development");
-        builder.UseSetting("Features:CemeteryMasterDataEditingEnabled", "true");
-        builder.UseSetting("Features:PersonUsageRightsEditingEnabled", "true");
-        builder.UseSetting("ReadModel:Provider", "Synthetic");
+        builder.UseIsolatedCemarisSettings(new Dictionary<string, string?>
+        {
+            ["Features:CemeteryMasterDataEditingEnabled"] = "true",
+            ["Features:PersonUsageRightsEditingEnabled"] = "true",
+        });
         builder.ConfigureServices(services =>
         {
             TestIdentity.ConfigureAccounts(services);

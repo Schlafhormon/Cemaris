@@ -12,7 +12,7 @@ public sealed class CemarisWebApplicationFactory : WebApplicationFactory<Program
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Development");
-        builder.UseSetting("Features:CaseEditingEnabled", "false");
+        builder.UseIsolatedCemarisSettings();
         TestIdentity.ConfigureAutomaticCaseWorker(builder);
         builder.ConfigureServices(services =>
         {

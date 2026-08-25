@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\src\Cemaris.Api\Cemaris.Api.csproj" />
     <ProjectReference Include="..\..\src\Cemaris.Application\Cemaris.Application.csproj" />
     <ProjectReference Include="..\..\src\Cemaris.Domain\Cemaris.Domain.csproj" />
+    <ProjectReference Include="..\..\tools\Cemaris.EdWaltMigration\Cemaris.EdWaltMigration.csproj" />
   </ItemGroup>
 
 </Project>

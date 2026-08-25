@@ -41,7 +41,7 @@
 
 ADR-0017 nimmt die breite EDWALT-Migration nicht wieder auf. Freigegeben ist
 ausschließlich der nicht personenbezogene Friedhofsstammdatenpfad für die
-dauerhafte lokale Development-Datenbank `CEMARISDEV`:
+dauerhafte lokale Development-Datenbank `Cemaris_Dev`:
 
 - Friedhöfe und Grabarten aus feldgenau bestätigten `W005`-/`W005dm`-Spannen;
 - bestätigte räumliche Hierarchie und Grabstellen ausschließlich aus
@@ -61,14 +61,17 @@ Die autorisierte read-only Arbeitswurzel ist:
 `C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration`
 
 Die vorhandenen Phase-2-, Phase-3- und Phase-4-Verzeichnisse bleiben
-unverändert. Erst Inkrement 5k darf für lokale Laufartefakte neu anlegen:
+unverändert. Inkrement 5k hat für seine lokalen Laufartefakte ausschließlich
+folgende neue Wurzel angelegt:
 
 `C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase5-cemetery-master-data-20260825`
 
-Parser und synthetische Tests werden im Cemaris-Repository versioniert;
-Quellextrakte, lokale Mappings, Stammdatenwerte, Laufberichte und Secrets
-bleiben außerhalb. Der vollständige ausführbare Auftrag steht in der
-[5k-Folgeübergabe](../implementation/cemaris-increment-5k-next-step-handoff.md).
+Parser, Importer, Positivliste und synthetische Tests werden im
+Cemaris-Repository versioniert. Quellextrakte, Stammdatenwerte, Laufberichte
+und Secrets bleiben außerhalb. Das ausgeführte technische Mapping steht im
+[EDWALT-Friedhofsstammdatenmapping für Inkrement 5k](edwalt-cemetery-master-data-mapping.md),
+der vollständige Nachweis im
+[5k-Abschluss](../implementation/cemaris-increment-5k-completion.md).
 
 Die konkrete
 [EDWALT-Quellenanalyse](edwalt-source-analysis.md) dokumentiert 24 vollständige
@@ -87,11 +90,15 @@ dokumentiert die Schutz- und Abnahmekriterien dieser Phase. Der
 dokumentiert Phase 4. Der
 [Folgeauftrag zur Gebührenstamm- und Variantenabgrenzung](edwalt-fee-master-variants-next-step-handoff.md)
 ist vorbereitet, bleibt aber für Gebühren und Varianten außerhalb des jetzt
-freigegebenen Friedhofsstammdatenumfangs zurückgestellt. Der aktive Auftrag
-steht im [Cemaris-Implementierungsplan](../implementation/README.md).
+freigegebenen Friedhofsstammdatenumfangs zurückgestellt. Das nächste
+[Cemaris-Entscheidungsgate 6a](../implementation/cemaris-increment-6a-next-step-handoff.md)
+klärt ausschließlich anhand versionierter Repositoryquellen, ob überhaupt ein
+sicherer Produktfolgeschnitt freigegeben werden kann. Es nimmt weder diesen
+EDWALT-Gebührenauftrag noch eine andere Migrationsanalyse wieder auf. Der aktive
+Auftrag steht im [Cemaris-Implementierungsplan](../implementation/README.md).
 Sämtliche vorhandenen EDWALT-Quellen und Phase-2-/3-/4-Arbeitsbereiche bleiben
-unverändert read-only; die neue Phase-5-Wurzel wird erst bei Ausführung von 5k
-angelegt.
+unverändert read-only; die Phase-5-Wurzel wurde ausschließlich für die
+abgeschlossene 5k-Ausführung angelegt.
 
 **EDWALT** ist die kanonische
 Bezeichnung; **EDWALT3** bezeichnet dasselbe Produkt beziehungsweise die
@@ -278,9 +285,11 @@ Der externe Phase-4-Bericht liegt unter
 `C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase4-additional-addresses-20260812`.
 Der vorbereitete Gebühren-/Variantenauftrag in
 [edwalt-fee-master-variants-next-step-handoff.md](edwalt-fee-master-variants-next-step-handoff.md)
-bleibt pausiert. Stattdessen führt 5k nur die für Friedhofsstruktur und
-Grabarten erforderliche `W005`-/`W005dm`-Abgrenzung sowie strikt positiv
-gelistete W020-Strukturfelder fort. Unklare Felder bleiben sichtbar `OFFEN`
-und werden weder dekodiert noch geladen. Erst ein erfolgreicher Dry-run,
-vollständiges Mapping und die exakte Zielprüfung erlauben den kontrollierten,
-idempotenten Import nach `CEMARISDEV`.
+bleibt pausiert. 5k hat die `W005`-/`W005dm`-Abgrenzung und die strikt positiv
+gelisteten W020-Strukturfelder umgesetzt. Der erfolgreiche Dry-run plant nur
+belegbare Friedhöfe. Grabarten bleiben ohne ausdrückliche
+Beisetzungsformentscheidung, W020-Gräber ohne belegte Grabartrelation und
+Hierarchieaufteilung ausgeschlossen. Unklare Felder bleiben sichtbar `OFFEN`
+und werden weder dekodiert noch geladen. Der kontrollierte Import verlangt
+zusätzlich die exakte Zielprüfung, eine aktuelle Dry-run-Fassung und
+vollständige Transaktions-/Idempotenzkontrollen.

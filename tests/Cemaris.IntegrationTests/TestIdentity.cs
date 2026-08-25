@@ -147,8 +147,10 @@ public sealed class CookieIdentityWebApplicationFactory : Microsoft.AspNetCore.M
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Development");
-        builder.UseSetting("Features:CaseEditingEnabled", "true");
-        builder.UseSetting("ReadModel:Provider", "Synthetic");
+        builder.UseIsolatedCemarisSettings(new Dictionary<string, string?>
+        {
+            ["Features:CaseEditingEnabled"] = "true",
+        });
         builder.ConfigureServices(TestIdentity.ConfigureAccounts);
         builder.ConfigureLogging(logging => logging.AddProvider(Logs));
     }

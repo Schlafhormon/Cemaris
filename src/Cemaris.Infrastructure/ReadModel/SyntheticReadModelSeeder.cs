@@ -10,11 +10,95 @@ using Microsoft.EntityFrameworkCore;
 namespace Cemaris.Infrastructure.ReadModel;
 
 /// <summary>
-/// Explicitly resets the SQL read model to the repository-safe demonstration data.
-/// The caller remains responsible for restricting this operation to Development.
+/// Adds the repository-safe demonstration data to the authorized Development
+/// database. The destructive reset method remains available only to isolated
+/// SQL integration fixtures.
 /// </summary>
-public sealed class SyntheticReadModelSeeder(CemarisDbContext dbContext)
+public sealed class SyntheticReadModelSeeder
 {
+    private const string DevelopmentDatabase = "Cemaris_Dev";
+    private const string IntegrationTestDatabasePrefix = "Cemaris_IntegrationTests_";
+    private readonly CemarisDbContext dbContext;
+    private readonly string authorizedEnsureDatabase;
+
+    public SyntheticReadModelSeeder(CemarisDbContext dbContext)
+        : this(dbContext, DevelopmentDatabase)
+    {
+    }
+
+    internal SyntheticReadModelSeeder(CemarisDbContext dbContext, string authorizedEnsureDatabase)
+    {
+        if (!string.Equals(authorizedEnsureDatabase, DevelopmentDatabase, StringComparison.Ordinal) &&
+            !(authorizedEnsureDatabase.StartsWith(IntegrationTestDatabasePrefix, StringComparison.Ordinal) &&
+              authorizedEnsureDatabase.Length > IntegrationTestDatabasePrefix.Length))
+        {
+            throw new InvalidOperationException("Der autorisierte Datenbankname ist unzulässig.");
+        }
+
+        this.dbContext = dbContext;
+        this.authorizedEnsureDatabase = authorizedEnsureDatabase;
+    }
+
+    public async Task<SyntheticEnsureResult> EnsureAsync(
+        string expectedDatabase,
+        CancellationToken cancellationToken)
+    {
+        if (!string.Equals(expectedDatabase, authorizedEnsureDatabase, StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException(
+                "Additive synthetische Development-Daten sind ausschließlich für Cemaris_Dev zulässig.");
+        }
+
+        if (!dbContext.Database.IsSqlServer())
+        {
+            throw new InvalidOperationException(
+                "Additive synthetische Development-Daten sind ausschließlich für SQL Server zulässig.");
+        }
+
+        var mapping = MapCases(SyntheticCaseReadStore.CreateCases());
+        await dbContext.Database.OpenConnectionAsync(cancellationToken);
+        var actualDatabase = dbContext.Database.GetDbConnection().Database;
+        if (!string.Equals(actualDatabase, authorizedEnsureDatabase, StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException(
+                "Additive synthetische Development-Daten wurden wegen eines abweichend aufgelösten Datenbanknamens verweigert.");
+        }
+
+        if ((await dbContext.Database.GetPendingMigrationsAsync(cancellationToken)).Any())
+        {
+            throw new InvalidOperationException(
+                "Additive synthetische Development-Daten erfordern ein vollständig migriertes Schema.");
+        }
+
+        await using var transaction = await dbContext.Database.BeginTransactionAsync(
+            IsolationLevel.Serializable,
+            cancellationToken);
+        var fixtureIds = mapping.Cases.Select(item => item.Id).ToArray();
+        var existing = await dbContext.Cases
+            .Where(item => fixtureIds.Contains(item.Id))
+            .Select(item => new { item.Id, item.IsSynthetic })
+            .ToArrayAsync(cancellationToken);
+        if (existing.Any(item => !item.IsSynthetic))
+        {
+            throw new InvalidOperationException(
+                "Additive synthetische Development-Daten wurden wegen einer nichtsynthetischen ID-Kollision vollständig abgebrochen.");
+        }
+
+        var existingIds = existing.Select(item => item.Id).ToHashSet();
+        var missing = mapping.Cases.Where(item => !existingIds.Contains(item.Id)).ToArray();
+        if (missing.Length > 0)
+        {
+            dbContext.Cases.AddRange(missing);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        await transaction.CommitAsync(cancellationToken);
+        return new SyntheticEnsureResult(
+            missing.Length,
+            existing.Length,
+            mapping.SkippedUnresolvedUsageRightHolders);
+    }
+
     public async Task<SyntheticSeedResult> ResetAsync(
         string expectedDatabase,
         CancellationToken cancellationToken)
@@ -272,3 +356,8 @@ public sealed record SyntheticSeedResult(
     int CasesWritten,
     int SkippedUnresolvedUsageRightHolders,
     int ChangesWritten);
+
+public sealed record SyntheticEnsureResult(
+    int CasesCreated,
+    int CasesPreserved,
+    int SkippedUnresolvedUsageRightHolders);

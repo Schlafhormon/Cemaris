@@ -147,7 +147,9 @@ public sealed class PersonUsageRightsEndpointTests(PersonUsageRightsWebApplicati
         Assert.Equal(HttpStatusCode.Unauthorized, unauthorized.StatusCode);
 
         using var disabledFactory = factory.WithWebHostBuilder(builder =>
-            builder.UseSetting("Features:PersonUsageRightsEditingEnabled", "false"));
+            builder.UseSetting(
+                "IntegrationTests:Overrides:Features:PersonUsageRightsEditingEnabled",
+                "false"));
         using var disabled = disabledFactory.CreateClient();
         using var unavailable = await disabled.GetAsync("/api/parties/directory");
         Assert.Equal(HttpStatusCode.NotFound, unavailable.StatusCode);

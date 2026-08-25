@@ -19,6 +19,7 @@ public sealed class SyntheticPersonUsageRightStore(SyntheticStoreCoordinator coo
     {
         lock (coordinator.Gate)
         {
+            token.ThrowIfCancellationRequested();
             var key = PartyRules.Normalize(query);
             return Task.FromResult<IReadOnlyList<PartySearchItem>>(parties.Values.Where(x => PartyRules.Normalize(Display(x)).Contains(key, StringComparison.Ordinal))
                 .Select(x => new PartySearchItem(x.Id, x.Type, Display(x), x.Addresses.SingleOrDefault(a => a.Id == x.Primary) is { } a ? Address(a) : null)).ToArray());

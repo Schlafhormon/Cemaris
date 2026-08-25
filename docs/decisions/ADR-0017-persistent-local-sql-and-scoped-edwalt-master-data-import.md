@@ -14,7 +14,7 @@ Provider; mehrere schreibende Capabilities verweigern den Start mit dem
 SQL-Provider ausdrücklich.
 
 Für die weitere Entwicklung soll die bereits vorhandene lokale Datenbank
-`CEMARISDEV` den dauerhaften Cemaris-Zustand tragen. Friedhofsstruktur,
+`Cemaris_Dev` den dauerhaften Cemaris-Zustand tragen. Friedhofsstruktur,
 Grabarten und weitere dafür notwendige nicht personenbezogene Stammdaten
 sollen kontrolliert aus der vorhandenen EDWALT-Arbeitskopie übernommen werden.
 Personen-, Fall-, Beisetzungs- und Nutzungsrechtsdaten aus EDWALT sind nicht
@@ -31,7 +31,7 @@ werden ausschließlich gelesen.
 
 ## Entscheidung
 
-- `CEMARISDEV` wird für den Projektverantwortlichen die dauerhafte lokale
+- `Cemaris_Dev` wird für den Projektverantwortlichen die dauerhafte lokale
   Development-Datenbank. Provider, Verbindung und Capabilities bleiben
   maschinenbezogene Konfiguration in User Secrets beziehungsweise
   Umgebungsvariablen; das portable Repository behält sichere Defaults und
@@ -41,7 +41,7 @@ werden ausschließlich gelesen.
   freigegeben und auf Providerparität geprüft. Diese Entscheidung ist keine
   Produktivfreigabe und hebt die Development-Grenze nicht auf.
 - Die lokalen Konten mit den festen Benutzernamen `admin` und `sach` werden
-  einmalig in `CEMARISDEV` angelegt und danach erhalten. `admin` erhält
+  einmalig in `Cemaris_Dev` angelegt und danach erhalten. `admin` erhält
   `Administration`, `sach` erhält `Sachbearbeitung`. Es gibt keine eingebauten
   oder dokumentierten Defaultpasswörter; beide Passwörter müssen die
   Sicherheitsrichtlinie erfüllen und aus einem lokalen Secret Store stammen.
@@ -61,11 +61,11 @@ werden ausschließlich gelesen.
   automatisiert. Quellkopien, Extrakte, Klartextwerte, Berichte mit lokalen
   Stammdaten und Secrets bleiben außerhalb von Git. Der Import ist
   wiederholbar, transaktional und durch den exakt aufgelösten Datenbanknamen
-  `CEMARISDEV` geschützt. Ein erneuter Lauf erzeugt keine Dubletten und löscht
+  `Cemaris_Dev` geschützt. Ein erneuter Lauf erzeugt keine Dubletten und löscht
   keine fachlich vorhandenen Daten.
 - Automatisierte Tests verwenden weiterhin synthetische Daten und entweder
   den synthetischen Provider oder eindeutig benannte temporäre SQL-Datenbanken.
-  `CEMARIS_SQL_TEST_CONNECTION_STRING` darf niemals auf `CEMARISDEV` zeigen.
+  `CEMARIS_SQL_TEST_CONNECTION_STRING` darf niemals auf `Cemaris_Dev` zeigen.
   Die dauerhafte lokale Datenbank wird nicht von Test-Fixtures erstellt,
   geleert oder gelöscht.
 
@@ -79,7 +79,7 @@ Nutzungsrechte und produktiver Cutover bleiben außerhalb.
 
 Für die Umsetzung ist ein neues Inkrement erforderlich: Es muss die
 SQL-Providergrenzen prüfen und anpassen, ein datensparsames Importwerkzeug
-bereitstellen, die lokale Konfiguration dokumentieren, `CEMARISDEV` additiv
+bereitstellen, die lokale Konfiguration dokumentieren, `Cemaris_Dev` additiv
 migrieren, die beiden dauerhaften Konten sicher einrichten und den
 Stammdatenimport mit technischen Summen und referenzieller Integrität
 nachweisen.

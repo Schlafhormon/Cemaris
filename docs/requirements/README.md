@@ -65,13 +65,23 @@ paginierte Beteiligtenübersicht gewählt. Dieser additive Lesevertrag ist im
 [Inkrement 5i](../implementation/cemaris-increment-5i-completion.md) technisch
 umgesetzt. Die kompatible Schnellsuche ist gemäß
 [Inkrement 5j](../implementation/cemaris-increment-5j-completion.md) nun auch
-intern datensparsam projiziert. Die
-[5k-Folgeübergabe](../implementation/cemaris-increment-5k-next-step-handoff.md)
-setzt als Nächstes die Projektentscheidung vom 25.08.2026 um: dauerhafter
-lokaler SQL-Developmentbetrieb auf `CEMARISDEV`, persistente Konten `admin`
-und `sach` sowie ausschließlich die nicht personenbezogene EDWALT-
-Friedhofsstammdatenmigration. Der bisherige Abbruchparitätsbefund bleibt als
-kleiner technischer Providerparitätsnachweis enthalten.
+intern datensparsam projiziert. Der
+[5k-Abschluss](../implementation/cemaris-increment-5k-completion.md)
+setzt die Projektentscheidung vom 25.08.2026 um: dauerhafter lokaler
+SQL-Developmentbetrieb auf `Cemaris_Dev`, persistente Konten `admin` und `sach`
+sowie ausschließlich die nicht personenbezogene EDWALT-
+Friedhofsstammdatenmigration. Das
+[5k-Quellmapping](../migration/edwalt-cemetery-master-data-mapping.md)
+dokumentiert die tatsächlich belegten Felder und Sperren. Der bisherige
+Abbruchparitätsbefund bleibt als technischer Providerparitätsnachweis
+enthalten.
+Vor jeder Gebühren-, Bescheid- oder Dokumentimplementierung ist das
+ausschließlich dokumentarische
+[Entscheidungsgate 6a](../implementation/cemaris-increment-6a-next-step-handoff.md)
+auszuführen. Der vorhandene nullable Lesevertrag ist kein bestätigtes
+Schreibmodell; fehlende Fach-, Rechts-, Rollen-, Historien-, Vorlagen- und
+Migrationsentscheidungen dürfen nicht aus EDWALT oder aus technischen Feldern
+abgeleitet werden.
 
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -647,4 +657,5 @@ Bewertungskriterien:
 | fachregelarmes Produktauswahlgate 5h | 5g-Nichtfreigabe bei gewünschter einfacher EDWALT-Ablösung | deterministische serverseitig paginierte Beteiligtenübersicht ausgewählt | Repositorybefund und synthetische Abnahme | keine Implementierung in 5h | abgeschlossen mit Variante B | Auswahl in `cemaris-increment-5h-completion.md` |
 | paginierte Beteiligtenübersicht 5i | 5h-Auswahl auf vorhandenen kanonischen Beteiligtenverträgen | additiver Verzeichnisendpunkt und URL-gebundene Übersicht; alte Schnellsuche bleibt kompatibel | vorhandene Policy, Capability und Provider | keine neue Fach-, Lebenszyklus- oder Migrationswirkung | umgesetzt | technischer Abschluss in `cemaris-increment-5i-completion.md` |
 | datensparsame Schnellsuche 5j | bestehende kompatible Array-Schnellsuche | ausschließlich interne EF-Projektion der benötigten Item-Felder und aktuellen Primäranschrift | unveränderter API-, Policy- und Capability-Vertrag | keine Pagination, Sortierung oder Fachwirkung | umgesetzt | technischer Abschluss in `cemaris-increment-5j-completion.md` |
-| dauerhafter SQL-Developmentbetrieb und EDWALT-Friedhofsstammdaten 5k | USR-2026-08-25-LOCAL-SQL-MASTER-DATA und ADR-0017 | vollständiger aktueller Development-Funktionsumfang auf `CEMARISDEV`, persistente Konten und abgegrenzter nicht personenbezogener Stammdatenimport | read-only EDWALT-Arbeitskopie, explizites Mapping und getrennte temporäre SQL-Tests | keine Personen-, Fall-, Rechte-, Gebühren-, Notiz- oder Dokumentmigration und keine Produktivfreigabe | nächster Implementierungsschritt | ausführbare Abgrenzung in `cemaris-increment-5k-next-step-handoff.md` |
+| dauerhafter SQL-Developmentbetrieb und EDWALT-Friedhofsstammdaten 5k | USR-2026-08-25-LOCAL-SQL-MASTER-DATA und ADR-0017 | vollständiger aktueller Development-Funktionsumfang auf `Cemaris_Dev`, persistente Konten und abgegrenzter nicht personenbezogener Stammdatenimport | read-only EDWALT-Arbeitskopie, explizites Mapping und getrennte temporäre SQL-Tests | keine Personen-, Fall-, Rechte-, Gebühren-, Notiz- oder Dokumentmigration und keine Produktivfreigabe | technisch abgeschlossen; lokale `admin`-Kennwortabweichung für isolierten Testbetrieb als Restrisiko akzeptiert | Positivliste und Sperren in `edwalt-cemetery-master-data-mapping.md`; Nachweis in `cemaris-increment-5k-completion.md` |
+| Gebühren-/Bescheid-Entscheidungsgate 6a | bestätigte Finanzprozessgrenze, vorläufige Bescheid-/Gebühren-Leseprojektion und offene Produktregeln | belastbare Trennung belegter Bedarfe von noch nicht freigegebenem Schreib-, Katalog-, Berechnungs-, Dokument- und Migrationsumfang | ausschließlich Repositoryquellen; keine Datenbank, Secrets, EDWALT- oder Satzungsoriginale | keine Produktimplementierung; bei offenen Pflichtentscheidungen Variante A | vorbereitet | verbindlicher Auftrag in `cemaris-increment-6a-next-step-handoff.md` |

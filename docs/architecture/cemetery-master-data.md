@@ -4,16 +4,13 @@ Stand: 25.08.2026
 
 ## Geltungsbereich
 
-Diese Architektur beschreibt den technisch abgenommenen, weiterhin
-synthetischen und Development-only betriebenen Stand von Inkrement 4a. Sie ist
-keine fachliche, datenschutzrechtliche, betriebliche oder produktive Freigabe.
-
-ADR-0017 ergänzt ein noch umzusetzendes lokales Ziel: `CEMARISDEV` soll den
-dauerhaften Development-Zustand tragen und ausgewählte nicht personenbezogene
-Friedhofsstammdaten aus der read-only EDWALT-Arbeitswurzel aufnehmen. Bis zum
-Abschluss von Inkrement 5k bleiben die nachfolgend beschriebenen
-SQL-Aktivierungs- und Importanteile Zielarchitektur, nicht behaupteter
-Ist-Stand.
+Diese Architektur beschreibt den technisch abgenommenen,
+Development-only betriebenen Stand nach Inkrement 5k. Der portable
+Repository-/Teststandard bleibt synthetisch; auf dem autorisierten lokalen
+Arbeitsplatz trägt `Cemaris_Dev` den dauerhaften Development-Zustand und die
+eng abgegrenzten nicht personenbezogenen Friedhofsstammdaten aus der
+read-only EDWALT-Arbeitswurzel. Dies ist keine fachliche,
+datenschutzrechtliche, betriebliche oder produktive Freigabe.
 
 Die räumliche Struktur ist `Friedhof → Bereich → Feld → Reihe → Grabstelle`.
 Friedhof und Grabstelle sind verpflichtend. Bereich, Feld und Reihe sind
@@ -91,15 +88,12 @@ Namenshistorie.
 - Es gibt absichtlich keine Audit- oder Betreiberlog-API und keine Oberfläche dafür.
 
 Die Capability `Features:CemeteryMasterDataEditingEnabled` ist standardmäßig
-`false`. Der Prozess startet nicht, wenn sie außerhalb von Development oder
-mit einem anderen Provider als `Synthetic` aktiviert wird. Sie ist unabhängig
-von `Features:CaseEditingEnabled`.
-
-Inkrement 5k soll die Providerbeschränkung für den `SqlServer`-Provider
-kontrolliert aufheben, ohne die Development-Grenze oder die vorhandenen
-Sicherheitsverträge zu ändern. Der portable Repository-Default bleibt
-deaktiviert; die dauerhafte lokale Aktivierung für `CEMARISDEV` erfolgt
-ausschließlich über User Secrets beziehungsweise lokale Umgebungswerte.
+`false` und außerhalb von Development unzulässig. In Development unterstützt
+sie providerneutral `Synthetic` und `SqlServer`; alle vorhandenen
+Sicherheitsverträge bleiben identisch. Der portable Repository-Default bleibt
+deaktiviert, die dauerhafte lokale SQL-Aktivierung für `Cemaris_Dev` erfolgt
+ausschließlich über User Secrets beziehungsweise lokale Umgebungswerte. Sie
+ist unabhängig von `Features:CaseEditingEnabled`.
 
 ## Zielarchitektur des abgegrenzten EDWALT-Imports
 
@@ -117,7 +111,7 @@ versionierter Parser + explizites Mapping
 Application-/Store-Validierung + eine SQL-Transaktion
                     |
                     v
-             CEMARISDEV-Stammdaten
+            Cemaris_Dev-Stammdaten
 ```
 
 Der Parser arbeitet mit Positivlisten aus Quelle, Offset, Länge, Format und
@@ -130,7 +124,7 @@ lokale Namen, Grabnummern und sonstige Quellwerte gehören weder in Logs noch
 in Repository-Artefakte.
 
 Der Ladevorgang prüft den tatsächlich aufgelösten Datenbanknamen exakt gegen
-`CEMARISDEV`, ausstehende EF-Migrationen, Mappingvollständigkeit,
+`Cemaris_Dev`, ausstehende EF-Migrationen, Mappingvollständigkeit,
 Eindeutigkeitsregeln und Referenzen. Er ist wiederholbar und transaktional,
 erhält vorhandene Konten und synthetische Falldaten und erzeugt einen
 datensparsamen Änderungsnachweis mit eindeutigem technischen Migrationsakteur.

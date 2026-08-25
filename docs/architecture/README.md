@@ -69,13 +69,21 @@ Nutzungsrechts-, Rollen-, Persistenz- oder Auditsemantik zu ändern.
 Das [5j-Inkrement](../implementation/cemaris-increment-5j-completion.md) hat
 auch die kompatible Schnellsuche intern datensparsam projiziert, ohne API-,
 UI-, Policy- oder Capability-Verträge zu ändern. Die Projektentscheidung vom
-25.08.2026 führt mit ADR-0017 einen neuen priorisierten Architekturschnitt ein:
-Die
-[5k-Folgeübergabe](../implementation/cemaris-increment-5k-next-step-handoff.md)
-macht `CEMARISDEV` zur dauerhaften lokalen Development-Datenbank, prüft alle
-aktuellen Funktionen Ende zu Ende auf SQL und migriert ausschließlich
-nicht personenbezogene EDWALT-Friedhofsstammdaten. Der kleinere
-Abbruchparitätsbefund bleibt Teil der Providerprüfung.
+25.08.2026 führt mit ADR-0017 einen neuen priorisierten Architekturschnitt ein.
+Inkrement 5k hebt die frühere Synthetic-only-Grenze der vier
+Development-Capabilities auf: Sämtliche vorhandenen Storeports besitzen nun
+denselben SQL-Pfad. Der portable Repository-Default bleibt Synthetic;
+maschinenlokal ist `Cemaris_Dev` der dauerhafte Development-Standard. Das
+[5k-Quellmapping](../migration/edwalt-cemetery-master-data-mapping.md) begrenzt
+den EDWALT-Pfad zusätzlich auf nicht personenbezogene Friedhofsstammdaten; der
+[5k-Abschluss](../implementation/cemaris-increment-5k-completion.md) weist den
+lokalen Ende-zu-Ende-Betrieb nach.
+Vor einer Gebühren-, Bescheid- oder Dokumentarchitektur ist das
+[Entscheidungsgate 6a](../implementation/cemaris-increment-6a-next-step-handoff.md)
+verbindlich. Die vorhandenen nullable Bescheid-/Gebührenfelder und Suchpfade
+sind weiterhin eine vorläufige Leseprojektion; sie genehmigen weder ein
+kanonisches Schreibmodell noch Katalog-, Berechnungs-, Historien-, Dokument-
+oder Migrationssemantik.
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.
@@ -99,11 +107,11 @@ Abbruchparitätsbefund bleibt Teil der Providerprüfung.
   freigegebenes endgültiges Fachmodell.
 
 Der Schreibpfad bleibt trotz umgesetzter lokaler Identitätsgrundlage bis zu
-den späteren Datenschutz-, Betriebs- und Fachfreigaben standardmäßig
-deaktiviert und ausschließlich in einer explizit aktivierten
-Development-Umgebung zulässig. Der 4a-Ist-Stand ist noch Synthetic-only;
-ADR-0017 erlaubt 5k, diese technische Providergrenze für den dauerhaften
-lokalen SQL-Betrieb kontrolliert aufzuheben. Personen- und Falldaten bleiben
+den späteren Datenschutz-, Betriebs- und Fachfreigaben repositoryseitig
+standardmäßig deaktiviert und ausschließlich in einer explizit aktivierten
+Development-Umgebung zulässig. Synthetic und SQL implementieren dieselben
+aktuellen Ports für Fälle, Stammdaten, Beisetzungsprozess sowie Beteiligte und
+Nutzungsrechte. Personen- und Falldaten bleiben in beiden Providern
 synthetisch; ausschließlich die abgegrenzten Friedhofsstammdaten dürfen aus
 EDWALT stammen.
 Diese Feature-Grenze ist kein produktiver Zugriffsschutz.
@@ -118,7 +126,15 @@ Fachmodell. Details dokumentiert
 
 ## Konfiguration und Betrieb
 
-Konfiguration wird über `appsettings.json`, umgebungsspezifische Dateien, Environment Variables und Kommandozeilenargumente geladen. Secrets gehören in einen sicheren betrieblichen Speicher und nie in das Repository.
+Konfiguration wird über `appsettings.json`, umgebungsspezifische Dateien,
+Environment Variables und Kommandozeilenargumente geladen. Secrets gehören in
+einen sicheren betrieblichen Speicher und nie in das Repository. Normale
+Starts mutieren weder Schema noch Daten. Einmalige Development-Wartungspfade
+für EF-Migrationen, additive synthetische Fixtures und die beiden festen
+lokalen Konten prüfen nach Verbindungsöffnung den exakt autorisierten
+Datenbanknamen und beenden sich anschließend. Automatisierte SQL-Tests dürfen
+nur isolierte Datenbanken mit dem Präfix `Cemaris_IntegrationTests_`
+erstellen und entfernen.
 
 TLS soll am kontrollierten Reverse Proxy terminiert werden. Lokale
 Benutzerkonten sind als erste produktive Identitätsgrundlage bestätigt; ein
@@ -140,7 +156,7 @@ Integritätskontrolle bleiben offen. Weiterhin gelten diese Leitplanken:
 - minimale Berechtigungen für Datenbank- und Integrationskonten,
 - keine echten personenbezogenen Verwaltungsdaten in Entwicklung und Tests;
   die lokale Ausnahme aus ADR-0017 umfasst nur abgegrenzte
-  Friedhofsstammdaten in `CEMARISDEV`, niemals allgemeine Testfixtures oder CI,
+  Friedhofsstammdaten in `Cemaris_Dev`, niemals allgemeine Testfixtures oder CI,
 - Audit-Einträge machen Akteur, Zeitpunkt, Operation, Fall/Ziel und
   resultierende Version nachvollziehbar, ohne unkontrollierte Datenkopien zu
   erzeugen.

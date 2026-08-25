@@ -533,8 +533,8 @@ Zeichensätze werden begrenzt, ohne kommunale Namensformen unnötig
 auszuschließen.
 
 ADR-0017 ändert für Inkrement 5k nur die lokale Persistenzform: Die weiterhin
-synthetischen Personen- und Rechtewerte sollen dauerhaft in `CEMARISDEV`
-liegen und alle vorhandenen Funktionen mit dem SQL-Provider unterstützen.
+synthetischen Personen- und Rechtewerte liegen dauerhaft in `Cemaris_Dev`;
+alle vorhandenen Funktionen unterstützen den SQL-Provider.
 EDWALT-Personen-, Adress- und Nutzungsrechtsbereiche bleiben ausdrücklich
 ausgeschlossen und dürfen für den Friedhofsstammdatenimport nicht dekodiert
 werden.

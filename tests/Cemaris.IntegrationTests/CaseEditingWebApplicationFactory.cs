@@ -12,8 +12,10 @@ public sealed class CaseEditingWebApplicationFactory : WebApplicationFactory<Pro
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Development");
-        builder.UseSetting("Features:CaseEditingEnabled", "true");
-        builder.UseSetting("ReadModel:Provider", "Synthetic");
+        builder.UseIsolatedCemarisSettings(new Dictionary<string, string?>
+        {
+            ["Features:CaseEditingEnabled"] = "true",
+        });
         TestIdentity.ConfigureAutomaticCaseWorker(builder);
         builder.ConfigureServices(services =>
         {

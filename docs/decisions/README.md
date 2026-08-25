@@ -56,11 +56,19 @@ nachfolgende interne
 erweitern ADR-0016 nicht. Die Projektentscheidung vom 25.08.2026 ändert
 dagegen die lokale Entwicklungs- und Migrationsarchitektur. ADR-0017 setzt
 deshalb die EDWALT-Pause aus ADR-0009 ausschließlich für den nicht
-personenbezogenen Friedhofsstammdatenpfad aus und macht `CEMARISDEV` zur
-dauerhaften lokalen Development-Datenbank. Die
-[5k-Folgeübergabe](../implementation/cemaris-increment-5k-next-step-handoff.md)
-führt diese Entscheidung aus. Ein späteres Frist-,
+personenbezogenen Friedhofsstammdatenpfad aus und macht `Cemaris_Dev` zur
+dauerhaften lokalen Development-Datenbank. Der
+[5k-Abschluss](../implementation/cemaris-increment-5k-completion.md)
+weist die Ausführung nach. Ein späteres Frist-,
 Status- oder Lebenszyklusmodell benötigt wegen der offenen 5C-Gates
 gegebenenfalls eine neue Architekturentscheidung.
+
+ADR-0007 verlangt vor Gebühren-, Bescheid- oder Dokumentimplementierung
+belastbare Fachanforderungen; ADR-0009 hält die breite EDWALT-Migration bis zu
+einem verstandenen Zielmodell pausiert. Deshalb ist zunächst das rein
+dokumentarische
+[Entscheidungsgate 6a](../implementation/cemaris-increment-6a-next-step-handoff.md)
+auszuführen. Die Vorbereitung dieses Gates trifft noch keine neue
+Architekturentscheidung und benötigt daher kein weiteres ADR.
 
 Für neue ADRs kann [ADR-Template](ADR-template.md) kopiert werden.

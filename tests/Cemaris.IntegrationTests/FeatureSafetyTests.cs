@@ -23,7 +23,18 @@ public sealed class FeatureSafetyTests
     {
         using var factory = new UnsafeBurialProcessProductionFactory();
         var exception = Assert.ThrowsAny<Exception>(() => factory.CreateClient());
-        Assert.Contains("Burial-process editing may be enabled only in Development with the Synthetic provider", FlattenMessages(exception), StringComparison.Ordinal);
+        Assert.Contains("Burial-process editing may be enabled only in Development", FlattenMessages(exception), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void CemeteryMasterDataActivationOutsideDevelopmentFailsAtStartup()
+    {
+        using var factory = new UnsafeCemeteryMasterDataProductionFactory();
+        var exception = Assert.ThrowsAny<Exception>(() => factory.CreateClient());
+        Assert.Contains(
+            "Cemetery master-data editing may be enabled only in Development",
+            FlattenMessages(exception),
+            StringComparison.Ordinal);
     }
 
     [Fact]
@@ -31,7 +42,7 @@ public sealed class FeatureSafetyTests
     {
         using var factory = new UnsafePersonUsageRightsProductionFactory();
         var exception = Assert.ThrowsAny<Exception>(() => factory.CreateClient());
-        Assert.Contains("Person and usage-right editing may be enabled only in Development with the Synthetic provider", FlattenMessages(exception), StringComparison.Ordinal);
+        Assert.Contains("Person and usage-right editing may be enabled only in Development", FlattenMessages(exception), StringComparison.Ordinal);
     }
 
     private static string FlattenMessages(Exception exception)
@@ -64,6 +75,15 @@ public sealed class FeatureSafetyTests
         {
             builder.UseEnvironment("Production");
             builder.UseSetting("Features:BurialProcessEditingEnabled", "true");
+        }
+    }
+
+    private sealed class UnsafeCemeteryMasterDataProductionFactory : WebApplicationFactory<Program>
+    {
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.UseEnvironment("Production");
+            builder.UseSetting("Features:CemeteryMasterDataEditingEnabled", "true");
         }
     }
 

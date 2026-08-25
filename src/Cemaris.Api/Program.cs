@@ -12,6 +12,7 @@ using Cemaris.Application.PersonUsageRights;
 using Cemaris.Application.System;
 using Cemaris.Domain.Cases;
 using Cemaris.Infrastructure;
+using Cemaris.Infrastructure.Maintenance;
 using Cemaris.Infrastructure.Persistence;
 using Cemaris.Infrastructure.ReadModel;
 using Microsoft.AspNetCore.Antiforgery;
@@ -27,6 +28,29 @@ using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (builder.Configuration.GetValue<bool>("IntegrationTests:IsolatedConfiguration"))
+{
+    var isolatedKeys = new[]
+    {
+        "ReadModel:Provider",
+        "Features:CaseEditingEnabled",
+        "Features:CemeteryMasterDataEditingEnabled",
+        "Features:BurialProcessEditingEnabled",
+        "Features:PersonUsageRightsEditingEnabled",
+        "Maintenance:ApplyMigrations",
+        "Maintenance:EnsureDevelopmentAccounts",
+        "Maintenance:EnsureSyntheticDevelopmentData",
+    };
+    foreach (var key in isolatedKeys)
+    {
+        var value = builder.Configuration[$"IntegrationTests:Overrides:{key}"];
+        if (value is not null)
+        {
+            builder.Configuration[key] = value;
+        }
+    }
+}
+
 var caseEditingEnabled = builder.Configuration.GetValue<bool>("Features:CaseEditingEnabled");
 var cemeteryMasterDataEditingEnabled = builder.Configuration.GetValue<bool>("Features:CemeteryMasterDataEditingEnabled");
 var burialProcessEditingEnabled = builder.Configuration.GetValue<bool>("Features:BurialProcessEditingEnabled");
@@ -34,25 +58,22 @@ var personUsageRightsEditingEnabled = builder.Configuration.GetValue<bool>("Feat
 if (caseEditingEnabled && !builder.Environment.IsDevelopment())
 {
     throw new InvalidOperationException(
-        "Case editing may be enabled only in the Development environment with synthetic data.");
+        "Case editing may be enabled only in the Development environment.");
 }
-if (cemeteryMasterDataEditingEnabled && (!builder.Environment.IsDevelopment() ||
-    !string.Equals(builder.Configuration["ReadModel:Provider"], "Synthetic", StringComparison.OrdinalIgnoreCase)))
+if (cemeteryMasterDataEditingEnabled && !builder.Environment.IsDevelopment())
 {
     throw new InvalidOperationException(
-        "Cemetery master-data editing may be enabled only in Development with the Synthetic provider.");
+        "Cemetery master-data editing may be enabled only in Development.");
 }
-if (burialProcessEditingEnabled && (!builder.Environment.IsDevelopment() ||
-    !string.Equals(builder.Configuration["ReadModel:Provider"], "Synthetic", StringComparison.OrdinalIgnoreCase)))
+if (burialProcessEditingEnabled && !builder.Environment.IsDevelopment())
 {
     throw new InvalidOperationException(
-        "Burial-process editing may be enabled only in Development with the Synthetic provider.");
+        "Burial-process editing may be enabled only in Development.");
 }
-if (personUsageRightsEditingEnabled && (!builder.Environment.IsDevelopment() ||
-    !string.Equals(builder.Configuration["ReadModel:Provider"], "Synthetic", StringComparison.OrdinalIgnoreCase)))
+if (personUsageRightsEditingEnabled && !builder.Environment.IsDevelopment())
 {
     throw new InvalidOperationException(
-        "Person and usage-right editing may be enabled only in Development with the Synthetic provider.");
+        "Person and usage-right editing may be enabled only in Development.");
 }
 
 builder.Logging.ClearProviders();
@@ -198,73 +219,69 @@ if (allowedOrigins.Length > 0)
 
 var app = builder.Build();
 
-if (builder.Configuration.GetValue<bool>("Maintenance:BootstrapAdministrator"))
-{
-    var readModelProvider = builder.Configuration["ReadModel:Provider"] ?? "Synthetic";
-    if (!readModelProvider.Equals("SqlServer", StringComparison.OrdinalIgnoreCase))
-    {
-        throw new InvalidOperationException("Local administrator bootstrap requires the SQL Server provider.");
-    }
-
-    var expectedDatabase = builder.Configuration["Maintenance:ExpectedDatabase"];
-    if (string.IsNullOrWhiteSpace(expectedDatabase))
-    {
-        throw new InvalidOperationException(
-            "Maintenance:ExpectedDatabase must be set explicitly for local administrator bootstrap.");
-    }
-
-    await using var scope = app.Services.CreateAsyncScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<CemarisDbContext>();
-    var resolvedDatabase = dbContext.Database.GetDbConnection().Database;
-    if (!string.Equals(expectedDatabase, resolvedDatabase, StringComparison.Ordinal))
-    {
-        throw new InvalidOperationException("The resolved database does not match Maintenance:ExpectedDatabase.");
-    }
-
-    if ((await dbContext.Database.GetPendingMigrationsAsync()).Any())
-    {
-        throw new InvalidOperationException("All migrations must be applied before local administrator bootstrap.");
-    }
-
-    var service = scope.ServiceProvider.GetRequiredService<LocalAccountService>();
-    var account = await service.BootstrapFirstAdministratorAsync(
-        builder.Configuration["Bootstrap:Username"],
-        builder.Configuration["Bootstrap:DisplayName"],
-        builder.Configuration["Bootstrap:Password"],
-        CancellationToken.None);
-    SecurityLog.BootstrapCompleted(app.Logger, account.Id);
-    return;
-}
-
-if (builder.Configuration.GetValue<bool>("Maintenance:SeedSynthetic"))
+if (builder.Configuration.GetValue<bool>("Maintenance:ApplyMigrations"))
 {
     if (!app.Environment.IsDevelopment())
     {
         throw new InvalidOperationException(
-            "Synthetic SQL seeding is permitted only in the Development environment.");
+            "Lokale Datenbankmigrationen sind ausschließlich in Development zulässig.");
+    }
+
+    await using var scope = app.Services.CreateAsyncScope();
+    var maintenance = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseMaintenance>();
+    await maintenance.ApplyMigrationsAsync(
+        builder.Configuration["Maintenance:ExpectedDatabase"],
+        CancellationToken.None);
+    return;
+}
+
+if (builder.Configuration.GetValue<bool>("Maintenance:EnsureDevelopmentAccounts"))
+{
+    if (!app.Environment.IsDevelopment())
+    {
+        throw new InvalidOperationException(
+            "Lokale Development-Konten dürfen ausschließlich in Development gepflegt werden.");
+    }
+
+    await using var scope = app.Services.CreateAsyncScope();
+    var maintenance = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseMaintenance>();
+    await maintenance.EnsureAccountsAsync(
+        builder.Configuration["Maintenance:ExpectedDatabase"],
+        builder.Configuration["Maintenance:DevelopmentAccounts:AdminPassword"],
+        builder.Configuration["Maintenance:DevelopmentAccounts:CaseWorkerPassword"],
+        CancellationToken.None);
+    return;
+}
+
+if (builder.Configuration.GetValue<bool>("Maintenance:EnsureSyntheticDevelopmentData"))
+{
+    if (!app.Environment.IsDevelopment())
+    {
+        throw new InvalidOperationException(
+            "Additive synthetische SQL-Daten sind ausschließlich in Development zulässig.");
     }
 
     var readModelProvider = builder.Configuration["ReadModel:Provider"] ?? "Synthetic";
     if (!readModelProvider.Equals("SqlServer", StringComparison.OrdinalIgnoreCase))
     {
         throw new InvalidOperationException(
-            "Synthetic SQL seeding requires ReadModel:Provider to be 'SqlServer'.");
+            "Additive synthetische SQL-Daten erfordern ReadModel:Provider 'SqlServer'.");
     }
 
     var expectedDatabase = builder.Configuration["Maintenance:ExpectedDatabase"];
     if (string.IsNullOrWhiteSpace(expectedDatabase))
     {
         throw new InvalidOperationException(
-            "Maintenance:ExpectedDatabase must be set explicitly when synthetic SQL seeding is requested.");
+            "Maintenance:ExpectedDatabase muss für additive synthetische SQL-Daten gesetzt sein.");
     }
 
     await using var scope = app.Services.CreateAsyncScope();
     var seeder = scope.ServiceProvider.GetRequiredService<SyntheticReadModelSeeder>();
-    var result = await seeder.ResetAsync(expectedDatabase, CancellationToken.None);
+    var result = await seeder.EnsureAsync(expectedDatabase, CancellationToken.None);
 
-    ApiLog.SyntheticSeedCompleted(
+    ApiLog.SyntheticEnsureCompleted(
         app.Logger,
-        result.CasesWritten,
+        result.CasesCreated,
         result.SkippedUnresolvedUsageRightHolders);
 
     return;
@@ -1204,9 +1221,9 @@ internal static partial class ApiLog
     [LoggerMessage(
         EventId = 1001,
         Level = LogLevel.Information,
-        Message = "Synthetic SQL seed completed. Cases written: {casesWritten}; unresolved holder references skipped: {skippedReferences}.")]
-    internal static partial void SyntheticSeedCompleted(
+        Message = "Additive synthetic SQL ensure completed. Cases created: {casesCreated}; unresolved holder references skipped: {skippedReferences}.")]
+    internal static partial void SyntheticEnsureCompleted(
         ILogger logger,
-        int casesWritten,
+        int casesCreated,
         int skippedReferences);
 }

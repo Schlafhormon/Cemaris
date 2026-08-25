@@ -115,12 +115,20 @@ Ende umgesetzt; die bestehende Nutzungsrechts-Schnellsuche bleibt kompatibel.
 Ihre rein interne datensparsame
 [SQL-Projektion 5j](docs/implementation/cemaris-increment-5j-completion.md)
 ist ebenfalls umgesetzt, ohne den Array-Vertrag oder die Inhaberauswahl zu
-ändern. Die Projektentscheidung vom 25.08.2026 priorisiert nun
-[Inkrement 5k](docs/implementation/cemaris-increment-5k-next-step-handoff.md):
-`CEMARISDEV` wird die dauerhafte lokale Development-Datenbank, alle aktuellen
-Funktionen werden auf SQL nachgewiesen, `admin` und `sach` dauerhaft
-eingerichtet und ausschließlich nicht personenbezogene EDWALT-
+ändern. Die Projektentscheidung vom 25.08.2026 ist mit
+[Inkrement 5k](docs/implementation/cemaris-increment-5k-completion.md)
+technisch abgeschlossen. Die bewusste lokale Beibehaltung eines versionierten
+Testkennworts ist nur für den vom Projektverantwortlichen bestätigten
+isolierten Development-Testbetrieb akzeptiert. `Cemaris_Dev` ist die
+dauerhafte lokale Development-Datenbank,
+alle aktuellen Funktionen sind auf SQL nachgewiesen, `admin` und `sach`
+dauerhaft eingerichtet und ausschließlich nicht personenbezogene EDWALT-
 Friedhofsstammdaten migriert.
+Der nächste sichere Schritt ist das ausschließlich dokumentarische
+[Inkrement 6a](docs/implementation/cemaris-increment-6a-next-step-handoff.md):
+ein Gebühren-/Bescheid-Entscheidungsgate. Es implementiert weder einen
+Gebührenkatalog noch Berechnung, Bescheiderzeugung, Dokumentverarbeitung oder
+einen weiteren EDWALT-Import.
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -255,73 +263,117 @@ npm run dev
 
 Das Frontend läuft unter <http://localhost:5173>. Vite leitet `/health` und `/api` in der Entwicklung standardmäßig an `http://localhost:5050` weiter. Die Statuskarte zeigt die erfolgreiche Verbindung.
 
-### Lokales SQL-Server-Fall-/Leseschema
+### Dauerhafter lokaler SQL-Developmentbetrieb
 
-Der portable Repository-Default und allgemeine automatisierte Tests verwenden
-weiterhin den synthetischen Provider. Für den Projektverantwortlichen ist
-gemäß ADR-0017 nach Umsetzung von Inkrement 5k dagegen die bereits vorhandene
-Datenbank `CEMARISDEV` der dauerhafte lokale Development-Standard. Verbindung,
-Provider und Capabilities werden maschinenbezogen in User Secrets und nicht
-im Repository gespeichert. Ein Connection String wird nicht aus anderen
-lokalen Dateien abgeleitet oder dokumentiert:
+Der portable Repository- und CI-Default bleibt `Synthetic` mit deaktivierten
+Capabilities. Auf dem autorisierten lokalen Arbeitsplatz ist dagegen die
+bereits vorhandene Datenbank `Cemaris_Dev` der dauerhafte Development-Standard.
+Verbindung, Provider, vier Capabilities und erwarteter Datenbankname liegen
+maschinenlokal in User Secrets. Verbindungs- und Passwortwerte werden weder
+im Repository noch in Befehlen oder Logs ausgegeben.
+
+Nicht geheime Einstellungen können einmalig gesetzt werden:
 
 ```powershell
-dotnet user-secrets set --project src/Cemaris.Api "ConnectionStrings:CemarisDatabase" "<autorisierte lokale Verbindung mit Database=CEMARISDEV>"
 dotnet user-secrets set --project src/Cemaris.Api "ReadModel:Provider" "SqlServer"
-
-$env:ASPNETCORE_ENVIRONMENT = "Development"
-dotnet tool restore
-dotnet tool run dotnet-ef database update --project src/Cemaris.Infrastructure --startup-project src/Cemaris.Api --context CemarisDbContext
+dotnet user-secrets set --project src/Cemaris.Api "Features:CaseEditingEnabled" "true"
+dotnet user-secrets set --project src/Cemaris.Api "Features:CemeteryMasterDataEditingEnabled" "true"
+dotnet user-secrets set --project src/Cemaris.Api "Features:BurialProcessEditingEnabled" "true"
+dotnet user-secrets set --project src/Cemaris.Api "Features:PersonUsageRightsEditingEnabled" "true"
+dotnet user-secrets set --project src/Cemaris.Api "Maintenance:ExpectedDatabase" "Cemaris_Dev"
 ```
 
-Anschliessend koennen die klar gekennzeichneten synthetischen Demonstrationsdaten
-explizit in die lokale Datenbank geschrieben werden:
+Die autorisierte Verbindung wird getrennt und geheim unter
+`ConnectionStrings:CemarisDatabase` bereitgestellt. Die API verändert beim
+normalen Start weder Schema noch Daten. Für das einmalige EF-Update wird der
+nicht geheime Wartungsschalter lokal gesetzt und direkt danach entfernt:
 
 ```powershell
-dotnet run --project src/Cemaris.Api --launch-profile http -- --Maintenance:SeedSynthetic=true --Maintenance:ExpectedDatabase=CEMARISDEV
+$env:DOTNET_ENVIRONMENT = "Development"
+dotnet user-secrets set --project src/Cemaris.Api "Maintenance:ApplyMigrations" "true"
+dotnet run --project src/Cemaris.Api --no-launch-profile
+dotnet user-secrets remove --project src/Cemaris.Api "Maintenance:ApplyMigrations"
 ```
 
-Der Wartungsbefehl ist nur in der `Development`-Umgebung erlaubt, prueft den
-erwarteten Datenbanknamen sowie ausstehende Migrationen und verweigert den Lauf,
-sobald ein nicht synthetischer Fall vorhanden ist. Vorhandene synthetische
-Faelle werden reproduzierbar ersetzt. Beim normalen API-Start werden keine
-Daten angelegt oder veraendert.
+Der Wartungspfad öffnet zuerst ausschließlich die konfigurierte Verbindung,
+prüft den tatsächlich aufgelösten Datenbanknamen exakt und führt nur dann die
+vorhandenen EF-Migrationen aus. Er erstellt, löscht, leert, ersetzt oder
+benennt keine Datenbank um.
+
+Klar gekennzeichnete synthetische Personen- und Falldaten werden additiv und
+idempotent dauerhaft gespeichert. Vorhandene synthetische und manuelle Daten
+bleiben unverändert; Kollisionen mit nichtsynthetischen Fixture-IDs brechen
+vollständig ab:
+
+```powershell
+dotnet user-secrets set --project src/Cemaris.Api "Maintenance:EnsureSyntheticDevelopmentData" "true"
+dotnet run --project src/Cemaris.Api --no-launch-profile
+dotnet user-secrets remove --project src/Cemaris.Api "Maintenance:EnsureSyntheticDevelopmentData"
+```
+
+### Dauerhafte lokale Development-Konten
+
+Die beiden festen Konten heißen `admin` mit `Administration` und `sach` mit
+`Sachbearbeitung`. Ihre sicheren Passwörter werden ausschließlich lokal unter
+`Maintenance:DevelopmentAccounts:AdminPassword` und
+`Maintenance:DevelopmentAccounts:CaseWorkerPassword` bereitgestellt, nicht
+als Kommandozeilenargument. Ohne Visual Studio wird dazu in VS Code die Datei
+`%APPDATA%\Microsoft\UserSecrets\5bd9d3ee-a624-45d4-9f18-71fb619427eb\secrets.json`
+geöffnet und das vorhandene JSON um diese beiden Schlüssel ergänzt. Die Werte
+werden lokal durch zwei eigene sichere Passwörter ersetzt und niemals in Git
+übernommen:
+
+```json
+{
+  "Maintenance:DevelopmentAccounts:AdminPassword": "<lokales sicheres Passwort>",
+  "Maintenance:DevelopmentAccounts:CaseWorkerPassword": "<lokales sicheres Passwort>"
+}
+```
+
+Andere vorhandene Secret-Schlüssel bleiben dabei erhalten. Danach erfolgt
+genau ein kontrollierter Lauf:
+
+```powershell
+dotnet user-secrets set --project src/Cemaris.Api "Maintenance:EnsureDevelopmentAccounts" "true"
+dotnet run --project src/Cemaris.Api --no-launch-profile
+dotnet user-secrets remove --project src/Cemaris.Api "Maintenance:EnsureDevelopmentAccounts"
+```
+
+Der Lauf prüft SQL-Provider, aktuelles Schema und den exakt aufgelösten Namen
+`Cemaris_Dev`. Bereits vollständig passende Konten einschließlich Passwort und
+Security-Stamp bleiben unverändert. Fehlende Konten werden atomar ergänzt;
+eine abweichende bestehende Zuordnung bricht vor jeder Änderung vollständig
+ab. Ein normaler Start, der synthetische Datenlauf und der EDWALT-Import
+ändern keine Konten oder Passwörter.
 
 Die Migrationen liegen unter
 `src/Cemaris.Infrastructure/Persistence/Migrations`. Produktive
-Schemadeployments erfolgen spaeter kontrolliert ueber ein geprueftes SQL-Skript
+Schemadeployments erfolgen später kontrolliert über ein geprüftes SQL-Skript
 und nicht beim Anwendungsstart.
 
-### Ersten lokalen Administrator bereitstellen
+### Abgegrenzte EDWALT-Friedhofsstammdatenmigration
 
-Der Bootstrap ist ein expliziter Wartungsbefehl und kein HTTP-Endpunkt. Er
-läuft nur gegen den SQL-Provider, nur bei vollständig migriertem Schema, nur
-bei exakt übereinstimmendem erwarteten Datenbanknamen und nur solange noch kein
-Konto existiert. Es existiert kein Defaultpasswort; Benutzername, Anzeigename
-und Passwort werden nicht protokolliert.
-
-Für Development werden die Werte in User Secrets abgelegt:
+Das Werkzeug unter `tools/Cemaris.EdWaltMigration` liest ausschließlich die
+im [5k-Mapping](docs/migration/edwalt-cemetery-master-data-mapping.md)
+positiv gelisteten Bytebereiche. Analyse und Dry-run benötigen keine
+Datenbankverbindung. `apply` und `reconcile` verwenden die bereits lokal
+autorisierte Cemaris-Verbindung und geben sie nicht aus:
 
 ```powershell
-dotnet user-secrets set --project src/Cemaris.Api "Bootstrap:Username" "admin"
-dotnet user-secrets set --project src/Cemaris.Api "Bootstrap:DisplayName" "Lokale Administration"
-dotnet user-secrets set --project src/Cemaris.Api "Bootstrap:Password" "<extern erzeugtes starkes Passwort>"
+$sdk = 'C:\Users\Benke\AppData\Local\Cemaris\dotnet-10.0.302-complete\dotnet.exe'
+$source = 'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase2-20260811'
+$run = 'C:\Users\Benke\AppData\Local\Cemaris\EdwaltMigration\phase5-cemetery-master-data-20260825'
 
-$env:ASPNETCORE_ENVIRONMENT = "Development"
-dotnet run --project src/Cemaris.Api -- --ReadModel:Provider=SqlServer --Maintenance:BootstrapAdministrator=true --Maintenance:ExpectedDatabase=CEMARISDEV
+& $sdk run --project tools/Cemaris.EdWaltMigration -- analyze $source $run
+& $sdk run --project tools/Cemaris.EdWaltMigration -- dry-run $source $run
+& $sdk run --project tools/Cemaris.EdWaltMigration -- apply $source $run Cemaris_Dev
+& $sdk run --project tools/Cemaris.EdWaltMigration -- reconcile $source $run
 ```
 
-Das zweite dauerhafte Konto heißt `sach` und erhält die Rolle
-`Sachbearbeitung`. Inkrement 5k ergänzt beziehungsweise dokumentiert den
-sicheren einmaligen Einrichtungsweg für beide Konten. Normale Starts, Seeds
-und EDWALT-Importläufe dürfen Konten oder Passwörter nicht neu erzeugen oder
-zurücksetzen.
-
-Im Betrieb müssen Passwortwerte aus einem externen Secret Store kommen und
-nach dem einmaligen Lauf wieder entzogen werden. Die Kommandozeile darf kein
-Secret enthalten. Vor produktiver Nutzung sind außerdem TLS/Reverse Proxy,
-Data-Protection-Schlüsselring, Backup, Monitoring und Logaufbewahrung
-verbindlich zu konfigurieren und abzunehmen.
+Die vorhandenen Phase-2-/3-/4-Bestände bleiben read-only. Laufberichte werden
+nur in der neuen Phase-5-Wurzel angelegt und enthalten keine Quellwerte. Die
+breite Personen-, Fall-, Rechte-, Gebühren-, Bescheid-, Buchungs-, Notiz-,
+Dokument-, Benutzer- und Konfigurationsmigration bleibt ausgeschlossen.
 
 ### Qualität prüfen
 
@@ -349,12 +401,12 @@ dotnet test tests/Cemaris.IntegrationTests --filter "Category=SqlServer"
 Remove-Item Env:CEMARIS_SQL_TEST_CONNECTION_STRING
 ```
 
-Der verwendete Login muss Datenbanken anlegen und loeschen duerfen. Die zwölf
-SQL-Tests erzeugen ausschließlich eine eindeutig benannte temporäre Datenbank
+Der verwendete Login muss Datenbanken anlegen und löschen dürfen. Die
+SQL-Tests erzeugen ausschließlich eindeutig benannte temporäre Datenbanken
 `Cemaris_IntegrationTests_*`, prüfen additive Migration, Seed, Suche,
-Detailansicht, Schreib-/Auditatomarität, 5b-Historie, echte Parallelrennen und
-Rollback und entfernen
-die Datenbank anschließend wieder. Vor dem Löschen werden Präfix und
+Detailansicht, Providerparität, Konteneinrichtung, Importidempotenz,
+Schreib-/Auditatomarität, 5b-Historie, echte Parallelrennen und Rollback und
+entfernen die Datenbanken anschließend wieder. Vor dem Löschen werden Präfix und
 aufgelöster Datenbankname erneut geprüft. Ohne die Umgebungsvariable werden
 diese Tests übersprungen.
 
@@ -367,20 +419,21 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `ConnectionStrings__CemarisDatabase` | externer SQL-Server-Connection-String | `<externer Secretwert>` |
 | `Cors__AllowedOrigins__0` | erlaubter Entwicklungs-Frontend-Origin | `http://localhost:5173` |
 | `OpenApi__Enabled` | OpenAPI-Dokument aktivieren | `true` nur in kontrollierten Umgebungen |
-| `ReadModel__Provider` | kanonischer Fall-/Lesestore (`Synthetic` oder `SqlServer`) | portabler Default `Synthetic`; maschinenlokal nach 5k `SqlServer` für `CEMARISDEV` |
+| `ReadModel__Provider` | kanonischer Fall-/Lesestore (`Synthetic` oder `SqlServer`) | portabler Default `Synthetic`; maschinenlokal nach 5k `SqlServer` für `Cemaris_Dev` |
 | `Features__CaseEditingEnabled` | synthetische Fallaktenbearbeitung; nur in `Development` zulässig | `false` (Standard), lokal ausdrücklich `true` |
-| `Features__CemeteryMasterDataEditingEnabled` | synthetische Friedhofsstammdatenpflege; nur in `Development` mit `Synthetic` zulässig | `false` (Standard), lokal ausdrücklich `true` |
-| `Features__BurialProcessEditingEnabled` | synthetischer einfacher Beisetzungsprozess; nur in `Development` mit `Synthetic` zulässig | `false` (Standard), lokal ausdrücklich `true` |
-| `Features__PersonUsageRightsEditingEnabled` | synthetischer kanonischer Beteiligten-/Nutzungsrechtskern; nur in `Development` mit `Synthetic` zulässig | `false` (Standard), lokal ausdrücklich `true` |
+| `Features__CemeteryMasterDataEditingEnabled` | Friedhofsstammdatenpflege; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
+| `Features__BurialProcessEditingEnabled` | einfacher synthetischer Beisetzungsprozess; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
+| `Features__PersonUsageRightsEditingEnabled` | synthetischer kanonischer Beteiligten-/Nutzungsrechtskern; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Identity__Security__PasswordMinimumLength` | untere Passwortgrenze, nicht unter 12 konfigurierbar | `12` |
 | `Identity__Security__PasswordMaximumLength` | obere Passwortgrenze, nicht über 128 konfigurierbar | `128` |
 | `Identity__Security__MaximumFailedLoginAttempts` | Fehlversuche bis zur Sperre, höchstens 5 | `5` |
 | `Identity__Security__LockoutDuration` | Sperrdauer, mindestens 15 Minuten | `00:15:00` |
 | `Identity__Security__SessionIdleTimeout` | Inaktivitätsdauer der Cookie-Sitzung | `00:30:00` |
 | `Search__MaxResults` | maximale Seitengröße und Standardgröße der Suche | `10` |
-| `Maintenance__SeedSynthetic` | einmaliger expliziter SQL-Seed statt API-Start | `true` nur fuer kontrollierte lokale Entwicklung |
-| `Maintenance__ExpectedDatabase` | Sicherheitsprüfung für lokale SQL-Wartungs- und Importläufe | `CEMARISDEV` |
-| `Maintenance__BootstrapAdministrator` | einmaliger nicht HTTP-basierter Erstadmin-Bootstrap | `false` |
+| `Maintenance__ExpectedDatabase` | Sicherheitsprüfung für lokale SQL-Wartungs- und Importläufe | `Cemaris_Dev` |
+| `Maintenance__ApplyMigrations` | einmaliger selbstbeendender EF-Schemalauf | `false` |
+| `Maintenance__EnsureSyntheticDevelopmentData` | einmalige additive, idempotente SQL-Ablage der synthetischen Fallfixtures | `false` |
+| `Maintenance__EnsureDevelopmentAccounts` | einmalige atomare Einrichtung beziehungsweise Prüfung von `admin` und `sach` | `false` |
 | `VITE_API_BASE_URL` | API-Basis-URL im gebauten Browserclient | leer für denselben Origin |
 | `VITE_API_PROXY_TARGET` | Vite-Dev-Proxy | `http://localhost:5050` |
 
@@ -421,7 +474,8 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
    Lebenszykluspfad bleibt pausiert und 5k stellt den dauerhaften lokalen
    SQL-Developmentbetrieb sowie den abgegrenzten nicht personenbezogenen
    EDWALT-Friedhofsstammdatenimport her
-6. Gebühren-, Dokument- und Bescheidwesen
+6. Gebühren-/Bescheid-Entscheidungsgate 6a; danach nur ein vollständig
+   freigegebener kleiner Gebühren-, Dokument- oder Bescheidschnitt
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe
 9. Pilotbetrieb, Cutover und Nachkontrolle
