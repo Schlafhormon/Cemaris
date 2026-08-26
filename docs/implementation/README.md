@@ -127,10 +127,15 @@ Rollen-, Historien-, Dokument- und Migrationsentscheidungen. Kein zulässiger
 unverändert und ein technischer 6b-Auftrag wurde nicht erstellt.
 Mit `USR-2026-08-26-MANUAL-NOTICE-FACTS-PRIORITY` hat der
 Projektauftraggeber anschließend manuelle kanonische Bescheid-/Finanzfakten
-als nächsten Prüfungskandidaten bestätigt. Der nächste ausführbare Schritt ist
-das rein dokumentarische
-[Freigabegate](cemaris-manual-notice-facts-approval-next-step-handoff.md). Die
-Priorisierung ist noch keine technische oder fachliche Freigabe.
+als nächsten Prüfungskandidaten bestätigt. Das rein dokumentarische
+[Freigabegate](cemaris-manual-notice-facts-approval-completion.md) ist
+nach ergänzender funktionsbezogener Klärung mit Variante B abgeschlossen.
+Die bestätigungspflichtige Zahlungspflichtigenauswahl löst 6F-03 auf; die
+benannten Fach-, Rechts-, Finanz-, Datenschutz-, Sicherheits- und
+Betriebsfreigaben gelten ausschließlich für Development und synthetische
+Daten. Der
+[technische 6b-Auftrag](cemaris-increment-6b-next-step-handoff.md) ist
+ausführbar.
 
 ## Verbindliche Entwicklungsregel
 
@@ -162,8 +167,9 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 5j | datensparsame kompatible Beteiligten-Schnellsuche | technisch umgesetzt: interne EF-Projektion der vorhandenen Array-Suche ohne Pagination, Limit oder Sortierungsänderung | unveränderter API-, UI-, Policy- und Capability-Vertrag |
 | 5k | dauerhafter SQL-Developmentbetrieb und EDWALT-Friedhofsstammdaten | technisch abgeschlossen: alle aktuellen Development-Funktionen auf `Cemaris_Dev`, persistente Konten `admin`/`sach`, synthetische Personen-/Falldaten in SQL und ausschließlich nicht personenbezogener EDWALT-Stammdatenimport; lokale `admin`-Kennwortabweichung im isolierten Testbetrieb akzeptiert | ADR-0017; Development-only; read-only EDWALT-Quelle; exakte Ziel- und Testdatenbanktrennung; keine geratenen Mappings |
 | 6a | Gebühren-/Bescheid-Entscheidungsgate | dokumentarisch abgeschlossen: Quellenmatrix, Fragen 6A-01 bis 6A-16 und Variantenvergleich führen zu Variante A „noch keine Implementierung“ | kein technischer 6b-Auftrag; vorhandener nullable Lesevertrag unverändert |
-| 6a-F | Freigabegate für manuelle Bescheid-/Finanzfakten | vorbereitet: priorisierten Kandidaten anhand 6F-01 bis 6F-10 zuständig entscheiden und freigeben oder erneut vollständig stoppen | ausschließlich dokumentarisch; Projektpriorität allein ist keine Fach-, Rechts-, Finanz-, Datenschutz-, Sicherheits- oder Betriebsfreigabe |
-| 6b+ | Gebühren, Bescheide und Dokumente | pausiert, bis genau ein kleiner Schnitt vollständig durch zuständige Fach-, Rechts-, Finanz-, Datenschutz-, Sicherheits- und Betriebsentscheidungen getragen ist | Gebühren-/Satzungsstände, Rollen-, Historien-, Dokument-, Migrations- und Freigaberegeln |
+| 6a-F | Freigabegate für manuelle Bescheid-/Finanzfakten | nach ergänzender funktionsbezogener Klärung mit Variante B abgeschlossen: bestätigungspflichtiger Zahlungspflichtiger, mehrere Entwürfe je Fall, Nummernkonfiguration und manueller EUR-Faktenkern | ausschließlich technischer Development-Pilot mit synthetischen Daten; [Entscheidungsakte](../requirements/manual-notice-financial-facts-decisions.md) |
+| 6b | Kanonische manuelle Bescheidentwürfe | [technischer Ende-zu-Ende-Auftrag vorbereitet](cemaris-increment-6b-next-step-handoff.md) | kein Dokument, keine Berechnung, keine Rechtswirkung, keine FINANZ+-Integration und keine Migration |
+| 6c+ | Bescheiderzeugung, Gebührenausbau und Dokumente | nach 6b in getrennten Entscheidungs- und Freigabegates | Gebühren-/Satzungsstände, Rechtswirkung, Vorlagen, Versand, Korrektur, Datenschutz, Betrieb und Migration |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | übriges EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme jenseits des vorgezogenen Friedhofsstammdatenpfads | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
 
@@ -172,7 +178,7 @@ Arbeiten dürfen vorgezogen werden, wenn sie keine offenen Fachentscheidungen
 vorwegnehmen. Eine produktive Freigabe erfolgt erst, wenn die jeweiligen
 Sicherheits-, Datenschutz-, Betriebs- und Fachgates erfüllt sind.
 
-## Nächstes Freigabegate
+## Nächster Umsetzungsschritt
 
 Lokale Konten sind am 13.08.2026 als Standard bestätigt worden. Ein späterer
 LDAP-Ausbau soll Konten importieren oder synchronisieren, wird aber nicht im
@@ -219,12 +225,20 @@ Das
 [6a-Entscheidungsgate](cemaris-increment-6a-completion.md) ist ausgeführt. Die
 [Entscheidungs- und Freigabeliste](../requirements/fee-notice-document-decisions.md#gebündelte-entscheidungs--und-freigabeliste)
 bleibt verbindlich. Die nachgelagerte Projektpriorisierung wählt manuelle
-kanonische Bescheid-/Finanzfakten als einzigen Kandidaten. Als Nächstes ist die
-[ausführbare Freigabeübergabe](cemaris-manual-notice-facts-approval-next-step-handoff.md)
-vollständig zu bearbeiten. Erst wenn ihr kleiner Schnitt durch alle benötigten
-zuständigen Entscheidungen getragen ist, darf sie einen technischen
-6b-Auftrag erstellen. Bis dahin bleibt der nullable Bescheid-/Gebühren-
-Lesevertrag unverändert und darf nicht als Schreibmodell interpretiert werden.
+kanonische Bescheid-/Finanzfakten als einzigen Kandidaten. Das
+[6a-F-Freigabegate](cemaris-manual-notice-facts-approval-completion.md) ist
+vollständig bearbeitet. Nach der ersten Stop-Entscheidung wurden die
+funktionsbezogenen Freigaben, die aktive Zahlungspflichtigenbestätigung und
+mehrere unabhängige Entwürfe je Fall ergänzend bestätigt.
+
+Der nächste ausführbare Schritt ist
+[Inkrement 6b](cemaris-increment-6b-next-step-handoff.md): ein additiver,
+rechtlich wirkungsloser manueller Entwurfskern mit eigener Nummer,
+Fachrevision, ETag, Audit und Synthetic-/SQL-Providerparität. Die vorhandene
+nullable Bescheid-/Gebühren-Leseprojektion bleibt unverändert und darf nicht
+als Schreibmodell interpretiert werden. Bescheiderzeugung, Berechnung,
+FINANZ+-Integration, echte Verwaltungsdaten und Migration bleiben nach 6b
+gesondert freizugeben.
 
 ## Bewusst nicht mit dem nächsten Inkrement behauptet
 

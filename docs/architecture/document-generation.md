@@ -4,7 +4,13 @@
 > [Gebühren-/Bescheid-Entscheidungsgate 6a](../implementation/cemaris-increment-6a-completion.md)
 > ist mit Variante A „noch keine Implementierung“ abgeschlossen. Es ist weder
 > eine Template-Engine noch ein fachlicher Bescheidtyp oder 6b-Schnitt
-> freigegeben.
+> freigegeben. Auch das nachgelagerte
+> [6a-F-Gate](../implementation/cemaris-manual-notice-facts-approval-completion.md)
+> gibt nach ergänzender funktionsbezogener Klärung ausschließlich den
+> [technischen 6b-Schnitt](../implementation/cemaris-increment-6b-next-step-handoff.md)
+> für rechtlich wirkungslose manuelle Entwürfe frei. Die spätere
+> Cemaris-Bescheiderzeugung ist als Zielbild belegt, bleibt aber ein eigenes
+> Freigabegate.
 
 ## Ergebnis des Entscheidungsgates 6a
 
@@ -16,6 +22,12 @@ Freigabe, Versand, Aufbewahrung, temporäre Verarbeitung und Renderer. Das
 nachfolgende Zielbild und die technischen Ansätze bleiben deshalb
 unverbindliche Prüfoptionen. Sie bilden weder eine Implementierungsfreigabe
 noch ein Daten-, Prozess- oder Dokumentmodell.
+
+6a-F hat bewusst nur einen internen, rechtlich wirkungslosen Faktenentwurf
+freigegeben. 6b darf diesen getrennten kanonischen Kern implementieren.
+Bescheiderzeugung, Bekanntgabe, Versand, Vorlage, Rechtsbehelfsbelehrung und
+Dokumentaufbewahrung bleiben außerhalb. Die konkreteren Entwurfsfakten sind
+daher kein Dokumentvertrag.
 
 ## Zielbild
 

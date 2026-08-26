@@ -82,6 +82,7 @@ keine zusätzliche Friedhofsfachregel.
 | Audit- und Loglebenszyklus | OFFEN | Aufbewahrung, Integritätskontrolle, Rotation, externe Auswertung und zulässige Löschung betrieblich festlegen. |
 | Betriebsfreigabe | OFFEN | TLS/Reverse Proxy, Secret-Verwaltung, Datenbanksicherung, Wiederherstellung, Monitoring und Verantwortliche festlegen. |
 | Datenschutzfreigabe | OFFEN | Zweck, Datenminimierung, Zugriffsbegrenzung, Aufbewahrung und gegebenenfalls weitere organisatorische Anforderungen prüfen und freigeben. |
+| Bescheid-/Finanzfakten 6a-F | BESTÄTIGT FÜR DEVELOPMENT | Für den rechtlich wirkungslosen synthetischen Entwurfskern dürfen beide Systemrollen lesen, anlegen, korrigieren und verwerfen; eine Person genügt. Die Nummernkonfiguration bleibt ausschließlich `Administration`. Die funktionsbezogenen Freigaben gelten nicht für Erzeugung, Festsetzung, echte Daten oder Produktivbetrieb. |
 
 ## Einordnung der On-Premises-Vorgabe
 

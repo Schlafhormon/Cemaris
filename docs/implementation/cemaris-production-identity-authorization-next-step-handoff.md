@@ -2,6 +2,11 @@
 
 Stand: 13.08.2026
 
+> **Historischer Ausführungsstatus:** Inkrement 3b ist vollständig umgesetzt.
+> Diese Übergabe nicht erneut ausführen. Der tatsächliche Endstand und die
+> verbliebenen Produktiv-, Datenschutz- und Betriebsgates stehen im
+> [3b-Abschluss](cemaris-local-identity-authorization-completion.md).
+
 ## Ziel des nächsten Inkrements
 
 Implementiere Inkrement 3b Ende zu Ende: persistierte lokale Cemaris-Konten,

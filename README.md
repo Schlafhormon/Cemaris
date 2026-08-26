@@ -130,15 +130,23 @@ Variante A „noch keine Implementierung“ abgeschlossen. Die
 [Gebühren-/Bescheid-/Dokumententscheidungen](docs/requirements/fee-notice-document-decisions.md)
 weisen die vorhandene nullable Leseprojektion ausdrücklich nicht als
 Schreibmodell aus und bündeln die fehlenden Fach-, Rechts-, Rollen-,
-Historien-, Dokument- und Migrationsfreigaben. Deshalb gibt es keinen
-technischen 6b-Auftrag; Gebührenkatalog, Berechnung, Bescheiderzeugung,
-Dokumentverarbeitung und weiterer EDWALT-Import bleiben pausiert.
-Als nächsten Kandidaten hat der Projektauftraggeber am 26.08.2026 manuelle
-kanonische Bescheid-/Finanzfakten priorisiert. Vor jeder technischen Umsetzung
-ist dafür das rein dokumentarische
-[Freigabegate](docs/implementation/cemaris-manual-notice-facts-approval-next-step-handoff.md)
-auszuführen; die Priorisierung allein schließt keine Fach-, Rechts-, Finanz-,
-Datenschutz-, Sicherheits- oder Betriebsentscheidung.
+Historien-, Dokument- und Migrationsfreigaben. Deshalb hatte 6a selbst noch
+keinen technischen 6b-Auftrag erstellt; Gebührenkatalog, Berechnung,
+Bescheiderzeugung, Dokumentverarbeitung und weiterer EDWALT-Import bleiben
+pausiert.
+Das nachgelagerte interaktive
+[Freigabegate für manuelle Bescheid-/Finanzfakten](docs/implementation/cemaris-manual-notice-facts-approval-completion.md)
+ist nach ergänzender funktionsbezogener Klärung vollständig mit Variante B
+abgeschlossen. Die
+[6F-Entscheidungsakte](docs/requirements/manual-notice-financial-facts-decisions.md)
+dokumentiert genau einen rechtlich wirkungslosen manuellen Entwurfskern:
+mehrere Entwürfe je Fall, je eine eigene Nummer, genau ein ausdrücklich
+bestätigter Zahlungspflichtiger und keine stille Ableitung aus dem
+Nutzungsrecht. Der
+[technische 6b-Auftrag](docs/implementation/cemaris-increment-6b-next-step-handoff.md)
+ist ausschließlich für Development und synthetische Daten freigegeben.
+Gebührenberechnung, Bescheiderzeugung, FINANZ+-Integration und Migration
+bleiben spätere gesonderte Inkremente.
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -484,9 +492,9 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
    Lebenszykluspfad bleibt pausiert und 5k stellt den dauerhaften lokalen
    SQL-Developmentbetrieb sowie den abgegrenzten nicht personenbezogenen
    EDWALT-Friedhofsstammdatenimport her
-6. abgeschlossenes Gebühren-/Bescheid-Entscheidungsgate 6a; anschließend das
-   Freigabegate für priorisierte manuelle Bescheid-/Finanzfakten und erst
-   danach gegebenenfalls ein vollständig freigegebener technischer 6b-Schnitt
+6. abgeschlossene Gebühren-/Bescheid-Gates 6a und 6a-F; 6a-F gibt nach
+   ergänzender funktionsbezogener Klärung genau den technischen
+   Development-Schnitt 6b für kanonische manuelle Bescheidentwürfe frei
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe
 9. Pilotbetrieb, Cutover und Nachkontrolle

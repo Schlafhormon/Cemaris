@@ -183,3 +183,27 @@ Migrationswirkung. Diese Punkte werden ausschließlich im
 [nachgelagerten Freigabegate](../implementation/cemaris-manual-notice-facts-approval-next-step-handoff.md)
 anhand 6F-01 bis 6F-10 zuständig entschieden. Vor dessen vollständigem
 Abschluss bleibt ein technischer 6b-Auftrag unzulässig.
+
+## Ergebnis des nachgelagerten Freigabegates 6a-F
+
+Das interaktive 6a-F-Gate wurde am 26.08.2026 vollständig ausgeführt. Die
+[6F-Entscheidungsakte](manual-notice-financial-facts-decisions.md) und der
+[Abschlussnachweis](../implementation/cemaris-manual-notice-facts-approval-completion.md)
+dokumentieren den konkretisierten Entwurfskandidaten und die FINANZ+-Grenze.
+
+Die erste Stop-Entscheidung mit Variante A wurde nach zwei gezielten
+Ergänzungen aufgelöst. Der Projektleiter übermittelt die benannten Fach-,
+Rechts-, Finanz-, Datenschutz-, Sicherheits- und Betriebsfreigaben
+ausdrücklich nur für den technischen Development-Piloten mit synthetischen
+Daten. Der Nutzungsberechtigte darf lediglich vorgeschlagen werden; die
+tatsächliche Zahlungspflichtigenauswahl verlangt eine aktive Bestätigung.
+Mehrere eigenständige Entwürfe je Fall besitzen jeweils eine eigene dauerhaft
+gesperrte Nummer.
+
+Damit ist für 6a-F Variante B ausgewählt und der
+[technische 6b-Auftrag](../implementation/cemaris-increment-6b-next-step-handoff.md)
+erstellt. Die ursprüngliche 6a-Entscheidung gegen ein unbestimmtes
+Schreibmodell bleibt richtig: 6b beruht ausschließlich auf der späteren
+konkreten Freigabe und nicht auf `ReadNotices`, `ReadFeeItems` oder EDWALT.
+Gebührenberechnung, Bescheiderzeugung, Rechtswirkung, FINANZ+-Integration,
+echte Daten und Migration bleiben gesperrt.

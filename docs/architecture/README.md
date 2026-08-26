@@ -87,11 +87,16 @@ Leseprojektion; sie genehmigen weder ein kanonisches Schreibmodell noch
 Katalog-, Berechnungs-, Historien-, Dokument- oder Migrationssemantik. Die
 offenen Grenzen stehen in der
 [6a-Entscheidungsakte](../requirements/fee-notice-document-decisions.md).
-Die nachgelagerte Priorisierung manueller kanonischer Bescheid-/Finanzfakten
-ändert diese Architekturgrenze nicht. Das vorbereitete
-[Freigabegate](../implementation/cemaris-manual-notice-facts-approval-next-step-handoff.md)
-muss Aggregat, Revision, ETag, Atomarität, Audit und Providerparität erst
-zuständig klären; bis dahin entsteht weder Modell noch ADR.
+Das nachgelagerte
+[Freigabegate für manuelle Bescheid-/Finanzfakten](../implementation/cemaris-manual-notice-facts-approval-completion.md)
+ist nach ergänzender funktionsbezogener Klärung mit Variante B abgeschlossen.
+Der [technische 6b-Auftrag](../implementation/cemaris-increment-6b-next-step-handoff.md)
+darf einen getrennten kanonischen Kern für rechtlich wirkungslose manuelle
+Entwürfe umsetzen. Zahlungspflichtige werden ausdrücklich bestätigt und nie
+aus dem Nutzungsrecht abgeleitet. Aggregat, Nummernkonfiguration, Revision,
+ETag, Atomarität, sparsamer Audit und additive Providerparität stehen in
+[ADR-0018](../decisions/ADR-0018-canonical-manual-notice-drafts.md).
+`ReadNotices` und `ReadFeeItems` bleiben davon getrennte Altprojektion.
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.
@@ -178,3 +183,8 @@ Integritätskontrolle bleiben offen. Weiterhin gelten diese Leitplanken:
 - Winyard-Schnittstelle und Adaptervertrag,
 - Betriebsvarianten für IIS, Linux/Reverse Proxy und Container,
 - Anforderungen an Hochverfügbarkeit, Backup, Monitoring und Wiederanlauf.
+
+Die [6F-Entscheidungsakte](../requirements/manual-notice-financial-facts-decisions.md)
+grenzt die funktionsbezogene Development-Freigabe des Entwurfskerns von
+weiterhin offenen Architektur-, Rechts-, Sicherheits-, Datenschutz- und
+Betriebsfragen der späteren Bescheiderzeugung und Produktivsetzung ab.

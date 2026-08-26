@@ -73,6 +73,16 @@ und Secrets bleiben außerhalb. Das ausgeführte technische Mapping steht im
 der vollständige Nachweis im
 [5k-Abschluss](../implementation/cemaris-increment-5k-completion.md).
 
+Das am 26.08.2026 abgeschlossene
+[Freigabegate für manuelle Bescheid-/Finanzfakten](../implementation/cemaris-manual-notice-facts-approval-completion.md)
+ändert diese Migrationsgrenze nicht. `ReadNotices`, `ReadFeeItems` und
+EDWALT-Bescheid-/Gebührenzeilen werden weder zurückinterpretiert noch in einen
+neuen kanonischen Kern übernommen. Der freigegebene
+[6b-Entwurfskern](../implementation/cemaris-increment-6b-next-step-handoff.md)
+ist rein additiv und ausschließlich für manuelle synthetische
+Development-Daten. Es gibt kein Backfill, kein Gebührenmapping und keinen
+Importauftrag. Der separate EDWALT-Gebührenauftrag bleibt pausiert.
+
 Die konkrete
 [EDWALT-Quellenanalyse](edwalt-source-analysis.md) dokumentiert 24 vollständige
 DAT/IDX-Paare, technische Extraktionsrisiken und historische Varianten. Der

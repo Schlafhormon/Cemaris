@@ -2,6 +2,27 @@
 
 Stand: 26.08.2026
 
+## Ausführungsstatus
+
+**Abgeschlossen am 26.08.2026 nach ergänzender funktionsbezogener Klärung mit
+Variante B „manueller kanonischer Faktenkern“.** Die interaktiven Antworten,
+übermittelten Funktionen, Geltungsbereiche, Quellenmatrix und vollständige
+Bewertung 6F-01 bis 6F-10 stehen in der
+[Entscheidungsakte](../requirements/manual-notice-financial-facts-decisions.md),
+der Ausführungs- und Prüfnachweis im
+[Abschlussdokument](cemaris-manual-notice-facts-approval-completion.md).
+
+Der zunächst ordnungsgemäß dokumentierte Stop mit Variante A wurde durch zwei
+gezielte Nachfragen aufgelöst: Der aktuelle Nutzungsberechtigte darf nur als
+Vorschlag dienen und muss als tatsächlicher Zahlungspflichtiger ausdrücklich
+bestätigt werden. Außerdem wurden die Freigaben der Fach-, Rechts-, Finanz-,
+Datenschutz-, Sicherheits- und Betriebsfunktionen verbindlich für den
+technischen Development-Piloten mit synthetischen Daten übermittelt. Mehrere
+eigenständige Entwürfe je Fall sind bestätigt. Deshalb ist nun der separate
+[technische 6b-Auftrag](cemaris-increment-6b-next-step-handoff.md) ausführbar.
+Der nachstehende Auftrag bleibt als verbindlicher Ausführungsvertrag und
+Nachweis der Stop-Regel erhalten.
+
 ## Auftrag und Stop-Gate
 
 Das Gebühren-/Bescheid-Entscheidungsgate 6a ist dokumentarisch mit Variante A

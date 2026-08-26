@@ -30,6 +30,7 @@ Architecture Decision Records (ADRs) dokumentieren wesentliche technische und pr
 | [0015](ADR-0015-atomic-burial-process.md) | Atomarer providerneutraler Beisetzungsprozess | Accepted |
 | [0016](ADR-0016-canonical-parties-and-historicized-usage-rights.md) | Kanonische Beteiligte und historisierte Nutzungsrechte | Accepted |
 | [0017](ADR-0017-persistent-local-sql-and-scoped-edwalt-master-data-import.md) | Dauerhafte lokale SQL-Entwicklung und abgegrenzter EDWALT-Stammdatenimport | Accepted |
+| [0018](ADR-0018-canonical-manual-notice-drafts.md) | Kanonische manuelle Bescheidentwürfe vor Bescheiderzeugung | Accepted |
 
 Das
 [5c-Abnahme- und Lebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)
@@ -73,9 +74,17 @@ erstellt. Da keine neue Architekturentscheidung getroffen wurde, ist kein
 weiteres ADR erforderlich. Die fachlichen Grenzen stehen in der
 [6a-Entscheidungsakte](../requirements/fee-notice-document-decisions.md).
 Auch die nachgelagerte Projektpriorisierung manueller kanonischer
-Bescheid-/Finanzfakten ist noch keine Architekturentscheidung. Das
-[vorbereitete Freigabegate](../implementation/cemaris-manual-notice-facts-approval-next-step-handoff.md)
-darf ein neues ADR nur bei einer tatsächlich neuen, vollständig getragenen
-Architekturentscheidung vorsehen.
+Bescheid-/Finanzfakten war noch keine Architekturentscheidung. Das
+[6a-F-Freigabegate](../implementation/cemaris-manual-notice-facts-approval-completion.md)
+ist nach ergänzender funktionsbezogener Klärung mit Variante B abgeschlossen.
+Die
+[6F-Entscheidungsakte](../requirements/manual-notice-financial-facts-decisions.md)
+gibt genau einen rechtlich wirkungslosen manuellen Entwurfskern für
+Development und synthetische Daten frei. ADR-0018 dokumentiert seine additive
+Trennung von `ReadNotices`/`ReadFeeItems`, die bestätigungspflichtige
+Zahlungspflichtigenauswahl, Nummernsequenz, Revision und Audit. Der
+[technische 6b-Auftrag](../implementation/cemaris-increment-6b-next-step-handoff.md)
+setzt diese Entscheidung um; Bescheiderzeugung und Produktivsetzung bleiben
+eigene Gates.
 
 Für neue ADRs kann [ADR-Template](ADR-template.md) kopiert werden.

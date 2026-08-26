@@ -190,6 +190,15 @@ Provider blieb unverändert.
 
 ## Architekturgrenze
 
+Das am 26.08.2026 abgeschlossene
+[6a-F-Gate](../implementation/cemaris-manual-notice-facts-approval-completion.md)
+führt keinen Bescheid- oder Zahlungspflichtigenbezug in dieses Aggregat ein.
+Der aktuelle Nutzungsberechtigte darf in 6b nur als deutlich gekennzeichneter
+Vorschlag für einen getrennten kanonischen Bescheidentwurf dienen. Vor dem
+Speichern ist genau ein Zahlungspflichtiger aktiv zu bestätigen. Es gibt
+keinen serverseitigen Fallback und keine Ableitung; Nutzungsrecht und
+Zahlungspflicht bleiben getrennte Fachbegriffe.
+
 Der neue Fachkern ist additiv und wird nicht aus den bestehenden Tabellen
 `EntitledPersons`, `Addresses`, `UsageRights` und ihrer n:m-Verknüpfung
 abgeleitet. Diese Tabellen bleiben eine nullable, fallgebundene

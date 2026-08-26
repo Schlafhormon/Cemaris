@@ -1,5 +1,13 @@
 # Übergabe: EDWALT-Gebührenstamm- und Variantenabgrenzung
 
+> **Ausführungsstatus:** weiterhin pausiert und im 6a-F-Gate nicht ausgeführt.
+> Der [6a-F-Abschluss](../implementation/cemaris-manual-notice-facts-approval-completion.md)
+> gibt nur einen manuellen, rechtlich wirkungslosen
+> [6b-Entwurfskern](../implementation/cemaris-increment-6b-next-step-handoff.md)
+> frei. Er genehmigt weder EDWALT-Zielmodell noch Backfill oder Import. Diese
+> Übergabe bleibt unverändert ein separater, derzeit nicht autorisierter
+> Migrationsauftrag.
+
 Stand: 12.08.2026
 
 > **Status:** vollständig vorbereitet, aber nach der Projektentscheidung vom

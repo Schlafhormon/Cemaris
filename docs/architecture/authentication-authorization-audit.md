@@ -75,6 +75,18 @@ Die Policies heißen `CaseWork`, `MasterData`, `UserAdministration`,
 `ProgramConfiguration` und `FormTemplates`. Die letzten beiden bereiten nur
 die bestätigte Grenze vor und erzeugen keine neuen Module.
 
+Das abgeschlossene
+[6a-F-Freigabegate](../implementation/cemaris-manual-notice-facts-approval-completion.md)
+gibt für den technischen Development-Piloten die neue Policy `NoticeDrafts`
+vor.
+`Sachbearbeitung` und `Administration` dürfen rechtlich wirkungslose
+Bescheidentwürfe lesen, anlegen, korrigieren und verwerfen; eine Person
+genügt. Die versionierte Nummernkonfiguration bleibt über
+`ProgramConfiguration` ausschließlich `Administration` vorbehalten. Die neue
+Capability ist standardmäßig deaktiviert und außerhalb `Development`
+unzulässig. Daraus folgen keine Erzeugungs-, Festsetzungs-, Versand- oder
+Produktivrechte.
+
 ## Auditierung
 
 Für jede erfolgreiche Fallaktenänderung ist als Mindestnachweis bestätigt:
