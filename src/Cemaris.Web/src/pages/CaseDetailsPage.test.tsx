@@ -23,6 +23,26 @@ describe('Trennung der Nutzungsrechtsprojektionen', () => {
   })
 })
 
+describe('Trennung der Bescheidentwurfsprojektionen', () => {
+  afterEach(() => vi.unstubAllGlobals())
+
+  it('zeigt den kanonischen Entwurfskern vor der ausdrücklich benannten Altprojektion', async () => {
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
+      const path = String(input)
+      if (path.endsWith('/notice-drafts')) return json([], {})
+      if (path.includes('/api/cases/')) return json(caseOverview(), { ETag: '"1"' })
+      throw new Error(`Unerwarteter Testaufruf: ${path}`)
+    }))
+
+    render(<CaseDetailsPage caseId="70000000-0000-0000-0000-000000000001" noticeDraftEditingEnabled />)
+
+    expect(await screen.findByRole('heading', { name: 'Kanonische Bescheidentwürfe' })).toBeInTheDocument()
+    expect(screen.getByText('Rechtlich wirkungslos')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Vorläufige Altprojektion: Bescheide / Gebühreninformationen' })).toBeInTheDocument()
+    expect(screen.getByText(/keine Rückinterpretation oder Zusammenführung/)).toBeInTheDocument()
+  })
+})
+
 function caseOverview(): CaseOverview {
   return {
     id: '70000000-0000-0000-0000-000000000001', isSynthetic: true, version: 1,

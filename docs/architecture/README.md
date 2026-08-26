@@ -91,10 +91,11 @@ Das nachgelagerte
 [Freigabegate für manuelle Bescheid-/Finanzfakten](../implementation/cemaris-manual-notice-facts-approval-completion.md)
 ist nach ergänzender funktionsbezogener Klärung mit Variante B abgeschlossen.
 Der [technische 6b-Auftrag](../implementation/cemaris-increment-6b-next-step-handoff.md)
-darf einen getrennten kanonischen Kern für rechtlich wirkungslose manuelle
-Entwürfe umsetzen. Zahlungspflichtige werden ausdrücklich bestätigt und nie
-aus dem Nutzungsrecht abgeleitet. Aggregat, Nummernkonfiguration, Revision,
-ETag, Atomarität, sparsamer Audit und additive Providerparität stehen in
+ist gemäß [6b-Abschluss](../implementation/cemaris-increment-6b-completion.md)
+als getrennter kanonischer Kern für rechtlich wirkungslose manuelle Entwürfe
+umgesetzt. Zahlungspflichtige werden ausdrücklich bestätigt und nie aus dem
+Nutzungsrecht abgeleitet. Aggregat, Nummernkonfiguration, Revision, ETag,
+Atomarität, sparsamer Audit und additive Providerparität stehen in
 [ADR-0018](../decisions/ADR-0018-canonical-manual-notice-drafts.md).
 `ReadNotices` und `ReadFeeItems` bleiben davon getrennte Altprojektion.
 
@@ -105,8 +106,9 @@ ETag, Atomarität, sparsamer Audit und additive Providerparität stehen in
   providerneutral und stabil über `page` und `pageSize`; ohne Parameter bleibt
   die bisherige erste Seite mit konfigurierter Größe erhalten.
 - Bei expliziten, voneinander unabhängigen Development-Capabilities bilden
-  Schreibendpunkte die Fallaktenbearbeitung, kanonische Stammdatenpflege und
-  den einfachen Beisetzungsprozess sowie Beteiligte und Nutzungsrechte ab.
+  Schreibendpunkte die Fallaktenbearbeitung, kanonische Stammdatenpflege,
+  den einfachen Beisetzungsprozess, Beteiligte und Nutzungsrechte sowie
+  kanonische manuelle Bescheidentwürfe ab.
   Starke Fallversions- beziehungsweise
   Entitäts-ETags und `If-Match` verhindern Last-write-wins.
 - Jede erfolgreiche Development-Mutation erhält serverseitig Akteur und
@@ -123,8 +125,8 @@ Der Schreibpfad bleibt trotz umgesetzter lokaler Identitätsgrundlage bis zu
 den späteren Datenschutz-, Betriebs- und Fachfreigaben repositoryseitig
 standardmäßig deaktiviert und ausschließlich in einer explizit aktivierten
 Development-Umgebung zulässig. Synthetic und SQL implementieren dieselben
-aktuellen Ports für Fälle, Stammdaten, Beisetzungsprozess sowie Beteiligte und
-Nutzungsrechte. Personen- und Falldaten bleiben in beiden Providern
+aktuellen Ports für Fälle, Stammdaten, Beisetzungsprozess, Beteiligte,
+Nutzungsrechte und manuelle Bescheidentwürfe. Personen- und Falldaten bleiben in beiden Providern
 synthetisch; ausschließlich die abgegrenzten Friedhofsstammdaten dürfen aus
 EDWALT stammen.
 Diese Feature-Grenze ist kein produktiver Zugriffsschutz.
@@ -188,3 +190,16 @@ Die [6F-Entscheidungsakte](../requirements/manual-notice-financial-facts-decisio
 grenzt die funktionsbezogene Development-Freigabe des Entwurfskerns von
 weiterhin offenen Architektur-, Rechts-, Sicherheits-, Datenschutz- und
 Betriebsfragen der späteren Bescheiderzeugung und Produktivsetzung ab.
+
+## Kanonischer manueller Bescheidentwurf 6b
+
+Der [6b-Abschluss](../implementation/cemaris-increment-6b-completion.md)
+realisiert ADR-0018 als eigenes Modul neben `ReadNotices` und `ReadFeeItems`.
+Eine installationweite versionierte Konfiguration und eine serialisierte
+Jahressequenz liefern unveränderliche Nummernsnapshots. Entwurf, vollständige
+Fachrevision und sparsamer Audit werden atomar geschrieben; Auditwerte sind
+nicht öffentlich lesbar. Korrektur und Verwerfen verwenden starke ETags.
+`Features:NoticeDraftEditingEnabled` bleibt standardmäßig aus und ist nur in
+Development zulässig. Daraus folgt keine Dokument-, Rechts-, Finanz- oder
+Produktivwirkung. Vor einer späteren Erzeugung steht das
+[rein dokumentarische Folgegate](../implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md).

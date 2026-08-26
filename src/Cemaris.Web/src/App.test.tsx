@@ -218,6 +218,24 @@ describe('Capability-Grenze', () => {
     expect(await screen.findByText('Die synthetische Beteiligten- und Nutzungsrechtspflege ist in dieser Umgebung nicht aktiviert.')).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /Beteiligte/ })).not.toBeInTheDocument()
   })
+
+  it('öffnet die Bescheidnummernkonfiguration nur administrativ bei aktiver Capability', async () => {
+    window.history.replaceState(null, '', '/program-configuration/notice-number')
+    const user = userEvent.setup()
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
+      const path = String(input)
+      if (path.endsWith('/api/auth/me')) return jsonResponse(currentAccount)
+      if (path.endsWith('/api/system/info')) return jsonResponse({ noticeDraftEditingEnabled: true })
+      if (path.endsWith('/api/program-configuration/notice-number')) return new Response(null, { status: 204 })
+      return jsonResponse({ service: 'Cemaris.Api', status: 'Healthy' })
+    }))
+
+    render(<AuthProvider><App /></AuthProvider>)
+
+    expect(await screen.findByRole('heading', { name: 'Bescheidnummern', level: 1 })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Administration' }))
+    expect(screen.getByRole('link', { name: /Bescheidnummern/ })).toHaveAttribute('href', '/program-configuration/notice-number')
+  })
 })
 
 describe('Schreibformulare', () => {

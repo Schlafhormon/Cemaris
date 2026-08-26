@@ -15,6 +15,7 @@ internal static class TestConfiguration
             ["Features:CemeteryMasterDataEditingEnabled"] = "false",
             ["Features:BurialProcessEditingEnabled"] = "false",
             ["Features:PersonUsageRightsEditingEnabled"] = "false",
+            ["Features:NoticeDraftEditingEnabled"] = "false",
             ["Maintenance:ApplyMigrations"] = "false",
             ["Maintenance:EnsureDevelopmentAccounts"] = "false",
             ["Maintenance:EnsureSyntheticDevelopmentData"] = "false",

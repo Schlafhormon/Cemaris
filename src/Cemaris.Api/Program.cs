@@ -8,6 +8,7 @@ using Cemaris.Api.Security;
 using Cemaris.Application.Cases;
 using Cemaris.Application.Cemeteries;
 using Cemaris.Application.Identity;
+using Cemaris.Application.NoticeDrafts;
 using Cemaris.Application.PersonUsageRights;
 using Cemaris.Application.System;
 using Cemaris.Domain.Cases;
@@ -37,6 +38,7 @@ if (builder.Configuration.GetValue<bool>("IntegrationTests:IsolatedConfiguration
         "Features:CemeteryMasterDataEditingEnabled",
         "Features:BurialProcessEditingEnabled",
         "Features:PersonUsageRightsEditingEnabled",
+        "Features:NoticeDraftEditingEnabled",
         "Maintenance:ApplyMigrations",
         "Maintenance:EnsureDevelopmentAccounts",
         "Maintenance:EnsureSyntheticDevelopmentData",
@@ -55,6 +57,7 @@ var caseEditingEnabled = builder.Configuration.GetValue<bool>("Features:CaseEdit
 var cemeteryMasterDataEditingEnabled = builder.Configuration.GetValue<bool>("Features:CemeteryMasterDataEditingEnabled");
 var burialProcessEditingEnabled = builder.Configuration.GetValue<bool>("Features:BurialProcessEditingEnabled");
 var personUsageRightsEditingEnabled = builder.Configuration.GetValue<bool>("Features:PersonUsageRightsEditingEnabled");
+var noticeDraftEditingEnabled = builder.Configuration.GetValue<bool>("Features:NoticeDraftEditingEnabled");
 if (caseEditingEnabled && !builder.Environment.IsDevelopment())
 {
     throw new InvalidOperationException(
@@ -74,6 +77,11 @@ if (personUsageRightsEditingEnabled && !builder.Environment.IsDevelopment())
 {
     throw new InvalidOperationException(
         "Person and usage-right editing may be enabled only in Development.");
+}
+if (noticeDraftEditingEnabled && !builder.Environment.IsDevelopment())
+{
+    throw new InvalidOperationException(
+        "Notice-draft editing may be enabled only in Development.");
 }
 
 builder.Logging.ClearProviders();
@@ -185,6 +193,10 @@ if (cemeteryMasterDataEditingEnabled)
 if (personUsageRightsEditingEnabled)
 {
     builder.Services.AddScoped<PersonUsageRightService>();
+}
+if (noticeDraftEditingEnabled)
+{
+    builder.Services.AddScoped<NoticeDraftService>();
 }
 
 if (openApiEnabled)
@@ -421,6 +433,7 @@ systemEndpoints.MapGet("/info", () =>
         cemeteryMasterDataEditingEnabled,
         burialProcessEditingEnabled,
         personUsageRightsEditingEnabled,
+        noticeDraftEditingEnabled,
         typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "unbekannt"));
 })
     .WithName("GetSystemInformation")
@@ -532,6 +545,10 @@ if (cemeteryMasterDataEditingEnabled)
 if (personUsageRightsEditingEnabled)
 {
     app.MapPersonUsageRights();
+}
+if (noticeDraftEditingEnabled)
+{
+    app.MapNoticeDrafts();
 }
 
 app.Run();

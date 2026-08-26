@@ -15,6 +15,21 @@ public sealed class SyntheticPersonUsageRightStore(SyntheticStoreCoordinator coo
     private readonly Dictionary<Guid, RuleState> rules = [];
     private readonly List<PersonUsageRightAudit> audits = [];
 
+    internal bool TryGetPartyDisplayName(Guid id, out string displayName)
+    {
+        lock (coordinator.Gate)
+        {
+            if (parties.TryGetValue(id, out var party))
+            {
+                displayName = Display(party);
+                return true;
+            }
+
+            displayName = string.Empty;
+            return false;
+        }
+    }
+
     public Task<IReadOnlyList<PartySearchItem>> SearchPartiesAsync(string query, CancellationToken token)
     {
         lock (coordinator.Gate)

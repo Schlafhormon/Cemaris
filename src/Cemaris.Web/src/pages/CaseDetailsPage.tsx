@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { ApiError, getCaseDetails } from '../api/cemarisApi'
 import { LastChangeNotice } from '../components/LastChangeNotice'
 import { PersonUsageRightsPanel } from '../components/PersonUsageRightsPanel'
+import { NoticeDraftPanel } from '../components/NoticeDraftPanel'
 import type {
   AddressDetails,
   CaseOverview,
@@ -13,6 +14,7 @@ interface CaseDetailsPageProps {
   caseEditingEnabled?: boolean
   burialProcessEditingEnabled?: boolean
   personUsageRightsEditingEnabled?: boolean
+  noticeDraftEditingEnabled?: boolean
 }
 
 function displayValue(value: ReactNode) {
@@ -95,7 +97,7 @@ function searchReturnUrl() {
   }
 }
 
-export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProcessEditingEnabled = false, personUsageRightsEditingEnabled = false }: CaseDetailsPageProps) {
+export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProcessEditingEnabled = false, personUsageRightsEditingEnabled = false, noticeDraftEditingEnabled = false }: CaseDetailsPageProps) {
   const returnTo = searchReturnUrl()
   const [caseOverview, setCaseOverview] = useState<CaseOverview>()
   const [loading, setLoading] = useState(true)
@@ -198,6 +200,7 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProc
       )}
 
       <div className="detail-sections">
+        {noticeDraftEditingEnabled && <NoticeDraftPanel caseId={caseOverview.id} graveSiteId={personUsageRightsEditingEnabled ? caseOverview.grave.graveSiteId ?? undefined : undefined} />}
         {personUsageRightsEditingEnabled && caseOverview.grave.graveSiteId && <PersonUsageRightsPanel graveSiteId={caseOverview.grave.graveSiteId} />}
         <section className="detail-section">
           <h2>Grabstelle</h2>
@@ -323,7 +326,8 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProc
         </section>
 
         <section className="detail-section detail-section--wide">
-          <h2>Bescheide / Gebühreninformationen</h2>
+          <h2>Vorläufige Altprojektion: Bescheide / Gebühreninformationen</h2>
+          <p className="projection-boundary-note">Dieser Abschnitt zeigt ausschließlich ReadNotices und ReadFeeItems der nullable Altprojektion. Kanonische manuelle Bescheidentwürfe werden davon getrennt im Bereich „Bescheidentwürfe“ darüber angezeigt; es findet keine Rückinterpretation oder Zusammenführung statt.</p>
           {caseOverview.notices.length === 0 ? (
             <p className="missing-value">Keine Bescheidinformationen vorhanden.</p>
           ) : (

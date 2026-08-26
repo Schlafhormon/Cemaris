@@ -134,8 +134,10 @@ Die bestätigungspflichtige Zahlungspflichtigenauswahl löst 6F-03 auf; die
 benannten Fach-, Rechts-, Finanz-, Datenschutz-, Sicherheits- und
 Betriebsfreigaben gelten ausschließlich für Development und synthetische
 Daten. Der
-[technische 6b-Auftrag](cemaris-increment-6b-next-step-handoff.md) ist
-ausführbar.
+[technische 6b-Auftrag](cemaris-increment-6b-next-step-handoff.md) ist gemäß
+[Abschlussnachweis](cemaris-increment-6b-completion.md) Ende zu Ende
+ausgeführt. Der additive manuelle Entwurfskern bleibt rechtlich wirkungslos,
+Development-only und von der Altprojektion getrennt.
 
 ## Verbindliche Entwicklungsregel
 
@@ -168,8 +170,9 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 5k | dauerhafter SQL-Developmentbetrieb und EDWALT-Friedhofsstammdaten | technisch abgeschlossen: alle aktuellen Development-Funktionen auf `Cemaris_Dev`, persistente Konten `admin`/`sach`, synthetische Personen-/Falldaten in SQL und ausschließlich nicht personenbezogener EDWALT-Stammdatenimport; lokale `admin`-Kennwortabweichung im isolierten Testbetrieb akzeptiert | ADR-0017; Development-only; read-only EDWALT-Quelle; exakte Ziel- und Testdatenbanktrennung; keine geratenen Mappings |
 | 6a | Gebühren-/Bescheid-Entscheidungsgate | dokumentarisch abgeschlossen: Quellenmatrix, Fragen 6A-01 bis 6A-16 und Variantenvergleich führen zu Variante A „noch keine Implementierung“ | kein technischer 6b-Auftrag; vorhandener nullable Lesevertrag unverändert |
 | 6a-F | Freigabegate für manuelle Bescheid-/Finanzfakten | nach ergänzender funktionsbezogener Klärung mit Variante B abgeschlossen: bestätigungspflichtiger Zahlungspflichtiger, mehrere Entwürfe je Fall, Nummernkonfiguration und manueller EUR-Faktenkern | ausschließlich technischer Development-Pilot mit synthetischen Daten; [Entscheidungsakte](../requirements/manual-notice-financial-facts-decisions.md) |
-| 6b | Kanonische manuelle Bescheidentwürfe | [technischer Ende-zu-Ende-Auftrag vorbereitet](cemaris-increment-6b-next-step-handoff.md) | kein Dokument, keine Berechnung, keine Rechtswirkung, keine FINANZ+-Integration und keine Migration |
-| 6c+ | Bescheiderzeugung, Gebührenausbau und Dokumente | nach 6b in getrennten Entscheidungs- und Freigabegates | Gebühren-/Satzungsstände, Rechtswirkung, Vorlagen, Versand, Korrektur, Datenschutz, Betrieb und Migration |
+| 6b | Kanonische manuelle Bescheidentwürfe | [technisch Ende zu Ende umgesetzt](cemaris-increment-6b-completion.md): eigener additiver Entwurfskern, Nummernkonfiguration, Sequenz, Revision/Audit, API/OpenAPI und React-UI | Development-only und synthetisch; kein Dokument, keine Berechnung, keine Rechtswirkung, keine FINANZ+-Integration und keine Migration |
+| 6c-Gate | spätere Bescheiderzeugung entscheiden | [rein dokumentarisches Folgegate vorbereitet](cemaris-notice-generation-decision-gate-next-step-handoff.md) | noch kein technischer Auftrag; Vorlage, Rechtswirkung, Zustellung, Korrektur, Aufbewahrung und Integration offen |
+| 6c+ | Bescheiderzeugung, Gebührenausbau und Dokumente | nur nach getrennten vollständigen Entscheidungs- und Freigabegates | Gebühren-/Satzungsstände, Rechtswirkung, Vorlagen, Versand, Korrektur, Datenschutz, Betrieb und Migration |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | übriges EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme jenseits des vorgezogenen Friedhofsstammdatenpfads | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
 
@@ -231,14 +234,16 @@ vollständig bearbeitet. Nach der ersten Stop-Entscheidung wurden die
 funktionsbezogenen Freigaben, die aktive Zahlungspflichtigenbestätigung und
 mehrere unabhängige Entwürfe je Fall ergänzend bestätigt.
 
-Der nächste ausführbare Schritt ist
-[Inkrement 6b](cemaris-increment-6b-next-step-handoff.md): ein additiver,
-rechtlich wirkungsloser manueller Entwurfskern mit eigener Nummer,
-Fachrevision, ETag, Audit und Synthetic-/SQL-Providerparität. Die vorhandene
-nullable Bescheid-/Gebühren-Leseprojektion bleibt unverändert und darf nicht
-als Schreibmodell interpretiert werden. Bescheiderzeugung, Berechnung,
-FINANZ+-Integration, echte Verwaltungsdaten und Migration bleiben nach 6b
-gesondert freizugeben.
+Inkrement 6b ist gemäß
+[Abschluss](cemaris-increment-6b-completion.md) als additiver, rechtlich
+wirkungsloser manueller Entwurfskern mit eigener Nummer, Fachrevision, ETag,
+Audit und Synthetic-/EF-Providerparität umgesetzt. Die vorhandene nullable
+Bescheid-/Gebühren-Leseprojektion blieb unverändert und wird nicht als
+Schreibmodell interpretiert. Der nächste zulässige Schritt ist ausschließlich
+das [dokumentarische Entscheidungsgate](cemaris-notice-generation-decision-gate-next-step-handoff.md)
+vor einer möglichen späteren Bescheiderzeugung. Es erteilt noch keinen
+technischen Auftrag. Berechnung, FINANZ+-Integration, echte Verwaltungsdaten
+und Migration bleiben gesondert freizugeben.
 
 ## Bewusst nicht mit dem nächsten Inkrement behauptet
 

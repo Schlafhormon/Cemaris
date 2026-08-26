@@ -3,6 +3,7 @@ import {
   changeOwnPassword,
   createCase,
   createMasterData,
+  createNoticeDraft,
   createParty,
   createUsageRight,
   login,
@@ -18,6 +19,7 @@ const mutationScenarios = [
   ['Fallbearbeitung', () => createCase(graveInput('Synthetischer CSRF-Testfriedhof'))],
   ['Friedhofsstammdaten', () => createMasterData('cemeteries', { name: 'Synthetischer CSRF-Testfriedhof' })],
   ['Nutzungsrechte', () => createUsageRight({ sourceReference: 'SYN-CSRF-TEST' })],
+  ['Bescheidentwürfe', () => createNoticeDraft('70000000-0000-0000-0000-000000000010', { payerSelectionConfirmed: true })],
 ] as const
 
 describe('CSRF-Tokenlebenszyklus bei Identitätswechseln', () => {

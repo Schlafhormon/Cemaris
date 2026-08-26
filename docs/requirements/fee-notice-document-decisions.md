@@ -207,3 +207,15 @@ Schreibmodell bleibt richtig: 6b beruht ausschließlich auf der späteren
 konkreten Freigabe und nicht auf `ReadNotices`, `ReadFeeItems` oder EDWALT.
 Gebührenberechnung, Bescheiderzeugung, Rechtswirkung, FINANZ+-Integration,
 echte Daten und Migration bleiben gesperrt.
+
+## Nachweis des abgegrenzten 6b-Schnitts
+
+Der nachgelagert freigegebene Schnitt ist gemäß
+[6b-Abschluss](../implementation/cemaris-increment-6b-completion.md) umgesetzt.
+Diese Umsetzung ändert die historische 6a-Variante A nicht: Der technische
+Kern beruht ausschließlich auf 6F und ADR-0018, nicht auf dieser damals
+offenen Matrix, `ReadNotices`, `ReadFeeItems` oder EDWALT. Alle hier offenen
+Dokument-, Rechts-, Gebühren-, Integrations- und Migrationsfragen bleiben für
+Folgeinkremente offen. Vor einer späteren Bescheiderzeugung darf nur das
+[rein dokumentarische Folgegate](../implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md)
+ausgeführt werden.

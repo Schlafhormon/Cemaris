@@ -77,9 +77,9 @@ Das am 26.08.2026 abgeschlossene
 [Freigabegate für manuelle Bescheid-/Finanzfakten](../implementation/cemaris-manual-notice-facts-approval-completion.md)
 ändert diese Migrationsgrenze nicht. `ReadNotices`, `ReadFeeItems` und
 EDWALT-Bescheid-/Gebührenzeilen werden weder zurückinterpretiert noch in einen
-neuen kanonischen Kern übernommen. Der freigegebene
-[6b-Entwurfskern](../implementation/cemaris-increment-6b-next-step-handoff.md)
-ist rein additiv und ausschließlich für manuelle synthetische
+neuen kanonischen Kern übernommen. Der gemäß
+[6b-Abschluss](../implementation/cemaris-increment-6b-completion.md) umgesetzte
+Entwurfskern ist rein additiv und ausschließlich für manuelle synthetische
 Development-Daten. Es gibt kein Backfill, kein Gebührenmapping und keinen
 Importauftrag. Der separate EDWALT-Gebührenauftrag bleibt pausiert.
 
@@ -310,3 +310,21 @@ Hierarchieaufteilung ausgeschlossen. Unklare Felder bleiben sichtbar `OFFEN`
 und werden weder dekodiert noch geladen. Der kontrollierte Import verlangt
 zusätzlich die exakte Zielprüfung, eine aktuelle Dry-run-Fassung und
 vollständige Transaktions-/Idempotenzkontrollen.
+
+## Abgrenzung des kanonischen 6b-Entwurfskerns
+
+Die additive EF-Core-Migration
+`20260826130629_AddCanonicalManualNoticeDrafts` gehört zur normalen
+Cemaris-Schemaentwicklung und nicht zur EDWALT-Datenmigration. Sie ergänzt
+ausschließlich leere Tabellen, Constraints, Indizes und Fremdschlüssel für
+manuelle Bescheidentwürfe, Fachrevisionen, sparsame Audits,
+Nummernkonfiguration und Jahressequenz. Sie liest, ändert oder befüllt weder
+`ReadNotices`/`ReadFeeItems` noch vorhandene Fälle, Personen, Rechte, Konten
+oder Stammdaten.
+
+Für 6b gibt es kein EDWALT-Mapping, keinen Gebührenstammimport, kein Backfill
+und keine Rückinterpretation von Altbescheiden. Der pausierte externe
+Gebühren-/Variantenauftrag bleibt pausiert. Eine spätere Migration von
+Bescheiden, Gebühren oder Dokumenten benötigt weiterhin ein separates
+Quell-, Mapping-, Datenschutz- und Abnahmegate. Details stehen im
+[6b-Abschluss](../implementation/cemaris-increment-6b-completion.md).

@@ -25,6 +25,7 @@ internal sealed class SqlServerWebApplicationFactory(
             settings["Features:CemeteryMasterDataEditingEnabled"] = "true";
             settings["Features:BurialProcessEditingEnabled"] = "true";
             settings["Features:PersonUsageRightsEditingEnabled"] = "true";
+            settings["Features:NoticeDraftEditingEnabled"] = "true";
         }
 
         builder.UseIsolatedCemarisSettings(settings);

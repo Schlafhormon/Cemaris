@@ -45,6 +45,14 @@ public sealed class FeatureSafetyTests
         Assert.Contains("Person and usage-right editing may be enabled only in Development", FlattenMessages(exception), StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void NoticeDraftActivationOutsideDevelopmentFailsAtStartup()
+    {
+        using var factory = new UnsafeNoticeDraftProductionFactory();
+        var exception = Assert.ThrowsAny<Exception>(() => factory.CreateClient());
+        Assert.Contains("Notice-draft editing may be enabled only in Development", FlattenMessages(exception), StringComparison.Ordinal);
+    }
+
     private static string FlattenMessages(Exception exception)
     {
         var messages = new List<string>();
@@ -93,6 +101,15 @@ public sealed class FeatureSafetyTests
         {
             builder.UseEnvironment("Production");
             builder.UseSetting("Features:PersonUsageRightsEditingEnabled", "true");
+        }
+    }
+
+    private sealed class UnsafeNoticeDraftProductionFactory : WebApplicationFactory<Program>
+    {
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.UseEnvironment("Production");
+            builder.UseSetting("Features:NoticeDraftEditingEnabled", "true");
         }
     }
 }

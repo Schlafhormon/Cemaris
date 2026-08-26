@@ -229,3 +229,19 @@ Technische Folgen:
 Die spätere Bescheiderzeugung bleibt ausdrücklich das Produktziel, benötigt
 aber nach dem technischen 6b-Abschluss ein eigenes Fach-, Rechts-, Vorlagen-,
 Dokument-, Versand-, Datenschutz-, Sicherheits- und Betriebsgate.
+
+## Technische Umsetzung 6b
+
+Der freigegebene kleine Schnitt ist gemäß
+[6b-Abschluss](../implementation/cemaris-increment-6b-completion.md) additiv
+Ende zu Ende umgesetzt. Die Umsetzung verändert keine Entscheidung 6F-01 bis
+6F-10: rechtlich wirkungslose manuelle Entwürfe, aktive
+Zahlungspflichtigenbestätigung, unveränderliche Nummernsnapshots,
+Korrektur/Verwerfen, vollständige Fachrevision, sparsamer Audit und
+FINANZ+-/Altprojektionsgrenze entsprechen dem bestätigten Vertrag.
+
+Nicht autorisierte SQL-Tests wurden mangels separater Testverbindung nicht
+ausgeführt. Dies ist keine Produktiv- oder Datenfreigabe. Der einzige
+vorbereitete Folgeschritt ist das
+[dokumentarische Entscheidungsgate](../implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md)
+vor einer möglichen späteren Bescheiderzeugung.

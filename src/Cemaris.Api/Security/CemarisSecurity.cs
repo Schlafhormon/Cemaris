@@ -8,6 +8,7 @@ public static class CemarisPolicies
     public const string CaseWork = "CaseWork";
     public const string BurialProcess = "BurialProcess";
     public const string PersonUsageRights = "PersonUsageRights";
+    public const string NoticeDrafts = "NoticeDrafts";
     public const string MasterData = "MasterData";
     public const string MasterDataDeletion = "MasterDataDeletion";
     public const string UserAdministration = "UserAdministration";
@@ -20,6 +21,7 @@ public static class CemarisPolicies
             [CaseWork] = SystemRole.All,
             [BurialProcess] = SystemRole.All,
             [PersonUsageRights] = SystemRole.All,
+            [NoticeDrafts] = SystemRole.All,
             [MasterData] = SystemRole.All,
             [MasterDataDeletion] = [SystemRole.Administration],
             [UserAdministration] = [SystemRole.Administration],

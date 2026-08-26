@@ -120,10 +120,11 @@ ist ebenfalls umgesetzt, ohne den Array-Vertrag oder die Inhaberauswahl zu
 technisch abgeschlossen. Die bewusste lokale Beibehaltung eines versionierten
 Testkennworts ist nur für den vom Projektverantwortlichen bestätigten
 isolierten Development-Testbetrieb akzeptiert. `Cemaris_Dev` ist die
-dauerhafte lokale Development-Datenbank,
-alle aktuellen Funktionen sind auf SQL nachgewiesen, `admin` und `sach`
-dauerhaft eingerichtet und ausschließlich nicht personenbezogene EDWALT-
-Friedhofsstammdaten migriert.
+dauerhafte lokale Development-Datenbank. Alle bis 5k vorhandenen Funktionen
+sind auf SQL nachgewiesen, `admin` und `sach` dauerhaft eingerichtet und
+ausschließlich nicht personenbezogene EDWALT-Friedhofsstammdaten migriert.
+Der 6b-EF-Provider und seine SQL-Suite sind implementiert; die SQL-Kategorie
+wurde mangels separater autorisierter Testverbindung nicht ausgeführt.
 Das ausschließlich dokumentarische
 [Inkrement 6a](docs/implementation/cemaris-increment-6a-completion.md) ist mit
 Variante A „noch keine Implementierung“ abgeschlossen. Die
@@ -142,11 +143,15 @@ abgeschlossen. Die
 dokumentiert genau einen rechtlich wirkungslosen manuellen Entwurfskern:
 mehrere Entwürfe je Fall, je eine eigene Nummer, genau ein ausdrücklich
 bestätigter Zahlungspflichtiger und keine stille Ableitung aus dem
-Nutzungsrecht. Der
-[technische 6b-Auftrag](docs/implementation/cemaris-increment-6b-next-step-handoff.md)
-ist ausschließlich für Development und synthetische Daten freigegeben.
-Gebührenberechnung, Bescheiderzeugung, FINANZ+-Integration und Migration
-bleiben spätere gesonderte Inkremente.
+Nutzungsrecht. Der [technische 6b-Auftrag](docs/implementation/cemaris-increment-6b-next-step-handoff.md)
+ist gemäß [Abschlussnachweis](docs/implementation/cemaris-increment-6b-completion.md)
+Ende zu Ende umgesetzt: Domain/Application, Synthetic- und EF-Provider,
+additive Migration, Capability, Policies, ETags, Revision/Audit, API/OpenAPI
+und React-UI bleiben ausschließlich Development und synthetischen Daten
+vorbehalten. `ReadNotices` und `ReadFeeItems` sind weiterhin getrennte
+Altprojektionen. Gebührenberechnung, Bescheiderzeugung, FINANZ+-Integration
+und Migration bleiben gesperrt; als Folgeschritt existiert nur das
+[dokumentarische Bescheiderzeugungsgate](docs/implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md).
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -233,6 +238,7 @@ $env:Features__CaseEditingEnabled = "true"
 $env:Features__CemeteryMasterDataEditingEnabled = "true"
 $env:Features__BurialProcessEditingEnabled = "true"
 $env:Features__PersonUsageRightsEditingEnabled = "true"
+$env:Features__NoticeDraftEditingEnabled = "true"
 dotnet run --project src/Cemaris.Api
 ```
 
@@ -255,13 +261,19 @@ zusätzlich verfügbar:
 - bei aktiver Beteiligten-/Nutzungsrechts-Capability kanonische Beteiligte,
   Anschriften, manuelle Rechteanlage, Übertragung, Verlängerung, Korrektur
   und Lesen der Startregeln;
+- bei aktiver Bescheidentwurfs-Capability mehrere rechtlich wirkungslose
+  manuelle Entwürfe, Fachrevisionen und für Administration die versionierte
+  Nummernkonfiguration;
 - Startregeln schreiben ausschließlich über die administrative
   Programmkonfiguration.
 
 Ist `Features__BurialProcessEditingEnabled` aktiv, ersetzt der 4b-Prozess die
-alten einfachen Beisetzungsschreibendpunkte. Die vier fachlichen Capabilities
-bleiben ansonsten unabhängig. Der 5b-Kern ersetzt die nullable
-Berechtigten-/Adress-/Nutzungsrechts-Altprojektionen nicht.
+alten einfachen Beisetzungsschreibendpunkte. Die fünf fachlichen Capabilities
+werden getrennt konfiguriert. Für den vollständigen synthetischen
+Bescheidentwurfspiloten müssen wegen Beteiligtenauswahl und Inhabervorschlag
+`PersonUsageRightsEditingEnabled` und `NoticeDraftEditingEnabled` gemeinsam
+aktiv sein. Der 5b-Kern ersetzt die nullable Berechtigten-/Adress-/
+Nutzungsrechts-Altprojektionen nicht.
 
 Änderungen benötigen den zuletzt gelesenen starken ETag in `If-Match`. Ein
 fehlender Header ergibt `428`, ein veralteter ETag `412` ohne Teilwirkung.
@@ -286,9 +298,11 @@ Das Frontend läuft unter <http://localhost:5173>. Vite leitet `/health` und `/a
 Der portable Repository- und CI-Default bleibt `Synthetic` mit deaktivierten
 Capabilities. Auf dem autorisierten lokalen Arbeitsplatz ist dagegen die
 bereits vorhandene Datenbank `Cemaris_Dev` der dauerhafte Development-Standard.
-Verbindung, Provider, vier Capabilities und erwarteter Datenbankname liegen
-maschinenlokal in User Secrets. Verbindungs- und Passwortwerte werden weder
-im Repository noch in Befehlen oder Logs ausgegeben.
+Verbindung, Provider, die vier bereits vor 6b dauerhaft aktivierten
+Capabilities und erwarteter Datenbankname liegen maschinenlokal in User
+Secrets. `NoticeDraftEditingEnabled` bleibt dort bis zu einem gesondert
+autorisierten SQL-Nachweis bewusst deaktiviert. Verbindungs- und Passwortwerte
+werden weder im Repository noch in Befehlen oder Logs ausgegeben.
 
 Nicht geheime Einstellungen können einmalig gesetzt werden:
 
@@ -442,6 +456,7 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `Features__CemeteryMasterDataEditingEnabled` | Friedhofsstammdatenpflege; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Features__BurialProcessEditingEnabled` | einfacher synthetischer Beisetzungsprozess; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Features__PersonUsageRightsEditingEnabled` | synthetischer kanonischer Beteiligten-/Nutzungsrechtskern; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
+| `Features__NoticeDraftEditingEnabled` | rechtlich wirkungsloser manueller Bescheidentwurfskern; nur in `Development` zulässig | `false` (Standard), nur im ausdrücklich aktivierten synthetischen Development-Piloten `true` |
 | `Identity__Security__PasswordMinimumLength` | untere Passwortgrenze, nicht unter 12 konfigurierbar | `12` |
 | `Identity__Security__PasswordMaximumLength` | obere Passwortgrenze, nicht über 128 konfigurierbar | `128` |
 | `Identity__Security__MaximumFailedLoginAttempts` | Fehlversuche bis zur Sperre, höchstens 5 | `5` |
@@ -492,9 +507,10 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
    Lebenszykluspfad bleibt pausiert und 5k stellt den dauerhaften lokalen
    SQL-Developmentbetrieb sowie den abgegrenzten nicht personenbezogenen
    EDWALT-Friedhofsstammdatenimport her
-6. abgeschlossene Gebühren-/Bescheid-Gates 6a und 6a-F; 6a-F gibt nach
-   ergänzender funktionsbezogener Klärung genau den technischen
-   Development-Schnitt 6b für kanonische manuelle Bescheidentwürfe frei
+6. abgeschlossene Gebühren-/Bescheid-Gates 6a und 6a-F sowie der technisch
+   abgeschlossene Development-Schnitt 6b für kanonische manuelle,
+   rechtlich wirkungslose Bescheidentwürfe; vor jeder späteren
+   Bescheiderzeugung steht ein neues rein dokumentarisches Entscheidungsgate
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe
 9. Pilotbetrieb, Cutover und Nachkontrolle

@@ -9,4 +9,5 @@ public sealed record SystemInformationResponse(
     bool CemeteryMasterDataEditingEnabled,
     bool BurialProcessEditingEnabled,
     bool PersonUsageRightsEditingEnabled,
+    bool NoticeDraftEditingEnabled,
     string Version);

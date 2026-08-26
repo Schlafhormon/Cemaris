@@ -551,6 +551,16 @@ werden.
 Aufbewahrung, Löschung, Anonymisierung, Datenschutzfreigabe,
 Berechtigungsfeingranularität und produktiver Betrieb bleiben offene Gates.
 
+## Beteiligtenbezug des 6b-Entwurfskerns
+
+Der kanonische manuelle Bescheidentwurf referenziert einen vorhandenen
+kanonischen Beteiligten ausschließlich als aktiv bestätigten
+Zahlungspflichtigen. Ein aktueller Nutzungsberechtigter darf in der UI nur
+Vorschlag sein; der Server leitet daraus niemals Zahlungspflicht ab. Entwurf
+und Fachrevision speichern nur Beteiligten-ID und damaligen Anzeigenamen,
+keine Anschrift, Adresshistorie oder Beteiligtenvollkopie. Details stehen im
+[6b-Abschluss](../implementation/cemaris-increment-6b-completion.md).
+
 ## Nicht-Ziele
 
 Keine automatische Frist- oder Statusberechnung, keine Wiedervorlagen, keine

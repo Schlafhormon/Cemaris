@@ -5,6 +5,7 @@ interface AppLayoutProps extends PropsWithChildren {
   caseEditingEnabled: boolean
   cemeteryMasterDataEditingEnabled: boolean
   personUsageRightsEditingEnabled: boolean
+  noticeDraftEditingEnabled: boolean
   account: CurrentAccount
   onLogout: () => Promise<void>
 }
@@ -16,7 +17,7 @@ interface NavigationItem {
   active: boolean
 }
 
-export function AppLayout({ children, caseEditingEnabled, cemeteryMasterDataEditingEnabled, personUsageRightsEditingEnabled, account, onLogout }: AppLayoutProps) {
+export function AppLayout({ children, caseEditingEnabled, cemeteryMasterDataEditingEnabled, personUsageRightsEditingEnabled, noticeDraftEditingEnabled, account, onLogout }: AppLayoutProps) {
   const currentPath = window.location.pathname
   const searchAreaActive = currentPath.startsWith('/search')
     || (currentPath.startsWith('/cases/') && currentPath !== '/cases/new')
@@ -39,6 +40,9 @@ export function AppLayout({ children, caseEditingEnabled, cemeteryMasterDataEdit
         { label: 'Benutzerverwaltung', description: 'Lokale Konten und Rollen', href: '/admin/accounts', active: currentPath === '/admin/accounts' },
         ...(personUsageRightsEditingEnabled
           ? [{ label: 'Nutzungsrecht-Startbezug', description: 'Versionierte Regeln je Friedhof', href: '/program-configuration/usage-right-start-rules', active: currentPath === '/program-configuration/usage-right-start-rules' }]
+          : []),
+        ...(noticeDraftEditingEnabled
+          ? [{ label: 'Bescheidnummern', description: 'Versioniertes Nummernformat', href: '/program-configuration/notice-number', active: currentPath === '/program-configuration/notice-number' }]
           : []),
       ]
     : []

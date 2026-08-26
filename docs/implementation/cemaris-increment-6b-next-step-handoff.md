@@ -1,5 +1,11 @@
 # Ausführbare Folgeübergabe: Inkrement 6b – kanonische manuelle Bescheidentwürfe
 
+> **Ausgeführt und abgeschlossen am 26.08.2026.** Der technische Nachweis
+> steht in der
+> [6b-Abschlussdokumentation](cemaris-increment-6b-completion.md). Der nächste
+> zulässige Schritt ist ausschließlich das
+> [dokumentarische Entscheidungsgate zur späteren Bescheiderzeugung](cemaris-notice-generation-decision-gate-next-step-handoff.md).
+
 Stand: 26.08.2026
 
 ## Auftrag

@@ -66,6 +66,124 @@
   text-transform: uppercase;
 }
 
+/* Inkrement 6b: kanonische, rechtlich wirkungslose Bescheidentwürfe */
+.notice-draft-workspace {
+  border-color: #d4b05e;
+  background: linear-gradient(145deg, #fffdf8 0%, #ffffff 62%);
+}
+
+.scope-badge--warning {
+  color: #6d4700;
+  background: #fff0c7;
+  border-color: #d4a23a;
+}
+
+.notice-draft-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(19rem, 0.75fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.notice-draft-main,
+.notice-draft-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.notice-draft-sidebar {
+  position: sticky;
+  top: 1rem;
+}
+
+.notice-draft-create {
+  margin-top: 1rem;
+}
+
+.notice-draft-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--border-color, #d8ddd8);
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+.notice-draft-card--selected {
+  border-color: #8e6d27;
+  box-shadow: 0 0 0 2px rgb(212 176 94 / 22%);
+}
+
+.notice-draft-card > div {
+  display: flex;
+  gap: 0.35rem;
+  align-items: flex-start;
+}
+
+.notice-draft-card > div:first-child {
+  flex-direction: column;
+}
+
+.notice-draft-card > div:last-child {
+  align-items: center;
+}
+
+.notice-draft-card small,
+.revision-list small {
+  color: var(--muted-color, #58635d);
+}
+
+.notice-draft-facts {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.confirmation-field {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.85rem;
+  border-radius: 0.6rem;
+  background: #fff7df;
+  border: 1px solid #e2c474;
+}
+
+.confirmation-field input {
+  width: auto;
+  margin-top: 0.2rem;
+}
+
+.notice-number-configuration code {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .notice-draft-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .notice-draft-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 620px) {
+  .notice-draft-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .notice-draft-card > div:last-child {
+    justify-content: space-between;
+  }
+
+  .notice-draft-facts {
+    grid-template-columns: 1fr;
+  }
+}
+
 .account-menu {
   align-items: center;
   display: flex;

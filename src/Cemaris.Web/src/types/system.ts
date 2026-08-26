@@ -9,6 +9,7 @@ export interface SystemInformationResponse {
   cemeteryMasterDataEditingEnabled: boolean
   burialProcessEditingEnabled: boolean
   personUsageRightsEditingEnabled: boolean
+  noticeDraftEditingEnabled: boolean
   productionReady: boolean
   status: string
   subtitle: string

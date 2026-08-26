@@ -32,6 +32,13 @@ Architecture Decision Records (ADRs) dokumentieren wesentliche technische und pr
 | [0017](ADR-0017-persistent-local-sql-and-scoped-edwalt-master-data-import.md) | Dauerhafte lokale SQL-Entwicklung und abgegrenzter EDWALT-Stammdatenimport | Accepted |
 | [0018](ADR-0018-canonical-manual-notice-drafts.md) | Kanonische manuelle Bescheidentwürfe vor Bescheiderzeugung | Accepted |
 
+ADR-0018 ist durch den
+[technischen 6b-Abschluss](../implementation/cemaris-increment-6b-completion.md)
+ohne nachträgliche Änderung umgesetzt. Das ausschließlich dokumentarische
+[Folgegate zur späteren Bescheiderzeugung](../implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md)
+trifft noch keine neue Architekturentscheidung; deshalb wurde kein weiteres
+ADR erstellt.
+
 Das
 [5c-Abnahme- und Lebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)
 bestätigt ADR-0016 unverändert. Für den ausgewählten reinen 5d-Bedienumfang
@@ -83,8 +90,8 @@ gibt genau einen rechtlich wirkungslosen manuellen Entwurfskern für
 Development und synthetische Daten frei. ADR-0018 dokumentiert seine additive
 Trennung von `ReadNotices`/`ReadFeeItems`, die bestätigungspflichtige
 Zahlungspflichtigenauswahl, Nummernsequenz, Revision und Audit. Der
-[technische 6b-Auftrag](../implementation/cemaris-increment-6b-next-step-handoff.md)
-setzt diese Entscheidung um; Bescheiderzeugung und Produktivsetzung bleiben
-eigene Gates.
+[6b-Abschluss](../implementation/cemaris-increment-6b-completion.md) setzt
+diese Entscheidung um; Bescheiderzeugung und Produktivsetzung bleiben eigene
+Gates.
 
 Für neue ADRs kann [ADR-Template](ADR-template.md) kopiert werden.

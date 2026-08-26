@@ -1,5 +1,6 @@
 using Cemaris.Infrastructure.Persistence.Cemeteries;
 using Cemaris.Infrastructure.Persistence.Identity;
+using Cemaris.Infrastructure.Persistence.NoticeDrafts;
 using Cemaris.Infrastructure.Persistence.PersonUsageRights;
 using Cemaris.Infrastructure.Persistence.ReadModel;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,13 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
     public DbSet<UsageRightStartRuleEntity> UsageRightStartRules => Set<UsageRightStartRuleEntity>();
     public DbSet<UsageRightStartRuleRevisionEntity> UsageRightStartRuleRevisions => Set<UsageRightStartRuleRevisionEntity>();
     public DbSet<PersonUsageRightAuditEntity> PersonUsageRightAudits => Set<PersonUsageRightAuditEntity>();
+    public DbSet<NoticeDraftEntity> NoticeDrafts => Set<NoticeDraftEntity>();
+    public DbSet<NoticeDraftRevisionEntity> NoticeDraftRevisions => Set<NoticeDraftRevisionEntity>();
+    public DbSet<NoticeDraftAuditEntity> NoticeDraftAudits => Set<NoticeDraftAuditEntity>();
+    public DbSet<NoticeNumberConfigurationEntity> NoticeNumberConfigurations => Set<NoticeNumberConfigurationEntity>();
+    public DbSet<NoticeNumberConfigurationRevisionEntity> NoticeNumberConfigurationRevisions => Set<NoticeNumberConfigurationRevisionEntity>();
+    public DbSet<NoticeNumberConfigurationAuditEntity> NoticeNumberConfigurationAudits => Set<NoticeNumberConfigurationAuditEntity>();
+    public DbSet<NoticeNumberSequenceEntity> NoticeNumberSequences => Set<NoticeNumberSequenceEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -63,6 +71,108 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
         ConfigureDataQualityNote(modelBuilder);
         ConfigureCemeteryMasterData(modelBuilder);
         ConfigurePersonUsageRights(modelBuilder);
+        ConfigureNoticeDrafts(modelBuilder);
+    }
+
+    private static void ConfigureNoticeDrafts(ModelBuilder modelBuilder)
+    {
+        var draft = modelBuilder.Entity<NoticeDraftEntity>();
+        draft.ToTable("NoticeDrafts", table =>
+        {
+            table.HasCheckConstraint("CK_NoticeDrafts_Amount", "[TotalAmount] > 0");
+            table.HasCheckConstraint("CK_NoticeDrafts_Currency", "[Currency] = N'EUR'");
+            table.HasCheckConstraint("CK_NoticeDrafts_Status", "[Status] IN (N'Draft', N'Discarded')");
+            table.HasCheckConstraint("CK_NoticeDrafts_NumberFacts", "[AssignmentYear] > 0 AND [RunningNumber] > 0 AND [RunningNumberWidthSnapshot] BETWEEN 1 AND 9");
+        });
+        draft.HasKey(x => x.Id);
+        ConfigureDraftFacts(draft);
+        draft.Property(x => x.Version).IsConcurrencyToken().IsRequired();
+        draft.HasIndex(x => x.NoticeNumber).IsUnique();
+        draft.HasIndex(x => new { x.CaseId, x.CreatedAtUtc, x.Id });
+        draft.HasOne<CaseReadEntity>().WithMany().HasForeignKey(x => x.CaseId).OnDelete(DeleteBehavior.NoAction);
+        draft.HasOne<PartyEntity>().WithMany().HasForeignKey(x => x.PayerPartyId).OnDelete(DeleteBehavior.NoAction);
+        draft.HasOne<NoticeNumberConfigurationEntity>().WithMany().HasForeignKey(x => x.NoticeNumberConfigurationId).OnDelete(DeleteBehavior.NoAction);
+
+        var revision = modelBuilder.Entity<NoticeDraftRevisionEntity>();
+        revision.ToTable("NoticeDraftRevisions", table =>
+        {
+            table.HasCheckConstraint("CK_NoticeDraftRevisions_Amount", "[TotalAmount] > 0");
+            table.HasCheckConstraint("CK_NoticeDraftRevisions_Currency", "[Currency] = N'EUR'");
+            table.HasCheckConstraint("CK_NoticeDraftRevisions_Status", "[Status] IN (N'Draft', N'Discarded')");
+        });
+        revision.HasKey(x => x.Id);
+        ConfigureDraftFacts(revision);
+        ConfigureMutation(revision);
+        revision.HasIndex(x => new { x.NoticeDraftId, x.ResultingVersion }).IsUnique();
+        revision.HasOne<NoticeDraftEntity>().WithMany(x => x.Revisions).HasForeignKey(x => x.NoticeDraftId).OnDelete(DeleteBehavior.NoAction);
+
+        var audit = modelBuilder.Entity<NoticeDraftAuditEntity>();
+        audit.ToTable("NoticeDraftAudits");
+        audit.HasKey(x => x.Id);
+        ConfigureAudit(audit);
+        audit.HasIndex(x => new { x.NoticeDraftId, x.ResultingVersion }).IsUnique();
+        audit.HasOne<NoticeDraftEntity>().WithMany().HasForeignKey(x => x.NoticeDraftId).OnDelete(DeleteBehavior.NoAction);
+
+        var configuration = modelBuilder.Entity<NoticeNumberConfigurationEntity>();
+        configuration.ToTable("NoticeNumberConfigurations", table =>
+        {
+            table.HasCheckConstraint("CK_NoticeNumberConfigurations_Singleton", "[SingletonKey] = 1");
+            table.HasCheckConstraint("CK_NoticeNumberConfigurations_Width", "[RunningNumberWidth] BETWEEN 1 AND 9");
+        });
+        configuration.HasKey(x => x.Id);
+        configuration.Property(x => x.FinancialProduct).HasMaxLength(50).IsRequired();
+        configuration.Property(x => x.Version).IsConcurrencyToken().IsRequired();
+        configuration.HasIndex(x => x.SingletonKey).IsUnique();
+
+        var configurationRevision = modelBuilder.Entity<NoticeNumberConfigurationRevisionEntity>();
+        configurationRevision.ToTable("NoticeNumberConfigurationRevisions", table =>
+            table.HasCheckConstraint("CK_NoticeNumberConfigurationRevisions_Width", "[RunningNumberWidth] BETWEEN 1 AND 9"));
+        configurationRevision.HasKey(x => x.Id);
+        configurationRevision.Property(x => x.FinancialProduct).HasMaxLength(50).IsRequired();
+        ConfigureMutation(configurationRevision);
+        configurationRevision.HasIndex(x => new { x.NoticeNumberConfigurationId, x.ResultingVersion }).IsUnique();
+        configurationRevision.HasOne<NoticeNumberConfigurationEntity>().WithMany(x => x.Revisions).HasForeignKey(x => x.NoticeNumberConfigurationId).OnDelete(DeleteBehavior.NoAction);
+
+        var configurationAudit = modelBuilder.Entity<NoticeNumberConfigurationAuditEntity>();
+        configurationAudit.ToTable("NoticeNumberConfigurationAudits");
+        configurationAudit.HasKey(x => x.Id);
+        ConfigureAudit(configurationAudit);
+        configurationAudit.HasIndex(x => new { x.NoticeNumberConfigurationId, x.ResultingVersion }).IsUnique();
+        configurationAudit.HasOne<NoticeNumberConfigurationEntity>().WithMany().HasForeignKey(x => x.NoticeNumberConfigurationId).OnDelete(DeleteBehavior.NoAction);
+
+        var sequence = modelBuilder.Entity<NoticeNumberSequenceEntity>();
+        sequence.ToTable("NoticeNumberSequences", table =>
+            table.HasCheckConstraint("CK_NoticeNumberSequences_Values", "[Year] > 0 AND [LastIssuedNumber] >= 0"));
+        sequence.HasKey(x => x.Year);
+        sequence.Property(x => x.Year).ValueGeneratedNever();
+        sequence.Property(x => x.Version).IsRowVersion();
+    }
+
+    private static void ConfigureDraftFacts<T>(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<T> entity) where T : class
+    {
+        entity.Property<string>("PayerDisplayNameSnapshot").HasMaxLength(500).IsRequired();
+        entity.Property<string>("NoticeNumber").HasMaxLength(100).IsRequired();
+        entity.Property<string>("FinancialProductSnapshot").HasMaxLength(50).IsRequired();
+        entity.Property<decimal>("TotalAmount").HasPrecision(18, 2).IsRequired();
+        entity.Property<string>("Currency").HasMaxLength(3).IsRequired();
+        entity.Property<string>("AccountAssignment").HasMaxLength(100).IsRequired();
+        entity.Property<string>("FeeReasonOrSource").HasMaxLength(500).IsRequired();
+        entity.Property<string>("Status").HasMaxLength(32).IsRequired();
+    }
+
+    private static void ConfigureMutation<T>(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<T> entity) where T : class
+    {
+        entity.Property<string>("MutationType").HasMaxLength(64).IsRequired();
+        entity.Property<string>("Reason").HasMaxLength(1000);
+        entity.Property<string>("ActorId").HasMaxLength(200).IsRequired();
+        entity.Property<string>("ActorDisplayName").HasMaxLength(200).IsRequired();
+    }
+
+    private static void ConfigureAudit<T>(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<T> entity) where T : class
+    {
+        entity.Property<string>("Operation").HasMaxLength(64).IsRequired();
+        entity.Property<string>("ActorId").HasMaxLength(200).IsRequired();
+        entity.Property<string>("ActorDisplayName").HasMaxLength(200).IsRequired();
     }
 
     private static void ConfigurePersonUsageRights(ModelBuilder modelBuilder)

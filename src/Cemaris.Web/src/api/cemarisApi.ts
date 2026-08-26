@@ -18,6 +18,7 @@ import type {
 } from '../types/identity'
 import type { CemeteryMasterData } from '../types/cemeteries'
 import type { Party, PartyDirectoryPage, PartySearchItem, StartRule, UsageRight, Versioned } from '../types/personUsageRights'
+import type { NoticeDraft, NoticeDraftListItem, NoticeNumberConfiguration } from '../types/noticeDrafts'
 
 const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim() ?? ''
 const apiBaseUrl = configuredBaseUrl.replace(/\/$/, '')
@@ -168,6 +169,14 @@ export function correctUsageRight(id: string, etag: string, input: unknown) { re
 export function getUsageRightStartRules(signal: AbortSignal) { return getJson<StartRule[]>('/api/program-configuration/usage-right-start-rules', signal) }
 export function createUsageRightStartRule(input: unknown) { return sendVersioned<StartRule>('/api/program-configuration/usage-right-start-rules', 'POST', input) }
 export function updateUsageRightStartRule(id: string, etag: string, input: unknown) { return sendVersioned<StartRule>(`/api/program-configuration/usage-right-start-rules/${encodeURIComponent(id)}`, 'PUT', input, etag) }
+export function getNoticeDrafts(caseId: string, signal: AbortSignal) { return getJson<NoticeDraftListItem[]>(`/api/cases/${encodeURIComponent(caseId)}/notice-drafts`, signal) }
+export function getNoticeDraft(id: string, signal?: AbortSignal) { return getVersioned<NoticeDraft>(`/api/notice-drafts/${encodeURIComponent(id)}`, signal) }
+export function createNoticeDraft(caseId: string, input: unknown) { return sendVersioned<NoticeDraft>(`/api/cases/${encodeURIComponent(caseId)}/notice-drafts`, 'POST', input) }
+export function correctNoticeDraft(id: string, etag: string, input: unknown) { return sendVersioned<NoticeDraft>(`/api/notice-drafts/${encodeURIComponent(id)}/corrections`, 'POST', input, etag) }
+export function discardNoticeDraft(id: string, etag: string, reason: string) { return sendVersioned<NoticeDraft>(`/api/notice-drafts/${encodeURIComponent(id)}/discard`, 'POST', { reason }, etag) }
+export function getNoticeNumberConfiguration(signal?: AbortSignal) { return getVersioned<NoticeNumberConfiguration>('/api/program-configuration/notice-number', signal) }
+export function createNoticeNumberConfiguration(input: unknown) { return sendVersioned<NoticeNumberConfiguration>('/api/program-configuration/notice-number', 'POST', input) }
+export function updateNoticeNumberConfiguration(id: string, etag: string, input: unknown) { return sendVersioned<NoticeNumberConfiguration>(`/api/program-configuration/notice-number/${encodeURIComponent(id)}`, 'PUT', input, etag) }
 
 export function getCurrentAccount(signal: AbortSignal) {
   return getJson<CurrentAccount>('/api/auth/me', signal)

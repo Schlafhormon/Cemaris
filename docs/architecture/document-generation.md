@@ -6,9 +6,10 @@
 > eine Template-Engine noch ein fachlicher Bescheidtyp oder 6b-Schnitt
 > freigegeben. Auch das nachgelagerte
 > [6a-F-Gate](../implementation/cemaris-manual-notice-facts-approval-completion.md)
-> gibt nach ergänzender funktionsbezogener Klärung ausschließlich den
-> [technischen 6b-Schnitt](../implementation/cemaris-increment-6b-next-step-handoff.md)
-> für rechtlich wirkungslose manuelle Entwürfe frei. Die spätere
+> gibt nach ergänzender funktionsbezogener Klärung ausschließlich die
+> inzwischen gemäß
+> [6b-Abschluss](../implementation/cemaris-increment-6b-completion.md)
+> umgesetzten rechtlich wirkungslosen manuellen Entwürfe frei. Die spätere
 > Cemaris-Bescheiderzeugung ist als Zielbild belegt, bleibt aber ein eigenes
 > Freigabegate.
 
@@ -24,10 +25,17 @@ unverbindliche Prüfoptionen. Sie bilden weder eine Implementierungsfreigabe
 noch ein Daten-, Prozess- oder Dokumentmodell.
 
 6a-F hat bewusst nur einen internen, rechtlich wirkungslosen Faktenentwurf
-freigegeben. 6b darf diesen getrennten kanonischen Kern implementieren.
+freigegeben. 6b hat diesen getrennten kanonischen Kern gemäß
+[Abschlussnachweis](../implementation/cemaris-increment-6b-completion.md)
+implementiert.
 Bescheiderzeugung, Bekanntgabe, Versand, Vorlage, Rechtsbehelfsbelehrung und
 Dokumentaufbewahrung bleiben außerhalb. Die konkreteren Entwurfsfakten sind
 daher kein Dokumentvertrag.
+
+Vor jedem technischen Erzeugungsauftrag ist ausschließlich das
+[dokumentarische Entscheidungsgate](../implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md)
+zulässig. Es nimmt weder Vorlage noch Rechtswirkung, Zustellung, Korrektur,
+Aufbewahrung oder Integration vorweg.
 
 ## Zielbild
 

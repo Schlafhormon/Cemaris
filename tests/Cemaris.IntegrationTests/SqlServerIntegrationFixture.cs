@@ -133,6 +133,7 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
             "20260813080626_AddLocalAccountsAndSecurityState",
             "20260813104713_AddCemeteryMasterData",
             "20260813134826_AddBurialProcess",
+            "20260814084947_AddCanonicalPartiesAndUsageRights",
         };
         var verified = 0;
         foreach (var migration in migrations)

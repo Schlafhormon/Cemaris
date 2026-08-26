@@ -214,7 +214,7 @@ public sealed class SqlServerPersonUsageRightTests(SqlServerIntegrationFixture f
         Assert.True(await db.Cases.AnyAsync());
         Assert.Equal(0, fixture.CanonicalPartiesAfterMigration);
         Assert.Equal(0, fixture.CanonicalUsageRightsAfterMigration);
-        Assert.True(fixture.VerifiedPredecessorMigrations >= 6);
+        Assert.True(fixture.VerifiedPredecessorMigrations >= 7);
     }
 
     private static CreatePartyCommand Person(string first, string last) => new(PartyType.NaturalPerson, first, last, null, [new("SQL-Testweg", "1", "00000", "SQL-Teststadt", null, new(2020, 1, 1), null, true)]);

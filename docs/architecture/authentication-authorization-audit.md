@@ -78,7 +78,8 @@ die bestätigte Grenze vor und erzeugen keine neuen Module.
 Das abgeschlossene
 [6a-F-Freigabegate](../implementation/cemaris-manual-notice-facts-approval-completion.md)
 gibt für den technischen Development-Piloten die neue Policy `NoticeDrafts`
-vor.
+vor; der [6b-Abschluss](../implementation/cemaris-increment-6b-completion.md)
+setzt sie serverseitig um.
 `Sachbearbeitung` und `Administration` dürfen rechtlich wirkungslose
 Bescheidentwürfe lesen, anlegen, korrigieren und verwerfen; eine Person
 genügt. Die versionierte Nummernkonfiguration bleibt über
@@ -86,6 +87,14 @@ genügt. Die versionierte Nummernkonfiguration bleibt über
 Capability ist standardmäßig deaktiviert und außerhalb `Development`
 unzulässig. Daraus folgen keine Erzeugungs-, Festsetzungs-, Versand- oder
 Produktivrechte.
+
+Jede erfolgreiche Entwurfs- oder Konfigurationsmutation erzeugt genau eine
+vollständige Fachrevision und einen getrennten sparsamen Audit in derselben
+Transaktion beziehungsweise Synthetic-kritischen Sektion. Der Entwurfsaudit
+enthält nur Entwurfs-/Fall-ID, resultierende Version, stabile Operation,
+UTC-Zeit und serverseitigen Akteur. Beträge, Kontierung, Gründe, Freitexte,
+Adressen und Vollsnapshots bleiben ausgeschlossen. Es existiert keine
+Audit-Lese-, Such-, Export- oder UI-Funktion.
 
 ## Auditierung
 
