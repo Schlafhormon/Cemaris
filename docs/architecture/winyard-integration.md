@@ -6,6 +6,13 @@
 > produktiv aktiviert werden (`INT-020`). Schnittstellenvertrag, konkrete
 > Version und produktiver Endpunkt sind noch nicht validiert oder festgelegt.
 
+Das [Entscheidungsgate 6a](../implementation/cemaris-increment-6a-completion.md)
+hat mangels freigegebener Dokumentart, Vorlagen-, Freigabe- und
+Aufbewahrungsregeln Variante A „noch keine Implementierung“ gewählt. Der
+optionale Adapter, die bedingten Fähigkeiten und alle nachfolgenden offenen
+Schnittstellenfragen bleiben dadurch unverändert; aus ihnen wird kein
+Gebühren-, Bescheid- oder Dokument-Schreibumfang abgeleitet.
+
 ## Aktueller EDWALT-Ist-Befund
 
 Für EDWALT ist keine Winyard-Schnittstelle vorhanden. Organisatorisch

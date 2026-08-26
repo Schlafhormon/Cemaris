@@ -78,12 +78,20 @@ maschinenlokal ist `Cemaris_Dev` der dauerhafte Development-Standard. Das
 den EDWALT-Pfad zusätzlich auf nicht personenbezogene Friedhofsstammdaten; der
 [5k-Abschluss](../implementation/cemaris-increment-5k-completion.md) weist den
 lokalen Ende-zu-Ende-Betrieb nach.
-Vor einer Gebühren-, Bescheid- oder Dokumentarchitektur ist das
-[Entscheidungsgate 6a](../implementation/cemaris-increment-6a-next-step-handoff.md)
-verbindlich. Die vorhandenen nullable Bescheid-/Gebührenfelder und Suchpfade
-sind weiterhin eine vorläufige Leseprojektion; sie genehmigen weder ein
-kanonisches Schreibmodell noch Katalog-, Berechnungs-, Historien-, Dokument-
-oder Migrationssemantik.
+Das Gebühren-/Bescheid-/Dokument-
+[Entscheidungsgate 6a](../implementation/cemaris-increment-6a-completion.md)
+ist mit Variante A „noch keine Implementierung“ abgeschlossen. Es entstand
+keine neue Architekturentscheidung und daher kein neues ADR. Die vorhandenen
+nullable Bescheid-/Gebührenfelder und Suchpfade bleiben eine vorläufige
+Leseprojektion; sie genehmigen weder ein kanonisches Schreibmodell noch
+Katalog-, Berechnungs-, Historien-, Dokument- oder Migrationssemantik. Die
+offenen Grenzen stehen in der
+[6a-Entscheidungsakte](../requirements/fee-notice-document-decisions.md).
+Die nachgelagerte Priorisierung manueller kanonischer Bescheid-/Finanzfakten
+ändert diese Architekturgrenze nicht. Das vorbereitete
+[Freigabegate](../implementation/cemaris-manual-notice-facts-approval-next-step-handoff.md)
+muss Aggregat, Revision, ETag, Atomarität, Audit und Providerparität erst
+zuständig klären; bis dahin entsteht weder Modell noch ADR.
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.

@@ -231,6 +231,15 @@ Weiterhin bewusst ausserhalb von Version 1 liegen:
 - Paginierung, unscharfe Suche und fachlich noch ungeklaerte Regeln,
 - ein endgueltiges Domainmodell oder eine fachlich freigegebene Feldsemantik.
 
+## Einordnung nach dem Entscheidungsgate 6a
+
+Das [Gebuehren-/Bescheid-Entscheidungsgate 6a](fee-notice-document-decisions.md)
+ist am 26.08.2026 mit Variante A „noch keine Implementierung“ abgeschlossen.
+Die hier beschriebene Bescheid-/Gebuehrenprojektion bleibt damit ein nullable
+Read-only-Vertrag. Weder Tabellen und Felder noch Suchbarkeit oder
+synthetische Fixtures bestaetigen ein Schreib-, Katalog-, Berechnungs-,
+Faelligkeits-, Korrektur-, Dokument- oder Migrationsmodell.
+
 ## Nachfolgender Produktinkrement
 
 Nach der Projektpriorisierung vom 12.08.2026 wird die Produktentwicklung vor

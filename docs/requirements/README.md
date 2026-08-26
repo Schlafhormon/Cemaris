@@ -75,13 +75,21 @@ Friedhofsstammdatenmigration. Das
 dokumentiert die tatsächlich belegten Felder und Sperren. Der bisherige
 Abbruchparitätsbefund bleibt als technischer Providerparitätsnachweis
 enthalten.
-Vor jeder Gebühren-, Bescheid- oder Dokumentimplementierung ist das
+Vor jeder Gebühren-, Bescheid- oder Dokumentimplementierung war das
 ausschließlich dokumentarische
-[Entscheidungsgate 6a](../implementation/cemaris-increment-6a-next-step-handoff.md)
-auszuführen. Der vorhandene nullable Lesevertrag ist kein bestätigtes
-Schreibmodell; fehlende Fach-, Rechts-, Rollen-, Historien-, Vorlagen- und
-Migrationsentscheidungen dürfen nicht aus EDWALT oder aus technischen Feldern
-abgeleitet werden.
+[Entscheidungsgate 6a](../implementation/cemaris-increment-6a-completion.md)
+auszuführen. Es ist mit Variante A „noch keine Implementierung“ abgeschlossen.
+Die vollständigen
+[Gebühren-/Bescheid-/Dokumententscheidungen](fee-notice-document-decisions.md)
+bestätigen: Der nullable Lesevertrag ist kein Schreibmodell; fehlende Fach-,
+Rechts-, Rollen-, Historien-, Vorlagen- und Migrationsentscheidungen dürfen
+nicht aus EDWALT oder technischen Feldern abgeleitet werden. Deshalb existiert
+kein technischer 6b-Auftrag.
+Die nachgelagerte Projektpriorisierung
+`USR-2026-08-26-MANUAL-NOTICE-FACTS-PRIORITY` wählt manuelle kanonische
+Bescheid-/Finanzfakten ausschließlich als Kandidaten für das nächste
+[Freigabegate](../implementation/cemaris-manual-notice-facts-approval-next-step-handoff.md).
+Sie bestätigt noch keine der fehlenden Fach- oder Freigaberegeln.
 
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -360,7 +368,11 @@ Berechnungsregeln bleiben `OFFEN` beziehungsweise in 5C-05
 **Status:** EDWALT erzeugt die Bescheide; eine Finanzdatenübergabe findet nicht
 statt. Die Bescheide werden manuell im Finanzverfahren eingebucht, das für
 Forderungen und Zahlungen führend ist (`INT-014`, `BESTÄTIGT`, Konfidenz hoch).
-Gebührenordnung und Berechnungslogik bleiben `OFFEN`.
+Gebührenordnung und Berechnungslogik bleiben `OFFEN`. Das
+[Entscheidungsgate 6a](fee-notice-document-decisions.md) ist deshalb mit
+Variante A abgeschlossen und genehmigt kein Schreib-, Katalog- oder
+Berechnungsmodell. Die spätere Priorisierung manueller kanonischer Fakten
+öffnet nur ein dokumentarisches Freigabegate und ändert diesen Status nicht.
 
 - OFFEN: Welche Gebührenpositionen und Gebührenordnungen existieren und wann gelten sie?
 - OFFEN: Welche Mengen, Zeiträume, Ermäßigungen, Befreiungen oder Rundungen sind zulässig?
@@ -387,7 +399,9 @@ Gebührenordnung und Berechnungslogik bleiben `OFFEN`.
 
 ## 13. Bescheide und Schreiben
 
-**Status:** UNBEKANNT. Es werden keine Texte oder Rechtsbehelfsbelehrungen erfunden.
+**Status:** UNBEKANNT. Es werden keine Texte oder Rechtsbehelfsbelehrungen
+erfunden. 6a hat mangels Dokumentart, Rechtsinhalt, Vorlagen-, Freigabe- und
+Aufbewahrungsregeln keine Dokumenterzeugung freigegeben.
 
 - Bestehende Dokumentarten, anonymisierte Muster und Auslöser inventarisieren.
 - OFFEN: Welche Inhalte sind fachlich, rechtlich oder kommunal vorgegeben?
@@ -403,7 +417,8 @@ Konfidenz hoch für den vorgesehenen Ablauf). Ob dies tatsächlich vollständig
 geschieht oder lokale Datei- beziehungsweise Papierablagen bestehen, ist
 `OFFEN`. Die künftige Winyard-Schnittstelle für Cemaris ist als Bedarfsbereich
 `BESTÄTIGT` (`INT-018`, Konfidenz hoch); ihre Fähigkeiten und technische
-Ausgestaltung bleiben `OFFEN`.
+Ausgestaltung bleiben `OFFEN`. Variante A aus 6a lässt den optionalen
+DMS-Adapter und diese offenen Grenzen unverändert.
 
 - BESTÄTIGT: EDWALT besitzt keine Winyard-Schnittstelle; die vorgesehene Ablage
   erfolgt manuell (`INT-017`).
@@ -619,6 +634,10 @@ Zentrale, noch unbeantwortete Beispiele:
 - OFFEN: Welche Rollen und Berechtigungen werden tatsächlich benötigt?
 - OFFEN: Welche EDWALT-Daten und Nebenlösungen sind migrationsrelevant?
 
+Die Gebühren-, Bescheid- und Dokumentfragen 6A-01 bis 6A-16 sowie die sechs
+benötigten Entscheidungs- und Freigabepakete stehen gebündelt in den
+[6a-Entscheidungen](fee-notice-document-decisions.md#gebündelte-entscheidungs--und-freigabeliste).
+
 Weitere Fragen erhalten eine ID und werden bis zur Klärung nicht als Produktregel umgesetzt.
 
 | Frage-ID | Themenbereich | Frage | Verantwortlich | Zieltermin | Status | Ergebnis / Quelle |
@@ -658,4 +677,5 @@ Bewertungskriterien:
 | paginierte Beteiligtenübersicht 5i | 5h-Auswahl auf vorhandenen kanonischen Beteiligtenverträgen | additiver Verzeichnisendpunkt und URL-gebundene Übersicht; alte Schnellsuche bleibt kompatibel | vorhandene Policy, Capability und Provider | keine neue Fach-, Lebenszyklus- oder Migrationswirkung | umgesetzt | technischer Abschluss in `cemaris-increment-5i-completion.md` |
 | datensparsame Schnellsuche 5j | bestehende kompatible Array-Schnellsuche | ausschließlich interne EF-Projektion der benötigten Item-Felder und aktuellen Primäranschrift | unveränderter API-, Policy- und Capability-Vertrag | keine Pagination, Sortierung oder Fachwirkung | umgesetzt | technischer Abschluss in `cemaris-increment-5j-completion.md` |
 | dauerhafter SQL-Developmentbetrieb und EDWALT-Friedhofsstammdaten 5k | USR-2026-08-25-LOCAL-SQL-MASTER-DATA und ADR-0017 | vollständiger aktueller Development-Funktionsumfang auf `Cemaris_Dev`, persistente Konten und abgegrenzter nicht personenbezogener Stammdatenimport | read-only EDWALT-Arbeitskopie, explizites Mapping und getrennte temporäre SQL-Tests | keine Personen-, Fall-, Rechte-, Gebühren-, Notiz- oder Dokumentmigration und keine Produktivfreigabe | technisch abgeschlossen; lokale `admin`-Kennwortabweichung für isolierten Testbetrieb als Restrisiko akzeptiert | Positivliste und Sperren in `edwalt-cemetery-master-data-mapping.md`; Nachweis in `cemaris-increment-5k-completion.md` |
-| Gebühren-/Bescheid-Entscheidungsgate 6a | bestätigte Finanzprozessgrenze, vorläufige Bescheid-/Gebühren-Leseprojektion und offene Produktregeln | belastbare Trennung belegter Bedarfe von noch nicht freigegebenem Schreib-, Katalog-, Berechnungs-, Dokument- und Migrationsumfang | ausschließlich Repositoryquellen; keine Datenbank, Secrets, EDWALT- oder Satzungsoriginale | keine Produktimplementierung; bei offenen Pflichtentscheidungen Variante A | vorbereitet | verbindlicher Auftrag in `cemaris-increment-6a-next-step-handoff.md` |
+| Gebühren-/Bescheid-Entscheidungsgate 6a | bestätigte Finanzprozessgrenze, vorläufige Bescheid-/Gebühren-Leseprojektion und offene Produktregeln | Quellenmatrix, Bewertung 6A-01 bis 6A-16, Variantenvergleich und gebündelte Freigabeliste | ausschließlich Repositoryquellen; keine Datenbank, Secrets, EDWALT- oder Satzungsoriginale | keine Produktimplementierung; kein technischer 6b-Auftrag | abgeschlossen mit Variante A | [Entscheidung](fee-notice-document-decisions.md) und [Abschlussnachweis](../implementation/cemaris-increment-6a-completion.md) |
+| Freigabegate für manuelle Bescheid-/Finanzfakten 6a-F | USR-2026-08-26-MANUAL-NOTICE-FACTS-PRIORITY und 6a-Entscheidungsmatrix | genau einen manuellen kanonischen Faktenkern anhand 6F-01 bis 6F-10 zuständig bestätigen oder vollständig stoppen | Fach-, Rechts-, Finanz-, Rollen-, Historien-, Datenschutz-, Sicherheits- und Betriebsgates | keine Produktimplementierung im Gate; technischer 6b-Auftrag nur bei vollständiger Freigabe | vorbereitet | [ausführbare Folgeübergabe](../implementation/cemaris-manual-notice-facts-approval-next-step-handoff.md) |

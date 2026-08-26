@@ -90,12 +90,19 @@ dokumentiert die Schutz- und Abnahmekriterien dieser Phase. Der
 dokumentiert Phase 4. Der
 [Folgeauftrag zur Gebührenstamm- und Variantenabgrenzung](edwalt-fee-master-variants-next-step-handoff.md)
 ist vorbereitet, bleibt aber für Gebühren und Varianten außerhalb des jetzt
-freigegebenen Friedhofsstammdatenumfangs zurückgestellt. Das nächste
-[Cemaris-Entscheidungsgate 6a](../implementation/cemaris-increment-6a-next-step-handoff.md)
-klärt ausschließlich anhand versionierter Repositoryquellen, ob überhaupt ein
-sicherer Produktfolgeschnitt freigegeben werden kann. Es nimmt weder diesen
-EDWALT-Gebührenauftrag noch eine andere Migrationsanalyse wieder auf. Der aktive
-Auftrag steht im [Cemaris-Implementierungsplan](../implementation/README.md).
+freigegebenen Friedhofsstammdatenumfangs zurückgestellt. Das
+[Cemaris-Entscheidungsgate 6a](../implementation/cemaris-increment-6a-completion.md)
+ist ausschließlich anhand versionierter Repositoryquellen mit Variante A
+„noch keine Implementierung“ abgeschlossen. Die bestätigten späteren
+Datenkategorien sind keine Quellfeld-, Mapping- oder Importfreigabe. Das Gate
+nimmt weder den EDWALT-Gebührenauftrag noch eine andere Migrationsanalyse
+wieder auf; die Sperren stehen in der
+[6a-Entscheidungsakte](../requirements/fee-notice-document-decisions.md).
+Die anschließende Priorisierung manueller kanonischer Bescheid-/Finanzfakten
+und ihr
+[Freigabegate](../implementation/cemaris-manual-notice-facts-approval-next-step-handoff.md)
+enthalten ausdrücklich keinen Backfill, kein EDWALT-Mapping und keinen Import.
+Der EDWALT-Gebühren-/Variantenauftrag bleibt pausiert.
 Sämtliche vorhandenen EDWALT-Quellen und Phase-2-/3-/4-Arbeitsbereiche bleiben
 unverändert read-only; die Phase-5-Wurzel wurde ausschließlich für die
 abgeschlossene 5k-Ausführung angelegt.

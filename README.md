@@ -124,11 +124,21 @@ dauerhafte lokale Development-Datenbank,
 alle aktuellen Funktionen sind auf SQL nachgewiesen, `admin` und `sach`
 dauerhaft eingerichtet und ausschließlich nicht personenbezogene EDWALT-
 Friedhofsstammdaten migriert.
-Der nächste sichere Schritt ist das ausschließlich dokumentarische
-[Inkrement 6a](docs/implementation/cemaris-increment-6a-next-step-handoff.md):
-ein Gebühren-/Bescheid-Entscheidungsgate. Es implementiert weder einen
-Gebührenkatalog noch Berechnung, Bescheiderzeugung, Dokumentverarbeitung oder
-einen weiteren EDWALT-Import.
+Das ausschließlich dokumentarische
+[Inkrement 6a](docs/implementation/cemaris-increment-6a-completion.md) ist mit
+Variante A „noch keine Implementierung“ abgeschlossen. Die
+[Gebühren-/Bescheid-/Dokumententscheidungen](docs/requirements/fee-notice-document-decisions.md)
+weisen die vorhandene nullable Leseprojektion ausdrücklich nicht als
+Schreibmodell aus und bündeln die fehlenden Fach-, Rechts-, Rollen-,
+Historien-, Dokument- und Migrationsfreigaben. Deshalb gibt es keinen
+technischen 6b-Auftrag; Gebührenkatalog, Berechnung, Bescheiderzeugung,
+Dokumentverarbeitung und weiterer EDWALT-Import bleiben pausiert.
+Als nächsten Kandidaten hat der Projektauftraggeber am 26.08.2026 manuelle
+kanonische Bescheid-/Finanzfakten priorisiert. Vor jeder technischen Umsetzung
+ist dafür das rein dokumentarische
+[Freigabegate](docs/implementation/cemaris-manual-notice-facts-approval-next-step-handoff.md)
+auszuführen; die Priorisierung allein schließt keine Fach-, Rechts-, Finanz-,
+Datenschutz-, Sicherheits- oder Betriebsentscheidung.
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -474,8 +484,9 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
    Lebenszykluspfad bleibt pausiert und 5k stellt den dauerhaften lokalen
    SQL-Developmentbetrieb sowie den abgegrenzten nicht personenbezogenen
    EDWALT-Friedhofsstammdatenimport her
-6. Gebühren-/Bescheid-Entscheidungsgate 6a; danach nur ein vollständig
-   freigegebener kleiner Gebühren-, Dokument- oder Bescheidschnitt
+6. abgeschlossenes Gebühren-/Bescheid-Entscheidungsgate 6a; anschließend das
+   Freigabegate für priorisierte manuelle Bescheid-/Finanzfakten und erst
+   danach gegebenenfalls ein vollständig freigegebener technischer 6b-Schnitt
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe
 9. Pilotbetrieb, Cutover und Nachkontrolle

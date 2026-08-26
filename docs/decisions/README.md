@@ -65,10 +65,17 @@ gegebenenfalls eine neue Architekturentscheidung.
 
 ADR-0007 verlangt vor Gebühren-, Bescheid- oder Dokumentimplementierung
 belastbare Fachanforderungen; ADR-0009 hält die breite EDWALT-Migration bis zu
-einem verstandenen Zielmodell pausiert. Deshalb ist zunächst das rein
-dokumentarische
-[Entscheidungsgate 6a](../implementation/cemaris-increment-6a-next-step-handoff.md)
-auszuführen. Die Vorbereitung dieses Gates trifft noch keine neue
-Architekturentscheidung und benötigt daher kein weiteres ADR.
+einem verstandenen Zielmodell pausiert. Das rein dokumentarische
+[Entscheidungsgate 6a](../implementation/cemaris-increment-6a-completion.md)
+ist mit Variante A „noch keine Implementierung“ abgeschlossen. Der vorhandene
+Lesevertrag bleibt unverändert, ein technischer 6b-Auftrag wurde nicht
+erstellt. Da keine neue Architekturentscheidung getroffen wurde, ist kein
+weiteres ADR erforderlich. Die fachlichen Grenzen stehen in der
+[6a-Entscheidungsakte](../requirements/fee-notice-document-decisions.md).
+Auch die nachgelagerte Projektpriorisierung manueller kanonischer
+Bescheid-/Finanzfakten ist noch keine Architekturentscheidung. Das
+[vorbereitete Freigabegate](../implementation/cemaris-manual-notice-facts-approval-next-step-handoff.md)
+darf ein neues ADR nur bei einer tatsächlich neuen, vollständig getragenen
+Architekturentscheidung vorsehen.
 
 Für neue ADRs kann [ADR-Template](ADR-template.md) kopiert werden.

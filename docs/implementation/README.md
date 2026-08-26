@@ -1,6 +1,6 @@
 # Cemaris-Implementierungsplan
 
-Stand: 25.08.2026
+Stand: 26.08.2026
 
 ## Aktueller Schwerpunkt
 
@@ -117,11 +117,20 @@ persistente Einrichtung von `admin` und `sach` sowie die datensparsame
 Migration ausschließlich der nicht personenbezogenen EDWALT-
 Friedhofsstammdaten. Der kleinere Befund zur Abbruchparität bleibt als
 technischer Paritätsnachweis enthalten.
-Der nächste priorisierte Schnitt ist das rein dokumentarische
-[Inkrement 6a](cemaris-increment-6a-next-step-handoff.md). Es trennt
+Das rein dokumentarische
+[Inkrement 6a](cemaris-increment-6a-completion.md) ist mit Variante A „noch
+keine Implementierung“ abgeschlossen. Die
+[Entscheidungsakte](../requirements/fee-notice-document-decisions.md) trennt
 nachgewiesene Gebühren-/Bescheidbedarfe von weiterhin offenen Fach-, Rechts-,
-Rollen-, Dokument- und Migrationsentscheidungen, bevor ein Schreibmodell oder
-eine Berechnungslogik entstehen darf.
+Rollen-, Historien-, Dokument- und Migrationsentscheidungen. Kein zulässiger
+6b-Schnitt ist vollständig getragen; der vorhandene Lesevertrag bleibt
+unverändert und ein technischer 6b-Auftrag wurde nicht erstellt.
+Mit `USR-2026-08-26-MANUAL-NOTICE-FACTS-PRIORITY` hat der
+Projektauftraggeber anschließend manuelle kanonische Bescheid-/Finanzfakten
+als nächsten Prüfungskandidaten bestätigt. Der nächste ausführbare Schritt ist
+das rein dokumentarische
+[Freigabegate](cemaris-manual-notice-facts-approval-next-step-handoff.md). Die
+Priorisierung ist noch keine technische oder fachliche Freigabe.
 
 ## Verbindliche Entwicklungsregel
 
@@ -152,8 +161,9 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 5i | paginierte Beteiligtenübersicht | technisch umgesetzt: additiver Verzeichnisendpunkt, providerseitige stabile Pagination und URL-gebundene Übersicht bei kompatibler Schnellsuche | ausschließlich vorhandene Beteiligten-, Policy- und Providerverträge; keine neue Fachregel |
 | 5j | datensparsame kompatible Beteiligten-Schnellsuche | technisch umgesetzt: interne EF-Projektion der vorhandenen Array-Suche ohne Pagination, Limit oder Sortierungsänderung | unveränderter API-, UI-, Policy- und Capability-Vertrag |
 | 5k | dauerhafter SQL-Developmentbetrieb und EDWALT-Friedhofsstammdaten | technisch abgeschlossen: alle aktuellen Development-Funktionen auf `Cemaris_Dev`, persistente Konten `admin`/`sach`, synthetische Personen-/Falldaten in SQL und ausschließlich nicht personenbezogener EDWALT-Stammdatenimport; lokale `admin`-Kennwortabweichung im isolierten Testbetrieb akzeptiert | ADR-0017; Development-only; read-only EDWALT-Quelle; exakte Ziel- und Testdatenbanktrennung; keine geratenen Mappings |
-| 6a | Gebühren-/Bescheid-Entscheidungsgate | quellengebundene Entscheidungsmatrix und Auswahl genau eines kleinsten sicheren Folgeschnitts | ausschließlich dokumentarisch; fehlende Entscheidungen führen zu Variante A „keine Implementierung“ |
-| 6b+ | Gebühren, Bescheide und Dokumente | erst nach 6a gegebenenfalls Kataloge, manuelle Fakten, Berechnung, Korrektur oder Erzeugung | Gebühren-/Satzungsstände, Rollen-, Historien-, Dokument- und Freigaberegeln |
+| 6a | Gebühren-/Bescheid-Entscheidungsgate | dokumentarisch abgeschlossen: Quellenmatrix, Fragen 6A-01 bis 6A-16 und Variantenvergleich führen zu Variante A „noch keine Implementierung“ | kein technischer 6b-Auftrag; vorhandener nullable Lesevertrag unverändert |
+| 6a-F | Freigabegate für manuelle Bescheid-/Finanzfakten | vorbereitet: priorisierten Kandidaten anhand 6F-01 bis 6F-10 zuständig entscheiden und freigeben oder erneut vollständig stoppen | ausschließlich dokumentarisch; Projektpriorität allein ist keine Fach-, Rechts-, Finanz-, Datenschutz-, Sicherheits- oder Betriebsfreigabe |
+| 6b+ | Gebühren, Bescheide und Dokumente | pausiert, bis genau ein kleiner Schnitt vollständig durch zuständige Fach-, Rechts-, Finanz-, Datenschutz-, Sicherheits- und Betriebsentscheidungen getragen ist | Gebühren-/Satzungsstände, Rollen-, Historien-, Dokument-, Migrations- und Freigaberegeln |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | übriges EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme jenseits des vorgezogenen Friedhofsstammdatenpfads | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
 
@@ -205,12 +215,16 @@ deaktiviert. Auf dem freigegebenen lokalen Arbeitsplatz läuft er nach 5k
 mit dem SQL-Provider gegen `Cemaris_Dev`; personenbezogene Testdaten
 bleiben synthetisch.
 
-Als nächstes ist die
-[ausführbare 6a-Übergabe](cemaris-increment-6a-next-step-handoff.md) umzusetzen.
-Das Gate darf den vorhandenen nullable Bescheid-/Gebühren-Lesevertrag nicht als
-freigegebenes Schreibmodell behandeln. Bleiben die entscheidenden Regeln oder
-Zuständigkeiten offen, ist 6a vollständig mit Variante A abzuschließen und die
-fehlende Information gebündelt zu dokumentieren.
+Das
+[6a-Entscheidungsgate](cemaris-increment-6a-completion.md) ist ausgeführt. Die
+[Entscheidungs- und Freigabeliste](../requirements/fee-notice-document-decisions.md#gebündelte-entscheidungs--und-freigabeliste)
+bleibt verbindlich. Die nachgelagerte Projektpriorisierung wählt manuelle
+kanonische Bescheid-/Finanzfakten als einzigen Kandidaten. Als Nächstes ist die
+[ausführbare Freigabeübergabe](cemaris-manual-notice-facts-approval-next-step-handoff.md)
+vollständig zu bearbeiten. Erst wenn ihr kleiner Schnitt durch alle benötigten
+zuständigen Entscheidungen getragen ist, darf sie einen technischen
+6b-Auftrag erstellen. Bis dahin bleibt der nullable Bescheid-/Gebühren-
+Lesevertrag unverändert und darf nicht als Schreibmodell interpretiert werden.
 
 ## Bewusst nicht mit dem nächsten Inkrement behauptet
 

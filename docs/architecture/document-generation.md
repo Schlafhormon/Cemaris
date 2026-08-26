@@ -1,10 +1,21 @@
 # Konzept für Dokumente und Bescheide
 
-> **Status:** Zu validierende Produktvision. Es ist weder eine Template-Engine
-> noch ein fachlicher Bescheidtyp festgelegt. Vor jeder Umsetzung ist das
-> dokumentarische
-> [Gebühren-/Bescheid-Entscheidungsgate 6a](../implementation/cemaris-increment-6a-next-step-handoff.md)
-> auszuführen.
+> **Status:** Zu validierende Produktvision. Das dokumentarische
+> [Gebühren-/Bescheid-Entscheidungsgate 6a](../implementation/cemaris-increment-6a-completion.md)
+> ist mit Variante A „noch keine Implementierung“ abgeschlossen. Es ist weder
+> eine Template-Engine noch ein fachlicher Bescheidtyp oder 6b-Schnitt
+> freigegeben.
+
+## Ergebnis des Entscheidungsgates 6a
+
+Die [6a-Entscheidungsakte](../requirements/fee-notice-document-decisions.md)
+bestätigt zwar administrative Vorlagenpflege und bedingte Fähigkeiten einer
+später aktivierten DMS-Integration. Nicht bestätigt sind jedoch erste
+Dokumentart, Rechtsinhalt, Vorlagenversion, Platzhalter, Ausgabeformat,
+Freigabe, Versand, Aufbewahrung, temporäre Verarbeitung und Renderer. Das
+nachfolgende Zielbild und die technischen Ansätze bleiben deshalb
+unverbindliche Prüfoptionen. Sie bilden weder eine Implementierungsfreigabe
+noch ein Daten-, Prozess- oder Dokumentmodell.
 
 ## Zielbild
 
@@ -53,7 +64,9 @@ Integration müssen Erfolg oder Fehler der Übergabe dagegen angezeigt werden
 | Separater Dokumentdienst | Klare Isolation und skalierbare Konvertierung | Zusätzlicher Betrieb und verteilte Fehlerfälle; für den Start möglicherweise zu komplex |
 | HTML/CSS zu PDF | Webtechnologien und gute Testbarkeit | DOCX-Nachbearbeitung und exakte kommunale Office-Vorlagen schwieriger |
 
-Keine Option ist vor der Vorlageninventur entschieden. Ein Proof of Concept soll später repräsentative reale, aber anonymisierte Vorlagen vergleichen.
+Keine Option ist entschieden. Ein Proof of Concept darf erst nach einer
+zuständigen Freigabe repräsentative, rechtmäßig bereitgestellte und für den
+Zweck angemessen geschützte Vorlagen vergleichen.
 
 ## Vorläufige Komponenten
 

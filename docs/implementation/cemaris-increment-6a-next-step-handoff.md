@@ -2,6 +2,13 @@
 
 Stand: 25.08.2026
 
+> **Ausführungsstatus 26.08.2026:** vollständig dokumentarisch ausgeführt und
+> mit Variante A „noch keine Implementierung“ abgeschlossen. Maßgeblich sind
+> die [6a-Entscheidungsakte](../requirements/fee-notice-document-decisions.md)
+> und die [Abschlussdokumentation](cemaris-increment-6a-completion.md). Diese
+> Datei bleibt als historische, ausgeführte Übergabe erhalten. Es wurde kein
+> technischer 6b-Auftrag erstellt.
+
 ## Auftrag und Stop-Gate
 
 Inkrement 5k ist technisch abgeschlossen. Der nächste fachliche
