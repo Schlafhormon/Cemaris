@@ -241,7 +241,12 @@ Korrektur/Verwerfen, vollständige Fachrevision, sparsamer Audit und
 FINANZ+-/Altprojektionsgrenze entsprechen dem bestätigten Vertrag.
 
 Nicht autorisierte SQL-Tests wurden mangels separater Testverbindung nicht
-ausgeführt. Dies ist keine Produktiv- oder Datenfreigabe. Der einzige
-vorbereitete Folgeschritt ist das
-[dokumentarische Entscheidungsgate](../implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md)
-vor einer möglichen späteren Bescheiderzeugung.
+ausgeführt. Dies ist keine Produktiv- oder Datenfreigabe. Das nachgelagerte
+[dokumentarische Entscheidungsgate](../implementation/cemaris-notice-generation-decision-gate-completion.md)
+vor einer möglichen späteren Bescheiderzeugung ist inzwischen mit Variante A
+als erstem Stop-Zwischenstand dokumentiert und nach ergänzender
+Quellenklärung endgültig mit Variante B abgeschlossen. Die separate
+[6c-Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md) ist
+vorbereitet, aber nicht ausgeführt. Sie ändert den 6b-Vertrag nicht und
+erteilt keine Produktiv-, Rechtswirkungs-, Integrations- oder
+Migrationsfreigabe.

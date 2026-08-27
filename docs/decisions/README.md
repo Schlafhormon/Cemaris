@@ -36,8 +36,15 @@ ADR-0018 ist durch den
 [technischen 6b-Abschluss](../implementation/cemaris-increment-6b-completion.md)
 ohne nachträgliche Änderung umgesetzt. Das ausschließlich dokumentarische
 [Folgegate zur späteren Bescheiderzeugung](../implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md)
-trifft noch keine neue Architekturentscheidung; deshalb wurde kein weiteres
-ADR erstellt.
+ist gemäß
+[6c-Abschluss](../implementation/cemaris-notice-generation-decision-gate-completion.md)
+nach ergänzender Quellenklärung mit Variante B beendet. Es bestätigt genau
+einen eng begrenzten Gebührenbescheidentwurf und bereitet die separate
+[technische 6c-Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md)
+vor. Das dokumentarische Gate implementiert die darin beschriebene
+OpenXML-/PDF-Architektur noch nicht. Deshalb wurde in diesem Gate kein
+ADR-0019 angelegt und ADR-0018 nicht geändert; die technische Umsetzung muss
+prüfen, ob ihre tatsächlich realisierte Architektur ein neues ADR erfordert.
 
 Das
 [5c-Abnahme- und Lebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)

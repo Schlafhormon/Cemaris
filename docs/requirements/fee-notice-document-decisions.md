@@ -219,3 +219,23 @@ Dokument-, Rechts-, Gebühren-, Integrations- und Migrationsfragen bleiben für
 Folgeinkremente offen. Vor einer späteren Bescheiderzeugung darf nur das
 [rein dokumentarische Folgegate](../implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md)
 ausgeführt werden.
+
+## Ergebnis des nachgelagerten Bescheiderzeugungsgates 6c
+
+Das Folgegate wurde am 27.08.2026 vollständig ausgeführt. Die
+[6c-Entscheidungsakte](notice-generation-decisions.md) grenzt genau einen
+späteren Gebührenbescheidentwurf für Beisetzungsgebühren ab und bestätigt die
+Rechts-, Ausgabe-, Rollen-, Korrektur-, Integrations- und Migrationsgrenzen.
+Der [Abschlussnachweis](../implementation/cemaris-notice-generation-decision-gate-completion.md)
+dokumentiert zunächst zwingend Variante A. Nach dieser Stop-Entscheidung hat
+der Projektleiter die fehlenden feldgenauen, qualitativen, ETag-, Audit-,
+Temp-, Benutzerkontakt- und Satzungsentscheidungen ergänzt und eine
+synthetische DOCX-Testquelle bereitgestellt. Der verbindliche Nachtrag der
+6c-Akte bestätigt dadurch NG-01 bis NG-10 und wählt endgültig Variante B.
+
+Die separate
+[technische 6c-Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md)
+ist vorbereitet, aber nicht ausgeführt. Die historischen Entscheidungen 6a
+und 6a-F sowie der technische 6b-Vertrag bleiben unverändert. Automatische
+Gebühren- oder Rechtsberechnung, Rechtswirkung, Zustellung, Archivierung,
+Integration, Produktivsetzung und Migration bleiben ausgeschlossen.

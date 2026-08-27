@@ -13,6 +13,15 @@ optionale Adapter, die bedingten Fähigkeiten und alle nachfolgenden offenen
 Schnittstellenfragen bleiben dadurch unverändert; aus ihnen wird kein
 Gebühren-, Bescheid- oder Dokument-Schreibumfang abgeleitet.
 
+Auch das nachgelagerte
+[6c-Bescheiderzeugungsgate](../implementation/cemaris-notice-generation-decision-gate-completion.md)
+ist nach ergänzender Quellenklärung mit Variante B abgeschlossen. Sein genau
+abgegrenzter technischer Development-Kandidat endet weiterhin bei
+DOCX-/PDF-Export oder Druck, speichert kein Dokument und besitzt weder
+Winyard-/DMS-Übergabe noch Rückkanal. Eine mögliche spätere Ablage in Winyard
+bleibt ein eigenständiges Integrationsinkrement und darf nicht still aus dem
+Erzeugungskandidaten abgeleitet werden.
+
 ## Aktueller EDWALT-Ist-Befund
 
 Für EDWALT ist keine Winyard-Schnittstelle vorhanden. Organisatorisch

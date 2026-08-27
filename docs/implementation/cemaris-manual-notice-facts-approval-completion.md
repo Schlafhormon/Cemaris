@@ -153,7 +153,12 @@ Nicht freigegeben sind insbesondere:
 - EDWALT-Gebührenstamm, Mapping, Backfill oder Migration.
 
 Die spätere Bescheiderzeugung ist weiterhin ausdrücklich vorgesehen. Sie wird
-nach 6b in einem eigenen Entscheidungs- und Freigabegate konkretisiert.
+nach 6b in einem eigenen Entscheidungs- und Freigabegate konkretisiert. Dieses
+[6c-Gate](cemaris-notice-generation-decision-gate-completion.md) ist
+mit Variante A als erstem Stop-Zwischenstand und nach ergänzender
+Quellenklärung endgültig mit Variante B abgeschlossen. Die separate
+[technische 6c-Übergabe](cemaris-increment-6c-next-step-handoff.md) ist
+vorbereitet, aber nicht ausgeführt.
 
 ## Dokumentationswirkung
 

@@ -40,6 +40,20 @@ Audit enthält keine Beträge, Kontierung, Gründe, Adressen oder Freitexte und
 besitzt keine Lese-, Such- oder Export-API. Der 6b-Kern ist rechtlich
 wirkungslos und keine Produktiv-, Dokument-, Finanz- oder Datenfreigabe.
 
+Das nachgelagerte
+[6c-Bescheiderzeugungsgate](docs/implementation/cemaris-notice-generation-decision-gate-completion.md)
+hat nach ergänzender Quellenklärung genau einen technischen
+Development-Kandidaten freigegeben. Die
+[6c-Übergabe](docs/implementation/cemaris-increment-6c-next-step-handoff.md)
+verlangt eine eigene standardmäßig deaktivierte Capability, bestehende
+Fallaktenrechte, starken Entwurfs-ETag, strikt validierte makro- und
+externreferenzfreie DOCX-Vorlagen, direkte gekapselte PDF-Konvertierung,
+isolierte Temp-Verzeichnisse und einen inhaltsfreien Erzeugungsaudit.
+Dokumentbytes, Inhalte, Pfade, Empfänger-, Kontakt-, Betrags- und Freitextwerte
+dürfen weder gespeichert noch protokolliert werden. Produktivsetzung,
+kommunale Vorlage und Betriebsaktivierung bleiben einem späteren Gate
+vorbehalten.
+
 ## Offenlegung
 
 Bitte ermögliche eine angemessene Analyse und Korrektur, bevor Details veröffentlicht werden. Ein verbindlicher Reaktionszeitraum kann vor der Etablierung eines Projekt-Sicherheitsteams noch nicht zugesagt werden.

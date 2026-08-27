@@ -193,5 +193,10 @@ aber nicht aus. API, Frontend-Dev-Server und Browser wurden nicht gestartet.
 ADR-0018 bleibt unverändert. Der kleinste nächste sichere Schritt ist
 ausschließlich das
 [dokumentarische Entscheidungsgate zur späteren Bescheiderzeugung](cemaris-notice-generation-decision-gate-next-step-handoff.md).
-Es erteilt keinen technischen Auftrag und nimmt weder Vorlage noch
-Rechtswirkung, Zustellung, Korrektur, Aufbewahrung oder Integration vorweg.
+Es wurde gemäß
+[6c-Abschluss](cemaris-notice-generation-decision-gate-completion.md) mit
+Variante A als erstem Stop-Zwischenstand ausgeführt und nach ergänzender
+Quellenklärung endgültig mit Variante B abgeschlossen. Die separate
+[technische 6c-Übergabe](cemaris-increment-6c-next-step-handoff.md) ist
+vorbereitet, aber noch nicht ausgeführt; ADR-0018 und der 6b-Vertrag bleiben
+unverändert.

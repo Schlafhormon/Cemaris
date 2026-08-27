@@ -201,5 +201,25 @@ Fachrevision und sparsamer Audit werden atomar geschrieben; Auditwerte sind
 nicht öffentlich lesbar. Korrektur und Verwerfen verwenden starke ETags.
 `Features:NoticeDraftEditingEnabled` bleibt standardmäßig aus und ist nur in
 Development zulässig. Daraus folgt keine Dokument-, Rechts-, Finanz- oder
-Produktivwirkung. Vor einer späteren Erzeugung steht das
-[rein dokumentarische Folgegate](../implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md).
+Produktivwirkung. Das nachgelagerte
+[rein dokumentarische Folgegate](../implementation/cemaris-notice-generation-decision-gate-completion.md)
+ist nach ergänzender Quellenklärung mit Variante B abgeschlossen.
+
+## Dokumentarisches Bescheiderzeugungsgate 6c
+
+Das
+[6c-Gate](../implementation/cemaris-notice-generation-decision-gate-completion.md)
+ist nach ergänzender Quellenklärung mit Variante B abgeschlossen. Die
+[Entscheidungsakte](../requirements/notice-generation-decisions.md) bestätigt
+als Produktziel einen rechtlich wirkungslosen Gebührenbescheidentwurf für
+Beisetzungsgebühren, der aus einer kommunal verantworteten Servervorlage als
+DOCX, PDF oder Ausdruck ausgegeben wird. Cemaris speichert das Dokument nicht,
+nimmt keine externe Bearbeitung zurück und integriert weder Winyard/DMS noch
+FINANZ+ oder Versand/Zustellung.
+
+Eine repräsentative synthetische Testquelle, der feldgenaue Datenvertrag,
+Benutzerkontakt- und Satzungsstammdaten sowie Qualitäts-, ETag-, Audit- und
+Temp-Grenzen sind bestätigt. Die separate
+[technische 6c-Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md)
+ist vorbereitet, aber noch nicht ausgeführt. Sie ändert den 6b-Vertrag und
+ADR-0018 nicht und erteilt keine Produktiv- oder Betriebsfreigabe.

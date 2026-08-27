@@ -171,8 +171,9 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 6a | Gebühren-/Bescheid-Entscheidungsgate | dokumentarisch abgeschlossen: Quellenmatrix, Fragen 6A-01 bis 6A-16 und Variantenvergleich führen zu Variante A „noch keine Implementierung“ | kein technischer 6b-Auftrag; vorhandener nullable Lesevertrag unverändert |
 | 6a-F | Freigabegate für manuelle Bescheid-/Finanzfakten | nach ergänzender funktionsbezogener Klärung mit Variante B abgeschlossen: bestätigungspflichtiger Zahlungspflichtiger, mehrere Entwürfe je Fall, Nummernkonfiguration und manueller EUR-Faktenkern | ausschließlich technischer Development-Pilot mit synthetischen Daten; [Entscheidungsakte](../requirements/manual-notice-financial-facts-decisions.md) |
 | 6b | Kanonische manuelle Bescheidentwürfe | [technisch Ende zu Ende umgesetzt](cemaris-increment-6b-completion.md): eigener additiver Entwurfskern, Nummernkonfiguration, Sequenz, Revision/Audit, API/OpenAPI und React-UI | Development-only und synthetisch; kein Dokument, keine Berechnung, keine Rechtswirkung, keine FINANZ+-Integration und keine Migration |
-| 6c-Gate | spätere Bescheiderzeugung entscheiden | [rein dokumentarisches Folgegate vorbereitet](cemaris-notice-generation-decision-gate-next-step-handoff.md) | noch kein technischer Auftrag; Vorlage, Rechtswirkung, Zustellung, Korrektur, Aufbewahrung und Integration offen |
-| 6c+ | Bescheiderzeugung, Gebührenausbau und Dokumente | nur nach getrennten vollständigen Entscheidungs- und Freigabegates | Gebühren-/Satzungsstände, Rechtswirkung, Vorlagen, Versand, Korrektur, Datenschutz, Betrieb und Migration |
+| 6c-Gate | spätere Bescheiderzeugung entscheiden | [nach ergänzender Quellenklärung mit Variante B abgeschlossen](cemaris-notice-generation-decision-gate-completion.md): genau ein Gebührenbescheidentwurf feldgenau bestätigt | [technische 6c-Übergabe](cemaris-increment-6c-next-step-handoff.md) vorbereitet, nicht ausgeführt; keine Produktivfreigabe |
+| 6c | rechtlich wirkungslosen Gebührenbescheidentwurf erzeugen | nächster technischer Development-Schnitt: Benutzerkontakte, Satzungsstammdaten, DOCX/PDF, Temp-Bereinigung und inhaltsfreier Audit | nur gemäß separater Übergabe; keine Rechtswirkung, Zustellung, Archivierung, Integration oder Migration |
+| 6c+ | weiterer Gebührenausbau und Dokumente | nur nach getrennten vollständigen Entscheidungs- und Freigabegates | Gebühren-/Satzungsberechnung, weitere Dokumentarten, Rechtswirkung, Versand, Korrektur, Datenschutz, Betrieb und Migration |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | übriges EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme jenseits des vorgezogenen Friedhofsstammdatenpfads | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
 
@@ -240,10 +241,15 @@ wirkungsloser manueller Entwurfskern mit eigener Nummer, Fachrevision, ETag,
 Audit und Synthetic-/EF-Providerparität umgesetzt. Die vorhandene nullable
 Bescheid-/Gebühren-Leseprojektion blieb unverändert und wird nicht als
 Schreibmodell interpretiert. Der nächste zulässige Schritt ist ausschließlich
-das [dokumentarische Entscheidungsgate](cemaris-notice-generation-decision-gate-next-step-handoff.md)
-vor einer möglichen späteren Bescheiderzeugung. Es erteilt noch keinen
-technischen Auftrag. Berechnung, FINANZ+-Integration, echte Verwaltungsdaten
-und Migration bleiben gesondert freizugeben.
+das [dokumentarische Entscheidungsgate](cemaris-notice-generation-decision-gate-completion.md)
+vor einer möglichen späteren Bescheiderzeugung. Es ist nach ergänzender
+Quellenklärung mit Variante B abgeschlossen. Der feldgenaue Kandidat und seine
+Produktgrenzen stehen in der
+[Entscheidungsakte](../requirements/notice-generation-decisions.md); der
+[technische 6c-Auftrag](cemaris-increment-6c-next-step-handoff.md) ist
+vorbereitet und noch nicht ausgeführt. Berechnung, Rechtswirkung,
+FINANZ+-Integration, echte Verwaltungsdaten, Produktivsetzung und Migration
+bleiben gesondert freizugeben.
 
 ## Bewusst nicht mit dem nächsten Inkrement behauptet
 

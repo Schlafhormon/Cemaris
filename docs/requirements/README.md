@@ -97,6 +97,14 @@ Zahlungspflichtiger und ein manueller EUR-Faktenkern. Der
 ist gemäß [6b-Abschluss](../implementation/cemaris-increment-6b-completion.md)
 umgesetzt; Bescheiderzeugung, Berechnung, FINANZ+-Integration, echte Daten und
 Migration bleiben ausgeschlossen.
+Das anschließende
+[6c-Entscheidungsgate](../implementation/cemaris-notice-generation-decision-gate-completion.md)
+ist nach ergänzender Quellenklärung rein dokumentarisch mit Variante B
+abgeschlossen. Die [Entscheidungsakte](notice-generation-decisions.md) grenzt
+einen Gebührenbescheidentwurf für Beisetzungsgebühren als einzigen ersten
+Kandidaten feldgenau ab. Die
+[technische 6c-Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md)
+ist vorbereitet, aber nicht ausgeführt und nicht produktiv freigegeben.
 
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -409,18 +417,34 @@ Berechnung, Bescheiderzeugung oder Finanzintegration.
 
 ## 13. Bescheide und Schreiben
 
-**Status:** UNBEKANNT. Es werden keine Texte oder Rechtsbehelfsbelehrungen
-erfunden. 6a hat mangels Dokumentart, Rechtsinhalt, Vorlagen-, Freigabe- und
-Aufbewahrungsregeln keine Dokumenterzeugung freigegeben. 6a-F bestätigt die
-spätere Cemaris-Bescheiderzeugung als Zielbild und gibt nur den davon
-getrennten rechtlich wirkungslosen Entwurfskern technisch frei. 6b enthält
-ausdrücklich kein Dokument.
+**Status:** BESTÄTIGT FÜR GENAU EINEN DEVELOPMENT-KANDIDATEN. Das
+[6c-Gate](notice-generation-decisions.md) grenzt genau einen späteren
+Gebührenbescheidentwurf für Beisetzungsgebühren ab. Cemaris soll nur einen
+rechtlich wirkungslosen Vorschlag als DOCX, PDF oder Ausdruck erzeugen; der
+Vorgang endet bei der Ausgabe. Prüfung, externe DOCX-Bearbeitung, Freigabe,
+Versand, Bekanntgabe und jede weitere Verwendung liegen außerhalb von
+Cemaris. Das Dokument wird nicht gespeichert; eine Neuerzeugung verwendet
+aktuelle Daten und die aktuelle kommunale Servervorlage.
 
-- Bestehende Dokumentarten, anonymisierte Muster und Auslöser inventarisieren.
-- OFFEN: Welche Inhalte sind fachlich, rechtlich oder kommunal vorgegeben?
-- OFFEN: Welche Briefköpfe, Sprachen, Barrierefreiheits- und PDF/A-Anforderungen gelten?
-- OFFEN: Wie erfolgen Entwurf, Prüfung, Freigabe, Versand, Korrektur und Aufhebung?
-- OFFEN: Welche Vorlagenversion muss für welchen Stichtag verwendet werden?
+- BESTÄTIGT: Die jeweilige Friedhofsverwaltung verantwortet Inhalt,
+  Freigabe und Aktualität ihrer Vorlage außerhalb von Cemaris; Administration
+  ersetzt die Datei im Serverdateisystem.
+- BESTÄTIGT: Cemaris verwaltet keine Vorlagenversion und keinen örtlichen
+  Freigabeworkflow.
+- BESTÄTIGT: Keine Winyard-/DMS-, FINANZ+-, Versand-, Zustell- oder
+  Rückimportfunktion gehört zum Kandidaten.
+- BESTÄTIGT: Eine vom Projektleiter bereitgestellte synthetische DOCX-Quelle
+  belegt den technischen Testvertrag; eine versionierte Test-Fixture darf
+  daraus ohne den zurückgestellten Anredeplatzhalter abgeleitet werden.
+- BESTÄTIGT: 23 Pflichtplatzhalter sind feldgenau an 6b-Entwurf, Fall,
+  Beteiligte, Beisetzung, Friedhofsstammdaten, Benutzerkontakt und ausgewählte
+  Satzungsversion gebunden.
+- BESTÄTIGT: DOCX muss in unterstütztem Word ohne Reparatur öffnen; PDF ist
+  DIN A4, unverschlüsselt, druckbar, textselektierbar und visuell abzunehmen.
+- BESTÄTIGT: starker Entwurfs-ETag, keine Fachmutation, isolierte sofortige
+  Temp-Bereinigung und inhaltsfreier Audit nach kommunaler Fall-/Auditregel.
+- NICHT IM KANDIDATEN: Empfängeranrede, PDF/A, PDF/UA, Signatur/Siegel,
+  Serverdruck, Rechtswirkung, Zustellung, Archivierung und Integration.
 
 ## 14. Dokumente und Winyard
 
@@ -693,3 +717,4 @@ Bewertungskriterien:
 | Gebühren-/Bescheid-Entscheidungsgate 6a | bestätigte Finanzprozessgrenze, vorläufige Bescheid-/Gebühren-Leseprojektion und offene Produktregeln | Quellenmatrix, Bewertung 6A-01 bis 6A-16, Variantenvergleich und gebündelte Freigabeliste | ausschließlich Repositoryquellen; keine Datenbank, Secrets, EDWALT- oder Satzungsoriginale | keine Produktimplementierung; kein technischer 6b-Auftrag | abgeschlossen mit Variante A | [Entscheidung](fee-notice-document-decisions.md) und [Abschlussnachweis](../implementation/cemaris-increment-6a-completion.md) |
 | Freigabegate für manuelle Bescheid-/Finanzfakten 6a-F | interaktiver Dialog, ergänzende funktionsbezogene Freigaben und technische Bestandsprüfung | bestätigungspflichtiger Zahlungspflichtiger, mehrere Entwürfe je Fall, eigene Nummer, manueller EUR-Faktenkern, Revision und FINANZ+-Grenze | ausschließlich Development-Pilot mit synthetischen Daten; deutschlandweites Produktziel nur konfigurierbar | kein Dokument, keine Berechnung, keine Rechtswirkung, keine Produktiv- oder Migrationsfreigabe | abgeschlossen mit Variante B | [Entscheidung](manual-notice-financial-facts-decisions.md), [Abschlussnachweis](../implementation/cemaris-manual-notice-facts-approval-completion.md) und [6b-Auftrag](../implementation/cemaris-increment-6b-next-step-handoff.md) |
 | kanonische manuelle Bescheidentwürfe 6b | bestätigte 6F-Entscheidungen und ADR-0018 | mehrere unabhängige rechtlich wirkungslose Entwürfe je Fall mit bestätigtem Zahlungspflichtigen, automatischer Nummer, manuellem EUR-Kern und Fachhistorie | kanonische Beteiligte, Development-Capability, ETag, Synthetic-/EF-Provider und additive Migration | keine Erzeugung, Berechnung, Festsetzung, Bekanntgabe, FINANZ+-Integration, echten Daten oder Migration | technisch umgesetzt | [Abschlussnachweis](../implementation/cemaris-increment-6b-completion.md); nächster Schritt nur [dokumentarisches Erzeugungsgate](../implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md) |
+| Bescheiderzeugungs-Entscheidungs- und Freigabegate 6c | interaktiver Dialog, 6b-Verträge, ergänzende funktionsbezogene Entscheidungen und synthetische Testquelle | genau einen Gebührenbescheidentwurf für Beisetzungsgebühren mit Feld-, Vorlagen-, Ausgabe-, Rollen-, Audit-, Temp-, Integrations- und Migrationsgrenzen bewerten | nur Development-Kandidat; Empfängeranrede, Rechtswirkung, Zustellung, Archivierung, Integration und Produktivsetzung ausgeschlossen | technische Übergabe vorbereitet, in diesem Gate keine Implementierung | nach erstem A-Zwischenstand endgültig mit Variante B abgeschlossen | [Entscheidungsakte](notice-generation-decisions.md), [Abschlussnachweis](../implementation/cemaris-notice-generation-decision-gate-completion.md) und [6c-Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md) |

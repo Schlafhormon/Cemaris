@@ -1,9 +1,15 @@
 # Folgegate: Entscheidungen vor einer späteren Bescheiderzeugung
 
-Stand: 26.08.2026
+Stand: 27.08.2026
 
-Status: **Vorbereitet, noch nicht ausgeführt.** Dies ist das ausschließlich
-dokumentarische Inkrement `6c-Gate`, nicht die technische Bescheiderzeugung.
+Status: **Ausgeführt und nach ergänzender Quellenklärung dokumentarisch mit
+Variante B abgeschlossen.** Die
+[Entscheidungsakte](../requirements/notice-generation-decisions.md) und der
+[Abschlussnachweis](cemaris-notice-generation-decision-gate-completion.md)
+erhalten die erste Stop-Entscheidung mit Variante A und dokumentieren den
+späteren verbindlichen Nachtrag. Die separate
+[technische 6c-Übergabe](cemaris-increment-6c-next-step-handoff.md) ist
+vorbereitet, aber noch nicht ausgeführt.
 
 ## Auftrag und Ergebnisgrenze
 

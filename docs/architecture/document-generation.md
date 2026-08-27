@@ -1,17 +1,13 @@
 # Konzept für Dokumente und Bescheide
 
-> **Status:** Zu validierende Produktvision. Das dokumentarische
-> [Gebühren-/Bescheid-Entscheidungsgate 6a](../implementation/cemaris-increment-6a-completion.md)
-> ist mit Variante A „noch keine Implementierung“ abgeschlossen. Es ist weder
-> eine Template-Engine noch ein fachlicher Bescheidtyp oder 6b-Schnitt
-> freigegeben. Auch das nachgelagerte
-> [6a-F-Gate](../implementation/cemaris-manual-notice-facts-approval-completion.md)
-> gibt nach ergänzender funktionsbezogener Klärung ausschließlich die
-> inzwischen gemäß
-> [6b-Abschluss](../implementation/cemaris-increment-6b-completion.md)
-> umgesetzten rechtlich wirkungslosen manuellen Entwürfe frei. Die spätere
-> Cemaris-Bescheiderzeugung ist als Zielbild belegt, bleibt aber ein eigenes
-> Freigabegate.
+> **Status:** Genau ein technischer Development-Kandidat ist dokumentarisch
+> entscheidungsreif, aber noch nicht implementiert. Das
+> [6c-Entscheidungsgate](../implementation/cemaris-notice-generation-decision-gate-completion.md)
+> grenzt einen rechtlich wirkungslosen Gebührenbescheidentwurf für
+> Beisetzungsgebühren ab und endet nach ergänzender Quellenklärung mit
+> Variante B. Die separate
+> [technische Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md)
+> ist vorbereitet, aber nicht ausgeführt.
 
 ## Ergebnis des Entscheidungsgates 6a
 
@@ -32,25 +28,54 @@ Bescheiderzeugung, Bekanntgabe, Versand, Vorlage, Rechtsbehelfsbelehrung und
 Dokumentaufbewahrung bleiben außerhalb. Die konkreteren Entwurfsfakten sind
 daher kein Dokumentvertrag.
 
-Vor jedem technischen Erzeugungsauftrag ist ausschließlich das
-[dokumentarische Entscheidungsgate](../implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md)
-zulässig. Es nimmt weder Vorlage noch Rechtswirkung, Zustellung, Korrektur,
-Aufbewahrung oder Integration vorweg.
+Das nachgelagerte
+[dokumentarische 6c-Gate](../requirements/notice-generation-decisions.md) hat
+die Produktgrenze feldgenau konkretisiert und nach ergänzender Testquellen-,
+Qualitäts-, ETag-, Audit- und Aufbewahrungsklärung genau einen technischen
+Development-Kandidaten freigegeben. Eine Produktiv- oder Betriebsfreigabe ist
+damit nicht verbunden.
 
-## Zielbild
+## Entschiedener technischer Kandidat 6c
+
+Die noch nicht ausgeführte
+[6c-Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md)
+verbindet Open-XML-basierte DOCX-Platzhalterersetzung mit einer gekapselten
+serverseitigen Headless-Konvertierung nach PDF. Produktivvorlagen liegen
+read-only in einem konfigurierten Serverstamm; Cemaris verwaltet weder Upload
+noch Version oder Freigabe. Eine versionierte synthetische Test-Fixture wird
+aus der freigegebenen lokalen Testquelle abgeleitet.
+
+Die Architektur ergänzt Benutzerkontaktfelder, kleine versionierte
+Satzungsstammdaten, eine eigene Capability/Policy und einen inhaltsfreien
+Erzeugungsaudit. Das Ergebnis wird nur gestreamt, nie serverseitig archiviert.
+Jede Erzeugung besitzt ein isoliertes Temp-Verzeichnis; Vorlage, Tokens,
+Pfade und Konverterprozess werden strikt validiert. Winyard, FINANZ+,
+Serverdruck, Versand und Rückimport bleiben außerhalb.
+
+## Bestätigter Kandidat und Ablauf
 
 ```text
-kommuneneigene, versionierte Vorlage
-  → validierte Platzhalter und Daten
-  → Vorschau
-  → fachliche Freigabe
-  → finales DOCX und/oder PDF
-  → kontrollierte Übergabe an das DMS
+aktuelle, kommunal verantwortete Serverdatei
+  + aktuelle Fall-, Stamm- und manuelle Entwurfsdaten
+  → rechtlich wirkungsloser Gebührenbescheidentwurf
+  → DOCX- oder PDF-Export beziehungsweise Druck
+  → Ende des Cemaris-Vorgangs
 ```
 
-Das spätere Modul soll kommuneneigene Briefköpfe und Vorlagen unterstützen, ohne Rechts- oder Bescheidtexte im Produkt fest zu erfinden. Für jedes erzeugte Dokument muss nachvollziehbar bleiben, welche Vorlagenversion, Datenbasis und Freigabe verwendet wurden.
+Die Friedhofsverwaltung verantwortet Inhalt, Freigabe, Aktualität und
+Gültigkeit der kommunalen Vorlage. Sachbearbeitungen melden Änderungen an die
+Administration; diese ersetzt die Datei außerhalb von Cemaris im
+Serverdateisystem. Cemaris soll die Vorlage nur lesen und weder
+Vorlagenversionen noch örtliche Inhaltsfreigaben verwalten.
 
-Für eine aktivierte Winyard-Integration ist die automatische Ablage fertiger
+Die Ausgabe ist ein Vorschlag ohne Festsetzung oder Rechtswirkung. Cemaris
+kennt keinen Status „fachlich freigegeben“ oder „versandt“. Eine exportierte
+DOCX-Datei kann außerhalb bearbeitet werden; sie kommt nicht zurück. Das
+Dokument wird nicht in Cemaris gespeichert. Eine Neuerzeugung verwendet den
+dann aktuellen Daten- und Vorlagenstand und muss einen früheren Export nicht
+reproduzieren.
+
+Für eine spätere, getrennt aktivierte Winyard-Integration ist die automatische Ablage fertiger
 Dokumente als `Soll` bestätigt
 ([REQ-DMS-005](../requirements/README.md),
 [INT-019](../requirements/edwalt-analysis/interview-record.md)). Cemaris muss
@@ -60,19 +85,21 @@ werden können ([REQ-DMS-010](../requirements/README.md),
 Winyard-Dokument-ID in Cemaris und das Öffnen des archivierten Dokuments aus
 Cemaris sind nicht erforderlich (REQ-DMS-007/008, `VERWORFEN`). Bei aktivierter
 Integration müssen Erfolg oder Fehler der Übergabe dagegen angezeigt werden
-(REQ-DMS-004, bedingtes Muss).
+(REQ-DMS-004, bedingtes Muss). Diese Fähigkeiten gehören ausdrücklich nicht
+zum abgegrenzten 6c-Kandidaten.
 
-## Zu erhebende Anforderungen
+## Im 6c-Nachtrag erfüllte Anforderungen
 
-- Welche Schreiben, Bescheide und Anlagen existieren tatsächlich?
-- Wer pflegt und wer genehmigt Vorlagen?
-- Welche Platzhalter, Wiederholbereiche, Tabellen und Bedingungen werden benötigt?
-- Müssen bestehende DOCX-Vorlagen unverändert weiterverwendet werden?
-- Welche Anforderungen gelten an Barrierefreiheit, PDF/A, Signaturen und Langzeitarchivierung?
-- Wann gilt ein Dokument als Entwurf, freigegeben, versandt oder storniert?
-- Welche Nachweise und Aufbewahrungsfristen gelten?
-- Welche Daten dürfen in Vorschau, temporären Dateien und Logs vorkommen?
-- Muss das finale Dokument unveränderbar gespeichert werden und welches System ist führend?
+- eine rechtmäßig bereitgestellte synthetische DOCX-Testquelle mit
+  technischen Platzhaltern und freigegebener Fixture-Ableitung;
+- Pflichtstatus, Quelle und Darstellung aller 23 unterstützten variablen
+  Felder einschließlich Benutzerkontakt und Satzungsstammdaten;
+- überprüfbare DOCX-/PDF-/Druckqualität; PDF/A, PDF/UA, Signatur und Siegel
+  sind ausdrücklich nicht Teil des ersten Kandidaten;
+- starker aktueller 6b-Entwurfs-ETag und konsistenter aktueller
+  Quelldatenstand; keine Fachmutation oder zusätzliche Fachrevision;
+- isolierte Temp-Dateigrenze und inhaltsfreier Audit nach kommunaler
+  Fall-/Auditaufbewahrung.
 
 ## Mögliche technische Ansätze
 
@@ -84,19 +111,18 @@ Integration müssen Erfolg oder Fehler der Übergabe dagegen angezeigt werden
 | Separater Dokumentdienst | Klare Isolation und skalierbare Konvertierung | Zusätzlicher Betrieb und verteilte Fehlerfälle; für den Start möglicherweise zu komplex |
 | HTML/CSS zu PDF | Webtechnologien und gute Testbarkeit | DOCX-Nachbearbeitung und exakte kommunale Office-Vorlagen schwieriger |
 
-Keine Option ist entschieden. Ein Proof of Concept darf erst nach einer
-zuständigen Freigabe repräsentative, rechtmäßig bereitgestellte und für den
-Zweck angemessen geschützte Vorlagen vergleichen.
+Für den eng begrenzten 6c-Development-Kandidaten wählt die vorbereitete
+technische Übergabe direkte OOXML-Bearbeitung mit dem Open XML SDK und eine
+gekapselte Headless-LibreOffice-Konvertierung. Die übrigen Ansätze bleiben
+Vergleichsoptionen für spätere Dokumentarten; daraus folgt keine allgemeine
+Engine- oder Produktiventscheidung.
 
-## Vorläufige Komponenten
+## Für 6c freigegeben, aber noch nicht umgesetzt
 
-- Vorlagenkatalog mit Version und Gültigkeit,
 - validierte Platzhalterdefinitionen,
 - Renderer beziehungsweise Konverter als austauschbarer Port,
-- Vorschau ohne endgültige Archivierung,
-- expliziter Freigabeschritt,
-- unveränderbare Referenz auf erzeugtes Ergebnis und Vorlagenversion,
-- Übergabe über den DMS-Adapter,
+- autorisierte Ausgabe ohne Dokumentarchivierung,
+- sparsamer inhaltsfreier Erzeugungsaudit,
 - technische Bereinigung temporärer Dateien.
 
 ## Sicherheits- und Datenschutzleitplanken
@@ -105,16 +131,19 @@ Zweck angemessen geschützte Vorlagen vergleichen.
 - Temporäre Dateien verschlüsselt beziehungsweise in kontrollierten Verzeichnissen verarbeiten und zuverlässig löschen.
 - Vorlagen als potenziell aktive Inhalte behandeln; Makros und externe Referenzen prüfen.
 - Platzhalter strikt validieren und keine freie Codeausführung erlauben.
-- Vorschau und Download autorisieren und auditierbar machen.
+- Erzeugung, Download und Druck über die vorhandenen Fallaktenrechte
+  autorisieren und inhaltsfrei auditieren.
 - Freigabe, Archivierung und erneute Erzeugung eindeutig unterscheiden.
 
-## Offene Entscheidungen
+## Außerhalb des ersten 6c-Kandidaten offen
 
-- konkrete Template- und Konvertierungsengine,
-- DOCX-, PDF- und PDF/A-Anforderungen,
-- Vorlagenverwaltung und Freigabeworkflow,
-- Signatur- und Siegelanforderungen,
+- Engine und Vorlagenvertrag weiterer Dokumentarten,
+- PDF/A-, PDF/UA-, Signatur- und Siegelanforderungen künftiger Kandidaten,
+- produktive Serverpfade, installierte Konverterversion, kommunale
+  Produktivvorlage und Betriebsaktivierung,
 - technisch notwendige Korrelation und Wiederholung ohne dauerhafte
   Winyard-Dokument-ID als Fachanforderung,
 - Verhalten bei DMS-Ausfall,
-- benötigte Aufbewahrung von Entwürfen und Zwischenständen.
+- konkrete kommunale Kalendervorgaben zur allgemeinen Fall-/Auditaufbewahrung;
+  erzeugte Dokumente und Zwischenstände bleiben nach der bestätigten
+  Produktgrenze ungespeichert.

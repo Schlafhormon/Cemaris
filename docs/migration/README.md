@@ -328,3 +328,16 @@ Gebühren-/Variantenauftrag bleibt pausiert. Eine spätere Migration von
 Bescheiden, Gebühren oder Dokumenten benötigt weiterhin ein separates
 Quell-, Mapping-, Datenschutz- und Abnahmegate. Details stehen im
 [6b-Abschluss](../implementation/cemaris-increment-6b-completion.md).
+
+Das nachgelagerte
+[6c-Bescheiderzeugungsgate](../implementation/cemaris-notice-generation-decision-gate-completion.md)
+bestätigt diese Grenze erneut und ist nach ergänzender Quellenklärung mit
+Variante B abgeschlossen. Auch der vorbereitete technische
+Development-Kandidat übernimmt ausschließlich aktuelle kanonische
+Cemaris-Daten; für ihn gibt es keine Übernahme und kein
+Backfill, keine Rückinterpretation und keine Nacherzeugung alter EDWALT- oder
+`ReadNotices`-/`ReadFeeItems`-Bestände. Eine spätere Erzeugung soll nur mit
+aktuellen kanonischen Cemaris-Daten arbeiten; daraus folgt kein Mapping- oder
+Migrationsauftrag. Benutzerkontakt-, Satzungs- und Erzeugungsaudittabellen
+einer späteren normalen additiven 6c-Schemamigration sind ebenfalls kein
+EDWALT-Migrationsumfang und werden nicht aus Altbeständen befüllt.

@@ -88,6 +88,31 @@ Capability ist standardmäßig deaktiviert und außerhalb `Development`
 unzulässig. Daraus folgen keine Erzeugungs-, Festsetzungs-, Versand- oder
 Produktivrechte.
 
+Das
+[6c-Bescheiderzeugungsgate](../implementation/cemaris-notice-generation-decision-gate-completion.md)
+bestätigt für den eng begrenzten technischen Kandidaten keine neue Systemrolle:
+`Sachbearbeitung` und `Administration` sollen im Rahmen ihrer vorhandenen
+Fallaktenrechte erzeugen, als DOCX/PDF exportieren und drucken dürfen. Der
+Vorlagenaustausch erfolgt ausschließlich außerhalb von Cemaris durch
+Serveradministration. Vorgesehen ist nur ein sparsames Auditereignis mit
+Fallbezug, Akteur, UTC-Zeit, Ausgabeformat und Erfolg oder Fehler; Dokument und
+Inhalt bleiben ausgeschlossen. ETag-/Quelldaten-/Revisionsbezug und
+Auditaufbewahrung sind inzwischen für den Kandidaten entschieden. Die
+technische Übergabe ist vorbereitet; eine Produktivfreigabe besteht nicht.
+
+Für die spätere 6c-Erzeugung werden am lokalen Konto getrennte optionale
+Kontaktfelder für Vorname, Nachname, Kontaktstelle, Zimmer, Telefon und E-Mail
+benötigt. Nur `Administration` pflegt sie; das Konto darf seine eigenen Werte
+lesen. `Username` und `DisplayName` bleiben unverändert. Erst die
+Erzeugungsoperation verlangt alle sechs Werte und bildet `KONTAKT_NAME`
+ausschließlich aus Vor- und Nachname.
+
+Der 6c-Erzeugungsaudit bleibt getrennt und inhaltsfrei: Fall-, Entwurfs- und
+Satzungsversion, Akteur, UTC-Zeitpunkt, Format sowie Erfolg oder stabile
+Fehlerklasse. Dokument, Pfade, Namen, Anschriften, Kontakte, Beträge und
+Freitexte sind ausgeschlossen. Eine öffentliche Audit-Lese- oder Export-API
+entsteht nicht.
+
 Jede erfolgreiche Entwurfs- oder Konfigurationsmutation erzeugt genau eine
 vollständige Fachrevision und einen getrennten sparsamen Audit in derselben
 Transaktion beziehungsweise Synthetic-kritischen Sektion. Der Entwurfsaudit

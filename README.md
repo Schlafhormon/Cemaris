@@ -149,9 +149,19 @@ Ende zu Ende umgesetzt: Domain/Application, Synthetic- und EF-Provider,
 additive Migration, Capability, Policies, ETags, Revision/Audit, API/OpenAPI
 und React-UI bleiben ausschließlich Development und synthetischen Daten
 vorbehalten. `ReadNotices` und `ReadFeeItems` sind weiterhin getrennte
-Altprojektionen. Gebührenberechnung, Bescheiderzeugung, FINANZ+-Integration
-und Migration bleiben gesperrt; als Folgeschritt existiert nur das
-[dokumentarische Bescheiderzeugungsgate](docs/implementation/cemaris-notice-generation-decision-gate-next-step-handoff.md).
+Altprojektionen. Das nachgelagerte
+[6c-Bescheiderzeugungsgate](docs/implementation/cemaris-notice-generation-decision-gate-completion.md)
+ist nach ergänzender Quellenklärung dokumentarisch mit Variante B
+abgeschlossen. Genau ein Kandidat – ein rechtlich wirkungsloser
+Gebührenbescheidentwurf für Beisetzungsgebühren – ist in der
+[6c-Entscheidungsakte](docs/requirements/notice-generation-decisions.md)
+feldgenau und funktionsbezogen bestätigt. Eine synthetische Testquelle,
+Benutzerkontakt- und Satzungsstammdaten, Qualitäts-, ETag-, Audit- und
+Temp-Grenzen sind entschieden. Die noch nicht ausgeführte
+[technische 6c-Übergabe](docs/implementation/cemaris-increment-6c-next-step-handoff.md)
+begrenzt die nächste Umsetzung. Gebührenberechnung, Rechtswirkung,
+Zustellung, Archivierung, FINANZ+-Integration, Migration und Produktivsetzung
+bleiben gesperrt.
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -507,10 +517,11 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
    Lebenszykluspfad bleibt pausiert und 5k stellt den dauerhaften lokalen
    SQL-Developmentbetrieb sowie den abgegrenzten nicht personenbezogenen
    EDWALT-Friedhofsstammdatenimport her
-6. abgeschlossene Gebühren-/Bescheid-Gates 6a und 6a-F sowie der technisch
+6. abgeschlossene Gebühren-/Bescheid-Gates 6a, 6a-F und 6c sowie der technisch
    abgeschlossene Development-Schnitt 6b für kanonische manuelle,
-   rechtlich wirkungslose Bescheidentwürfe; vor jeder späteren
-   Bescheiderzeugung steht ein neues rein dokumentarisches Entscheidungsgate
+   rechtlich wirkungslose Bescheidentwürfe; 6c bestätigt nach ergänzender
+   Quellenklärung genau einen technischen Development-Kandidaten, dessen
+   separate Übergabe noch nicht ausgeführt ist
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe
 9. Pilotbetrieb, Cutover und Nachkontrolle

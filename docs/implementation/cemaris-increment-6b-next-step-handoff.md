@@ -3,8 +3,14 @@
 > **Ausgeführt und abgeschlossen am 26.08.2026.** Der technische Nachweis
 > steht in der
 > [6b-Abschlussdokumentation](cemaris-increment-6b-completion.md). Der nächste
-> zulässige Schritt ist ausschließlich das
+> zulässige Schritt war ausschließlich das
 > [dokumentarische Entscheidungsgate zur späteren Bescheiderzeugung](cemaris-notice-generation-decision-gate-next-step-handoff.md).
+> Es ist gemäß
+> [6c-Abschluss](cemaris-notice-generation-decision-gate-completion.md) mit
+> Variante A als erstem Stop-Zwischenstand und nach ergänzender
+> Quellenklärung endgültig mit Variante B beendet. Die separate
+> [technische 6c-Übergabe](cemaris-increment-6c-next-step-handoff.md) ist
+> vorbereitet, aber nicht ausgeführt.
 
 Stand: 26.08.2026
 
