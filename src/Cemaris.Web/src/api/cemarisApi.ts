@@ -18,7 +18,7 @@ import type {
 } from '../types/identity'
 import type { CemeteryMasterData } from '../types/cemeteries'
 import type { Party, PartyDirectoryPage, PartySearchItem, StartRule, UsageRight, Versioned } from '../types/personUsageRights'
-import type { NoticeDraft, NoticeDraftListItem, NoticeNumberConfiguration } from '../types/noticeDrafts'
+import type { LegalBasisVersion, NoticeDraft, NoticeDraftListItem, NoticeGenerationFormat, NoticeNumberConfiguration } from '../types/noticeDrafts'
 
 const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim() ?? ''
 const apiBaseUrl = configuredBaseUrl.replace(/\/$/, '')
@@ -177,6 +177,21 @@ export function discardNoticeDraft(id: string, etag: string, reason: string) { r
 export function getNoticeNumberConfiguration(signal?: AbortSignal) { return getVersioned<NoticeNumberConfiguration>('/api/program-configuration/notice-number', signal) }
 export function createNoticeNumberConfiguration(input: unknown) { return sendVersioned<NoticeNumberConfiguration>('/api/program-configuration/notice-number', 'POST', input) }
 export function updateNoticeNumberConfiguration(id: string, etag: string, input: unknown) { return sendVersioned<NoticeNumberConfiguration>(`/api/program-configuration/notice-number/${encodeURIComponent(id)}`, 'PUT', input, etag) }
+export function getLegalBasisVersions(activeOnly: boolean, signal?: AbortSignal) { return getJson<LegalBasisVersion[]>(`/api/master-data/legal-basis-versions?activeOnly=${activeOnly}`, signal ?? new AbortController().signal) }
+export function createLegalBasisVersion(input: { name: string; versionDate: string }) { return sendVersioned<LegalBasisVersion>('/api/master-data/legal-basis-versions', 'POST', input) }
+export function setLegalBasisVersionActive(value: LegalBasisVersion, active: boolean) { return sendVersioned<LegalBasisVersion>(`/api/master-data/legal-basis-versions/${encodeURIComponent(value.id)}/active`, 'PUT', { isActive: active }, `"${value.version}"`) }
+
+export async function generateNoticeDraft(id: string, etag: string, burialId: string, legalBasisVersionId: string, format: NoticeGenerationFormat) {
+  const token = await getAntiforgeryToken()
+  const response = await fetch(`${apiBaseUrl}/api/notice-drafts/${encodeURIComponent(id)}/generate`, {
+    method: 'POST', credentials: 'include', headers: { Accept: format === 'Pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'Content-Type': 'application/json', 'X-Cemaris-CSRF': token, 'If-Match': etag },
+    body: JSON.stringify({ burialId, legalBasisVersionId, format }),
+  })
+  if (!response.ok) { notifySecurityStatus(response.status); throw new ApiError(response.status, await readProblem(response)) }
+  const disposition = response.headers.get('Content-Disposition') ?? ''
+  const matched = /filename="?([A-Za-z0-9_.-]+)"?/u.exec(disposition)
+  return { blob: await response.blob(), fileName: matched?.[1] ?? `Gebuehrenbescheidentwurf.${format === 'Pdf' ? 'pdf' : 'docx'}` }
+}
 
 export function getCurrentAccount(signal: AbortSignal) {
   return getJson<CurrentAccount>('/api/auth/me', signal)

@@ -51,6 +51,8 @@ public sealed class LocalIdentityTests
         Assert.Equal([SystemRole.Administration], CemarisPolicies.Matrix[CemarisPolicies.UserAdministration]);
         Assert.Equal([SystemRole.Administration], CemarisPolicies.Matrix[CemarisPolicies.ProgramConfiguration]);
         Assert.Equal([SystemRole.Administration], CemarisPolicies.Matrix[CemarisPolicies.FormTemplates]);
+        Assert.Equal(SystemRole.All, CemarisPolicies.Matrix[CemarisPolicies.NoticeGeneration]);
+        Assert.Equal([SystemRole.Administration], CemarisPolicies.Matrix[CemarisPolicies.LegalBasisAdministration]);
     }
 
     [Fact]
@@ -101,6 +103,22 @@ public sealed class LocalIdentityTests
         Assert.Null(store.Account.LockoutEndUtc);
     }
 
+    [Fact]
+    public async Task ContactProfileIsTrimmedValidatedAndDoesNotChangeDisplayNameMeaning()
+    {
+        var store = new AuthenticationStore(Account());
+        var service = new LocalAccountService(store, new PasswordHasher<LocalAccountSnapshot>(),
+            new MutableTimeProvider(new DateTimeOffset(2026, 8, 28, 8, 0, 0, TimeSpan.Zero)), new LocalAccountSecurityOptions());
+        var created = await service.CreateAsync(new("kontakt", "Unveränderter Anzeigename", "Sachbearbeitung",
+            "Synthetisches-Passwort-2026", " Ada ", " Synthetik ", " Stelle ", " 1 ", " +49 000 ", " ada@example.invalid "), CancellationToken.None);
+        Assert.Equal("Unveränderter Anzeigename", created.DisplayName);
+        Assert.Equal("Ada", created.FirstName); Assert.Equal("ada@example.invalid", created.Email);
+        await Assert.ThrowsAsync<LocalAccountValidationException>(() => service.CreateAsync(new("zweites", "Test",
+            "Sachbearbeitung", "Synthetisches-Passwort-2026", Email: "nicht-gueltig"), CancellationToken.None));
+        await Assert.ThrowsAsync<LocalAccountValidationException>(() => service.CreateAsync(new("drittes", "Test",
+            "Sachbearbeitung", "Synthetisches-Passwort-2026", ContactPoint: "Zeile\nZwei"), CancellationToken.None));
+    }
+
     private static LocalAccountSnapshot Account()
     {
         var now = new DateTimeOffset(2026, 8, 13, 8, 0, 0, TimeSpan.Zero);
@@ -130,12 +148,12 @@ public sealed class LocalIdentityTests
         public Task<IReadOnlyList<LocalAccountSnapshot>> ListAsync(CancellationToken cancellationToken) => Task.FromResult<IReadOnlyList<LocalAccountSnapshot>>([Account]);
         public Task<LocalAccountSnapshot?> FindByIdAsync(Guid id, CancellationToken cancellationToken) => Task.FromResult<LocalAccountSnapshot?>(id == Account.Id ? Account : null);
         public Task<LocalAccountSnapshot?> FindByNormalizedUsernameAsync(string normalizedUsername, CancellationToken cancellationToken) => Task.FromResult<LocalAccountSnapshot?>(normalizedUsername == Account.NormalizedUsername ? Account : null);
-        public Task<LocalAccountOperationResult> CreateAsync(LocalAccountSnapshot value, CancellationToken cancellationToken) => throw new NotSupportedException();
+        public Task<LocalAccountOperationResult> CreateAsync(LocalAccountSnapshot value, CancellationToken cancellationToken) { Account = value with { Version = BitConverter.GetBytes(2L) }; return Task.FromResult(new LocalAccountOperationResult(LocalAccountOperationStatus.Success, Account)); }
         public Task<LocalAccountOperationResult> CreateFirstAdministratorAsync(LocalAccountSnapshot value, CancellationToken cancellationToken) => throw new NotSupportedException();
         public Task<LocalAccountSnapshot?> RegisterFailedLoginAsync(string normalizedUsername, DateTimeOffset occurredAtUtc, int maximumAttempts, TimeSpan lockoutDuration, CancellationToken cancellationToken) { var previousAttempts = Account.LockoutEndUtc is not null && Account.LockoutEndUtc <= occurredAtUtc ? 0 : Account.FailedLoginAttempts; var attempts = Math.Min(maximumAttempts, previousAttempts + 1); Account = Account with { FailedLoginAttempts = attempts, LockoutEndUtc = attempts >= maximumAttempts ? occurredAtUtc.Add(lockoutDuration) : null }; return Task.FromResult<LocalAccountSnapshot?>(Account); }
         public Task<LocalAccountOperationResult> CompleteSuccessfulLoginAsync(Guid accountId, string? rehashedPassword, DateTimeOffset occurredAtUtc, CancellationToken cancellationToken) { Account = Account with { FailedLoginAttempts = 0, LockoutEndUtc = null, PasswordHash = rehashedPassword ?? Account.PasswordHash }; return Task.FromResult(new LocalAccountOperationResult(LocalAccountOperationStatus.Success, Account)); }
         public Task<LocalAccountOperationResult> ChangePasswordAsync(Guid accountId, byte[] expectedVersion, string passwordHash, bool mustChangePassword, DateTimeOffset occurredAtUtc, CancellationToken cancellationToken) => throw new NotSupportedException();
-        public Task<LocalAccountOperationResult> UpdateAsync(Guid actorId, Guid accountId, byte[] expectedVersion, string username, string normalizedUsername, string displayName, SystemRole role, DateTimeOffset occurredAtUtc, CancellationToken cancellationToken) => throw new NotSupportedException();
+        public Task<LocalAccountOperationResult> UpdateAsync(Guid actorId, Guid accountId, byte[] expectedVersion, string username, string normalizedUsername, string displayName, SystemRole role, string? firstName, string? lastName, string? contactPoint, string? room, string? phone, string? email, DateTimeOffset occurredAtUtc, CancellationToken cancellationToken) => throw new NotSupportedException();
         public Task<LocalAccountOperationResult> SetActiveAsync(Guid actorId, Guid accountId, byte[] expectedVersion, bool isActive, DateTimeOffset occurredAtUtc, CancellationToken cancellationToken) => throw new NotSupportedException();
     }
 }

@@ -15,6 +15,7 @@ interface CaseDetailsPageProps {
   burialProcessEditingEnabled?: boolean
   personUsageRightsEditingEnabled?: boolean
   noticeDraftEditingEnabled?: boolean
+  noticeGenerationEnabled?: boolean
 }
 
 function displayValue(value: ReactNode) {
@@ -97,7 +98,7 @@ function searchReturnUrl() {
   }
 }
 
-export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProcessEditingEnabled = false, personUsageRightsEditingEnabled = false, noticeDraftEditingEnabled = false }: CaseDetailsPageProps) {
+export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProcessEditingEnabled = false, personUsageRightsEditingEnabled = false, noticeDraftEditingEnabled = false, noticeGenerationEnabled = false }: CaseDetailsPageProps) {
   const returnTo = searchReturnUrl()
   const [caseOverview, setCaseOverview] = useState<CaseOverview>()
   const [loading, setLoading] = useState(true)
@@ -200,7 +201,7 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProc
       )}
 
       <div className="detail-sections">
-        {noticeDraftEditingEnabled && <NoticeDraftPanel caseId={caseOverview.id} graveSiteId={personUsageRightsEditingEnabled ? caseOverview.grave.graveSiteId ?? undefined : undefined} />}
+        {noticeDraftEditingEnabled && <NoticeDraftPanel caseId={caseOverview.id} graveSiteId={personUsageRightsEditingEnabled ? caseOverview.grave.graveSiteId ?? undefined : undefined} burials={caseOverview.burials} noticeGenerationEnabled={noticeGenerationEnabled} />}
         {personUsageRightsEditingEnabled && caseOverview.grave.graveSiteId && <PersonUsageRightsPanel graveSiteId={caseOverview.grave.graveSiteId} />}
         <section className="detail-section">
           <h2>Grabstelle</h2>

@@ -1,3 +1,4 @@
+using System.Net.Mail;
 using Microsoft.AspNetCore.Identity;
 
 namespace Cemaris.Application.Identity;
@@ -59,12 +60,15 @@ public sealed class LocalAccountService(
             command.Username,
             command.DisplayName,
             command.Role);
+        var contacts = ValidateContactFields(command.FirstName, command.LastName, command.ContactPoint,
+            command.Room, command.Phone, command.Email);
         ValidatePassword(command.Password);
 
         var now = timeProvider.GetUtcNow();
         var account = new LocalAccountSnapshot(
             Guid.NewGuid(), username, normalizedUsername, displayName, role, string.Empty,
-            true, 0, null, true, Guid.NewGuid(), now, now, now, null, []);
+            true, 0, null, true, Guid.NewGuid(), now, now, now, null, [],
+            contacts.FirstName, contacts.LastName, contacts.ContactPoint, contacts.Room, contacts.Phone, contacts.Email);
         account = account with { PasswordHash = passwordHasher.HashPassword(account, command.Password!) };
 
         var result = await store.CreateAsync(account, cancellationToken);
@@ -87,9 +91,12 @@ public sealed class LocalAccountService(
             command.Username,
             command.DisplayName,
             command.Role);
+        var contacts = ValidateContactFields(command.FirstName, command.LastName, command.ContactPoint,
+            command.Room, command.Phone, command.Email);
         var result = await store.UpdateAsync(
             actorId, accountId, command.ExpectedVersion, username, normalizedUsername,
-            displayName, role, timeProvider.GetUtcNow(), cancellationToken);
+            displayName, role, contacts.FirstName, contacts.LastName, contacts.ContactPoint,
+            contacts.Room, contacts.Phone, contacts.Email, timeProvider.GetUtcNow(), cancellationToken);
         return result.Status == LocalAccountOperationStatus.DuplicateUsername
             ? throw DuplicateUsername()
             : result;
@@ -176,7 +183,51 @@ public sealed class LocalAccountService(
     public static LocalAccountSummary ToSummary(LocalAccountSnapshot account) => new(
         account.Id, account.Username, account.DisplayName, account.Role, account.IsActive,
         account.MustChangePassword, account.CreatedAtUtc, account.UpdatedAtUtc,
-        LocalAccountVersion.Encode(account.Version));
+        LocalAccountVersion.Encode(account.Version), account.FirstName, account.LastName,
+        account.ContactPoint, account.Room, account.Phone, account.Email);
+
+    private static (string? FirstName, string? LastName, string? ContactPoint, string? Room, string? Phone, string? Email)
+        ValidateContactFields(string? firstNameValue, string? lastNameValue, string? contactPointValue,
+            string? roomValue, string? phoneValue, string? emailValue)
+    {
+        var errors = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);
+        var firstName = ValidateOptionalText("firstName", firstNameValue, 200, errors);
+        var lastName = ValidateOptionalText("lastName", lastNameValue, 200, errors);
+        var contactPoint = ValidateOptionalText("contactPoint", contactPointValue, 200, errors);
+        var room = ValidateOptionalText("room", roomValue, 100, errors);
+        var phone = ValidateOptionalText("phone", phoneValue, 100, errors);
+        var email = ValidateOptionalText("email", emailValue, 254, errors);
+        if (email is not null)
+        {
+            try
+            {
+                var parsed = new MailAddress(email);
+                if (!string.Equals(parsed.Address, email, StringComparison.OrdinalIgnoreCase))
+                {
+                    errors["email"] = ["Die E-Mail-Adresse ist ungültig."];
+                }
+            }
+            catch (FormatException)
+            {
+                errors["email"] = ["Die E-Mail-Adresse ist ungültig."];
+            }
+        }
+
+        if (errors.Count > 0) throw new LocalAccountValidationException(errors);
+        return (firstName, lastName, contactPoint, room, phone, email);
+    }
+
+    private static string? ValidateOptionalText(string field, string? value, int maximumLength,
+        Dictionary<string, string[]> errors)
+    {
+        var trimmed = value?.Trim();
+        if (string.IsNullOrEmpty(trimmed)) return null;
+        if (trimmed.Length > maximumLength || trimmed.Any(character => char.IsControl(character)))
+        {
+            errors[field] = [$"Das Feld darf höchstens {maximumLength} Zeichen und keine Steuerzeichen enthalten."];
+        }
+        return trimmed;
+    }
 
     private void ValidatePassword(string? password)
     {

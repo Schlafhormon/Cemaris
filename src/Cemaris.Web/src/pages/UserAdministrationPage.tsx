@@ -18,6 +18,12 @@ const initialAccount: CreateAccountInput = {
   displayName: '',
   role: 'Sachbearbeitung',
   password: '',
+  firstName: '',
+  lastName: '',
+  contactPoint: '',
+  room: '',
+  phone: '',
+  email: '',
 }
 
 export function UserAdministrationPage() {
@@ -68,6 +74,14 @@ export function UserAdministrationPage() {
           <RoleSelect value={draft.role} onChange={(role) => setDraft({ ...draft, role })} />
           <label>Temporäres Passwort<input type="password" required minLength={12} maxLength={128} autoComplete="new-password" value={draft.password} onChange={(event) => setDraft({ ...draft, password: event.target.value })} /></label>
         </div>
+        <div className="editor-grid editor-grid--four">
+          <label>Vorname<input maxLength={200} value={draft.firstName} onChange={(event) => setDraft({ ...draft, firstName: event.target.value })} /></label>
+          <label>Nachname<input maxLength={200} value={draft.lastName} onChange={(event) => setDraft({ ...draft, lastName: event.target.value })} /></label>
+          <label>Kontaktstelle<input maxLength={200} value={draft.contactPoint} onChange={(event) => setDraft({ ...draft, contactPoint: event.target.value })} /></label>
+          <label>Zimmer<input maxLength={100} value={draft.room} onChange={(event) => setDraft({ ...draft, room: event.target.value })} /></label>
+          <label>Telefon<input maxLength={100} value={draft.phone} onChange={(event) => setDraft({ ...draft, phone: event.target.value })} /></label>
+          <label>E-Mail<input type="email" maxLength={254} value={draft.email} onChange={(event) => setDraft({ ...draft, email: event.target.value })} /></label>
+        </div>
         <button className="button button--primary" type="submit">Konto anlegen</button>
       </form>
       {message && <p className="form-message" role="status">{message}</p>}
@@ -84,13 +98,19 @@ function AccountEditor({ account, onChanged }: { account: LocalAccount; onChange
   const [username, setUsername] = useState(account.username)
   const [displayName, setDisplayName] = useState(account.displayName)
   const [role, setRole] = useState<SystemRole>(account.role)
+  const [firstName, setFirstName] = useState(account.firstName ?? '')
+  const [lastName, setLastName] = useState(account.lastName ?? '')
+  const [contactPoint, setContactPoint] = useState(account.contactPoint ?? '')
+  const [room, setRoom] = useState(account.room ?? '')
+  const [phone, setPhone] = useState(account.phone ?? '')
+  const [email, setEmail] = useState(account.email ?? '')
   const [temporaryPassword, setTemporaryPassword] = useState('')
   const [message, setMessage] = useState('')
 
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     try {
-      const changed = await updateAccount(account.id, { username, displayName, role, version: account.version })
+      const changed = await updateAccount(account.id, { username, displayName, role, version: account.version, firstName, lastName, contactPoint, room, phone, email })
       onChanged(changed)
       setMessage('Kontodaten gespeichert.')
     } catch (error) {
@@ -126,6 +146,14 @@ function AccountEditor({ account, onChanged }: { account: LocalAccount; onChange
           <label>Benutzername<input required maxLength={100} value={username} onChange={(event) => setUsername(event.target.value)} /></label>
           <label>Anzeigename<input required maxLength={200} value={displayName} onChange={(event) => setDisplayName(event.target.value)} /></label>
           <RoleSelect value={role} onChange={setRole} />
+        </div>
+        <div className="editor-grid">
+          <label>Vorname<input maxLength={200} value={firstName} onChange={(event) => setFirstName(event.target.value)} /></label>
+          <label>Nachname<input maxLength={200} value={lastName} onChange={(event) => setLastName(event.target.value)} /></label>
+          <label>Kontaktstelle<input maxLength={200} value={contactPoint} onChange={(event) => setContactPoint(event.target.value)} /></label>
+          <label>Zimmer<input maxLength={100} value={room} onChange={(event) => setRoom(event.target.value)} /></label>
+          <label>Telefon<input maxLength={100} value={phone} onChange={(event) => setPhone(event.target.value)} /></label>
+          <label>E-Mail<input type="email" maxLength={254} value={email} onChange={(event) => setEmail(event.target.value)} /></label>
         </div>
         <div className="form-actions"><button className="button button--primary" type="submit">Kontodaten speichern</button><button className="button" type="button" onClick={toggleActive}>{account.isActive ? 'Deaktivieren' : 'Aktivieren'}</button></div>
       </form>

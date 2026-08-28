@@ -174,6 +174,12 @@ public sealed class EfLocalAccountStore(CemarisDbContext dbContext) : ILocalAcco
         string normalizedUsername,
         string displayName,
         SystemRole role,
+        string? firstName,
+        string? lastName,
+        string? contactPoint,
+        string? room,
+        string? phone,
+        string? email,
         DateTimeOffset occurredAtUtc,
         CancellationToken cancellationToken)
     {
@@ -202,6 +208,12 @@ public sealed class EfLocalAccountStore(CemarisDbContext dbContext) : ILocalAcco
         entity.NormalizedUsername = normalizedUsername;
         entity.DisplayName = displayName;
         entity.Role = role.Value;
+        entity.FirstName = firstName;
+        entity.LastName = lastName;
+        entity.ContactPoint = contactPoint;
+        entity.Room = room;
+        entity.Phone = phone;
+        entity.Email = email;
         entity.UpdatedAtUtc = occurredAtUtc;
         entity.SecurityStamp = Guid.NewGuid();
         try
@@ -352,7 +364,8 @@ public sealed class EfLocalAccountStore(CemarisDbContext dbContext) : ILocalAcco
         SystemRole.Parse(entity.Role), entity.PasswordHash, entity.IsActive,
         entity.FailedLoginAttempts, entity.LockoutEndUtc, entity.MustChangePassword,
         entity.SecurityStamp, entity.CreatedAtUtc, entity.UpdatedAtUtc,
-        entity.PasswordChangedAtUtc, entity.LastLoginAtUtc, entity.Version.ToArray());
+        entity.PasswordChangedAtUtc, entity.LastLoginAtUtc, entity.Version.ToArray(),
+        entity.FirstName, entity.LastName, entity.ContactPoint, entity.Room, entity.Phone, entity.Email);
 
     private static LocalAccountEntity Map(LocalAccountSnapshot account) => new()
     {
@@ -371,5 +384,11 @@ public sealed class EfLocalAccountStore(CemarisDbContext dbContext) : ILocalAcco
         UpdatedAtUtc = account.UpdatedAtUtc,
         PasswordChangedAtUtc = account.PasswordChangedAtUtc,
         LastLoginAtUtc = account.LastLoginAtUtc,
+        FirstName = account.FirstName,
+        LastName = account.LastName,
+        ContactPoint = account.ContactPoint,
+        Room = account.Room,
+        Phone = account.Phone,
+        Email = account.Email,
     };
 }

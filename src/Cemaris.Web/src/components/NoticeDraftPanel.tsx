@@ -1,15 +1,19 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useEffectEvent, useRef, useState, type FormEvent } from 'react'
 import {
   ApiError,
   correctNoticeDraft,
   createNoticeDraft,
   discardNoticeDraft,
+  generateNoticeDraft,
+  getLegalBasisVersions,
   getParty,
   getNoticeDraft,
   getNoticeDrafts,
   getUsageRightByGraveSite,
 } from '../api/cemarisApi'
 import type { NoticeDraft, NoticeDraftListItem } from '../types/noticeDrafts'
+import type { LegalBasisVersion, NoticeGenerationFormat } from '../types/noticeDrafts'
+import type { BurialDetails } from '../types/cases'
 import type { Party, Versioned } from '../types/personUsageRights'
 import { FormErrorSummary } from './FormErrorSummary'
 import { PartySearchAndDetails } from './PartyManagement'
@@ -18,9 +22,11 @@ import { useFormFeedback } from './useFormFeedback'
 interface NoticeDraftPanelProps {
   caseId: string
   graveSiteId?: string
+  burials?: BurialDetails[]
+  noticeGenerationEnabled?: boolean
 }
 
-export function NoticeDraftPanel({ caseId, graveSiteId }: NoticeDraftPanelProps) {
+export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], noticeGenerationEnabled = false }: NoticeDraftPanelProps) {
   const [drafts, setDrafts] = useState<NoticeDraftListItem[]>()
   const [selected, setSelected] = useState<Versioned<NoticeDraft> | null>(null)
   const [payer, setPayer] = useState<Versioned<Party> | null>()
@@ -122,7 +128,7 @@ export function NoticeDraftPanel({ caseId, graveSiteId }: NoticeDraftPanelProps)
                 : <div className="notice-draft-list">{drafts.map((draft) => <article className={`notice-draft-card${selected?.value.id === draft.id ? ' notice-draft-card--selected' : ''}`} key={draft.id}><div><strong>{draft.noticeNumber}</strong><span>{draft.payerDisplayNameSnapshot} · {formatAmount(draft.totalAmount, draft.currency)}</span><small>{formatDate(draft.noticeDate)} · Version {draft.version}</small></div><div><span className={`status-chip${draft.status === 'Draft' ? ' status-chip--active' : ''}`}>{draft.status === 'Draft' ? 'Entwurf' : 'Verworfen'}</span><button className="button" type="button" onClick={() => void selectDraft(draft.id)}>Öffnen</button></div></article>)}</div>}
           </section>
 
-          {selected && <DraftDetails draft={selected} payer={payer} onChanged={updateDraft} onError={showError} />}
+          {selected && <DraftDetails draft={selected} payer={payer} burials={burials} noticeGenerationEnabled={noticeGenerationEnabled} onChanged={updateDraft} onError={showError} onSuccess={showSuccess} />}
         </div>
 
         <aside className="usage-right-sidebar notice-draft-sidebar" aria-labelledby="payer-selection-heading">
@@ -167,11 +173,14 @@ function DraftCreateForm({ caseId, payer, onCreated, onError }: {
   </form>
 }
 
-function DraftDetails({ draft, payer, onChanged, onError }: {
+function DraftDetails({ draft, payer, burials, noticeGenerationEnabled, onChanged, onError, onSuccess }: {
   draft: Versioned<NoticeDraft>
   payer: Versioned<Party> | null | undefined
+  burials: BurialDetails[]
+  noticeGenerationEnabled: boolean
   onChanged: (value: Versioned<NoticeDraft>, success: string) => void
   onError: (error: unknown) => void
+  onSuccess: (message: string) => void
 }) {
   const value = draft.value
   return <section className="workspace-card notice-draft-details" aria-labelledby="selected-draft-heading">
@@ -187,8 +196,53 @@ function DraftDetails({ draft, payer, onChanged, onError }: {
       <details className="action-disclosure"><summary>Fakten korrigieren <span aria-hidden="true">＋</span></summary><DraftCorrectionForm draft={draft} payer={payer} onChanged={onChanged} onError={onError} /></details>
       <details className="action-disclosure"><summary>Entwurf verwerfen <span aria-hidden="true">＋</span></summary><DraftDiscardForm draft={draft} onChanged={onChanged} onError={onError} /></details>
     </div>}
+    {value.status === 'Draft' && noticeGenerationEnabled && <NoticeGenerationForm draft={draft} burials={burials} onError={onError} onSuccess={onSuccess} />}
     <details className="history-disclosure"><summary>Vollständige Fachrevisionen <span>{value.revisions.length}</span></summary><ol className="revision-list">{value.revisions.map((revision) => <li key={revision.id}><strong>Version {revision.resultingVersion} · {revision.mutationType}</strong><span>{revision.reason ?? 'Anlage'} · {revision.actorDisplayName} · {formatDateTime(revision.occurredAtUtc)}</span><small>{revision.payerDisplayNameSnapshot} · {formatAmount(revision.totalAmount, revision.currency)} · {revision.status === 'Draft' ? 'Entwurf' : 'Verworfen'}</small></li>)}</ol></details>
   </section>
+}
+
+function NoticeGenerationForm({ draft, burials, onError, onSuccess }: { draft: Versioned<NoticeDraft>; burials: BurialDetails[]; onError: (error: unknown) => void; onSuccess: (message: string) => void }) {
+  const [legalBases, setLegalBases] = useState<LegalBasisVersion[]>([])
+  const [burialId, setBurialId] = useState('')
+  const [legalBasisVersionId, setLegalBasisVersionId] = useState('')
+  const [format, setFormat] = useState<NoticeGenerationFormat>('Docx')
+  const [working, setWorking] = useState(false)
+  const reportError = useEffectEvent(onError)
+  const eligibleBurials = burials.filter(item => item.burialDate && item.deceasedPersonId && item.graveSiteId)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    getLegalBasisVersions(true, controller.signal).then(setLegalBases).catch(reportError)
+    return () => controller.abort()
+  }, [draft.value.id])
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault(); setWorking(true)
+    try {
+      const artifact = await generateNoticeDraft(draft.value.id, draft.etag, burialId, legalBasisVersionId, format)
+      const url = URL.createObjectURL(artifact.blob)
+      try {
+        const link = document.createElement('a'); link.href = url; link.download = artifact.fileName
+        document.body.appendChild(link); link.click(); link.remove()
+      } finally { URL.revokeObjectURL(url) }
+      onSuccess(format === 'Pdf'
+        ? 'PDF-Entwurf heruntergeladen. Zum Drucken öffnen Sie die lokale Datei bewusst in einem PDF-Programm.'
+        : 'DOCX-Entwurf heruntergeladen.')
+    } catch (error) { onError(error) } finally { setWorking(false) }
+  }
+
+  return <form className="compact-form compact-form--inset" onSubmit={(event) => void submit(event)} aria-labelledby="generation-heading">
+    <h4 id="generation-heading">Dokument flüchtig erzeugen</h4>
+    <p className="selection-notice"><strong>Rechtlich wirkungsloser Entwurf.</strong> Keine Freigabe, Signatur, Zustellung oder Archivierung. Cemaris berechnet weder Gebühren noch Rechtsgrundlagen oder Fälligkeiten.</p>
+    <div className="compact-form-grid">
+      <label>Beisetzung<select required value={burialId} onChange={event => setBurialId(event.target.value)}><option value="">Bitte wählen</option>{eligibleBurials.map(item => <option value={item.id} key={item.id}>{formatDate(item.burialDate!)} · {item.id}</option>)}</select></label>
+      <label>Satzungsversion<select required value={legalBasisVersionId} onChange={event => setLegalBasisVersionId(event.target.value)}><option value="">Bitte wählen</option>{legalBases.map(item => <option value={item.id} key={item.id}>{item.name} · {formatDate(item.versionDate)}</option>)}</select></label>
+      <label>Format<select value={format} onChange={event => setFormat(event.target.value as NoticeGenerationFormat)}><option value="Docx">DOCX</option><option value="Pdf">PDF</option></select></label>
+    </div>
+    {eligibleBurials.length === 0 && <p className="missing-value">Keine vollständig verknüpfte tatsächliche Beisetzung auswählbar.</p>}
+    {legalBases.length === 0 && <p className="missing-value">Keine aktive Satzungsversion auswählbar.</p>}
+    <button className="button button--primary" type="submit" disabled={working || eligibleBurials.length === 0 || legalBases.length === 0}>{working ? 'Entwurf wird erzeugt …' : 'Rechtlich wirkungslosen Entwurf herunterladen'}</button>
+  </form>
 }
 
 function DraftCorrectionForm({ draft, payer, onChanged, onError }: {

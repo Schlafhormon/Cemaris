@@ -26,7 +26,13 @@ public sealed record LocalAccountSnapshot(
     DateTimeOffset UpdatedAtUtc,
     DateTimeOffset PasswordChangedAtUtc,
     DateTimeOffset? LastLoginAtUtc,
-    byte[] Version);
+    byte[] Version,
+    string? FirstName = null,
+    string? LastName = null,
+    string? ContactPoint = null,
+    string? Room = null,
+    string? Phone = null,
+    string? Email = null);
 
 public sealed record LocalAccountSummary(
     Guid Id,
@@ -37,19 +43,37 @@ public sealed record LocalAccountSummary(
     bool MustChangePassword,
     DateTimeOffset CreatedAtUtc,
     DateTimeOffset UpdatedAtUtc,
-    string Version);
+    string Version,
+    string? FirstName,
+    string? LastName,
+    string? ContactPoint,
+    string? Room,
+    string? Phone,
+    string? Email);
 
 public sealed record CreateLocalAccountCommand(
     string? Username,
     string? DisplayName,
     string? Role,
-    string? Password);
+    string? Password,
+    string? FirstName = null,
+    string? LastName = null,
+    string? ContactPoint = null,
+    string? Room = null,
+    string? Phone = null,
+    string? Email = null);
 
 public sealed record UpdateLocalAccountCommand(
     string? Username,
     string? DisplayName,
     string? Role,
-    byte[] ExpectedVersion);
+    byte[] ExpectedVersion,
+    string? FirstName = null,
+    string? LastName = null,
+    string? ContactPoint = null,
+    string? Room = null,
+    string? Phone = null,
+    string? Email = null);
 
 public enum LocalAccountOperationStatus
 {

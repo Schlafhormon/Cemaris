@@ -224,8 +224,8 @@ describe('Capability-Grenze', () => {
     const user = userEvent.setup()
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
       const path = String(input)
-      if (path.endsWith('/api/auth/me')) return jsonResponse(currentAccount)
-      if (path.endsWith('/api/system/info')) return jsonResponse({ noticeDraftEditingEnabled: true })
+      if (path.endsWith('/api/auth/me')) return jsonResponse({ ...currentAccount, firstName: 'Ada', lastName: 'Synthetik', contactPoint: 'Friedhofsverwaltung Test', room: 'SYN-1', phone: '+49 000 123', email: 'ada@example.invalid' })
+      if (path.endsWith('/api/system/info')) return jsonResponse({ noticeDraftEditingEnabled: true, noticeGenerationEnabled: true })
       if (path.endsWith('/api/program-configuration/notice-number')) return new Response(null, { status: 204 })
       return jsonResponse({ service: 'Cemaris.Api', status: 'Healthy' })
     }))
@@ -235,6 +235,9 @@ describe('Capability-Grenze', () => {
     expect(await screen.findByRole('heading', { name: 'Bescheidnummern', level: 1 })).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Administration' }))
     expect(screen.getByRole('link', { name: /Bescheidnummern/ })).toHaveAttribute('href', '/program-configuration/notice-number')
+    expect(screen.getByRole('link', { name: /Satzungsversionen/ })).toHaveAttribute('href', '/master-data/legal-basis-versions')
+    await user.click(screen.getByRole('button', { name: /Kontomenü/ }))
+    expect(screen.getByText(/ada@example\.invalid/)).toBeInTheDocument()
   })
 })
 

@@ -15,6 +15,7 @@ import { CemeteryMasterDataPage } from './pages/CemeteryMasterDataPage'
 import { UsageRightStartRulesPage } from './pages/UsageRightStartRulesPage'
 import { PartiesPage } from './pages/PartiesPage'
 import { NoticeNumberConfigurationPage } from './pages/NoticeNumberConfigurationPage'
+import { LegalBasisVersionsPage } from './pages/LegalBasisVersionsPage'
 
 function App() {
   const { state: authState, account, logout } = useAuth()
@@ -24,6 +25,7 @@ function App() {
   const [burialProcessEditingEnabled, setBurialProcessEditingEnabled] = useState<boolean>()
   const [personUsageRightsEditingEnabled, setPersonUsageRightsEditingEnabled] = useState<boolean>()
   const [noticeDraftEditingEnabled, setNoticeDraftEditingEnabled] = useState<boolean>()
+  const [noticeGenerationEnabled, setNoticeGenerationEnabled] = useState<boolean>()
   const [forbidden, setForbidden] = useState(false)
 
   useEffect(() => {
@@ -47,8 +49,9 @@ function App() {
         setBurialProcessEditingEnabled(information.burialProcessEditingEnabled)
         setPersonUsageRightsEditingEnabled(information.personUsageRightsEditingEnabled)
         setNoticeDraftEditingEnabled(information.noticeDraftEditingEnabled)
+        setNoticeGenerationEnabled(information.noticeGenerationEnabled)
       })
-      .catch(() => { setCaseEditingEnabled(false); setCemeteryMasterDataEditingEnabled(false); setBurialProcessEditingEnabled(false); setPersonUsageRightsEditingEnabled(false); setNoticeDraftEditingEnabled(false) })
+      .catch(() => { setCaseEditingEnabled(false); setCemeteryMasterDataEditingEnabled(false); setBurialProcessEditingEnabled(false); setPersonUsageRightsEditingEnabled(false); setNoticeDraftEditingEnabled(false); setNoticeGenerationEnabled(false) })
     return () => controller.abort()
   }, [])
 
@@ -86,6 +89,10 @@ function App() {
     page = account.role === 'Administration' && noticeDraftEditingEnabled === true
       ? <NoticeNumberConfigurationPage />
       : <div className="state-message state-message--error detail-state" role="alert">Für diese Programmkonfiguration fehlt die administrative Berechtigung oder Capability.</div>
+  } else if (!account.mustChangePassword && path === '/master-data/legal-basis-versions') {
+    page = account.role === 'Administration' && noticeGenerationEnabled === true
+      ? <LegalBasisVersionsPage />
+      : <div className="state-message state-message--error detail-state" role="alert">Für die Satzungsstammdaten fehlt die administrative Berechtigung oder Capability.</div>
   } else if (!account.mustChangePassword && path === '/cases/new') {
     page = caseEditingEnabled === true ? (
       <NewCasePage cemeteryMasterDataEditingEnabled={cemeteryMasterDataEditingEnabled === true} />
@@ -106,12 +113,13 @@ function App() {
         burialProcessEditingEnabled={burialProcessEditingEnabled === true}
         personUsageRightsEditingEnabled={personUsageRightsEditingEnabled === true}
         noticeDraftEditingEnabled={noticeDraftEditingEnabled === true}
+        noticeGenerationEnabled={noticeGenerationEnabled === true}
       />
     )
   }
 
   return (
-    <AppLayout account={account} caseEditingEnabled={caseEditingEnabled === true} cemeteryMasterDataEditingEnabled={cemeteryMasterDataEditingEnabled === true} personUsageRightsEditingEnabled={personUsageRightsEditingEnabled === true} noticeDraftEditingEnabled={noticeDraftEditingEnabled === true} onLogout={logout}>
+    <AppLayout account={account} caseEditingEnabled={caseEditingEnabled === true} cemeteryMasterDataEditingEnabled={cemeteryMasterDataEditingEnabled === true} personUsageRightsEditingEnabled={personUsageRightsEditingEnabled === true} noticeDraftEditingEnabled={noticeDraftEditingEnabled === true} noticeGenerationEnabled={noticeGenerationEnabled === true} onLogout={logout}>
       {forbidden && <div className="permission-banner" role="alert"><span>Diese Aktion ist für Ihr Konto nicht erlaubt. Ihre Eingaben bleiben erhalten.</span><button type="button" onClick={() => setForbidden(false)}>Hinweis schließen</button></div>}
       {page}
     </AppLayout>

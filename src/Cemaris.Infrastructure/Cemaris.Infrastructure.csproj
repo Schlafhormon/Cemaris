@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" />
     <ProjectReference Include="..\Cemaris.Application\Cemaris.Application.csproj" />
     <ProjectReference Include="..\Cemaris.Domain\Cemaris.Domain.csproj" />
   </ItemGroup>

@@ -167,6 +167,80 @@ describe('NoticeDraftPanel', () => {
     expect(screen.queryByText('Fakten korrigieren')).not.toBeInTheDocument()
     expect(screen.queryByText('Entwurf verwerfen')).not.toBeInTheDocument()
   })
+
+  it('zeigt die capability-geschützte Erzeugung nur am aktiven Entwurf und widerruft den Blob sofort', async () => {
+    let generationHeaders: Headers | undefined
+    let generationBody: Record<string, unknown> | undefined
+    const createObjectURL = vi.fn(() => 'blob:synthetischer-entwurf')
+    const revokeObjectURL = vi.fn()
+    vi.stubGlobal('URL', { createObjectURL, revokeObjectURL })
+    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => undefined)
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const path = String(input)
+      if (path.endsWith(`/api/cases/${caseId}/notice-drafts`)) return json([listItem()])
+      if (path.endsWith(`/api/notice-drafts/${draftId}`) && !path.endsWith('/generate')) return json(draft(), 200, { ETag: '"1"' })
+      if (path.includes('/api/master-data/legal-basis-versions?activeOnly=true')) return json([{ id: '60000000-0000-0000-0000-000000000020', name: 'Synthetische Satzung', versionDate: '2026-01-01', isActive: true, version: 2, createdAtUtc: '2026-01-01T00:00:00Z', updatedAtUtc: '2026-01-01T00:00:00Z' }])
+      if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf-generation' })
+      if (path.endsWith(`/api/notice-drafts/${draftId}/generate`)) {
+        generationHeaders = new Headers(init?.headers)
+        generationBody = JSON.parse(String(init?.body)) as Record<string, unknown>
+        return new Response(new Blob(['%PDF-synthetic']), { status: 200, headers: { 'Content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="SYNFP.2026000001.pdf"' } })
+      }
+      throw new Error(`Unerwarteter Testaufruf: ${path}`)
+    }))
+    const user = userEvent.setup()
+    render(<NoticeDraftPanel caseId={caseId} noticeGenerationEnabled burials={[{ id: '60000000-0000-0000-0000-000000000030', deceasedPersonId: '60000000-0000-0000-0000-000000000031', burialDate: '2026-08-20', graveSiteId, status: 'Performed', planningDate: null }]} />)
+    await user.click(await screen.findByRole('button', { name: 'Öffnen' }))
+    expect(await screen.findByText(/Keine Freigabe, Signatur, Zustellung oder Archivierung/)).toBeInTheDocument()
+    await user.selectOptions(screen.getByLabelText('Beisetzung'), '60000000-0000-0000-0000-000000000030')
+    await user.selectOptions(screen.getByLabelText('Satzungsversion'), '60000000-0000-0000-0000-000000000020')
+    await user.selectOptions(screen.getByLabelText('Format'), 'Pdf')
+    await user.click(screen.getByRole('button', { name: 'Rechtlich wirkungslosen Entwurf herunterladen' }))
+    expect(await screen.findByText(/Zum Drucken öffnen Sie die lokale Datei bewusst/)).toBeInTheDocument()
+    expect(generationHeaders?.get('If-Match')).toBe('"1"')
+    expect(generationHeaders?.get('X-Cemaris-CSRF')).toBe('csrf')
+    expect(generationBody).toEqual({ burialId: '60000000-0000-0000-0000-000000000030', legalBasisVersionId: '60000000-0000-0000-0000-000000000020', format: 'Pdf' })
+    expect(createObjectURL).toHaveBeenCalledOnce()
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:synthetischer-entwurf')
+    expect(screen.queryByText(/Empfängeranrede/i)).not.toBeInTheDocument()
+  })
+
+  it('zeigt Kontakt-, Satzungs-, Vorlagen-, Konvertierungs- und ETag-Fehler ohne Downloadinhalt', async () => {
+    const errors = [
+      [409, 'Das aktive Benutzerkontaktprofil ist für die Dokumenterzeugung nicht vollständig.'],
+      [409, 'Die ausgewählte Satzungsversion ist nicht aktiv.'],
+      [500, 'Die konfigurierte Dokumentvorlage konnte nicht sicher verarbeitet werden.'],
+      [503, 'Die PDF-Konvertierung ist fehlgeschlagen.'],
+      [428, 'If-Match mit einer starken aktuellen Version ist erforderlich.'],
+    ] as const
+    let attempt = 0
+    const createObjectURL = vi.fn()
+    vi.stubGlobal('URL', { createObjectURL, revokeObjectURL: vi.fn() })
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
+      const path = String(input)
+      if (path.endsWith(`/api/cases/${caseId}/notice-drafts`)) return json([listItem()])
+      if (path.endsWith(`/api/notice-drafts/${draftId}`) && !path.endsWith('/generate')) return json(draft(), 200, { ETag: '"1"' })
+      if (path.includes('/api/master-data/legal-basis-versions?activeOnly=true')) return json([{ id: '60000000-0000-0000-0000-000000000020', name: 'Synthetische Satzung', versionDate: '2026-01-01', isActive: true, version: 2, createdAtUtc: '2026-01-01T00:00:00Z', updatedAtUtc: '2026-01-01T00:00:00Z' }])
+      if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf-generation-errors' })
+      if (path.endsWith(`/api/notice-drafts/${draftId}/generate`)) {
+        const [status, title] = errors[attempt++]
+        return json({ status, title, code: `synthetic-error-${attempt}` }, status)
+      }
+      throw new Error(`Unerwarteter Testaufruf: ${path}`)
+    }))
+    const user = userEvent.setup()
+    render(<NoticeDraftPanel caseId={caseId} noticeGenerationEnabled burials={[{ id: '60000000-0000-0000-0000-000000000030', deceasedPersonId: '60000000-0000-0000-0000-000000000031', burialDate: '2026-08-20', graveSiteId, status: 'Performed', planningDate: null }]} />)
+    await user.click(await screen.findByRole('button', { name: 'Öffnen' }))
+    await user.selectOptions(screen.getByLabelText('Beisetzung'), '60000000-0000-0000-0000-000000000030')
+    await user.selectOptions(screen.getByLabelText('Satzungsversion'), '60000000-0000-0000-0000-000000000020')
+
+    const button = screen.getByRole('button', { name: 'Rechtlich wirkungslosen Entwurf herunterladen' })
+    for (const [, title] of errors) {
+      await user.click(button)
+      expect(await screen.findByText(title)).toBeInTheDocument()
+    }
+    expect(createObjectURL).not.toHaveBeenCalled()
+  })
 })
 
 function draft() {

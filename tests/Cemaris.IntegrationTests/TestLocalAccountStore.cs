@@ -59,14 +59,14 @@ internal sealed class TestLocalAccountStore(IEnumerable<LocalAccountSnapshot> se
         }
     }
 
-    public Task<LocalAccountOperationResult> UpdateAsync(Guid actorId, Guid accountId, byte[] expectedVersion, string username, string normalizedUsername, string displayName, SystemRole role, DateTimeOffset occurredAtUtc, CancellationToken cancellationToken)
+    public Task<LocalAccountOperationResult> UpdateAsync(Guid actorId, Guid accountId, byte[] expectedVersion, string username, string normalizedUsername, string displayName, SystemRole role, string? firstName, string? lastName, string? contactPoint, string? room, string? phone, string? email, DateTimeOffset occurredAtUtc, CancellationToken cancellationToken)
     {
         lock (gate)
         {
             var check = Check(accountId, expectedVersion, out var account); if (check is not null) return Result(check.Value);
             if (accounts.Values.Any(item => item.Id != accountId && item.NormalizedUsername == normalizedUsername)) return Result(LocalAccountOperationStatus.DuplicateUsername);
             if (account!.IsActive && account.Role == SystemRole.Administration && role != SystemRole.Administration && ActiveAdmins() <= 1) return Result(LocalAccountOperationStatus.LastActiveAdministrator);
-            var changed = Next(account with { Username = username, NormalizedUsername = normalizedUsername, DisplayName = displayName, Role = role, UpdatedAtUtc = occurredAtUtc, SecurityStamp = Guid.NewGuid() }); accounts[accountId] = changed; return Result(LocalAccountOperationStatus.Success, changed);
+            var changed = Next(account with { Username = username, NormalizedUsername = normalizedUsername, DisplayName = displayName, Role = role, FirstName = firstName, LastName = lastName, ContactPoint = contactPoint, Room = room, Phone = phone, Email = email, UpdatedAtUtc = occurredAtUtc, SecurityStamp = Guid.NewGuid() }); accounts[accountId] = changed; return Result(LocalAccountOperationStatus.Success, changed);
         }
     }
 

@@ -4,6 +4,12 @@
     <ProjectReference Include="..\Cemaris.Application\Cemaris.Application.csproj" />
     <ProjectReference Include="..\Cemaris.Infrastructure\Cemaris.Infrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Templates\Cemaris-Beisetzungsgebuehren-Testvorlage.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />

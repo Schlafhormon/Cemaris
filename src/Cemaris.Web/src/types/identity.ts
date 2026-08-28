@@ -6,6 +6,12 @@ export interface CurrentAccount {
   displayName: string
   role: SystemRole
   mustChangePassword: boolean
+  firstName?: string | null
+  lastName?: string | null
+  contactPoint?: string | null
+  room?: string | null
+  phone?: string | null
+  email?: string | null
 }
 
 export interface LocalAccount {
@@ -18,6 +24,12 @@ export interface LocalAccount {
   createdAtUtc: string
   updatedAtUtc: string
   version: string
+  firstName?: string | null
+  lastName?: string | null
+  contactPoint?: string | null
+  room?: string | null
+  phone?: string | null
+  email?: string | null
 }
 
 export interface CreateAccountInput {
@@ -25,6 +37,12 @@ export interface CreateAccountInput {
   displayName: string
   role: SystemRole
   password: string
+  firstName: string
+  lastName: string
+  contactPoint: string
+  room: string
+  phone: string
+  email: string
 }
 
 export interface UpdateAccountInput {
@@ -32,4 +50,10 @@ export interface UpdateAccountInput {
   displayName: string
   role: SystemRole
   version: string
+  firstName: string
+  lastName: string
+  contactPoint: string
+  room: string
+  phone: string
+  email: string
 }

@@ -13,7 +13,13 @@ public sealed record CurrentAccountResponse(
     string Username,
     string DisplayName,
     string Role,
-    bool MustChangePassword);
+    bool MustChangePassword,
+    string? FirstName,
+    string? LastName,
+    string? ContactPoint,
+    string? Room,
+    string? Phone,
+    string? Email);
 
 public sealed record LocalAccountResponse(
     Guid Id,
@@ -24,7 +30,13 @@ public sealed record LocalAccountResponse(
     bool MustChangePassword,
     DateTimeOffset CreatedAtUtc,
     DateTimeOffset UpdatedAtUtc,
-    string Version)
+    string Version,
+    string? FirstName,
+    string? LastName,
+    string? ContactPoint,
+    string? Room,
+    string? Phone,
+    string? Email)
 {
     public static LocalAccountResponse From(LocalAccountSnapshot account)
     {
@@ -38,7 +50,13 @@ public sealed record LocalAccountResponse(
             summary.MustChangePassword,
             summary.CreatedAtUtc,
             summary.UpdatedAtUtc,
-            summary.Version);
+            summary.Version,
+            summary.FirstName,
+            summary.LastName,
+            summary.ContactPoint,
+            summary.Room,
+            summary.Phone,
+            summary.Email);
     }
 }
 
@@ -46,13 +64,25 @@ public sealed record CreateLocalAccountRequest(
     string? Username,
     string? DisplayName,
     string? Role,
-    string? Password);
+    string? Password,
+    string? FirstName,
+    string? LastName,
+    string? ContactPoint,
+    string? Room,
+    string? Phone,
+    string? Email);
 
 public sealed record UpdateLocalAccountRequest(
     string? Username,
     string? DisplayName,
     string? Role,
-    string? Version);
+    string? Version,
+    string? FirstName,
+    string? LastName,
+    string? ContactPoint,
+    string? Room,
+    string? Phone,
+    string? Email);
 
 public sealed record SetLocalAccountActiveRequest(bool IsActive, string? Version);
 

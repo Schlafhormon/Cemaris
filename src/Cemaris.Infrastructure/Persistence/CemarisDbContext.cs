@@ -1,6 +1,7 @@
 using Cemaris.Infrastructure.Persistence.Cemeteries;
 using Cemaris.Infrastructure.Persistence.Identity;
 using Cemaris.Infrastructure.Persistence.NoticeDrafts;
+using Cemaris.Infrastructure.Persistence.NoticeGeneration;
 using Cemaris.Infrastructure.Persistence.PersonUsageRights;
 using Cemaris.Infrastructure.Persistence.ReadModel;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +55,9 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
     public DbSet<NoticeNumberConfigurationRevisionEntity> NoticeNumberConfigurationRevisions => Set<NoticeNumberConfigurationRevisionEntity>();
     public DbSet<NoticeNumberConfigurationAuditEntity> NoticeNumberConfigurationAudits => Set<NoticeNumberConfigurationAuditEntity>();
     public DbSet<NoticeNumberSequenceEntity> NoticeNumberSequences => Set<NoticeNumberSequenceEntity>();
+    public DbSet<LegalBasisVersionEntity> LegalBasisVersions => Set<LegalBasisVersionEntity>();
+    public DbSet<LegalBasisVersionAuditEntity> LegalBasisVersionAudits => Set<LegalBasisVersionAuditEntity>();
+    public DbSet<NoticeGenerationAuditEntity> NoticeGenerationAudits => Set<NoticeGenerationAuditEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -72,6 +76,29 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
         ConfigureCemeteryMasterData(modelBuilder);
         ConfigurePersonUsageRights(modelBuilder);
         ConfigureNoticeDrafts(modelBuilder);
+        ConfigureNoticeGeneration(modelBuilder);
+    }
+
+    private static void ConfigureNoticeGeneration(ModelBuilder modelBuilder)
+    {
+        var basis = modelBuilder.Entity<LegalBasisVersionEntity>();
+        basis.ToTable("LegalBasisVersions"); basis.HasKey(x => x.Id);
+        basis.Property(x => x.Name).HasMaxLength(300).IsRequired();
+        basis.Property(x => x.Version).IsConcurrencyToken().IsRequired();
+        basis.HasIndex(x => new { x.Name, x.VersionDate }).IsUnique();
+
+        var basisAudit = modelBuilder.Entity<LegalBasisVersionAuditEntity>();
+        basisAudit.ToTable("LegalBasisVersionAudits"); basisAudit.HasKey(x => x.Id);
+        basisAudit.Property(x => x.Operation).HasMaxLength(64).IsRequired();
+        basisAudit.Property(x => x.ActorId).HasMaxLength(200).IsRequired();
+        basisAudit.Property(x => x.ActorDisplayName).HasMaxLength(200).IsRequired();
+        basisAudit.HasIndex(x => new { x.LegalBasisVersionId, x.ResultingVersion }).IsUnique();
+
+        var generationAudit = modelBuilder.Entity<NoticeGenerationAuditEntity>();
+        generationAudit.ToTable("NoticeGenerationAudits"); generationAudit.HasKey(x => x.Id);
+        generationAudit.Property(x => x.Format).HasMaxLength(8).IsRequired();
+        generationAudit.Property(x => x.ErrorCode).HasMaxLength(100);
+        generationAudit.HasIndex(x => new { x.NoticeDraftId, x.OccurredAtUtc });
     }
 
     private static void ConfigureNoticeDrafts(ModelBuilder modelBuilder)
@@ -226,6 +253,12 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
         entity.Property(item => item.DisplayName).HasMaxLength(200).IsRequired();
         entity.Property(item => item.Role).HasMaxLength(32).IsRequired();
         entity.Property(item => item.PasswordHash).HasMaxLength(1000).IsRequired();
+        entity.Property(item => item.FirstName).HasMaxLength(200);
+        entity.Property(item => item.LastName).HasMaxLength(200);
+        entity.Property(item => item.ContactPoint).HasMaxLength(200);
+        entity.Property(item => item.Room).HasMaxLength(100);
+        entity.Property(item => item.Phone).HasMaxLength(100);
+        entity.Property(item => item.Email).HasMaxLength(254);
         entity.Property(item => item.Version).IsRowVersion();
         entity.HasIndex(item => item.NormalizedUsername).IsUnique();
     }

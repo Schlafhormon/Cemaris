@@ -220,14 +220,16 @@ public sealed class CookieIdentityEndpointTests
 
         var createdResponse = await client.PostAsJsonAsync(
             "/api/admin/accounts",
-            new { username = "synthetic-new", displayName = "Synthetisches neues Konto", role = "Sachbearbeitung", password = "Synthetisch-Start-2026" });
+            new { username = "synthetic-new", displayName = "Synthetisches neues Konto", role = "Sachbearbeitung", password = "Synthetisch-Start-2026", firstName = " Neu ", lastName = " Konto ", contactPoint = " Teststelle ", room = " 2 ", phone = " +49 000 2 ", email = " neu@example.invalid " });
         var created = await createdResponse.Content.ReadFromJsonAsync<LocalAccountResponse>();
         Assert.NotNull(created);
         Assert.True(created.MustChangePassword);
+        Assert.Equal("Neu", created.FirstName);
+        Assert.Equal("neu@example.invalid", created.Email);
 
         var updateResponse = await client.PutAsJsonAsync(
             $"/api/admin/accounts/{created.Id}",
-            new { username = "synthetic-renamed", displayName = "Synthetisch umbenannt", role = "Administration", version = created.Version });
+            new { username = "synthetic-renamed", displayName = "Synthetisch umbenannt", role = "Administration", version = created.Version, firstName = "Ada", lastName = "Konto", contactPoint = "Andere Teststelle", room = "3", phone = "+49 000 3", email = "ada.konto@example.invalid" });
         var updated = await updateResponse.Content.ReadFromJsonAsync<LocalAccountResponse>();
         Assert.NotNull(updated);
 
@@ -252,6 +254,7 @@ public sealed class CookieIdentityEndpointTests
         Assert.Equal(HttpStatusCode.Created, createdResponse.StatusCode);
         Assert.Equal(HttpStatusCode.OK, updateResponse.StatusCode);
         Assert.Equal("Administration", updated.Role);
+        Assert.Equal("Andere Teststelle", updated.ContactPoint);
         Assert.Equal(HttpStatusCode.OK, resetResponse.StatusCode);
         Assert.NotNull(reset);
         Assert.True(reset.MustChangePassword);
@@ -332,6 +335,7 @@ public sealed class CookieIdentityEndpointTests
 
         Assert.NotNull(me);
         Assert.True(me.MustChangePassword);
+        Assert.Equal("sina@example.invalid", me.Email);
         Assert.Equal(HttpStatusCode.Forbidden, forbidden.StatusCode);
         Assert.Equal(HttpStatusCode.NoContent, changed.StatusCode);
         Assert.Equal(HttpStatusCode.Unauthorized, (await accountClient.GetAsync("/api/auth/me")).StatusCode);

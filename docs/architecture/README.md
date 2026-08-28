@@ -98,6 +98,10 @@ Nutzungsrecht abgeleitet. Aggregat, Nummernkonfiguration, Revision, ETag,
 Atomarität, sparsamer Audit und additive Providerparität stehen in
 [ADR-0018](../decisions/ADR-0018-canonical-manual-notice-drafts.md).
 `ReadNotices` und `ReadFeeItems` bleiben davon getrennte Altprojektion.
+Der genau auf Beisetzungsgebühren begrenzte 6c-Dokumentpfad ist gemäß
+[6c-Abschluss](../implementation/cemaris-increment-6c-completion.md) technisch
+umgesetzt. Seine flüchtige sichere OpenXML-/LibreOffice-Architektur steht in
+[ADR-0019](../decisions/ADR-0019-ephemeral-secure-notice-document-generation.md).
 
 - `GET /health` liefert einen nicht sensitiven technischen Lebensstatus.
 - `GET /api/system/info` liefert Produktname, Projektphase, Versionsinformation und die explizite Aussage, dass das System nicht produktionsreif ist.
@@ -108,7 +112,8 @@ Atomarität, sparsamer Audit und additive Providerparität stehen in
 - Bei expliziten, voneinander unabhängigen Development-Capabilities bilden
   Schreibendpunkte die Fallaktenbearbeitung, kanonische Stammdatenpflege,
   den einfachen Beisetzungsprozess, Beteiligte und Nutzungsrechte sowie
-  kanonische manuelle Bescheidentwürfe ab.
+  kanonische manuelle Bescheidentwürfe und deren begrenzte flüchtige
+  DOCX-/PDF-Erzeugung ab.
   Starke Fallversions- beziehungsweise
   Entitäts-ETags und `If-Match` verhindern Last-write-wins.
 - Jede erfolgreiche Development-Mutation erhält serverseitig Akteur und
@@ -126,7 +131,8 @@ den späteren Datenschutz-, Betriebs- und Fachfreigaben repositoryseitig
 standardmäßig deaktiviert und ausschließlich in einer explizit aktivierten
 Development-Umgebung zulässig. Synthetic und SQL implementieren dieselben
 aktuellen Ports für Fälle, Stammdaten, Beisetzungsprozess, Beteiligte,
-Nutzungsrechte und manuelle Bescheidentwürfe. Personen- und Falldaten bleiben in beiden Providern
+Nutzungsrechte, manuelle Bescheidentwürfe, Satzungsversionen und den
+kanonischen Erzeugungsquellen-/Auditvertrag. Personen- und Falldaten bleiben in beiden Providern
 synthetisch; ausschließlich die abgegrenzten Friedhofsstammdaten dürfen aus
 EDWALT stammen.
 Diese Feature-Grenze ist kein produktiver Zugriffsschutz.
@@ -181,7 +187,8 @@ Integritätskontrolle bleiben offen. Weiterhin gelten diese Leitplanken:
 - fachliches Datenmodell und Modulgrenzen,
 - technische Betriebsparameter lokaler Konten und späteres LDAP-Importmodell,
 - Audit- und Aufbewahrungskonzept,
-- Dokument- und PDF-Engine,
+- Dokument- und PDF-Engine weiterer Dokumentarten sowie produktive
+  LibreOffice-/Schrift-/Ressourcenparameter,
 - Winyard-Schnittstelle und Adaptervertrag,
 - Betriebsvarianten für IIS, Linux/Reverse Proxy und Container,
 - Anforderungen an Hochverfügbarkeit, Backup, Monitoring und Wiederanlauf.
@@ -205,7 +212,7 @@ Produktivwirkung. Das nachgelagerte
 [rein dokumentarische Folgegate](../implementation/cemaris-notice-generation-decision-gate-completion.md)
 ist nach ergänzender Quellenklärung mit Variante B abgeschlossen.
 
-## Dokumentarisches Bescheiderzeugungsgate 6c
+## Technischer Bescheiderzeugungsschnitt 6c
 
 Das
 [6c-Gate](../implementation/cemaris-notice-generation-decision-gate-completion.md)
@@ -221,5 +228,13 @@ Eine repräsentative synthetische Testquelle, der feldgenaue Datenvertrag,
 Benutzerkontakt- und Satzungsstammdaten sowie Qualitäts-, ETag-, Audit- und
 Temp-Grenzen sind bestätigt. Die separate
 [technische 6c-Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md)
-ist vorbereitet, aber noch nicht ausgeführt. Sie ändert den 6b-Vertrag und
-ADR-0018 nicht und erteilt keine Produktiv- oder Betriebsfreigabe.
+ist gemäß [Abschluss](../implementation/cemaris-increment-6c-completion.md)
+umgesetzt. Die Capability bleibt standardmäßig aus und Development-only. Das
+Ergebnis wird ausschließlich nach erfolgreichem inhaltsfreiem Audit gestreamt
+und nie gespeichert. OpenXML-Paketprüfung und gekapselte
+LibreOffice-Konvertierung sind in ADR-0019 festgehalten.
+
+Die Umsetzung ändert den 6b-Vertrag und ADR-0018 nicht und erteilt keine
+Produktiv- oder Betriebsfreigabe. Der einzige Folgepfad ist das vorbereitete,
+noch nicht ausgeführte
+[Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-next-step-handoff.md).

@@ -10,4 +10,5 @@ public sealed record SystemInformationResponse(
     bool BurialProcessEditingEnabled,
     bool PersonUsageRightsEditingEnabled,
     bool NoticeDraftEditingEnabled,
+    bool NoticeGenerationEnabled,
     string Version);

@@ -6,6 +6,7 @@ interface AppLayoutProps extends PropsWithChildren {
   cemeteryMasterDataEditingEnabled: boolean
   personUsageRightsEditingEnabled: boolean
   noticeDraftEditingEnabled: boolean
+  noticeGenerationEnabled: boolean
   account: CurrentAccount
   onLogout: () => Promise<void>
 }
@@ -17,7 +18,7 @@ interface NavigationItem {
   active: boolean
 }
 
-export function AppLayout({ children, caseEditingEnabled, cemeteryMasterDataEditingEnabled, personUsageRightsEditingEnabled, noticeDraftEditingEnabled, account, onLogout }: AppLayoutProps) {
+export function AppLayout({ children, caseEditingEnabled, cemeteryMasterDataEditingEnabled, personUsageRightsEditingEnabled, noticeDraftEditingEnabled, noticeGenerationEnabled, account, onLogout }: AppLayoutProps) {
   const currentPath = window.location.pathname
   const searchAreaActive = currentPath.startsWith('/search')
     || (currentPath.startsWith('/cases/') && currentPath !== '/cases/new')
@@ -43,6 +44,9 @@ export function AppLayout({ children, caseEditingEnabled, cemeteryMasterDataEdit
           : []),
         ...(noticeDraftEditingEnabled
           ? [{ label: 'Bescheidnummern', description: 'Versioniertes Nummernformat', href: '/program-configuration/notice-number', active: currentPath === '/program-configuration/notice-number' }]
+          : []),
+        ...(noticeGenerationEnabled
+          ? [{ label: 'Satzungsversionen', description: 'Fassungsstände für Entwurfserzeugung', href: '/master-data/legal-basis-versions', active: currentPath === '/master-data/legal-basis-versions' }]
           : []),
       ]
     : []
@@ -101,6 +105,11 @@ function AccountMenu({ account, onLogout }: { account: CurrentAccount; onLogout:
     </button>
     {open && <div className="account-dropdown" id={menuId}>
       <div className="account-dropdown-heading"><strong>{account.displayName}</strong><span>{account.username}</span><small>{account.role}</small></div>
+      {(account.firstName || account.lastName || account.contactPoint || account.room || account.phone || account.email) && <div className="account-dropdown-heading" aria-label="Eigenes Kontaktprofil">
+        <strong>{[account.firstName, account.lastName].filter(Boolean).join(' ') || 'Kontaktprofil'}</strong>
+        <span>{[account.contactPoint, account.room && `Zimmer ${account.room}`].filter(Boolean).join(' · ')}</span>
+        <small>{[account.phone, account.email].filter(Boolean).join(' · ')}</small>
+      </div>}
       <a href="/account/password" onClick={() => setOpen(false)}><span>Passwort ändern</span><small>Kontosicherheit verwalten</small></a>
       <button type="button" onClick={() => { setOpen(false); void onLogout() }}><span>Abmelden</span><small>Aktuelle Sitzung beenden</small></button>
     </div>}

@@ -16,6 +16,7 @@ internal static class TestConfiguration
             ["Features:BurialProcessEditingEnabled"] = "false",
             ["Features:PersonUsageRightsEditingEnabled"] = "false",
             ["Features:NoticeDraftEditingEnabled"] = "false",
+            ["Features:NoticeGenerationEnabled"] = "false",
             ["Maintenance:ApplyMigrations"] = "false",
             ["Maintenance:EnsureDevelopmentAccounts"] = "false",
             ["Maintenance:EnsureSyntheticDevelopmentData"] = "false",

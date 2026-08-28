@@ -452,6 +452,10 @@ namespace Cemaris.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ContactPoint")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<DateTimeOffset>("CreatedAtUtc")
                         .HasColumnType("datetimeoffset");
 
@@ -460,14 +464,26 @@ namespace Cemaris.Infrastructure.Persistence.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<string>("Email")
+                        .HasMaxLength(254)
+                        .HasColumnType("nvarchar(254)");
+
                     b.Property<int>("FailedLoginAttempts")
                         .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LastLoginAtUtc")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTimeOffset?>("LockoutEndUtc")
                         .HasColumnType("datetimeoffset");
@@ -488,10 +504,18 @@ namespace Cemaris.Infrastructure.Persistence.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<string>("Phone")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
+
+                    b.Property<string>("Room")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid>("SecurityStamp")
                         .HasColumnType("uniqueidentifier");
@@ -941,6 +965,125 @@ namespace Cemaris.Infrastructure.Persistence.Migrations
                         {
                             t.HasCheckConstraint("CK_NoticeNumberSequences_Values", "[Year] > 0 AND [LastIssuedNumber] >= 0");
                         });
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.NoticeGeneration.LegalBasisVersionAuditEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ActorDisplayName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ActorId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<Guid>("LegalBasisVersionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("OccurredAtUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Operation")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<long>("ResultingVersion")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LegalBasisVersionId", "ResultingVersion")
+                        .IsUnique();
+
+                    b.ToTable("LegalBasisVersionAudits", (string)null);
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.NoticeGeneration.LegalBasisVersionEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateOnly>("VersionDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name", "VersionDate")
+                        .IsUnique();
+
+                    b.ToTable("LegalBasisVersions", (string)null);
+                });
+
+            modelBuilder.Entity("Cemaris.Infrastructure.Persistence.NoticeGeneration.NoticeGenerationAuditEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ActorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CaseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ErrorCode")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<long>("ExpectedNoticeDraftVersion")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Format")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
+
+                    b.Property<long>("LegalBasisInternalVersion")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("LegalBasisVersionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("NoticeDraftId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("OccurredAtUtc")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("Succeeded")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NoticeDraftId", "OccurredAtUtc");
+
+                    b.ToTable("NoticeGenerationAudits", (string)null);
                 });
 
             modelBuilder.Entity("Cemaris.Infrastructure.Persistence.PersonUsageRights.PartyAddressEntity", b =>

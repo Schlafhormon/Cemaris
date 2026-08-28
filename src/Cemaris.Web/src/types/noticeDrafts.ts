@@ -77,3 +77,15 @@ export interface NoticeNumberConfiguration {
   updatedAtUtc: string
   revisions: NoticeNumberConfigurationRevision[]
 }
+
+export interface LegalBasisVersion {
+  id: string
+  name: string
+  versionDate: string
+  isActive: boolean
+  version: number
+  createdAtUtc: string
+  updatedAtUtc: string
+}
+
+export type NoticeGenerationFormat = 'Docx' | 'Pdf'

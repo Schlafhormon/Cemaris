@@ -115,6 +115,12 @@ internal static class TestIdentity
         return account with
         {
             PasswordHash = new PasswordHasher<LocalAccountSnapshot>().HashPassword(account, password),
+            FirstName = role == SystemRole.Administration ? "Ada" : "Sina",
+            LastName = "Synthetik",
+            ContactPoint = "Friedhofsverwaltung Test",
+            Room = "SYN-1",
+            Phone = "+49 000 123456",
+            Email = role == SystemRole.Administration ? "ada@example.invalid" : "sina@example.invalid",
         };
     }
 }

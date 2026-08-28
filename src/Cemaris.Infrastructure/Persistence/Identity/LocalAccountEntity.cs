@@ -17,5 +17,11 @@ public sealed class LocalAccountEntity
     public DateTimeOffset UpdatedAtUtc { get; set; }
     public DateTimeOffset PasswordChangedAtUtc { get; set; }
     public DateTimeOffset? LastLoginAtUtc { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? ContactPoint { get; set; }
+    public string? Room { get; set; }
+    public string? Phone { get; set; }
+    public string? Email { get; set; }
     public byte[] Version { get; set; } = [];
 }

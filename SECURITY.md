@@ -45,14 +45,35 @@ Das nachgelagerte
 hat nach ergänzender Quellenklärung genau einen technischen
 Development-Kandidaten freigegeben. Die
 [6c-Übergabe](docs/implementation/cemaris-increment-6c-next-step-handoff.md)
-verlangt eine eigene standardmäßig deaktivierte Capability, bestehende
-Fallaktenrechte, starken Entwurfs-ETag, strikt validierte makro- und
-externreferenzfreie DOCX-Vorlagen, direkte gekapselte PDF-Konvertierung,
-isolierte Temp-Verzeichnisse und einen inhaltsfreien Erzeugungsaudit.
+ist gemäß
+[6c-Abschluss](docs/implementation/cemaris-increment-6c-completion.md)
+vollständig umgesetzt. Sie verwendet eine eigene standardmäßig deaktivierte
+Capability, bestehende Fallaktenrechte, einen starken Entwurfs-ETag, strikt
+validierte makro- und externreferenzfreie DOCX-Vorlagen, direkte gekapselte
+PDF-Konvertierung, isolierte Temp-Verzeichnisse und einen inhaltsfreien
+Erzeugungsaudit.
 Dokumentbytes, Inhalte, Pfade, Empfänger-, Kontakt-, Betrags- und Freitextwerte
 dürfen weder gespeichert noch protokolliert werden. Produktivsetzung,
 kommunale Vorlage und Betriebsaktivierung bleiben einem späteren Gate
 vorbehalten.
+
+OpenXML-Pakete werden vor und nach der Ersetzung auf Größen-, ZIP-,
+Inhaltsart-, Token-, Beziehungs- und Validierungsgrenzen geprüft. LibreOffice
+wird ohne Shell mit direkter Argumentliste, isoliertem Profil, begrenzter
+Parallelität und Laufzeit sowie vollständigem Prozessbaumabbruch gestartet.
+Temp-Bereinigung bleibt unter einem kanonischen Content-Root-Stamm, folgt
+keinen Reparse Points und läuft nach Erfolg, Fehler und Abbruch. Ein
+Auditfehler verhindert jede Dateiausgabe. Der realisierte Trust Boundary ist
+in
+[ADR-0019](docs/decisions/ADR-0019-ephemeral-secure-notice-document-generation.md)
+dokumentiert.
+
+Die Capability bleibt bis zum separat dokumentierten, noch nicht
+ausgeführten
+[Betriebs- und Pilotfreigabegate](docs/implementation/cemaris-notice-generation-pilot-release-gate-next-step-handoff.md)
+aus. Dieses Gate muss insbesondere konkrete Serverrechte, LibreOffice-
+Herkunft und -Version, Schriften, Temp-Schutz, Monitoring, synthetische
+Ausgabeabnahme und Rückfall entscheiden.
 
 ## Offenlegung
 

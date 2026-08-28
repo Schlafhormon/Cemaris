@@ -14,6 +14,8 @@ public static class CemarisPolicies
     public const string UserAdministration = "UserAdministration";
     public const string ProgramConfiguration = "ProgramConfiguration";
     public const string FormTemplates = "FormTemplates";
+    public const string NoticeGeneration = "NoticeGeneration";
+    public const string LegalBasisAdministration = "LegalBasisAdministration";
 
     public static IReadOnlyDictionary<string, IReadOnlyList<SystemRole>> Matrix { get; } =
         new Dictionary<string, IReadOnlyList<SystemRole>>(StringComparer.Ordinal)
@@ -27,6 +29,8 @@ public static class CemarisPolicies
             [UserAdministration] = [SystemRole.Administration],
             [ProgramConfiguration] = [SystemRole.Administration],
             [FormTemplates] = [SystemRole.Administration],
+            [NoticeGeneration] = SystemRole.All,
+            [LegalBasisAdministration] = [SystemRole.Administration],
         };
 }
 

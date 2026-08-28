@@ -53,6 +53,22 @@ public sealed class FeatureSafetyTests
         Assert.Contains("Notice-draft editing may be enabled only in Development", FlattenMessages(exception), StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void NoticeGenerationActivationOutsideDevelopmentFailsAtStartup()
+    {
+        using var factory = new UnsafeNoticeGenerationProductionFactory();
+        var exception = Assert.ThrowsAny<Exception>(() => factory.CreateClient());
+        Assert.Contains("Notice generation may be enabled only in Development", FlattenMessages(exception), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void NoticeGenerationRequiresEveryDependentCapability()
+    {
+        using var factory = new IncompleteNoticeGenerationDevelopmentFactory();
+        var exception = Assert.ThrowsAny<Exception>(() => factory.CreateClient());
+        Assert.Contains("requires every dependent Development capability", FlattenMessages(exception), StringComparison.Ordinal);
+    }
+
     private static string FlattenMessages(Exception exception)
     {
         var messages = new List<string>();
@@ -110,6 +126,24 @@ public sealed class FeatureSafetyTests
         {
             builder.UseEnvironment("Production");
             builder.UseSetting("Features:NoticeDraftEditingEnabled", "true");
+        }
+    }
+
+    private sealed class UnsafeNoticeGenerationProductionFactory : WebApplicationFactory<Program>
+    {
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.UseEnvironment("Production");
+            builder.UseSetting("Features:NoticeGenerationEnabled", "true");
+        }
+    }
+
+    private sealed class IncompleteNoticeGenerationDevelopmentFactory : WebApplicationFactory<Program>
+    {
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.UseEnvironment("Development");
+            builder.UseSetting("Features:NoticeGenerationEnabled", "true");
         }
     }
 }

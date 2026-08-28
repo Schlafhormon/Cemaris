@@ -1,6 +1,6 @@
 # Cemaris-Implementierungsplan
 
-Stand: 26.08.2026
+Stand: 28.08.2026
 
 ## Aktueller Schwerpunkt
 
@@ -138,6 +138,16 @@ Daten. Der
 [Abschlussnachweis](cemaris-increment-6b-completion.md) Ende zu Ende
 ausgeführt. Der additive manuelle Entwurfskern bleibt rechtlich wirkungslos,
 Development-only und von der Altprojektion getrennt.
+Das nachgelagerte 6c-Gate hat genau einen Gebührenbescheidentwurf für
+Beisetzungsgebühren freigegeben. Der
+[technische 6c-Auftrag](cemaris-increment-6c-next-step-handoff.md) ist gemäß
+[Abschlussnachweis](cemaris-increment-6c-completion.md) Ende zu Ende
+ausgeführt. Benutzerkontaktprofil, unveränderliche Satzungsversionen,
+OpenXML-DOCX, gekapselte LibreOffice-PDF-Konvertierung, Temp-Bereinigung,
+inhaltsfreier Audit, Capability/Policies, API/OpenAPI und React-UI bleiben
+standardmäßig deaktiviert und ausschließlich Development. Das
+[Betriebs- und Pilotfreigabegate](cemaris-notice-generation-pilot-release-gate-next-step-handoff.md)
+ist nur vorbereitet und nicht ausgeführt.
 
 ## Verbindliche Entwicklungsregel
 
@@ -171,8 +181,9 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 6a | Gebühren-/Bescheid-Entscheidungsgate | dokumentarisch abgeschlossen: Quellenmatrix, Fragen 6A-01 bis 6A-16 und Variantenvergleich führen zu Variante A „noch keine Implementierung“ | kein technischer 6b-Auftrag; vorhandener nullable Lesevertrag unverändert |
 | 6a-F | Freigabegate für manuelle Bescheid-/Finanzfakten | nach ergänzender funktionsbezogener Klärung mit Variante B abgeschlossen: bestätigungspflichtiger Zahlungspflichtiger, mehrere Entwürfe je Fall, Nummernkonfiguration und manueller EUR-Faktenkern | ausschließlich technischer Development-Pilot mit synthetischen Daten; [Entscheidungsakte](../requirements/manual-notice-financial-facts-decisions.md) |
 | 6b | Kanonische manuelle Bescheidentwürfe | [technisch Ende zu Ende umgesetzt](cemaris-increment-6b-completion.md): eigener additiver Entwurfskern, Nummernkonfiguration, Sequenz, Revision/Audit, API/OpenAPI und React-UI | Development-only und synthetisch; kein Dokument, keine Berechnung, keine Rechtswirkung, keine FINANZ+-Integration und keine Migration |
-| 6c-Gate | spätere Bescheiderzeugung entscheiden | [nach ergänzender Quellenklärung mit Variante B abgeschlossen](cemaris-notice-generation-decision-gate-completion.md): genau ein Gebührenbescheidentwurf feldgenau bestätigt | [technische 6c-Übergabe](cemaris-increment-6c-next-step-handoff.md) vorbereitet, nicht ausgeführt; keine Produktivfreigabe |
-| 6c | rechtlich wirkungslosen Gebührenbescheidentwurf erzeugen | nächster technischer Development-Schnitt: Benutzerkontakte, Satzungsstammdaten, DOCX/PDF, Temp-Bereinigung und inhaltsfreier Audit | nur gemäß separater Übergabe; keine Rechtswirkung, Zustellung, Archivierung, Integration oder Migration |
+| 6c-Gate | spätere Bescheiderzeugung entscheiden | [nach ergänzender Quellenklärung mit Variante B abgeschlossen](cemaris-notice-generation-decision-gate-completion.md): genau ein Gebührenbescheidentwurf feldgenau bestätigt | [technische 6c-Übergabe](cemaris-increment-6c-next-step-handoff.md) ausgeführt; weiterhin keine Produktivfreigabe |
+| 6c | rechtlich wirkungslosen Gebührenbescheidentwurf erzeugen | [technisch Ende zu Ende umgesetzt](cemaris-increment-6c-completion.md): Benutzerkontakte, Satzungsversionen, sichere OpenXML-DOCX-/LibreOffice-PDF-Erzeugung, Temp-Bereinigung, inhaltsfreier Audit, API/OpenAPI und React-UI | Development-only, standardmäßig aus; keine Rechtswirkung, Zustellung, Archivierung, Integration oder Migration; [Pilot-Folgegate](cemaris-notice-generation-pilot-release-gate-next-step-handoff.md) nicht ausgeführt |
+| 6c-Pilot-Gate | Betriebs- und Pilotfreigabe entscheiden | [kontextlos ausführbares dokumentarisches Folgegate vorbereitet](cemaris-notice-generation-pilot-release-gate-next-step-handoff.md): installationsbezogene Nachweise und synthetische Abnahmen interaktiv bewerten | nächster zulässiger Schritt; keine Aktivierung oder Konfigurationsänderung im Gate; fehlende Nachweise führen vollständig zu Variante A |
 | 6c+ | weiterer Gebührenausbau und Dokumente | nur nach getrennten vollständigen Entscheidungs- und Freigabegates | Gebühren-/Satzungsberechnung, weitere Dokumentarten, Rechtswirkung, Versand, Korrektur, Datenschutz, Betrieb und Migration |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | übriges EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme jenseits des vorgezogenen Friedhofsstammdatenpfads | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
@@ -245,18 +256,23 @@ das [dokumentarische Entscheidungsgate](cemaris-notice-generation-decision-gate-
 vor einer möglichen späteren Bescheiderzeugung. Es ist nach ergänzender
 Quellenklärung mit Variante B abgeschlossen. Der feldgenaue Kandidat und seine
 Produktgrenzen stehen in der
-[Entscheidungsakte](../requirements/notice-generation-decisions.md); der
-[technische 6c-Auftrag](cemaris-increment-6c-next-step-handoff.md) ist
-vorbereitet und noch nicht ausgeführt. Berechnung, Rechtswirkung,
-FINANZ+-Integration, echte Verwaltungsdaten, Produktivsetzung und Migration
-bleiben gesondert freizugeben.
+[Entscheidungsakte](../requirements/notice-generation-decisions.md). Der
+[technische 6c-Auftrag](cemaris-increment-6c-next-step-handoff.md) ist gemäß
+[6c-Abschluss](cemaris-increment-6c-completion.md) vollständig umgesetzt. Der
+nächste zulässige Schritt ist ausschließlich das vorbereitete, noch nicht
+ausgeführte
+[Betriebs- und Pilotfreigabegate](cemaris-notice-generation-pilot-release-gate-next-step-handoff.md).
+Berechnung, Rechtswirkung, FINANZ+-Integration, echte Verwaltungsdaten,
+Produktivsetzung und Migration bleiben gesondert freizugeben.
 
 ## Bewusst nicht mit dem nächsten Inkrement behauptet
 
 - keine Produktivreife oder Freigabe für echte personenbezogene Daten;
 - kein abschließendes Cemaris-Fach- oder Datenmodell;
 - keine fachliche Berechnung von Ruhe-, Nutzungs- oder Zahlungsfristen;
-- keine Gebührenfestsetzung, Bescheiderzeugung oder Winyard-Ablage;
+- keine Gebührenfestsetzung, rechtlich wirksame Bescheiderzeugung oder
+  Winyard-Ablage; nur der flüchtige rechtlich wirkungslose 6c-Entwurf ist
+  technisch umgesetzt;
 - keine Storno-, Lösch-, Umnummerierungs- oder Historienregel;
 - kein EDWALT-Import außerhalb der ausdrücklich zugelassenen nicht
   personenbezogenen Friedhofsstammdaten und kein Mapping offener Personen-,

@@ -45,11 +45,12 @@ internal sealed class NoticeDraftAdministratorAuthenticationHandler(
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
+        var caseWorker = string.Equals(Request.Headers["X-Cemaris-Test-Role"], SystemRole.Sachbearbeitung.Value, StringComparison.Ordinal);
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, TestIdentity.AdministratorId.ToString("D")),
-            new Claim(ClaimTypes.Name, "Synthetische Testadministration"),
-            new Claim(ClaimTypes.Role, SystemRole.Administration.Value),
+            new Claim(ClaimTypes.NameIdentifier, (caseWorker ? TestIdentity.CaseWorkerId : TestIdentity.AdministratorId).ToString("D")),
+            new Claim(ClaimTypes.Name, caseWorker ? "Synthetische Testsachbearbeitung" : "Synthetische Testadministration"),
+            new Claim(ClaimTypes.Role, caseWorker ? SystemRole.Sachbearbeitung.Value : SystemRole.Administration.Value),
             new Claim(CemarisClaimTypes.PasswordChangeRequired, bool.FalseString),
         };
         var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, SchemeName));

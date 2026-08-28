@@ -9,11 +9,13 @@ using Cemaris.Application.Cases;
 using Cemaris.Application.Cemeteries;
 using Cemaris.Application.Identity;
 using Cemaris.Application.NoticeDrafts;
+using Cemaris.Application.NoticeGeneration;
 using Cemaris.Application.PersonUsageRights;
 using Cemaris.Application.System;
 using Cemaris.Domain.Cases;
 using Cemaris.Infrastructure;
 using Cemaris.Infrastructure.Maintenance;
+using Cemaris.Infrastructure.NoticeGeneration;
 using Cemaris.Infrastructure.Persistence;
 using Cemaris.Infrastructure.ReadModel;
 using Microsoft.AspNetCore.Antiforgery;
@@ -39,6 +41,7 @@ if (builder.Configuration.GetValue<bool>("IntegrationTests:IsolatedConfiguration
         "Features:BurialProcessEditingEnabled",
         "Features:PersonUsageRightsEditingEnabled",
         "Features:NoticeDraftEditingEnabled",
+        "Features:NoticeGenerationEnabled",
         "Maintenance:ApplyMigrations",
         "Maintenance:EnsureDevelopmentAccounts",
         "Maintenance:EnsureSyntheticDevelopmentData",
@@ -58,6 +61,7 @@ var cemeteryMasterDataEditingEnabled = builder.Configuration.GetValue<bool>("Fea
 var burialProcessEditingEnabled = builder.Configuration.GetValue<bool>("Features:BurialProcessEditingEnabled");
 var personUsageRightsEditingEnabled = builder.Configuration.GetValue<bool>("Features:PersonUsageRightsEditingEnabled");
 var noticeDraftEditingEnabled = builder.Configuration.GetValue<bool>("Features:NoticeDraftEditingEnabled");
+var noticeGenerationEnabled = builder.Configuration.GetValue<bool>("Features:NoticeGenerationEnabled");
 if (caseEditingEnabled && !builder.Environment.IsDevelopment())
 {
     throw new InvalidOperationException(
@@ -83,6 +87,11 @@ if (noticeDraftEditingEnabled && !builder.Environment.IsDevelopment())
     throw new InvalidOperationException(
         "Notice-draft editing may be enabled only in Development.");
 }
+if (noticeGenerationEnabled && !builder.Environment.IsDevelopment())
+    throw new InvalidOperationException("Notice generation may be enabled only in Development.");
+if (noticeGenerationEnabled && !(caseEditingEnabled && cemeteryMasterDataEditingEnabled && burialProcessEditingEnabled
+    && personUsageRightsEditingEnabled && noticeDraftEditingEnabled))
+    throw new InvalidOperationException("Notice generation requires every dependent Development capability.");
 
 builder.Logging.ClearProviders();
 builder.Logging.AddJsonConsole(options =>
@@ -166,6 +175,9 @@ builder.Services.AddRateLimiter(options =>
             Window = TimeSpan.FromMinutes(1),
             AutoReplenishment = true,
         }));
+    options.AddPolicy("NoticeGeneration", context => RateLimitPartition.GetConcurrencyLimiter(
+        context.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+        _ => new ConcurrencyLimiterOptions { PermitLimit = 2, QueueLimit = 0 }));
 });
 
 var maximumSearchResults = builder.Configuration.GetValue<int?>("Search:MaxResults") ?? 10;
@@ -197,6 +209,23 @@ if (personUsageRightsEditingEnabled)
 if (noticeDraftEditingEnabled)
 {
     builder.Services.AddScoped<NoticeDraftService>();
+}
+if (noticeGenerationEnabled)
+{
+    var generationOptions = new NoticeGenerationOptions();
+    builder.Configuration.GetSection("NoticeGeneration").Bind(generationOptions);
+    if (generationOptions.MaximumTemplateBytes <= 0 || generationOptions.MaximumEntryBytes <= 0
+        || generationOptions.MaximumUncompressedBytes <= 0 || generationOptions.MaximumOutputBytes <= 0
+        || generationOptions.MaximumCompressionRatio is < 1 or > 1000 || generationOptions.PdfParallelism is < 1 or > 16)
+        throw new InvalidOperationException("Notice-generation safety limits are invalid.");
+    var paths = new NoticeGenerationPaths(generationOptions, builder.Environment.ContentRootPath, requirePdf: true);
+    builder.Services.AddSingleton(generationOptions);
+    builder.Services.AddSingleton(paths);
+    builder.Services.AddSingleton<INoticeDocumentRenderer, SecureOpenXmlNoticeRenderer>();
+    builder.Services.AddSingleton<INoticeProcessRunner, DirectNoticeProcessRunner>();
+    builder.Services.AddSingleton<INoticePdfConverter, LibreOfficeNoticePdfConverter>();
+    builder.Services.AddScoped<LegalBasisVersionService>();
+    builder.Services.AddScoped<NoticeGenerationService>();
 }
 
 if (openApiEnabled)
@@ -230,6 +259,10 @@ if (allowedOrigins.Length > 0)
 }
 
 var app = builder.Build();
+
+if (noticeGenerationEnabled)
+    NoticeGenerationTempCleaner.CleanOrphans(app.Services.GetRequiredService<NoticeGenerationPaths>(),
+        app.Services.GetRequiredService<NoticeGenerationOptions>(), TimeProvider.System.GetUtcNow());
 
 if (builder.Configuration.GetValue<bool>("Maintenance:ApplyMigrations"))
 {
@@ -434,6 +467,7 @@ systemEndpoints.MapGet("/info", () =>
         burialProcessEditingEnabled,
         personUsageRightsEditingEnabled,
         noticeDraftEditingEnabled,
+        noticeGenerationEnabled,
         typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "unbekannt"));
 })
     .WithName("GetSystemInformation")
@@ -549,6 +583,10 @@ if (personUsageRightsEditingEnabled)
 if (noticeDraftEditingEnabled)
 {
     app.MapNoticeDrafts();
+}
+if (noticeGenerationEnabled)
+{
+    app.MapNoticeGeneration();
 }
 
 app.Run();
@@ -687,7 +725,13 @@ static async Task<IResult> CreateAccountAsync(
                 request.Username,
                 request.DisplayName,
                 request.Role,
-                request.Password),
+                request.Password,
+                request.FirstName,
+                request.LastName,
+                request.ContactPoint,
+                request.Room,
+                request.Phone,
+                request.Email),
             cancellationToken);
         SecurityLog.AdministrationOperation(
             logger,
@@ -732,7 +776,8 @@ static async Task<IResult> UpdateAccountAsync(
         var result = await service.UpdateAsync(
             actorId,
             accountId,
-            new UpdateLocalAccountCommand(request.Username, request.DisplayName, request.Role, version),
+            new UpdateLocalAccountCommand(request.Username, request.DisplayName, request.Role, version,
+                request.FirstName, request.LastName, request.ContactPoint, request.Room, request.Phone, request.Email),
             cancellationToken);
         return AccountMutationResponse(result, actorId, accountId, "Update", logger);
     }
@@ -876,7 +921,13 @@ static CurrentAccountResponse ToCurrentAccount(LocalAccountSnapshot account) => 
     account.Username,
     account.DisplayName,
     account.Role.Value,
-    account.MustChangePassword);
+    account.MustChangePassword,
+    account.FirstName,
+    account.LastName,
+    account.ContactPoint,
+    account.Room,
+    account.Phone,
+    account.Email);
 
 static async Task<IResult> SearchCasesAsync(
     [AsParameters] SearchCasesRequest request,

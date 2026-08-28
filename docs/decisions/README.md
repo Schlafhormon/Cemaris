@@ -31,6 +31,7 @@ Architecture Decision Records (ADRs) dokumentieren wesentliche technische und pr
 | [0016](ADR-0016-canonical-parties-and-historicized-usage-rights.md) | Kanonische Beteiligte und historisierte Nutzungsrechte | Accepted |
 | [0017](ADR-0017-persistent-local-sql-and-scoped-edwalt-master-data-import.md) | Dauerhafte lokale SQL-Entwicklung und abgegrenzter EDWALT-Stammdatenimport | Accepted |
 | [0018](ADR-0018-canonical-manual-notice-drafts.md) | Kanonische manuelle Bescheidentwürfe vor Bescheiderzeugung | Accepted |
+| [0019](ADR-0019-ephemeral-secure-notice-document-generation.md) | Flüchtige sichere Bescheidentwurfs-Dokumenterzeugung | Accepted |
 
 ADR-0018 ist durch den
 [technischen 6b-Abschluss](../implementation/cemaris-increment-6b-completion.md)
@@ -41,10 +42,13 @@ ist gemäß
 nach ergänzender Quellenklärung mit Variante B beendet. Es bestätigt genau
 einen eng begrenzten Gebührenbescheidentwurf und bereitet die separate
 [technische 6c-Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md)
-vor. Das dokumentarische Gate implementiert die darin beschriebene
-OpenXML-/PDF-Architektur noch nicht. Deshalb wurde in diesem Gate kein
-ADR-0019 angelegt und ADR-0018 nicht geändert; die technische Umsetzung muss
-prüfen, ob ihre tatsächlich realisierte Architektur ein neues ADR erfordert.
+vor. Die technische Übergabe ist gemäß
+[6c-Abschluss](../implementation/cemaris-increment-6c-completion.md)
+vollständig umgesetzt. Die tatsächlich realisierte OpenXML-/LibreOffice-,
+Temp-, Paket- und Audit-Architektur ist deshalb eigenständig in ADR-0019
+dokumentiert. ADR-0018 bleibt unverändert. Das vorbereitete
+[Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-next-step-handoff.md)
+ist noch nicht ausgeführt.
 
 Das
 [5c-Abnahme- und Lebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)

@@ -332,12 +332,34 @@ Quell-, Mapping-, Datenschutz- und Abnahmegate. Details stehen im
 Das nachgelagerte
 [6c-Bescheiderzeugungsgate](../implementation/cemaris-notice-generation-decision-gate-completion.md)
 bestätigt diese Grenze erneut und ist nach ergänzender Quellenklärung mit
-Variante B abgeschlossen. Auch der vorbereitete technische
-Development-Kandidat übernimmt ausschließlich aktuelle kanonische
+Variante B abgeschlossen. Auch der gemäß
+[6c-Abschluss](../implementation/cemaris-increment-6c-completion.md) umgesetzte
+technische Development-Kandidat übernimmt ausschließlich aktuelle kanonische
 Cemaris-Daten; für ihn gibt es keine Übernahme und kein
 Backfill, keine Rückinterpretation und keine Nacherzeugung alter EDWALT- oder
-`ReadNotices`-/`ReadFeeItems`-Bestände. Eine spätere Erzeugung soll nur mit
-aktuellen kanonischen Cemaris-Daten arbeiten; daraus folgt kein Mapping- oder
+`ReadNotices`-/`ReadFeeItems`-Bestände. Die Erzeugung arbeitet nur mit
+aktuellen kanonischen Cemaris-Daten; daraus folgt kein Mapping- oder
 Migrationsauftrag. Benutzerkontakt-, Satzungs- und Erzeugungsaudittabellen
-einer späteren normalen additiven 6c-Schemamigration sind ebenfalls kein
+der normalen additiven 6c-Schemamigration sind ebenfalls kein
 EDWALT-Migrationsumfang und werden nicht aus Altbeständen befüllt.
+
+## Abgrenzung der 6c-Dokumenterzeugung
+
+Die additive EF-Core-Migration
+`20260828062953_AddNoticeGenerationDraftDocuments` gehört ausschließlich zur
+normalen Cemaris-Schemaentwicklung. Sie ergänzt sechs nullable Kontaktspalten
+an bestehenden lokalen Konten sowie leere Tabellen für unveränderliche
+Satzungsversionen, deren inhaltsfreien Änderungsnachweis und inhaltsfreie
+Erzeugungsaudits. Sie enthält weder Seed noch Backfill noch Datenmutation
+bestehender Zeilen.
+
+6c übernimmt keine EDWALT-Bescheide, -Gebühren, -Kontakte, -Satzungen oder
+-Dokumente, erzeugt keine alten Projektionen nach und legt keine
+Ausgabedateien ab. Der pausierte EDWALT-Gebühren-/Variantenauftrag bleibt
+pausiert. Jede spätere Altbestandsmigration benötigt weiterhin ein eigenes
+Quell-, Mapping-, Datenschutz- und Abnahmegate.
+
+Auch das vorbereitete
+[Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-next-step-handoff.md)
+erteilt keinen Migrations-, Backfill- oder Altbestandsauftrag. Es bewertet
+ausschließlich einen separat zu autorisierenden synthetischen Pilotbetrieb.

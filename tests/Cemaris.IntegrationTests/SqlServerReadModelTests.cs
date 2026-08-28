@@ -442,6 +442,7 @@ public sealed class SqlServerReadModelTests(SqlServerIntegrationFixture fixture)
             return await new EfLocalAccountStore(context).UpdateAsync(
                 Guid.NewGuid(), account.Id, account.Version, account.Username,
                 account.NormalizedUsername, account.DisplayName, SystemRole.Sachbearbeitung,
+                account.FirstName, account.LastName, account.ContactPoint, account.Room, account.Phone, account.Email,
                 new DateTimeOffset(2026, 8, 13, 12, 0, 0, TimeSpan.Zero),
                 CancellationToken.None);
         }

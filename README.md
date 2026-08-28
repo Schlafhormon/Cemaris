@@ -73,6 +73,9 @@ Vorbereitet sind:
   Beisetzungsprozess mit atomarer Grabstellenstatuskopplung,
 - einen standardmäßig deaktivierten synthetischen Beteiligten-/
   Nutzungsrechtskern mit kanonischen Identitäten und Fachhistorie,
+- eine standardmäßig deaktivierte flüchtige DOCX-/PDF-Erzeugung genau eines
+  rechtlich wirkungslosen Gebührenbescheidentwurfs für Beisetzungsgebühren,
+  einschließlich Benutzerkontakten, Satzungsversionen und inhaltsfreiem Audit,
 - ein bewusst schmales EF-Core-Fall-/Leseschema mit synthetischem Standardprovider und optionaler SQL-Server-Anbindung,
 - eine minimale herstellerneutrale DMS-Erweiterungsstelle,
 - Unit- und Integrationstests,
@@ -157,9 +160,14 @@ Gebührenbescheidentwurf für Beisetzungsgebühren – ist in der
 [6c-Entscheidungsakte](docs/requirements/notice-generation-decisions.md)
 feldgenau und funktionsbezogen bestätigt. Eine synthetische Testquelle,
 Benutzerkontakt- und Satzungsstammdaten, Qualitäts-, ETag-, Audit- und
-Temp-Grenzen sind entschieden. Die noch nicht ausgeführte
+Temp-Grenzen sind entschieden. Die
 [technische 6c-Übergabe](docs/implementation/cemaris-increment-6c-next-step-handoff.md)
-begrenzt die nächste Umsetzung. Gebührenberechnung, Rechtswirkung,
+ist gemäß [6c-Abschluss](docs/implementation/cemaris-increment-6c-completion.md)
+Ende zu Ende umgesetzt: OpenXML-DOCX, gekapselte LibreOffice-PDF-Konvertierung,
+Temp-Bereinigung, Capability, Policies, Synthetic-/EF-Provider, API/OpenAPI
+und React-UI bleiben standardmäßig deaktiviert und Development-only. Das
+vorbereitete [Betriebs- und Pilotfreigabegate](docs/implementation/cemaris-notice-generation-pilot-release-gate-next-step-handoff.md)
+ist nicht ausgeführt. Gebührenberechnung, Rechtswirkung,
 Zustellung, Archivierung, FINANZ+-Integration, Migration und Produktivsetzung
 bleiben gesperrt.
 Die weitere Inkrementfolge beschreibt der
@@ -274,15 +282,21 @@ zusätzlich verfügbar:
 - bei aktiver Bescheidentwurfs-Capability mehrere rechtlich wirkungslose
   manuelle Entwürfe, Fachrevisionen und für Administration die versionierte
   Nummernkonfiguration;
+- bei zusätzlich aktivierter Dokumenterzeugungs-Capability genau einen
+  flüchtigen rechtlich wirkungslosen Beisetzungsgebühren-Entwurf als DOCX/PDF
+  sowie administrative Satzungsversionen und Benutzerkontaktpflege;
 - Startregeln schreiben ausschließlich über die administrative
   Programmkonfiguration.
 
 Ist `Features__BurialProcessEditingEnabled` aktiv, ersetzt der 4b-Prozess die
-alten einfachen Beisetzungsschreibendpunkte. Die fünf fachlichen Capabilities
+alten einfachen Beisetzungsschreibendpunkte. Die sechs fachlichen Capabilities
 werden getrennt konfiguriert. Für den vollständigen synthetischen
 Bescheidentwurfspiloten müssen wegen Beteiligtenauswahl und Inhabervorschlag
 `PersonUsageRightsEditingEnabled` und `NoticeDraftEditingEnabled` gemeinsam
-aktiv sein. Der 5b-Kern ersetzt die nullable Berechtigten-/Adress-/
+aktiv sein. Die zusätzliche Dokumenterzeugung verlangt sämtliche fünf
+abhängigen Capabilities sowie eine sichere lokale Vorlagen-, Temp- und
+LibreOffice-Konfiguration. Sie bleibt bis zum separaten Betriebs- und
+Pilotfreigabegate deaktiviert. Der 5b-Kern ersetzt die nullable Berechtigten-/Adress-/
 Nutzungsrechts-Altprojektionen nicht.
 
 Änderungen benötigen den zuletzt gelesenen starken ETag in `If-Match`. Ein
@@ -467,6 +481,10 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `Features__BurialProcessEditingEnabled` | einfacher synthetischer Beisetzungsprozess; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Features__PersonUsageRightsEditingEnabled` | synthetischer kanonischer Beteiligten-/Nutzungsrechtskern; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Features__NoticeDraftEditingEnabled` | rechtlich wirkungsloser manueller Bescheidentwurfskern; nur in `Development` zulässig | `false` (Standard), nur im ausdrücklich aktivierten synthetischen Development-Piloten `true` |
+| `Features__NoticeGenerationEnabled` | flüchtige rechtlich wirkungslose DOCX-/PDF-Erzeugung; nur in `Development` und mit allen abhängigen Capabilities zulässig | `false`; Pilotaktivierung erst nach separatem Gate |
+| `NoticeGeneration__TemplateRoot` / `TemplateFileName` | read-only Vorlagenstamm im Content-Root und feste DOCX-Datei | installationsspezifisch, keine Uploadfunktion |
+| `NoticeGeneration__TempRoot` | kontrollierter Tempstamm im Content-Root | installationsspezifisch, keine Fremdpfade oder Reparse Points |
+| `NoticeGeneration__LibreOfficeExecutablePath` | absoluter Pfad zur separat installierten PDF-Engine | `null` bis zur Betriebsfreigabe |
 | `Identity__Security__PasswordMinimumLength` | untere Passwortgrenze, nicht unter 12 konfigurierbar | `12` |
 | `Identity__Security__PasswordMaximumLength` | obere Passwortgrenze, nicht über 128 konfigurierbar | `128` |
 | `Identity__Security__MaximumFailedLoginAttempts` | Fehlversuche bis zur Sperre, höchstens 5 | `5` |
@@ -517,11 +535,11 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
    Lebenszykluspfad bleibt pausiert und 5k stellt den dauerhaften lokalen
    SQL-Developmentbetrieb sowie den abgegrenzten nicht personenbezogenen
    EDWALT-Friedhofsstammdatenimport her
-6. abgeschlossene Gebühren-/Bescheid-Gates 6a, 6a-F und 6c sowie der technisch
-   abgeschlossene Development-Schnitt 6b für kanonische manuelle,
-   rechtlich wirkungslose Bescheidentwürfe; 6c bestätigt nach ergänzender
-   Quellenklärung genau einen technischen Development-Kandidaten, dessen
-   separate Übergabe noch nicht ausgeführt ist
+6. abgeschlossene Gebühren-/Bescheid-Gates 6a, 6a-F und 6c sowie die technisch
+   abgeschlossenen Development-Schnitte 6b für kanonische manuelle Entwürfe
+   und 6c für genau einen flüchtigen rechtlich wirkungslosen
+   Beisetzungsgebühren-Entwurf; das Betriebs- und Pilotfreigabegate ist nur
+   vorbereitet und noch nicht ausgeführt
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe
 9. Pilotbetrieb, Cutover und Nachkontrolle

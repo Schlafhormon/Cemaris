@@ -10,6 +10,7 @@ export interface SystemInformationResponse {
   burialProcessEditingEnabled: boolean
   personUsageRightsEditingEnabled: boolean
   noticeDraftEditingEnabled: boolean
+  noticeGenerationEnabled: boolean
   productionReady: boolean
   status: string
   subtitle: string

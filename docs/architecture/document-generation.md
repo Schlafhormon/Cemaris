@@ -1,13 +1,17 @@
 # Konzept für Dokumente und Bescheide
 
-> **Status:** Genau ein technischer Development-Kandidat ist dokumentarisch
-> entscheidungsreif, aber noch nicht implementiert. Das
+> **Status:** Genau ein technischer Development-Kandidat ist gemäß
+> [6c-Abschluss](../implementation/cemaris-increment-6c-completion.md) Ende zu
+> Ende implementiert, standardmäßig deaktiviert und nicht produktiv
+> freigegeben. Das
 > [6c-Entscheidungsgate](../implementation/cemaris-notice-generation-decision-gate-completion.md)
 > grenzt einen rechtlich wirkungslosen Gebührenbescheidentwurf für
 > Beisetzungsgebühren ab und endet nach ergänzender Quellenklärung mit
 > Variante B. Die separate
 > [technische Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md)
-> ist vorbereitet, aber nicht ausgeführt.
+> ist ausgeführt; der nächste Schritt ist ausschließlich das noch nicht
+> ausgeführte
+> [Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-next-step-handoff.md).
 
 ## Ergebnis des Entscheidungsgates 6a
 
@@ -37,7 +41,7 @@ damit nicht verbunden.
 
 ## Entschiedener technischer Kandidat 6c
 
-Die noch nicht ausgeführte
+Die ausgeführte
 [6c-Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md)
 verbindet Open-XML-basierte DOCX-Platzhalterersetzung mit einer gekapselten
 serverseitigen Headless-Konvertierung nach PDF. Produktivvorlagen liegen
@@ -111,19 +115,26 @@ zum abgegrenzten 6c-Kandidaten.
 | Separater Dokumentdienst | Klare Isolation und skalierbare Konvertierung | Zusätzlicher Betrieb und verteilte Fehlerfälle; für den Start möglicherweise zu komplex |
 | HTML/CSS zu PDF | Webtechnologien und gute Testbarkeit | DOCX-Nachbearbeitung und exakte kommunale Office-Vorlagen schwieriger |
 
-Für den eng begrenzten 6c-Development-Kandidaten wählt die vorbereitete
+Für den eng begrenzten 6c-Development-Kandidaten wählt die ausgeführte
 technische Übergabe direkte OOXML-Bearbeitung mit dem Open XML SDK und eine
 gekapselte Headless-LibreOffice-Konvertierung. Die übrigen Ansätze bleiben
 Vergleichsoptionen für spätere Dokumentarten; daraus folgt keine allgemeine
 Engine- oder Produktiventscheidung.
 
-## Für 6c freigegeben, aber noch nicht umgesetzt
+## Mit 6c umgesetzt
 
 - validierte Platzhalterdefinitionen,
 - Renderer beziehungsweise Konverter als austauschbarer Port,
 - autorisierte Ausgabe ohne Dokumentarchivierung,
 - sparsamer inhaltsfreier Erzeugungsaudit,
 - technische Bereinigung temporärer Dateien.
+
+Die tatsächliche Paket-, Prozess-, Temp-, Capability- und Auditentscheidung
+ist in
+[ADR-0019](../decisions/ADR-0019-ephemeral-secure-notice-document-generation.md)
+dokumentiert. Die echte installierte LibreOffice-Version, kommunale
+Produktivvorlage, Serverrechte, Schriftversorgung und visuelle
+DOCX-/PDF-/Druckabnahme bleiben Gegenstand des Pilot-Folgegates.
 
 ## Sicherheits- und Datenschutzleitplanken
 
