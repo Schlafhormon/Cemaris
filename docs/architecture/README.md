@@ -235,6 +235,14 @@ und nie gespeichert. OpenXML-Paketprüfung und gekapselte
 LibreOffice-Konvertierung sind in ADR-0019 festgehalten.
 
 Die Umsetzung ändert den 6b-Vertrag und ADR-0018 nicht und erteilt keine
-Produktiv- oder Betriebsfreigabe. Der einzige Folgepfad ist das vorbereitete,
-noch nicht ausgeführte
-[Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-next-step-handoff.md).
+Produktiv- oder Betriebsfreigabe. Das
+[Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-completion.md)
+ist mit Variante A „Stop“ abgeschlossen. Die gewünschte Nutzung des
+Development-Repositorys mit `Cemaris_Dev` ist als eigens geschaffene
+kombinierte Development- und Testpilotumgebung klargestellt. Sie ist kein
+Datenbankwiderspruch mehr. Auf dem Pilot-PC ist jedoch kein LibreOffice für
+den ausschließlich implementierten Headless-PDF-Pfad installiert gewesen.
+Seit dem 01.09.2026 ist LibreOffice `26.8.0.3` gültig signiert und startfähig;
+reale Konvertierungs-, Schriften-, Installations- und Abnahmenachweise fehlen
+weiterhin. Capability und Aktivierungsauftrag bleiben aus. Der Folgepfad ist
+die [technische Pilot-Readiness und Neubewertung](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md).

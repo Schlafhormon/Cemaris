@@ -9,9 +9,10 @@
 > Beisetzungsgebühren ab und endet nach ergänzender Quellenklärung mit
 > Variante B. Die separate
 > [technische Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md)
-> ist ausgeführt; der nächste Schritt ist ausschließlich das noch nicht
-> ausgeführte
-> [Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-next-step-handoff.md).
+> ist ausgeführt. Das
+> [Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-completion.md)
+> ist am 31.08.2026 vollständig mit Variante A „Stop“ abgeschlossen;
+> Capability und Aktivierungsauftrag bleiben aus.
 
 ## Ergebnis des Entscheidungsgates 6a
 
@@ -133,8 +134,16 @@ Die tatsächliche Paket-, Prozess-, Temp-, Capability- und Auditentscheidung
 ist in
 [ADR-0019](../decisions/ADR-0019-ephemeral-secure-notice-document-generation.md)
 dokumentiert. Die echte installierte LibreOffice-Version, kommunale
-Produktivvorlage, Serverrechte, Schriftversorgung und visuelle
-DOCX-/PDF-/Druckabnahme bleiben Gegenstand des Pilot-Folgegates.
+Pilotvorlage, Serverrechte, Schriftversorgung und visuelle
+DOCX-/PDF-/Druckabnahme wurden im Pilot-Folgegate nicht belegt. `Cemaris_Dev`
+ist nach ergänzender Projektklärung die eigens geschaffene kombinierte
+Development- und Testpilotdatenbank und kein Widerspruch mehr. Für sie fehlen
+aber weiterhin der aktuelle 6c-Migrations-, Backup-/Restore- und
+Datenbankbetriebsnachweis. Außerdem ist auf dem Pilot-PC kein LibreOffice
+installiert gewesen; dieser Befund ist seit dem 01.09.2026 überholt.
+LibreOffice `26.8.0.3` ist gültig signiert und startfähig. Reale
+Konvertierungsabnahme, Schriften, Installer-/Wartungsweg und weitere
+Betriebsnachweise fehlen weiterhin und tragen Variante A.
 
 ## Sicherheits- und Datenschutzleitplanken
 

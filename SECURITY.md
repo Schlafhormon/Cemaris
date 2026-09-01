@@ -68,12 +68,18 @@ in
 [ADR-0019](docs/decisions/ADR-0019-ephemeral-secure-notice-document-generation.md)
 dokumentiert.
 
-Die Capability bleibt bis zum separat dokumentierten, noch nicht
-ausgeführten
-[Betriebs- und Pilotfreigabegate](docs/implementation/cemaris-notice-generation-pilot-release-gate-next-step-handoff.md)
-aus. Dieses Gate muss insbesondere konkrete Serverrechte, LibreOffice-
-Herkunft und -Version, Schriften, Temp-Schutz, Monitoring, synthetische
-Ausgabeabnahme und Rückfall entscheiden.
+Das separat dokumentierte
+[Betriebs- und Pilotfreigabegate](docs/implementation/cemaris-notice-generation-pilot-release-gate-completion.md)
+ist mit Variante A „Stop“ abgeschlossen. Die gewünschte Nutzung des
+Development-Repositorys mit `Cemaris_Dev` ist inzwischen als eigens
+geschaffene kombinierte Development- und Testpilotumgebung klargestellt und
+kein Datenbankwiderspruch mehr. Auf dem Pilot-PC ist kein LibreOffice
+installiert gewesen; dieser Befund ist seit dem 01.09.2026 überholt.
+LibreOffice `26.8.0.3` ist jetzt gültig signiert und startfähig. Installer-
+und Wartungsweg, Dienstkontogrenze, konkrete Serverrechte, Schriften,
+Temp-Schutz, Monitoring, synthetische Ausgabeabnahme und Rückfall sind
+weiterhin nicht vollständig belegt. Die Capability bleibt aus; es entstand
+kein Aktivierungsauftrag.
 
 ## Offenlegung
 

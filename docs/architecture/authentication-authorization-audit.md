@@ -97,8 +97,13 @@ Vorlagenaustausch erfolgt ausschließlich außerhalb von Cemaris durch
 Serveradministration. Vorgesehen ist nur ein sparsames Auditereignis mit
 Fallbezug, Akteur, UTC-Zeit, Ausgabeformat und Erfolg oder Fehler; Dokument und
 Inhalt bleiben ausgeschlossen. ETag-/Quelldaten-/Revisionsbezug und
-Auditaufbewahrung sind inzwischen für den Kandidaten entschieden. Die
-technische Übergabe ist vorbereitet; eine Produktivfreigabe besteht nicht.
+Auditaufbewahrung sind für den technischen Kandidaten entschieden. Die
+technische Umsetzung ist abgeschlossen; eine Produktivfreigabe besteht nicht.
+Das nachgelagerte
+[Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-completion.md)
+endet mit Variante A. Installationsbezogene Auditaufbewahrung, Zugriff,
+Integrität und Löschung sind ebenso unbelegt wie die übrigen Betriebs- und
+Sicherheitsnachweise; die Capability bleibt aus.
 
 Für die spätere 6c-Erzeugung werden am lokalen Konto getrennte optionale
 Kontaktfelder für Vorname, Nachname, Kontaktstelle, Zimmer, Telefon und E-Mail

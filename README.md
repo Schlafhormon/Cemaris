@@ -166,10 +166,19 @@ ist gemäß [6c-Abschluss](docs/implementation/cemaris-increment-6c-completion.m
 Ende zu Ende umgesetzt: OpenXML-DOCX, gekapselte LibreOffice-PDF-Konvertierung,
 Temp-Bereinigung, Capability, Policies, Synthetic-/EF-Provider, API/OpenAPI
 und React-UI bleiben standardmäßig deaktiviert und Development-only. Das
-vorbereitete [Betriebs- und Pilotfreigabegate](docs/implementation/cemaris-notice-generation-pilot-release-gate-next-step-handoff.md)
-ist nicht ausgeführt. Gebührenberechnung, Rechtswirkung,
-Zustellung, Archivierung, FINANZ+-Integration, Migration und Produktivsetzung
-bleiben gesperrt.
+[Betriebs- und Pilotfreigabegate](docs/implementation/cemaris-notice-generation-pilot-release-gate-completion.md)
+ist am 31.08.2026 vollständig mit Variante A „Stop“ abgeschlossen. Die als
+Testpilot gewünschte Nutzung des Development-Repositorys mit `Cemaris_Dev`
+ist als eigens geschaffene kombinierte Development- und Testpilotumgebung
+klargestellt. Die Datenbank ist damit nicht mehr als Widerspruch bewertet;
+der aktuelle 6c-Migrationsstand, Backup/Restore und weitere Betriebs- und
+Abnahmenachweise fehlen weiterhin. LibreOffice `26.8.0.3` ist seit dem
+01.09.2026 installiert, gültig signiert und startfähig; reale Ausgabeabnahme,
+Schriften und weitere Betriebsnachweise sind noch offen. Es entstand kein
+Aktivierungsauftrag. Der nächste zulässige Schritt ist ausschließlich die
+[technische Pilot-Readiness und Neubewertung](docs/implementation/cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md).
+Gebührenberechnung, Rechtswirkung, Zustellung, Archivierung,
+FINANZ+-Integration, Migration und Produktivsetzung bleiben gesperrt.
 Die weitere Inkrementfolge beschreibt der
 [Cemaris-Implementierungsplan](docs/implementation/README.md).
 
@@ -538,8 +547,8 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
 6. abgeschlossene Gebühren-/Bescheid-Gates 6a, 6a-F und 6c sowie die technisch
    abgeschlossenen Development-Schnitte 6b für kanonische manuelle Entwürfe
    und 6c für genau einen flüchtigen rechtlich wirkungslosen
-   Beisetzungsgebühren-Entwurf; das Betriebs- und Pilotfreigabegate ist nur
-   vorbereitet und noch nicht ausgeführt
+   Beisetzungsgebühren-Entwurf; das Betriebs- und Pilotfreigabegate ist mit
+   Variante A abgeschlossen, Capability und Aktivierungsauftrag bleiben aus
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe
 9. Pilotbetrieb, Cutover und Nachkontrolle

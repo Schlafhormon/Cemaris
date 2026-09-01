@@ -1,14 +1,29 @@
 # Folgegate: Betriebs- und Pilotfreigabe der 6c-Dokumenterzeugung
 
-Stand: 28.08.2026
+Stand: 01.09.2026
 
 ## Status und Zweck
 
-Dieses Gate ist vorbereitet und **nicht ausgeführt**. Der technische
-[6c-Abschluss](cemaris-increment-6c-completion.md) erlaubt keinen stillen
-Pilot- oder Produktivbetrieb. Bis zu einer ausdrücklichen dokumentierten
-Entscheidung bleibt `Features:NoticeGenerationEnabled` in jeder vorhandenen
-Installation `false`.
+Dieses Gate ist am 31.08.2026 vollständig **mit Variante A – Stop
+ausgeführt**. Die
+[Entscheidungsakte](../requirements/notice-generation-pilot-release-decisions.md)
+und der
+[Abschlussnachweis](cemaris-notice-generation-pilot-release-gate-completion.md)
+dokumentieren die beabsichtigte Nutzung des Development-Repositorys mit
+`Cemaris_Dev`, die ergänzende Klarstellung als eigens geschaffene kombinierte
+Development- und Testpilotumgebung und die weiterhin fehlenden Installations-
+und Abnahmenachweise. Ein Datenbankwiderspruch besteht damit nicht mehr; die
+übrigen offenen und nur teilweise bestätigten Pflichtnachweise tragen die
+Variante A weiterhin. Der historische Nichtinstallationsbefund ist seit dem
+01.09.2026 überholt: LibreOffice `26.8.0.3` ist gültig signiert und startfähig;
+reale Ausgabe- und weitere Betriebsnachweise fehlen weiterhin. Der nächste
+zulässige Auftrag ist die
+[technische Pilot-Readiness und Neubewertung](cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md),
+nicht die Aktivierung. Der technische
+[6c-Abschluss](cemaris-increment-6c-completion.md) erlaubt weiterhin keinen
+stillen Pilot- oder Produktivbetrieb. `Features:NoticeGenerationEnabled`
+bleibt in jeder vorhandenen Installation `false`; es entstand kein
+Aktivierungsauftrag.
 
 Zweck des Gates ist ausschließlich zu entscheiden, ob der bereits
 implementierte rechtlich wirkungslose Gebührenbescheidentwurf für

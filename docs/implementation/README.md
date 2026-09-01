@@ -146,8 +146,16 @@ ausgeführt. Benutzerkontaktprofil, unveränderliche Satzungsversionen,
 OpenXML-DOCX, gekapselte LibreOffice-PDF-Konvertierung, Temp-Bereinigung,
 inhaltsfreier Audit, Capability/Policies, API/OpenAPI und React-UI bleiben
 standardmäßig deaktiviert und ausschließlich Development. Das
-[Betriebs- und Pilotfreigabegate](cemaris-notice-generation-pilot-release-gate-next-step-handoff.md)
-ist nur vorbereitet und nicht ausgeführt.
+[Betriebs- und Pilotfreigabegate](cemaris-notice-generation-pilot-release-gate-completion.md)
+ist mit Variante A „Stop“ abgeschlossen. Die gewünschte Nutzung von
+`Cemaris_Dev` ist als eigens geschaffene kombinierte Development- und
+Testpilotumgebung klargestellt und kein Datenbankwiderspruch mehr; der
+aktuelle 6c-Migrationsstand, Backup/Restore und weitere Installations- und
+Abnahmenachweise fehlen. LibreOffice `26.8.0.3` ist seit dem 01.09.2026
+gültig signiert und startfähig; reale Konvertierungs-, Schriften- und weitere
+Betriebsnachweise fehlen. Capability und Aktivierungsauftrag bleiben aus. Der
+nächste Auftrag ist ausschließlich die
+[technische Pilot-Readiness und Neubewertung](cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md).
 
 ## Verbindliche Entwicklungsregel
 
@@ -182,8 +190,8 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 6a-F | Freigabegate für manuelle Bescheid-/Finanzfakten | nach ergänzender funktionsbezogener Klärung mit Variante B abgeschlossen: bestätigungspflichtiger Zahlungspflichtiger, mehrere Entwürfe je Fall, Nummernkonfiguration und manueller EUR-Faktenkern | ausschließlich technischer Development-Pilot mit synthetischen Daten; [Entscheidungsakte](../requirements/manual-notice-financial-facts-decisions.md) |
 | 6b | Kanonische manuelle Bescheidentwürfe | [technisch Ende zu Ende umgesetzt](cemaris-increment-6b-completion.md): eigener additiver Entwurfskern, Nummernkonfiguration, Sequenz, Revision/Audit, API/OpenAPI und React-UI | Development-only und synthetisch; kein Dokument, keine Berechnung, keine Rechtswirkung, keine FINANZ+-Integration und keine Migration |
 | 6c-Gate | spätere Bescheiderzeugung entscheiden | [nach ergänzender Quellenklärung mit Variante B abgeschlossen](cemaris-notice-generation-decision-gate-completion.md): genau ein Gebührenbescheidentwurf feldgenau bestätigt | [technische 6c-Übergabe](cemaris-increment-6c-next-step-handoff.md) ausgeführt; weiterhin keine Produktivfreigabe |
-| 6c | rechtlich wirkungslosen Gebührenbescheidentwurf erzeugen | [technisch Ende zu Ende umgesetzt](cemaris-increment-6c-completion.md): Benutzerkontakte, Satzungsversionen, sichere OpenXML-DOCX-/LibreOffice-PDF-Erzeugung, Temp-Bereinigung, inhaltsfreier Audit, API/OpenAPI und React-UI | Development-only, standardmäßig aus; keine Rechtswirkung, Zustellung, Archivierung, Integration oder Migration; [Pilot-Folgegate](cemaris-notice-generation-pilot-release-gate-next-step-handoff.md) nicht ausgeführt |
-| 6c-Pilot-Gate | Betriebs- und Pilotfreigabe entscheiden | [kontextlos ausführbares dokumentarisches Folgegate vorbereitet](cemaris-notice-generation-pilot-release-gate-next-step-handoff.md): installationsbezogene Nachweise und synthetische Abnahmen interaktiv bewerten | nächster zulässiger Schritt; keine Aktivierung oder Konfigurationsänderung im Gate; fehlende Nachweise führen vollständig zu Variante A |
+| 6c | rechtlich wirkungslosen Gebührenbescheidentwurf erzeugen | [technisch Ende zu Ende umgesetzt](cemaris-increment-6c-completion.md): Benutzerkontakte, Satzungsversionen, sichere OpenXML-DOCX-/LibreOffice-PDF-Erzeugung, Temp-Bereinigung, inhaltsfreier Audit, API/OpenAPI und React-UI | Development-only, standardmäßig aus; keine Rechtswirkung, Zustellung, Archivierung, Integration oder Migration; [Pilot-Folgegate](cemaris-notice-generation-pilot-release-gate-completion.md) mit Stop abgeschlossen |
+| 6c-Pilot-Gate | Betriebs- und Pilotfreigabe entscheiden | [dokumentarisch abgeschlossen](cemaris-notice-generation-pilot-release-gate-completion.md): `Cemaris_Dev` als eigens geschaffene kombinierte Development- und Testpilotdatenbank, versionierte 23-Token-Pilotfixture sowie sämtliche Installations-/Abnahmenachweise bewertet | Variante A „Stop“ wegen offener Betriebs-/Abnahmenachweise; LibreOffice inzwischen installiert und startfähig, kein Datenbankwiderspruch, keine Aktivierung oder Konfigurationsänderung, kein Aktivierungsauftrag; [Readiness-Folgeauftrag](cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md) |
 | 6c+ | weiterer Gebührenausbau und Dokumente | nur nach getrennten vollständigen Entscheidungs- und Freigabegates | Gebühren-/Satzungsberechnung, weitere Dokumentarten, Rechtswirkung, Versand, Korrektur, Datenschutz, Betrieb und Migration |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | übriges EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme jenseits des vorgezogenen Friedhofsstammdatenpfads | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
@@ -258,10 +266,12 @@ Quellenklärung mit Variante B abgeschlossen. Der feldgenaue Kandidat und seine
 Produktgrenzen stehen in der
 [Entscheidungsakte](../requirements/notice-generation-decisions.md). Der
 [technische 6c-Auftrag](cemaris-increment-6c-next-step-handoff.md) ist gemäß
-[6c-Abschluss](cemaris-increment-6c-completion.md) vollständig umgesetzt. Der
-nächste zulässige Schritt ist ausschließlich das vorbereitete, noch nicht
-ausgeführte
-[Betriebs- und Pilotfreigabegate](cemaris-notice-generation-pilot-release-gate-next-step-handoff.md).
+[6c-Abschluss](cemaris-increment-6c-completion.md) vollständig umgesetzt. Das
+[Betriebs- und Pilotfreigabegate](cemaris-notice-generation-pilot-release-gate-completion.md)
+ist inzwischen mit Variante A „Stop“ abgeschlossen. Für die gewünschte
+und inzwischen als kombinierte Testpilotumgebung klargestellte
+Development-Umgebung mit `Cemaris_Dev` entstand mangels der übrigen Nachweise
+kein Aktivierungsauftrag.
 Berechnung, Rechtswirkung, FINANZ+-Integration, echte Verwaltungsdaten,
 Produktivsetzung und Migration bleiben gesondert freizugeben.
 

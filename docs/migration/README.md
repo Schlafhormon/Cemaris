@@ -359,7 +359,21 @@ Ausgabedateien ab. Der pausierte EDWALT-Gebühren-/Variantenauftrag bleibt
 pausiert. Jede spätere Altbestandsmigration benötigt weiterhin ein eigenes
 Quell-, Mapping-, Datenschutz- und Abnahmegate.
 
-Auch das vorbereitete
-[Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-next-step-handoff.md)
-erteilt keinen Migrations-, Backfill- oder Altbestandsauftrag. Es bewertet
-ausschließlich einen separat zu autorisierenden synthetischen Pilotbetrieb.
+Das
+[Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-completion.md)
+ist mit Variante A „Stop“ abgeschlossen und erteilt keinen Migrations-,
+Backfill- oder Altbestandsauftrag. Die gewünschte Nutzung von `Cemaris_Dev`
+als Testpilotdatenbank wurde nach ergänzender Projektklärung als eigens
+geschaffene kombinierte Development- und Testpilotumgebung bestätigt. Sie ist
+kein Datenbankwiderspruch mehr; ihr aktueller 6c-Migrationsstand sowie
+Backup-/Restore- und Datenbankbetriebsfreigabe bleiben unbelegt.
+`Cemaris_Dev` wurde im Gate nicht geöffnet oder verändert.
+
+Der vorbereitete
+[Readiness-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md)
+darf den Datenbanknamen und die EF-Migrationshistorie zunächst read-only
+prüfen. Eine additive Anwendung der vorhandenen 6b-/6c-Migrationen ist dort
+nur nach belastbarem Backup-/Restore-Nachweis, exakter Zielprüfung und
+Mutationsvorschau zulässig. Automatisierte SQL-Tests bleiben strikt von
+`Cemaris_Dev` getrennt; ein Restore darf die Pilotdatenbank niemals
+überschreiben.

@@ -46,9 +46,18 @@ vor. Die technische Übergabe ist gemäß
 [6c-Abschluss](../implementation/cemaris-increment-6c-completion.md)
 vollständig umgesetzt. Die tatsächlich realisierte OpenXML-/LibreOffice-,
 Temp-, Paket- und Audit-Architektur ist deshalb eigenständig in ADR-0019
-dokumentiert. ADR-0018 bleibt unverändert. Das vorbereitete
-[Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-next-step-handoff.md)
-ist noch nicht ausgeführt.
+dokumentiert. ADR-0018 bleibt unverändert. Das
+[Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-completion.md)
+ist mit Variante A „Stop“ abgeschlossen. Es trifft keine neue
+Architekturentscheidung; ADR-0019 bleibt ebenfalls unverändert und ein neues
+ADR wurde nicht erstellt.
+
+Die nachinstallierte und am 01.09.2026 bestätigte LibreOffice-Version ändert
+keine Architekturentscheidung. Der vorbereitete
+[Readiness-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md)
+prüft ausschließlich die konkrete Installation und die übrigen
+Pilotnachweise gegen ADR-0019. Eine neue Architektur oder Aktivierung entsteht
+daraus nicht automatisch.
 
 Das
 [5c-Abnahme- und Lebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)
