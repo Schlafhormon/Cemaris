@@ -53,11 +53,20 @@ Architekturentscheidung; ADR-0019 bleibt ebenfalls unverändert und ein neues
 ADR wurde nicht erstellt.
 
 Die nachinstallierte und am 01.09.2026 bestätigte LibreOffice-Version ändert
-keine Architekturentscheidung. Der vorbereitete
+keine Architekturentscheidung. Der
 [Readiness-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md)
-prüft ausschließlich die konkrete Installation und die übrigen
-Pilotnachweise gegen ADR-0019. Eine neue Architektur oder Aktivierung entsteht
-daraus nicht automatisch.
+ist gemäß
+[Readiness-Abschluss](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
+mit Variante A ausgeführt. Ein verlorener PDF-Parallelitätsslot und die
+fehlende sichtbare Entwurfskennzeichnung wurden innerhalb des vorhandenen
+ADR-0019-Vertrags minimal korrigiert. Es entstand weder eine neue Architektur
+noch ein neues ADR oder eine Aktivierung; ADR-0019 bleibt unverändert.
+Der vorbereitete
+[Betriebsremediations-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md)
+prüft Backup/Restore und die verbliebenen installationsbezogenen Nachweise
+erneut. Die Autorisierung des entbehrlichen Restore-Prüfziels ist eine
+Betriebsprüfgrenze und keine neue Architekturentscheidung; ADR-0019 bleibt
+maßgeblich.
 
 Das
 [5c-Abnahme- und Lebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)

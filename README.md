@@ -171,12 +171,20 @@ ist am 31.08.2026 vollständig mit Variante A „Stop“ abgeschlossen. Die als
 Testpilot gewünschte Nutzung des Development-Repositorys mit `Cemaris_Dev`
 ist als eigens geschaffene kombinierte Development- und Testpilotumgebung
 klargestellt. Die Datenbank ist damit nicht mehr als Widerspruch bewertet;
-der aktuelle 6c-Migrationsstand, Backup/Restore und weitere Betriebs- und
-Abnahmenachweise fehlen weiterhin. LibreOffice `26.8.0.3` ist seit dem
-01.09.2026 installiert, gültig signiert und startfähig; reale Ausgabeabnahme,
-Schriften und weitere Betriebsnachweise sind noch offen. Es entstand kein
-Aktivierungsauftrag. Der nächste zulässige Schritt ist ausschließlich die
-[technische Pilot-Readiness und Neubewertung](docs/implementation/cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md).
+die [technische Pilot-Readiness und Neubewertung](docs/implementation/cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
+hat den tatsächlichen vollständigen 6b-/6c-Migrationsstand read-only bestätigt.
+LibreOffice `26.8.0.3`, reale synthetische DOCX-/PDF-/Druck-zu-Datei-Ausgabe,
+Schriften sowie Temp-Bereinigung nach Erfolg, Fehler, Timeout, Abbruch und
+Wiederanlauf sind ebenfalls technisch nachgewiesen. Zwei vorab reproduzierte
+6c-Fehler wurden minimal und regressionsgesichert behoben. Weil insbesondere
+Vollbackup/Restore, Monitoring, installationsbezogene Härtung und zuständige
+Freigaben fehlen, endet auch die Neubewertung mit Variante A. Capability und
+Aktivierungsauftrag bleiben aus.
+Der nächste getrennte Auftrag ist die
+[6c-Betriebsremediation und erneute Pilotneubewertung](docs/implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md).
+Für ihn ist ausschließlich das entbehrliche Restore-Prüfziel
+`Cemaris_Dev_RestoreCheck_20260902` bestätigt; daraus folgt noch keine
+Aktivierungs- oder sonstige Funktionsfreigabe.
 Gebührenberechnung, Rechtswirkung, Zustellung, Archivierung,
 FINANZ+-Integration, Migration und Produktivsetzung bleiben gesperrt.
 Die weitere Inkrementfolge beschreibt der
@@ -490,7 +498,7 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `Features__BurialProcessEditingEnabled` | einfacher synthetischer Beisetzungsprozess; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Features__PersonUsageRightsEditingEnabled` | synthetischer kanonischer Beteiligten-/Nutzungsrechtskern; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Features__NoticeDraftEditingEnabled` | rechtlich wirkungsloser manueller Bescheidentwurfskern; nur in `Development` zulässig | `false` (Standard), nur im ausdrücklich aktivierten synthetischen Development-Piloten `true` |
-| `Features__NoticeGenerationEnabled` | flüchtige rechtlich wirkungslose DOCX-/PDF-Erzeugung; nur in `Development` und mit allen abhängigen Capabilities zulässig | `false`; Pilotaktivierung erst nach separatem Gate |
+| `Features__NoticeGenerationEnabled` | flüchtige rechtlich wirkungslose DOCX-/PDF-Erzeugung; nur in `Development` und mit allen abhängigen Capabilities zulässig | `false`; Readiness-Neubewertung mit Variante A, keine Pilotaktivierung |
 | `NoticeGeneration__TemplateRoot` / `TemplateFileName` | read-only Vorlagenstamm im Content-Root und feste DOCX-Datei | installationsspezifisch, keine Uploadfunktion |
 | `NoticeGeneration__TempRoot` | kontrollierter Tempstamm im Content-Root | installationsspezifisch, keine Fremdpfade oder Reparse Points |
 | `NoticeGeneration__LibreOfficeExecutablePath` | absoluter Pfad zur separat installierten PDF-Engine | `null` bis zur Betriebsfreigabe |
@@ -547,8 +555,9 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
 6. abgeschlossene Gebühren-/Bescheid-Gates 6a, 6a-F und 6c sowie die technisch
    abgeschlossenen Development-Schnitte 6b für kanonische manuelle Entwürfe
    und 6c für genau einen flüchtigen rechtlich wirkungslosen
-   Beisetzungsgebühren-Entwurf; das Betriebs- und Pilotfreigabegate ist mit
-   Variante A abgeschlossen, Capability und Aktivierungsauftrag bleiben aus
+   Beisetzungsgebühren-Entwurf; Betriebs-/Pilotgate und technische
+   Readiness-Neubewertung sind mit Variante A abgeschlossen, Capability und
+   Aktivierungsauftrag bleiben aus
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe
 9. Pilotbetrieb, Cutover und Nachkontrolle

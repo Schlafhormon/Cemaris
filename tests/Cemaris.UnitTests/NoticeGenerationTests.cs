@@ -39,6 +39,7 @@ public sealed class NoticeGenerationTests
             + string.Concat(document.MainDocumentPart.HeaderParts.SelectMany(x => x.Header!.Descendants<Text>()).Select(x => x.Text))
             + string.Concat(document.MainDocumentPart.FooterParts.SelectMany(x => x.Footer!.Descendants<Text>()).Select(x => x.Text));
         Assert.Contains("Synthetische Satzung", text, StringComparison.Ordinal);
+        Assert.Equal(1, text.Split(SecureOpenXmlNoticeRenderer.LegalIneffectivenessMarker, StringSplitOptions.None).Length - 1);
         Assert.DoesNotContain("{{", text, StringComparison.Ordinal);
         Assert.DoesNotContain("EMPFAENGER_ANREDE", text, StringComparison.Ordinal);
     }
@@ -137,6 +138,30 @@ public sealed class NoticeGenerationTests
     }
 
     [Fact]
+    public async Task PdfDirectoryCreationFailureDoesNotLeakParallelismSlot()
+    {
+        using var fixture = Fixture.Create(pdfParallelism: 1);
+        using var converter = new LibreOfficeNoticePdfConverter(fixture.Paths, fixture.Options, new FakeRunner(writePdf: true));
+        Directory.Delete(fixture.Paths.TempRoot);
+        await File.WriteAllTextAsync(fixture.Paths.TempRoot, "synthetic blocker");
+        try
+        {
+            await Assert.ThrowsAnyAsync<IOException>(() => converter.ConvertAsync([1], CancellationToken.None));
+        }
+        finally
+        {
+            File.Delete(fixture.Paths.TempRoot);
+            Directory.CreateDirectory(fixture.Paths.TempRoot);
+        }
+
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+        var result = await converter.ConvertAsync([1], timeout.Token);
+
+        Assert.StartsWith("%PDF-", System.Text.Encoding.ASCII.GetString(result), StringComparison.Ordinal);
+        Assert.Empty(Directory.EnumerateDirectories(fixture.Paths.TempRoot, "generation-*"));
+    }
+
+    [Fact]
     public async Task PdfParallelismNeverExceedsConfiguredLimit()
     {
         using var fixture = Fixture.Create(); var runner = new CoordinatedRunner();
@@ -216,13 +241,14 @@ public sealed class NoticeGenerationTests
         throw new InvalidOperationException("Repository root not found.");
     }
 
-    private static NoticeGenerationOptions Options(string templateRoot, long maximumEntryBytes = 5 * 1024 * 1024) => new()
+    private static NoticeGenerationOptions Options(string templateRoot, long maximumEntryBytes = 5 * 1024 * 1024, int pdfParallelism = 2) => new()
     {
         TemplateRoot = templateRoot,
         TemplateFileName = "Cemaris-Beisetzungsgebuehren-Testvorlage.docx",
         TempRoot = Path.Combine(templateRoot, "temp"),
         LibreOfficeExecutablePath = Environment.ProcessPath,
         MaximumEntryBytes = maximumEntryBytes,
+        PdfParallelism = pdfParallelism,
     };
 
     private static void ReplaceEntryText(ZipArchive archive, string name, string search, string replacement)
@@ -242,13 +268,13 @@ public sealed class NoticeGenerationTests
         public NoticeGenerationOptions Options { get; }
         public NoticeGenerationPaths Paths { get; }
         public SecureOpenXmlNoticeRenderer Renderer { get; }
-        public static Fixture Create(Action<ZipArchive>? mutate = null, long maximumEntryBytes = 5 * 1024 * 1024)
+        public static Fixture Create(Action<ZipArchive>? mutate = null, long maximumEntryBytes = 5 * 1024 * 1024, int pdfParallelism = 2)
         {
             var root = RepositoryRoot(); var working = Path.Combine(root, "tmp", "notice-generation-unit-tests", Guid.NewGuid().ToString("N")); Directory.CreateDirectory(working);
             var source = Path.Combine(root, "src", "Cemaris.Api", "Templates", "Cemaris-Beisetzungsgebuehren-Testvorlage.docx");
             var target = Path.Combine(working, "Cemaris-Beisetzungsgebuehren-Testvorlage.docx"); File.Copy(source, target);
             if (mutate is not null) { using var archive = ZipFile.Open(target, ZipArchiveMode.Update); mutate(archive); }
-            var options = Options(working, maximumEntryBytes);
+            var options = Options(working, maximumEntryBytes, pdfParallelism);
             var paths = new NoticeGenerationPaths(options, root, false); return new(root, working, options, paths);
         }
         public void Dispose() { if (Directory.Exists(WorkingRoot)) Directory.Delete(WorkingRoot, true); var parent = Path.GetDirectoryName(WorkingRoot)!; if (Directory.Exists(parent) && !Directory.EnumerateFileSystemEntries(parent).Any()) Directory.Delete(parent); }

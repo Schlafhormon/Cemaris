@@ -6,6 +6,10 @@ Status: **Vollständig dokumentarisch abgeschlossen mit Variante A – Stop.**
 `Features:NoticeGenerationEnabled` bleibt deaktiviert. Es wurde kein
 Aktivierungs- oder Pilotabnahmeauftrag erstellt.
 
+Der nachfolgende Readiness-Auftrag ist inzwischen ebenfalls mit Variante A
+abgeschlossen. Der aktuelle, noch nicht ausgeführte Folgepfad ist die
+[6c-Betriebsremediation und erneute Pilotneubewertung](cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md).
+
 ## Ergebnis
 
 Das verbindliche

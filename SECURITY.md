@@ -76,10 +76,25 @@ geschaffene kombinierte Development- und Testpilotumgebung klargestellt und
 kein Datenbankwiderspruch mehr. Auf dem Pilot-PC ist kein LibreOffice
 installiert gewesen; dieser Befund ist seit dem 01.09.2026 überholt.
 LibreOffice `26.8.0.3` ist jetzt gültig signiert und startfähig. Installer-
-und Wartungsweg, Dienstkontogrenze, konkrete Serverrechte, Schriften,
-Temp-Schutz, Monitoring, synthetische Ausgabeabnahme und Rückfall sind
-weiterhin nicht vollständig belegt. Die Capability bleibt aus; es entstand
-kein Aktivierungsauftrag.
+und Wartungsweg, Dienstkontogrenze und konkrete Serverrechte waren zunächst
+weiter offen. Die
+[technische Readiness-Neubewertung](docs/implementation/cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
+hat Schriften, reale ausschließlich synthetische Ausgabe, Temp-Bereinigung und
+technischen Rückfall bestätigt. Sie behob einen reproduzierbaren Verlust des
+PDF-Parallelitätsslots sowie die fehlende sichtbare Entwurfskennzeichnung
+minimal und regressionsgesichert. Vollbackup/Restore, Monitoring,
+Least-Privilege-ACLs, Verschlüsselung, Quota, belastbare kurze Betriebspfade,
+Auditaufbewahrung/-löschung und zuständige Sicherheits-/Betriebsfreigaben
+fehlen weiterhin. Die Capability bleibt aus; es entstand kein
+Aktivierungsauftrag.
+
+Der vorbereitete
+[Betriebsremediations-Folgeauftrag](docs/implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md)
+bindet einen COPY_ONLY-Vollbackup-/Restore-Nachweis an das ausdrücklich
+bestätigte entbehrliche Prüfdatenbankziel. Er erlaubt keine systemweite
+Konten-, ACL-, Verschlüsselungs-, Quota-, LibreOffice- oder
+Monitoringänderung und keine Capability-Aktivierung. Nicht belegte
+Betriebs-, Audit- und Sicherheitsregeln bleiben nach der Stop-Regel offen.
 
 ## Offenlegung
 

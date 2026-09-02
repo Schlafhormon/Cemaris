@@ -365,15 +365,29 @@ ist mit Variante A „Stop“ abgeschlossen und erteilt keinen Migrations-,
 Backfill- oder Altbestandsauftrag. Die gewünschte Nutzung von `Cemaris_Dev`
 als Testpilotdatenbank wurde nach ergänzender Projektklärung als eigens
 geschaffene kombinierte Development- und Testpilotumgebung bestätigt. Sie ist
-kein Datenbankwiderspruch mehr; ihr aktueller 6c-Migrationsstand sowie
-Backup-/Restore- und Datenbankbetriebsfreigabe bleiben unbelegt.
-`Cemaris_Dev` wurde im Gate nicht geöffnet oder verändert.
+kein Datenbankwiderspruch mehr. Die
+[Readiness-Neubewertung](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
+bestätigte read-only exakt `Cemaris_Dev`, neun angewandte Migrationen, die
+6c-Migration als jüngsten Stand und null ausstehende Migrationen. Es wurde
+keine Migration angewandt. Der SQL-Sicherungskatalog enthält weder ein
+Vollbackup noch einen Restore; Backup-/Restore- und
+Datenbankbetriebsfreigabe bleiben deshalb offen.
 
-Der vorbereitete
+Der
 [Readiness-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md)
-darf den Datenbanknamen und die EF-Migrationshistorie zunächst read-only
-prüfen. Eine additive Anwendung der vorhandenen 6b-/6c-Migrationen ist dort
-nur nach belastbarem Backup-/Restore-Nachweis, exakter Zielprüfung und
-Mutationsvorschau zulässig. Automatisierte SQL-Tests bleiben strikt von
-`Cemaris_Dev` getrennt; ein Restore darf die Pilotdatenbank niemals
-überschreiben.
+ist mit Variante A abgeschlossen. Mangels fehlender Migration gab es keine
+Mutationsvorschau oder Anwendung. Automatisierte SQL-Tests wurden ohne separat
+autorisierte Testverbindung nicht ausgeführt und bleiben strikt von
+`Cemaris_Dev` getrennt. Ein Restore wurde ohne Vollsicherung und ohne
+bestätigtes entbehrliches Ziel nicht versucht; die Pilotdatenbank wurde nicht
+überschrieben oder verändert. Die Remediation erweitert weder EDWALT- noch
+sonstigen Migrationsumfang.
+
+Für den getrennten
+[Betriebsremediations-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md)
+ist am 02.09.2026 ausschließlich
+`Cemaris_Dev_RestoreCheck_20260902` als entbehrliches Restore-Prüfziel
+bestätigt. Das neue COPY_ONLY-Vollbackup darf nur von `Cemaris_Dev` stammen;
+der Restore darf ausschließlich das zuvor als abwesend bestätigte Prüfziel
+neu anlegen und muss es danach wieder entfernen. Daraus folgen weder ein
+Migrations-, Testfixture-, SQL-Test- noch EDWALT-Auftrag.

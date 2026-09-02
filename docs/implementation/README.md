@@ -1,6 +1,6 @@
 # Cemaris-Implementierungsplan
 
-Stand: 28.08.2026
+Stand: 02.09.2026
 
 ## Aktueller Schwerpunkt
 
@@ -149,13 +149,15 @@ standardmäßig deaktiviert und ausschließlich Development. Das
 [Betriebs- und Pilotfreigabegate](cemaris-notice-generation-pilot-release-gate-completion.md)
 ist mit Variante A „Stop“ abgeschlossen. Die gewünschte Nutzung von
 `Cemaris_Dev` ist als eigens geschaffene kombinierte Development- und
-Testpilotumgebung klargestellt und kein Datenbankwiderspruch mehr; der
-aktuelle 6c-Migrationsstand, Backup/Restore und weitere Installations- und
-Abnahmenachweise fehlen. LibreOffice `26.8.0.3` ist seit dem 01.09.2026
-gültig signiert und startfähig; reale Konvertierungs-, Schriften- und weitere
-Betriebsnachweise fehlen. Capability und Aktivierungsauftrag bleiben aus. Der
-nächste Auftrag ist ausschließlich die
-[technische Pilot-Readiness und Neubewertung](cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md).
+Testpilotumgebung klargestellt und kein Datenbankwiderspruch mehr. Die
+[technische Pilot-Readiness](cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
+hat inzwischen den vollständigen 6b-/6c-Migrationsstand, LibreOffice,
+Schriften, reale synthetische Ausgabe sowie Temp-, Prozess- und
+Rückfallverhalten bestätigt und zwei reproduzierte 6c-Fehler minimal behoben.
+Vollbackup/Restore, Monitoring, Installationshärtung und zuständige Freigaben
+bleiben offen; Capability und Aktivierungsauftrag bleiben aus. Der nächste
+Auftrag ist die getrennte
+[6c-Betriebsremediation und erneute Pilotneubewertung](cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md).
 
 ## Verbindliche Entwicklungsregel
 
@@ -190,8 +192,9 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 6a-F | Freigabegate für manuelle Bescheid-/Finanzfakten | nach ergänzender funktionsbezogener Klärung mit Variante B abgeschlossen: bestätigungspflichtiger Zahlungspflichtiger, mehrere Entwürfe je Fall, Nummernkonfiguration und manueller EUR-Faktenkern | ausschließlich technischer Development-Pilot mit synthetischen Daten; [Entscheidungsakte](../requirements/manual-notice-financial-facts-decisions.md) |
 | 6b | Kanonische manuelle Bescheidentwürfe | [technisch Ende zu Ende umgesetzt](cemaris-increment-6b-completion.md): eigener additiver Entwurfskern, Nummernkonfiguration, Sequenz, Revision/Audit, API/OpenAPI und React-UI | Development-only und synthetisch; kein Dokument, keine Berechnung, keine Rechtswirkung, keine FINANZ+-Integration und keine Migration |
 | 6c-Gate | spätere Bescheiderzeugung entscheiden | [nach ergänzender Quellenklärung mit Variante B abgeschlossen](cemaris-notice-generation-decision-gate-completion.md): genau ein Gebührenbescheidentwurf feldgenau bestätigt | [technische 6c-Übergabe](cemaris-increment-6c-next-step-handoff.md) ausgeführt; weiterhin keine Produktivfreigabe |
-| 6c | rechtlich wirkungslosen Gebührenbescheidentwurf erzeugen | [technisch Ende zu Ende umgesetzt](cemaris-increment-6c-completion.md): Benutzerkontakte, Satzungsversionen, sichere OpenXML-DOCX-/LibreOffice-PDF-Erzeugung, Temp-Bereinigung, inhaltsfreier Audit, API/OpenAPI und React-UI | Development-only, standardmäßig aus; keine Rechtswirkung, Zustellung, Archivierung, Integration oder Migration; [Pilot-Folgegate](cemaris-notice-generation-pilot-release-gate-completion.md) mit Stop abgeschlossen |
-| 6c-Pilot-Gate | Betriebs- und Pilotfreigabe entscheiden | [dokumentarisch abgeschlossen](cemaris-notice-generation-pilot-release-gate-completion.md): `Cemaris_Dev` als eigens geschaffene kombinierte Development- und Testpilotdatenbank, versionierte 23-Token-Pilotfixture sowie sämtliche Installations-/Abnahmenachweise bewertet | Variante A „Stop“ wegen offener Betriebs-/Abnahmenachweise; LibreOffice inzwischen installiert und startfähig, kein Datenbankwiderspruch, keine Aktivierung oder Konfigurationsänderung, kein Aktivierungsauftrag; [Readiness-Folgeauftrag](cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md) |
+| 6c | rechtlich wirkungslosen Gebührenbescheidentwurf erzeugen | [technisch Ende zu Ende umgesetzt](cemaris-increment-6c-completion.md): Benutzerkontakte, Satzungsversionen, sichere OpenXML-DOCX-/LibreOffice-PDF-Erzeugung, Temp-Bereinigung, inhaltsfreier Audit, API/OpenAPI und React-UI; Readiness korrigiert minimal einen verlorenen Parallelitätsslot und die fehlende sichtbare Entwurfskennzeichnung | Development-only, standardmäßig aus; keine Rechtswirkung, Zustellung, Archivierung, Integration oder Migration |
+| 6c-Pilot-Readiness | Betriebs- und Pilotfreigabe technisch prüfen und neu bewerten | [vollständig ausgeführt](cemaris-notice-generation-synthetic-pilot-readiness-completion.md): `Cemaris_Dev` und 6b-/6c-Schema read-only bestätigt; reale synthetische LibreOffice-/Druck-zu-Datei-Ausgabe, Fehler-/Timeout-/Abbruchbereinigung und Qualitätsmatrix erfolgreich | erneut Variante A „Stop“: kein Vollbackup/Restore, Monitoring, gehärtete Installationsgrenzen oder zuständige Freigaben; keine Aktivierung, kein Aktivierungsauftrag |
+| 6c-Betriebsremediation | Backup/Restore schließen und verbliebene Pilotnachweise neu bewerten | [vorbereitet](cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md): datiertes COPY_ONLY-Vollbackup und Restore ausschließlich auf das bestätigte entbehrliche Ziel `Cemaris_Dev_RestoreCheck_20260902`, danach erneute Betriebs- und Sicherheitsbewertung | beginnt mit Variante A und ausgeschalteter Capability; keine systemweite Härtungsänderung, SQL-Testdatenbank oder Aktivierung |
 | 6c+ | weiterer Gebührenausbau und Dokumente | nur nach getrennten vollständigen Entscheidungs- und Freigabegates | Gebühren-/Satzungsberechnung, weitere Dokumentarten, Rechtswirkung, Versand, Korrektur, Datenschutz, Betrieb und Migration |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | übriges EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme jenseits des vorgezogenen Friedhofsstammdatenpfads | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
@@ -270,8 +273,17 @@ Produktgrenzen stehen in der
 [Betriebs- und Pilotfreigabegate](cemaris-notice-generation-pilot-release-gate-completion.md)
 ist inzwischen mit Variante A „Stop“ abgeschlossen. Für die gewünschte
 und inzwischen als kombinierte Testpilotumgebung klargestellte
-Development-Umgebung mit `Cemaris_Dev` entstand mangels der übrigen Nachweise
-kein Aktivierungsauftrag.
+Development-Umgebung mit `Cemaris_Dev` hat die
+[Readiness-Neubewertung](cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
+das vollständige 6b-/6c-Schema und die reale synthetische Ausgabe technisch
+bestätigt sowie zwei reproduzierte Bugs minimal behoben. Mangels
+Vollbackup/Restore, Monitoring, Installationshärtung und zuständiger Freigaben
+bleibt Variante A bestehen; ein Aktivierungsauftrag entstand nicht.
+Das exakte entbehrliche Restore-Prüfziel ist inzwischen bestätigt. Der
+unmittelbar ausführbare nächste Schritt ist deshalb die
+[6c-Betriebsremediation und erneute Pilotneubewertung](cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md).
+Sie schließt zunächst den realen Vollbackup-/Restore-Nachweis, ändert aber
+weder Capability noch Fach- oder Produktvertrag.
 Berechnung, Rechtswirkung, FINANZ+-Integration, echte Verwaltungsdaten,
 Produktivsetzung und Migration bleiben gesondert freizugeben.
 

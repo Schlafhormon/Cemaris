@@ -240,9 +240,19 @@ Produktiv- oder Betriebsfreigabe. Das
 ist mit Variante A „Stop“ abgeschlossen. Die gewünschte Nutzung des
 Development-Repositorys mit `Cemaris_Dev` ist als eigens geschaffene
 kombinierte Development- und Testpilotumgebung klargestellt. Sie ist kein
-Datenbankwiderspruch mehr. Auf dem Pilot-PC ist jedoch kein LibreOffice für
-den ausschließlich implementierten Headless-PDF-Pfad installiert gewesen.
-Seit dem 01.09.2026 ist LibreOffice `26.8.0.3` gültig signiert und startfähig;
-reale Konvertierungs-, Schriften-, Installations- und Abnahmenachweise fehlen
-weiterhin. Capability und Aktivierungsauftrag bleiben aus. Der Folgepfad ist
-die [technische Pilot-Readiness und Neubewertung](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md).
+Datenbankwiderspruch mehr. Die
+[technische Pilot-Readiness und Neubewertung](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
+hat das vollständige 6b-/6c-Schema read-only bestätigt und reale synthetische
+LibreOffice-/Druck-zu-Datei-, Schrift-, Temp- und Prozessnachweise erbracht.
+Die Architektur wurde nur innerhalb ihres bestehenden Vertrags korrigiert:
+Ein Temp-Anlagefehler gibt den PDF-Parallelitätsslot nun sicher frei, und das
+OpenXML-Ergebnis trägt genau eine sichtbare Kennzeichnung als rechtlich
+wirkungsloser Entwurf. ADR-0019 bleibt unverändert; ein neues ADR war nicht
+erforderlich. Vollbackup/Restore, Monitoring, gehärtete Installationsgrenzen
+und zuständige Freigaben fehlen weiterhin. Variante A, Capability und
+Aktivierungsauftrag bleiben aus.
+Der nächste getrennte
+[Betriebsremediations-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md)
+schließt zuerst den ausdrücklich autorisierten Backup-/Restore-Nachweis und
+bewertet anschließend dieselben Architekturgrenzen neu. Er führt keine neue
+Architektur, systemweite Härtungsänderung oder Aktivierung ein.

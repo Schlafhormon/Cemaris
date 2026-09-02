@@ -12,7 +12,10 @@
 > ist ausgeführt. Das
 > [Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-completion.md)
 > ist am 31.08.2026 vollständig mit Variante A „Stop“ abgeschlossen;
-> Capability und Aktivierungsauftrag bleiben aus.
+> die
+> [technische Readiness-Neubewertung](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
+> endet am 01.09.2026 erneut mit Variante A. Capability und
+> Aktivierungsauftrag bleiben aus.
 
 ## Ergebnis des Entscheidungsgates 6a
 
@@ -135,15 +138,16 @@ ist in
 [ADR-0019](../decisions/ADR-0019-ephemeral-secure-notice-document-generation.md)
 dokumentiert. Die echte installierte LibreOffice-Version, kommunale
 Pilotvorlage, Serverrechte, Schriftversorgung und visuelle
-DOCX-/PDF-/Druckabnahme wurden im Pilot-Folgegate nicht belegt. `Cemaris_Dev`
-ist nach ergänzender Projektklärung die eigens geschaffene kombinierte
-Development- und Testpilotdatenbank und kein Widerspruch mehr. Für sie fehlen
-aber weiterhin der aktuelle 6c-Migrations-, Backup-/Restore- und
-Datenbankbetriebsnachweis. Außerdem ist auf dem Pilot-PC kein LibreOffice
-installiert gewesen; dieser Befund ist seit dem 01.09.2026 überholt.
-LibreOffice `26.8.0.3` ist gültig signiert und startfähig. Reale
-Konvertierungsabnahme, Schriften, Installer-/Wartungsweg und weitere
-Betriebsnachweise fehlen weiterhin und tragen Variante A.
+DOCX-/PDF-/Druckabnahme wurden im ersten Pilot-Folgegate nicht belegt. Die
+Readiness hat inzwischen `Cemaris_Dev` und das vollständige 6b-/6c-Schema
+read-only sowie LibreOffice `26.8.0.3`, Schriften, reale synthetische
+Konvertierung, A4/Textselektion, visuellen Vergleich, Druck-zu-Datei und
+Temp-/Prozessbereinigung bestätigt. Sie korrigiert innerhalb von ADR-0019
+minimal einen verlorenen Parallelitätsslot und ergänzt genau eine sichtbare
+Kennzeichnung als rechtlich wirkungsloser Entwurf. Vollbackup/Restore,
+Installer-/Wartungsweg, gehärtete Rechte und Pfade, Monitoring,
+Auditaufbewahrung/-löschung sowie zuständige Freigaben fehlen weiterhin und
+tragen Variante A.
 
 ## Sicherheits- und Datenschutzleitplanken
 

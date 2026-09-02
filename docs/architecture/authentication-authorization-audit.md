@@ -103,7 +103,12 @@ Das nachgelagerte
 [Betriebs- und Pilotfreigabegate](../implementation/cemaris-notice-generation-pilot-release-gate-completion.md)
 endet mit Variante A. Installationsbezogene Auditaufbewahrung, Zugriff,
 Integrität und Löschung sind ebenso unbelegt wie die übrigen Betriebs- und
-Sicherheitsnachweise; die Capability bleibt aus.
+Sicherheitsnachweise. Die
+[technische Readiness](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
+bestätigt die Audit-Whitelist und das Schreiben vor Ausgabe erneut durch
+automatisierte und reale synthetische Läufe; sie entscheidet aber weder
+Betreiberzugriff noch Integritätsverfahren, Aufbewahrung oder Löschung.
+Variante A und die ausgeschaltete Capability bleiben deshalb unverändert.
 
 Für die spätere 6c-Erzeugung werden am lokalen Konto getrennte optionale
 Kontaktfelder für Vorname, Nachname, Kontaktstelle, Zimmer, Telefon und E-Mail

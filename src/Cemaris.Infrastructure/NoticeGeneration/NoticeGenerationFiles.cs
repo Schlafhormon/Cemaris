@@ -76,6 +76,8 @@ public sealed class NoticeGenerationPaths
 public sealed partial class SecureOpenXmlNoticeRenderer(NoticeGenerationPaths paths, NoticeGenerationOptions options)
     : INoticeDocumentRenderer
 {
+    public const string LegalIneffectivenessMarker = "RECHTLICH WIRKUNGSLOSER ENTWURF";
+
     [GeneratedRegex(@"\{\{([A-Z0-9_]+)\}\}", RegexOptions.CultureInvariant)]
     private static partial Regex TokenRegex();
 
@@ -103,6 +105,7 @@ public sealed partial class SecureOpenXmlNoticeRenderer(NoticeGenerationPaths pa
             }
             if (found.Any(x => x.Value != 1)) throw new InvalidDataException("Every approved token must occur exactly once.");
             foreach (var paragraph in paragraphs) ReplaceParagraphTokens(paragraph, values);
+            AddLegalIneffectivenessMarker(document);
             var validationErrors = new OpenXmlValidator(FileFormatVersions.Microsoft365).Validate(document, token).Take(1).ToArray();
             if (validationErrors.Length > 0) throw new InvalidDataException("The generated OpenXML package is invalid.");
         }
@@ -113,6 +116,25 @@ public sealed partial class SecureOpenXmlNoticeRenderer(NoticeGenerationPaths pa
             if (EnumerateParagraphs(check).Any(x => TokenRegex().IsMatch(string.Concat(x.Descendants<Text>().Select(t => t.Text)))))
                 throw new InvalidDataException("A template token remained in the generated document.");
         return output;
+    }
+
+    private static void AddLegalIneffectivenessMarker(WordprocessingDocument document)
+    {
+        var body = document.MainDocumentPart?.Document?.Body
+            ?? throw new InvalidDataException("The main document body is missing.");
+        var paragraph = new Paragraph(
+            new ParagraphProperties(
+                new SpacingBetweenLines { After = "160" },
+                new Justification { Val = JustificationValues.Center }),
+            new Run(
+                new RunProperties(
+                    new RunFonts { Ascii = "Arial", HighAnsi = "Arial" },
+                    new Bold(),
+                    new Color { Val = "C00000" },
+                    new FontSize { Val = "28" },
+                    new FontSizeComplexScript { Val = "28" }),
+                new Text(LegalIneffectivenessMarker)));
+        body.InsertAt(paragraph, 0);
     }
 
     private void ValidatePackageBytes(byte[] bytes)
@@ -255,9 +277,10 @@ public sealed class LibreOfficeNoticePdfConverter(NoticeGenerationPaths paths, N
     public async Task<byte[]> ConvertAsync(byte[] document, CancellationToken token)
     {
         await semaphore.WaitAsync(token);
-        var directory = CreateDirectory(paths.TempRoot);
+        string? directory = null;
         try
         {
+            directory = CreateDirectory(paths.TempRoot);
             var input = Path.Combine(directory, "notice.docx"); await File.WriteAllBytesAsync(input, document, token);
             var profile = Path.Combine(directory, "profile"); Directory.CreateDirectory(profile);
             var start = new ProcessStartInfo
@@ -282,7 +305,11 @@ public sealed class LibreOfficeNoticePdfConverter(NoticeGenerationPaths paths, N
                 throw new NoticeGenerationException("notice_pdf_invalid", "Die PDF-Ausgabe ist ungültig.", 503);
             return bytes;
         }
-        finally { SafeDelete(directory, paths.TempRoot); semaphore.Release(); }
+        finally
+        {
+            try { if (directory is not null) SafeDelete(directory, paths.TempRoot); }
+            finally { semaphore.Release(); }
+        }
     }
 
     private static string CreateDirectory(string root) { var path = Path.Combine(root, "generation-" + Convert.ToHexString(System.Security.Cryptography.RandomNumberGenerator.GetBytes(16))); Directory.CreateDirectory(path); return path; }

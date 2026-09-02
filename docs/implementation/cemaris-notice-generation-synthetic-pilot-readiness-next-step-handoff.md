@@ -2,7 +2,19 @@
 
 Stand: 01.09.2026
 
-Status: **Vorbereitet und nicht ausgeführt. Keine Aktivierungsfreigabe.**
+Status: **Am 01.09.2026 vollständig ausgeführt und mit Variante A – Stop
+abgeschlossen. Keine Aktivierungsfreigabe.**
+
+Der [Readiness-Abschluss](cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
+dokumentiert zwei vorab reproduzierte und minimal behobene 6c-Fehler, reale
+synthetische LibreOffice-/Druck-zu-Datei- und Temp-/Rückfallläufe, den
+read-only bestätigten vollständigen 6b-/6c-Migrationsstand sowie alle offenen
+Restnachweise. Insbesondere fehlen Vollbackup/Restore, Monitoring,
+installationsbezogene Härtung und zuständige Freigaben. Die Capability bleibt
+aus; eine Aktivierungsübergabe wurde nicht erstellt.
+
+Nicht erneut ausführen. Der am 02.09.2026 vorbereitete nächste Schritt ist die
+[6c-Betriebsremediation und erneute Pilotneubewertung](cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md).
 
 ## Ziel und verbindliches Ergebnis
 
