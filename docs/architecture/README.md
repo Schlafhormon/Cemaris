@@ -3,10 +3,13 @@
 Aktualisierung 07.09.2026: Die
 [Prototypentscheidung](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
 erlaubt lokale synthetische Tests ohne die früheren pauschalen Betriebs- und
-Freigabehürden. Der nächste
-[6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md)
-nutzt die vorhandene Architektur; ADR-0019 und die technischen Schutzgrenzen
-bleiben bestehen. Frühere Stop-Aussagen gelten für ihren historischen Auftrag.
+Freigabehürden. Der
+[6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-completion.md)
+ist einschließlich isoliertem Browserlauf ausgeführt. Als nächster UI-Schnitt
+folgt die [verständliche Beisetzungsauswahl](../implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md)
+über vorhandene Fall- und Stammdatenverträge. ADR-0019 und die technischen
+Schutzgrenzen bleiben bestehen. Frühere Stop-Aussagen gelten für ihren
+historischen Auftrag.
 
 > **Status:** Technische Grundlage. Die genannten Produktbereiche sind eine zu validierende Produktvision und noch keine verbindlichen Fachanforderungen.
 

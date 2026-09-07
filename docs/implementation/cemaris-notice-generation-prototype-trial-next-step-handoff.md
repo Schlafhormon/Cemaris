@@ -2,9 +2,17 @@
 
 Stand: 07.09.2026
 
-Status: Vorbereitet, noch nicht ausgeführt. Der Projektleiter hat die lokale,
-synthetische Prototypentwicklung ausdrücklich freigegeben. Dieser Auftrag
-wird in einem neuen Chat ausgeführt; die Vorbereitung aktiviert keine Funktion.
+Status: **Am 07.09.2026 ausgeführt.** Der
+[Abschlussnachweis](cemaris-notice-generation-prototype-trial-completion.md)
+dokumentiert HTTP-Ablauf, echten LibreOffice-PDF-Nachweis, Bedienkorrekturen,
+Tests, Bereinigung und den nachgeholten isolierten Playwright-Browsercheck.
+Die Anmeldung mit einem persistenten lokalen Konto bleibt unbestätigt. Die folgende
+Übergabe bleibt als Auftragsgrundlage erhalten; der Auftrag wird nicht erneut
+als Vorbereitung geführt.
+
+Der nächste ausführbare UI-Auftrag steht in der
+[Übergabe zur verständlichen Beisetzungsauswahl](cemaris-notice-generation-burial-selection-next-step-handoff.md).
+Die folgende Praxistest-Anweisung ist kein erneut offener Gesamtauftrag.
 
 ## Auftrag und maßgebliche Entscheidung
 

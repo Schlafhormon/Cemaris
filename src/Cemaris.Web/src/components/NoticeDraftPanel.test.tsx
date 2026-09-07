@@ -1,4 +1,5 @@
 import { render, screen, within } from '@testing-library/react'
+import { StrictMode } from 'react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { NoticeDraftPanel } from './NoticeDraftPanel'
@@ -10,6 +11,25 @@ const graveSiteId = '60000000-0000-0000-0000-000000000006'
 
 describe('NoticeDraftPanel', () => {
   afterEach(() => vi.unstubAllGlobals())
+
+  it('meldet abgebrochene Entwurfs- und Satzungsabrufe im StrictMode nicht als Fehler', async () => {
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      await new Promise(resolve => setTimeout(resolve, 0))
+      init?.signal?.throwIfAborted()
+      const path = String(input)
+      if (path.endsWith(`/api/cases/${caseId}/notice-drafts`)) return json([listItem()])
+      if (path.endsWith(`/api/notice-drafts/${draftId}`)) return json(draft(), 200, { ETag: '"1"' })
+      if (path.includes('/api/master-data/legal-basis-versions')) return json([{ id: graveSiteId, name: 'Synthetische Browser-Satzung', versionDate: '2026-01-01', isActive: true, version: 1 }])
+      throw new Error(`Unerwarteter Testaufruf: ${path}`)
+    }))
+    const user = userEvent.setup()
+    render(<StrictMode><NoticeDraftPanel caseId={caseId} noticeGenerationEnabled /></StrictMode>)
+    const open = await screen.findByRole('button', { name: 'Öffnen' })
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    await user.click(open)
+    expect(await screen.findByRole('option', { name: /Synthetische Browser-Satzung/ })).toBeInTheDocument()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
 
   it('kennzeichnet die Rechtswirkungslosigkeit und verlangt die aktive Zahlungspflichtigenbestätigung', async () => {
     let sentBody: Record<string, unknown> | undefined
@@ -46,6 +66,9 @@ describe('NoticeDraftPanel', () => {
     expect(await screen.findByText('Rechtlich wirkungsloser Bescheidentwurf angelegt.')).toBeInTheDocument()
     expect(sentBody).toMatchObject({ payerPartyId: partyId, payerSelectionConfirmed: true, totalAmount: 100.25 })
     expect(screen.getAllByText('SYNFP.2026000001')).toHaveLength(2)
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(screen.getAllByLabelText('Gesamtbetrag in EUR')[1]).toHaveValue(null)
+    expect(confirmation).not.toBeChecked()
   })
 
   it.each([

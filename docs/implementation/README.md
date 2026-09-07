@@ -4,12 +4,17 @@ Stand: 07.09.2026
 
 ## Aktueller Schwerpunkt
 
-Der nächste ausführbare Auftrag ist der
-[lokale 6c-Prototyp-Praxistest](cemaris-notice-generation-prototype-trial-next-step-handoff.md).
+Der [lokale 6c-Prototyp-Praxistest](cemaris-notice-generation-prototype-trial-completion.md)
+ist ausgeführt: HTTP- und isolierter Playwright-Browserablauf bis zum echten
+LibreOffice-PDF bestätigt; Formularreset und falsche Ladefehlermeldungen korrigiert.
 Die [Projektentscheidung vom 07.09.2026](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
 erlaubt lokale synthetische Entwicklung ohne erneute pauschale Freigabegates.
-Jetzt den vorhandenen Ablauf bis zum DOCX-/PDF-Download ausprobieren und
-konkrete Fehler beheben. Frühere Variante-A-Abschlüsse bleiben als Historie
+Die Anmeldung mit einem persistenten lokalen Konto bleibt unbestätigt.
+Nächster ausführbarer Auftrag ist die
+[verständliche Beisetzungsauswahl mit Personenname und Grabbezug](cemaris-notice-generation-burial-selection-next-step-handoff.md).
+Die eigenständige Übergabe enthält Datenquellen, Anzeigegrenzen, Arbeitsdateien,
+Test-/Browserverfahren und Bereinigung für einen neuen Chat ohne Vorkontext.
+Frühere Variante-A-Abschlüsse bleiben als Historie
 erhalten; sie blockieren diesen Umfang nicht.
 
 Cemaris wird jetzt als eigenständige Fachsoftware inkrementell weitergebaut.
@@ -216,7 +221,7 @@ Sicherheits-, Datenschutz-, Betriebs- und Fachgates erfüllt sind.
 
 ## Nächster Umsetzungsschritt
 
-Aktuell ist der oben verlinkte Prototyp-Praxistest auszuführen. Die folgende
+Aktuell folgt die oben beschriebene Verbesserung der Beisetzungsauswahl. Die folgende
 Entwicklungshistorie begründet den vorhandenen Funktionsumfang; bereits
 ausgeführte 6a-/6b-/6c- und Backup-/Restore-Aufträge nicht wiederholen.
 

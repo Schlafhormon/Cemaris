@@ -21,7 +21,7 @@ export function NewCasePage({ cemeteryMasterDataEditingEnabled = false }: { ceme
     const controller = new AbortController()
     getCemeteryMasterData(controller.signal, false)
       .then(data => setGraveSites(data.graveSites.filter(site => !site.isBlocked)))
-      .catch(() => setUnexpectedError(true))
+      .catch(() => { if (!controller.signal.aborted) setUnexpectedError(true) })
     return () => controller.abort()
   }, [cemeteryMasterDataEditingEnabled])
 

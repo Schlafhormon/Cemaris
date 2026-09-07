@@ -3,8 +3,13 @@
 Aktuell (07.09.2026): Cemaris wird als lokaler Prototyp mit synthetischen
 Daten entwickelt und erprobt. Die
 [Projektentscheidung](docs/requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
-hebt die pauschalen Freigabehürden für diesen Umfang auf. Nächster Schritt:
-[6c-Praxistest bis zum DOCX-/PDF-Download](docs/implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md).
+hebt die pauschalen Freigabehürden für diesen Umfang auf. Der
+[6c-Praxistest bis zum DOCX-/PDF-Download](docs/implementation/cemaris-notice-generation-prototype-trial-completion.md)
+ist einschließlich isoliertem Playwright-Browserdurchlauf, echtem
+LibreOffice-PDF und korrigierten Formular-/Ladefehlermeldungen abgeschlossen.
+Die Anmeldung mit einem persistenten lokalen Konto bleibt unbestätigt.
+Nächster ausführbarer Auftrag:
+[Beisetzungsauswahl mit Personenname und Grabbezug](docs/implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md).
 Die folgenden Gateabschlüsse beschreiben frühere Bewertungen; deren
 allgemeine Stop-Regel blockiert diesen Prototypauftrag nicht.
 
@@ -511,10 +516,10 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `Features__BurialProcessEditingEnabled` | einfacher synthetischer Beisetzungsprozess; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Features__PersonUsageRightsEditingEnabled` | synthetischer kanonischer Beteiligten-/Nutzungsrechtskern; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Features__NoticeDraftEditingEnabled` | rechtlich wirkungsloser manueller Bescheidentwurfskern; nur in `Development` zulässig | `false` (Standard), nur im ausdrücklich aktivierten synthetischen Development-Piloten `true` |
-| `Features__NoticeGenerationEnabled` | flüchtige rechtlich wirkungslose DOCX-/PDF-Erzeugung; nur in `Development` und mit allen abhängigen Capabilities zulässig | `false`; Readiness-Neubewertung mit Variante A, keine Pilotaktivierung |
+| `Features__NoticeGenerationEnabled` | flüchtige rechtlich wirkungslose DOCX-/PDF-Erzeugung; nur in `Development` und mit allen abhängigen Capabilities zulässig | `false`; lokale synthetische Testsitzung darf prozesslokal aktivieren |
 | `NoticeGeneration__TemplateRoot` / `TemplateFileName` | read-only Vorlagenstamm im Content-Root und feste DOCX-Datei | installationsspezifisch, keine Uploadfunktion |
 | `NoticeGeneration__TempRoot` | kontrollierter Tempstamm im Content-Root | installationsspezifisch, keine Fremdpfade oder Reparse Points |
-| `NoticeGeneration__LibreOfficeExecutablePath` | absoluter Pfad zur separat installierten PDF-Engine | `null` bis zur Betriebsfreigabe |
+| `NoticeGeneration__LibreOfficeExecutablePath` | absoluter Pfad zur separat installierten PDF-Engine | portabel `null`; lokal bestätigten `soffice.com`-Pfad prozesslokal setzen |
 | `Identity__Security__PasswordMinimumLength` | untere Passwortgrenze, nicht unter 12 konfigurierbar | `12` |
 | `Identity__Security__PasswordMaximumLength` | obere Passwortgrenze, nicht über 128 konfigurierbar | `128` |
 | `Identity__Security__MaximumFailedLoginAttempts` | Fehlversuche bis zur Sperre, höchstens 5 | `5` |
@@ -570,8 +575,8 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
    und 6c für genau einen flüchtigen rechtlich wirkungslosen
    Beisetzungsgebühren-Entwurf; Betriebs-/Pilotgate, technische Readiness und
    Backup-/Restore-Betriebsremediation sind historisch mit Variante A
-   abgeschlossen; seit 07.09.2026 folgt der lokale synthetische Prototyptest
-   mit prozesslokaler Aktivierung
+   abgeschlossen; der lokale synthetische Prototyptest vom 07.09.2026 ist mit
+   prozesslokaler Aktivierung, echtem PDF und isoliertem Browsercheck ausgeführt
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe
 9. Pilotbetrieb, Cutover und Nachkontrolle

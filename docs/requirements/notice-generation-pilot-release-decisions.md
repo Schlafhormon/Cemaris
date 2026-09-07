@@ -66,12 +66,17 @@ Für diesen Umfang gilt ab jetzt:
 | Konkrete technische Fehler oder drohender Datenverlust | betroffenen Ablauf stoppen, reproduzieren und gezielt beheben |
 | Formaler Pilot nach der früheren Gesamtmatrix / Produktivbetrieb | durch diese Prototypentscheidung nicht als vollständig bestanden erklärt |
 
-Der nächste Schritt ist der
-[lokale 6c-Prototyp-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md):
-vorhandenen Entwurf bis zum DOCX-/PDF-Download ausprobieren, konkrete Fehler
-beheben und anschließend die nächsten Bedien- oder Funktionsverbesserungen
-aus den Befunden ableiten. Ein weiteres allgemeines Freigabegate wird diesem
-Schritt nicht vorgeschaltet.
+Der [lokale 6c-Prototyp-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-completion.md)
+ist am 07.09.2026 ausgeführt: angemeldeter isolierter HTTP-Ablauf bis zum echten
+LibreOffice-PDF, eine reproduzierte Bedienkorrektur und erfolgreiche Tests.
+Der isolierte Playwright-Browserdurchlauf wurde am selben Tag erfolgreich
+nachgeholt; falsche Fehlermeldungen bei abgebrochenen Ladeanfragen wurden
+regressionsgesichert behoben. Die Anmeldung mit einem persistenten lokalen
+Konto bleibt unbestätigt. Als nächster Verbesserungsschritt ist eine
+Beisetzungsauswahl mit Personenname und Grabbezug in einer
+[eigenständigen Umsetzungsübergabe](../implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md)
+vorbereitet. Ein weiteres allgemeines Freigabegate wird diesem Schritt nicht
+vorgeschaltet.
 
 Die nachfolgenden Abschnitte dokumentieren die Bewertungen bis 02.09.2026.
 Ihre pauschalen Stop- und Nachweispflichten sind für den hier beschriebenen

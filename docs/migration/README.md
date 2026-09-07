@@ -2,9 +2,10 @@
 
 Aktualisierung 07.09.2026: Der
 [freigegebene lokale Prototyppfad](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
-führt als Nächstes zum
-[6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md).
-Er benötigt weder einen erneuten Restore noch eine Migration. Cemaris_Dev
+hat den [6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-completion.md)
+einschließlich isoliertem Browserlauf abgeschlossen. Als Nächstes folgt die
+[verständliche Beisetzungsauswahl](../implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md).
+Dieser UI-Schnitt benötigt weder einen erneuten Restore noch eine Migration. Cemaris_Dev
 bleibt vor destruktiven Operationen und Testfixtures geschützt; EDWALT wird
 nicht ausgeführt. Die folgenden früheren Pilot-Stop-Befunde blockieren diesen
 synthetischen Prototypumfang nicht.

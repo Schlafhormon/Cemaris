@@ -14,7 +14,9 @@ Anmeldung, Rollen, CSRF, ETag, Development-Grenze, Vorlagen-/Pfadprüfung,
 Ressourcenlimits, inhaltsfreier Audit und Temp-Bereinigung bleiben erhalten.
 Die Dokumenterzeugung darf im
 [lokalen Praxistest](docs/implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md)
-prozesslokal aktiviert werden; portable Defaults bleiben ausgeschaltet.
+und dessen [abgegrenztem UI-Folgeauftrag](docs/implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md)
+prozesslokal für isolierte synthetische Tests aktiviert werden; portable
+Defaults bleiben ausgeschaltet.
 Secrets, bestehende Datenbanken und fremde Dateien bleiben geschützt.
 Die unten beschriebenen früheren Pilotgates sind für diesen Prototypumfang
 keine zusätzliche Freigabevoraussetzung.

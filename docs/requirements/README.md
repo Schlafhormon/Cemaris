@@ -3,8 +3,12 @@
 Aktuell (07.09.2026): Der Projektleiter hat pragmatische lokale
 Prototypentwicklung mit synthetischen Daten freigegeben. Die
 [datierte Entscheidung](notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
-ersetzt dafür die früheren pauschalen Freigabehürden. Der nächste Schritt ist
-der [6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md).
+ersetzt dafür die früheren pauschalen Freigabehürden. Der
+[6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-completion.md)
+ist einschließlich isoliertem Browsercheck technisch ausgeführt. Der Abschluss
+grenzt die unbestätigte Anmeldung mit einem persistenten Konto ab und benennt
+die [verständlichere Beisetzungsauswahl](../implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md)
+als nächsten ausführbaren Verbesserungsschritt.
 Offene Regeln bleiben als solche erkennbar; formale Echtbetriebsanforderungen
 blockieren diese Entwicklung nicht.
 

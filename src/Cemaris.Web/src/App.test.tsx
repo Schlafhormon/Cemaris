@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react'
+import { StrictMode } from 'react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import App from './App'
@@ -62,6 +63,35 @@ const currentAccount = {
   role: 'Administration',
   mustChangePassword: false,
 }
+
+describe('Ladeabbrüche im Development-Browser', () => {
+  it.each(['Anlage', 'Bearbeitung'])('zeigt bei %s echte Stammdatenfehler weiterhin an', async (page) => {
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => String(input).includes('/api/cases/')
+      ? jsonResponse(caseOverview(), 200, { ETag: '"1"' })
+      : jsonResponse({ title: 'Stammdaten nicht verfügbar' }, 503)))
+    render(<StrictMode>{page === 'Anlage'
+      ? <NewCasePage cemeteryMasterDataEditingEnabled />
+      : <CaseEditPage caseId={caseOverview().id} cemeteryMasterDataEditingEnabled burialProcessEditingEnabled />}</StrictMode>)
+
+    expect(await screen.findByRole('alert')).toBeInTheDocument()
+  })
+
+  it.each(['Anlage', 'Bearbeitung'])('zeigt bei %s keinen Speicherfehler für abgebrochene Stammdatenabrufe', async (page) => {
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      await new Promise(resolve => setTimeout(resolve, 0))
+      init?.signal?.throwIfAborted()
+      return String(input).includes('/api/cases/')
+        ? jsonResponse(caseOverview(), 200, { ETag: '"1"' })
+        : jsonResponse(masterData)
+    }))
+    render(<StrictMode>{page === 'Anlage'
+      ? <NewCasePage cemeteryMasterDataEditingEnabled />
+      : <CaseEditPage caseId={caseOverview().id} cemeteryMasterDataEditingEnabled burialProcessEditingEnabled />}</StrictMode>)
+
+    expect((await screen.findAllByRole('option', { name: /SYN-UI-1/ })).length).toBeGreaterThan(0)
+    await waitFor(() => expect(screen.queryByRole('alert')).not.toBeInTheDocument())
+  })
+})
 
 describe('Lokale Anmeldung und Sitzung', () => {
   it('führt anonyme Benutzer über CSRF-geschützte Anmeldung in die Anwendung', async () => {

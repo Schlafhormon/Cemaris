@@ -73,7 +73,7 @@ export function CaseEditPage({ caseId, caseEditingEnabled = true, burialProcessE
         setLoading(false)
       })
       .catch((error: unknown) => {
-        if (error instanceof DOMException && error.name === 'AbortError') {
+        if (controller.signal.aborted) {
           return
         }
 
@@ -90,7 +90,7 @@ export function CaseEditPage({ caseId, caseEditingEnabled = true, burialProcessE
     const controller = new AbortController()
     getBurialProcessMasterData(controller.signal)
       .then(setProcessMasterData)
-      .catch(report => { if (!(report instanceof DOMException && report.name === 'AbortError')) setUnexpectedError(true) })
+      .catch(() => { if (!controller.signal.aborted) setUnexpectedError(true) })
     return () => controller.abort()
   }, [burialProcessEditingEnabled, requestKey])
 
@@ -284,6 +284,7 @@ interface GraveEditorProps extends EditorCallbacks {
 }
 
 function GraveEditor({ caseId, etag, grave, cemeteryMasterDataEditingEnabled, ...callbacks }: GraveEditorProps) {
+  const onUnexpected = callbacks.onUnexpected
   const [input, setInput] = useState<GraveInput>(toGraveInput(grave))
   const [errors, setErrors] = useState<FieldErrors>({})
   const [saving, setSaving] = useState(false)
@@ -298,9 +299,9 @@ function GraveEditor({ caseId, etag, grave, cemeteryMasterDataEditingEnabled, ..
     const controller = new AbortController()
     getCemeteryMasterData(controller.signal, false)
       .then(data => setGraveSites(data.graveSites.filter(site => !site.isBlocked)))
-      .catch(callbacks.onUnexpected)
+      .catch(() => { if (!controller.signal.aborted) onUnexpected() })
     return () => controller.abort()
-  }, [callbacks.onUnexpected, cemeteryMasterDataEditingEnabled])
+  }, [onUnexpected, cemeteryMasterDataEditingEnabled])
 
   function selectGraveSite(id: string) {
     const site = graveSites.find(item => item.id === id)

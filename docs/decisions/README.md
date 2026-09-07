@@ -4,8 +4,10 @@ Aktualisierung 07.09.2026: Die
 [Projektentscheidung zum Prototypen](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
 ändert die Freigabepolitik für lokale synthetische Entwicklung, nicht die
 technische Architektur. ADR-0019 bleibt unverändert; kein neues ADR ist
-nötig. Nächster Auftrag ist der
-[6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md).
+nötig. Der [6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-completion.md)
+ist ausgeführt. Nächster Auftrag ist die
+[verständliche Beisetzungsauswahl](../implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md)
+innerhalb der bestehenden Architektur.
 
 Architecture Decision Records (ADRs) dokumentieren wesentliche technische und projektweite Entscheidungen samt Kontext und Folgen. Sie werden nicht nachträglich umgeschrieben, um eine andere Vergangenheit darzustellen; Änderungen erfolgen durch ein neues ADR, das die frühere Entscheidung ersetzt.
 

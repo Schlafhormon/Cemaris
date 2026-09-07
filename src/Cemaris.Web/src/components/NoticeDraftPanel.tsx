@@ -39,7 +39,7 @@ export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], noticeGene
     const controller = new AbortController()
     getNoticeDrafts(caseId, controller.signal)
       .then(setDrafts)
-      .catch((error: unknown) => showError(error))
+      .catch((error: unknown) => { if (!controller.signal.aborted) showError(error) })
     return () => controller.abort()
   }, [caseId])
 
@@ -154,11 +154,12 @@ function DraftCreateForm({ caseId, payer, onCreated, onError }: {
   const feedback = useFormFeedback(formRef, fieldMap, onError)
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
+    const form = event.currentTarget
+    const data = new FormData(form)
     feedback.clear()
     try {
       onCreated(await createNoticeDraft(caseId, draftInput(data, payer.value.id)))
-      event.currentTarget.reset()
+      form.reset()
     } catch (error) {
       feedback.report(error)
     }
@@ -212,7 +213,8 @@ function NoticeGenerationForm({ draft, burials, onError, onSuccess }: { draft: V
 
   useEffect(() => {
     const controller = new AbortController()
-    getLegalBasisVersions(true, controller.signal).then(setLegalBases).catch(reportError)
+    getLegalBasisVersions(true, controller.signal).then(setLegalBases)
+      .catch((error: unknown) => { if (!controller.signal.aborted) reportError(error) })
     return () => controller.abort()
   }, [draft.value.id])
 
