@@ -1,5 +1,13 @@
 # Abschluss der technischen Readiness und Neubewertung des synthetischen 6c-Piloten
 
+Einordnung vom 07.09.2026: Dieser Auftrag und seine Variante A sind historisch.
+Für die weitere lokale synthetische Entwicklung gilt die
+[neue Prototypentscheidung](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
+mit dem [6c-Praxistest als Folgeauftrag](cemaris-notice-generation-prototype-trial-next-step-handoff.md).
+Frühere pauschale Freigabevoraussetzungen blockieren diesen neuen Umfang
+nicht. Den abgeschlossenen Auftrag und insbesondere Backup/Restore nicht
+wiederholen; seine technischen Nachweise bleiben erhalten.
+
 Stand: 01.09.2026
 
 Status: **Abgeschlossen mit Variante A – Stop.** Die Capability
@@ -277,6 +285,22 @@ nicht. Der getrennte
 bindet die Datenbankoperationen sicher und bewertet danach die übrigen offenen
 Pflichtpunkte neu. Er beginnt weiterhin mit Variante A und ausgeschalteter
 Capability.
+
+## Abschluss des nachgelagerten Auftrags vom 02.09.2026
+
+Der getrennte
+[Betriebsremediations-Auftrag](cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md)
+ist inzwischen vollständig ausgeführt. Ein neues `COPY_ONLY`-Vollbackup mit
+Checksum wurde verifiziert, ausschließlich nach
+`Cemaris_Dev_RestoreCheck_20260902` wiederhergestellt, dort inhaltsfrei auf
+Migrationen, Integrität und Aggregate geprüft und anschließend nur dieses neu
+erzeugte Ziel wieder entfernt. Die Sicherung bleibt erhalten und
+`Cemaris_Dev` ist online sowie migrations- und aggregatgleich bestätigt.
+
+Dieser Folgeabschluss ändert den historischen Readiness-Befund nicht.
+Monitoring, Installationshärtung, Auditbetriebsregeln und zuständige
+Funktionsfreigaben bleiben offen oder teilweise bestätigt; deshalb endet auch
+der Folgeauftrag mit Variante A und ausgeschalteter Capability.
 
 ## Abschlussprüfungen
 

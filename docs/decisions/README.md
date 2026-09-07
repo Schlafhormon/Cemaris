@@ -1,5 +1,12 @@
 # Architecture Decision Records
 
+Aktualisierung 07.09.2026: Die
+[Projektentscheidung zum Prototypen](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
+ändert die Freigabepolitik für lokale synthetische Entwicklung, nicht die
+technische Architektur. ADR-0019 bleibt unverändert; kein neues ADR ist
+nötig. Nächster Auftrag ist der
+[6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md).
+
 Architecture Decision Records (ADRs) dokumentieren wesentliche technische und projektweite Entscheidungen samt Kontext und Folgen. Sie werden nicht nachträglich umgeschrieben, um eine andere Vergangenheit darzustellen; Änderungen erfolgen durch ein neues ADR, das die frühere Entscheidung ersetzt.
 
 ## Status
@@ -61,12 +68,13 @@ mit Variante A ausgeführt. Ein verlorener PDF-Parallelitätsslot und die
 fehlende sichtbare Entwurfskennzeichnung wurden innerhalb des vorhandenen
 ADR-0019-Vertrags minimal korrigiert. Es entstand weder eine neue Architektur
 noch ein neues ADR oder eine Aktivierung; ADR-0019 bleibt unverändert.
-Der vorbereitete
-[Betriebsremediations-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md)
-prüft Backup/Restore und die verbliebenen installationsbezogenen Nachweise
-erneut. Die Autorisierung des entbehrlichen Restore-Prüfziels ist eine
-Betriebsprüfgrenze und keine neue Architekturentscheidung; ADR-0019 bleibt
-maßgeblich.
+Der getrennte
+[Betriebsremediations-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md)
+hat Backup/Restore und die verbliebenen installationsbezogenen Nachweise
+erneut geprüft und endet weiterhin mit Variante A. Die technische Nutzung des
+entbehrlichen Restore-Prüfziels ist eine Betriebsprüfgrenze und keine neue
+Architekturentscheidung; ADR-0019 bleibt maßgeblich und ein neues ADR war
+nicht erforderlich.
 
 Das
 [5c-Abnahme- und Lebenszyklus-Entscheidungsgate](../implementation/cemaris-increment-5c-completion.md)

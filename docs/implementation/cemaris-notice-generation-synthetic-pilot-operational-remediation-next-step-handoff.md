@@ -1,9 +1,25 @@
 # Folgeauftrag: 6c-Betriebsremediation und erneute Pilotneubewertung
 
+Einordnung vom 07.09.2026: Dieser Auftrag und seine Variante A sind historisch.
+Für die weitere lokale synthetische Entwicklung gilt die
+[neue Prototypentscheidung](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
+mit dem [6c-Praxistest als Folgeauftrag](cemaris-notice-generation-prototype-trial-next-step-handoff.md).
+Frühere pauschale Freigabevoraussetzungen blockieren diesen neuen Umfang
+nicht. Den abgeschlossenen Auftrag und insbesondere Backup/Restore nicht
+wiederholen; seine technischen Nachweise bleiben erhalten.
+
 Stand: 02.09.2026
 
-Status: **Vorbereitet, nicht ausgeführt. Variante A – Stop und die
-ausgeschaltete Capability bleiben der verbindliche Ausgangspunkt.**
+Status: **Am 02.09.2026 vollständig ausgeführt und mit Variante A – Stop
+abgeschlossen.** Der
+[Betriebsremediations-Abschluss](cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md)
+dokumentiert das verifizierte Vollbackup, den ausschließlich auf dem
+bestätigten Ziel ausgeführten und inhaltsfrei geprüften Restore, die
+Zielbereinigung sowie alle weiterhin offenen Betriebs- und Freigabepunkte.
+Die Capability bleibt aus; es besteht keine Aktivierungsübergabe.
+
+Nicht erneut ausführen. Eine spätere Neubewertung benötigt einen neuen,
+abgegrenzten Auftrag.
 
 ## Ziel und erwartbarer Abschluss
 

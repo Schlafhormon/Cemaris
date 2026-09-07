@@ -1,5 +1,14 @@
 # Strategie für die EDWALT-Datenmigration
 
+Aktualisierung 07.09.2026: Der
+[freigegebene lokale Prototyppfad](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
+führt als Nächstes zum
+[6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md).
+Er benötigt weder einen erneuten Restore noch eine Migration. Cemaris_Dev
+bleibt vor destruktiven Operationen und Testfixtures geschützt; EDWALT wird
+nicht ausgeführt. Die folgenden früheren Pilot-Stop-Befunde blockieren diesen
+synthetischen Prototypumfang nicht.
+
 > **Status:** Die Migration fachlich relevanter EDWALT-Daten nach Cemaris ist
 > bestätigtes Projektziel. Auch historische Fälle sind einzubeziehen; maßgeblich
 > sind die Betriebsnotwendigkeit und die Vermeidung umfangreicher manueller
@@ -369,25 +378,25 @@ kein Datenbankwiderspruch mehr. Die
 [Readiness-Neubewertung](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
 bestätigte read-only exakt `Cemaris_Dev`, neun angewandte Migrationen, die
 6c-Migration als jüngsten Stand und null ausstehende Migrationen. Es wurde
-keine Migration angewandt. Der SQL-Sicherungskatalog enthält weder ein
-Vollbackup noch einen Restore; Backup-/Restore- und
-Datenbankbetriebsfreigabe bleiben deshalb offen.
+keine Migration angewandt. Zu diesem historischen Zeitpunkt fehlten noch
+Vollbackup und Restore.
 
 Der
 [Readiness-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-next-step-handoff.md)
 ist mit Variante A abgeschlossen. Mangels fehlender Migration gab es keine
 Mutationsvorschau oder Anwendung. Automatisierte SQL-Tests wurden ohne separat
 autorisierte Testverbindung nicht ausgeführt und bleiben strikt von
-`Cemaris_Dev` getrennt. Ein Restore wurde ohne Vollsicherung und ohne
-bestätigtes entbehrliches Ziel nicht versucht; die Pilotdatenbank wurde nicht
-überschrieben oder verändert. Die Remediation erweitert weder EDWALT- noch
-sonstigen Migrationsumfang.
+`Cemaris_Dev` getrennt. Ein Restore wurde in diesem Readiness-Auftrag ohne
+Vollsicherung und ohne bestätigtes entbehrliches Ziel nicht versucht; die
+Pilotdatenbank wurde nicht überschrieben oder verändert.
 
-Für den getrennten
-[Betriebsremediations-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md)
-ist am 02.09.2026 ausschließlich
-`Cemaris_Dev_RestoreCheck_20260902` als entbehrliches Restore-Prüfziel
-bestätigt. Das neue COPY_ONLY-Vollbackup darf nur von `Cemaris_Dev` stammen;
-der Restore darf ausschließlich das zuvor als abwesend bestätigte Prüfziel
-neu anlegen und muss es danach wieder entfernen. Daraus folgen weder ein
-Migrations-, Testfixture-, SQL-Test- noch EDWALT-Auftrag.
+Der danach getrennt ausgeführte
+[Betriebsremediations-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md)
+hat ein neues `COPY_ONLY`-Vollbackup von `Cemaris_Dev` mit Checksum verifiziert
+und ausschließlich nach `Cemaris_Dev_RestoreCheck_20260902`
+wiederhergestellt. Dort wurden ohne Fachinhalte oder Testfixtures nur Struktur,
+neun Migrationen, Integrität und Aggregate geprüft. Anschließend wurde
+ausschließlich das neu erzeugte Prüfziel entfernt; die Sicherung bleibt
+erhalten und `Cemaris_Dev` unverändert online. Daraus folgen weder ein
+Migrations-, Testfixture-, SQL-Test- noch EDWALT-Auftrag. Die Remediation
+erweitert weder EDWALT- noch sonstigen Migrationsumfang.

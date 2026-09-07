@@ -1,5 +1,24 @@
 # Sicherheitsrichtlinie
 
+## Lokaler Prototyp seit 07.09.2026
+
+Die [Projektentscheidung](docs/requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
+erlaubt lokale synthetische Entwicklung und Erprobung ohne erneute allgemeine
+Freigaberunden. Dediziertes Dienstkonto, gehärtete Betriebs-ACLs,
+Verschlüsselungsnachweis, Quota, externes Monitoring sowie formale
+Aufbewahrungs- und Betriebsfreigaben sind für diesen Umfang zurückgestellt.
+Diese Punkte bleiben vor einem späteren Echtbetrieb zu behandeln; ihre
+Umsetzung wird hier nicht behauptet.
+
+Anmeldung, Rollen, CSRF, ETag, Development-Grenze, Vorlagen-/Pfadprüfung,
+Ressourcenlimits, inhaltsfreier Audit und Temp-Bereinigung bleiben erhalten.
+Die Dokumenterzeugung darf im
+[lokalen Praxistest](docs/implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md)
+prozesslokal aktiviert werden; portable Defaults bleiben ausgeschaltet.
+Secrets, bestehende Datenbanken und fremde Dateien bleiben geschützt.
+Die unten beschriebenen früheren Pilotgates sind für diesen Prototypumfang
+keine zusätzliche Freigabevoraussetzung.
+
 ## Unterstützte Versionen
 
 Es wurde noch keine produktive Version von Cemaris veröffentlicht. Sicherheitskorrekturen werden derzeit ausschließlich auf dem aktuellen Entwicklungsstand vorgenommen.
@@ -88,13 +107,19 @@ Auditaufbewahrung/-löschung und zuständige Sicherheits-/Betriebsfreigaben
 fehlen weiterhin. Die Capability bleibt aus; es entstand kein
 Aktivierungsauftrag.
 
-Der vorbereitete
-[Betriebsremediations-Folgeauftrag](docs/implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md)
-bindet einen COPY_ONLY-Vollbackup-/Restore-Nachweis an das ausdrücklich
-bestätigte entbehrliche Prüfdatenbankziel. Er erlaubt keine systemweite
-Konten-, ACL-, Verschlüsselungs-, Quota-, LibreOffice- oder
-Monitoringänderung und keine Capability-Aktivierung. Nicht belegte
-Betriebs-, Audit- und Sicherheitsregeln bleiben nach der Stop-Regel offen.
+Der
+[Betriebsremediations-Folgeauftrag](docs/implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md)
+ist ausgeführt. Das neue `COPY_ONLY`-Vollbackup mit Checksum wurde verifiziert,
+ausschließlich auf dem bestätigten entbehrlichen Prüfdatenbankziel
+wiederhergestellt und inhaltsfrei mit `DBCC CHECKDB`, Migrationen und
+Aggregaten geprüft; nur dieses Ziel wurde danach entfernt und die Sicherung
+bleibt erhalten. Die Prüfung änderte keine systemweiten Konten, ACLs,
+Verschlüsselung, Quotas, LibreOffice- oder Monitoringinstallation und keine
+Capability. Dienstidentität, Least Privilege, Verschlüsselung, Quota,
+externes Monitoring, Auditbetriebsregeln und zuständige Sicherheits-/
+Betriebsfreigaben waren zum Abschluss offen oder teilweise bestätigt.
+Die damalige Variante A wird für die lokale Prototypentwicklung durch die
+oben dokumentierte Entscheidung vom 07.09.2026 abgelöst.
 
 ## Offenlegung
 

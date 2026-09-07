@@ -1,5 +1,13 @@
 # Arbeitsgrundlage für Bestands- und Bedarfsanalyse
 
+Aktuell (07.09.2026): Der Projektleiter hat pragmatische lokale
+Prototypentwicklung mit synthetischen Daten freigegeben. Die
+[datierte Entscheidung](notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
+ersetzt dafür die früheren pauschalen Freigabehürden. Der nächste Schritt ist
+der [6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md).
+Offene Regeln bleiben als solche erkennbar; formale Echtbetriebsanforderungen
+blockieren diese Entwicklung nicht.
+
 > **Gesamtstatus: GEMISCHT.** Dieses Dokument enthält bestätigte
 > Produktentscheidungen für klar begrenzte synthetische Inkremente sowie
 > weiterhin offene Erhebungsfelder. Eine fachliche Abnahme durch die
@@ -115,10 +123,12 @@ kombinierte Development- und Testpilotdatenbank geschaffen wurde. Die
 [technische Readiness-Neubewertung](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
 bestätigte den vollständigen 6b-/6c-Migrationsstand, reale synthetische
 DOCX-/PDF-/Druck-zu-Datei-Ausgabe und sichere Temp-/Prozessbereinigung. Zwei
-vorab reproduzierte 6c-Bugs wurden minimal behoben. Vollbackup/Restore,
-Monitoring, Installationshärtung und zuständige Freigaben bleiben offen oder
-teilweise bestätigt; deshalb bleibt Variante A bestehen und es entstand kein
-Aktivierungsauftrag.
+vorab reproduzierte 6c-Bugs wurden minimal behoben. Die getrennte
+[Betriebsremediation](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md)
+schloss anschließend den technischen Vollbackup-/Restore-Nachweis. Monitoring,
+Installationshärtung, Auditbetriebsregeln und zuständige Freigaben bleiben
+offen oder teilweise bestätigt; deshalb bleibt Variante A bestehen und es
+entstand kein Aktivierungsauftrag.
 
 | ID | Status | Anforderung | Quelle | Geltungsbereich | Muss/Soll/Kann | Offene Punkte |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -741,4 +751,4 @@ Bewertungskriterien:
 | Bescheiderzeugungs-Entscheidungs- und Freigabegate 6c | interaktiver Dialog, 6b-Verträge, ergänzende funktionsbezogene Entscheidungen und synthetische Testquelle | genau einen Gebührenbescheidentwurf für Beisetzungsgebühren mit Feld-, Vorlagen-, Ausgabe-, Rollen-, Audit-, Temp-, Integrations- und Migrationsgrenzen bewerten | nur Development-Kandidat; Empfängeranrede, Rechtswirkung, Zustellung, Archivierung, Integration und Produktivsetzung ausgeschlossen | technische Übergabe vorbereitet, in diesem Gate keine Implementierung | nach erstem A-Zwischenstand endgültig mit Variante B abgeschlossen | [Entscheidungsakte](notice-generation-decisions.md), [Abschlussnachweis](../implementation/cemaris-notice-generation-decision-gate-completion.md) und [6c-Übergabe](../implementation/cemaris-increment-6c-next-step-handoff.md) |
 | rechtlich wirkungslose Dokumenterzeugung 6c | bestätigte 6c-Entscheidungsakte und technische Übergabe | exakt einen flüchtigen Beisetzungsgebühren-Entwurf als DOCX/PDF aus aktuellen kanonischen Daten erzeugen | Benutzerkontakte, unveränderliche Satzungsversionen, OpenXML, gekapseltes LibreOffice, ETag, Audit, Temp-Grenzen, Synthetic-/EF-Parität | keine Empfängeranrede, Berechnung, Rechtswirkung, Freigabe, Zustellung, Archivierung, Integration, Migration oder Produktivaktivierung | technisch umgesetzt; standardmäßig aus und Development-only | [technischer Abschluss](../implementation/cemaris-increment-6c-completion.md), [ADR-0019](../decisions/ADR-0019-ephemeral-secure-notice-document-generation.md) und [abgeschlossenes Pilot-Folgegate](../implementation/cemaris-notice-generation-pilot-release-gate-completion.md) |
 | Betriebs- und Pilotfreigabe/Readiness 6c-Pilot | technisch abgeschlossener, standardmäßig deaktivierter 6c-Pfad und installationsbezogene Betriebsnachweise | für genau eine benannte isolierte Umgebung entscheiden, ob ein rein synthetischer Pilot separat aktiviert und abgenommen werden darf | `Cemaris_Dev` und vollständiges 6b-/6c-Schema read-only bestätigt; reale synthetische LibreOffice-/Druck-zu-Datei-Ausgabe und Temp-/Prozessbereinigung erfolgreich; zwei reproduzierte Bugs minimal behoben; Backup/Restore, Monitoring, Installationshärtung und zuständige Freigaben offen | keine Aktivierung, echte Daten, Rechtswirkung oder Migration | nach technischer Readiness erneut mit Variante A „Stop“ abgeschlossen | [Entscheidungsakte](notice-generation-pilot-release-decisions.md), [Gate-Abschluss](../implementation/cemaris-notice-generation-pilot-release-gate-completion.md) und [Readiness-Abschluss](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-completion.md); Capability bleibt aus |
-| Betriebsremediation 6c-Pilot | bestätigte Variante A nach technischer Readiness und fehlender Vollbackup-/Restore-Nachweis | datiertes COPY_ONLY-Vollbackup erzeugen, verifizieren und ausschließlich auf das bestätigte entbehrliche Prüfzieldatenbankziel wiederherstellen; verbliebene Betriebsnachweise anschließend neu bewerten | `Cemaris_Dev_RestoreCheck_20260902` ist nur für Restore und inhaltsfreie Integritätsprüfung autorisiert; Quell- und Prüfdatenbank bleiben für Testfixtures und SQL-Tests gesperrt | keine Capability-Aktivierung, systemweite Härtung, Fachlogik, Rechtswirkung, Integration oder Migration | vorbereitet, nicht ausgeführt; beginnt mit Variante A | [Betriebsremediations-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md) |
+| Betriebsremediation 6c-Pilot | bestätigte Variante A nach technischer Readiness und fehlender Vollbackup-/Restore-Nachweis | datiertes `COPY_ONLY`-Vollbackup erzeugen, verifizieren und ausschließlich auf das bestätigte entbehrliche Prüfzieldatenbankziel wiederherstellen; verbliebene Betriebsnachweise anschließend neu bewerten | `Cemaris_Dev_RestoreCheck_20260902` wurde nur für Restore und inhaltsfreie Integritätsprüfung verwendet; Quell- und Prüfdatenbank blieben für Testfixtures und SQL-Tests gesperrt | keine Capability-Aktivierung, systemweite Härtung, Fachlogik, Rechtswirkung, Integration oder Migration | vollständig ausgeführt; erneut mit Variante A abgeschlossen | [Betriebsremediations-Abschluss](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md) |

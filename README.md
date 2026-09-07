@@ -1,5 +1,13 @@
 # Cemaris
 
+Aktuell (07.09.2026): Cemaris wird als lokaler Prototyp mit synthetischen
+Daten entwickelt und erprobt. Die
+[Projektentscheidung](docs/requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
+hebt die pauschalen Freigabehürden für diesen Umfang auf. Nächster Schritt:
+[6c-Praxistest bis zum DOCX-/PDF-Download](docs/implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md).
+Die folgenden Gateabschlüsse beschreiben frühere Bewertungen; deren
+allgemeine Stop-Regel blockiert diesen Prototypauftrag nicht.
+
 > Open-Source-Friedhofsverwaltung für Kommunen
 
 ## Status
@@ -180,11 +188,16 @@ Wiederanlauf sind ebenfalls technisch nachgewiesen. Zwei vorab reproduzierte
 Vollbackup/Restore, Monitoring, installationsbezogene Härtung und zuständige
 Freigaben fehlen, endet auch die Neubewertung mit Variante A. Capability und
 Aktivierungsauftrag bleiben aus.
-Der nächste getrennte Auftrag ist die
-[6c-Betriebsremediation und erneute Pilotneubewertung](docs/implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md).
-Für ihn ist ausschließlich das entbehrliche Restore-Prüfziel
-`Cemaris_Dev_RestoreCheck_20260902` bestätigt; daraus folgt noch keine
-Aktivierungs- oder sonstige Funktionsfreigabe.
+Die getrennte
+[6c-Betriebsremediation und erneute Pilotneubewertung](docs/implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md)
+ist inzwischen vollständig ausgeführt. Ein neues `COPY_ONLY`-Vollbackup mit
+Checksum wurde verifiziert, ausschließlich auf dem bestätigten entbehrlichen
+Ziel wiederhergestellt, inhaltsfrei geprüft und das Ziel danach entfernt. Die
+Sicherung bleibt erhalten. Monitoring, gehärtete Installationsgrenzen,
+Auditbetriebsregeln und zuständige Freigaben waren damals offen oder teilweise
+bestätigt; der Auftrag endete deshalb mit Variante A. Seit 07.09.2026 sind
+diese allgemeinen Hürden für den oben verlinkten lokalen Prototyppfad
+zurückgestellt.
 Gebührenberechnung, Rechtswirkung, Zustellung, Archivierung,
 FINANZ+-Integration, Migration und Produktivsetzung bleiben gesperrt.
 Die weitere Inkrementfolge beschreibt der
@@ -555,9 +568,10 @@ Es bestehen keine künstlichen Versions- oder Terminzusagen. Die geplanten Arbei
 6. abgeschlossene Gebühren-/Bescheid-Gates 6a, 6a-F und 6c sowie die technisch
    abgeschlossenen Development-Schnitte 6b für kanonische manuelle Entwürfe
    und 6c für genau einen flüchtigen rechtlich wirkungslosen
-   Beisetzungsgebühren-Entwurf; Betriebs-/Pilotgate und technische
-   Readiness-Neubewertung sind mit Variante A abgeschlossen, Capability und
-   Aktivierungsauftrag bleiben aus
+   Beisetzungsgebühren-Entwurf; Betriebs-/Pilotgate, technische Readiness und
+   Backup-/Restore-Betriebsremediation sind historisch mit Variante A
+   abgeschlossen; seit 07.09.2026 folgt der lokale synthetische Prototyptest
+   mit prozesslokaler Aktivierung
 7. optionale Winyard-Integration und priorisierte Auswertungen
 8. Fortsetzung der EDWALT-Analyse, Zielmapping und Importprobeläufe
 9. Pilotbetrieb, Cutover und Nachkontrolle

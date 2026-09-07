@@ -1,5 +1,13 @@
 # Abschluss des Betriebs- und Pilotfreigabegates der 6c-Dokumenterzeugung
 
+Einordnung vom 07.09.2026: Dieser Auftrag und seine Variante A sind historisch.
+Für die weitere lokale synthetische Entwicklung gilt die
+[neue Prototypentscheidung](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
+mit dem [6c-Praxistest als Folgeauftrag](cemaris-notice-generation-prototype-trial-next-step-handoff.md).
+Frühere pauschale Freigabevoraussetzungen blockieren diesen neuen Umfang
+nicht. Den abgeschlossenen Auftrag und insbesondere Backup/Restore nicht
+wiederholen; seine technischen Nachweise bleiben erhalten.
+
 Stand: 01.09.2026
 
 Status: **Vollständig dokumentarisch abgeschlossen mit Variante A – Stop.**
@@ -7,8 +15,10 @@ Status: **Vollständig dokumentarisch abgeschlossen mit Variante A – Stop.**
 Aktivierungs- oder Pilotabnahmeauftrag erstellt.
 
 Der nachfolgende Readiness-Auftrag ist inzwischen ebenfalls mit Variante A
-abgeschlossen. Der aktuelle, noch nicht ausgeführte Folgepfad ist die
-[6c-Betriebsremediation und erneute Pilotneubewertung](cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md).
+abgeschlossen. Auch die danach getrennt ausgeführte
+[6c-Betriebsremediation und erneute Pilotneubewertung](cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md)
+endet trotz erfolgreichem Backup-/Restore-Nachweis mit Variante A. Capability
+und Aktivierungsübergabe bleiben aus.
 
 ## Ergebnis
 

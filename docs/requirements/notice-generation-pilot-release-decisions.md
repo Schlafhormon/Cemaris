@@ -1,14 +1,83 @@
 # Entscheidungen zur Betriebs- und Pilotfreigabe der 6c-Dokumenterzeugung
 
-Stand: 02.09.2026
+Stand: 07.09.2026
 
-Status: **Nach technischer Readiness und Neubewertung abgeschlossen mit
-Variante A – Stop.** Die Capability `Features:NoticeGenerationEnabled` bleibt
-deaktiviert. Es entsteht kein Aktivierungs- oder Abnahmeauftrag.
+Status: **Lokale synthetische Prototypentwicklung freigegeben.** Die
+Projektentscheidung vom 07.09.2026 ersetzt für diesen begrenzten Umfang die
+bisherige pauschale Stop-Regel. Die früheren Variantenentscheidungen bleiben
+historische Nachweise. Portable Capability-Defaults bleiben ausgeschaltet;
+eine lokale Testsitzung darf die vorhandene Funktion vorübergehend aktivieren.
 
-Am 02.09.2026 wurde ausschließlich ein getrenntes technisches
-Betriebsremediations-Gate vorbereitet. Die Bestätigung eines entbehrlichen
-Restore-Prüfziels ändert die Variante noch nicht und ist keine Aktivierung.
+Das getrennte technische Betriebsremediations-Gate wurde am 02.09.2026
+ausgeführt. Der Backup-/Restore-Pflichtpunkt ist technisch geschlossen; die
+übrigen Punkte wurden damals als offen oder teilweise bestätigt bewertet.
+Ihre neue Einordnung für den Prototypen steht im folgenden Abschnitt.
+
+## Aktuelle Projektentscheidung: pragmatischer Prototyp
+
+Quelle `USR-2026-09-07-PROTOTYPE-01`, übermittelt am 07.09.2026 durch den
+Projektleiter: „Ich habe die Freigabe eingeholt.“ Zugleich stellt er klar,
+dass Cemaris zunächst als Prototyp frei entwickelt und getestet werden soll
+und die Entwicklung nicht fortlaufend an formalen Freigaben hängen darf.
+Er beauftragt ausdrücklich die entsprechende Anpassung der Dokumentation.
+
+Diese Anweisung ist die bestätigte Projektfreigabe für die lokale,
+ausschließlich synthetische Prototypentwicklung und Erprobung. Sie ist keine
+Behauptung, dass einzelne technische Betriebsmaßnahmen inzwischen geprüft
+oder alle späteren Produktivanforderungen erfüllt seien. Dafür fehlen in
+dieser Unterhaltung weiterhin konkrete Ausführungsnachweise; für den
+Prototyppfad werden sie aber nicht erneut als Voraussetzung angefordert.
+
+Für diesen Umfang gilt ab jetzt:
+
+- Umsetzung, Bedienversuche, Fehlerbehebung und angemessene Tests dürfen
+  innerhalb des jeweiligen Entwicklungsauftrags direkt erfolgen. Eine weitere
+  allgemeine Fach-, Rechts-, Datenschutz- oder Betriebsfreigaberunde ist dafür
+  nicht erforderlich.
+- Dediziertes Dienstkonto, gehärtete Betriebs-ACLs, nachgewiesene
+  Datenträgerverschlüsselung, Quota, externes Monitoring/Alarmierung,
+  LibreOffice-Wartungsorganisation, RPO/RTO und formale
+  Auditaufbewahrungs-/Löschregeln werden für diese lokale synthetische
+  Erprobung zurückgestellt. Sie bleiben Themen vor einem späteren Echtbetrieb
+  und werden nicht als technisch erledigt umetikettiert.
+- Hypothesen und offene Produktfragen dürfen anhand synthetischer Beispiele
+  untersucht werden. Annahmen werden kurz kenntlich gemacht. Rechtlich
+  verbindliche Fachregeln werden daraus nicht abgeleitet.
+- Die vorhandenen Schutzfunktionen bleiben wirksam: Development-Grenze,
+  Anmeldung und Rollen, CSRF, ETags, Paket-/Pfadprüfung, Ressourcenlimits,
+  inhaltsfreier Audit, Temp-Bereinigung und sichtbare Wirkungslosigkeit.
+  Ein konkreter Fehler in diesen Grenzen wird behoben, nicht für den Test
+  abgeschaltet.
+- Dauerhafte Konfigurationsdefaults bleiben `false`. Im nächsten
+  Prototypauftrag ist die zeitlich begrenzte Aktivierung von
+  `Features:NoticeGenerationEnabled` und ihren vorhandenen abhängigen
+  Development-Capabilities nur für den gestarteten lokalen Prozess erlaubt.
+  Die Sitzung endet mit deaktivierter Funktion.
+- Echte Verwaltungsdaten, Rechtswirkung, Zustellung, DMS-/Finanzintegration,
+  Migration und öffentlich erreichbarer Betrieb gehören nicht zu dieser
+  Freigabe. Die bestehenden Datenbank-, Secret- und Fremdbestandsschutzgrenzen
+  gelten weiter.
+
+| Bereich | Einordnung seit 07.09.2026 |
+| --- | --- |
+| Freigabe der lokalen synthetischen Entwicklung | durch den Projektleiter bestätigt; keine erneute pauschale Freigabeanforderung |
+| Bisherige technische Nachweise einschließlich Backup/Restore | bleiben datierte Nachweise; nur bei relevantem Anlass gezielt erneut prüfen |
+| Bisher offene organisatorische Betriebs- und Freigabepunkte | für den lokalen Prototypen zurückgestellt, vor Echtbetrieb wieder aufgreifen |
+| Konkrete technische Fehler oder drohender Datenverlust | betroffenen Ablauf stoppen, reproduzieren und gezielt beheben |
+| Formaler Pilot nach der früheren Gesamtmatrix / Produktivbetrieb | durch diese Prototypentscheidung nicht als vollständig bestanden erklärt |
+
+Der nächste Schritt ist der
+[lokale 6c-Prototyp-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md):
+vorhandenen Entwurf bis zum DOCX-/PDF-Download ausprobieren, konkrete Fehler
+beheben und anschließend die nächsten Bedien- oder Funktionsverbesserungen
+aus den Befunden ableiten. Ein weiteres allgemeines Freigabegate wird diesem
+Schritt nicht vorgeschaltet.
+
+Die nachfolgenden Abschnitte dokumentieren die Bewertungen bis 02.09.2026.
+Ihre pauschalen Stop- und Nachweispflichten sind für den hier beschriebenen
+Prototypumfang durch diese datierte Entscheidung ersetzt. Insbesondere muss
+die historische Aktivierungsübergabe nach vollständiger Gesamtmatrix nicht
+erstellt werden, um den neuen Prototypauftrag auszuführen.
 
 ## Zweck und Geltungsbereich
 
@@ -70,6 +139,10 @@ widersprüchlich ist, endet das Gate vollständig mit Variante A.
 | `ENV-2026-09-01-6C-PATH-01` | 01.09.2026 | lokale Pfad-, ACL-, Reparse-Point-, Schrift- und Ressourcenprüfung | Pfade auflösbar, keine Reparse Points, benötigte lateinische Schriften vorhanden | `TEILWEISE BESTÄTIGT` | aktuelles Ausführungskonto hat Vollzugriff auf Vorlage und Temp; getrenntes Dienstkonto, Verschlüsselung, Quota und belastbare kurze Pfadkonfiguration fehlen; absichtlich langer Pfad führte zu nativem LibreOffice-Abbruch |
 | `TEST-2026-09-01-6C-QUALITY-01` | 01.09.2026 | Repository- und Advisoryprüfungen | Format, Release-Build, 81 Unit-, 70 nicht-SQL-Integrationstests, 58 Frontendtests, Lint und Produktionsbuild erfolgreich; NuGet und npm melden keine bekannte Schwachstelle | `BESTÄTIGT` | SQL-Kategorie ohne separat autorisierte Testverbindung bewusst nicht ausgeführt; Advisorybefund ist zeitpunktbezogen |
 | `REP-2026-09-01-6C-READINESS-COMPLETION` | 01.09.2026 | [technischer Readiness-Abschluss](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-completion.md) | vollständige technische Nachweis-, Fehler-, Test- und Restunsicherheitsakte; Neubewertung nach Stop-Regel | `BESTÄTIGT` | technische Ausführung ist nicht fachlich, rechtlich oder betrieblich freigabebefugt |
+| `RUN-2026-09-02-6C-BACKUP-RESTORE-01` | 02.09.2026 | SQL Server über den vorgesehenen Anwendungs-/EF-Pfad, technische Prüfung | neues kollisionsfreies `COPY_ONLY`-Vollbackup mit Checksum, `RESTORE VERIFYONLY`, Restore ausschließlich nach `Cemaris_Dev_RestoreCheck_20260902`, `DBCC CHECKDB`, Migrations-/Struktur-/Aggregatparität und anschließende Entfernung nur dieses Ziels; Sicherung bleibt erhalten | `BESTÄTIGT` | technischer Zeitpunktnachweis, keine SQL-Test-, Datenbankbetriebs-, Aufbewahrungs- oder RPO/RTO-Freigabe |
+| `ENV-2026-09-02-6C-OPS-01` | 02.09.2026 | lokale Installation, Pfade, ACLs, Ressourcen und Dienste, technische Prüfung | LibreOffice-Version/Signatur/Starter, Schriften, kurze Pfade, reale synthetische Ausgabe und Rückfall erneut bestätigt | `TEILWEISE BESTÄTIGT` | interaktive Identität mit Vollzugriff auf Vorlage/Temp; Dienstkonto, Least Privilege, Verschlüsselung, Quota, externes Monitoring und Alarmierung fehlen |
+| `TEST-2026-09-02-6C-QUALITY-01` | 02.09.2026 | Repository-, Build-, Test- und Advisorywerkzeuge | Release-Build 0/0, 81 Unit-, 70 nicht-SQL-Integrationstests, 58 Frontendtests, Lint/Build sowie NuGet/npm ohne bekannte Schwachstelle | `BESTÄTIGT` | SQL-Kategorie und aktivierte Browserabnahme bewusst nicht ausgeführt |
+| `REP-2026-09-02-6C-OPS-COMPLETION` | 02.09.2026 | [Betriebsremediations-Abschluss](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md) | vollständige technische Nachweis-, Zwischenfehler-, Test-, Restunsicherheits- und Variantenakte | `BESTÄTIGT` | technische Ausführung ersetzt keine zuständige Fach-, Rechts-, Datenschutz-, Betriebs- oder Sicherheitsfreigabe |
 
 ## Dokumentation der interaktiven Antwort
 
@@ -178,7 +251,7 @@ ist kein messbarer Abnahme- oder Fehlerfreiheitsnachweis.
 | --- | --- | --- | --- |
 | Pilotziel | `TEILWEISE BESTÄTIGT` | Umgebung, Stop-Regel, technischer Rückfall und Abbruchkommunikation sind gebunden | keine gemeinsame tatsächliche Pilotabnahme durch Projektleiter und spätere Sachbearbeitungsfunktion |
 | Daten | `TEILWEISE BESTÄTIGT` | ausschließlich synthetische Fall-, Personen-, Kontakt-, Satzungs-, Vorlagen- und Gebührenwerte wurden versioniert zusammengestellt und verwendet | keine getrennte Entscheidung der zuständigen Fach- und Datenschutzfunktionen |
-| Datenbank | `TEILWEISE BESTÄTIGT` | `Cemaris_Dev`, Verbindung, neun angewandte Migrationen, jüngste 6c-Migration und null ausstehende Migrationen read-only bestätigt | Sicherungskatalog enthält weder Vollbackup noch Restore; Restore-Test und Datenbankbetriebsfreigabe fehlen |
+| Datenbank | `TEILWEISE BESTÄTIGT` | `Cemaris_Dev`, neun Migrationen, neues Vollbackup mit Verify, Restore auf das bestätigte Ziel, `CHECKDB`, Parität und Zielbereinigung bestätigt | allgemeine Datenbankbetriebsfreigabe, Aufbewahrungsregel und RPO/RTO-Entscheidung fehlen |
 | Serverpfade | `TEILWEISE BESTÄTIGT` | konkrete Pfade, Auflösung, ACLs und Reparse-Point-Freiheit geprüft | Vorlage für Ausführungsidentität nicht read-only; Dienstkonto, Verschlüsselung und Quota offen; langer Pfad bricht LibreOffice ab |
 | Vorlage | `TEILWEISE BESTÄTIGT` | hashgebundene 23-Token-Fixture unverändert und real erfolgreich verwendet | Inhalts-, Rechts-/Satzungs-, Aktualitäts- und Vorlagenfreigabe fehlen |
 | LibreOffice | `TEILWEISE BESTÄTIGT` | Version, Signatur, Starter, benötigte Schriften und reale Konvertierung bestätigt | vertrauenswürdige Installerherkunft/Updatekette, Wartungsweg und getrenntes Dienstkonto fehlen; kurze Pfadgrenze nicht betrieblich festgelegt |
@@ -206,12 +279,13 @@ Datenschutz-, Betriebs- und Informationssicherheitsfunktionen.
 
 ## Variantenentscheidung
 
-**Variante A – Stop ist nach der technischen Readiness erneut ausgewählt.**
-Der tatsächliche Datenbankname und vollständige 6b-/6c-Migrationsstand sind
-jetzt read-only bestätigt. Der Sicherungskatalog enthält jedoch weder ein
-Vollbackup noch einen Restore; der Datenbankpunkt bleibt deshalb insgesamt nur
-teilweise bestätigt. Monitoring bleibt offen, mehrere weitere Pflichtnachweise
-sind ebenfalls nur teilweise bestätigt. Die
+**Variante A – Stop ist nach der Betriebsremediation erneut ausgewählt.** Der
+tatsächliche Datenbankname, vollständige 6b-/6c-Migrationsstand und ein neues
+verifiziertes Vollbackup mit erfolgreichem Restore-/Integritätsnachweis sind
+jetzt bestätigt. Der Datenbankpunkt bleibt ohne allgemeine Betriebs-,
+Aufbewahrungs- und RPO/RTO-Freigabe insgesamt nur teilweise bestätigt.
+Monitoring bleibt offen, mehrere weitere Pflichtnachweise sind ebenfalls nur
+teilweise bestätigt. Die
 pauschal übermittelte Abstimmung mit Fach- und Datenschutzverantwortlichen
 ersetzt weder deren abgegrenzte Nachweise noch Rechts-/Satzungs-, Finanz-,
 Sicherheits-, Betriebs- und Datenbankbetriebsfreigaben. Nach der Stop-Regel
@@ -258,14 +332,12 @@ Stop-Entscheidung als Aktivierungserlaubnis umdeuten noch echte
 Verwaltungsdaten, Rechtswirkung, Zustellung, Archivierung, Integration oder
 Migration einführen.
 
-## Vorbereiteter Betriebsremediations-Folgeauftrag
+## Ausgeführter Betriebsremediations-Folgeauftrag
 
-Die interaktive Quelle `USR-2026-09-02-6C-RESTORE-01` schließt nur die zuvor
-fehlende Zielautorisierung. Backup, Verify, Restore, Integritätsprüfung und
-Bereinigung sind noch nicht ausgeführt. Der
-[getrennte Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md)
-beginnt deshalb weiterhin mit Variante A und ausgeschalteter Capability. Er
-darf das neue Vollbackup erzeugen und ausschließlich das bestätigte, zu Beginn
-nachweislich nicht vorhandene Restore-Prüfziel temporär anlegen und wieder
-entfernen. Jeder andere offene Pflichtpunkt trägt die Stop-Entscheidung
-weiterhin selbständig.
+Die interaktive Quelle `USR-2026-09-02-6C-RESTORE-01` wurde im
+[getrennten Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md)
+vollständig innerhalb ihrer technischen Grenze ausgeführt. Backup, Verify,
+Restore, Integritäts-/Aggregatprüfung und Bereinigung sind bestätigt; das
+Prüfziel ist abwesend und die Sicherung bleibt erhalten. Jeder andere offene
+oder teilweise bestätigte Pflichtpunkt trägt die Stop-Entscheidung weiterhin
+selbständig.

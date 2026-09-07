@@ -1,5 +1,12 @@
 # Authentifizierung, Autorisierung und Auditierung
 
+Aktualisierung 07.09.2026: Die
+[Prototypentscheidung](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
+stellt formale Auditbetriebs- und Freigaberegeln für lokale synthetische
+Entwicklung zurück. Bestehende Anmeldung, Rollen, CSRF, ETag und inhaltsfreier
+Audit werden im Prototypen weiterhin geprüft. Die früheren Stop-Befunde sind
+für diesen Umfang keine zusätzliche Voraussetzung.
+
 > **Status:** Lokale Konten, Cookie-Sitzung, CSRF und die erste Rollenmatrix
 > sind implementiert. LDAP-Import, Betriebsparameter und Produktivfreigaben bleiben offen. Details
 > und Quelle stehen in den
@@ -109,6 +116,12 @@ bestätigt die Audit-Whitelist und das Schreiben vor Ausgabe erneut durch
 automatisierte und reale synthetische Läufe; sie entscheidet aber weder
 Betreiberzugriff noch Integritätsverfahren, Aufbewahrung oder Löschung.
 Variante A und die ausgeschaltete Capability bleiben deshalb unverändert.
+Die getrennte
+[Betriebsremediation](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md)
+bestätigt den technischen Backup-/Restore-Nachweis, aber keine dedizierte
+Dienstidentität, kein Least-Privilege-Betriebsmodell und keine Regeln für
+Auditbetreiberzugriff, Integrität, Aufbewahrung oder Löschung. Der Befund und
+Variante A bleiben daher bestehen.
 
 Für die spätere 6c-Erzeugung werden am lokalen Konto getrennte optionale
 Kontaktfelder für Vorname, Nachname, Kontaktstelle, Zimmer, Telefon und E-Mail

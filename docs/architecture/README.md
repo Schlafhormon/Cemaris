@@ -1,5 +1,13 @@
 # Technische Zielarchitektur
 
+Aktualisierung 07.09.2026: Die
+[Prototypentscheidung](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
+erlaubt lokale synthetische Tests ohne die früheren pauschalen Betriebs- und
+Freigabehürden. Der nächste
+[6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md)
+nutzt die vorhandene Architektur; ADR-0019 und die technischen Schutzgrenzen
+bleiben bestehen. Frühere Stop-Aussagen gelten für ihren historischen Auftrag.
+
 > **Status:** Technische Grundlage. Die genannten Produktbereiche sind eine zu validierende Produktvision und noch keine verbindlichen Fachanforderungen.
 
 Cemaris wird zunächst als browserbasierter modularer Monolith für den On-Premises-Betrieb aufgebaut. Die Architektur hält Fachlogik, Anwendungsfälle, technische Adapter und HTTP/UI voneinander getrennt, ohne die Betriebs- und Entwicklungsaufwände einer Microservice-Landschaft vorwegzunehmen.
@@ -248,11 +256,10 @@ Die Architektur wurde nur innerhalb ihres bestehenden Vertrags korrigiert:
 Ein Temp-Anlagefehler gibt den PDF-Parallelitätsslot nun sicher frei, und das
 OpenXML-Ergebnis trägt genau eine sichtbare Kennzeichnung als rechtlich
 wirkungsloser Entwurf. ADR-0019 bleibt unverändert; ein neues ADR war nicht
-erforderlich. Vollbackup/Restore, Monitoring, gehärtete Installationsgrenzen
-und zuständige Freigaben fehlen weiterhin. Variante A, Capability und
-Aktivierungsauftrag bleiben aus.
-Der nächste getrennte
-[Betriebsremediations-Folgeauftrag](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-next-step-handoff.md)
-schließt zuerst den ausdrücklich autorisierten Backup-/Restore-Nachweis und
-bewertet anschließend dieselben Architekturgrenzen neu. Er führt keine neue
-Architektur, systemweite Härtungsänderung oder Aktivierung ein.
+erforderlich. Die getrennte
+[Betriebsremediation und erneute Pilotneubewertung](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md)
+hat den ausdrücklich autorisierten Backup-/Restore-Nachweis technisch
+geschlossen. Monitoring, gehärtete Installationsgrenzen, Auditbetriebsregeln
+und zuständige Freigaben waren offen oder teilweise bestätigt. Deshalb blieb
+es damals bei Variante A und ausgeschalteter Capability. Die Ausführung führte
+keine neue Architektur, systemweite Härtungsänderung oder Aktivierung ein.

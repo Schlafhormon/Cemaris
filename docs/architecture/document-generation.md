@@ -1,5 +1,13 @@
 # Konzept für Dokumente und Bescheide
 
+Aktuell seit 07.09.2026: Für die lokale synthetische Erprobung gilt die
+[Prototypentscheidung](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp).
+Die vorhandene Erzeugung darf im
+[Praxistest](../implementation/cemaris-notice-generation-prototype-trial-next-step-handoff.md)
+prozesslokal aktiviert werden. Die nachfolgenden Stop-Befunde sind historisch;
+sie blockieren diesen Prototypumfang nicht. Produktivdefaults und ADR-0019
+werden dadurch nicht geändert.
+
 > **Status:** Genau ein technischer Development-Kandidat ist gemäß
 > [6c-Abschluss](../implementation/cemaris-increment-6c-completion.md) Ende zu
 > Ende implementiert, standardmäßig deaktiviert und nicht produktiv
@@ -14,8 +22,10 @@
 > ist am 31.08.2026 vollständig mit Variante A „Stop“ abgeschlossen;
 > die
 > [technische Readiness-Neubewertung](../implementation/cemaris-notice-generation-synthetic-pilot-readiness-completion.md)
-> endet am 01.09.2026 erneut mit Variante A. Capability und
-> Aktivierungsauftrag bleiben aus.
+> endet am 01.09.2026 erneut mit Variante A. Auch die getrennte
+> [Betriebsremediation](../implementation/cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md)
+> endet am 02.09.2026 nach erfolgreichem Backup-/Restore-Nachweis mit Variante
+> A. Capability und Aktivierungsauftrag bleiben aus.
 
 ## Ergebnis des Entscheidungsgates 6a
 
@@ -144,10 +154,11 @@ read-only sowie LibreOffice `26.8.0.3`, Schriften, reale synthetische
 Konvertierung, A4/Textselektion, visuellen Vergleich, Druck-zu-Datei und
 Temp-/Prozessbereinigung bestätigt. Sie korrigiert innerhalb von ADR-0019
 minimal einen verlorenen Parallelitätsslot und ergänzt genau eine sichtbare
-Kennzeichnung als rechtlich wirkungsloser Entwurf. Vollbackup/Restore,
-Installer-/Wartungsweg, gehärtete Rechte und Pfade, Monitoring,
-Auditaufbewahrung/-löschung sowie zuständige Freigaben fehlen weiterhin und
-tragen Variante A.
+Kennzeichnung als rechtlich wirkungsloser Entwurf. Die nachgelagerte
+Betriebsremediation schließt den Vollbackup-/Restore-Nachweis. Installer-/
+Wartungsweg, gehärtete Rechte und Pfade, Monitoring,
+Auditaufbewahrung/-löschung sowie zuständige Freigaben fehlen weiterhin oder
+sind nur teilweise bestätigt und tragen Variante A.
 
 ## Sicherheits- und Datenschutzleitplanken
 
