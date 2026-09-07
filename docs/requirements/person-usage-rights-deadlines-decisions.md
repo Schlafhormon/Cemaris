@@ -1,6 +1,16 @@
 # Produktentscheidungen zu Personen, Nutzungsrechten, Fristen und Wiedervorlagen
 
-Stand: 24.08.2026
+Stand: 07.09.2026
+
+Aktuelle Ergänzung: Die
+[Produktentscheidungen zu manuellen fallbezogenen Wiedervorlagen](manual-case-follow-ups-decisions.md)
+konkretisieren einen neuen begrenzten Prototypumfang: gemeinsamer Arbeitsvorrat
+ohne Benutzerzuweisung, manuelles Datum und historisierte Zustände offen,
+erledigt und abgebrochen einschließlich Wiederöffnung. Die
+[Umsetzungsübergabe](../implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
+ist vorbereitet, noch nicht ausgeführt. Die nachfolgenden 5a-/5b-/5c-/5f-/5g-
+Bewertungen bleiben historische Nachweise. Ihre offenen Frist- und
+Nutzungsrechtslebenszyklusregeln werden dadurch nicht automatisch entschieden.
 
 ## Zweck und Entscheidungsstatus
 

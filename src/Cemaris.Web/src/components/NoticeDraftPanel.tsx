@@ -6,6 +6,7 @@ import {
   discardNoticeDraft,
   generateNoticeDraft,
   getLegalBasisVersions,
+  getBurialProcessMasterData,
   getParty,
   getNoticeDraft,
   getNoticeDrafts,
@@ -13,7 +14,8 @@ import {
 } from '../api/cemarisApi'
 import type { NoticeDraft, NoticeDraftListItem } from '../types/noticeDrafts'
 import type { LegalBasisVersion, NoticeGenerationFormat } from '../types/noticeDrafts'
-import type { BurialDetails } from '../types/cases'
+import type { BurialDetails, DeceasedDetails } from '../types/cases'
+import type { GraveSite } from '../types/cemeteries'
 import type { Party, Versioned } from '../types/personUsageRights'
 import { FormErrorSummary } from './FormErrorSummary'
 import { PartySearchAndDetails } from './PartyManagement'
@@ -23,10 +25,11 @@ interface NoticeDraftPanelProps {
   caseId: string
   graveSiteId?: string
   burials?: BurialDetails[]
+  deceasedPersons?: DeceasedDetails[]
   noticeGenerationEnabled?: boolean
 }
 
-export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], noticeGenerationEnabled = false }: NoticeDraftPanelProps) {
+export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPersons = [], noticeGenerationEnabled = false }: NoticeDraftPanelProps) {
   const [drafts, setDrafts] = useState<NoticeDraftListItem[]>()
   const [selected, setSelected] = useState<Versioned<NoticeDraft> | null>(null)
   const [payer, setPayer] = useState<Versioned<Party> | null>()
@@ -128,7 +131,7 @@ export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], noticeGene
                 : <div className="notice-draft-list">{drafts.map((draft) => <article className={`notice-draft-card${selected?.value.id === draft.id ? ' notice-draft-card--selected' : ''}`} key={draft.id}><div><strong>{draft.noticeNumber}</strong><span>{draft.payerDisplayNameSnapshot} · {formatAmount(draft.totalAmount, draft.currency)}</span><small>{formatDate(draft.noticeDate)} · Version {draft.version}</small></div><div><span className={`status-chip${draft.status === 'Draft' ? ' status-chip--active' : ''}`}>{draft.status === 'Draft' ? 'Entwurf' : 'Verworfen'}</span><button className="button" type="button" onClick={() => void selectDraft(draft.id)}>Öffnen</button></div></article>)}</div>}
           </section>
 
-          {selected && <DraftDetails draft={selected} payer={payer} burials={burials} noticeGenerationEnabled={noticeGenerationEnabled} onChanged={updateDraft} onError={showError} onSuccess={showSuccess} />}
+          {selected && <DraftDetails draft={selected} payer={payer} burials={burials} deceasedPersons={deceasedPersons} noticeGenerationEnabled={noticeGenerationEnabled} onChanged={updateDraft} onError={showError} onSuccess={showSuccess} />}
         </div>
 
         <aside className="usage-right-sidebar notice-draft-sidebar" aria-labelledby="payer-selection-heading">
@@ -174,10 +177,11 @@ function DraftCreateForm({ caseId, payer, onCreated, onError }: {
   </form>
 }
 
-function DraftDetails({ draft, payer, burials, noticeGenerationEnabled, onChanged, onError, onSuccess }: {
+function DraftDetails({ draft, payer, burials, deceasedPersons, noticeGenerationEnabled, onChanged, onError, onSuccess }: {
   draft: Versioned<NoticeDraft>
   payer: Versioned<Party> | null | undefined
   burials: BurialDetails[]
+  deceasedPersons: DeceasedDetails[]
   noticeGenerationEnabled: boolean
   onChanged: (value: Versioned<NoticeDraft>, success: string) => void
   onError: (error: unknown) => void
@@ -197,19 +201,33 @@ function DraftDetails({ draft, payer, burials, noticeGenerationEnabled, onChange
       <details className="action-disclosure"><summary>Fakten korrigieren <span aria-hidden="true">＋</span></summary><DraftCorrectionForm draft={draft} payer={payer} onChanged={onChanged} onError={onError} /></details>
       <details className="action-disclosure"><summary>Entwurf verwerfen <span aria-hidden="true">＋</span></summary><DraftDiscardForm draft={draft} onChanged={onChanged} onError={onError} /></details>
     </div>}
-    {value.status === 'Draft' && noticeGenerationEnabled && <NoticeGenerationForm draft={draft} burials={burials} onError={onError} onSuccess={onSuccess} />}
+    {value.status === 'Draft' && noticeGenerationEnabled && <NoticeGenerationForm key={value.id} draft={draft} burials={burials} deceasedPersons={deceasedPersons} onError={onError} onSuccess={onSuccess} />}
     <details className="history-disclosure"><summary>Vollständige Fachrevisionen <span>{value.revisions.length}</span></summary><ol className="revision-list">{value.revisions.map((revision) => <li key={revision.id}><strong>Version {revision.resultingVersion} · {revision.mutationType}</strong><span>{revision.reason ?? 'Anlage'} · {revision.actorDisplayName} · {formatDateTime(revision.occurredAtUtc)}</span><small>{revision.payerDisplayNameSnapshot} · {formatAmount(revision.totalAmount, revision.currency)} · {revision.status === 'Draft' ? 'Entwurf' : 'Verworfen'}</small></li>)}</ol></details>
   </section>
 }
 
-function NoticeGenerationForm({ draft, burials, onError, onSuccess }: { draft: Versioned<NoticeDraft>; burials: BurialDetails[]; onError: (error: unknown) => void; onSuccess: (message: string) => void }) {
+function NoticeGenerationForm({ draft, burials, deceasedPersons, onError, onSuccess }: { draft: Versioned<NoticeDraft>; burials: BurialDetails[]; deceasedPersons: DeceasedDetails[]; onError: (error: unknown) => void; onSuccess: (message: string) => void }) {
   const [legalBases, setLegalBases] = useState<LegalBasisVersion[]>([])
+  const [graveSites, setGraveSites] = useState<GraveSite[]>([])
+  const [graveLoading, setGraveLoading] = useState(true)
+  const [graveError, setGraveError] = useState(false)
   const [burialId, setBurialId] = useState('')
   const [legalBasisVersionId, setLegalBasisVersionId] = useState('')
   const [format, setFormat] = useState<NoticeGenerationFormat>('Docx')
   const [working, setWorking] = useState(false)
   const reportError = useEffectEvent(onError)
   const eligibleBurials = burials.filter(item => item.burialDate && item.deceasedPersonId && item.graveSiteId)
+
+  const burialOptions = describeBurials(eligibleBurials, deceasedPersons, graveSites)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    getBurialProcessMasterData(controller.signal)
+      .then(data => { if (!controller.signal.aborted) setGraveSites(data.graveSites) })
+      .catch(() => { if (!controller.signal.aborted) setGraveError(true) })
+      .finally(() => { if (!controller.signal.aborted) setGraveLoading(false) })
+    return () => controller.abort()
+  }, [])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -237,14 +255,37 @@ function NoticeGenerationForm({ draft, burials, onError, onSuccess }: { draft: V
     <h4 id="generation-heading">Dokument flüchtig erzeugen</h4>
     <p className="selection-notice"><strong>Rechtlich wirkungsloser Entwurf.</strong> Keine Freigabe, Signatur, Zustellung oder Archivierung. Cemaris berechnet weder Gebühren noch Rechtsgrundlagen oder Fälligkeiten.</p>
     <div className="compact-form-grid">
-      <label>Beisetzung<select required value={burialId} onChange={event => setBurialId(event.target.value)}><option value="">Bitte wählen</option>{eligibleBurials.map(item => <option value={item.id} key={item.id}>{formatDate(item.burialDate!)} · {item.id}</option>)}</select></label>
+      <label className="field--wide">Beisetzung<select required value={burialId} onChange={event => setBurialId(event.target.value)}><option value="">Bitte wählen</option>{burialOptions.map(item => <option value={item.id} key={item.id}>{item.label}</option>)}</select></label>
       <label>Satzungsversion<select required value={legalBasisVersionId} onChange={event => setLegalBasisVersionId(event.target.value)}><option value="">Bitte wählen</option>{legalBases.map(item => <option value={item.id} key={item.id}>{item.name} · {formatDate(item.versionDate)}</option>)}</select></label>
       <label>Format<select value={format} onChange={event => setFormat(event.target.value as NoticeGenerationFormat)}><option value="Docx">DOCX</option><option value="Pdf">PDF</option></select></label>
     </div>
+    {graveLoading && <p role="status">Grabbezeichnungen werden geladen … Die Beisetzung kann bereits ausgewählt werden.</p>}
+    {graveError && <p className="missing-value" role="alert">Die Grabbezeichnungen konnten nicht geladen werden. Die Beisetzungen bleiben mit ihren Grabstellen-IDs auswählbar; eine bestehende Auswahl bleibt erhalten.</p>}
+    {burialId && <p className="selection-notice">Ausgewählte Beisetzung: {burialOptions.find(item => item.id === burialId)?.label}</p>}
     {eligibleBurials.length === 0 && <p className="missing-value">Keine vollständig verknüpfte tatsächliche Beisetzung auswählbar.</p>}
     {legalBases.length === 0 && <p className="missing-value">Keine aktive Satzungsversion auswählbar.</p>}
     <button className="button button--primary" type="submit" disabled={working || eligibleBurials.length === 0 || legalBases.length === 0}>{working ? 'Entwurf wird erzeugt …' : 'Rechtlich wirkungslosen Entwurf herunterladen'}</button>
   </form>
+}
+
+// Anzeige ausschließlich aus den Referenzen der jeweiligen Beisetzung; keine Fallgrabableitung.
+function describeBurials(burials: BurialDetails[], persons: DeceasedDetails[], sites: GraveSite[]) {
+  const personsById = new Map(persons.map(person => [person.id, person]))
+  const sitesById = new Map(sites.map(site => [site.id, site]))
+  const options = burials.map(burial => {
+    const person = personsById.get(burial.deceasedPersonId!)
+    const site = sitesById.get(burial.graveSiteId!)
+    const name = person
+      ? [person.firstName?.trim(), person.lastName?.trim()].filter(Boolean).join(' ') || 'Name nicht angegeben'
+      : `Person nicht aufgelöst (${burial.deceasedPersonId})`
+    const grave = site
+      ? [site.cemeteryName?.trim() || 'Friedhof nicht angegeben', site.areaName?.trim(), site.fieldName?.trim(), site.rowName?.trim(), site.graveNumber?.trim() || 'Grabnummer nicht angegeben'].filter(Boolean).join(' / ')
+      : `Grabstelle nicht aufgelöst (${burial.graveSiteId})`
+    return { id: burial.id, label: `${formatDate(burial.burialDate!)} · ${name} · ${grave}` }
+  })
+  const counts = new Map<string, number>()
+  for (const option of options) counts.set(option.label, (counts.get(option.label) ?? 0) + 1)
+  return options.map(option => ({ ...option, label: counts.get(option.label)! > 1 ? `${option.label} · Beisetzungs-ID: ${option.id}` : option.label }))
 }
 
 function DraftCorrectionForm({ draft, payer, onChanged, onError }: {

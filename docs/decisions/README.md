@@ -5,9 +5,14 @@ Aktualisierung 07.09.2026: Die
 ändert die Freigabepolitik für lokale synthetische Entwicklung, nicht die
 technische Architektur. ADR-0019 bleibt unverändert; kein neues ADR ist
 nötig. Der [6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-completion.md)
-ist ausgeführt. Nächster Auftrag ist die
-[verständliche Beisetzungsauswahl](../implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md)
-innerhalb der bestehenden Architektur.
+ist ausgeführt. Die [verständliche Beisetzungsauswahl](../implementation/cemaris-notice-generation-burial-selection-completion.md)
+ist innerhalb der bestehenden Architektur umgesetzt und mit zwei
+synthetischen Beisetzungen bis zum echten PDF geprüft.
+Der [Folgeauftrag für manuelle Wiedervorlagen](../implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
+verwendet diese Schutzmuster für einen eigenen kanonischen Kern. Die dazu
+[bestätigten Produktantworten](../requirements/manual-case-follow-ups-decisions.md)
+sind dokumentiert; eine Architekturergänzung gehört zur noch ausstehenden
+Implementierung und ändert die historischen ADRs nicht rückwirkend.
 
 Architecture Decision Records (ADRs) dokumentieren wesentliche technische und projektweite Entscheidungen samt Kontext und Folgen. Sie werden nicht nachträglich umgeschrieben, um eine andere Vergangenheit darzustellen; Änderungen erfolgen durch ein neues ADR, das die frühere Entscheidung ersetzt.
 

@@ -201,7 +201,7 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProc
       )}
 
       <div className="detail-sections">
-        {noticeDraftEditingEnabled && <NoticeDraftPanel caseId={caseOverview.id} graveSiteId={personUsageRightsEditingEnabled ? caseOverview.grave.graveSiteId ?? undefined : undefined} burials={caseOverview.burials} noticeGenerationEnabled={noticeGenerationEnabled} />}
+        {noticeDraftEditingEnabled && <NoticeDraftPanel key={caseOverview.id} caseId={caseOverview.id} graveSiteId={personUsageRightsEditingEnabled ? caseOverview.grave.graveSiteId ?? undefined : undefined} burials={caseOverview.burials} deceasedPersons={caseOverview.deceasedPersons} noticeGenerationEnabled={noticeGenerationEnabled} />}
         {personUsageRightsEditingEnabled && caseOverview.grave.graveSiteId && <PersonUsageRightsPanel graveSiteId={caseOverview.grave.graveSiteId} />}
         <section className="detail-section">
           <h2>Grabstelle</h2>

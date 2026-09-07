@@ -8,8 +8,13 @@ hebt die pauschalen Freigabehürden für diesen Umfang auf. Der
 ist einschließlich isoliertem Playwright-Browserdurchlauf, echtem
 LibreOffice-PDF und korrigierten Formular-/Ladefehlermeldungen abgeschlossen.
 Die Anmeldung mit einem persistenten lokalen Konto bleibt unbestätigt.
-Nächster ausführbarer Auftrag:
-[Beisetzungsauswahl mit Personenname und Grabbezug](docs/implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md).
+Die [Beisetzungsauswahl mit Personenname und Grabbezug](docs/implementation/cemaris-notice-generation-burial-selection-completion.md)
+ist ebenfalls umgesetzt und mit zwei synthetischen Beisetzungen bis DOCX und
+echtem LibreOffice-PDF im isolierten Browser geprüft.
+Der [Arbeitsplan zur ersten alltagstauglichen Version](docs/implementation/cemaris-first-operational-version-roadmap.md)
+ordnet den weiteren Ausbau. Nächster ausführbarer Auftrag sind
+[manuelle fallbezogene Wiedervorlagen](docs/implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
+mit gemeinsamem Arbeitsvorrat und den Zuständen offen, erledigt und abgebrochen.
 Die folgenden Gateabschlüsse beschreiben frühere Bewertungen; deren
 allgemeine Stop-Regel blockiert diesen Prototypauftrag nicht.
 

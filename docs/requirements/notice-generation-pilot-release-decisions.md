@@ -72,11 +72,16 @@ LibreOffice-PDF, eine reproduzierte Bedienkorrektur und erfolgreiche Tests.
 Der isolierte Playwright-Browserdurchlauf wurde am selben Tag erfolgreich
 nachgeholt; falsche Fehlermeldungen bei abgebrochenen Ladeanfragen wurden
 regressionsgesichert behoben. Die Anmeldung mit einem persistenten lokalen
-Konto bleibt unbestätigt. Als nächster Verbesserungsschritt ist eine
-Beisetzungsauswahl mit Personenname und Grabbezug in einer
-[eigenständigen Umsetzungsübergabe](../implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md)
-vorbereitet. Ein weiteres allgemeines Freigabegate wird diesem Schritt nicht
-vorgeschaltet.
+Konto bleibt unbestätigt. Die anschließende
+[Beisetzungsauswahl mit Personenname und Grabbezug](../implementation/cemaris-notice-generation-burial-selection-completion.md)
+ist am selben Tag implementiert und mit zwei synthetischen Beisetzungen
+bis DOCX und echtem LibreOffice-PDF im isolierten Browser geprüft. Ein weiteres
+allgemeines Freigabegate war für diesen Schritt nicht erforderlich.
+Die nächste [Implementierungsübergabe](../implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
+begrenzt den manuellen Wiedervorlagenkern anhand
+[neu eingeholter Produktantworten](manual-case-follow-ups-decisions.md). Die
+Dokumenterzeugung bleibt dabei deaktiviert; der Auftrag erweitert weder
+Rechtswirkung noch Frist-, Gebühren- oder Migrationsfreigaben.
 
 Die nachfolgenden Abschnitte dokumentieren die Bewertungen bis 02.09.2026.
 Ihre pauschalen Stop- und Nachweispflichten sind für den hier beschriebenen

@@ -1,7 +1,9 @@
-import { render, screen, within } from '@testing-library/react'
+import { act, render, screen, waitFor, within } from '@testing-library/react'
 import { StrictMode } from 'react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import type { BurialDetails, DeceasedDetails } from '../types/cases'
+import type { CemeteryMasterData, GraveSite } from '../types/cemeteries'
 import { NoticeDraftPanel } from './NoticeDraftPanel'
 
 const caseId = '60000000-0000-0000-0000-000000000001'
@@ -19,6 +21,7 @@ describe('NoticeDraftPanel', () => {
       const path = String(input)
       if (path.endsWith(`/api/cases/${caseId}/notice-drafts`)) return json([listItem()])
       if (path.endsWith(`/api/notice-drafts/${draftId}`)) return json(draft(), 200, { ETag: '"1"' })
+      if (path.endsWith('/api/burial-process/master-data')) return json(masterData())
       if (path.includes('/api/master-data/legal-basis-versions')) return json([{ id: graveSiteId, name: 'Synthetische Browser-Satzung', versionDate: '2026-01-01', isActive: true, version: 1 }])
       throw new Error(`Unerwarteter Testaufruf: ${path}`)
     }))
@@ -202,6 +205,7 @@ describe('NoticeDraftPanel', () => {
       const path = String(input)
       if (path.endsWith(`/api/cases/${caseId}/notice-drafts`)) return json([listItem()])
       if (path.endsWith(`/api/notice-drafts/${draftId}`) && !path.endsWith('/generate')) return json(draft(), 200, { ETag: '"1"' })
+      if (path.endsWith('/api/burial-process/master-data')) return json(masterData())
       if (path.includes('/api/master-data/legal-basis-versions?activeOnly=true')) return json([{ id: '60000000-0000-0000-0000-000000000020', name: 'Synthetische Satzung', versionDate: '2026-01-01', isActive: true, version: 2, createdAtUtc: '2026-01-01T00:00:00Z', updatedAtUtc: '2026-01-01T00:00:00Z' }])
       if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf-generation' })
       if (path.endsWith(`/api/notice-drafts/${draftId}/generate`)) {
@@ -212,17 +216,19 @@ describe('NoticeDraftPanel', () => {
       throw new Error(`Unerwarteter Testaufruf: ${path}`)
     }))
     const user = userEvent.setup()
-    render(<NoticeDraftPanel caseId={caseId} noticeGenerationEnabled burials={[{ id: '60000000-0000-0000-0000-000000000030', deceasedPersonId: '60000000-0000-0000-0000-000000000031', burialDate: '2026-08-20', graveSiteId, status: 'Performed', planningDate: null }]} />)
+    render(<NoticeDraftPanel caseId={caseId} noticeGenerationEnabled burials={burials} deceasedPersons={deceasedPersons} />)
     await user.click(await screen.findByRole('button', { name: 'Öffnen' }))
     expect(await screen.findByText(/Keine Freigabe, Signatur, Zustellung oder Archivierung/)).toBeInTheDocument()
-    await user.selectOptions(screen.getByLabelText('Beisetzung'), '60000000-0000-0000-0000-000000000030')
+    expect(await screen.findByRole('option', { name: '20.8.2026 · Emil Synthetik · Testfriedhof / Feld A / SYN-001' })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: '20.8.2026 · Ida Synthetik · Testfriedhof / Bereich B / Feld B / Reihe 2 / SYN-002' })).toBeInTheDocument()
+    await user.selectOptions(screen.getByLabelText('Beisetzung'), '60000000-0000-0000-0000-000000000032')
     await user.selectOptions(screen.getByLabelText('Satzungsversion'), '60000000-0000-0000-0000-000000000020')
     await user.selectOptions(screen.getByLabelText('Format'), 'Pdf')
     await user.click(screen.getByRole('button', { name: 'Rechtlich wirkungslosen Entwurf herunterladen' }))
     expect(await screen.findByText(/Zum Drucken öffnen Sie die lokale Datei bewusst/)).toBeInTheDocument()
     expect(generationHeaders?.get('If-Match')).toBe('"1"')
     expect(generationHeaders?.get('X-Cemaris-CSRF')).toBe('csrf')
-    expect(generationBody).toEqual({ burialId: '60000000-0000-0000-0000-000000000030', legalBasisVersionId: '60000000-0000-0000-0000-000000000020', format: 'Pdf' })
+    expect(generationBody).toEqual({ burialId: '60000000-0000-0000-0000-000000000032', legalBasisVersionId: '60000000-0000-0000-0000-000000000020', format: 'Pdf' })
     expect(createObjectURL).toHaveBeenCalledOnce()
     expect(revokeObjectURL).toHaveBeenCalledWith('blob:synthetischer-entwurf')
     expect(screen.queryByText(/Empfängeranrede/i)).not.toBeInTheDocument()
@@ -243,6 +249,7 @@ describe('NoticeDraftPanel', () => {
       const path = String(input)
       if (path.endsWith(`/api/cases/${caseId}/notice-drafts`)) return json([listItem()])
       if (path.endsWith(`/api/notice-drafts/${draftId}`) && !path.endsWith('/generate')) return json(draft(), 200, { ETag: '"1"' })
+      if (path.endsWith('/api/burial-process/master-data')) return json(masterData())
       if (path.includes('/api/master-data/legal-basis-versions?activeOnly=true')) return json([{ id: '60000000-0000-0000-0000-000000000020', name: 'Synthetische Satzung', versionDate: '2026-01-01', isActive: true, version: 2, createdAtUtc: '2026-01-01T00:00:00Z', updatedAtUtc: '2026-01-01T00:00:00Z' }])
       if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf-generation-errors' })
       if (path.endsWith(`/api/notice-drafts/${draftId}/generate`)) {
@@ -264,7 +271,108 @@ describe('NoticeDraftPanel', () => {
     }
     expect(createObjectURL).not.toHaveBeenCalled()
   })
+
+  it('kennzeichnet fehlende Namen und Referenzen, lässt leere Grabebenen weg und unterscheidet nur identische Beschriftungen durch IDs', async () => {
+    const examples = [
+      burials[0], { ...burials[0], id: 'gleich' }, burials[1],
+      { ...burials[0], id: 'ohne-name', deceasedPersonId: 'namenlos' },
+      { ...burials[0], id: 'unaufgeloest', deceasedPersonId: 'fehlende-person', graveSiteId: 'fehlendes-grab' },
+      { ...burials[0], id: 'teilname', deceasedPersonId: 'teilname', graveSiteId: 'direktes-grab' },
+      { ...burials[0], id: 'ohne-datum', burialDate: null },
+      { ...burials[0], id: 'ohne-person', deceasedPersonId: null },
+      { ...burials[0], id: 'ohne-grab', graveSiteId: null },
+    ]
+    const data = masterData()
+    data.graveSites.push({ ...grave('direktes-grab', 'SYN-003'), fieldName: ' ', areaName: null, rowName: '' })
+    generationFetch(() => Promise.resolve(json(data)))
+    render(<NoticeDraftPanel caseId={caseId} noticeGenerationEnabled burials={examples} deceasedPersons={[
+      ...deceasedPersons,
+      { id: 'namenlos', firstName: ' ', lastName: null, birthDate: null, deathDate: null },
+      { id: 'teilname', firstName: null, lastName: ' Einzelname ', birthDate: null, deathDate: null },
+    ]} />)
+    await userEvent.setup().click(await screen.findByRole('button', { name: 'Öffnen' }))
+    const options = within(screen.getByLabelText('Beisetzung'))
+    expect(await options.findByRole('option', { name: `20.8.2026 · Emil Synthetik · Testfriedhof / Feld A / SYN-001 · Beisetzungs-ID: ${burials[0].id}` })).toBeInTheDocument()
+    expect(options.getByRole('option', { name: /Beisetzungs-ID: gleich$/ })).toHaveValue('gleich')
+    expect(options.getByRole('option', { name: '20.8.2026 · Ida Synthetik · Testfriedhof / Bereich B / Feld B / Reihe 2 / SYN-002' })).toHaveValue(burials[1].id)
+    expect(options.getByRole('option', { name: /Name nicht angegeben/ })).toHaveValue('ohne-name')
+    expect(options.getByRole('option', { name: '20.8.2026 · Person nicht aufgelöst (fehlende-person) · Grabstelle nicht aufgelöst (fehlendes-grab)' })).toHaveValue('unaufgeloest')
+    expect(options.getByRole('option', { name: '20.8.2026 · Einzelname · Testfriedhof / SYN-003' })).toHaveValue('teilname')
+    expect(options.getAllByRole('option')).toHaveLength(7)
+    expect(screen.getByLabelText('Beisetzung')).toHaveValue('')
+    expect(screen.getByLabelText('Beisetzung')).toBeRequired()
+  })
+
+  it('erhält eine manuelle Auswahl beim echten Stammdatenfehler und führt keinen Abruf je Option aus', async () => {
+    let finish!: (value: Response) => void
+    const read = vi.fn(() => new Promise<Response>(resolve => { finish = resolve }))
+    generationFetch(read)
+    const user = userEvent.setup()
+    render(<NoticeDraftPanel caseId={caseId} noticeGenerationEnabled burials={burials} deceasedPersons={deceasedPersons} />)
+    await user.click(await screen.findByRole('button', { name: 'Öffnen' }))
+    expect(await screen.findByText(/Grabbezeichnungen werden geladen/)).toBeInTheDocument()
+    await user.selectOptions(screen.getByLabelText('Beisetzung'), burials[1].id)
+    await act(async () => finish(json({ title: 'Stammdaten nicht verfügbar' }, 503)))
+    expect(await screen.findByRole('alert')).toHaveTextContent('Die Grabbezeichnungen konnten nicht geladen werden.')
+    expect(screen.getByLabelText('Beisetzung')).toHaveValue(burials[1].id)
+    expect(screen.getByRole('option', { name: /Ida Synthetik · Grabstelle nicht aufgelöst \(grave-2\)/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Rechtlich wirkungslosen Entwurf herunterladen' })).toBeEnabled()
+    expect(read).toHaveBeenCalledOnce()
+  })
+
+  it('behält beim erfolgreichen Nachladen die gewählte Beisetzungs-ID', async () => {
+    let finish!: (value: Response) => void
+    generationFetch(() => new Promise<Response>(resolve => { finish = resolve }))
+    const user = userEvent.setup()
+    render(<NoticeDraftPanel caseId={caseId} noticeGenerationEnabled burials={burials} deceasedPersons={deceasedPersons} />)
+    await user.click(await screen.findByRole('button', { name: 'Öffnen' }))
+    await user.selectOptions(screen.getByLabelText('Beisetzung'), burials[1].id)
+    await act(async () => finish(json(masterData())))
+    expect(screen.getByLabelText('Beisetzung')).toHaveValue(burials[1].id)
+    expect(screen.getByRole('option', { name: /Ida Synthetik · Testfriedhof/ })).toBeInTheDocument()
+    expect(screen.queryByText(/Grabbezeichnungen werden geladen/)).not.toBeInTheDocument()
+  })
+
+  it('bricht den Stammdatenabruf beim Deaktivieren ab und ignoriert auch verspätete erfolgreiche Antworten', async () => {
+    const pending: { signal: AbortSignal; finish: (value: Response) => void }[] = []
+    generationFetch(signal => new Promise<Response>(finish => pending.push({ signal: signal!, finish })))
+    const user = userEvent.setup()
+    const props = { caseId, burials, deceasedPersons }
+    const view = render(<NoticeDraftPanel {...props} noticeGenerationEnabled />)
+    await user.click(await screen.findByRole('button', { name: 'Öffnen' }))
+    await waitFor(() => expect(pending).toHaveLength(1))
+    view.rerender(<NoticeDraftPanel {...props} />)
+    expect(pending[0].signal.aborted).toBe(true)
+    expect(screen.queryByLabelText('Beisetzung')).not.toBeInTheDocument()
+    view.rerender(<NoticeDraftPanel {...props} noticeGenerationEnabled />)
+    await waitFor(() => expect(pending).toHaveLength(2))
+    await act(async () => pending[1].finish(json(masterData())))
+    await act(async () => pending[0].finish(json({ ...masterData(), graveSites: [] })))
+    expect(screen.getByRole('option', { name: /Ida Synthetik · Testfriedhof/ })).toBeInTheDocument()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  it('ruft bei ausgeschalteter Capability keine Beschriftungsdaten ab und zeigt keine Erzeugung', async () => {
+    const read = vi.fn(() => Promise.resolve(json(masterData())))
+    generationFetch(read)
+    render(<NoticeDraftPanel caseId={caseId} burials={burials} deceasedPersons={deceasedPersons} />)
+    await userEvent.setup().click(await screen.findByRole('button', { name: 'Öffnen' }))
+    expect(screen.getByText('Entwurf · Version 1')).toBeInTheDocument()
+    expect(screen.queryByLabelText('Beisetzung')).not.toBeInTheDocument()
+    expect(read).not.toHaveBeenCalled()
+  })
 })
+
+function generationFetch(read: (signal?: AbortSignal | null) => Promise<Response>) {
+  vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+    const path = String(input)
+    if (path.endsWith(`/api/cases/${caseId}/notice-drafts`)) return json([listItem()])
+    if (path.endsWith(`/api/notice-drafts/${draftId}`)) return json(draft(), 200, { ETag: '"1"' })
+    if (path.endsWith('/api/burial-process/master-data')) return read(init?.signal)
+    if (path.includes('/api/master-data/legal-basis-versions')) return json([{ id: 'satzung', name: 'Synthetische Satzung', versionDate: '2026-01-01', isActive: true, version: 1 }])
+    throw new Error(`Unerwarteter Testaufruf: ${path}`)
+  }))
+}
 
 function draft() {
   return {
@@ -287,4 +395,22 @@ function json(value: unknown, status = 200, headers: Record<string, string> = {}
   return status === 204
     ? new Response(null, { status, headers })
     : new Response(JSON.stringify(value), { status, headers: { 'Content-Type': 'application/json', ...headers } })
+}
+
+const burials: BurialDetails[] = [
+  { id: '60000000-0000-0000-0000-000000000030', deceasedPersonId: 'person-1', burialDate: '2026-08-20', graveSiteId, status: 'Performed', planningDate: null },
+  { id: '60000000-0000-0000-0000-000000000032', deceasedPersonId: 'person-2', burialDate: '2026-08-20', graveSiteId: 'grave-2', status: 'Completed', planningDate: null },
+]
+const deceasedPersons: DeceasedDetails[] = [
+  { id: 'person-2', firstName: ' Ida ', lastName: ' Synthetik ', birthDate: null, deathDate: null },
+  { id: 'person-1', firstName: ' Emil ', lastName: ' Synthetik ', birthDate: null, deathDate: null },
+]
+function grave(id: string, graveNumber: string): GraveSite {
+  return { id, cemeteryId: 'cemetery', areaId: null, fieldId: 'field', rowId: null, graveTypeId: 'type', graveNumber, status: 'Occupied', isBlocked: true, blockNote: null, targetCapacity: null, note: null, isActive: false, version: 1, cemeteryName: ' Testfriedhof ', areaName: null, fieldName: ' Feld A ', rowName: null, graveTypeName: 'Testgrab' }
+}
+function masterData(): CemeteryMasterData {
+  return { cemeteries: [], areas: [], fields: [], rows: [], graveTypes: [], cemeteryGraveTypes: [], graveSites: [
+    { ...grave('grave-2', 'SYN-002'), areaName: 'Bereich B', fieldName: 'Feld B', rowName: 'Reihe 2' },
+    grave(graveSiteId, 'SYN-001'),
+  ] }
 }

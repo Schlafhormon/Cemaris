@@ -2,9 +2,12 @@
 
 Stand: 07.09.2026
 
-Status: **Vorbereitet, noch nicht implementiert.** Diese Übergabe ist der
-ausführbare Folgeauftrag für einen neuen Chat ohne Gesprächskontext. Die
-Vorbereitung selbst ändert keinen Produktcode und startet keine Anwendung.
+Status: **Am 07.09.2026 ausgeführt.** Der
+[Abschlussnachweis](cemaris-notice-generation-burial-selection-completion.md)
+dokumentiert Implementierung, Regressionstests, den isolierten Browserlauf
+mit zwei Beisetzungen bis DOCX und echtem LibreOffice-PDF sowie Bereinigung
+und Grenzen. Die folgende Übergabe bleibt als ursprünglicher Auftrag erhalten;
+sie ist kein erneut offener Umsetzungsschritt.
 
 ## Auftrag und Ausgangspunkt
 

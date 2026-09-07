@@ -5,10 +5,16 @@ Prototypentwicklung mit synthetischen Daten freigegeben. Die
 [datierte Entscheidung](notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
 ersetzt dafür die früheren pauschalen Freigabehürden. Der
 [6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-completion.md)
-ist einschließlich isoliertem Browsercheck technisch ausgeführt. Der Abschluss
-grenzt die unbestätigte Anmeldung mit einem persistenten Konto ab und benennt
-die [verständlichere Beisetzungsauswahl](../implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md)
-als nächsten ausführbaren Verbesserungsschritt.
+ist einschließlich isoliertem Browsercheck technisch ausgeführt. Auch die
+[verständlichere Beisetzungsauswahl](../implementation/cemaris-notice-generation-burial-selection-completion.md)
+ist umgesetzt und mit zwei synthetischen Beisetzungen bis DOCX und echtem PDF
+geprüft. Die Anmeldung mit einem persistenten Konto bleibt unbestätigt.
+Für den nächsten Ausbau sind die
+[Produktentscheidungen zu manuellen Wiedervorlagen](manual-case-follow-ups-decisions.md)
+bestätigt: gemeinsamer Arbeitsvorrat, Fallbezug und historisierte Zustände
+offen, erledigt und abgebrochen. Die
+[Umsetzungsübergabe](../implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
+ist vorbereitet; die Funktion selbst ist noch nicht implementiert.
 Offene Regeln bleiben als solche erkennbar; formale Echtbetriebsanforderungen
 blockieren diese Entwicklung nicht.
 

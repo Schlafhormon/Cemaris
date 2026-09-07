@@ -10,10 +10,15 @@ LibreOffice-PDF bestätigt; Formularreset und falsche Ladefehlermeldungen korrig
 Die [Projektentscheidung vom 07.09.2026](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
 erlaubt lokale synthetische Entwicklung ohne erneute pauschale Freigabegates.
 Die Anmeldung mit einem persistenten lokalen Konto bleibt unbestätigt.
-Nächster ausführbarer Auftrag ist die
-[verständliche Beisetzungsauswahl mit Personenname und Grabbezug](cemaris-notice-generation-burial-selection-next-step-handoff.md).
-Die eigenständige Übergabe enthält Datenquellen, Anzeigegrenzen, Arbeitsdateien,
-Test-/Browserverfahren und Bereinigung für einen neuen Chat ohne Vorkontext.
+Die [verständliche Beisetzungsauswahl mit Personenname und Grabbezug](cemaris-notice-generation-burial-selection-completion.md)
+ist umgesetzt: Referenzzuordnung, fehlende Angaben und identische Beschriftungen
+sind regressionsgesichert; der isolierte Browserlauf mit zwei Beisetzungen
+prüft die manuelle Auswahl bis DOCX und echtem LibreOffice-PDF.
+Die [Roadmap zur ersten alltagstauglichen Version](cemaris-first-operational-version-roadmap.md)
+ordnet die verbleibenden Arbeitsabläufe. Der nächste ausführbare Auftrag ist
+der [manuelle Wiedervorlagenkern](cemaris-manual-case-follow-ups-next-step-handoff.md):
+gemeinsamer Arbeitsvorrat ohne Benutzerzuweisung, fallbezogene Einträge und
+historisierte Bearbeitung einschließlich Erledigen, Abbrechen und Wiederöffnen.
 Frühere Variante-A-Abschlüsse bleiben als Historie
 erhalten; sie blockieren diesen Umfang nicht.
 
@@ -210,6 +215,7 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 6c | rechtlich wirkungslosen Gebührenbescheidentwurf erzeugen | [technisch Ende zu Ende umgesetzt](cemaris-increment-6c-completion.md): Benutzerkontakte, Satzungsversionen, sichere OpenXML-DOCX-/LibreOffice-PDF-Erzeugung, Temp-Bereinigung, inhaltsfreier Audit, API/OpenAPI und React-UI; Readiness korrigiert minimal einen verlorenen Parallelitätsslot und die fehlende sichtbare Entwurfskennzeichnung | Development-only, standardmäßig aus; keine Rechtswirkung, Zustellung, Archivierung, Integration oder Migration |
 | 6c-Pilot-Readiness | Betriebs- und Pilotfreigabe technisch prüfen und neu bewerten | [vollständig ausgeführt](cemaris-notice-generation-synthetic-pilot-readiness-completion.md): `Cemaris_Dev` und 6b-/6c-Schema read-only bestätigt; reale synthetische LibreOffice-/Druck-zu-Datei-Ausgabe, Fehler-/Timeout-/Abbruchbereinigung und Qualitätsmatrix erfolgreich | erneut Variante A „Stop“: kein Vollbackup/Restore, Monitoring, gehärtete Installationsgrenzen oder zuständige Freigaben; keine Aktivierung, kein Aktivierungsauftrag |
 | 6c-Betriebsremediation | Backup/Restore schließen und verbliebene Pilotnachweise neu bewerten | [vollständig ausgeführt](cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md): datiertes `COPY_ONLY`-Vollbackup mit Checksum, Verify, Restore ausschließlich auf `Cemaris_Dev_RestoreCheck_20260902`, inhaltsfreie Prüfung und Entfernung nur dieses Ziels | endet mit Variante A und ausgeschalteter Capability; offene Betriebs-/Freigabepunkte, keine systemweite Härtungsänderung, SQL-Testdatenbank oder Aktivierung |
+| M1 | Manuelle fallbezogene Wiedervorlagen | [Umsetzungsübergabe vorbereitet](cemaris-manual-case-follow-ups-next-step-handoff.md): gemeinsamer Arbeitsvorrat, eigene Historie und Zustände offen, erledigt und abgebrochen; noch nicht implementiert | begrenzte Produktantworten bestätigt; keine Fristautomatik, Rechtswirkung oder Anwendung neuer Schemaartefakte auf bestehende Datenbanken |
 | 6c+ | weiterer Gebührenausbau und Dokumente | nur nach getrennten vollständigen Entscheidungs- und Freigabegates | Gebühren-/Satzungsberechnung, weitere Dokumentarten, Rechtswirkung, Versand, Korrektur, Datenschutz, Betrieb und Migration |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | übriges EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme jenseits des vorgezogenen Friedhofsstammdatenpfads | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
@@ -221,7 +227,12 @@ Sicherheits-, Datenschutz-, Betriebs- und Fachgates erfüllt sind.
 
 ## Nächster Umsetzungsschritt
 
-Aktuell folgt die oben beschriebene Verbesserung der Beisetzungsauswahl. Die folgende
+Die Beisetzungsauswahl ist abgeschlossen. Die
+[Wiedervorlagenübergabe](cemaris-manual-case-follow-ups-next-step-handoff.md)
+beschreibt den nächsten vollständigen Umsetzungsschnitt und nimmt die kleine
+Korrektur des missverständlichen Bescheidpanel-Textes als Begleitaufgabe auf.
+Der [Produktvertrag](../requirements/manual-case-follow-ups-decisions.md)
+enthält die dazu bereits eingeholten Antworten. Die folgende
 Entwicklungshistorie begründet den vorhandenen Funktionsumfang; bereits
 ausgeführte 6a-/6b-/6c- und Backup-/Restore-Aufträge nicht wiederholen.
 

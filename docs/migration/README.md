@@ -3,12 +3,17 @@
 Aktualisierung 07.09.2026: Der
 [freigegebene lokale Prototyppfad](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
 hat den [6c-Praxistest](../implementation/cemaris-notice-generation-prototype-trial-completion.md)
-einschließlich isoliertem Browserlauf abgeschlossen. Als Nächstes folgt die
-[verständliche Beisetzungsauswahl](../implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md).
-Dieser UI-Schnitt benötigt weder einen erneuten Restore noch eine Migration. Cemaris_Dev
+einschließlich isoliertem Browserlauf abgeschlossen. Die
+[verständliche Beisetzungsauswahl](../implementation/cemaris-notice-generation-burial-selection-completion.md)
+ist ebenfalls umgesetzt und isoliert bis zum echten PDF geprüft.
+Dieser UI-Schnitt erfolgte ohne Restore oder Migration. Cemaris_Dev
 bleibt vor destruktiven Operationen und Testfixtures geschützt; EDWALT wird
 nicht ausgeführt. Die folgenden früheren Pilot-Stop-Befunde blockieren diesen
 synthetischen Prototypumfang nicht.
+Der nächste [Wiedervorlagenauftrag](../implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
+erlaubt neue additive EF-Schemaartefakte für seinen eigenen Kern, jedoch
+keine Anwendung auf bestehende Datenbanken, SQL-Testausführung oder
+EDWALT-Datenübernahme. Ein echter SQL-Nachweis bleibt gesondert auszuweisen.
 
 > **Status:** Die Migration fachlich relevanter EDWALT-Daten nach Cemaris ist
 > bestätigtes Projektziel. Auch historische Fälle sind einzubeziehen; maßgeblich
