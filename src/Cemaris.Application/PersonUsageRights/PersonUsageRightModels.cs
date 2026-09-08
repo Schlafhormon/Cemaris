@@ -1,4 +1,5 @@
 using Cemaris.Domain.Parties;
+using Cemaris.Domain.UsageRights;
 
 namespace Cemaris.Application.PersonUsageRights;
 
@@ -21,13 +22,24 @@ public sealed record TransferUsageRightCommand(Guid NewHolderPartyId, DateOnly V
 public sealed record ExtendUsageRightCommand(DateOnly NewEndDate, string? Reason);
 public sealed record CorrectUsageRightCommand(Guid GraveSiteId, DateOnly StartDate, DateOnly EndDate, string? SourceReference, Guid UsageRightStartRuleId, string? Reason);
 public sealed record UsageRightHolderPeriodView(Guid Id, Guid PartyId, DateOnly ValidFromInclusive, DateOnly? ValidUntilExclusive);
-public sealed record UsageRightRevisionView(Guid Id, long ResultingVersion, string MutationType, string? Reason, DateTimeOffset OccurredAtUtc, string ActorDisplayName, Guid GraveSiteId, DateOnly StartDate, DateOnly EndDate, string SourceReference, Guid UsageRightStartRuleId, string StartRuleCodeSnapshot, string StartRuleDisplayNameSnapshot, IReadOnlyList<UsageRightHolderPeriodView> HolderPeriods);
-public sealed record UsageRightView(Guid Id, Guid GraveSiteId, DateOnly StartDate, DateOnly EndDate, string SourceReference, Guid UsageRightStartRuleId, string StartRuleCodeSnapshot, string StartRuleDisplayNameSnapshot, long Version, IReadOnlyList<UsageRightHolderPeriodView> HolderPeriods, IReadOnlyList<UsageRightRevisionView> Revisions);
+public sealed record UsageRightRevisionView(Guid Id, long ResultingVersion, string MutationType, string? Reason, DateTimeOffset OccurredAtUtc, string ActorDisplayName, Guid GraveSiteId, DateOnly StartDate, DateOnly EndDate, string SourceReference, Guid UsageRightStartRuleId, string StartRuleCodeSnapshot, string StartRuleDisplayNameSnapshot, IReadOnlyList<UsageRightHolderPeriodView> HolderPeriods, UsageRightStatus Status = UsageRightStatus.Open, Guid? PredecessorId = null, UsageRightTerminationView? Termination = null, Guid? OperationId = null, bool? ManualGrantReviewConfirmed = null);
+public sealed record UsageRightView(Guid Id, Guid GraveSiteId, DateOnly StartDate, DateOnly EndDate, string SourceReference, Guid UsageRightStartRuleId, string StartRuleCodeSnapshot, string StartRuleDisplayNameSnapshot, long Version, IReadOnlyList<UsageRightHolderPeriodView> HolderPeriods, IReadOnlyList<UsageRightRevisionView> Revisions, UsageRightStatus Status = UsageRightStatus.Open, Guid? PredecessorId = null, UsageRightTerminationView? Termination = null, Guid? OperationId = null, bool? ManualGrantReviewConfirmed = null);
 
 public sealed record SaveUsageRightStartRuleCommand(Guid CemeteryId, string? Code, string? DisplayName, string? Reason = null);
 public sealed record UsageRightStartRuleRevisionView(Guid Id, long ResultingVersion, string MutationType, string? Reason, DateTimeOffset OccurredAtUtc, string ActorDisplayName, string Code, string DisplayName);
 public sealed record UsageRightStartRuleView(Guid Id, Guid CemeteryId, string Code, string DisplayName, long Version, IReadOnlyList<UsageRightStartRuleRevisionView> Revisions);
 
 public enum PersonUsageRightMutationOutcome { Success, NotFound, VersionConflict, Duplicate, InvalidReference, PossibleDuplicate }
-public sealed record PersonUsageRightMutationResult(PersonUsageRightMutationOutcome Outcome, Guid Id, long Version = 0, IReadOnlyList<PossiblePartyDuplicate>? DuplicateCandidates = null);
-public sealed record PersonUsageRightAudit(Guid Id, string EntityType, Guid EntityId, long ResultingVersion, string Operation, DateTimeOffset OccurredAtUtc, Identity.ActorIdentity Actor);
+public sealed record PersonUsageRightMutationResult(PersonUsageRightMutationOutcome Outcome, Guid Id, long Version = 0, IReadOnlyList<PossiblePartyDuplicate>? DuplicateCandidates = null, UsageRightView? Right = null);
+public sealed record PersonUsageRightAudit(Guid Id, string EntityType, Guid EntityId, long ResultingVersion, string Operation, DateTimeOffset OccurredAtUtc, Identity.ActorIdentity Actor, Guid? OperationId = null);
+
+public sealed record UsageRightTerminationView(DateOnly TerminationDate, UsageRightTerminationKind Kind, string Reason, string SourceReference, bool ManualReviewConfirmed);
+public sealed record TerminateUsageRightCommand(DateOnly TerminationDate, UsageRightTerminationKind Kind, string? Reason, string? SourceReference, bool ManualReviewConfirmed);
+public sealed record ReverseUsageRightTerminationCommand(string? Reason);
+public sealed record CreateUsageRightSuccessorCommand(Guid HolderPartyId, DateOnly StartDate, DateOnly EndDate, string? SourceReference, string? Reason, bool ManualReviewConfirmed);
+public sealed record UsageRightExpectedVersion(Guid Id, long Version);
+public sealed record CorrectUsageRightSequenceCommand(string? Reason, bool ConfirmSequenceCorrection, IReadOnlyList<UsageRightExpectedVersion> Members);
+public sealed record UsageRightListItem(Guid Id, Guid GraveSiteId, DateOnly StartDate, DateOnly EndDate, UsageRightStatus Status, Guid? PredecessorId, long Version);
+public sealed record UsageRightPage(IReadOnlyList<UsageRightListItem> Items, int TotalMatches, int Page, int PageSize, int TotalPages);
+public sealed record UsageRightLifecycleChange(Guid Id, long ExpectedVersion, string Operation, string Reason, PersonUsageRightAudit Audit,
+    TerminateUsageRightCommand? Termination = null, CreateUsageRightSuccessorCommand? Successor = null, CorrectUsageRightSequenceCommand? Correction = null);

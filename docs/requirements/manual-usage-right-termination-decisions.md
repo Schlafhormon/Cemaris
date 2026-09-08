@@ -2,7 +2,10 @@
 
 Stand: 08.09.2026
 
-Status: **Alle fünf Produktentscheidungen bestätigt; bereit zur Implementierung.**
+Status: **Alle fünf Produktentscheidungen bestätigt und am 08.09.2026 umgesetzt.**
+[Abschluss und Nachweise](../implementation/cemaris-manual-usage-right-termination-completion.md)
+sowie [ADR-0021](../decisions/ADR-0021-manual-usage-right-lifecycle.md)
+beschreiben den geprüften Implementierungsstand. Die Capability bleibt aus.
 Die Projektverantwortung hat die Vorbereitung des nächsten kontextlosen
 Implementierungsauftrags verlangt und alle fünf konkreten Fragen beantwortet.
 Die [technische Übergabe](../implementation/cemaris-manual-usage-right-termination-next-step-handoff.md)
@@ -181,3 +184,32 @@ und nullable Altprojektionen bleiben unberührt. Keine E-Mail, Dokumentausgabe,
 automatische Wiedervergabe, Entschädigung, Gebührenrückzahlung oder Löschung.
 Ob eine Grabstelle tatsächlich wieder belegbar ist, bleibt ausdrücklich eine
 getrennte, in M2a nicht berechnete Frage.
+
+## Umgesetzter technischer Vertrag vom 08.09.2026
+
+Die vier ausdrücklich ausgelösten POST-Operationen liegen unter
+`/api/usage-rights/{id}`: `terminations`, `termination-reversals`, `successors`
+und `sequence-corrections`. Sachbearbeitung und Administration benötigen eine
+gültige Cookie-Sitzung, CSRF und einen starken aktuellen `If-Match`.
+Fehlender ETag ergibt 428, ungültiger oder schwacher 400, veralteter 412;
+fehlende Referenzen ergeben 404, unzulässige Zustände 409.
+
+`Features:UsageRightLifecycleEnabled` ist standardmäßig aus, nur in Development
+zulässig und benötigt die vorhandene Beteiligten-/Rechte-Capability. Bereits
+gespeicherte Zustände bleiben über deren Lesepfade sichtbar; die Zustandsgrenzen
+der alten Schreibwege gelten unabhängig vom neuen Schalter.
+
+Die Neuvergabe speichert ihre eigene Prüfbestätigung als
+`ManualGrantReviewConfirmed` in aktuellem Stand und Revision. Bestandsrechte
+bekommen keine erfundene Prüfbestätigung. Auch der Vorgänger erhält bei Neuvergabe
+eine neue Version und einen Nachweis mit derselben Vorgangskennung. Dadurch
+kann sein alter ETag weder eine konkurrierende Neuvergabe noch Rücknahme zulassen.
+
+Der Verlauf unter `/api/grave-sites/{id}/usage-rights/history` sortiert nach
+Beginn und Rechte-ID absteigend, SQL-kompatibel auch im Synthetic-Provider.
+Seitengröße ist 1 bis 50, die Oberfläche nutzt 10. Nur die Auswahl lädt die
+vollständige Detailhistorie. Die serverermittelte Vorschau unter
+`/api/usage-rights/{id}/sequence` enthält Identitäten, Zustände und Versionen.
+Bestätigte Mitglieder müssen exakt mit der beim Schreiben erneut ermittelten
+Folge übereinstimmen. Nach einem Konflikt ist eine neue Vorschau mit erneuter
+Bestätigung erforderlich; die eingegebene Begründung bleibt erhalten.

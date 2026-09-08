@@ -56,7 +56,16 @@ export interface HolderPeriod {
   validUntilExclusive: string | null
 }
 
+export type UsageRightStatus = 'Open' | 'Ended' | 'Voided'
+export interface UsageRightTermination { terminationDate: string; kind: 'Returned' | 'Other'; reason: string; sourceReference: string; manualReviewConfirmed: boolean }
+export interface UsageRightListItem { id: string; graveSiteId: string; startDate: string; endDate: string; status: UsageRightStatus; predecessorId: string | null; version: number }
+export interface UsageRightPage { items: UsageRightListItem[]; totalMatches: number; page: number; pageSize: number; totalPages: number }
 export interface UsageRightRevision {
+  manualGrantReviewConfirmed?: boolean | null
+  status?: UsageRightStatus
+  termination?: UsageRightTermination | null
+  predecessorId?: string | null
+  operationId?: string | null
   id: string
   resultingVersion: number
   mutationType: string
@@ -72,6 +81,11 @@ export interface UsageRightRevision {
 }
 
 export interface UsageRight {
+  manualGrantReviewConfirmed?: boolean | null
+  status?: UsageRightStatus
+  termination?: UsageRightTermination | null
+  predecessorId?: string | null
+  operationId?: string | null
   id: string
   graveSiteId: string
   startDate: string

@@ -118,6 +118,9 @@ public sealed class PartyDirectoryServiceTests
         public Task<PersonUsageRightMutationResult> CorrectPartyAsync(Guid id, long expected, CorrectPartyCommand command, PersonUsageRightAudit audit, DateOnly today, CancellationToken token) => throw new NotSupportedException();
         public Task<PersonUsageRightMutationResult> AddPartyAddressAsync(Guid id, long expected, AddPartyAddressCommand command, Guid addressId, PersonUsageRightAudit audit, DateOnly today, CancellationToken token) => throw new NotSupportedException();
         public Task<PersonUsageRightMutationResult> CorrectPartyAddressAsync(Guid id, Guid addressId, long expected, CorrectPartyAddressCommand command, PersonUsageRightAudit audit, DateOnly today, CancellationToken token) => throw new NotSupportedException();
+        public Task<UsageRightPage> ReadUsageRightsAsync(Guid graveSiteId, int page, int pageSize, CancellationToken token) => throw new NotSupportedException();
+        public Task<IReadOnlyList<UsageRightListItem>?> ReadUsageRightSequenceAsync(Guid id, CancellationToken token) => throw new NotSupportedException();
+        public Task<PersonUsageRightMutationResult> ChangeLifecycleAsync(UsageRightLifecycleChange change, CancellationToken token) => throw new NotSupportedException();
         public Task<UsageRightView?> FindUsageRightAsync(Guid id, CancellationToken token) => throw new NotSupportedException();
         public Task<UsageRightView?> FindUsageRightByGraveSiteAsync(Guid id, CancellationToken token) => throw new NotSupportedException();
         public Task<PersonUsageRightMutationResult> CreateUsageRightAsync(Guid id, CreateUsageRightCommand command, Guid holderId, PersonUsageRightAudit audit, CancellationToken token) => throw new NotSupportedException();

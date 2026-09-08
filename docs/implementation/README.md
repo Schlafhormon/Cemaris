@@ -1,5 +1,12 @@
 # Cemaris-Implementierungsplan
 
+Nächster Auftrag seit 08.09.2026: [M3a-Übergabe](cemaris-manual-notice-line-items-next-step-handoff.md)
+für manuelle Gebührenpositionen, exakte Summen und vollständige DOCX-/PDF-Ausgabe.
+Die [Produktantworten](../requirements/manual-notice-line-items-decisions.md) sind
+bestätigt; Umsetzung und neue Nachweise stehen aus. M2a ist technisch
+abgeschlossen und bereinigt. Frühere „nächste Schritte“ in den folgenden
+historischen Inkrementbeschreibungen sind keine erneuten Arbeitsaufträge.
+
 Stand: 08.09.2026
 
 ## Aktueller Schwerpunkt
@@ -24,11 +31,14 @@ Browserlauf mit zwei Cookie-Sitzungen sind bestanden. Der danach ausdrücklich
 beauftragte [SQL-Nachweis](cemaris-manual-case-follow-ups-sql-verification.md)
 ist ebenfalls bestanden: Migration auf entbehrlichen Testdatenbanken,
 Parallelrennen, Rollback und Persistenz nach Anwendungshostwechsel.
-Die nächste [M2a-Übergabe](cemaris-manual-usage-right-termination-next-step-handoff.md)
-bereitet Beendigung, Rücknahme, manuelle Neuvergabe und gemeinsame Korrektur
-bestehender Rechtefolgen vor. Alle fünf
+Die [M2a-Übergabe](cemaris-manual-usage-right-termination-next-step-handoff.md)
+ist gemäß [Abschluss](cemaris-manual-usage-right-termination-completion.md) umgesetzt:
+Beendigung, Rücknahme, manuelle Neuvergabe und gemeinsame Korrektur bestehender
+Rechtefolgen mit auswählbarer Historie. Der Abschluss enthält die für diesen
+Stand neu ausgeführten Regressionen, isolierten SQL- und Browsernachweise.
+Die neue Capability bleibt aus. Die fünf bestätigten
 [Produktentscheidungen](../requirements/manual-usage-right-termination-decisions.md)
-sind bestätigt; der Schnitt ist bereit zur Implementierung im Folgechat.
+sind der umgesetzte Vertrag.
 Frühere Variante-A-Abschlüsse bleiben als Historie
 erhalten; sie blockieren diesen Umfang nicht.
 
@@ -226,7 +236,7 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 6c-Pilot-Readiness | Betriebs- und Pilotfreigabe technisch prüfen und neu bewerten | [vollständig ausgeführt](cemaris-notice-generation-synthetic-pilot-readiness-completion.md): `Cemaris_Dev` und 6b-/6c-Schema read-only bestätigt; reale synthetische LibreOffice-/Druck-zu-Datei-Ausgabe, Fehler-/Timeout-/Abbruchbereinigung und Qualitätsmatrix erfolgreich | erneut Variante A „Stop“: kein Vollbackup/Restore, Monitoring, gehärtete Installationsgrenzen oder zuständige Freigaben; keine Aktivierung, kein Aktivierungsauftrag |
 | 6c-Betriebsremediation | Backup/Restore schließen und verbliebene Pilotnachweise neu bewerten | [vollständig ausgeführt](cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md): datiertes `COPY_ONLY`-Vollbackup mit Checksum, Verify, Restore ausschließlich auf `Cemaris_Dev_RestoreCheck_20260902`, inhaltsfreie Prüfung und Entfernung nur dieses Ziels | endet mit Variante A und ausgeschalteter Capability; offene Betriebs-/Freigabepunkte, keine systemweite Härtungsänderung, SQL-Testdatenbank oder Aktivierung |
 | M1 | Manuelle fallbezogene Wiedervorlagen | [technisch und synthetisch abgeschlossen](cemaris-manual-case-follow-ups-completion.md); [SQL-Folgenachweis bestanden](cemaris-manual-case-follow-ups-sql-verification.md), einschließlich zweier EF-Korrekturen | neue Capability aus; nur entbehrliche SQL-Testdatenbanken verwendet; keine Fristautomatik oder Rechtswirkung |
-| M2a | Manueller Nutzungsrechtslebenszyklus | [technische Übergabe vorbereitet](cemaris-manual-usage-right-termination-next-step-handoff.md); alle fünf Produktantworten bestätigt | Beendigung, Rücknahme, manuelle Neuvergabe und gemeinsame Folgekorrektur noch zu implementieren; keine Fristautomatik oder automatische Grabstellenwirkung |
+| M2a | Manueller Nutzungsrechtslebenszyklus | [implementiert und geprüft](cemaris-manual-usage-right-termination-completion.md); isolierter SQL- und Browsernachweis | Beendigung, Rücknahme, manuelle Neuvergabe, atomare Folgekorrektur und Rechteverlauf; Capability aus; keine Fristautomatik oder automatische Grabstellenwirkung |
 | 6c+ | weiterer Gebührenausbau und Dokumente | nur nach getrennten vollständigen Entscheidungs- und Freigabegates | Gebühren-/Satzungsberechnung, weitere Dokumentarten, Rechtswirkung, Versand, Korrektur, Datenschutz, Betrieb und Migration |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | übriges EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme jenseits des vorgezogenen Friedhofsstammdatenpfads | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
@@ -243,11 +253,14 @@ Beisetzungsauswahl und
 sind abgeschlossen, einschließlich des korrigierten Bescheidpanel-Textes.
 Der im [M1-Abschluss](cemaris-manual-case-follow-ups-completion.md) noch offene
 [SQL-Nachweis](cemaris-manual-case-follow-ups-sql-verification.md) ist nach
-ausdrücklicher Beauftragung bestanden. Nächster fachlicher Ausbau ist M2 mit
-dem [bestätigten M2a-Schnitt](cemaris-manual-usage-right-termination-next-step-handoff.md)
-einschließlich manueller Neuvergabe und gemeinsamer Folgekorrektur gemäß Roadmap.
-Der [Produktvertrag](../requirements/manual-case-follow-ups-decisions.md)
-enthält die dazu bereits eingeholten Antworten. Die folgende
+ausdrücklicher Beauftragung bestanden. Auch der
+[bestätigte M2a-Schnitt](cemaris-manual-usage-right-termination-completion.md)
+einschließlich manueller Neuvergabe und gemeinsamer Folgekorrektur ist abgeschlossen.
+Als nächster fachlicher Schritt ist anhand konkreter Alltagsbeispiele ein
+begrenzter weiterer M2- oder M3-Ablauf festzulegen; Frist- oder Gebührenregeln
+sind damit nicht vorweggenommen. Der
+[Produktvertrag M2a](../requirements/manual-usage-right-termination-decisions.md)
+enthält die umgesetzten Antworten. Die folgende
 Entwicklungshistorie begründet den vorhandenen Funktionsumfang; bereits
 ausgeführte 6a-/6b-/6c- und Backup-/Restore-Aufträge nicht wiederholen.
 

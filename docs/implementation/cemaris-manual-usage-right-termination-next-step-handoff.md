@@ -2,11 +2,20 @@
 
 Stand: 08.09.2026
 
-Status: **Produktentscheidungen M2A-01 bis M2A-05 bestätigt; bereit zur Implementierung.**
+Status: **Am 08.09.2026 technisch abgeschlossen: implementiert, geprüft und bereinigt.**
+Der [Abschluss](cemaris-manual-usage-right-termination-completion.md) dokumentiert
+die SQL-, Browser- und Regressionsnachweise sowie den tatsächlichen Endstand.
+Die zunächst blockierte Prüfwurzel wurde durch den Benutzer entfernt und ihre
+Abwesenheit anschließend geprüft. Die nachfolgenden
+Arbeitsanweisungen und der Vorbereitungsnachweis bleiben als Übergabehistorie erhalten.
 Diese Übergabe dient einem neuen kontextlosen Chat. Verbindlich sind alle fünf
 Antworten in der [Produktentscheidung](../requirements/manual-usage-right-termination-decisions.md).
 Keine erneute Produktfreigabe und kein allgemeines 5f-/5g- oder Betriebsfreigabegate.
 Nur konkrete, aus Repository und Vertrag nicht auflösbare Unklarheiten nachfragen.
+
+Der nächste Auftrag ist inzwischen als [M3a-Übergabe](cemaris-manual-notice-line-items-next-step-handoff.md)
+vorbereitet. Seine Gebührenpositionen und DOCX-/PDF-Ausgabe sind separat
+bestätigt; die folgende M2a-Übergabe ist kein erneut offener Auftrag.
 
 ## Ziel und Umfang
 

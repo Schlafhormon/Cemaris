@@ -1,5 +1,12 @@
 # Technische Zielarchitektur
 
+Nächster Schnitt (08.09.2026): Die [M3a-Übergabe](../implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
+plant geordnete manuelle Gebührenpositionen im bestehenden Entwurfsaggregat,
+vollständige Revisionssnapshots und eine sichere mehrzeilige DOCX-/PDF-Ausgabe.
+Die [Produktantworten](../requirements/manual-notice-line-items-decisions.md) sind
+bestätigt; die Architekturänderung ist noch nicht implementiert. Ein neues ADR
+ist mit der Umsetzung anzulegen; historische ADRs bleiben unverändert.
+
 Aktualisierung 08.09.2026: Die
 [Prototypentscheidung](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
 erlaubt lokale synthetische Tests ohne die früheren pauschalen Betriebs- und
@@ -20,13 +27,13 @@ Der ausdrücklich nachbeauftragte
 bestätigt Migration, Parallelrennen, atomaren Rollback und Anwendungshostwechsel
 auf temporären Testdatenbanken. Zwei EF-Korrekturen sichern den vorhandenen Vertrag.
 Er führt keine Fristberechnung oder Statuswirkung auf Fachaggregate ein.
-Für [M2a](../implementation/cemaris-manual-usage-right-termination-next-step-handoff.md)
-ist die Erweiterung des bestehenden kanonischen Nutzungsrechtskerns vorbereitet.
-Die bestätigte manuelle Neuvergabe erfordert eine kontrollierte Erweiterung des
-ungefilterten Grabstellen-Eindeutigkeitsindex und des Ein-Recht-Lesepfads.
-Alte JSON-Revisionen bleiben erhalten; Folgekorrekturen müssen mehrere Rechte
-atomar historisieren. Alle fünf Produktantworten liegen vor. Ein neues ADR
-gehört zur anschließenden Implementierung; diese ist hier noch nicht erfolgt.
+Der [M2a-Abschluss](../implementation/cemaris-manual-usage-right-termination-completion.md)
+belegt die Erweiterung des vorhandenen kanonischen Nutzungsrechtskerns.
+[ADR-0021](../decisions/ADR-0021-manual-usage-right-lifecycle.md) ergänzt Status,
+Beendigungsfakten, Vorgängerbezug, gefilterte Eindeutigkeitsindizes und die
+atomare Folgekorrektur. Der bisherige Ein-Recht-Lesepfad bleibt kompatibel;
+ein paginierter Verlauf erschließt sämtliche historischen Rechte.
+Alte JSON-Revisionen bleiben unverändert. Die Capability bleibt deaktiviert.
 
 > **Status:** Technische Grundlage. Die genannten Produktbereiche sind eine zu validierende Produktvision und noch keine verbindlichen Fachanforderungen.
 

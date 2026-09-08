@@ -27,6 +27,7 @@ function App() {
   const [personUsageRightsEditingEnabled, setPersonUsageRightsEditingEnabled] = useState<boolean>()
   const [noticeDraftEditingEnabled, setNoticeDraftEditingEnabled] = useState<boolean>()
   const [noticeGenerationEnabled, setNoticeGenerationEnabled] = useState<boolean>()
+  const [usageRightLifecycleEnabled, setUsageRightLifecycleEnabled] = useState(false)
   const [caseFollowUpsEnabled, setCaseFollowUpsEnabled] = useState(false)
   const [forbidden, setForbidden] = useState(false)
 
@@ -48,6 +49,7 @@ function App() {
       .then((information) => {
         if (controller.signal.aborted) return
         setCaseFollowUpsEnabled(information.caseFollowUpsEnabled === true)
+        setUsageRightLifecycleEnabled(information.usageRightLifecycleEnabled === true)
         setCaseEditingEnabled(information.caseEditingEnabled)
         setCemeteryMasterDataEditingEnabled(information.cemeteryMasterDataEditingEnabled)
         setBurialProcessEditingEnabled(information.burialProcessEditingEnabled)
@@ -120,6 +122,7 @@ function App() {
         personUsageRightsEditingEnabled={personUsageRightsEditingEnabled === true}
         noticeDraftEditingEnabled={noticeDraftEditingEnabled === true}
         noticeGenerationEnabled={noticeGenerationEnabled === true}
+        usageRightLifecycleEnabled={usageRightLifecycleEnabled}
         caseFollowUpsEnabled={caseFollowUpsEnabled}
       />
     )

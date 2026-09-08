@@ -20,9 +20,10 @@ describe('PersonUsageRightsPanel', () => {
     let rightLoads = 0
     const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
       const path = String(input)
+      if (path.includes('/history?')) return json({ items: [], totalMatches: 0, page: 1, pageSize: 10, totalPages: 0 })
       if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf', headerName: 'X-Cemaris-CSRF' })
       if (path.includes('/extensions')) return json({ title: 'Konflikt' }, 412)
-      if (path.includes('/grave-sites/')) rightLoads += 1
+      if (path.includes('/grave-sites/') || path.endsWith(`/usage-rights/${right.id}`)) rightLoads += 1
       return json(right, 200, { ETag: '"1"' })
     })
     vi.stubGlobal('fetch', fetchMock)
@@ -48,6 +49,7 @@ describe('PersonUsageRightsPanel', () => {
   it('ordnet Serverfehler Feldern zu, erhält Eingaben und zeigt unbekannte Felder in der Zusammenfassung', async () => {
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
       const path = String(input)
+      if (path.includes('/history?')) return json({ items: [], totalMatches: 0, page: 1, pageSize: 10, totalPages: 0 })
       if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf', headerName: 'X-Cemaris-CSRF' })
       if (path.includes('/extensions')) return json({ title: 'Die Angaben sind ungültig.', errors: { newEndDate: ['Das neue Ende muss später liegen.'], reason: ['Eine Begründung ist erforderlich.'], serverOnly: ['Unbekannter Serverhinweis.'] } }, 400)
       return json(right, 200, { ETag: '"1"' })
@@ -77,6 +79,7 @@ describe('PersonUsageRightsPanel', () => {
     let partyLoads = 0
     const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       const path = String(input)
+      if (path.includes('/history?')) return json({ items: [], totalMatches: 0, page: 1, pageSize: 10, totalPages: 0 })
       if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf', headerName: 'X-Cemaris-CSRF' })
       if (path.includes('/grave-sites/')) { rightLoads += 1; return json(right, 200, { ETag: '"1"' }) }
       if (path.includes('/api/parties?query=')) return json([{ id: partyId, partyType: 'NaturalPerson', displayName: 'Synthetik Konflikt', currentPrimaryAddress: null }])

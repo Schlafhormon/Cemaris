@@ -1,5 +1,13 @@
 # Cemaris
 
+Nächster Implementierungsschritt (08.09.2026): **M3a – manuelle
+Gebührenpositionen mit exakter Gesamtsumme und vollständiger DOCX-/PDF-Ausgabe**.
+Die [beiden Produktantworten](docs/requirements/manual-notice-line-items-decisions.md)
+sind bestätigt; die [Übergabe für einen neuen Chat](docs/implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
+enthält Arbeitsverzeichnisse, Dateien und SQL-/Browseranforderungen.
+M3a ist vorbereitet, noch nicht implementiert. Katalog und Tarifberechnung
+bleiben außerhalb dieses Schnitts.
+
 Aktuell (08.09.2026): Cemaris wird als lokaler Prototyp mit synthetischen
 Daten entwickelt und erprobt. Die
 [Projektentscheidung](docs/requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
@@ -21,12 +29,13 @@ zwei Cookie-Sitzungen ist bestanden. Der anschließend ausdrücklich beauftragte
 bestätigt Migration, Konfliktschutz, Rollback und Persistenz nach Anwendungshostwechsel
 auf entbehrlichen Testdatenbanken; zwei dabei entdeckte EF-Fehler sind behoben. Die neue Capability
 bleibt standardmäßig deaktiviert. Auch der 6c-Einleitungstext ist korrigiert.
-Der nächste Schnitt ist als
-[M2a-Übergabe zum manuellen Nutzungsrechtslebenszyklus](docs/implementation/cemaris-manual-usage-right-termination-next-step-handoff.md)
-vorbereitet. Alle fünf Produktentscheidungen sind bestätigt: Beendigung heute
-oder rückwirkend, Rücknahme, manuelle Neuvergabe und gemeinsame Korrektur
-bestehender Rechtefolgen unter Erhalt irrtümlicher Nachfolger und ihrer Historie.
-Die Implementierung dieses nächsten Schnitts steht noch aus.
+Der [manuelle Nutzungsrechtslebenszyklus M2a](docs/implementation/cemaris-manual-usage-right-termination-completion.md)
+ist durch alle Schichten umgesetzt: Beendigung heute oder rückwirkend,
+Rücknahme, manuelle Neuvergabe und atomare Korrektur bestehender Rechtefolgen.
+Irrtümliche Nachfolger und ihre Revisionen bleiben im paginierten Rechteverlauf
+auswählbar. Der Abschluss dokumentiert die neuen SQL-, Browser- und
+Regressionsnachweise. `Features:UsageRightLifecycleEnabled` bleibt deaktiviert;
+Fristautomatik und automatische Grabstellenwirkung gehören nicht zu M2a.
 Die folgenden Gateabschlüsse beschreiben frühere Bewertungen; deren
 allgemeine Stop-Regel blockiert diesen Prototypauftrag nicht.
 
@@ -539,6 +548,7 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `Features__CaseEditingEnabled` | synthetische Fallaktenbearbeitung; nur in `Development` zulässig | `false` (Standard), lokal ausdrücklich `true` |
 | `Features__CemeteryMasterDataEditingEnabled` | Friedhofsstammdatenpflege; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Features__BurialProcessEditingEnabled` | einfacher synthetischer Beisetzungsprozess; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
+| `Features__UsageRightLifecycleEnabled` | manueller M2a-Lebenszyklus; nur `Development`, benötigt `PersonUsageRightsEditingEnabled`; keine NoticeGeneration-Abhängigkeit | `false`, nur prozesslokal für isolierte Erprobung aktivieren |
 | `Features__PersonUsageRightsEditingEnabled` | synthetischer kanonischer Beteiligten-/Nutzungsrechtskern; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Features__NoticeDraftEditingEnabled` | rechtlich wirkungsloser manueller Bescheidentwurfskern; nur in `Development` zulässig | `false` (Standard), nur im ausdrücklich aktivierten synthetischen Development-Piloten `true` |
 | `Features__NoticeGenerationEnabled` | flüchtige rechtlich wirkungslose DOCX-/PDF-Erzeugung; nur in `Development` und mit allen abhängigen Capabilities zulässig | `false`; lokale synthetische Testsitzung darf prozesslokal aktivieren |

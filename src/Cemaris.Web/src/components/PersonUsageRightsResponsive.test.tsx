@@ -6,7 +6,7 @@ describe('Responsive Struktur der Nutzungsrechtsaktionen', () => {
   afterEach(() => vi.unstubAllGlobals())
 
   it('ordnet die drei Aktionen als einzelne Disclosure-Blöcke mit eigenen Formularrastern an', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify(right), { headers: { 'Content-Type': 'application/json', ETag: '"1"' } })))
+    vi.stubGlobal('fetch', vi.fn(async (input) => new Response(JSON.stringify(String(input).includes('/history?') ? { items: [], totalMatches: 0, page: 1, pageSize: 10, totalPages: 0 } : right), { headers: { 'Content-Type': 'application/json', ETag: '"1"' } })))
     render(<PersonUsageRightsPanel graveSiteId={right.graveSiteId} />)
 
     const actions = await screen.findByLabelText('Nutzungsrecht bearbeiten')

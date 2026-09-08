@@ -1,6 +1,12 @@
 # Architektur für Beteiligte und manuelle Nutzungsrechte
 
-Stand: 24.08.2026
+Stand des 5b-Kerns: 24.08.2026
+
+Ergänzung vom 08.09.2026: Der bestätigte manuelle Lebenszyklus M2a ist gemäß
+[Abschluss](../implementation/cemaris-manual-usage-right-termination-completion.md)
+umgesetzt. [ADR-0021](../decisions/ADR-0021-manual-usage-right-lifecycle.md)
+erweitert Status, Rechtefolgen, Lesepfade und atomare Nachweise. Die nachfolgende
+Darstellung und die Gatebewertungen beschreiben den historischen 5b-Stand.
 
 > **Implementierungsstatus:** Der hier abgegrenzte 5b-Kern ist technisch
 > umgesetzt und gemäß

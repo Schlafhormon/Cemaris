@@ -27,8 +27,12 @@ public static class PersonUsageRightEndpoints
         parties.MapPost("/{partyId:guid}/addresses", AddAddressAsync).WithName("AddPartyAddress").RequireCemarisAntiforgery().Produces<PartyView>().ProducesProblem(412).ProducesProblem(428);
         parties.MapPost("/{partyId:guid}/addresses/{addressId:guid}/corrections", CorrectAddressAsync).WithName("CorrectPartyAddress").RequireCemarisAntiforgery().Produces<PartyView>().ProducesProblem(412).ProducesProblem(428);
 
-        var rights = app.MapGroup("/api").WithTags("Canonical usage rights").RequireAuthorization(CemarisPolicies.PersonUsageRights);
+        var rights = app.MapGroup("/api").WithMetadata(new ErrorHandling.UsageRightEndpointMetadata()).WithTags("Canonical usage rights").RequireAuthorization(CemarisPolicies.PersonUsageRights);
         rights.MapGet("/grave-sites/{graveSiteId:guid}/usage-rights", GetRightByGraveAsync).WithName("GetUsageRightByGraveSite").Produces<UsageRightView>().Produces(204);
+        rights.MapGet("/grave-sites/{graveSiteId:guid}/usage-rights/history", async (Guid graveSiteId, int? page, int? pageSize, PersonUsageRightService service, CancellationToken token) => Results.Ok(await service.ReadUsageRightsAsync(graveSiteId, page ?? 1, pageSize ?? 10, token)))
+            .WithName("GetUsageRightHistory").Produces<UsageRightPage>().ProducesValidationProblem();
+        rights.MapGet("/usage-rights/{usageRightId:guid}/sequence", async (Guid usageRightId, PersonUsageRightService service, CancellationToken token) => await service.ReadUsageRightSequenceAsync(usageRightId, token) is { } result ? Results.Ok(result) : Results.NotFound())
+            .WithName("GetUsageRightSequence").Produces<IReadOnlyList<UsageRightListItem>>().ProducesProblem(404);
         rights.MapGet("/usage-rights/{usageRightId:guid}", GetRightAsync).WithName("GetUsageRight").Produces<UsageRightView>().ProducesProblem(404);
         rights.MapPost("/usage-rights", CreateRightAsync).WithName("CreateUsageRight").RequireCemarisAntiforgery().Produces<UsageRightView>(201).ProducesValidationProblem().ProducesProblem(409);
         rights.MapPost("/usage-rights/{usageRightId:guid}/transfers", TransferRightAsync).WithName("TransferUsageRight").RequireCemarisAntiforgery().Produces<UsageRightView>().ProducesProblem(412).ProducesProblem(428);
@@ -69,8 +73,9 @@ public static class PersonUsageRightEndpoints
 
     private static async Task<IResult> CreateRightAsync(CreateUsageRightCommand command, PersonUsageRightService service, HttpResponse response, CancellationToken token)
     {
-        try { var result = await service.CreateUsageRightAsync(command, token); if (result.Outcome != PersonUsageRightMutationOutcome.Success) return Failure(result); var view = await service.FindUsageRightAsync(result.Id, token) ?? throw new InvalidOperationException("Das angelegte Nutzungsrecht ist nicht lesbar."); response.Headers.Location = $"/api/usage-rights/{result.Id}"; response.Headers.ETag = Etag(result.Version); return Results.Json(view, statusCode: 201); }
+        try { var result = await service.CreateUsageRightAsync(command, token); if (result.Outcome != PersonUsageRightMutationOutcome.Success) return Failure(result); var view = await service.FindUsageRightAsync(result.Id, token) ?? throw new InvalidOperationException("Das angelegte Nutzungsrecht ist nicht lesbar."); response.Headers.Location = $"/api/usage-rights/{result.Id}"; response.Headers.ETag = Etag(view.Version); return Results.Json(view, statusCode: 201); }
         catch (UsageRightValidationException ex) { return Validation(ex.Field, ex.Message); }
+        catch (UsageRightStateException) { return Results.Problem(statusCode: 409, title: "Der Vorgang ist für diesen Rechtszustand oder diese Rechtefolge nicht zulässig."); }
         catch (PartyValidationException ex) { return Validation(ex.Field, ex.Message); }
     }
 
@@ -87,16 +92,17 @@ public static class PersonUsageRightEndpoints
     private static async Task<IResult> ChangeRuleAsync(Guid ruleId, SaveUsageRightStartRuleCommand command, PersonUsageRightService service, HttpContext context, CancellationToken token)
     {
         var parsed = Parse(context.Request, out var version); if (parsed is not null) return parsed;
-        try { var result = await service.SaveStartRuleAsync(ruleId, version, command, token); if (result.Outcome != PersonUsageRightMutationOutcome.Success) return Failure(result); var view = (await service.ReadStartRulesAsync(token)).Single(x => x.Id == result.Id); context.Response.Headers.ETag = Etag(result.Version); return Results.Ok(view); }
+        try { var result = await service.SaveStartRuleAsync(ruleId, version, command, token); if (result.Outcome != PersonUsageRightMutationOutcome.Success) return Failure(result); var view = (await service.ReadStartRulesAsync(token)).Single(x => x.Id == result.Id); context.Response.Headers.ETag = Etag(view.Version); return Results.Ok(view); }
         catch (PartyValidationException ex) { return Validation(ex.Field, ex.Message); }
     }
 
     private static async Task<IResult> Existing<T>(HttpContext context, Func<long, Task<PersonUsageRightMutationResult>> mutate, Func<Task<T?>> load) where T : class
     {
         var parsed = Parse(context.Request, out var version); if (parsed is not null) return parsed;
-        try { var result = await mutate(version); if (result.Outcome != PersonUsageRightMutationOutcome.Success) return Failure(result); var view = await load() ?? throw new InvalidOperationException("Das geänderte Aggregat ist nicht lesbar."); context.Response.Headers.ETag = Etag(result.Version); return Results.Ok(view); }
+        try { var result = await mutate(version); if (result.Outcome != PersonUsageRightMutationOutcome.Success) return Failure(result); var view = await load() ?? throw new InvalidOperationException("Das geänderte Aggregat ist nicht lesbar."); context.Response.Headers.ETag = Etag(view is UsageRightView r ? r.Version : result.Version); return Results.Ok(view); }
         catch (PartyValidationException ex) { return Validation(ex.Field, ex.Message); }
         catch (UsageRightValidationException ex) { return Validation(ex.Field, ex.Message); }
+        catch (UsageRightStateException) { return Results.Problem(statusCode: 409, title: "Der Vorgang ist für diesen Rechtszustand oder diese Rechtefolge nicht zulässig."); }
     }
 
     private static IResult Failure(PersonUsageRightMutationResult result) => result.Outcome switch

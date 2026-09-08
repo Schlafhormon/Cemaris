@@ -5,10 +5,10 @@ using Cemaris.Infrastructure.Cemeteries;
 
 namespace Cemaris.Infrastructure.PersonUsageRights;
 
-public sealed class SyntheticPersonUsageRightStore(SyntheticStoreCoordinator coordinator, SyntheticCemeteryMasterDataStore masterData) : IPersonUsageRightStore
+public sealed partial class SyntheticPersonUsageRightStore(SyntheticStoreCoordinator coordinator, SyntheticCemeteryMasterDataStore masterData) : IPersonUsageRightStore
 {
     private sealed record PartyState(Guid Id, PartyType Type, string? First, string? Last, string? Organization, Guid? Primary, long Version, List<PartyAddressView> Addresses, List<PartyRevisionView> Revisions);
-    private sealed record RightState(Guid Id, Guid GraveSiteId, DateOnly Start, DateOnly End, string Reference, Guid RuleId, string RuleCode, string RuleDisplay, long Version, List<UsageRightHolderPeriodView> Holders, List<UsageRightRevisionView> Revisions);
+    private sealed record RightState(Guid Id, Guid GraveSiteId, DateOnly Start, DateOnly End, string Reference, Guid RuleId, string RuleCode, string RuleDisplay, long Version, List<UsageRightHolderPeriodView> Holders, List<UsageRightRevisionView> Revisions, UsageRightStatus Status = UsageRightStatus.Open, Guid? PredecessorId = null, UsageRightTerminationView? Termination = null, Guid? OperationId = null, bool? ManualGrantReviewConfirmed = null);
     private sealed record RuleState(Guid Id, Guid CemeteryId, string Code, string Display, long Version, List<UsageRightStartRuleRevisionView> Revisions);
     private readonly Dictionary<Guid, PartyState> parties = [];
     private readonly Dictionary<Guid, RightState> rights = [];
@@ -62,7 +62,7 @@ public sealed class SyntheticPersonUsageRightStore(SyntheticStoreCoordinator coo
 
     public Task<PartyView?> FindPartyAsync(Guid id, CancellationToken token) { lock (coordinator.Gate) return Task.FromResult(parties.TryGetValue(id, out var x) ? View(x) : null); }
     public Task<UsageRightView?> FindUsageRightAsync(Guid id, CancellationToken token) { lock (coordinator.Gate) return Task.FromResult(rights.TryGetValue(id, out var x) ? View(x) : null); }
-    public Task<UsageRightView?> FindUsageRightByGraveSiteAsync(Guid id, CancellationToken token) { lock (coordinator.Gate) return Task.FromResult(rights.Values.SingleOrDefault(x => x.GraveSiteId == id) is { } x ? View(x) : null); }
+    public Task<UsageRightView?> FindUsageRightByGraveSiteAsync(Guid id, CancellationToken token) { lock (coordinator.Gate) return Task.FromResult(rights.Values.Where(x => x.GraveSiteId == id && x.Status != UsageRightStatus.Voided).OrderByDescending(x => x.Status == UsageRightStatus.Open).ThenByDescending(x => x.Start).ThenByDescending(x => new System.Data.SqlTypes.SqlGuid(x.Id)).FirstOrDefault() is { } x ? View(x) : null); }
     public Task<IReadOnlyList<UsageRightStartRuleView>> ReadStartRulesAsync(CancellationToken token) { lock (coordinator.Gate) return Task.FromResult<IReadOnlyList<UsageRightStartRuleView>>(rules.Values.Select(View).ToArray()); }
 
     public Task<PersonUsageRightMutationResult> CreatePartyAsync(Guid id, CreatePartyCommand command, PersonUsageRightAudit audit, DateOnly today, CancellationToken token) => Mutate(() =>
@@ -113,19 +113,21 @@ public sealed class SyntheticPersonUsageRightStore(SyntheticStoreCoordinator coo
 
     public Task<PersonUsageRightMutationResult> TransferUsageRightAsync(Guid id, long expected, TransferUsageRightCommand command, Guid holderId, PersonUsageRightAudit audit, CancellationToken token) => Mutate(() =>
     {
-        if (!rights.TryGetValue(id, out var current)) return Missing(id); if (current.Version != expected) return Conflict(id, current.Version); if (!parties.ContainsKey(command.NewHolderPartyId)) return Invalid(id);
+        if (!rights.TryGetValue(id, out var current)) return Missing(id); if (current.Version != expected) return Conflict(id, current.Version); current = current with { Holders = [.. current.Holders], Revisions = [.. current.Revisions] }; UsageRightLifecycleRules.RequireOpen(current.Status); if (!parties.ContainsKey(command.NewHolderPartyId)) return Invalid(id);
         var open = current.Holders.Single(x => x.ValidUntilExclusive is null); UsageRightRules.ValidateTransfer(command.ValidFromInclusive, open.ValidFromInclusive, current.End);
         current.Holders[current.Holders.IndexOf(open)] = open with { ValidUntilExclusive = command.ValidFromInclusive }; current.Holders.Add(new(holderId, command.NewHolderPartyId, command.ValidFromInclusive, null));
         var next = current with { Version = expected + 1 }; next.Revisions.Add(Revision(next, audit, command.Reason)); rights[id] = next; audits.Add(audit); return Success(id, next.Version);
     });
 
     public Task<PersonUsageRightMutationResult> ExtendUsageRightAsync(Guid id, long expected, ExtendUsageRightCommand command, PersonUsageRightAudit audit, CancellationToken token) => Mutate(() =>
-    { if (!rights.TryGetValue(id, out var current)) return Missing(id); if (current.Version != expected) return Conflict(id, current.Version); UsageRightRules.ValidateExtension(current.End, command.NewEndDate); var next = current with { End = command.NewEndDate, Version = expected + 1 }; next.Revisions.Add(Revision(next, audit, command.Reason)); rights[id] = next; audits.Add(audit); return Success(id, next.Version); });
+    { if (!rights.TryGetValue(id, out var current)) return Missing(id); if (current.Version != expected) return Conflict(id, current.Version); current = current with { Holders = [.. current.Holders], Revisions = [.. current.Revisions] }; UsageRightLifecycleRules.RequireOpen(current.Status); UsageRightRules.ValidateExtension(current.End, command.NewEndDate); var next = current with { End = command.NewEndDate, Version = expected + 1 }; next.Revisions.Add(Revision(next, audit, command.Reason)); rights[id] = next; audits.Add(audit); return Success(id, next.Version); });
 
     public Task<PersonUsageRightMutationResult> CorrectUsageRightAsync(Guid id, long expected, CorrectUsageRightCommand command, PersonUsageRightAudit audit, CancellationToken token) => Mutate(() =>
     {
         if (!rights.TryGetValue(id, out var current)) return Missing(id); if (current.Version != expected) return Conflict(id, current.Version);
-        if (!masterData.TryGetGraveSite(command.GraveSiteId, out var site) || site is null || rights.Values.Any(x => x.Id != id && x.GraveSiteId == command.GraveSiteId)) return Invalid(id);
+        current = current with { Holders = [.. current.Holders], Revisions = [.. current.Revisions] }; UsageRightLifecycleRules.RequireOpen(current.Status);
+        if ((current.PredecessorId.HasValue || rights.Values.Any(x => x.PredecessorId == id)) && (command.GraveSiteId != current.GraveSiteId || command.StartDate != current.Start)) throw new UsageRightStateException();
+        if (!masterData.TryGetGraveSite(command.GraveSiteId, out var site) || site is null || rights.Values.Any(x => x.Id != id && x.GraveSiteId == command.GraveSiteId && (command.GraveSiteId != current.GraveSiteId || x.Status == UsageRightStatus.Open))) return Invalid(id);
         if (!rules.TryGetValue(command.UsageRightStartRuleId, out var rule) || rule.CemeteryId != site.CemeteryId) return Invalid(id);
         var next = current with { GraveSiteId = command.GraveSiteId, Start = command.StartDate, End = command.EndDate, Reference = command.SourceReference!, RuleId = rule.Id, RuleCode = rule.Code, RuleDisplay = rule.Display, Version = expected + 1 };
         next.Revisions.Add(Revision(next, audit, command.Reason)); rights[id] = next; audits.Add(audit); return Success(id, next.Version);
@@ -148,10 +150,10 @@ public sealed class SyntheticPersonUsageRightStore(SyntheticStoreCoordinator coo
     private static string Address(PartyAddressView x) => $"{x.Street} {x.HouseNumber}, {x.PostalCode} {x.City}";
     private static string AddressKey(PartyAddressView x) => PartyRules.Normalize($"{x.Street}|{x.HouseNumber}|{x.PostalCode}|{x.City}|{x.AdditionalInformation}");
     private static PartyView View(PartyState x) => new(x.Id, x.Type, x.First, x.Last, x.Organization, x.Primary, x.Version, x.Addresses.ToArray(), x.Revisions.ToArray());
-    private static UsageRightView View(RightState x) => new(x.Id, x.GraveSiteId, x.Start, x.End, x.Reference, x.RuleId, x.RuleCode, x.RuleDisplay, x.Version, x.Holders.ToArray(), x.Revisions.ToArray());
+    private static UsageRightView View(RightState x) => new(x.Id, x.GraveSiteId, x.Start, x.End, x.Reference, x.RuleId, x.RuleCode, x.RuleDisplay, x.Version, x.Holders.ToArray(), x.Revisions.ToArray(), x.Status, x.PredecessorId, x.Termination, x.OperationId, x.ManualGrantReviewConfirmed);
     private static UsageRightStartRuleView View(RuleState x) => new(x.Id, x.CemeteryId, x.Code, x.Display, x.Version, x.Revisions.ToArray());
     private static PartyRevisionView Revision(PartyState x, PersonUsageRightAudit a, string? reason) => new(Guid.NewGuid(), a.ResultingVersion, a.Operation, reason, a.OccurredAtUtc, a.Actor.DisplayName, x.Type, x.First, x.Last, x.Organization, x.Addresses.ToArray());
-    private static UsageRightRevisionView Revision(RightState x, PersonUsageRightAudit a, string? reason) => new(Guid.NewGuid(), a.ResultingVersion, a.Operation, reason, a.OccurredAtUtc, a.Actor.DisplayName, x.GraveSiteId, x.Start, x.End, x.Reference, x.RuleId, x.RuleCode, x.RuleDisplay, x.Holders.ToArray());
+    private static UsageRightRevisionView Revision(RightState x, PersonUsageRightAudit a, string? reason) => new(Guid.NewGuid(), a.ResultingVersion, a.Operation, reason, a.OccurredAtUtc, a.Actor.DisplayName, x.GraveSiteId, x.Start, x.End, x.Reference, x.RuleId, x.RuleCode, x.RuleDisplay, x.Holders.ToArray(), x.Status, x.PredecessorId, x.Termination, x.OperationId, x.ManualGrantReviewConfirmed);
     private Task<PersonUsageRightMutationResult> Mutate(Func<PersonUsageRightMutationResult> action) { lock (coordinator.Gate) return Task.FromResult(action()); }
     private static PersonUsageRightMutationResult Success(Guid id, long version) => new(PersonUsageRightMutationOutcome.Success, id, version);
     private static PersonUsageRightMutationResult Missing(Guid id) => new(PersonUsageRightMutationOutcome.NotFound, id);

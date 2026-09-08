@@ -17,6 +17,11 @@ Die Dokumenterzeugung darf im
 und dessen [abgegrenztem UI-Folgeauftrag](docs/implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md)
 prozesslokal für isolierte synthetische Tests aktiviert werden; portable
 Defaults bleiben ausgeschaltet.
+Für den vorbereiteten [M3a-Auftrag](docs/implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
+ist diese prozesslokale isolierte Erzeugung ebenfalls vorgesehen, einschließlich
+Positionsausgabe und echtem PDF. Seine SQL-Prüfungen werden im Startauftrag
+explizit auf neu erzeugte entbehrliche Datenbanken begrenzt. Diese Vorbereitung
+aktiviert keine Capability und startet keine Tests oder Hosts.
 Secrets, bestehende Datenbanken und fremde Dateien bleiben geschützt.
 Die unten beschriebenen früheren Pilotgates sind für diesen Prototypumfang
 keine zusätzliche Freigabevoraussetzung.

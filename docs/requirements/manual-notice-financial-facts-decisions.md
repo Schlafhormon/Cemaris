@@ -1,5 +1,15 @@
 # Freigabeentscheidung zu manuellen Bescheid-/Finanzfakten
 
+Aktualisierung 08.09.2026: Der historische 6b-/6c-Schnitt ist inzwischen
+implementiert. Nächster bestätigter Ausbau ist [M3a – manuelle Gebührenpositionen](manual-notice-line-items-decisions.md)
+mit exakter Summe und vollständiger DOCX-/PDF-Ausgabe. Die
+[Umsetzungsübergabe](../implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
+ist vorbereitet, noch nicht ausgeführt. Die nachfolgenden Gateentscheidungen
+bleiben datierte Historie. Für den neuen Umfang gelten die M3a-Ergänzung und
+die [Prototypentscheidung](notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp);
+keine erneute allgemeine Freigaberunde. Katalog, Tarifberechnung und Rechtswirkung
+werden dadurch nicht freigegeben.
+
 > **Status:** Das interaktive Gate 6a-F ist am 26.08.2026 nach einer
 > ergänzenden funktionsbezogenen Klärung vollständig mit **Variante B – genau
 > ein manueller kanonischer Faktenkern** abgeschlossen. Freigegeben ist

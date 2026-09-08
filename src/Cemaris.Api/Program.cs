@@ -42,6 +42,7 @@ if (builder.Configuration.GetValue<bool>("IntegrationTests:IsolatedConfiguration
         "Features:CemeteryMasterDataEditingEnabled",
         "Features:BurialProcessEditingEnabled",
         "Features:PersonUsageRightsEditingEnabled",
+        "Features:UsageRightLifecycleEnabled",
         "Features:NoticeDraftEditingEnabled",
         "Features:NoticeGenerationEnabled",
         "Maintenance:ApplyMigrations",
@@ -65,6 +66,9 @@ if (caseFollowUpsEnabled && !builder.Environment.IsDevelopment())
 var cemeteryMasterDataEditingEnabled = builder.Configuration.GetValue<bool>("Features:CemeteryMasterDataEditingEnabled");
 var burialProcessEditingEnabled = builder.Configuration.GetValue<bool>("Features:BurialProcessEditingEnabled");
 var personUsageRightsEditingEnabled = builder.Configuration.GetValue<bool>("Features:PersonUsageRightsEditingEnabled");
+var usageRightLifecycleEnabled = builder.Configuration.GetValue<bool>("Features:UsageRightLifecycleEnabled");
+if (usageRightLifecycleEnabled && (!builder.Environment.IsDevelopment() || !personUsageRightsEditingEnabled))
+    throw new InvalidOperationException("Der Nutzungsrechtslebenszyklus erfordert Development und die Beteiligten-/Nutzungsrechtsbearbeitung.");
 var noticeDraftEditingEnabled = builder.Configuration.GetValue<bool>("Features:NoticeDraftEditingEnabled");
 var noticeGenerationEnabled = builder.Configuration.GetValue<bool>("Features:NoticeGenerationEnabled");
 if (caseEditingEnabled && !builder.Environment.IsDevelopment())
@@ -121,6 +125,7 @@ var openApiEnabled = builder.Configuration.GetValue(
 builder.Services.AddProblemDetails();
 builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+builder.Services.AddExceptionHandler<UsageRightExceptionHandler>();
 builder.Services.AddExceptionHandler<CaseFollowUpExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddHealthChecks();
@@ -356,6 +361,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();
 if (caseFollowUpsEnabled) app.MapCaseFollowUps();
+if (usageRightLifecycleEnabled) app.MapUsageRightLifecycle();
 
 app.MapHealthChecks("/health", new HealthCheckOptions
 {
@@ -477,6 +483,7 @@ systemEndpoints.MapGet("/info", () =>
         noticeDraftEditingEnabled,
         noticeGenerationEnabled,
         caseFollowUpsEnabled,
+        usageRightLifecycleEnabled,
         typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "unbekannt"));
 })
     .WithName("GetSystemInformation")

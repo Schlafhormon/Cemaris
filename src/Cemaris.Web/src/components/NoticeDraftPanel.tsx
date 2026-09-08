@@ -37,6 +37,12 @@ export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPe
   const [message, setMessage] = useState('')
   const [tone, setTone] = useState<'success' | 'error'>('success')
   const [conflict, setConflict] = useState(false)
+  const [rightRefresh, setRightRefresh] = useState(0)
+  useEffect(() => {
+    const refresh = () => setRightRefresh((value) => value + 1)
+    window.addEventListener('cemaris-usage-right-changed', refresh)
+    return () => window.removeEventListener('cemaris-usage-right-changed', refresh)
+  }, [])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -53,14 +59,14 @@ export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPe
       return () => controller.abort()
     }
     void getUsageRightByGraveSite(graveSiteId, controller.signal)
-      .then((right) => right?.value.holderPeriods.find((holder) => holder.validUntilExclusive === null) ?? null)
+      .then((right) => right && (right.value.status ?? 'Open') === 'Open' ? right.value.holderPeriods.find((holder) => holder.validUntilExclusive === null) ?? null : null)
       .then((holder) => holder ? getParty(holder.partyId, controller.signal) : null)
-      .then((party) => setSuggestedPayer(party))
+      .then((party) => { if (!controller.signal.aborted) setSuggestedPayer(party) })
       .catch((error: unknown) => {
         if (!controller.signal.aborted) showError(error)
       })
     return () => controller.abort()
-  }, [graveSiteId])
+  }, [graveSiteId, rightRefresh])
 
   function showError(error: unknown) {
     setTone('error')

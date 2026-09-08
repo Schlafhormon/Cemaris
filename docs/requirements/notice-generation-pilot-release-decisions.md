@@ -85,6 +85,17 @@ ausgeführt. Die Dokumenterzeugung blieb im neuen Browserlauf deaktiviert;
 der 6c-Einleitungstext wurde gezielt korrigiert. Der Auftrag erweitert weder
 Rechtswirkung noch Frist-, Gebühren- oder Migrationsfreigaben.
 
+Am 08.09.2026 wurde nach dem technisch abgeschlossenen und bereinigten
+[M2a-Schnitt](../implementation/cemaris-manual-usage-right-termination-completion.md)
+[M3a](manual-notice-line-items-decisions.md) als nächster Umfang bestätigt:
+manuelle positive Gebührenpositionen, exakte Gesamtsumme und vollständige
+DOCX-/PDF-Ausgabe. Die [Übergabe](../implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
+ist vorbereitet. Für ihren isolierten Ausgabenachweis darf NoticeGeneration
+wieder prozesslokal aktiviert werden; dass sie im M1-/M2a-Browserlauf aus blieb,
+ist keine fortdauernde Sperre dieses neuen Auftrags. Bestehende Datenbanken
+bleiben ausgeschlossen; neue isolierte SQL-Tests werden im Startprompt gesondert
+beauftragt. Keine Produktivaktivierung oder Erweiterung um kommunale Tarife.
+
 Die nachfolgenden Abschnitte dokumentieren die Bewertungen bis 02.09.2026.
 Ihre pauschalen Stop- und Nachweispflichten sind für den hier beschriebenen
 Prototypumfang durch diese datierte Entscheidung ersetzt. Insbesondere muss

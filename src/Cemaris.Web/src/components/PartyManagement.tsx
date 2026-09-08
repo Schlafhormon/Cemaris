@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   ApiError,
   addPartyAddress,
@@ -28,25 +28,34 @@ interface PartyMutationProps {
 }
 
 export function PartySearchAndDetails({ party, onPartyChanged, onError, onSuccess }: PartySelectionProps) {
+  const searchRequest = useRef<AbortController | null>(null)
+  const selectionRequest = useRef<AbortController | null>(null)
+  useEffect(() => () => { searchRequest.current?.abort(); selectionRequest.current?.abort() }, [])
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<PartySearchItem[]>([])
 
   async function find(event: FormEvent) {
     event.preventDefault()
+    searchRequest.current?.abort()
     const controller = new AbortController()
+    searchRequest.current = controller
     try {
-      setResults(await searchParties(query, controller.signal))
+      const found = await searchParties(query, controller.signal)
+      if (!controller.signal.aborted) setResults(found)
     } catch (error) {
-      onError(error)
+      if (!controller.signal.aborted) onError(error)
     }
   }
 
   async function selectParty(id: string) {
+    selectionRequest.current?.abort()
+    const controller = new AbortController()
+    selectionRequest.current = controller
     try {
-      const selected = await getParty(id)
-      if (selected) onPartyChanged(selected)
+      const selected = await getParty(id, controller.signal)
+      if (selected && !controller.signal.aborted) onPartyChanged(selected)
     } catch (error) {
-      onError(error)
+      if (!controller.signal.aborted) onError(error)
     }
   }
 

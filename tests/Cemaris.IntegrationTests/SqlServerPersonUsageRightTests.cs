@@ -125,6 +125,7 @@ public sealed class SqlServerPersonUsageRightTests(SqlServerIntegrationFixture f
     {
         var options = new DbContextOptionsBuilder<CemarisDbContext>().UseSqlServer(fixture.DatabaseConnectionString).Options;
         await using var db = new CemarisDbContext(options);
+        var auditBaseline = await db.PersonUsageRightAudits.CountAsync();
         var actor = new ActorProvider();
         var master = new CemeteryMasterDataService(new EfCemeteryMasterDataStore(db), actor, TimeProvider.System);
         var cemetery = await master.SaveCemeteryAsync(null, null, new("Synthetischer SQL-5b-Friedhof", "SYN-SQL-5B", null, null, true), CancellationToken.None);
@@ -152,7 +153,7 @@ public sealed class SqlServerPersonUsageRightTests(SqlServerIntegrationFixture f
         Assert.Equal("SYN-URKUNDE", view?.StartRuleCodeSnapshot);
         Assert.Equal(3, view?.Revisions.Count);
         Assert.Single(view!.HolderPeriods, x => x.ValidUntilExclusive is null);
-        Assert.Equal(7, await db.PersonUsageRightAudits.CountAsync());
+        Assert.Equal(auditBaseline + 7, await db.PersonUsageRightAudits.CountAsync());
         Assert.All(await db.PersonUsageRightAudits.ToArrayAsync(), audit =>
         {
             Assert.DoesNotContain("Sql", audit.Operation, StringComparison.OrdinalIgnoreCase);
@@ -166,19 +167,18 @@ public sealed class SqlServerPersonUsageRightTests(SqlServerIntegrationFixture f
         var duplicate = await competing.CreateUsageRightAsync(new(grave.Id, second.Id, new(2028, 1, 1), new(2058, 1, 1), "SYN-DUP"), CancellationToken.None);
         Assert.Equal(PersonUsageRightMutationOutcome.Duplicate, duplicate.Outcome);
         Assert.Equal(3, await db.UsageRightRevisions.CountAsync());
-        Assert.Equal(7, await db.PersonUsageRightAudits.CountAsync());
+        Assert.Equal(auditBaseline + 7, await db.PersonUsageRightAudits.CountAsync());
 
         var existingAuditId = await db.PersonUsageRightAudits.Select(x => x.Id).FirstAsync();
         await using (var rollbackDb = new CemarisDbContext(options))
         {
             var rollbackStore = new EfPersonUsageRightStore(rollbackDb);
-            var failed = await rollbackStore.ExtendUsageRightAsync(
+            await Assert.ThrowsAsync<DbUpdateException>(() => rollbackStore.ExtendUsageRightAsync(
                 right.Id,
                 extended.Version,
                 new(new(2058, 9, 1), "Synthetisch erzwungener Rollback"),
                 new(existingAuditId, "UsageRight", right.Id, extended.Version + 1, "Extended", DateTimeOffset.UtcNow, actor.Current),
-                CancellationToken.None);
-            Assert.Equal(PersonUsageRightMutationOutcome.Duplicate, failed.Outcome);
+                CancellationToken.None));
         }
 
         await using (var rollbackVerification = new CemarisDbContext(options))
@@ -187,7 +187,7 @@ public sealed class SqlServerPersonUsageRightTests(SqlServerIntegrationFixture f
             Assert.Equal(extended.Version, unchanged?.Version);
             Assert.Equal(new DateOnly(2057, 9, 1), unchanged?.EndDate);
             Assert.Equal(3, unchanged?.Revisions.Count);
-            Assert.Equal(7, await rollbackVerification.PersonUsageRightAudits.CountAsync());
+            Assert.Equal(auditBaseline + 7, await rollbackVerification.PersonUsageRightAudits.CountAsync());
         }
 
         var raceGrave = await master.SaveGraveSiteAsync(null, null, new(cemetery.Id, null, null, null, type.Id, "SYN-SQL-5B-RACE", GraveSiteStatus.Available, false, null, null, null, true), CancellationToken.None);

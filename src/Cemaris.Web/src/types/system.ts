@@ -11,6 +11,7 @@ export interface SystemInformationResponse {
   personUsageRightsEditingEnabled: boolean
   noticeDraftEditingEnabled: boolean
   noticeGenerationEnabled: boolean
+  usageRightLifecycleEnabled?: boolean
   caseFollowUpsEnabled?: boolean
   productionReady: boolean
   status: string

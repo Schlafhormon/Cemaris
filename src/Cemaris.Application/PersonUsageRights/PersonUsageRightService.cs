@@ -4,7 +4,7 @@ using Cemaris.Domain.UsageRights;
 
 namespace Cemaris.Application.PersonUsageRights;
 
-public sealed class PersonUsageRightService(IPersonUsageRightStore store, ICurrentActorProvider actors, TimeProvider timeProvider)
+public sealed partial class PersonUsageRightService(IPersonUsageRightStore store, ICurrentActorProvider actors, TimeProvider timeProvider)
 {
     private const int DefaultDirectoryPageSize = 10;
     private const int MaximumDirectoryPageSize = 50;

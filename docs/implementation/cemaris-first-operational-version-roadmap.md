@@ -2,7 +2,7 @@
 
 Stand: 08.09.2026
 
-Status: **M1 umgesetzt und gezielt auch auf SQL geprüft; weiterer Ausbau offen;
+Status: **M1 und M2a umgesetzt und gezielt auf SQL geprüft; M3a bestätigt und vorbereitet;
 keine Produktivfreigabe.** Die Projektverantwortung möchte Cemaris zu einer
 vollwertigen Friedhofsverwaltung ausbauen und dabei vollständige, sauber
 geprüfte Abläufe erhalten. Quelle ist der anschließende Implementierungsdialog
@@ -36,12 +36,13 @@ darf die eigenständige Nutzbarkeit von Cemaris nicht voraussetzen.
 | Fallarbeit und Suche | Suche, Pagination, Fallanlage, Personen- und Grabbezüge, Fehler- und Konfliktbehandlung technisch vorhanden | zusammenhängende Alltagsabnahme einschließlich Korrektur- und Mehrpersonenfällen | Fall nach erneutem Öffnen wiederfinden; richtige Beziehungen; keine still überschriebenen Fremdänderungen |
 | Grabstellen und Beisetzungen | konfigurierbare Friedhofsstruktur und einfacher Beisetzungsprozess vorhanden | weitere tatsächlich benötigte Sonderfälle und fachliche Belegungsregeln einzeln klären | bestätigte Standard- und Korrekturabläufe wirken konsistent auf Fall, Beisetzung und Grabstelle |
 | M1: offene Arbeit | [manueller Kern implementiert](cemaris-manual-case-follow-ups-completion.md); [gezielter SQL-Nachweis bestanden](cemaris-manual-case-follow-ups-sql-verification.md), einschließlich Migration, Parallelrennen, Rollback und Anwendungshostwechsel | gemeinsame Arbeitsabnahme und installationsbezogene Einführung bleiben Teil von M4 | manuelle Aktionen synthetisch bestanden; eigene SQL-Persistenz und Konfliktschutz geprüft; keine Wirkung auf fachliche Fristen oder Grabstatus |
-| M2: Nutzungsrechte und Fristen | manueller historisierter Kern vorhanden; [M2a-Übergabe mit fünf bestätigten Produktantworten](cemaris-manual-usage-right-termination-next-step-handoff.md) | M2a vollständig implementieren; Ruhezeit, Fristautomatik und automatische Wiedervergabe bleiben eigenständig | Beendigung, Rücknahme, manuelle Neuvergabe und gemeinsame Folgekorrektur einschließlich Historie, Inhaberzeitraum, Konflikt- und SQL-Nachweis; keine automatische Grabwirkung |
-| M3: Gebühren und Bescheide | manuelle Entwürfe und genau eine flüchtige DOCX-/PDF-Ausgabe vorhanden | benötigte Positionen, Gültigkeitsstände, Berechnung, wirksame Bescheid- und Korrekturabläufe | bestätigte Sollbeträge, Regelstände und Dokumente stimmen; keine unzulässige rückwirkende Änderung |
+| M2: Nutzungsrechte und Fristen | [M2a implementiert und geprüft](cemaris-manual-usage-right-termination-completion.md), einschließlich manueller Neuvergabe und atomarer Folgekorrektur | weitere M2-Fachabläufe konkretisieren; Ruhezeit, Fristautomatik und automatische Wiedervergabe bleiben eigenständig | Beendigung, Rücknahme, manuelle Neuvergabe und gemeinsame Folgekorrektur einschließlich Historie, Inhaberzeitraum, Konflikt- und SQL-Nachweis; keine automatische Grabwirkung |
+| M3: Gebühren und Bescheide | manuelle Entwürfe und eine flüchtige DOCX-/PDF-Ausgabe vorhanden; [M3a bestätigt und vorbereitet](cemaris-manual-notice-line-items-next-step-handoff.md) | M3a: manuelle Positionen, exakte Summe und vollständige Ausgabe umsetzen; anschließend Katalog, Gültigkeitsstände und wirksame Bescheidabläufe separat klären | M3a: Positionen/Summe stimmen in aktuellem Stand, Historie, UI und DOCX/PDF; Altbestand, Konfliktschutz und isolierte SQL-Persistenz nachgewiesen |
 | M4: Einführung und Betrieb | SQL-Provider, Identität, Sicherheitsgrundlagen und datierte technische Nachweise vorhanden | aktuelle isolierte SQL-Nachweise, gemeinsame Arbeitsabnahme, Installation, Zuständigkeiten und konkreter Einführungsumfang | vereinbarte Arbeitsabläufe auf einer benannten Installation mit mehreren Sitzungen, Neustart und Wiederherstellung nachgewiesen |
 | M5: Datenübernahme und benötigte Schnittstellen | begrenzter Friedhofsstammdatenpfad und Integrationsgrenzen dokumentiert | weitere Mappings, Vollständigkeit, Fehlerbehandlung, Einführung und Rückfall separat vorbereiten | nachvollziehbarer Quell-/Zielvergleich und kontrollierte Übernahme ohne Verlust geschützter Bestände |
 
-Weitere M2- und M3-Schnitte benötigen konkrete fachliche Beispiele und Antworten; ihre Reihenfolge
+M3a ist als nächster Schnitt bestätigt. Weitere M2- und M3-Schnitte benötigen
+konkrete fachliche Beispiele und Antworten; ihre Reihenfolge
 kann anhand des tatsächlichen täglichen Bedarfs angepasst werden. SQL- und
 Integritätsarbeit begleitet die Inkremente von Anfang an. M4 bezeichnet die
 zusammenhängende Einführungsabnahme, nicht einen erst am Schluss beginnenden
@@ -57,12 +58,13 @@ Der ursprünglich offene gezielte SQL-Test wurde anschließend ausdrücklich
 beauftragt und ist gemäß [SQL-Folgenachweis](cemaris-manual-case-follow-ups-sql-verification.md)
 bestanden. Zwei EF-Fehler wurden dabei behoben; Migration, Konkurrenz, Rollback
 und Persistenz über Anwendungshostwechsel wurden auf entbehrlichen Datenbanken
-geprüft. Bestehende Datenbanken blieben geschützt. Nächster fachlicher Schritt
-ist die Umsetzung des inzwischen bestätigten M2a-Vertrags. M2 bis M5 sind weiterhin
+geprüft. Bestehende Datenbanken blieben geschützt. Auch M2a ist inzwischen
+umgesetzt. Nächster Implementierungsschritt ist der unten beschriebene
+bestätigte M3a-Positionsschnitt. M2 bis M5 sind weiterhin
 eigenständige Ausbauvorhaben. Die gesamte
 Roadmap und bereits erledigte 6c-Gates werden dadurch nicht erneut beauftragt.
 
-## Vorbereiteter nächster Schnitt M2a
+## Abgeschlossener manueller Schnitt M2a
 
 Die [neue Übergabe](cemaris-manual-usage-right-termination-next-step-handoff.md)
 enthält Arbeitsverzeichnisse, verifizierte Dateien, konkrete Codeanschlüsse,
@@ -73,8 +75,23 @@ Beendigung heute oder rückwirkend, begründete Rücknahme, manuelle Neuvergabe
 und gemeinsame Korrektur bestehender Rechtefolgen. Bei der Folgekorrektur wird
 der Vorgänger wieder geöffnet; betroffene Nachfolger bleiben als „Irrtümlich
 angelegt“ mit ihren bisherigen Revisionen erhalten. Die technischen Regeln und
-Prüfbeispiele sind festgehalten. Keine erneute Produktfreigabe erforderlich;
-Implementierung, neue SQL-/Browsernachweise und Abschluss stehen noch aus.
+Prüfbeispiele sind festgehalten. Keine erneute Produktfreigabe erforderlich.
+Die Implementierung und neue SQL-/Browsernachweise sind im
+[Abschluss](cemaris-manual-usage-right-termination-completion.md) dokumentiert.
+Die Capability bleibt deaktiviert; weitergehende M2-Regeln sind nicht implementiert.
+
+## Bestätigter nächster Schnitt M3a
+
+Die [Produktantworten vom 08.09.2026](../requirements/manual-notice-line-items-decisions.md)
+bestätigen mehrere manuelle Gebührenpositionen mit Bezeichnung und positivem
+EUR-Betrag, höchstens zwei Nachkommastellen, exakter verbindlicher Gesamtsumme
+und vollständiger DOCX-/PDF-Ausgabe. Die [neue Übergabe](cemaris-manual-notice-line-items-next-step-handoff.md)
+enthält Arbeitsdateien, Bestands-/Revisionsschutz, Konflikt- und
+Ausgabevertrag sowie isolierte SQL-/Browsernachweise. **Vorbereitet, noch nicht
+implementiert.** Es fehlen keine erneut zu bestätigenden Produktalternativen
+für diesen Umfang. Gebührenkatalog, Mengen, Tarife, Gültigkeitsberechnung,
+wirksame Festsetzung/Korrekturbescheide und FINANZ+-Integration bleiben spätere
+Schnitte. Keine stillschweigende Implementierung des gesamten M3-Bereichs.
 
 ## Gemeinsamer Abschlussmaßstab
 

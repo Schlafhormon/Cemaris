@@ -1,5 +1,14 @@
 # Konzept für Dokumente und Bescheide
 
+Ergänzung 08.09.2026: Die [M3a-Produktentscheidungen](../requirements/manual-notice-line-items-decisions.md)
+erweitern den nächsten Implementierungsschnitt um geordnete manuelle
+Gebührenpositionen und deren vollständige DOCX-/PDF-Ausgabe. Die
+[technische Übergabe](../implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
+beschreibt die erforderliche strukturelle Erweiterung des bisher skalaren
+Renderervertrags unter Erhalt der Paket-/Pfad- und Ressourcengrenzen.
+Noch keine M3a-Implementierung oder neue Ausgabeabnahme; ADR-0019 bleibt
+historisch unverändert und wird bei Umsetzung durch ein neues ADR ergänzt.
+
 Aktuell seit 07.09.2026: Für die lokale synthetische Erprobung gilt die
 [Prototypentscheidung](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp).
 Die vorhandene Erzeugung darf im

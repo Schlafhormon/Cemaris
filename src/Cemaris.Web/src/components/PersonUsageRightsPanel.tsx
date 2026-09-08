@@ -1,3 +1,4 @@
+import { rightStatusLabel } from './rightStatusLabel'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   ApiError,
@@ -5,10 +6,12 @@ import {
   createUsageRight,
   extendUsageRight,
   getParty,
+  getUsageRight,
   getUsageRightByGraveSite,
   transferUsageRight,
 } from '../api/cemarisApi'
 import type { Party, UsageRight, Versioned } from '../types/personUsageRights'
+import { UsageRightLifecycleForms, UsageRightHistory } from './UsageRightLifecycle'
 import { FormErrorSummary } from './FormErrorSummary'
 import { partyDisplayName } from './partyDisplayName'
 import { PartyCreateForm, PartySearchAndDetails } from './PartyManagement'
@@ -16,7 +19,15 @@ import { useFormFeedback } from './useFormFeedback'
 
 type ConflictTarget = 'party' | 'right' | null
 
-export function PersonUsageRightsPanel({ graveSiteId }: { graveSiteId: string }) {
+export function PersonUsageRightsPanel({ graveSiteId, lifecycleEnabled = false }: { graveSiteId: string; lifecycleEnabled?: boolean }) {
+  return <RightsWorkspace key={graveSiteId} graveSiteId={graveSiteId} lifecycleEnabled={lifecycleEnabled} />
+}
+
+function RightsWorkspace({ graveSiteId, lifecycleEnabled }: { graveSiteId: string; lifecycleEnabled: boolean }) {
+  const [refresh, setRefresh] = useState(0)
+  const selectedRightId = useRef<string | undefined>(undefined)
+  const selectionRequest = useRef<AbortController | null>(null)
+  const active = useRef(true)
   const [right, setRight] = useState<Versioned<UsageRight> | null>()
   const [party, setParty] = useState<Versioned<Party> | null>()
   const [message, setMessage] = useState('')
@@ -25,11 +36,16 @@ export function PersonUsageRightsPanel({ graveSiteId }: { graveSiteId: string })
   const alertRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    getUsageRightByGraveSite(graveSiteId).then(setRight).catch((error: unknown) => handleError(error, 'right'))
+    active.current = true
+    const controller = new AbortController()
+    selectionRequest.current = controller
+    getUsageRightByGraveSite(graveSiteId, controller.signal).then((value) => { if (!controller.signal.aborted) { selectedRightId.current = value?.value.id; setRight(value) } }).catch((error: unknown) => { if (!controller.signal.aborted) handleError(error, 'right') })
+    return () => { active.current = false; controller.abort(); selectionRequest.current?.abort() }
   }, [graveSiteId])
   useEffect(() => { if (conflictTarget) alertRef.current?.focus() }, [conflictTarget])
 
   function handleError(error: unknown, target: Exclude<ConflictTarget, null>) {
+    if (!active.current) return
     setMessageTone('error')
     if (error instanceof ApiError && error.status === 412) {
       setConflictTarget(target)
@@ -43,6 +59,7 @@ export function PersonUsageRightsPanel({ graveSiteId }: { graveSiteId: string })
   }
 
   function showSuccess(value: string) {
+    if (!active.current) return
     setMessage(value)
     setMessageTone('success')
     setConflictTarget(null)
@@ -55,12 +72,43 @@ export function PersonUsageRightsPanel({ graveSiteId }: { graveSiteId: string })
         if (currentParty) setParty(currentParty)
         showSuccess('Aktueller Beteiligtenstand geladen. Nicht gespeicherte Formulareingaben bleiben erhalten.')
       } else if (conflictTarget === 'right') {
-        setRight(await getUsageRightByGraveSite(graveSiteId))
+        selectionRequest.current?.abort()
+        const controller = new AbortController()
+        selectionRequest.current = controller
+        const loaded = right ? await getUsageRight(right.value.id, controller.signal) : await getUsageRightByGraveSite(graveSiteId, controller.signal)
+        if (!active.current || controller.signal.aborted) return
+        selectedRightId.current = loaded?.value.id
+        setRight(loaded)
+        setRefresh((value) => value + 1)
         showSuccess('Aktueller Nutzungsrechtstand geladen. Nicht gespeicherte Formulareingaben bleiben erhalten.')
       }
     } catch (error) {
       handleError(error, conflictTarget ?? 'right')
     }
+  }
+
+  function changed(value: Versioned<UsageRight>, originId?: string) {
+    if (!active.current) return
+    setRefresh((current) => current + 1)
+    window.dispatchEvent(new Event('cemaris-usage-right-changed'))
+    if (originId && selectedRightId.current !== originId) return
+    selectedRightId.current = value.value.id
+    selectionRequest.current?.abort()
+    setRight(value)
+    showSuccess('Nutzungsrechtsvorgang gespeichert.')
+  }
+
+  async function selectRight(id: string) {
+    selectedRightId.current = id
+    selectionRequest.current?.abort()
+    const controller = new AbortController()
+    selectionRequest.current = controller
+    setRight(undefined)
+    setConflictTarget(null)
+    try {
+      const value = await getUsageRight(id, controller.signal)
+      if (!controller.signal.aborted) setRight(value)
+    } catch (error) { if (!controller.signal.aborted) handleError(error, 'right') }
   }
 
   return (
@@ -69,7 +117,7 @@ export function PersonUsageRightsPanel({ graveSiteId }: { graveSiteId: string })
         <div>
           <p className="section-kicker">Beteiligte und Nutzungsrecht</p>
           <h2 id="canonical-right-heading">Kanonisches Nutzungsrecht</h2>
-          <p>Manuell erfasster, historisierter 5b-Kern. Es werden keine Laufzeit, kein Status und keine Wiedervorlage berechnet.</p>
+          <p>Manuelle Rechte und nachvollziehbare Inhaberhistorie. Keine automatische Fristberechnung, Grabstatusänderung oder Wiedervorlage.</p>
         </div>
         <span className="scope-badge">Manueller Nachweis</span>
       </header>
@@ -81,17 +129,18 @@ export function PersonUsageRightsPanel({ graveSiteId }: { graveSiteId: string })
         </div>
       )}
 
+      <UsageRightHistory graveSiteId={graveSiteId} refresh={refresh} selectedId={right?.value.id} onSelect={(id) => void selectRight(id)} />
       <div className="usage-right-layout">
         <div className="usage-right-main">
           <section className="workspace-card" aria-labelledby="right-status-heading">
             <div className="workspace-card-heading">
               <div><span className="step-number" aria-hidden="true">1</span><div><h3 id="right-status-heading">Nutzungsrecht</h3><p>Aktueller manueller Stand und unveränderliche Fachhistorie</p></div></div>
-              {right && <span className="status-chip status-chip--active">Offen · Version {right.value.version}</span>}
+              {right && <span className="status-chip status-chip--active">{rightStatusLabel(right.value.status)} · Version {right.value.version}</span>}
             </div>
             {right === undefined
               ? <p className="workspace-empty" role="status">Recht wird geladen …</p>
               : right
-                ? <RightDetails right={right} party={party} onChanged={(value) => { setRight(value); showSuccess('Änderung gespeichert.') }} onError={(error) => handleError(error, 'right')} />
+                ? <RightDetails key={right.value.id} right={right} party={party} lifecycleEnabled={lifecycleEnabled} onChanged={(value) => changed(value, right.value.id)} onError={(error) => { if (selectedRightId.current === right.value.id) handleError(error, 'right') }} />
                 : <div className="workspace-empty"><strong>Noch kein Nutzungsrecht erfasst</strong><span>Wählen oder erfassen Sie zuerst einen Beteiligten. Anschließend kann das Recht angelegt werden.</span></div>}
           </section>
 
@@ -103,10 +152,10 @@ export function PersonUsageRightsPanel({ graveSiteId }: { graveSiteId: string })
             <PartySearchAndDetails party={party} onPartyChanged={setParty} onError={(error) => handleError(error, 'party')} onSuccess={showSuccess} />
           </section>
 
-          {!right && party && (
+          {right === null && party && (
             <section className="workspace-card workspace-card--accent" aria-labelledby="right-create-heading">
               <div className="workspace-card-heading"><div><span className="step-number" aria-hidden="true">3</span><div><h3 id="right-create-heading">Nutzungsrecht anlegen</h3><p>Manuellen Zeitraum und Quelle verbindlich erfassen</p></div></div></div>
-              <RightCreateForm graveSiteId={graveSiteId} partyId={party.value.id} onCreated={(value) => { setRight(value); showSuccess('Nutzungsrecht angelegt.') }} onError={(error) => handleError(error, 'right')} />
+              <RightCreateForm graveSiteId={graveSiteId} partyId={party.value.id} onCreated={changed} onError={(error) => handleError(error, 'right')} />
             </section>
           )}
         </div>
@@ -148,30 +197,35 @@ function RightCreateForm({ graveSiteId, partyId, onCreated, onError }: {
   )
 }
 
-function RightDetails({ right, party, onChanged, onError }: {
+function RightDetails({ right, party, lifecycleEnabled, onChanged, onError }: {
   right: Versioned<UsageRight>
   party: Versioned<Party> | null | undefined
+  lifecycleEnabled: boolean
   onChanged: (value: Versioned<UsageRight>) => void
   onError: (error: unknown) => void
 }) {
   const value = right.value
   return (
     <article className="right-details">
+      <p>Rechte-ID: <code>{value.id}</code>{value.predecessorId && <> · Vorgänger: <code>{value.predecessorId}</code></>}</p>
+      {value.manualGrantReviewConfirmed && <p>Manuelle Prüfung der Neuvergabe bestätigt.</p>}
+      {value.termination && <p>Beendet ab {value.termination.terminationDate} · {value.termination.kind === 'Returned' ? 'Rückgabe' : 'Sonstige Beendigung'} · {value.termination.reason} · Quelle: {value.termination.sourceReference} · Manuelle Prüfung bestätigt</p>}
       <dl className="right-facts">
         <div><dt>Manueller Zeitraum</dt><dd><strong>{value.startDate}</strong><span aria-hidden="true">→</span><strong>{value.endDate}</strong></dd></div>
         <div><dt>Quellenreferenz</dt><dd>{value.sourceReference}</dd></div>
         <div><dt>Startregel-Snapshot</dt><dd><strong>{value.startRuleCodeSnapshot}</strong><span>{value.startRuleDisplayNameSnapshot}</span></dd></div>
       </dl>
-      <div className="holder-history"><h4>Inhaberzeiträume</h4><ol>{value.holderPeriods.map((holder) => <li key={holder.id}><span className="timeline-marker" aria-hidden="true" /><div><strong>{holder.validUntilExclusive ? 'Früherer Inhaber' : 'Aktueller Inhaber'}</strong><code>{holder.partyId}</code><small>Ab {holder.validFromInclusive}{holder.validUntilExclusive ? ` bis ${holder.validUntilExclusive} (exklusiv)` : ' · aktuell'}</small></div></li>)}</ol></div>
-      <div className="right-actions" aria-label="Nutzungsrecht bearbeiten">
+      <div className="holder-history"><h4>Inhaberzeiträume</h4><ol>{value.holderPeriods.map((holder) => <li key={holder.id}><span className="timeline-marker" aria-hidden="true" /><div><strong>{holder.validUntilExclusive || value.status === 'Voided' ? 'Historischer Inhaber' : 'Aktueller Inhaber'}</strong><code>{holder.partyId}</code><small>Ab {holder.validFromInclusive}{holder.validUntilExclusive ? ` bis ${holder.validUntilExclusive} (exklusiv)` : value.status === 'Voided' ? ' · irrtümlicher Datensatz' : ' · aktuell'}</small></div></li>)}</ol></div>
+      {(value.status ?? 'Open') === 'Open' && <div className="right-actions" aria-label="Nutzungsrecht bearbeiten">
         <details className="action-disclosure">
           <summary>Übertragen <span aria-hidden="true">＋</span></summary>
           {party ? <TransferForm right={right} party={party} onChanged={onChanged} onError={onError} /> : <p className="workspace-empty">Zuerst unten einen neuen Inhaber suchen und auswählen.</p>}
         </details>
         <details className="action-disclosure"><summary>Verlängern <span aria-hidden="true">＋</span></summary><ExtensionForm right={right} onChanged={onChanged} onError={onError} /></details>
         <details className="action-disclosure"><summary>Fakten korrigieren <span aria-hidden="true">＋</span></summary><RightCorrectionForm right={right} onChanged={onChanged} onError={onError} /></details>
-      </div>
-      <details className="history-disclosure"><summary>Vollständige Fachrevisionen <span>{value.revisions.length}</span></summary><ol className="revision-list">{value.revisions.map((revision) => <li key={revision.id}><strong>Version {revision.resultingVersion} · {revision.mutationType}</strong><span>{revision.reason ?? 'Anlage'} · Zeitraum {revision.startDate}–{revision.endDate} · {revision.startRuleCodeSnapshot}</span></li>)}</ol></details>
+      </div>}
+      {lifecycleEnabled && value.status !== 'Voided' && <UsageRightLifecycleForms right={right} partyId={party?.value.id} onChanged={onChanged} onError={onError} />}
+      <details className="history-disclosure"><summary>Vollständige Fachrevisionen <span>{value.revisions.length}</span></summary><ol className="revision-list">{value.revisions.map((revision) => <li key={revision.id}><strong>Version {revision.resultingVersion} · {revision.mutationType}</strong><span>{rightStatusLabel(revision.status)} · {revision.reason ?? 'Anlage'} · Zeitraum {revision.startDate}–{revision.endDate} · {revision.startRuleCodeSnapshot}</span><span>{revision.termination && `Beendet ab ${revision.termination.terminationDate} · Quelle: ${revision.termination.sourceReference} · ${revision.termination.reason}`}{revision.operationId && ` · Vorgang ${revision.operationId}`}</span><details><summary>Revisionsstand anzeigen</summary><p>{revision.occurredAtUtc} · {revision.actorDisplayName}</p><p>Quelle: {revision.sourceReference} · Startbezug: {revision.startRuleDisplayNameSnapshot}</p><p>{revision.manualGrantReviewConfirmed ? 'Manuelle Neuvergabeprüfung bestätigt' : ''}</p><ul>{revision.holderPeriods.map((holder) => <li key={holder.id}>{holder.partyId} · {holder.validFromInclusive} bis {holder.validUntilExclusive ?? 'ohne erfasstes Ende'}</li>)}</ul></details></li>)}</ol></details>
     </article>
   )
 }

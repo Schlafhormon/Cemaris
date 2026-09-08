@@ -44,6 +44,15 @@ public sealed class PartyRevisionEntity
 
 public sealed class UsageRightEntity
 {
+    public string Status { get; set; } = "Open";
+    public Guid? PredecessorId { get; set; }
+    public DateOnly? TerminationDate { get; set; }
+    public string? TerminationKind { get; set; }
+    public string? TerminationReason { get; set; }
+    public string? TerminationSourceReference { get; set; }
+    public bool? ManualReviewConfirmed { get; set; }
+    public bool? ManualGrantReviewConfirmed { get; set; }
+    public Guid? OperationId { get; set; }
     public Guid Id { get; set; }
     public Guid GraveSiteId { get; set; }
     public DateOnly StartDate { get; set; }
@@ -105,6 +114,7 @@ public sealed class UsageRightStartRuleRevisionEntity
 
 public sealed class PersonUsageRightAuditEntity
 {
+    public Guid? OperationId { get; set; }
     public Guid Id { get; set; }
     public string EntityType { get; set; } = string.Empty;
     public Guid EntityId { get; set; }

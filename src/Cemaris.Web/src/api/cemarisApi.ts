@@ -18,7 +18,7 @@ import type {
   UpdateAccountInput,
 } from '../types/identity'
 import type { CemeteryMasterData } from '../types/cemeteries'
-import type { Party, PartyDirectoryPage, PartySearchItem, StartRule, UsageRight, Versioned } from '../types/personUsageRights'
+import type { Party, PartyDirectoryPage, PartySearchItem, StartRule, UsageRight, UsageRightListItem, UsageRightPage, Versioned } from '../types/personUsageRights'
 import type { LegalBasisVersion, NoticeDraft, NoticeDraftListItem, NoticeGenerationFormat, NoticeNumberConfiguration } from '../types/noticeDrafts'
 
 const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim() ?? ''
@@ -473,3 +473,8 @@ export function changeBurial(
     },
   )
 }
+
+export function getUsageRight(id: string, signal?: AbortSignal) { return getVersioned<UsageRight>(`/api/usage-rights/${encodeURIComponent(id)}`, signal) }
+export function getUsageRightHistory(id: string, page: number, signal: AbortSignal) { return getJson<UsageRightPage>(`/api/grave-sites/${encodeURIComponent(id)}/usage-rights/history?page=${page}&pageSize=10`, signal) }
+export function getUsageRightSequence(id: string, signal: AbortSignal) { return getJson<UsageRightListItem[]>(`/api/usage-rights/${encodeURIComponent(id)}/sequence`, signal) }
+export function changeUsageRightLifecycle(id: string, etag: string, action: string, input: unknown) { return sendVersioned<UsageRight>(`/api/usage-rights/${encodeURIComponent(id)}/${action}`, 'POST', input, etag) }

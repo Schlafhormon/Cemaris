@@ -1,5 +1,12 @@
 # Arbeitsgrundlage für Bestands- und Bedarfsanalyse
 
+Ergänzung 08.09.2026: [M3a – manuelle Gebührenpositionen](manual-notice-line-items-decisions.md)
+ist als nächster Schnitt bestätigt: positive EUR-Positionen, exakte verbindliche
+Summe und vollständige DOCX-/PDF-Ausgabe. Die [Implementierungsübergabe](../implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
+ist vorbereitet; es gibt noch keinen M3a-Ausführungsnachweis. Frühere
+Ausschlüsse der Addition/einzelnen Ausgabezeile werden für diesen engen Umfang
+durch den neuen Vertrag ergänzt; Katalog und örtliche Tarife bleiben offen.
+
 Aktuell (08.09.2026): Der Projektleiter hat pragmatische lokale
 Prototypentwicklung mit synthetischen Daten freigegeben. Die
 [datierte Entscheidung](notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
@@ -21,7 +28,9 @@ bestätigt zusätzlich Persistenz über Anwendungshostwechsel, Konfliktschutz un
 Die [M2a-Produktentscheidungen](manual-usage-right-termination-decisions.md) sind
 vollständig bestätigt: manuelle Beendigung, Rücknahme, Neuvergabe und gemeinsame
 Korrektur bestehender Rechtefolgen mit historisierten irrtümlichen Nachfolgern.
-Die technische Übergabe ist vorbereitet; die Implementierung steht noch aus.
+Der [M2a-Abschluss](../implementation/cemaris-manual-usage-right-termination-completion.md)
+belegt die Implementierung einschließlich Rechteverlauf, atomarer Folgekorrektur,
+isolierten SQL-Tests und Browserprüfung. Die Capability bleibt deaktiviert.
 Offene Regeln bleiben als solche erkennbar; formale Echtbetriebsanforderungen
 blockieren diese Entwicklung nicht.
 

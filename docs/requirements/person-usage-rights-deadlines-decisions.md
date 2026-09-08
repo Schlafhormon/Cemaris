@@ -15,14 +15,17 @@ ist ebenfalls bestanden. Die nachfolgenden 5a-/5b-/5c-/5f-/5g-
 Bewertungen bleiben historische Nachweise. Ihre offenen Frist- und
 Nutzungsrechtslebenszyklusregeln werden dadurch nicht automatisch entschieden.
 
-Für den nächsten Schritt liegt die
+Für den inzwischen umgesetzten Schnitt gilt die
 [Produktentscheidung M2a](manual-usage-right-termination-decisions.md) mit einer
 [technischen Übergabe](../implementation/cemaris-manual-usage-right-termination-next-step-handoff.md)
 vor. Alle fünf Antworten sind ausdrücklich bestätigt: manuelle Beendigung heute
 oder rückwirkend, Rücknahme, manuelle Neuvergabe und gemeinsame Korrektur von
 Rechtefolgen mit erhaltenen irrtümlichen Nachfolgern. Dieser Vertrag ergänzt
 die bisherigen Regeln für den neuen Schnitt; die nachfolgenden historischen
-5f-/5g-Bewertungen werden nicht rückwirkend umgeschrieben. Noch keine M2a-Implementierung.
+5f-/5g-Bewertungen werden nicht rückwirkend umgeschrieben. Der
+[M2a-Abschluss](../implementation/cemaris-manual-usage-right-termination-completion.md)
+dokumentiert Umsetzung und neue Nachweise; die Architekturergänzung steht in
+[ADR-0021](../decisions/ADR-0021-manual-usage-right-lifecycle.md).
 
 ## Zweck und Entscheidungsstatus
 

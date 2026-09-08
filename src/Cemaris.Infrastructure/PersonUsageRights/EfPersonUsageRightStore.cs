@@ -5,11 +5,12 @@ using Cemaris.Domain.Parties;
 using Cemaris.Domain.UsageRights;
 using Cemaris.Infrastructure.Persistence;
 using Cemaris.Infrastructure.Persistence.PersonUsageRights;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cemaris.Infrastructure.PersonUsageRights;
 
-public sealed class EfPersonUsageRightStore(CemarisDbContext db) : IPersonUsageRightStore
+public sealed partial class EfPersonUsageRightStore(CemarisDbContext db) : IPersonUsageRightStore
 {
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
@@ -78,7 +79,7 @@ public sealed class EfPersonUsageRightStore(CemarisDbContext db) : IPersonUsageR
 
     public async Task<PartyView?> FindPartyAsync(Guid id, CancellationToken token) => await LoadPartyAsync(id, token) is { } x ? View(x) : null;
     public async Task<UsageRightView?> FindUsageRightAsync(Guid id, CancellationToken token) => await LoadRightAsync(id, token) is { } x ? View(x) : null;
-    public async Task<UsageRightView?> FindUsageRightByGraveSiteAsync(Guid id, CancellationToken token) => await db.CanonicalUsageRights.AsNoTracking().Include(x => x.HolderPeriods).Include(x => x.Revisions).SingleOrDefaultAsync(x => x.GraveSiteId == id, token) is { } x ? View(x) : null;
+    public async Task<UsageRightView?> FindUsageRightByGraveSiteAsync(Guid id, CancellationToken token) => await db.CanonicalUsageRights.AsNoTracking().Include(x => x.HolderPeriods).Include(x => x.Revisions).Where(x => x.GraveSiteId == id && x.Status != "Voided").OrderByDescending(x => x.Status == "Open").ThenByDescending(x => x.StartDate).ThenByDescending(x => x.Id).FirstOrDefaultAsync(token) is { } x ? View(x) : null;
     public async Task<IReadOnlyList<UsageRightStartRuleView>> ReadStartRulesAsync(CancellationToken token) => (await db.UsageRightStartRules.AsNoTracking().Include(x => x.Revisions).OrderBy(x => x.Code).ToListAsync(token)).Select(View).ToArray();
 
     public Task<PersonUsageRightMutationResult> CreatePartyAsync(Guid id, CreatePartyCommand command, PersonUsageRightAudit audit, DateOnly today, CancellationToken token) => TransactionAsync(async () =>
@@ -164,7 +165,7 @@ public sealed class EfPersonUsageRightStore(CemarisDbContext db) : IPersonUsageR
 
     public Task<PersonUsageRightMutationResult> TransferUsageRightAsync(Guid id, long expected, TransferUsageRightCommand command, Guid holderId, PersonUsageRightAudit audit, CancellationToken token) => TransactionAsync(async () =>
     {
-        var entity = await LoadRightTrackedAsync(id, token); if (entity is null) return Missing(id); if (entity.Version != expected) return Conflict(id, entity.Version); if (!await db.Parties.AnyAsync(x => x.Id == command.NewHolderPartyId, token)) return Invalid(id);
+        var entity = await LoadRightTrackedAsync(id, token); if (entity is null) return Missing(id); if (entity.Version != expected) return Conflict(id, entity.Version); UsageRightLifecycleRules.RequireOpen(Enum.Parse<UsageRightStatus>(entity.Status)); if (!await db.Parties.AnyAsync(x => x.Id == command.NewHolderPartyId, token)) return Invalid(id);
         var open = entity.HolderPeriods.Single(x => x.ValidUntilExclusive == null); UsageRightRules.ValidateTransfer(command.ValidFromInclusive, open.ValidFromInclusive, entity.EndDate); open.ValidUntilExclusive = command.ValidFromInclusive;
         var holder = new UsageRightHolderPeriodEntity { Id = holderId, UsageRightId = id, PartyId = command.NewHolderPartyId, ValidFromInclusive = command.ValidFromInclusive };
         entity.HolderPeriods.Add(holder); db.UsageRightHolderPeriods.Add(holder); entity.Version++;
@@ -173,13 +174,15 @@ public sealed class EfPersonUsageRightStore(CemarisDbContext db) : IPersonUsageR
 
     public Task<PersonUsageRightMutationResult> ExtendUsageRightAsync(Guid id, long expected, ExtendUsageRightCommand command, PersonUsageRightAudit audit, CancellationToken token) => TransactionAsync(async () =>
     {
-        var entity = await LoadRightTrackedAsync(id, token); if (entity is null) return Missing(id); if (entity.Version != expected) return Conflict(id, entity.Version); UsageRightRules.ValidateExtension(entity.EndDate, command.NewEndDate); entity.EndDate = command.NewEndDate; entity.Version++; AddRevision(entity, audit, command.Reason); AddAudit(audit); await db.SaveChangesAsync(token); return Success(id, entity.Version);
+        var entity = await LoadRightTrackedAsync(id, token); if (entity is null) return Missing(id); if (entity.Version != expected) return Conflict(id, entity.Version); UsageRightLifecycleRules.RequireOpen(Enum.Parse<UsageRightStatus>(entity.Status)); UsageRightRules.ValidateExtension(entity.EndDate, command.NewEndDate); entity.EndDate = command.NewEndDate; entity.Version++; AddRevision(entity, audit, command.Reason); AddAudit(audit); await db.SaveChangesAsync(token); return Success(id, entity.Version);
     }, id, token);
 
     public Task<PersonUsageRightMutationResult> CorrectUsageRightAsync(Guid id, long expected, CorrectUsageRightCommand command, PersonUsageRightAudit audit, CancellationToken token) => TransactionAsync(async () =>
     {
         var entity = await LoadRightTrackedAsync(id, token); if (entity is null) return Missing(id); if (entity.Version != expected) return Conflict(id, entity.Version);
-        var site = await db.GraveSites.AsNoTracking().SingleOrDefaultAsync(x => x.Id == command.GraveSiteId, token); var rule = await db.UsageRightStartRules.AsNoTracking().SingleOrDefaultAsync(x => x.Id == command.UsageRightStartRuleId, token); if (site is null || rule is null || rule.CemeteryId != site.CemeteryId || await db.CanonicalUsageRights.AnyAsync(x => x.Id != id && x.GraveSiteId == command.GraveSiteId, token)) return Invalid(id);
+        UsageRightLifecycleRules.RequireOpen(Enum.Parse<UsageRightStatus>(entity.Status));
+        if ((entity.PredecessorId.HasValue || await db.CanonicalUsageRights.AnyAsync(x => x.PredecessorId == id, token)) && (command.GraveSiteId != entity.GraveSiteId || command.StartDate != entity.StartDate)) throw new UsageRightStateException();
+        var site = await db.GraveSites.AsNoTracking().SingleOrDefaultAsync(x => x.Id == command.GraveSiteId, token); var rule = await db.UsageRightStartRules.AsNoTracking().SingleOrDefaultAsync(x => x.Id == command.UsageRightStartRuleId, token); if (site is null || rule is null || rule.CemeteryId != site.CemeteryId || await db.CanonicalUsageRights.AnyAsync(x => x.Id != id && x.GraveSiteId == command.GraveSiteId && (command.GraveSiteId != entity.GraveSiteId || x.Status == "Open"), token)) return Invalid(id);
         entity.GraveSiteId = command.GraveSiteId; entity.StartDate = command.StartDate; entity.EndDate = command.EndDate; entity.SourceReference = command.SourceReference!; entity.UsageRightStartRuleId = rule.Id; entity.StartRuleCodeSnapshot = rule.Code; entity.StartRuleDisplayNameSnapshot = rule.DisplayName; entity.Version++; AddRevision(entity, audit, command.Reason); AddAudit(audit); await db.SaveChangesAsync(token); return Success(id, entity.Version);
     }, id, token);
 
@@ -203,7 +206,11 @@ public sealed class EfPersonUsageRightStore(CemarisDbContext db) : IPersonUsageR
             return result;
         }
         catch (DbUpdateConcurrencyException) { await transaction.RollbackAsync(token); db.ChangeTracker.Clear(); return Conflict(id, 0); }
-        catch (DbUpdateException) { await transaction.RollbackAsync(token); db.ChangeTracker.Clear(); return Duplicate(id); }
+        catch (Exception ex) when (ex.GetBaseException() is SqlException { Number: 1205 })
+        { return Conflict(id, 0); }
+        catch (DbUpdateException ex) when (ex.InnerException is SqlException { Number: 2601 or 2627 } sql && (sql.Message.Contains("IX_CanonicalUsageRights_", StringComparison.Ordinal) || sql.Message.Contains("IX_UsageRightStartRules_CemeteryId", StringComparison.Ordinal)))
+        { await transaction.RollbackAsync(token); return Duplicate(id); }
+        finally { db.ChangeTracker.Clear(); }
     }
 
     private Task<PartyEntity?> LoadPartyTrackedAsync(Guid id, CancellationToken token) => db.Parties.Include(x => x.Addresses).Include(x => x.Revisions).SingleOrDefaultAsync(x => x.Id == id, token);
@@ -215,9 +222,9 @@ public sealed class EfPersonUsageRightStore(CemarisDbContext db) : IPersonUsageR
     private static void EnsureCurrent(PartyAddressEntity x, DateOnly today) { if (x.ValidFromInclusive > today || x.ValidUntilExclusive.HasValue && x.ValidUntilExclusive <= today) throw new PartyValidationException("address", "Die Hauptanschrift muss gegenwärtig gültig sein."); }
     private void AddRevision(PartyEntity x, PersonUsageRightAudit a, string? reason) { var state = View(x); db.PartyRevisions.Add(new() { Id = Guid.NewGuid(), PartyId = x.Id, ResultingVersion = a.ResultingVersion, MutationType = a.Operation, Reason = reason, OccurredAtUtc = a.OccurredAtUtc, ActorId = a.Actor.Id, ActorDisplayName = a.Actor.DisplayName, StateJson = JsonSerializer.Serialize(state with { Revisions = [] }, JsonOptions) }); }
     private void AddRevision(UsageRightEntity x, PersonUsageRightAudit a, string? reason) { var state = View(x); db.UsageRightRevisions.Add(new() { Id = Guid.NewGuid(), UsageRightId = x.Id, ResultingVersion = a.ResultingVersion, MutationType = a.Operation, Reason = reason, OccurredAtUtc = a.OccurredAtUtc, ActorId = a.Actor.Id, ActorDisplayName = a.Actor.DisplayName, StateJson = JsonSerializer.Serialize(state with { Revisions = [] }, JsonOptions) }); }
-    private void AddAudit(PersonUsageRightAudit x) => db.PersonUsageRightAudits.Add(new() { Id = x.Id, EntityType = x.EntityType, EntityId = x.EntityId, ResultingVersion = x.ResultingVersion, Operation = x.Operation, OccurredAtUtc = x.OccurredAtUtc, ActorId = x.Actor.Id, ActorDisplayName = x.Actor.DisplayName });
+    private void AddAudit(PersonUsageRightAudit x) => db.PersonUsageRightAudits.Add(new() { Id = x.Id, OperationId = x.OperationId, EntityType = x.EntityType, EntityId = x.EntityId, ResultingVersion = x.ResultingVersion, Operation = x.Operation, OccurredAtUtc = x.OccurredAtUtc, ActorId = x.Actor.Id, ActorDisplayName = x.Actor.DisplayName });
     private static PartyView View(PartyEntity x) { var addresses = x.Addresses.Select(a => new PartyAddressView(a.Id, a.Street, a.HouseNumber, a.PostalCode, a.City, a.AdditionalInformation, a.ValidFromInclusive, a.ValidUntilExclusive, x.CurrentPrimaryAddressId == a.Id)).ToArray(); var revisions = x.Revisions.OrderBy(r => r.ResultingVersion).Select(r => JsonSerializer.Deserialize<PartyView>(r.StateJson, JsonOptions) is { } state ? new PartyRevisionView(r.Id, r.ResultingVersion, r.MutationType, r.Reason, r.OccurredAtUtc, r.ActorDisplayName, state.PartyType, state.FirstName, state.LastName, state.OrganizationName, state.Addresses) : throw new InvalidOperationException("Ungültige Beteiligtenrevision.")).ToArray(); return new(x.Id, Enum.Parse<PartyType>(x.PartyType), x.FirstName, x.LastName, x.OrganizationName, x.CurrentPrimaryAddressId, x.Version, addresses, revisions); }
-    private static UsageRightView View(UsageRightEntity x) { var holders = x.HolderPeriods.OrderBy(h => h.ValidFromInclusive).Select(h => new UsageRightHolderPeriodView(h.Id, h.PartyId, h.ValidFromInclusive, h.ValidUntilExclusive)).ToArray(); var revisions = x.Revisions.OrderBy(r => r.ResultingVersion).Select(r => JsonSerializer.Deserialize<UsageRightView>(r.StateJson, JsonOptions) is { } state ? new UsageRightRevisionView(r.Id, r.ResultingVersion, r.MutationType, r.Reason, r.OccurredAtUtc, r.ActorDisplayName, state.GraveSiteId, state.StartDate, state.EndDate, state.SourceReference, state.UsageRightStartRuleId, state.StartRuleCodeSnapshot, state.StartRuleDisplayNameSnapshot, state.HolderPeriods) : throw new InvalidOperationException("Ungültige Nutzungsrechtsrevision.")).ToArray(); return new(x.Id, x.GraveSiteId, x.StartDate, x.EndDate, x.SourceReference, x.UsageRightStartRuleId, x.StartRuleCodeSnapshot, x.StartRuleDisplayNameSnapshot, x.Version, holders, revisions); }
+    private static UsageRightView View(UsageRightEntity x) { var holders = x.HolderPeriods.OrderBy(h => h.ValidFromInclusive).Select(h => new UsageRightHolderPeriodView(h.Id, h.PartyId, h.ValidFromInclusive, h.ValidUntilExclusive)).ToArray(); var revisions = x.Revisions.OrderBy(r => r.ResultingVersion).Select(r => JsonSerializer.Deserialize<UsageRightView>(r.StateJson, JsonOptions) is { } state ? new UsageRightRevisionView(r.Id, r.ResultingVersion, r.MutationType, r.Reason, r.OccurredAtUtc, r.ActorDisplayName, state.GraveSiteId, state.StartDate, state.EndDate, state.SourceReference, state.UsageRightStartRuleId, state.StartRuleCodeSnapshot, state.StartRuleDisplayNameSnapshot, state.HolderPeriods, state.Status, state.PredecessorId, state.Termination, state.OperationId, state.ManualGrantReviewConfirmed) : throw new InvalidOperationException("Ungültige Nutzungsrechtsrevision.")).ToArray(); return new(x.Id, x.GraveSiteId, x.StartDate, x.EndDate, x.SourceReference, x.UsageRightStartRuleId, x.StartRuleCodeSnapshot, x.StartRuleDisplayNameSnapshot, x.Version, holders, revisions, Enum.Parse<UsageRightStatus>(x.Status), x.PredecessorId, Termination(x), x.OperationId, x.ManualGrantReviewConfirmed); }
     private static UsageRightStartRuleView View(UsageRightStartRuleEntity x) => new(x.Id, x.CemeteryId, x.Code, x.DisplayName, x.Version, x.Revisions.OrderBy(r => r.ResultingVersion).Select(r => new UsageRightStartRuleRevisionView(r.Id, r.ResultingVersion, r.MutationType, r.Reason, r.OccurredAtUtc, r.ActorDisplayName, r.Code, r.DisplayName)).ToArray());
     private static string Display(PartyEntity x) => x.PartyType == nameof(PartyType.Organization) ? x.OrganizationName! : $"{x.FirstName} {x.LastName}";
     private static string Address(PartyAddressEntity x) => $"{x.Street} {x.HouseNumber}, {x.PostalCode} {x.City}";
