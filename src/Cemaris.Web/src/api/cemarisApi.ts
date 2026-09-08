@@ -1,4 +1,5 @@
 import type { HealthResponse, SystemInformationResponse } from '../types/system'
+import type { CaseFollowUp, CaseFollowUpAction, CaseFollowUpInput, CaseFollowUpPage } from '../types/caseFollowUps'
 import type {
   BurialInput,
   BurialProcessInput,
@@ -170,6 +171,20 @@ export function getUsageRightStartRules(signal: AbortSignal) { return getJson<St
 export function createUsageRightStartRule(input: unknown) { return sendVersioned<StartRule>('/api/program-configuration/usage-right-start-rules', 'POST', input) }
 export function updateUsageRightStartRule(id: string, etag: string, input: unknown) { return sendVersioned<StartRule>(`/api/program-configuration/usage-right-start-rules/${encodeURIComponent(id)}`, 'PUT', input, etag) }
 export function getNoticeDrafts(caseId: string, signal: AbortSignal) { return getJson<NoticeDraftListItem[]>(`/api/cases/${encodeURIComponent(caseId)}/notice-drafts`, signal) }
+export function getCaseFollowUps(caseId: string | undefined, query: URLSearchParams, signal: AbortSignal) {
+  const path = caseId ? `/api/cases/${encodeURIComponent(caseId)}/follow-ups` : '/api/case-follow-ups'
+  return getJson<CaseFollowUpPage>(`${path}?${query}`, signal)
+}
+export function getCaseFollowUp(caseId: string, id: string, signal: AbortSignal) {
+  return getVersioned<CaseFollowUp>(`/api/case-follow-ups/${encodeURIComponent(id)}?caseId=${encodeURIComponent(caseId)}`, signal)
+}
+export function createCaseFollowUp(caseId: string, input: CaseFollowUpInput) {
+  return sendVersioned<CaseFollowUp>(`/api/cases/${encodeURIComponent(caseId)}/follow-ups`, 'POST', input)
+}
+export function changeCaseFollowUp(caseId: string, id: string, etag: string, action: CaseFollowUpAction, input: CaseFollowUpInput & { reason: string }) {
+  return sendVersioned<CaseFollowUp>(`/api/case-follow-ups/${encodeURIComponent(id)}${action === 'change' ? '' : `/${action}`}?caseId=${encodeURIComponent(caseId)}`,
+    action === 'change' ? 'PUT' : 'POST', action === 'change' ? input : { reason: input.reason }, etag)
+}
 export function getNoticeDraft(id: string, signal?: AbortSignal) { return getVersioned<NoticeDraft>(`/api/notice-drafts/${encodeURIComponent(id)}`, signal) }
 export function createNoticeDraft(caseId: string, input: unknown) { return sendVersioned<NoticeDraft>(`/api/cases/${encodeURIComponent(caseId)}/notice-drafts`, 'POST', input) }
 export function correctNoticeDraft(id: string, etag: string, input: unknown) { return sendVersioned<NoticeDraft>(`/api/notice-drafts/${encodeURIComponent(id)}/corrections`, 'POST', input, etag) }

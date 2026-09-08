@@ -1,6 +1,6 @@
 # Produktentscheidungen zu Personen, Nutzungsrechten, Fristen und Wiedervorlagen
 
-Stand: 07.09.2026
+Stand: 08.09.2026
 
 Aktuelle Ergänzung: Die
 [Produktentscheidungen zu manuellen fallbezogenen Wiedervorlagen](manual-case-follow-ups-decisions.md)
@@ -8,9 +8,21 @@ konkretisieren einen neuen begrenzten Prototypumfang: gemeinsamer Arbeitsvorrat
 ohne Benutzerzuweisung, manuelles Datum und historisierte Zustände offen,
 erledigt und abgebrochen einschließlich Wiederöffnung. Die
 [Umsetzungsübergabe](../implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
-ist vorbereitet, noch nicht ausgeführt. Die nachfolgenden 5a-/5b-/5c-/5f-/5g-
+ist gemäß [Abschluss](../implementation/cemaris-manual-case-follow-ups-completion.md)
+ausgeführt und synthetisch geprüft. Der nachbeauftragte
+[SQL-Nachweis](../implementation/cemaris-manual-case-follow-ups-sql-verification.md)
+ist ebenfalls bestanden. Die nachfolgenden 5a-/5b-/5c-/5f-/5g-
 Bewertungen bleiben historische Nachweise. Ihre offenen Frist- und
 Nutzungsrechtslebenszyklusregeln werden dadurch nicht automatisch entschieden.
+
+Für den nächsten Schritt liegt die
+[Produktentscheidung M2a](manual-usage-right-termination-decisions.md) mit einer
+[technischen Übergabe](../implementation/cemaris-manual-usage-right-termination-next-step-handoff.md)
+vor. Alle fünf Antworten sind ausdrücklich bestätigt: manuelle Beendigung heute
+oder rückwirkend, Rücknahme, manuelle Neuvergabe und gemeinsame Korrektur von
+Rechtefolgen mit erhaltenen irrtümlichen Nachfolgern. Dieser Vertrag ergänzt
+die bisherigen Regeln für den neuen Schnitt; die nachfolgenden historischen
+5f-/5g-Bewertungen werden nicht rückwirkend umgeschrieben. Noch keine M2a-Implementierung.
 
 ## Zweck und Entscheidungsstatus
 

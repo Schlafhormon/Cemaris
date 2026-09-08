@@ -113,7 +113,7 @@ export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPe
         <div>
           <p className="section-kicker">Kanonischer manueller Entwurfskern</p>
           <h2 id="notice-draft-heading">Kanonische Bescheidentwürfe</h2>
-          <p>Manuelle Arbeitsstände mit geschützter Fachhistorie. Es erfolgen keine Festsetzung, Bekanntgabe, Bescheiderzeugung oder Gebührenberechnung.</p>
+          <p>Manuelle Arbeitsstände mit geschützter Fachhistorie. Eine aktivierte Dokumentausgabe erzeugt ausschließlich einen flüchtigen, rechtlich wirkungslosen Entwurf. Es erfolgen keine Festsetzung, Bekanntgabe oder Gebührenberechnung.</p>
         </div>
         <span className="scope-badge scope-badge--warning">Rechtlich wirkungslos</span>
       </header>

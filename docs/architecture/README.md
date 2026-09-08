@@ -1,6 +1,6 @@
 # Technische Zielarchitektur
 
-Aktualisierung 07.09.2026: Die
+Aktualisierung 08.09.2026: Die
 [Prototypentscheidung](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
 erlaubt lokale synthetische Tests ohne die früheren pauschalen Betriebs- und
 Freigabehürden. Der
@@ -11,10 +11,22 @@ ist über vorhandene Fall- und Stammdatenverträge umgesetzt und bis DOCX/PDF
 im isolierten Browser geprüft. ADR-0019 und die technischen
 Schutzgrenzen bleiben bestehen. Frühere Stop-Aussagen gelten für ihren
 historischen Auftrag.
-Der nächste [manuelle Wiedervorlagenkern](../implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
+Der [manuelle Wiedervorlagenkern](../implementation/cemaris-manual-case-follow-ups-completion.md)
 ist als eigener kanonischer Bereich mit Synthetic-/EF-Provider, eigener
-Version, Fachhistorie und deaktivierter Development-Capability vorbereitet.
+Version, atomarer Fachhistorie/Audit und deaktivierter Development-Capability umgesetzt.
+Die Entscheidung steht in [ADR-0020](../decisions/ADR-0020-manual-case-follow-ups.md).
+Der ausdrücklich nachbeauftragte
+[SQL-Nachweis](../implementation/cemaris-manual-case-follow-ups-sql-verification.md)
+bestätigt Migration, Parallelrennen, atomaren Rollback und Anwendungshostwechsel
+auf temporären Testdatenbanken. Zwei EF-Korrekturen sichern den vorhandenen Vertrag.
 Er führt keine Fristberechnung oder Statuswirkung auf Fachaggregate ein.
+Für [M2a](../implementation/cemaris-manual-usage-right-termination-next-step-handoff.md)
+ist die Erweiterung des bestehenden kanonischen Nutzungsrechtskerns vorbereitet.
+Die bestätigte manuelle Neuvergabe erfordert eine kontrollierte Erweiterung des
+ungefilterten Grabstellen-Eindeutigkeitsindex und des Ein-Recht-Lesepfads.
+Alte JSON-Revisionen bleiben erhalten; Folgekorrekturen müssen mehrere Rechte
+atomar historisieren. Alle fünf Produktantworten liegen vor. Ein neues ADR
+gehört zur anschließenden Implementierung; diese ist hier noch nicht erfolgt.
 
 > **Status:** Technische Grundlage. Die genannten Produktbereiche sind eine zu validierende Produktvision und noch keine verbindlichen Fachanforderungen.
 
@@ -129,7 +141,7 @@ umgesetzt. Seine flüchtige sichere OpenXML-/LibreOffice-Architektur steht in
   Schreibendpunkte die Fallaktenbearbeitung, kanonische Stammdatenpflege,
   den einfachen Beisetzungsprozess, Beteiligte und Nutzungsrechte sowie
   kanonische manuelle Bescheidentwürfe und deren begrenzte flüchtige
-  DOCX-/PDF-Erzeugung ab.
+  DOCX-/PDF-Erzeugung sowie den unabhängigen manuellen Wiedervorlagenbereich ab.
   Starke Fallversions- beziehungsweise
   Entitäts-ETags und `If-Match` verhindern Last-write-wins.
 - Jede erfolgreiche Development-Mutation erhält serverseitig Akteur und

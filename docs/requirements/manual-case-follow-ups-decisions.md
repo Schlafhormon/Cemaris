@@ -1,10 +1,14 @@
 # Produktentscheidungen: manuelle fallbezogene Wiedervorlagen
 
-Stand: 07.09.2026
+Stand: 08.09.2026
 
-Status: **Begrenzter Prototypumfang bestätigt; noch nicht implementiert.**
+Status: **Begrenzter Prototypumfang implementiert und synthetisch geprüft.**
+Der [Abschluss](../implementation/cemaris-manual-case-follow-ups-completion.md)
+bewahrt den ursprünglichen Implementierungsnachweis. Der anschließend ausdrücklich
+beauftragte [SQL-Test](../implementation/cemaris-manual-case-follow-ups-sql-verification.md)
+ist einschließlich Migration, Parallelrennen, Rollback und Anwendungshostwechsel bestanden.
 Die [Umsetzungsübergabe](../implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
-beschreibt den ausführbaren nächsten Auftrag. Die
+ist ausgeführt und bewahrt den ursprünglichen Auftrag. Die
 [Roadmap](../implementation/cemaris-first-operational-version-roadmap.md)
 ordnet ihn in den Weg zur ersten alltagstauglichen Version ein.
 
@@ -124,6 +128,22 @@ bleiben. Nach Anlage/Änderung werden betroffene Listen aktualisiert. Bei
 Konflikten bleiben Eingaben erhalten; bewusstes Neuladen anbieten.
 
 ## Technische und historische Grenzen
+
+Die Umsetzung verwendet SQL-Servers native `uniqueidentifier`-Reihenfolge,
+im Speicher entsprechend `SqlGuid`, nach Datum und UTC-Erstellzeit.
+Detail und Änderungen unter `/api/case-follow-ups/{id}` verlangen zusätzlich
+den Queryparameter `caseId`; die vollständige Fachhistorie gehört zur
+geschützten Detailantwort. Eine fremde Zuordnung ergibt 404. Die eigene Version
+wird als starker numerischer ETag ausgegeben. Fehlende oder schwache ETags
+ergeben gemäß Übergabe 428, sonst ungültige 400, veraltete 412. Die neue
+428-Behandlung schwacher ETags ändert keine älteren Endpunkte.
+
+Die neue Migration `20260908062036_AddManualCaseFollowUps` wurde
+als additives Artefakt erstellt und zunächst offline geprüft. Im ausdrücklich
+nachbeauftragten SQL-Test wurde sie auf entbehrliche Testdatenbanken angewendet;
+bestehende Anwendungsdatenbanken bleiben unverändert.
+Die Architektur ist in
+[ADR-0020](../decisions/ADR-0020-manual-case-follow-ups.md) dokumentiert.
 
 Eigene standardmäßig deaktivierte Development-Capability
 `Features:CaseFollowUpsEnabled`, separate API-Policy mit denselben beiden

@@ -1,6 +1,6 @@
 # Cemaris
 
-Aktuell (07.09.2026): Cemaris wird als lokaler Prototyp mit synthetischen
+Aktuell (08.09.2026): Cemaris wird als lokaler Prototyp mit synthetischen
 Daten entwickelt und erprobt. Die
 [Projektentscheidung](docs/requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
 hebt die pauschalen Freigabehürden für diesen Umfang auf. Der
@@ -12,9 +12,21 @@ Die [Beisetzungsauswahl mit Personenname und Grabbezug](docs/implementation/cema
 ist ebenfalls umgesetzt und mit zwei synthetischen Beisetzungen bis DOCX und
 echtem LibreOffice-PDF im isolierten Browser geprüft.
 Der [Arbeitsplan zur ersten alltagstauglichen Version](docs/implementation/cemaris-first-operational-version-roadmap.md)
-ordnet den weiteren Ausbau. Nächster ausführbarer Auftrag sind
-[manuelle fallbezogene Wiedervorlagen](docs/implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
-mit gemeinsamem Arbeitsvorrat und den Zuständen offen, erledigt und abgebrochen.
+ordnet den weiteren Ausbau. Die
+[manuellen fallbezogenen Wiedervorlagen](docs/implementation/cemaris-manual-case-follow-ups-completion.md)
+sind mit gemeinsamem Arbeitsvorrat, Historie, Konfliktschutz und den Zuständen
+offen, erledigt und abgebrochen implementiert. Der isolierte Browserlauf mit
+zwei Cookie-Sitzungen ist bestanden. Der anschließend ausdrücklich beauftragte
+[SQL-Nachweis](docs/implementation/cemaris-manual-case-follow-ups-sql-verification.md)
+bestätigt Migration, Konfliktschutz, Rollback und Persistenz nach Anwendungshostwechsel
+auf entbehrlichen Testdatenbanken; zwei dabei entdeckte EF-Fehler sind behoben. Die neue Capability
+bleibt standardmäßig deaktiviert. Auch der 6c-Einleitungstext ist korrigiert.
+Der nächste Schnitt ist als
+[M2a-Übergabe zum manuellen Nutzungsrechtslebenszyklus](docs/implementation/cemaris-manual-usage-right-termination-next-step-handoff.md)
+vorbereitet. Alle fünf Produktentscheidungen sind bestätigt: Beendigung heute
+oder rückwirkend, Rücknahme, manuelle Neuvergabe und gemeinsame Korrektur
+bestehender Rechtefolgen unter Erhalt irrtümlicher Nachfolger und ihrer Historie.
+Die Implementierung dieses nächsten Schnitts steht noch aus.
 Die folgenden Gateabschlüsse beschreiben frühere Bewertungen; deren
 allgemeine Stop-Regel blockiert diesen Prototypauftrag nicht.
 
@@ -127,7 +139,8 @@ ist dokumentarisch mit Variante A „keine Implementierung“ abgeschlossen. Der
 nachfolgende
 [5g-Kurzentscheidungs- und Freigabegate](docs/implementation/cemaris-increment-5g-completion.md)
 bestätigt mangels kommunaler Fach- und Freigabequellen erneut Variante A.
-Fristberechnung, Statuswirkung und Wiedervorlagen bleiben offen. Das
+Fristberechnung, Statuswirkung und automatische Wiedervorlagen bleiben offen;
+der neue manuelle M1-Kern ist separat umgesetzt. Das
 [5h-Auswahlgate](docs/implementation/cemaris-increment-5h-completion.md) hat
 als nächsten fachregelarmen Schnitt eine deterministische, serverseitig
 paginierte Beteiligtenübersicht ausgewählt. Sie ist gemäß
@@ -329,7 +342,7 @@ zusätzlich verfügbar:
   Programmkonfiguration.
 
 Ist `Features__BurialProcessEditingEnabled` aktiv, ersetzt der 4b-Prozess die
-alten einfachen Beisetzungsschreibendpunkte. Die sechs fachlichen Capabilities
+alten einfachen Beisetzungsschreibendpunkte. Die sieben fachlichen Capabilities
 werden getrennt konfiguriert. Für den vollständigen synthetischen
 Bescheidentwurfspiloten müssen wegen Beteiligtenauswahl und Inhabervorschlag
 `PersonUsageRightsEditingEnabled` und `NoticeDraftEditingEnabled` gemeinsam
@@ -493,7 +506,7 @@ SQL-Server-Instanz explizit bereitgestellt werden:
 
 ```powershell
 $env:CEMARIS_SQL_TEST_CONNECTION_STRING = "<prozesslokal bereitgestellte Testverbindung>"
-dotnet test tests/Cemaris.IntegrationTests --filter "Category=SqlServer"
+dotnet test tests/Cemaris.IntegrationTests --filter "Category=SqlServer" -p:UserSecretsId=
 Remove-Item Env:CEMARIS_SQL_TEST_CONNECTION_STRING
 ```
 
@@ -505,6 +518,13 @@ Schreib-/Auditatomarität, 5b-Historie, echte Parallelrennen und Rollback und
 entfernen die Datenbanken anschließend wieder. Vor dem Löschen werden Präfix und
 aufgelöster Datenbankname erneut geprüft. Ohne die Umgebungsvariable werden
 diese Tests übersprungen.
+
+Der Buildparameter `-p:UserSecretsId=` verhindert für den Testbuild das
+automatische Laden lokaler User Secrets. Der Wiedervorlagen-Hosttest prüft
+das fehlende Assemblyattribut ausdrücklich. Bei `--no-build` muss zuvor mit
+diesem Parameter gebaut worden sein. Der gezielte
+[M1-SQL-Nachweis](docs/implementation/cemaris-manual-case-follow-ups-sql-verification.md)
+ist ausgeführt; er ist kein neuer Nachweis der gesamten SQL-Testkategorie.
 
 ## Konfiguration
 
@@ -522,6 +542,7 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `Features__PersonUsageRightsEditingEnabled` | synthetischer kanonischer Beteiligten-/Nutzungsrechtskern; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Features__NoticeDraftEditingEnabled` | rechtlich wirkungsloser manueller Bescheidentwurfskern; nur in `Development` zulässig | `false` (Standard), nur im ausdrücklich aktivierten synthetischen Development-Piloten `true` |
 | `Features__NoticeGenerationEnabled` | flüchtige rechtlich wirkungslose DOCX-/PDF-Erzeugung; nur in `Development` und mit allen abhängigen Capabilities zulässig | `false`; lokale synthetische Testsitzung darf prozesslokal aktivieren |
+| `Features__CaseFollowUpsEnabled` | gemeinsamer manueller Wiedervorlagenbereich für synthetische Fallakten; nur in `Development`, unabhängig von anderen Capabilities | `false`; ausschließlich prozesslokale Aktivierung im isolierten Test |
 | `NoticeGeneration__TemplateRoot` / `TemplateFileName` | read-only Vorlagenstamm im Content-Root und feste DOCX-Datei | installationsspezifisch, keine Uploadfunktion |
 | `NoticeGeneration__TempRoot` | kontrollierter Tempstamm im Content-Root | installationsspezifisch, keine Fremdpfade oder Reparse Points |
 | `NoticeGeneration__LibreOfficeExecutablePath` | absoluter Pfad zur separat installierten PDF-Engine | portabel `null`; lokal bestätigten `soffice.com`-Pfad prozesslokal setzen |

@@ -1,6 +1,6 @@
 # Cemaris-Implementierungsplan
 
-Stand: 07.09.2026
+Stand: 08.09.2026
 
 ## Aktueller Schwerpunkt
 
@@ -15,10 +15,20 @@ ist umgesetzt: Referenzzuordnung, fehlende Angaben und identische Beschriftungen
 sind regressionsgesichert; der isolierte Browserlauf mit zwei Beisetzungen
 prüft die manuelle Auswahl bis DOCX und echtem LibreOffice-PDF.
 Die [Roadmap zur ersten alltagstauglichen Version](cemaris-first-operational-version-roadmap.md)
-ordnet die verbleibenden Arbeitsabläufe. Der nächste ausführbare Auftrag ist
-der [manuelle Wiedervorlagenkern](cemaris-manual-case-follow-ups-next-step-handoff.md):
+ordnet die verbleibenden Arbeitsabläufe. Der
+[manuelle Wiedervorlagenkern](cemaris-manual-case-follow-ups-completion.md) ist umgesetzt:
 gemeinsamer Arbeitsvorrat ohne Benutzerzuweisung, fallbezogene Einträge und
 historisierte Bearbeitung einschließlich Erledigen, Abbrechen und Wiederöffnen.
+95 Unit-, 79 nicht-SQL-Integrations- und 84 Frontendtests sowie der isolierte
+Browserlauf mit zwei Cookie-Sitzungen sind bestanden. Der danach ausdrücklich
+beauftragte [SQL-Nachweis](cemaris-manual-case-follow-ups-sql-verification.md)
+ist ebenfalls bestanden: Migration auf entbehrlichen Testdatenbanken,
+Parallelrennen, Rollback und Persistenz nach Anwendungshostwechsel.
+Die nächste [M2a-Übergabe](cemaris-manual-usage-right-termination-next-step-handoff.md)
+bereitet Beendigung, Rücknahme, manuelle Neuvergabe und gemeinsame Korrektur
+bestehender Rechtefolgen vor. Alle fünf
+[Produktentscheidungen](../requirements/manual-usage-right-termination-decisions.md)
+sind bestätigt; der Schnitt ist bereit zur Implementierung im Folgechat.
 Frühere Variante-A-Abschlüsse bleiben als Historie
 erhalten; sie blockieren diesen Umfang nicht.
 
@@ -215,7 +225,8 @@ Berechnungen oder Automatismen benötigen eine dokumentierte Fachentscheidung.
 | 6c | rechtlich wirkungslosen Gebührenbescheidentwurf erzeugen | [technisch Ende zu Ende umgesetzt](cemaris-increment-6c-completion.md): Benutzerkontakte, Satzungsversionen, sichere OpenXML-DOCX-/LibreOffice-PDF-Erzeugung, Temp-Bereinigung, inhaltsfreier Audit, API/OpenAPI und React-UI; Readiness korrigiert minimal einen verlorenen Parallelitätsslot und die fehlende sichtbare Entwurfskennzeichnung | Development-only, standardmäßig aus; keine Rechtswirkung, Zustellung, Archivierung, Integration oder Migration |
 | 6c-Pilot-Readiness | Betriebs- und Pilotfreigabe technisch prüfen und neu bewerten | [vollständig ausgeführt](cemaris-notice-generation-synthetic-pilot-readiness-completion.md): `Cemaris_Dev` und 6b-/6c-Schema read-only bestätigt; reale synthetische LibreOffice-/Druck-zu-Datei-Ausgabe, Fehler-/Timeout-/Abbruchbereinigung und Qualitätsmatrix erfolgreich | erneut Variante A „Stop“: kein Vollbackup/Restore, Monitoring, gehärtete Installationsgrenzen oder zuständige Freigaben; keine Aktivierung, kein Aktivierungsauftrag |
 | 6c-Betriebsremediation | Backup/Restore schließen und verbliebene Pilotnachweise neu bewerten | [vollständig ausgeführt](cemaris-notice-generation-synthetic-pilot-operational-remediation-completion.md): datiertes `COPY_ONLY`-Vollbackup mit Checksum, Verify, Restore ausschließlich auf `Cemaris_Dev_RestoreCheck_20260902`, inhaltsfreie Prüfung und Entfernung nur dieses Ziels | endet mit Variante A und ausgeschalteter Capability; offene Betriebs-/Freigabepunkte, keine systemweite Härtungsänderung, SQL-Testdatenbank oder Aktivierung |
-| M1 | Manuelle fallbezogene Wiedervorlagen | [Umsetzungsübergabe vorbereitet](cemaris-manual-case-follow-ups-next-step-handoff.md): gemeinsamer Arbeitsvorrat, eigene Historie und Zustände offen, erledigt und abgebrochen; noch nicht implementiert | begrenzte Produktantworten bestätigt; keine Fristautomatik, Rechtswirkung oder Anwendung neuer Schemaartefakte auf bestehende Datenbanken |
+| M1 | Manuelle fallbezogene Wiedervorlagen | [technisch und synthetisch abgeschlossen](cemaris-manual-case-follow-ups-completion.md); [SQL-Folgenachweis bestanden](cemaris-manual-case-follow-ups-sql-verification.md), einschließlich zweier EF-Korrekturen | neue Capability aus; nur entbehrliche SQL-Testdatenbanken verwendet; keine Fristautomatik oder Rechtswirkung |
+| M2a | Manueller Nutzungsrechtslebenszyklus | [technische Übergabe vorbereitet](cemaris-manual-usage-right-termination-next-step-handoff.md); alle fünf Produktantworten bestätigt | Beendigung, Rücknahme, manuelle Neuvergabe und gemeinsame Folgekorrektur noch zu implementieren; keine Fristautomatik oder automatische Grabstellenwirkung |
 | 6c+ | weiterer Gebührenausbau und Dokumente | nur nach getrennten vollständigen Entscheidungs- und Freigabegates | Gebühren-/Satzungsberechnung, weitere Dokumentarten, Rechtswirkung, Versand, Korrektur, Datenschutz, Betrieb und Migration |
 | 7 | optionale Winyard-Integration und Auswertungen | entkoppelter DMS-Adapter und priorisierte Berichte | Herstellervertrag, Metadaten, Fehler- und Betriebsregeln |
 | 8 | übriges EDWALT-Mapping, Import, Probeläufe und Cutover | kontrollierte Bestandsübernahme jenseits des vorgezogenen Friedhofsstammdatenpfads | abgeschlossene Quellregeln, Datenschutz und Zielmapping |
@@ -227,10 +238,14 @@ Sicherheits-, Datenschutz-, Betriebs- und Fachgates erfüllt sind.
 
 ## Nächster Umsetzungsschritt
 
-Die Beisetzungsauswahl ist abgeschlossen. Die
+Beisetzungsauswahl und
 [Wiedervorlagenübergabe](cemaris-manual-case-follow-ups-next-step-handoff.md)
-beschreibt den nächsten vollständigen Umsetzungsschnitt und nimmt die kleine
-Korrektur des missverständlichen Bescheidpanel-Textes als Begleitaufgabe auf.
+sind abgeschlossen, einschließlich des korrigierten Bescheidpanel-Textes.
+Der im [M1-Abschluss](cemaris-manual-case-follow-ups-completion.md) noch offene
+[SQL-Nachweis](cemaris-manual-case-follow-ups-sql-verification.md) ist nach
+ausdrücklicher Beauftragung bestanden. Nächster fachlicher Ausbau ist M2 mit
+dem [bestätigten M2a-Schnitt](cemaris-manual-usage-right-termination-next-step-handoff.md)
+einschließlich manueller Neuvergabe und gemeinsamer Folgekorrektur gemäß Roadmap.
 Der [Produktvertrag](../requirements/manual-case-follow-ups-decisions.md)
 enthält die dazu bereits eingeholten Antworten. Die folgende
 Entwicklungshistorie begründet den vorhandenen Funktionsumfang; bereits
@@ -262,7 +277,8 @@ ebenfalls abgeschlossen. Das dokumentarische
 und das nachfolgende
 [5g-Kurzentscheidungs- und Freigabegate](cemaris-increment-5g-completion.md)
 sind mit Variante A abgeschlossen. Automatische Fristberechnung,
-Statuswirkung, Beendigung und Wiedervorlagen bleiben offen. Die im
+Statuswirkung, Beendigung und automatische Wiedervorlagen bleiben offen;
+der manuelle M1-Kern ist inzwischen separat umgesetzt. Die im
 [5h-Auswahlgate](cemaris-increment-5h-completion.md) gewählte paginierte
 Beteiligtenübersicht ist mit
 [5i](cemaris-increment-5i-completion.md) technisch umgesetzt. Als nächster

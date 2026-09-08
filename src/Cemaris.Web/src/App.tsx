@@ -16,6 +16,7 @@ import { UsageRightStartRulesPage } from './pages/UsageRightStartRulesPage'
 import { PartiesPage } from './pages/PartiesPage'
 import { NoticeNumberConfigurationPage } from './pages/NoticeNumberConfigurationPage'
 import { LegalBasisVersionsPage } from './pages/LegalBasisVersionsPage'
+import { CaseFollowUpsPage } from './pages/CaseFollowUpsPage'
 
 function App() {
   const { state: authState, account, logout } = useAuth()
@@ -26,6 +27,7 @@ function App() {
   const [personUsageRightsEditingEnabled, setPersonUsageRightsEditingEnabled] = useState<boolean>()
   const [noticeDraftEditingEnabled, setNoticeDraftEditingEnabled] = useState<boolean>()
   const [noticeGenerationEnabled, setNoticeGenerationEnabled] = useState<boolean>()
+  const [caseFollowUpsEnabled, setCaseFollowUpsEnabled] = useState(false)
   const [forbidden, setForbidden] = useState(false)
 
   useEffect(() => {
@@ -44,6 +46,8 @@ function App() {
     const controller = new AbortController()
     getSystemInformation(controller.signal)
       .then((information) => {
+        if (controller.signal.aborted) return
+        setCaseFollowUpsEnabled(information.caseFollowUpsEnabled === true)
         setCaseEditingEnabled(information.caseEditingEnabled)
         setCemeteryMasterDataEditingEnabled(information.cemeteryMasterDataEditingEnabled)
         setBurialProcessEditingEnabled(information.burialProcessEditingEnabled)
@@ -85,6 +89,8 @@ function App() {
     page = personUsageRightsEditingEnabled === true
       ? <PartiesPage />
       : <PersonUsageRightsUnavailablePage loading={personUsageRightsEditingEnabled === undefined} />
+  } else if (!account.mustChangePassword && path === '/case-follow-ups') {
+    page = caseFollowUpsEnabled ? <CaseFollowUpsPage /> : <div className="state-message detail-state" role="status">Wiedervorlagen sind in dieser Umgebung nicht aktiviert.</div>
   } else if (!account.mustChangePassword && path === '/program-configuration/notice-number') {
     page = account.role === 'Administration' && noticeDraftEditingEnabled === true
       ? <NoticeNumberConfigurationPage />
@@ -114,12 +120,13 @@ function App() {
         personUsageRightsEditingEnabled={personUsageRightsEditingEnabled === true}
         noticeDraftEditingEnabled={noticeDraftEditingEnabled === true}
         noticeGenerationEnabled={noticeGenerationEnabled === true}
+        caseFollowUpsEnabled={caseFollowUpsEnabled}
       />
     )
   }
 
   return (
-    <AppLayout account={account} caseEditingEnabled={caseEditingEnabled === true} cemeteryMasterDataEditingEnabled={cemeteryMasterDataEditingEnabled === true} personUsageRightsEditingEnabled={personUsageRightsEditingEnabled === true} noticeDraftEditingEnabled={noticeDraftEditingEnabled === true} noticeGenerationEnabled={noticeGenerationEnabled === true} onLogout={logout}>
+    <AppLayout account={account} caseFollowUpsEnabled={caseFollowUpsEnabled} caseEditingEnabled={caseEditingEnabled === true} cemeteryMasterDataEditingEnabled={cemeteryMasterDataEditingEnabled === true} personUsageRightsEditingEnabled={personUsageRightsEditingEnabled === true} noticeDraftEditingEnabled={noticeDraftEditingEnabled === true} noticeGenerationEnabled={noticeGenerationEnabled === true} onLogout={logout}>
       {forbidden && <div className="permission-banner" role="alert"><span>Diese Aktion ist für Ihr Konto nicht erlaubt. Ihre Eingaben bleiben erhalten.</span><button type="button" onClick={() => setForbidden(false)}>Hinweis schließen</button></div>}
       {page}
     </AppLayout>

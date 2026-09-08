@@ -1,6 +1,6 @@
 # Architecture Decision Records
 
-Aktualisierung 07.09.2026: Die
+Aktualisierung 08.09.2026: Die
 [Projektentscheidung zum Prototypen](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
 ändert die Freigabepolitik für lokale synthetische Entwicklung, nicht die
 technische Architektur. ADR-0019 bleibt unverändert; kein neues ADR ist
@@ -9,10 +9,19 @@ ist ausgeführt. Die [verständliche Beisetzungsauswahl](../implementation/cemar
 ist innerhalb der bestehenden Architektur umgesetzt und mit zwei
 synthetischen Beisetzungen bis zum echten PDF geprüft.
 Der [Folgeauftrag für manuelle Wiedervorlagen](../implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
-verwendet diese Schutzmuster für einen eigenen kanonischen Kern. Die dazu
+ist ausgeführt und verwendet diese Schutzmuster für einen eigenen kanonischen Kern. Die dazu
 [bestätigten Produktantworten](../requirements/manual-case-follow-ups-decisions.md)
-sind dokumentiert; eine Architekturergänzung gehört zur noch ausstehenden
-Implementierung und ändert die historischen ADRs nicht rückwirkend.
+sind dokumentiert. [ADR-0020](ADR-0020-manual-case-follow-ups.md) ergänzt die
+Architektur um den manuellen Bereich und ändert historische ADRs nicht rückwirkend.
+Der nachträglich beauftragte
+[SQL-Nachweis](../implementation/cemaris-manual-case-follow-ups-sql-verification.md)
+ist bestanden. Die beiden EF-Korrekturen setzen den bestehenden Atomaritäts- und
+Versionsvertrag um; ADR-0020 bleibt als Entscheidung zum Implementierungszeitpunkt erhalten.
+Die [M2a-Übergabe](../implementation/cemaris-manual-usage-right-termination-next-step-handoff.md)
+bereitet den durch fünf Produktantworten bestätigten manuellen Nutzungsrechts-
+lebenszyklus einschließlich Neuvergabe und gemeinsamer Folgekorrektur vor.
+Das neue ADR zur Schema- und Transaktionserweiterung gehört zur anschließenden
+Umsetzung; ADR-0016 bleibt als historische Entscheidung unverändert.
 
 Architecture Decision Records (ADRs) dokumentieren wesentliche technische und projektweite Entscheidungen samt Kontext und Folgen. Sie werden nicht nachträglich umgeschrieben, um eine andere Vergangenheit darzustellen; Änderungen erfolgen durch ein neues ADR, das die frühere Entscheidung ersetzt.
 
@@ -46,6 +55,7 @@ Architecture Decision Records (ADRs) dokumentieren wesentliche technische und pr
 | [0017](ADR-0017-persistent-local-sql-and-scoped-edwalt-master-data-import.md) | Dauerhafte lokale SQL-Entwicklung und abgegrenzter EDWALT-Stammdatenimport | Accepted |
 | [0018](ADR-0018-canonical-manual-notice-drafts.md) | Kanonische manuelle Bescheidentwürfe vor Bescheiderzeugung | Accepted |
 | [0019](ADR-0019-ephemeral-secure-notice-document-generation.md) | Flüchtige sichere Bescheidentwurfs-Dokumenterzeugung | Accepted |
+| [0020](ADR-0020-manual-case-follow-ups.md) | Manuelle fallbezogene Wiedervorlagen mit atomarem Nachweis | Accepted |
 
 ADR-0018 ist durch den
 [technischen 6b-Abschluss](../implementation/cemaris-increment-6b-completion.md)

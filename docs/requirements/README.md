@@ -1,6 +1,6 @@
 # Arbeitsgrundlage für Bestands- und Bedarfsanalyse
 
-Aktuell (07.09.2026): Der Projektleiter hat pragmatische lokale
+Aktuell (08.09.2026): Der Projektleiter hat pragmatische lokale
 Prototypentwicklung mit synthetischen Daten freigegeben. Die
 [datierte Entscheidung](notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
 ersetzt dafür die früheren pauschalen Freigabehürden. Der
@@ -9,12 +9,19 @@ ist einschließlich isoliertem Browsercheck technisch ausgeführt. Auch die
 [verständlichere Beisetzungsauswahl](../implementation/cemaris-notice-generation-burial-selection-completion.md)
 ist umgesetzt und mit zwei synthetischen Beisetzungen bis DOCX und echtem PDF
 geprüft. Die Anmeldung mit einem persistenten Konto bleibt unbestätigt.
-Für den nächsten Ausbau sind die
+Für den manuellen Ausbau sind die
 [Produktentscheidungen zu manuellen Wiedervorlagen](manual-case-follow-ups-decisions.md)
 bestätigt: gemeinsamer Arbeitsvorrat, Fallbezug und historisierte Zustände
 offen, erledigt und abgebrochen. Die
 [Umsetzungsübergabe](../implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
-ist vorbereitet; die Funktion selbst ist noch nicht implementiert.
+ist gemäß [Abschluss](../implementation/cemaris-manual-case-follow-ups-completion.md)
+ausgeführt und synthetisch geprüft. Der nachträglich beauftragte
+[SQL-Nachweis](../implementation/cemaris-manual-case-follow-ups-sql-verification.md)
+bestätigt zusätzlich Persistenz über Anwendungshostwechsel, Konfliktschutz und Rollback.
+Die [M2a-Produktentscheidungen](manual-usage-right-termination-decisions.md) sind
+vollständig bestätigt: manuelle Beendigung, Rücknahme, Neuvergabe und gemeinsame
+Korrektur bestehender Rechtefolgen mit historisierten irrtümlichen Nachfolgern.
+Die technische Übergabe ist vorbereitet; die Implementierung steht noch aus.
 Offene Regeln bleiben als solche erkennbar; formale Echtbetriebsanforderungen
 blockieren diese Entwicklung nicht.
 
@@ -533,11 +540,19 @@ DMS-Adapter und diese offenen Grenzen unverändert.
 
 ## 15. Wiedervorlagen und Fristen
 
-**Status:** UNBEKANNT.
+**Status:** Manueller fallbezogener Kern bestätigt und synthetisch umgesetzt;
+automatische und rechtliche Fristen weiterhin offen. Maßgeblich sind der
+[Produktvertrag](manual-case-follow-ups-decisions.md) und der
+[M1-Abschluss](../implementation/cemaris-manual-case-follow-ups-completion.md).
+
+- BESTÄTIGT/UMGESETZT: Gemeinsamer Arbeitsvorrat für Sachbearbeitung und
+  Administration ohne persönliche Zuweisung; genau eine Fallakte, Titel,
+  optionale Beschreibung und manuelles Datum, historisierte Änderung,
+  Erledigung, Abbruch und Wiederöffnung aus beiden abgeschlossenen Zuständen.
 
 - OFFEN: Welche fachlichen oder organisatorischen Ereignisse erzeugen Wiedervorlagen?
 - OFFEN: Wie werden Fristen berechnet, geändert, erledigt und eskaliert?
-- OFFEN: Wer sieht, übernimmt und vertritt Aufgaben?
+- OFFEN: Weitergehende Übernahme-/Vertretungsregeln außerhalb des gemeinsamen manuellen Arbeitsvorrats.
 - OFFEN: Welche Benachrichtigungen und Kalenderbezüge sind nötig?
 - OFFEN: Wie werden überfällige oder fehlerhaft berechnete Termine behandelt?
 

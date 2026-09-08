@@ -12,6 +12,7 @@ internal static class TestConfiguration
         {
             ["ReadModel:Provider"] = "Synthetic",
             ["Features:CaseEditingEnabled"] = "false",
+            ["Features:CaseFollowUpsEnabled"] = "false",
             ["Features:CemeteryMasterDataEditingEnabled"] = "false",
             ["Features:BurialProcessEditingEnabled"] = "false",
             ["Features:PersonUsageRightsEditingEnabled"] = "false",

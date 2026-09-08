@@ -1,10 +1,15 @@
 # Nächster Schritt: manuelle fallbezogene Wiedervorlagen
 
-Stand: 07.09.2026
+Stand: 08.09.2026 (Auftrag vom 07.09.2026)
 
-Status: **Vorbereitet, noch nicht implementiert.** Diese Übergabe ist der
-eigenständig ausführbare Auftrag für den nächsten kontextlosen Chat.
-Die Vorbereitung verändert ausschließlich Dokumentation. Die Produktantworten
+Status: **Ausgeführt.** Implementierung, isolierter Browserlauf und aktuelle
+Qualitätsprüfungen sind im [Abschluss](cemaris-manual-case-follow-ups-completion.md)
+belegt. Im ursprünglichen Auftrag wurden SQL-Tests nur ergänzt und kompiliert
+und die Migration offline geprüft. Nach ausdrücklicher weiterer Beauftragung
+ist der [SQL-Folgenachweis](cemaris-manual-case-follow-ups-sql-verification.md)
+einschließlich Migration auf entbehrlichen Testdatenbanken bestanden. Der folgende Text
+bewahrt den ursprünglichen Auftrag und ist keine erneute Ausführungsaufforderung.
+Die damalige Vorbereitung veränderte ausschließlich Dokumentation. Die Produktantworten
 zum gemeinsamen Arbeitsvorrat und zusätzlichen Abbruchstatus sind bereits
 eingeholt und dürfen nicht erneut als allgemeine Freigabefrage gestellt werden.
 

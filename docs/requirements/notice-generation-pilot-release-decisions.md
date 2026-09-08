@@ -77,10 +77,12 @@ Konto bleibt unbestätigt. Die anschließende
 ist am selben Tag implementiert und mit zwei synthetischen Beisetzungen
 bis DOCX und echtem LibreOffice-PDF im isolierten Browser geprüft. Ein weiteres
 allgemeines Freigabegate war für diesen Schritt nicht erforderlich.
-Die nächste [Implementierungsübergabe](../implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
-begrenzt den manuellen Wiedervorlagenkern anhand
-[neu eingeholter Produktantworten](manual-case-follow-ups-decisions.md). Die
-Dokumenterzeugung bleibt dabei deaktiviert; der Auftrag erweitert weder
+Die [Implementierungsübergabe](../implementation/cemaris-manual-case-follow-ups-next-step-handoff.md)
+zum manuellen Wiedervorlagenkern anhand
+[neu eingeholter Produktantworten](manual-case-follow-ups-decisions.md) ist am
+08.09.2026 gemäß [Abschluss](../implementation/cemaris-manual-case-follow-ups-completion.md)
+ausgeführt. Die Dokumenterzeugung blieb im neuen Browserlauf deaktiviert;
+der 6c-Einleitungstext wurde gezielt korrigiert. Der Auftrag erweitert weder
 Rechtswirkung noch Frist-, Gebühren- oder Migrationsfreigaben.
 
 Die nachfolgenden Abschnitte dokumentieren die Bewertungen bis 02.09.2026.

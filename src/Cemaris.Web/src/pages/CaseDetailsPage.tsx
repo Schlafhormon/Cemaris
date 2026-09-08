@@ -3,6 +3,7 @@ import { ApiError, getCaseDetails } from '../api/cemarisApi'
 import { LastChangeNotice } from '../components/LastChangeNotice'
 import { PersonUsageRightsPanel } from '../components/PersonUsageRightsPanel'
 import { NoticeDraftPanel } from '../components/NoticeDraftPanel'
+import { CaseFollowUpsPanel } from '../components/CaseFollowUpsPanel'
 import type {
   AddressDetails,
   CaseOverview,
@@ -16,6 +17,7 @@ interface CaseDetailsPageProps {
   personUsageRightsEditingEnabled?: boolean
   noticeDraftEditingEnabled?: boolean
   noticeGenerationEnabled?: boolean
+  caseFollowUpsEnabled?: boolean
 }
 
 function displayValue(value: ReactNode) {
@@ -90,7 +92,7 @@ function searchReturnUrl() {
 
   try {
     const url = new URL(returnTo, window.location.origin)
-    return url.origin === window.location.origin && url.pathname === '/search'
+    return url.origin === window.location.origin && (url.pathname === '/search' || url.pathname === '/case-follow-ups')
       ? `${url.pathname}${url.search}`
       : '/search'
   } catch {
@@ -98,7 +100,7 @@ function searchReturnUrl() {
   }
 }
 
-export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProcessEditingEnabled = false, personUsageRightsEditingEnabled = false, noticeDraftEditingEnabled = false, noticeGenerationEnabled = false }: CaseDetailsPageProps) {
+export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProcessEditingEnabled = false, personUsageRightsEditingEnabled = false, noticeDraftEditingEnabled = false, noticeGenerationEnabled = false, caseFollowUpsEnabled = false }: CaseDetailsPageProps) {
   const returnTo = searchReturnUrl()
   const [caseOverview, setCaseOverview] = useState<CaseOverview>()
   const [loading, setLoading] = useState(true)
@@ -113,10 +115,12 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProc
 
     getCaseDetails(caseId, controller.signal)
       .then((response) => {
+        if (controller.signal.aborted) return
         setCaseOverview(response.caseOverview)
         setLoading(false)
       })
       .catch((requestError: unknown) => {
+        if (controller.signal.aborted) return
         if (requestError instanceof DOMException && requestError.name === 'AbortError') {
           return
         }
@@ -158,7 +162,7 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProc
 
   return (
     <div className="work-page detail-page">
-      <nav className="work-page-toolbar" aria-label="Seitennavigation"><a className="button button--back" href={returnTo}><span aria-hidden="true">←</span> Zurück zur Suche</a></nav>
+      <nav className="work-page-toolbar" aria-label="Seitennavigation"><a className="button button--back" href={returnTo}><span aria-hidden="true">←</span> {returnTo.startsWith('/case-follow-ups') ? 'Zurück zu den Wiedervorlagen' : 'Zurück zur Suche'}</a></nav>
       <div className="work-page-heading">
         <div>
           <p className="eyebrow">Lesende Detailansicht</p>
@@ -201,6 +205,7 @@ export function CaseDetailsPage({ caseId, caseEditingEnabled = false, burialProc
       )}
 
       <div className="detail-sections">
+        {caseFollowUpsEnabled && <CaseFollowUpsPanel key={`follow-ups-${caseOverview.id}`} caseId={caseOverview.id} canCreate={caseOverview.isSynthetic} />}
         {noticeDraftEditingEnabled && <NoticeDraftPanel key={caseOverview.id} caseId={caseOverview.id} graveSiteId={personUsageRightsEditingEnabled ? caseOverview.grave.graveSiteId ?? undefined : undefined} burials={caseOverview.burials} deceasedPersons={caseOverview.deceasedPersons} noticeGenerationEnabled={noticeGenerationEnabled} />}
         {personUsageRightsEditingEnabled && caseOverview.grave.graveSiteId && <PersonUsageRightsPanel graveSiteId={caseOverview.grave.graveSiteId} />}
         <section className="detail-section">

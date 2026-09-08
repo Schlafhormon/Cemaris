@@ -1,3 +1,4 @@
+using Cemaris.Infrastructure.Persistence.CaseFollowUps;
 using Cemaris.Infrastructure.Persistence.Cemeteries;
 using Cemaris.Infrastructure.Persistence.Identity;
 using Cemaris.Infrastructure.Persistence.NoticeDrafts;
@@ -15,6 +16,9 @@ namespace Cemaris.Infrastructure.Persistence;
 public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options) : DbContext(options)
 {
     public DbSet<CaseReadEntity> Cases => Set<CaseReadEntity>();
+    public DbSet<CaseFollowUpEntity> CaseFollowUps => Set<CaseFollowUpEntity>();
+    public DbSet<CaseFollowUpRevisionEntity> CaseFollowUpRevisions => Set<CaseFollowUpRevisionEntity>();
+    public DbSet<CaseFollowUpAuditEntity> CaseFollowUpAudits => Set<CaseFollowUpAuditEntity>();
 
     public DbSet<GraveReadEntity> Graves => Set<GraveReadEntity>();
 
@@ -64,6 +68,7 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
         ArgumentNullException.ThrowIfNull(modelBuilder);
 
         ConfigureCase(modelBuilder);
+        CaseFollowUpMapping.Configure(modelBuilder);
         ConfigureLocalAccount(modelBuilder);
         ConfigureCaseChange(modelBuilder);
         ConfigureGrave(modelBuilder);

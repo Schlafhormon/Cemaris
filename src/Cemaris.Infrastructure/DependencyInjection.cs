@@ -1,9 +1,11 @@
+using Cemaris.Application.CaseFollowUps;
 using Cemaris.Application.Cases;
 using Cemaris.Application.Cemeteries;
 using Cemaris.Application.Identity;
 using Cemaris.Application.NoticeDrafts;
 using Cemaris.Application.NoticeGeneration;
 using Cemaris.Application.PersonUsageRights;
+using Cemaris.Infrastructure.CaseFollowUps;
 using Cemaris.Infrastructure.Cemeteries;
 using Cemaris.Infrastructure.Identity;
 using Cemaris.Infrastructure.Maintenance;
@@ -53,6 +55,8 @@ public static class DependencyInjection
             services.AddSingleton<SyntheticPersonUsageRightStore>();
             services.AddSingleton<IPersonUsageRightStore>(serviceProvider => serviceProvider.GetRequiredService<SyntheticPersonUsageRightStore>());
             services.AddSingleton<SyntheticNoticeDraftStore>();
+            services.AddSingleton<SyntheticCaseFollowUpStore>();
+            services.AddSingleton<ICaseFollowUpStore>(serviceProvider => serviceProvider.GetRequiredService<SyntheticCaseFollowUpStore>());
             services.AddSingleton<INoticeDraftStore>(serviceProvider => serviceProvider.GetRequiredService<SyntheticNoticeDraftStore>());
             services.AddSingleton<SyntheticLegalBasisVersionStore>();
             services.AddSingleton<ILegalBasisVersionStore>(serviceProvider => serviceProvider.GetRequiredService<SyntheticLegalBasisVersionStore>());
@@ -73,6 +77,7 @@ public static class DependencyInjection
         services.AddScoped<ICemeteryMasterDataStore, EfCemeteryMasterDataStore>();
         services.AddScoped<IPersonUsageRightStore, EfPersonUsageRightStore>();
         services.AddScoped<INoticeDraftStore, EfNoticeDraftStore>();
+        services.AddScoped<ICaseFollowUpStore, EfCaseFollowUpStore>();
         services.AddScoped<ILegalBasisVersionStore, EfLegalBasisVersionStore>();
         services.AddScoped<INoticeGenerationStore, EfNoticeGenerationStore>();
         services.AddScoped<SyntheticReadModelSeeder>();

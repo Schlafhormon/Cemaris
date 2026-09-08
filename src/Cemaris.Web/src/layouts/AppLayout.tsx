@@ -7,6 +7,7 @@ interface AppLayoutProps extends PropsWithChildren {
   personUsageRightsEditingEnabled: boolean
   noticeDraftEditingEnabled: boolean
   noticeGenerationEnabled: boolean
+  caseFollowUpsEnabled?: boolean
   account: CurrentAccount
   onLogout: () => Promise<void>
 }
@@ -18,7 +19,7 @@ interface NavigationItem {
   active: boolean
 }
 
-export function AppLayout({ children, caseEditingEnabled, cemeteryMasterDataEditingEnabled, personUsageRightsEditingEnabled, noticeDraftEditingEnabled, noticeGenerationEnabled, account, onLogout }: AppLayoutProps) {
+export function AppLayout({ children, caseEditingEnabled, cemeteryMasterDataEditingEnabled, personUsageRightsEditingEnabled, noticeDraftEditingEnabled, noticeGenerationEnabled, caseFollowUpsEnabled = false, account, onLogout }: AppLayoutProps) {
   const currentPath = window.location.pathname
   const searchAreaActive = currentPath.startsWith('/search')
     || (currentPath.startsWith('/cases/') && currentPath !== '/cases/new')
@@ -61,6 +62,7 @@ export function AppLayout({ children, caseEditingEnabled, cemeteryMasterDataEdit
         <nav className="primary-navigation" aria-label="Hauptnavigation">
           <a className={currentPath === '/' ? 'nav-link active' : 'nav-link'} href="/" aria-current={currentPath === '/' ? 'page' : undefined}>Übersicht</a>
           <NavigationMenu label="Fallakten" items={caseItems} />
+          {caseFollowUpsEnabled && <a className={currentPath === '/case-follow-ups' ? 'nav-link active' : 'nav-link'} href="/case-follow-ups" aria-current={currentPath === '/case-follow-ups' ? 'page' : undefined}>Wiedervorlagen</a>}
           {masterDataItems.length > 0 && <NavigationMenu label="Stammdaten" items={masterDataItems} />}
           {administrationItems.length > 0 && <NavigationMenu label="Administration" items={administrationItems} align="right" />}
         </nav>

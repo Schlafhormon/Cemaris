@@ -1,9 +1,9 @@
 # Arbeitsplan zur ersten alltagstauglichen Cemaris-Version
 
-Stand: 07.09.2026
+Stand: 08.09.2026
 
-Status: **Entwicklungsrichtung vorbereitet; keine Fertigstellungs- oder
-Produktivfreigabe.** Die Projektverantwortung möchte Cemaris zu einer
+Status: **M1 umgesetzt und gezielt auch auf SQL geprüft; weiterer Ausbau offen;
+keine Produktivfreigabe.** Die Projektverantwortung möchte Cemaris zu einer
 vollwertigen Friedhofsverwaltung ausbauen und dabei vollständige, sauber
 geprüfte Abläufe erhalten. Quelle ist der anschließende Implementierungsdialog
 vom 07.09.2026 nach der
@@ -35,29 +35,46 @@ darf die eigenständige Nutzbarkeit von Cemaris nicht voraussetzen.
 | --- | --- | --- | --- |
 | Fallarbeit und Suche | Suche, Pagination, Fallanlage, Personen- und Grabbezüge, Fehler- und Konfliktbehandlung technisch vorhanden | zusammenhängende Alltagsabnahme einschließlich Korrektur- und Mehrpersonenfällen | Fall nach erneutem Öffnen wiederfinden; richtige Beziehungen; keine still überschriebenen Fremdänderungen |
 | Grabstellen und Beisetzungen | konfigurierbare Friedhofsstruktur und einfacher Beisetzungsprozess vorhanden | weitere tatsächlich benötigte Sonderfälle und fachliche Belegungsregeln einzeln klären | bestätigte Standard- und Korrekturabläufe wirken konsistent auf Fall, Beisetzung und Grabstelle |
-| M1: offene Arbeit | noch kein kanonischer Wiedervorlagenvertrag | manueller Fallbezug, gemeinsamer Arbeitsvorrat, Termin und nachvollziehbare Bearbeitung als nächster begrenzter Kandidat | Wiedervorlage anlegen, wiederfinden, verschieben, erledigen, abbrechen und erneut öffnen; keine Wirkung auf fachliche Fristen oder Grabstatus |
-| M2: Nutzungsrechte und Fristen | manueller historisierter Nutzungsrechtskern vorhanden | Ruhezeit und Nutzungszeit getrennt; Rückgabe, Beendigung, Wiedervergabe und Berechnungsregeln noch nicht vollständig entschieden | fachlich bestätigte Beispiele einschließlich Grenz- und Korrekturfällen stimmen; Historie bleibt rekonstruierbar |
+| M1: offene Arbeit | [manueller Kern implementiert](cemaris-manual-case-follow-ups-completion.md); [gezielter SQL-Nachweis bestanden](cemaris-manual-case-follow-ups-sql-verification.md), einschließlich Migration, Parallelrennen, Rollback und Anwendungshostwechsel | gemeinsame Arbeitsabnahme und installationsbezogene Einführung bleiben Teil von M4 | manuelle Aktionen synthetisch bestanden; eigene SQL-Persistenz und Konfliktschutz geprüft; keine Wirkung auf fachliche Fristen oder Grabstatus |
+| M2: Nutzungsrechte und Fristen | manueller historisierter Kern vorhanden; [M2a-Übergabe mit fünf bestätigten Produktantworten](cemaris-manual-usage-right-termination-next-step-handoff.md) | M2a vollständig implementieren; Ruhezeit, Fristautomatik und automatische Wiedervergabe bleiben eigenständig | Beendigung, Rücknahme, manuelle Neuvergabe und gemeinsame Folgekorrektur einschließlich Historie, Inhaberzeitraum, Konflikt- und SQL-Nachweis; keine automatische Grabwirkung |
 | M3: Gebühren und Bescheide | manuelle Entwürfe und genau eine flüchtige DOCX-/PDF-Ausgabe vorhanden | benötigte Positionen, Gültigkeitsstände, Berechnung, wirksame Bescheid- und Korrekturabläufe | bestätigte Sollbeträge, Regelstände und Dokumente stimmen; keine unzulässige rückwirkende Änderung |
 | M4: Einführung und Betrieb | SQL-Provider, Identität, Sicherheitsgrundlagen und datierte technische Nachweise vorhanden | aktuelle isolierte SQL-Nachweise, gemeinsame Arbeitsabnahme, Installation, Zuständigkeiten und konkreter Einführungsumfang | vereinbarte Arbeitsabläufe auf einer benannten Installation mit mehreren Sitzungen, Neustart und Wiederherstellung nachgewiesen |
 | M5: Datenübernahme und benötigte Schnittstellen | begrenzter Friedhofsstammdatenpfad und Integrationsgrenzen dokumentiert | weitere Mappings, Vollständigkeit, Fehlerbehandlung, Einführung und Rückfall separat vorbereiten | nachvollziehbarer Quell-/Zielvergleich und kontrollierte Übernahme ohne Verlust geschützter Bestände |
 
-M2 und M3 benötigen konkrete fachliche Beispiele und Antworten; ihre Reihenfolge
+Weitere M2- und M3-Schnitte benötigen konkrete fachliche Beispiele und Antworten; ihre Reihenfolge
 kann anhand des tatsächlichen täglichen Bedarfs angepasst werden. SQL- und
 Integritätsarbeit begleitet die Inkremente von Anfang an. M4 bezeichnet die
 zusammenhängende Einführungsabnahme, nicht einen erst am Schluss beginnenden
 Persistenz- oder Sicherheitstest.
 
-## Nächster ausführbarer Auftrag
+## M1-Abschluss und nächster Nachweis
 
-Die [Übergabe für manuelle fallbezogene Wiedervorlagen](cemaris-manual-case-follow-ups-next-step-handoff.md)
-begrenzt M1, enthält die bereits bestätigten Produktentscheidungen und beschreibt
-Arbeitsdateien, technische Verträge, Browserprüfung und Abschluss. Der neue
-Chat soll diese Übergabe zuerst vollständig lesen. Er soll weder die gesamte
-Roadmap in einem Zug implementieren noch bereits erledigte 6c-Gates wiederholen.
+Die [M1-Übergabe](cemaris-manual-case-follow-ups-next-step-handoff.md) ist
+einschließlich der kleinen 6c-Einleitungstextkorrektur ausgeführt. Der
+[Abschluss](cemaris-manual-case-follow-ups-completion.md) dokumentiert den
+vollständigen synthetischen Ablauf, aktuelle Regressionstests und Offline-Schema.
+Der ursprünglich offene gezielte SQL-Test wurde anschließend ausdrücklich
+beauftragt und ist gemäß [SQL-Folgenachweis](cemaris-manual-case-follow-ups-sql-verification.md)
+bestanden. Zwei EF-Fehler wurden dabei behoben; Migration, Konkurrenz, Rollback
+und Persistenz über Anwendungshostwechsel wurden auf entbehrlichen Datenbanken
+geprüft. Bestehende Datenbanken blieben geschützt. Nächster fachlicher Schritt
+ist die Umsetzung des inzwischen bestätigten M2a-Vertrags. M2 bis M5 sind weiterhin
+eigenständige Ausbauvorhaben. Die gesamte
+Roadmap und bereits erledigte 6c-Gates werden dadurch nicht erneut beauftragt.
 
-Der kleine bekannte Einleitungstextbefund im Bescheidpanel kann als ausdrücklich
-benannte Begleitkorrektur erledigt werden. Er ist kein Ersatz für den Ausbau
-der täglichen Arbeitsabläufe.
+## Vorbereiteter nächster Schnitt M2a
+
+Die [neue Übergabe](cemaris-manual-usage-right-termination-next-step-handoff.md)
+enthält Arbeitsverzeichnisse, verifizierte Dateien, konkrete Codeanschlüsse,
+Test-/Browseranforderungen und Bestandsgrenzen. Die
+[Produktentscheidung](../requirements/manual-usage-right-termination-decisions.md)
+enthält alle fünf ausdrücklich bestätigten Antworten: Rückgabe oder sonstige
+Beendigung heute oder rückwirkend, begründete Rücknahme, manuelle Neuvergabe
+und gemeinsame Korrektur bestehender Rechtefolgen. Bei der Folgekorrektur wird
+der Vorgänger wieder geöffnet; betroffene Nachfolger bleiben als „Irrtümlich
+angelegt“ mit ihren bisherigen Revisionen erhalten. Die technischen Regeln und
+Prüfbeispiele sind festgehalten. Keine erneute Produktfreigabe erforderlich;
+Implementierung, neue SQL-/Browsernachweise und Abschluss stehen noch aus.
 
 ## Gemeinsamer Abschlussmaßstab
 
@@ -81,7 +98,7 @@ Implementierung und synthetische Prüfung. Er bleibt jedoch ein ausdrücklich
 offener Nachweis vor einer Einführung mit SQL. Bestehende Datenbanken sind
 kein Ersatz für eine separat autorisierte Testumgebung.
 
-## Stand dieser Vorbereitung
+## Historischer Stand der Vorbereitung vom 07.09.2026
 
 Diese Sitzung ergänzt ausschließlich Dokumentation. Sie implementiert noch
 keinen Wiedervorlagenkern, startet keine Anwendung und verändert weder

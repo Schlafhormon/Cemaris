@@ -14,6 +14,14 @@ const graveSiteId = '60000000-0000-0000-0000-000000000006'
 describe('NoticeDraftPanel', () => {
   afterEach(() => vi.unstubAllGlobals())
 
+  it('beschreibt bei sichtbarer Erzeugung den manuellen Entwurf und die flüchtige Ausgabe widerspruchsfrei', async () => {
+    generationFetch(() => Promise.resolve(json(masterData())))
+    render(<NoticeDraftPanel caseId={caseId} noticeGenerationEnabled />)
+    await userEvent.setup().click(await screen.findByRole('button', { name: 'Öffnen' }))
+    expect(screen.getByRole('heading', { name: 'Dokument flüchtig erzeugen' })).toBeInTheDocument()
+    expect(screen.getByText(/Manuelle Arbeitsstände mit geschützter Fachhistorie/)).toHaveTextContent('Eine aktivierte Dokumentausgabe erzeugt ausschließlich einen flüchtigen, rechtlich wirkungslosen Entwurf.')
+  })
+
   it('meldet abgebrochene Entwurfs- und Satzungsabrufe im StrictMode nicht als Fehler', async () => {
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       await new Promise(resolve => setTimeout(resolve, 0))

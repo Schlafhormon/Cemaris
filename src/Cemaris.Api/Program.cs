@@ -5,6 +5,7 @@ using Cemaris.Api;
 using Cemaris.Api.Contracts;
 using Cemaris.Api.ErrorHandling;
 using Cemaris.Api.Security;
+using Cemaris.Application.CaseFollowUps;
 using Cemaris.Application.Cases;
 using Cemaris.Application.Cemeteries;
 using Cemaris.Application.Identity;
@@ -37,6 +38,7 @@ if (builder.Configuration.GetValue<bool>("IntegrationTests:IsolatedConfiguration
     {
         "ReadModel:Provider",
         "Features:CaseEditingEnabled",
+        "Features:CaseFollowUpsEnabled",
         "Features:CemeteryMasterDataEditingEnabled",
         "Features:BurialProcessEditingEnabled",
         "Features:PersonUsageRightsEditingEnabled",
@@ -57,6 +59,9 @@ if (builder.Configuration.GetValue<bool>("IntegrationTests:IsolatedConfiguration
 }
 
 var caseEditingEnabled = builder.Configuration.GetValue<bool>("Features:CaseEditingEnabled");
+var caseFollowUpsEnabled = builder.Configuration.GetValue<bool>("Features:CaseFollowUpsEnabled");
+if (caseFollowUpsEnabled && !builder.Environment.IsDevelopment())
+    throw new InvalidOperationException("Wiedervorlagen sind ausschließlich in Development zulässig.");
 var cemeteryMasterDataEditingEnabled = builder.Configuration.GetValue<bool>("Features:CemeteryMasterDataEditingEnabled");
 var burialProcessEditingEnabled = builder.Configuration.GetValue<bool>("Features:BurialProcessEditingEnabled");
 var personUsageRightsEditingEnabled = builder.Configuration.GetValue<bool>("Features:PersonUsageRightsEditingEnabled");
@@ -116,6 +121,7 @@ var openApiEnabled = builder.Configuration.GetValue(
 builder.Services.AddProblemDetails();
 builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+builder.Services.AddExceptionHandler<CaseFollowUpExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddHealthChecks();
 builder.Services.AddCemarisInfrastructure(builder.Configuration);
@@ -127,6 +133,7 @@ builder.Services.AddSingleton(identityOptions);
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddScoped<IPasswordHasher<LocalAccountSnapshot>, PasswordHasher<LocalAccountSnapshot>>();
 builder.Services.AddScoped<LocalAccountService>();
+if (caseFollowUpsEnabled) builder.Services.AddScoped<CaseFollowUpService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentActorProvider, HttpCurrentActorProvider>();
 builder.Services.AddScoped<LocalCookieAuthenticationEvents>();
@@ -348,6 +355,7 @@ if (allowedOrigins.Length > 0)
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();
+if (caseFollowUpsEnabled) app.MapCaseFollowUps();
 
 app.MapHealthChecks("/health", new HealthCheckOptions
 {
@@ -468,6 +476,7 @@ systemEndpoints.MapGet("/info", () =>
         personUsageRightsEditingEnabled,
         noticeDraftEditingEnabled,
         noticeGenerationEnabled,
+        caseFollowUpsEnabled,
         typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "unbekannt"));
 })
     .WithName("GetSystemInformation")
