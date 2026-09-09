@@ -13,4 +13,5 @@ public sealed record SystemInformationResponse(
     bool NoticeGenerationEnabled,
     bool CaseFollowUpsEnabled,
     bool UsageRightLifecycleEnabled,
+    bool NoticeDraftLineItemsEnabled,
     string Version);

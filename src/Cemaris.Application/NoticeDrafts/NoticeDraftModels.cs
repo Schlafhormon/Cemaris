@@ -1,27 +1,38 @@
+using System.Text.Json.Serialization;
 using Cemaris.Application.Identity;
 using Cemaris.Domain.NoticeDrafts;
 
 namespace Cemaris.Application.NoticeDrafts;
 
+[JsonUnmappedMemberHandling(JsonUnmappedMemberHandling.Disallow)]
 public sealed record CreateNoticeDraftCommand(
     Guid PayerPartyId,
     bool PayerSelectionConfirmed,
-    decimal TotalAmount,
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)] decimal TotalAmount,
     DateOnly NoticeDate,
     DateOnly DueDate,
     string? AccountAssignment,
-    string? FeeReasonOrSource);
+    string? FeeReasonOrSource)
+{
+    [JsonIgnore] public IReadOnlyList<PreparedNoticeDraftLineItem>? PreparedLineItems { get; init; }
+}
 
+[JsonUnmappedMemberHandling(JsonUnmappedMemberHandling.Disallow)]
 public sealed record CorrectNoticeDraftCommand(
     Guid PayerPartyId,
     bool PayerSelectionConfirmed,
-    decimal TotalAmount,
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)] decimal TotalAmount,
     DateOnly NoticeDate,
     DateOnly DueDate,
     string? AccountAssignment,
     string? FeeReasonOrSource,
-    string? Reason);
+    string? Reason)
+{
+    [JsonIgnore] public IReadOnlyList<PreparedNoticeDraftLineItem>? PreparedLineItems { get; init; }
+    [JsonIgnore] public bool ConvertToLineItems { get; init; }
+}
 
+[JsonUnmappedMemberHandling(JsonUnmappedMemberHandling.Disallow)]
 public sealed record DiscardNoticeDraftCommand(string? Reason);
 
 public sealed record SaveNoticeNumberConfigurationCommand(
@@ -55,7 +66,12 @@ public sealed record NoticeDraftRevisionView(
     string FeeReasonOrSource,
     NoticeDraftStatus Status,
     DateTimeOffset CreatedAtUtc,
-    DateTimeOffset UpdatedAtUtc);
+    DateTimeOffset UpdatedAtUtc)
+{
+    public NoticeDraftAmountMode AmountMode { get; init; }
+    public IReadOnlyList<NoticeDraftLineItem> LineItems { get; init; } = Array.Empty<NoticeDraftLineItem>();
+    public string TotalAmountExact => NoticeDraftLineItemRules.Exact(TotalAmount);
+}
 
 public sealed record NoticeDraftView(
     Guid Id,
@@ -79,7 +95,12 @@ public sealed record NoticeDraftView(
     long Version,
     DateTimeOffset CreatedAtUtc,
     DateTimeOffset UpdatedAtUtc,
-    IReadOnlyList<NoticeDraftRevisionView> Revisions);
+    IReadOnlyList<NoticeDraftRevisionView> Revisions)
+{
+    public NoticeDraftAmountMode AmountMode { get; init; }
+    public IReadOnlyList<NoticeDraftLineItem> LineItems { get; init; } = Array.Empty<NoticeDraftLineItem>();
+    public string TotalAmountExact => NoticeDraftLineItemRules.Exact(TotalAmount);
+}
 
 public sealed record NoticeDraftListItem(
     Guid Id,
@@ -96,7 +117,12 @@ public sealed record NoticeDraftListItem(
     NoticeDraftStatus Status,
     long Version,
     DateTimeOffset CreatedAtUtc,
-    DateTimeOffset UpdatedAtUtc);
+    DateTimeOffset UpdatedAtUtc)
+{
+    public NoticeDraftAmountMode AmountMode { get; init; }
+    public IReadOnlyList<NoticeDraftLineItem> LineItems { get; init; } = Array.Empty<NoticeDraftLineItem>();
+    public string TotalAmountExact => NoticeDraftLineItemRules.Exact(TotalAmount);
+}
 
 public sealed record NoticeNumberConfigurationRevisionView(
     Guid Id,
@@ -129,12 +155,14 @@ public enum NoticeDraftMutationOutcome
     SequenceExhausted,
     Discarded,
     PayerConfirmationRequired,
+    AmountModeConflict,
+    StorageFailure,
 }
 
 public sealed record NoticeDraftMutationResult(
     NoticeDraftMutationOutcome Outcome,
     Guid Id,
-    long Version = 0);
+    long Version = 0, NoticeDraftView? Snapshot = null);
 
 public sealed record NoticeDraftMutation(
     Guid AuditId,
@@ -145,3 +173,21 @@ public sealed record NoticeDraftMutation(
     string? Reason,
     DateTimeOffset OccurredAtUtc,
     ActorIdentity Actor);
+
+[JsonUnmappedMemberHandling(JsonUnmappedMemberHandling.Disallow)]
+public sealed record NoticeDraftLineItemInput(
+    [property: JsonRequired] Guid? Id,
+    [property: JsonRequired] string? Description,
+    [property: JsonRequired] string? Amount);
+
+[JsonUnmappedMemberHandling(JsonUnmappedMemberHandling.Disallow)]
+public sealed record SaveNoticeDraftLineItemsCommand(
+    [property: JsonRequired] Guid PayerPartyId,
+    [property: JsonRequired] bool PayerSelectionConfirmed,
+    [property: JsonRequired] DateOnly NoticeDate,
+    [property: JsonRequired] DateOnly DueDate,
+    [property: JsonRequired] string? AccountAssignment,
+    [property: JsonRequired] string? FeeReasonOrSource,
+    [property: JsonRequired] IReadOnlyList<NoticeDraftLineItemInput?>? LineItems,
+    string? Reason = null,
+    bool ConversionConfirmed = false);

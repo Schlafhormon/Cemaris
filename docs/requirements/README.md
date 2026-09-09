@@ -1,11 +1,11 @@
 # Arbeitsgrundlage für Bestands- und Bedarfsanalyse
 
-Ergänzung 08.09.2026: [M3a – manuelle Gebührenpositionen](manual-notice-line-items-decisions.md)
-ist als nächster Schnitt bestätigt: positive EUR-Positionen, exakte verbindliche
-Summe und vollständige DOCX-/PDF-Ausgabe. Die [Implementierungsübergabe](../implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
-ist vorbereitet; es gibt noch keinen M3a-Ausführungsnachweis. Frühere
-Ausschlüsse der Addition/einzelnen Ausgabezeile werden für diesen engen Umfang
-durch den neuen Vertrag ergänzt; Katalog und örtliche Tarife bleiben offen.
+Stand 09.09.2026: [M3a – manuelle Gebührenpositionen](manual-notice-line-items-decisions.md)
+ist [implementiert und isoliert nachgewiesen](../implementation/cemaris-manual-notice-line-items-completion.md).
+Positive EUR-Positionen bilden eine exakte verbindliche Summe; Bestand,
+Fachhistorie und vollständige DOCX-/PDF-Ausgabe sind Teil des Vertrags.
+Katalog und örtliche Tarife bleiben offen; frühere Ausschlüsse der Addition
+beschreiben den historischen 6b-/6c-Schnitt.
 
 Aktuell (08.09.2026): Der Projektleiter hat pragmatische lokale
 Prototypentwicklung mit synthetischen Daten freigegeben. Die

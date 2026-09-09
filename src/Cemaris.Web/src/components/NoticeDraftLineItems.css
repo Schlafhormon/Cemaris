@@ -1,0 +1,11 @@
+.notice-line-editor, .notice-line-row { min-width: 0; border: 1px solid #cbd5d1; border-radius: .5rem; padding: .8rem; margin: .5rem 0; }
+.notice-line-row { display: grid; gap: .65rem; }
+.notice-line-row label { display: grid; gap: .3rem; min-width: 0; }
+.notice-line-row input, .notice-line-row textarea { width: 100%; min-width: 0; box-sizing: border-box; }
+.notice-line-actions { display: flex; gap: .4rem; flex-wrap: wrap; }
+.notice-line-list { padding-left: 1.4rem; }
+.notice-line-list li { padding: .5rem 0; overflow-wrap: anywhere; }
+.notice-line-list li span { display: block; white-space: pre-wrap; }
+.notice-draft-details dd { overflow-wrap: anywhere; }
+.notice-draft-details .workspace-card-heading { flex-wrap: wrap; }
+.notice-draft-details .workspace-card-heading > div { min-width: 0; }

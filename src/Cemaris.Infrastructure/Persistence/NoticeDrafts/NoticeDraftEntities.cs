@@ -2,6 +2,8 @@ namespace Cemaris.Infrastructure.Persistence.NoticeDrafts;
 
 public sealed class NoticeDraftEntity
 {
+    public string AmountMode { get; set; } = "LegacyTotal";
+    public ICollection<NoticeDraftLineItemEntity> LineItems { get; } = [];
     public Guid Id { get; set; }
     public Guid CaseId { get; set; }
     public Guid PayerPartyId { get; set; }
@@ -28,6 +30,8 @@ public sealed class NoticeDraftEntity
 
 public sealed class NoticeDraftRevisionEntity
 {
+    public string AmountMode { get; set; } = "LegacyTotal";
+    public ICollection<NoticeDraftRevisionLineItemEntity> LineItems { get; } = [];
     public Guid Id { get; set; }
     public Guid NoticeDraftId { get; set; }
     public long ResultingVersion { get; set; }
@@ -111,4 +115,22 @@ public sealed class NoticeNumberSequenceEntity
     public int Year { get; set; }
     public int LastIssuedNumber { get; set; }
     public byte[] Version { get; set; } = [];
+}
+
+public sealed class NoticeDraftLineItemEntity
+{
+    public Guid Id { get; set; }
+    public Guid NoticeDraftId { get; set; }
+    public int Position { get; set; }
+    public string Description { get; set; } = string.Empty;
+    public decimal Amount { get; set; }
+}
+
+public sealed class NoticeDraftRevisionLineItemEntity
+{
+    public Guid NoticeDraftRevisionId { get; set; }
+    public Guid LineItemId { get; set; }
+    public int Position { get; set; }
+    public string Description { get; set; } = string.Empty;
+    public decimal Amount { get; set; }
 }

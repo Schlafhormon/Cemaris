@@ -1,9 +1,11 @@
 # Nächster Schritt M3a: manuelle Gebührenpositionen und vollständige Ausgabe
 
-Stand: 08.09.2026
+Stand: 09.09.2026
 
-Status: **Vorbereitet, beide Produktantworten bestätigt; noch nicht implementiert.**
-Diese Übergabe ist der Einstieg für einen neuen kontextlosen Chat. Maßgeblich
+Status: **Ausgeführt.** Der [M3a-Abschluss](cemaris-manual-notice-line-items-completion.md)
+dokumentiert Implementierung, neue Prüfungen und Bereinigung. Die folgenden
+Auftragsdetails und der Vorbereitungsnachweis bleiben als datierte Historie
+erhalten und sind kein erneut offener Auftrag. Maßgeblich
 ist der [Produktvertrag M3a](../requirements/manual-notice-line-items-decisions.md).
 Keine erneute Freigabe dieser beiden Antworten und kein allgemeines 6a-/6c-
 oder Betriebsfreigabegate. Nur konkrete, aus Repository und Übergabe nicht

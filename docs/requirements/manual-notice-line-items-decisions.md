@@ -1,13 +1,13 @@
 # Produktentscheidungen M3a: manuelle Gebührenpositionen im Entwurf
 
-Stand: 08.09.2026
+Stand: 09.09.2026
 
-Status: **Beide Produktentscheidungen ausdrücklich bestätigt; Implementierung
-noch ausstehend.** Die [Umsetzungsübergabe](../implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
-enthält Arbeitsdateien, Codeanschlüsse, Schutzgrenzen und Abnahmeanforderungen.
-M2a ist gemäß [Abschluss](../implementation/cemaris-manual-usage-right-termination-completion.md)
-technisch abgeschlossen und bereinigt. M3a ist der nächste begrenzte Schnitt
-der [Roadmap](../implementation/cemaris-first-operational-version-roadmap.md).
+Status: **Implementiert; isolierter SQL-, Browser- und echter DOCX-/PDF-Nachweis
+im [M3a-Abschluss](../implementation/cemaris-manual-notice-line-items-completion.md).**
+Die beiden bestätigten Produktantworten bleiben maßgeblich.
+[ADR-0022](../decisions/ADR-0022-manual-notice-line-items.md) dokumentiert die
+technische Umsetzung. Capabilities bleiben standardmäßig ausgeschaltet;
+weitergehende Roadmapabläufe sind nicht Bestandteil dieses Abschlusses.
 
 ## Bestätigte Antworten
 

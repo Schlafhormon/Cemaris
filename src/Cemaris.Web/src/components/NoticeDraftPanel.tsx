@@ -1,6 +1,10 @@
+import { NoticeDraftLineItemsEditor, NoticeDraftLineItemsView } from './NoticeDraftLineItems'
+import { emptyLine, exactAmount, formatExactAmount, lineTotal, type LineInput } from './noticeDraftMoney'
 import { useEffect, useEffectEvent, useRef, useState, type FormEvent } from 'react'
 import {
   ApiError,
+  createNoticeDraftLineItems,
+  saveNoticeDraftLineItems,
   correctNoticeDraft,
   createNoticeDraft,
   discardNoticeDraft,
@@ -26,10 +30,11 @@ interface NoticeDraftPanelProps {
   graveSiteId?: string
   burials?: BurialDetails[]
   deceasedPersons?: DeceasedDetails[]
+  noticeDraftLineItemsEnabled?: boolean
   noticeGenerationEnabled?: boolean
 }
 
-export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPersons = [], noticeGenerationEnabled = false }: NoticeDraftPanelProps) {
+export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPersons = [], noticeGenerationEnabled = false, noticeDraftLineItemsEnabled = false }: NoticeDraftPanelProps) {
   const [drafts, setDrafts] = useState<NoticeDraftListItem[]>()
   const [selected, setSelected] = useState<Versioned<NoticeDraft> | null>(null)
   const [payer, setPayer] = useState<Versioned<Party> | null>()
@@ -37,6 +42,10 @@ export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPe
   const [message, setMessage] = useState('')
   const [tone, setTone] = useState<'success' | 'error'>('success')
   const [conflict, setConflict] = useState(false)
+  const [formEpoch, setFormEpoch] = useState(0)
+  const selectedId = useRef<string | null>(null)
+  const selectionRequest = useRef<AbortController | null>(null)
+  useEffect(() => () => { selectionRequest.current?.abort(); selectedId.current = null }, [])
   const [rightRefresh, setRightRefresh] = useState(0)
   useEffect(() => {
     const refresh = () => setRightRefresh((value) => value + 1)
@@ -47,7 +56,7 @@ export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPe
   useEffect(() => {
     const controller = new AbortController()
     getNoticeDrafts(caseId, controller.signal)
-      .then(setDrafts)
+      .then(value => { if (!controller.signal.aborted) setDrafts(value) })
       .catch((error: unknown) => { if (!controller.signal.aborted) showError(error) })
     return () => controller.abort()
   }, [caseId])
@@ -83,31 +92,39 @@ export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPe
   }
 
   function updateDraft(value: Versioned<NoticeDraft>, success: string) {
+    if (selectedId.current !== value.value.id) return
     setSelected(value)
+    setFormEpoch(x => x + 1)
     setDrafts((current) => current?.map((item) => item.id === value.value.id ? listItem(value.value) : item))
     showSuccess(success)
   }
 
-  async function selectDraft(id: string) {
+  async function selectDraft(id: string, reload = false) {
+    selectionRequest.current?.abort()
+    const controller = new AbortController()
+    selectionRequest.current = controller
+    selectedId.current = id
+    if (!reload) setSelected(null)
     try {
-      setSelected(await getNoticeDraft(id))
+      const value = await getNoticeDraft(id, controller.signal)
+      if (controller.signal.aborted) return
+      setSelected(value)
+      setFormEpoch(x => x + 1)
       setConflict(false)
+      if (reload) showSuccess('Aktueller Entwurfsstand geladen. Nicht gespeicherte Eingaben wurden bewusst ersetzt.')
     } catch (error) {
-      showError(error)
+      if (!controller.signal.aborted) showError(error)
     }
   }
 
   async function reloadConflict() {
     if (!selected) return
-    try {
-      setSelected(await getNoticeDraft(selected.value.id))
-      showSuccess('Aktueller Entwurfsstand geladen. Nicht gespeicherte Formulareingaben bleiben erhalten.')
-    } catch (error) {
-      showError(error)
-    }
+    await selectDraft(selected.value.id, true)
   }
 
   function created(value: Versioned<NoticeDraft>) {
+    selectionRequest.current?.abort()
+    selectedId.current = value.value.id
     setDrafts((current) => [listItem(value.value), ...(current ?? [])])
     setSelected(value)
     showSuccess('Rechtlich wirkungsloser Bescheidentwurf angelegt.')
@@ -119,7 +136,7 @@ export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPe
         <div>
           <p className="section-kicker">Kanonischer manueller Entwurfskern</p>
           <h2 id="notice-draft-heading">Kanonische Bescheidentwürfe</h2>
-          <p>Manuelle Arbeitsstände mit geschützter Fachhistorie. Eine aktivierte Dokumentausgabe erzeugt ausschließlich einen flüchtigen, rechtlich wirkungslosen Entwurf. Es erfolgen keine Festsetzung, Bekanntgabe oder Gebührenberechnung.</p>
+          <p>Manuelle Arbeitsstände mit geschützter Fachhistorie. Eine aktivierte Dokumentausgabe erzeugt ausschließlich einen flüchtigen, rechtlich wirkungslosen Entwurf. Es erfolgen keine Festsetzung oder Bekanntgabe. Manuelle Positionen werden ausschließlich addiert; Tarife werden nicht berechnet.</p>
         </div>
         <span className="scope-badge scope-badge--warning">Rechtlich wirkungslos</span>
       </header>
@@ -134,10 +151,10 @@ export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPe
               ? <p className="workspace-empty" role="status">Bescheidentwürfe werden geladen …</p>
               : drafts.length === 0
                 ? <div className="workspace-empty"><strong>Noch kein kanonischer Entwurf</strong><span>Wählen Sie rechts einen Zahlungspflichtigen und erfassen Sie den manuellen Arbeitsstand.</span></div>
-                : <div className="notice-draft-list">{drafts.map((draft) => <article className={`notice-draft-card${selected?.value.id === draft.id ? ' notice-draft-card--selected' : ''}`} key={draft.id}><div><strong>{draft.noticeNumber}</strong><span>{draft.payerDisplayNameSnapshot} · {formatAmount(draft.totalAmount, draft.currency)}</span><small>{formatDate(draft.noticeDate)} · Version {draft.version}</small></div><div><span className={`status-chip${draft.status === 'Draft' ? ' status-chip--active' : ''}`}>{draft.status === 'Draft' ? 'Entwurf' : 'Verworfen'}</span><button className="button" type="button" onClick={() => void selectDraft(draft.id)}>Öffnen</button></div></article>)}</div>}
+                : <div className="notice-draft-list">{drafts.map((draft) => <article className={`notice-draft-card${selected?.value.id === draft.id ? ' notice-draft-card--selected' : ''}`} key={draft.id}><div><strong>{draft.noticeNumber}</strong><span>{draft.payerDisplayNameSnapshot} · {formatAmount(draft.totalAmount, draft.currency, draft.totalAmountExact)}</span><small>{formatDate(draft.noticeDate)} · Version {draft.version}</small></div><div><span className={`status-chip${draft.status === 'Draft' ? ' status-chip--active' : ''}`}>{draft.status === 'Draft' ? 'Entwurf' : 'Verworfen'}</span><button className="button" type="button" onClick={() => void selectDraft(draft.id)}>Öffnen</button></div></article>)}</div>}
           </section>
 
-          {selected && <DraftDetails draft={selected} payer={payer} burials={burials} deceasedPersons={deceasedPersons} noticeGenerationEnabled={noticeGenerationEnabled} onChanged={updateDraft} onError={showError} onSuccess={showSuccess} />}
+          {selected && <DraftDetails key={`${selected.value.id}-${formEpoch}`} lineItemsEnabled={noticeDraftLineItemsEnabled} draft={selected} payer={payer} burials={burials} deceasedPersons={deceasedPersons} noticeGenerationEnabled={noticeGenerationEnabled} onChanged={updateDraft} onError={showError} onSuccess={showSuccess} />}
         </div>
 
         <aside className="usage-right-sidebar notice-draft-sidebar" aria-labelledby="payer-selection-heading">
@@ -145,7 +162,7 @@ export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPe
           {suggestedPayer && <div className="selection-notice notice-draft-suggestion"><p>Aktueller Nutzungsberechtigter als unverbindlicher Vorschlag: <strong>{displayParty(suggestedPayer.value)}</strong></p><button className="button" type="button" onClick={() => setPayer(suggestedPayer)}>Vorschlag auswählen</button><small>Keine automatische Übernahme; die konkrete Zahlungspflichtigenauswahl muss danach aktiv bestätigt werden.</small></div>}
           <PartySearchAndDetails party={payer} onPartyChanged={setPayer} onError={showError} onSuccess={showSuccess} />
           {payer
-            ? <DraftCreateForm caseId={caseId} payer={payer} onCreated={created} onError={showError} />
+            ? <DraftCreateForm key={payer.value.id} lineItemsEnabled={noticeDraftLineItemsEnabled} caseId={caseId} payer={payer} onCreated={created} onError={showError} />
             : <p className="workspace-empty">Für die Entwurfsanlage zuerst einen Beteiligten auswählen.</p>}
         </aside>
       </div>
@@ -153,39 +170,53 @@ export function NoticeDraftPanel({ caseId, graveSiteId, burials = [], deceasedPe
   )
 }
 
-function DraftCreateForm({ caseId, payer, onCreated, onError }: {
+function DraftCreateForm({ caseId, payer, onCreated, onError, lineItemsEnabled }: {
+  lineItemsEnabled: boolean
   caseId: string
   payer: Versioned<Party>
   onCreated: (value: Versioned<NoticeDraft>) => void
   onError: (error: unknown) => void
 }) {
   const formRef = useRef<HTMLFormElement>(null)
+  const [lines, setLines] = useState<LineInput[]>([emptyLine()])
+  const [working, setWorking] = useState(false)
+  const alive = useAlive()
   const feedback = useFormFeedback(formRef, fieldMap, onError)
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
     const data = new FormData(form)
+    if (working) return
     feedback.clear()
+    setWorking(true)
     try {
-      onCreated(await createNoticeDraft(caseId, draftInput(data, payer.value.id)))
+      const input = draftInput(data, payer.value.id, !lineItemsEnabled)
+      const result = lineItemsEnabled
+        ? await createNoticeDraftLineItems(caseId, { ...input, lineItems: lineInput(lines) })
+        : await createNoticeDraft(caseId, input)
+      if (!alive.current) return
+      onCreated(result)
       form.reset()
+      setLines([emptyLine()])
     } catch (error) {
-      feedback.report(error)
-    }
+      if (alive.current) feedback.report(error)
+    } finally { if (alive.current) setWorking(false) }
   }
   return <form ref={formRef} className="compact-form compact-form--inset notice-draft-create" onSubmit={(event) => void submit(event)}>
     <h4>Entwurf anlegen</h4>
     <FormErrorSummary feedback={feedback.feedback} summaryRef={feedback.summaryRef} />
-    <DraftFactFields feedback={feedback} />
+    <DraftFactFields feedback={feedback} hideAmount={lineItemsEnabled} />
+    {lineItemsEnabled && <NoticeDraftLineItemsEditor lines={lines} feedback={feedback} onChange={value => { setLines(value); feedback.clear() }} disabled={working} />}
     <label className="confirmation-field"><input name="payerSelectionConfirmed" type="checkbox" required {...feedback.fieldProps('payerSelectionConfirmed')} /><span>Ich bestätige <strong>{displayParty(payer.value)}</strong> als konkreten Zahlungspflichtigen dieses Entwurfs.</span></label>
     {feedback.fieldErrors('payerSelectionConfirmed')}
-    <button className="button button--primary button--full" type="submit">Rechtlich wirkungslosen Entwurf anlegen</button>
+    <button className="button button--primary button--full" type="submit" disabled={working || (lineItemsEnabled && lineTotal(lines) === null)}>Rechtlich wirkungslosen Entwurf anlegen</button>
   </form>
 }
 
-function DraftDetails({ draft, payer, burials, deceasedPersons, noticeGenerationEnabled, onChanged, onError, onSuccess }: {
+function DraftDetails({ draft, payer, lineItemsEnabled, burials, deceasedPersons, noticeGenerationEnabled, onChanged, onError, onSuccess }: {
   draft: Versioned<NoticeDraft>
   payer: Versioned<Party> | null | undefined
+  lineItemsEnabled: boolean
   burials: BurialDetails[]
   deceasedPersons: DeceasedDetails[]
   noticeGenerationEnabled: boolean
@@ -198,21 +229,27 @@ function DraftDetails({ draft, payer, burials, deceasedPersons, noticeGeneration
     <div className="workspace-card-heading"><div><span className="step-number" aria-hidden="true">2</span><div><h3 id="selected-draft-heading">{value.noticeNumber}</h3><p>Unveränderliche Nummernfakten und aktueller manueller Stand</p></div></div><span className={`status-chip${value.status === 'Draft' ? ' status-chip--active' : ''}`}>{value.status === 'Draft' ? `Entwurf · Version ${value.version}` : `Verworfen · Version ${value.version}`}</span></div>
     <dl className="right-facts notice-draft-facts">
       <div><dt>Zahlungspflichtiger</dt><dd><strong>{value.payerDisplayNameSnapshot}</strong><code>{value.payerPartyId}</code></dd></div>
-      <div><dt>Betrag</dt><dd><strong>{formatAmount(value.totalAmount, value.currency)}</strong><span>{value.accountAssignment}</span></dd></div>
+      <div><dt>Betrag</dt><dd><strong>{formatAmount(value.totalAmount, value.currency, value.totalAmountExact)}</strong><span>{value.accountAssignment}</span></dd></div>
       <div><dt>Datum und Fälligkeit</dt><dd><strong>{formatDate(value.noticeDate)}</strong><span>Fällig {formatDate(value.dueDate)}</span></dd></div>
       <div><dt>Nummernsnapshot</dt><dd><strong>{value.financialProductSnapshot} · {value.assignmentYear} · #{value.runningNumber}</strong><span>Konfiguration v{value.noticeNumberConfigurationVersion}, Breite {value.runningNumberWidthSnapshot}</span></dd></div>
       <div className="field--wide"><dt>Gebührengrund oder Quelle</dt><dd>{value.feeReasonOrSource}</dd></div>
     </dl>
+    <p><strong>{value.amountMode === 'LineItems' ? 'Positionsmodus · verbindliche Summe' : 'Bestandsmodus · manueller Gesamtbetrag'}</strong></p>
+    <NoticeDraftLineItemsView lines={value.lineItems} />
     {value.status === 'Draft' && <div className="right-actions" aria-label="Bescheidentwurf bearbeiten">
-      <details className="action-disclosure"><summary>Fakten korrigieren <span aria-hidden="true">＋</span></summary><DraftCorrectionForm draft={draft} payer={payer} onChanged={onChanged} onError={onError} /></details>
+      {(value.amountMode !== 'LineItems' || lineItemsEnabled) && <details className="action-disclosure"><summary>Fakten korrigieren <span aria-hidden="true">＋</span></summary><DraftCorrectionForm draft={draft} payer={payer} onChanged={onChanged} onError={onError} /></details>}
+      {value.amountMode !== 'LineItems' && lineItemsEnabled && <details className="action-disclosure"><summary>Auf Positionen umstellen</summary><DraftCorrectionForm convert draft={draft} payer={payer} onChanged={onChanged} onError={onError} /></details>}
       <details className="action-disclosure"><summary>Entwurf verwerfen <span aria-hidden="true">＋</span></summary><DraftDiscardForm draft={draft} onChanged={onChanged} onError={onError} /></details>
     </div>}
     {value.status === 'Draft' && noticeGenerationEnabled && <NoticeGenerationForm key={value.id} draft={draft} burials={burials} deceasedPersons={deceasedPersons} onError={onError} onSuccess={onSuccess} />}
-    <details className="history-disclosure"><summary>Vollständige Fachrevisionen <span>{value.revisions.length}</span></summary><ol className="revision-list">{value.revisions.map((revision) => <li key={revision.id}><strong>Version {revision.resultingVersion} · {revision.mutationType}</strong><span>{revision.reason ?? 'Anlage'} · {revision.actorDisplayName} · {formatDateTime(revision.occurredAtUtc)}</span><small>{revision.payerDisplayNameSnapshot} · {formatAmount(revision.totalAmount, revision.currency)} · {revision.status === 'Draft' ? 'Entwurf' : 'Verworfen'}</small></li>)}</ol></details>
+    <details className="history-disclosure"><summary>Vollständige Fachrevisionen <span>{value.revisions.length}</span></summary><ol className="revision-list">{value.revisions.map((revision) => <li key={revision.id}><strong>Version {revision.resultingVersion} · {revision.mutationType}</strong><span>{revision.reason ?? 'Anlage'} · {revision.actorDisplayName} · {formatDateTime(revision.occurredAtUtc)}</span><small>{revision.payerDisplayNameSnapshot} · {formatAmount(revision.totalAmount, revision.currency, revision.totalAmountExact)} · {revision.status === 'Draft' ? 'Entwurf' : 'Verworfen'}</small><dl className="right-facts"><div><dt>Modus</dt><dd>{revision.amountMode === 'LineItems' ? 'Positionsmodus' : 'Bestandsmodus'}</dd></div><div><dt>Datum / Fälligkeit</dt><dd>{formatDate(revision.noticeDate)} / {formatDate(revision.dueDate)}</dd></div><div><dt>Kontierung / Gebührenquelle</dt><dd>{revision.accountAssignment} · {revision.feeReasonOrSource}</dd></div><div><dt>Nummernsnapshot</dt><dd>{revision.noticeNumber} · {revision.financialProductSnapshot} · {revision.assignmentYear} · #{revision.runningNumber} · Breite {revision.runningNumberWidthSnapshot} · Konfiguration {revision.noticeNumberConfigurationId}, Version {revision.noticeNumberConfigurationVersion}</dd></div><div><dt>Bezüge und Zeitpunkte</dt><dd>Fall {revision.caseId} · Beteiligter {revision.payerPartyId} · Akteur {revision.actorId} · Angelegt {formatDateTime(revision.createdAtUtc)} · Geändert {formatDateTime(revision.updatedAtUtc)}</dd></div></dl><NoticeDraftLineItemsView lines={revision.lineItems} /></li>)}</ol></details>
   </section>
 }
 
 function NoticeGenerationForm({ draft, burials, deceasedPersons, onError, onSuccess }: { draft: Versioned<NoticeDraft>; burials: BurialDetails[]; deceasedPersons: DeceasedDetails[]; onError: (error: unknown) => void; onSuccess: (message: string) => void }) {
+  const alive = useAlive()
+  const generationRequest = useRef<AbortController | null>(null)
+  useEffect(() => () => generationRequest.current?.abort(), [])
   const [legalBases, setLegalBases] = useState<LegalBasisVersion[]>([])
   const [graveSites, setGraveSites] = useState<GraveSite[]>([])
   const [graveLoading, setGraveLoading] = useState(true)
@@ -237,15 +274,18 @@ function NoticeGenerationForm({ draft, burials, deceasedPersons, onError, onSucc
 
   useEffect(() => {
     const controller = new AbortController()
-    getLegalBasisVersions(true, controller.signal).then(setLegalBases)
+    getLegalBasisVersions(true, controller.signal).then(value => { if (!controller.signal.aborted) setLegalBases(value) })
       .catch((error: unknown) => { if (!controller.signal.aborted) reportError(error) })
     return () => controller.abort()
   }, [draft.value.id])
 
   async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); setWorking(true)
+    event.preventDefault(); if (working) return; setWorking(true)
     try {
-      const artifact = await generateNoticeDraft(draft.value.id, draft.etag, burialId, legalBasisVersionId, format)
+      const controller = new AbortController()
+      generationRequest.current = controller
+      const artifact = await generateNoticeDraft(draft.value.id, draft.etag, burialId, legalBasisVersionId, format, controller.signal)
+      if (!alive.current) return
       const url = URL.createObjectURL(artifact.blob)
       try {
         const link = document.createElement('a'); link.href = url; link.download = artifact.fileName
@@ -254,12 +294,12 @@ function NoticeGenerationForm({ draft, burials, deceasedPersons, onError, onSucc
       onSuccess(format === 'Pdf'
         ? 'PDF-Entwurf heruntergeladen. Zum Drucken öffnen Sie die lokale Datei bewusst in einem PDF-Programm.'
         : 'DOCX-Entwurf heruntergeladen.')
-    } catch (error) { onError(error) } finally { setWorking(false) }
+    } catch (error) { if (alive.current) onError(error) } finally { if (alive.current) setWorking(false) }
   }
 
   return <form className="compact-form compact-form--inset" onSubmit={(event) => void submit(event)} aria-labelledby="generation-heading">
     <h4 id="generation-heading">Dokument flüchtig erzeugen</h4>
-    <p className="selection-notice"><strong>Rechtlich wirkungsloser Entwurf.</strong> Keine Freigabe, Signatur, Zustellung oder Archivierung. Cemaris berechnet weder Gebühren noch Rechtsgrundlagen oder Fälligkeiten.</p>
+    <p className="selection-notice"><strong>Rechtlich wirkungsloser Entwurf.</strong> Keine Freigabe, Signatur, Zustellung oder Archivierung. Cemaris addiert gespeicherte manuelle Positionen; es berechnet keine Tarife, Rechtsgrundlagen oder Fälligkeiten.</p>
     <div className="compact-form-grid">
       <label className="field--wide">Beisetzung<select required value={burialId} onChange={event => setBurialId(event.target.value)}><option value="">Bitte wählen</option>{burialOptions.map(item => <option value={item.id} key={item.id}>{item.label}</option>)}</select></label>
       <label>Satzungsversion<select required value={legalBasisVersionId} onChange={event => setLegalBasisVersionId(event.target.value)}><option value="">Bitte wählen</option>{legalBases.map(item => <option value={item.id} key={item.id}>{item.name} · {formatDate(item.versionDate)}</option>)}</select></label>
@@ -294,7 +334,8 @@ function describeBurials(burials: BurialDetails[], persons: DeceasedDetails[], s
   return options.map(option => ({ ...option, label: counts.get(option.label)! > 1 ? `${option.label} · Beisetzungs-ID: ${option.id}` : option.label }))
 }
 
-function DraftCorrectionForm({ draft, payer, onChanged, onError }: {
+function DraftCorrectionForm({ draft, payer, onChanged, onError, convert = false }: {
+  convert?: boolean
   draft: Versioned<NoticeDraft>
   payer: Versioned<Party> | null | undefined
   onChanged: (value: Versioned<NoticeDraft>, success: string) => void
@@ -302,6 +343,12 @@ function DraftCorrectionForm({ draft, payer, onChanged, onError }: {
 }) {
   const formRef = useRef<HTMLFormElement>(null)
   const feedback = useFormFeedback(formRef, { ...fieldMap, reason: 'reason' }, onError)
+  const positions = convert || draft.value.amountMode === 'LineItems'
+  const [lines, setLines] = useState<LineInput[]>(() => draft.value.amountMode === 'LineItems'
+    ? (draft.value.lineItems ?? []).map(line => ({ key: line.id, id: line.id, description: line.description, amount: line.amountExact }))
+    : [{ ...emptyLine(), description: draft.value.feeReasonOrSource, amount: draft.value.totalAmountExact ?? String(draft.value.totalAmount) }])
+  const [working, setWorking] = useState(false)
+  const alive = useAlive()
   const value = draft.value
   const payerChanged = Boolean(payer && payer.value.id !== value.payerPartyId)
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -309,21 +356,26 @@ function DraftCorrectionForm({ draft, payer, onChanged, onError }: {
     const data = new FormData(event.currentTarget)
     feedback.clear()
     try {
-      onChanged(await correctNoticeDraft(value.id, draft.etag, {
-        ...draftInput(data, payer?.value.id ?? value.payerPartyId),
-        reason: data.get('reason'),
-      }), 'Bescheidentwurf historisiert korrigiert.')
+      if (working) return
+      setWorking(true)
+      const input = { ...draftInput(data, payer?.value.id ?? value.payerPartyId, !positions), reason: data.get('reason') }
+      const result = positions
+        ? await saveNoticeDraftLineItems(value.id, draft.etag, { ...input, lineItems: lineInput(lines), conversionConfirmed: data.get('conversionConfirmed') === 'on' }, convert)
+        : await correctNoticeDraft(value.id, draft.etag, input)
+      if (alive.current) onChanged(result, convert ? 'Bescheidentwurf begründet auf Positionen umgestellt.' : 'Bescheidentwurf historisiert korrigiert.')
     } catch (error) {
-      feedback.report(error)
-    }
+      if (alive.current) feedback.report(error)
+    } finally { if (alive.current) setWorking(false) }
   }
   return <form ref={formRef} className="compact-form compact-form--inset right-action-form" onSubmit={(event) => void submit(event)}>
     <FormErrorSummary feedback={feedback.feedback} summaryRef={feedback.summaryRef} />
     {payer && <p className="selection-notice">Für die Korrektur ausgewählt: <strong>{displayParty(payer.value)}</strong>{payerChanged ? ' (abweichender Zahlungspflichtiger)' : ' (unverändert)'}</p>}
-    <DraftFactFields feedback={feedback} defaults={value} />
+    <DraftFactFields feedback={feedback} defaults={value} hideAmount={positions} />
+    {positions && <NoticeDraftLineItemsEditor lines={lines} feedback={feedback} onChange={value => { setLines(value); feedback.clear() }} disabled={working} />}
+    {convert && <label className="confirmation-field"><input type="checkbox" name="conversionConfirmed" required /><span>Ich bestätige die begründete Umstellung auf Positionen. Der bisherige Stand bleibt in der Historie erhalten.</span></label>}
     <label className="field--wide">Begründung<input name="reason" required {...feedback.fieldProps('reason')} />{feedback.fieldErrors('reason')}</label>
-    {payerChanged && <><label className="confirmation-field"><input name="payerSelectionConfirmed" type="checkbox" required {...feedback.fieldProps('payerSelectionConfirmed')} /><span>Geänderte Zahlungspflichtigenauswahl aktiv bestätigen.</span></label>{feedback.fieldErrors('payerSelectionConfirmed')}</>}
-    <button className="button button--primary" type="submit">Fakten historisiert korrigieren</button>
+    {payerChanged && <><label className="confirmation-field"><input key={payer?.value.id} name="payerSelectionConfirmed" type="checkbox" required {...feedback.fieldProps('payerSelectionConfirmed')} /><span>Geänderte Zahlungspflichtigenauswahl aktiv bestätigen.</span></label>{feedback.fieldErrors('payerSelectionConfirmed')}</>}
+    <button className="button button--primary" type="submit" disabled={working || (positions && lineTotal(lines) === null)}>Fakten historisiert korrigieren</button>
   </form>
 }
 
@@ -334,27 +386,32 @@ function DraftDiscardForm({ draft, onChanged, onError }: {
 }) {
   const formRef = useRef<HTMLFormElement>(null)
   const feedback = useFormFeedback(formRef, { reason: 'reason' }, onError)
+  const alive = useAlive()
+  const [working, setWorking] = useState(false)
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (working) return
+    setWorking(true)
     const data = new FormData(event.currentTarget)
     feedback.clear()
     try {
-      onChanged(await discardNoticeDraft(draft.value.id, draft.etag, String(data.get('reason') ?? '')), 'Bescheidentwurf historisiert verworfen.')
+      const result = await discardNoticeDraft(draft.value.id, draft.etag, String(data.get('reason') ?? ''))
+      if (alive.current) onChanged(result, 'Bescheidentwurf historisiert verworfen.')
     } catch (error) {
-      feedback.report(error)
-    }
+      if (alive.current) feedback.report(error)
+    } finally { if (alive.current) setWorking(false) }
   }
   return <form ref={formRef} className="compact-form compact-form--inset right-action-form" onSubmit={(event) => void submit(event)}>
     <FormErrorSummary feedback={feedback.feedback} summaryRef={feedback.summaryRef} />
     <p>Das Verwerfen ist historisiert und beendet jede weitere Änderung dieses Entwurfs.</p>
     <label>Begründung<input name="reason" required {...feedback.fieldProps('reason')} />{feedback.fieldErrors('reason')}</label>
-    <button className="button" type="submit">Entwurf verwerfen</button>
+    <button className="button" type="submit" disabled={working}>Entwurf verwerfen</button>
   </form>
 }
 
-function DraftFactFields({ feedback, defaults }: { feedback: ReturnType<typeof useFormFeedback>; defaults?: NoticeDraft }) {
+function DraftFactFields({ feedback, defaults, hideAmount = false }: { feedback: ReturnType<typeof useFormFeedback>; defaults?: NoticeDraft; hideAmount?: boolean }) {
   return <div className="compact-form-grid">
-    <label>Gesamtbetrag in EUR<input name="totalAmount" type="number" min="0.01" max="9999999999999999.99" step="0.01" defaultValue={defaults?.totalAmount} required {...feedback.fieldProps('totalAmount')} />{feedback.fieldErrors('totalAmount')}</label>
+    {!hideAmount && <label>Gesamtbetrag in EUR<input name="totalAmount" type="number" min="0.01" max="9999999999999999.99" step="0.01" defaultValue={defaults?.totalAmountExact ?? defaults?.totalAmount} required {...feedback.fieldProps('totalAmount')} />{feedback.fieldErrors('totalAmount')}</label>}
     <label>Bescheiddatum<input name="noticeDate" type="date" defaultValue={defaults?.noticeDate} required {...feedback.fieldProps('noticeDate')} />{feedback.fieldErrors('noticeDate')}</label>
     <label>Fälligkeit<input name="dueDate" type="date" defaultValue={defaults?.dueDate} required {...feedback.fieldProps('dueDate')} />{feedback.fieldErrors('dueDate')}</label>
     <label>Kontierung<input name="accountAssignment" maxLength={100} defaultValue={defaults?.accountAssignment} required {...feedback.fieldProps('accountAssignment')} />{feedback.fieldErrors('accountAssignment')}</label>
@@ -363,6 +420,7 @@ function DraftFactFields({ feedback, defaults }: { feedback: ReturnType<typeof u
 }
 
 const fieldMap = {
+  ...Object.fromEntries(Array.from({ length: 100 }, (_, index) => ['description', 'amount'].map(field => [`lineItems[${index}].${field}`, `lineItems[${index}].${field}`])).flat()),
   payerPartyId: null,
   payerSelectionConfirmed: 'payerSelectionConfirmed',
   totalAmount: 'totalAmount',
@@ -373,11 +431,11 @@ const fieldMap = {
   reference: null,
 }
 
-function draftInput(data: FormData, payerPartyId: string) {
+function draftInput(data: FormData, payerPartyId: string, withAmount = true) {
   return {
     payerPartyId,
     payerSelectionConfirmed: data.get('payerSelectionConfirmed') === 'on',
-    totalAmount: Number(data.get('totalAmount')),
+    ...(withAmount ? { totalAmount: exactAmount(String(data.get('totalAmount') ?? '')) } : {}),
     noticeDate: data.get('noticeDate'),
     dueDate: data.get('dueDate'),
     accountAssignment: data.get('accountAssignment'),
@@ -393,6 +451,9 @@ function listItem(value: NoticeDraft): NoticeDraftListItem {
     payerDisplayNameSnapshot: value.payerDisplayNameSnapshot,
     noticeNumber: value.noticeNumber,
     totalAmount: value.totalAmount,
+    totalAmountExact: value.totalAmountExact,
+    amountMode: value.amountMode,
+    lineItems: value.lineItems,
     currency: value.currency,
     noticeDate: value.noticeDate,
     dueDate: value.dueDate,
@@ -411,7 +472,8 @@ function displayParty(party: Party) {
     : [party.firstName, party.lastName].filter(Boolean).join(' ')
 }
 
-function formatAmount(amount: number, currency: string) {
+function formatAmount(amount: number, currency: string, exact?: string) {
+  if (exact) return formatExactAmount(exact)
   return new Intl.NumberFormat('de-DE', { style: 'currency', currency }).format(amount)
 }
 
@@ -421,4 +483,15 @@ function formatDate(value: string) {
 
 function formatDateTime(value: string) {
   return new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
+}
+
+function lineInput(lines: LineInput[]) {
+  if (lineTotal(lines) === null) throw new Error('Bitte alle Positionen prüfen; die Gesamtsumme ist ungültig.')
+  return lines.map(line => ({ id: line.id, description: line.description, amount: exactAmount(line.amount) }))
+}
+
+function useAlive() {
+  const alive = useRef(true)
+  useEffect(() => { alive.current = true; return () => { alive.current = false } }, [])
+  return alive
 }

@@ -1,12 +1,12 @@
 # Cemaris
 
-Nächster Implementierungsschritt (08.09.2026): **M3a – manuelle
-Gebührenpositionen mit exakter Gesamtsumme und vollständiger DOCX-/PDF-Ausgabe**.
-Die [beiden Produktantworten](docs/requirements/manual-notice-line-items-decisions.md)
-sind bestätigt; die [Übergabe für einen neuen Chat](docs/implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
-enthält Arbeitsverzeichnisse, Dateien und SQL-/Browseranforderungen.
-M3a ist vorbereitet, noch nicht implementiert. Katalog und Tarifberechnung
-bleiben außerhalb dieses Schnitts.
+Stand 09.09.2026: **M3a ist implementiert und isoliert nachgewiesen** – manuelle
+Gebührenpositionen, exakte verbindliche Gesamtsumme und vollständige DOCX-/PDF-Ausgabe.
+[Produktvertrag](docs/requirements/manual-notice-line-items-decisions.md),
+[ADR-0022](docs/decisions/ADR-0022-manual-notice-line-items.md) und
+[Abschluss mit Prüfungen und Grenzen](docs/implementation/cemaris-manual-notice-line-items-completion.md)
+beschreiben Bestand, Umstellung, Historie und Konfliktschutz. Die neue Capability
+bleibt aus. Katalog, Tarife, Rechtswirkung und FINANZ+ sind nicht Bestandteil.
 
 Aktuell (08.09.2026): Cemaris wird als lokaler Prototyp mit synthetischen
 Daten entwickelt und erprobt. Die
@@ -524,7 +524,7 @@ SQL-Tests erzeugen ausschließlich eindeutig benannte temporäre Datenbanken
 `Cemaris_IntegrationTests_*`, prüfen additive Migration, Seed, Suche,
 Detailansicht, Providerparität, Konteneinrichtung, Importidempotenz,
 Schreib-/Auditatomarität, 5b-Historie, echte Parallelrennen und Rollback und
-entfernen die Datenbanken anschließend wieder. Vor dem Löschen werden Präfix und
+entfernen die Datenbanken anschließend wieder. Vor dem Löschen werden erfolgreiche eigene Erzeugung, Präfix und
 aufgelöster Datenbankname erneut geprüft. Ohne die Umgebungsvariable werden
 diese Tests übersprungen.
 
@@ -551,6 +551,7 @@ ASP.NET Core liest `appsettings.json`, `appsettings.{Environment}.json`, Environ
 | `Features__UsageRightLifecycleEnabled` | manueller M2a-Lebenszyklus; nur `Development`, benötigt `PersonUsageRightsEditingEnabled`; keine NoticeGeneration-Abhängigkeit | `false`, nur prozesslokal für isolierte Erprobung aktivieren |
 | `Features__PersonUsageRightsEditingEnabled` | synthetischer kanonischer Beteiligten-/Nutzungsrechtskern; nur in `Development` zulässig | `false` (portabler Standard), lokal ausdrücklich `true` |
 | `Features__NoticeDraftEditingEnabled` | rechtlich wirkungsloser manueller Bescheidentwurfskern; nur in `Development` zulässig | `false` (Standard), nur im ausdrücklich aktivierten synthetischen Development-Piloten `true` |
+| `Features__NoticeDraftLineItemsEnabled` | manuelle M3a-Positionen mit verbindlicher Summe; nur Development, benötigt `NoticeDraftEditingEnabled` | `false`; nur prozesslokal für isolierte synthetische Erprobung aktivieren |
 | `Features__NoticeGenerationEnabled` | flüchtige rechtlich wirkungslose DOCX-/PDF-Erzeugung; nur in `Development` und mit allen abhängigen Capabilities zulässig | `false`; lokale synthetische Testsitzung darf prozesslokal aktivieren |
 | `Features__CaseFollowUpsEnabled` | gemeinsamer manueller Wiedervorlagenbereich für synthetische Fallakten; nur in `Development`, unabhängig von anderen Capabilities | `false`; ausschließlich prozesslokale Aktivierung im isolierten Test |
 | `NoticeGeneration__TemplateRoot` / `TemplateFileName` | read-only Vorlagenstamm im Content-Root und feste DOCX-Datei | installationsspezifisch, keine Uploadfunktion |

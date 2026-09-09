@@ -17,11 +17,18 @@ Die Dokumenterzeugung darf im
 und dessen [abgegrenztem UI-Folgeauftrag](docs/implementation/cemaris-notice-generation-burial-selection-next-step-handoff.md)
 prozesslokal für isolierte synthetische Tests aktiviert werden; portable
 Defaults bleiben ausgeschaltet.
-Für den vorbereiteten [M3a-Auftrag](docs/implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
-ist diese prozesslokale isolierte Erzeugung ebenfalls vorgesehen, einschließlich
-Positionsausgabe und echtem PDF. Seine SQL-Prüfungen werden im Startauftrag
-explizit auf neu erzeugte entbehrliche Datenbanken begrenzt. Diese Vorbereitung
-aktiviert keine Capability und startet keine Tests oder Hosts.
+Der [M3a-Abschluss](docs/implementation/cemaris-manual-notice-line-items-completion.md)
+weist diese isolierte Erzeugung mit Positionen und echtem mehrseitigem PDF nach.
+Die gezielten SQL-Prüfungen verwendeten ausschließlich neu erzeugte entbehrliche
+Testdatenbanken. Fixture-Bereinigung setzt eine erfolgreiche eigene Erzeugung
+voraus; ein Namenspräfix allein ist keine Löschberechtigung.
+`Features:NoticeDraftLineItemsEnabled` bleibt aus und benötigt Development und
+`NoticeDraftEditingEnabled`. Neue Commands akzeptieren ausschließlich positive
+Dezimalstrings, keine freie Summe. Alte Korrekturwege dürfen Positionsentwürfe
+auch bei ausgeschalteter Capability nicht verändern. Vollständige Fachrevision,
+Audit, Version und gegebenenfalls Nummernsequenz werden atomar gespeichert.
+Strukturierte Rendererzeilen erweitern den Tokenvertrag ausschließlich um die
+kontrollierte Wiederholung des geprüften Gebührenzeilen-Prototyps.
 Secrets, bestehende Datenbanken und fremde Dateien bleiben geschützt.
 Die unten beschriebenen früheren Pilotgates sind für diesen Prototypumfang
 keine zusätzliche Freigabevoraussetzung.

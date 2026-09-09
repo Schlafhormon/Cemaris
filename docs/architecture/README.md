@@ -1,11 +1,10 @@
 # Technische Zielarchitektur
 
-Nächster Schnitt (08.09.2026): Die [M3a-Übergabe](../implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
-plant geordnete manuelle Gebührenpositionen im bestehenden Entwurfsaggregat,
-vollständige Revisionssnapshots und eine sichere mehrzeilige DOCX-/PDF-Ausgabe.
-Die [Produktantworten](../requirements/manual-notice-line-items-decisions.md) sind
-bestätigt; die Architekturänderung ist noch nicht implementiert. Ein neues ADR
-ist mit der Umsetzung anzulegen; historische ADRs bleiben unverändert.
+Stand 09.09.2026: [M3a](../implementation/cemaris-manual-notice-line-items-completion.md)
+ist umgesetzt: geordnete Positionen im bestehenden Entwurfsaggregat,
+revisionsgebundene Snapshots, verbindliche Summe, konsistente Mutationsantworten
+und strukturierte flüchtige Ausgabe. [ADR-0022](../decisions/ADR-0022-manual-notice-line-items.md)
+ergänzt die historischen ADRs; die Capability bleibt aus.
 
 Aktualisierung 08.09.2026: Die
 [Prototypentscheidung](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)

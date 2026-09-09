@@ -1,4 +1,5 @@
 using System.Data;
+using Microsoft.Data.SqlClient;
 using Cemaris.Application.NoticeDrafts;
 using Cemaris.Domain.NoticeDrafts;
 using Cemaris.Domain.Parties;
@@ -17,7 +18,7 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
         if (!await db.Cases.AsNoTracking().AnyAsync(x => x.Id == caseId, token))
             return null;
         return (await db.NoticeDrafts
-            .AsNoTracking()
+            .AsNoTracking().Include(x => x.LineItems)
             .Where(x => x.CaseId == caseId)
             .OrderByDescending(x => x.CreatedAtUtc)
             .ThenBy(x => x.Id)
@@ -27,7 +28,7 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
     }
 
     public async Task<NoticeDraftView?> FindDraftAsync(Guid id, CancellationToken token) =>
-        await db.NoticeDrafts.AsNoTracking().Include(x => x.Revisions)
+        await db.NoticeDrafts.AsNoTracking().Include(x => x.Revisions).ThenInclude(x => x.LineItems).Include(x => x.LineItems)
             .SingleOrDefaultAsync(x => x.Id == id, token) is { } entity
                 ? View(entity)
                 : null;
@@ -54,6 +55,8 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
         if (payer is null)
             return Result(NoticeDraftMutationOutcome.InvalidReference, id);
 
+        var lines = command.PreparedLineItems is { } input ? NoticeDraftLineItemRules.Materialize(input, []) : Array.Empty<NoticeDraftLineItem>();
+        var amount = command.PreparedLineItems is { } prepared ? NoticeDraftLineItemRules.Total(prepared) : NoticeDraftRules.ValidateAmount(command.TotalAmount);
         var year = mutation.OccurredAtUtc.UtcDateTime.Year;
         var sequence = await db.NoticeNumberSequences
             .FromSqlInterpolated($"SELECT * FROM [NoticeNumberSequences] WITH (UPDLOCK, HOLDLOCK) WHERE [Year] = {year}")
@@ -82,7 +85,8 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
             NoticeNumberConfigurationVersion = configuration.Version,
             FinancialProductSnapshot = configuration.FinancialProduct,
             RunningNumberWidthSnapshot = configuration.RunningNumberWidth,
-            TotalAmount = command.TotalAmount,
+            TotalAmount = amount,
+            AmountMode = command.PreparedLineItems is null ? "LegacyTotal" : "LineItems",
             Currency = NoticeDraftRules.Currency,
             NoticeDate = command.NoticeDate,
             DueDate = command.DueDate,
@@ -93,11 +97,12 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
             CreatedAtUtc = mutation.OccurredAtUtc,
             UpdatedAtUtc = mutation.OccurredAtUtc,
         };
+        SetLines(entity, lines);
         db.NoticeDrafts.Add(entity);
         AddRevision(entity, mutation);
         AddDraftAudit(entity, mutation);
         await db.SaveChangesAsync(token);
-        return Result(NoticeDraftMutationOutcome.Success, id, 1);
+        return new(NoticeDraftMutationOutcome.Success, id, 1, View(entity));
     }, id, NoticeDraftMutationOutcome.InvalidReference, token);
 
     public Task<NoticeDraftMutationResult> CorrectDraftAsync(
@@ -107,13 +112,17 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
         NoticeDraftMutation mutation,
         CancellationToken token) => InTransactionAsync(async () =>
     {
-        var entity = await db.NoticeDrafts.Include(x => x.Revisions)
+        var entity = await db.NoticeDrafts.Include(x => x.Revisions).ThenInclude(x => x.LineItems).Include(x => x.LineItems)
             .SingleOrDefaultAsync(x => x.Id == id, token);
         if (entity is null) return Result(NoticeDraftMutationOutcome.NotFound, id);
-        if (entity.Version != expectedVersion)
+        if (entity.Version != expectedVersion || entity.Version == long.MaxValue)
             return Result(NoticeDraftMutationOutcome.VersionConflict, id, entity.Version);
         if (entity.Status == nameof(NoticeDraftStatus.Discarded))
             return Result(NoticeDraftMutationOutcome.Discarded, id, entity.Version);
+        if (command.PreparedLineItems is null ? entity.AmountMode != "LegacyTotal"
+            : command.ConvertToLineItems != (entity.AmountMode == "LegacyTotal"))
+            return Result(NoticeDraftMutationOutcome.AmountModeConflict, id, entity.Version);
+        var lines = command.PreparedLineItems is { } input ? NoticeDraftLineItemRules.Materialize(input, entity.LineItems.Select(x => x.Id)) : Array.Empty<NoticeDraftLineItem>();
         if (entity.PayerPartyId != command.PayerPartyId && !command.PayerSelectionConfirmed)
             return Result(NoticeDraftMutationOutcome.PayerConfirmationRequired, id, entity.Version);
         var payer = await db.Parties.AsNoTracking().SingleOrDefaultAsync(x => x.Id == command.PayerPartyId, token);
@@ -121,17 +130,24 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
 
         entity.PayerPartyId = payer.Id;
         entity.PayerDisplayNameSnapshot = Display(payer);
-        entity.TotalAmount = command.TotalAmount;
+        entity.TotalAmount = command.PreparedLineItems is { } prepared ? NoticeDraftLineItemRules.Total(prepared) : NoticeDraftRules.ValidateAmount(command.TotalAmount);
+        entity.AmountMode = command.PreparedLineItems is null ? "LegacyTotal" : "LineItems";
         entity.NoticeDate = command.NoticeDate;
         entity.DueDate = command.DueDate;
         entity.AccountAssignment = command.AccountAssignment!;
         entity.FeeReasonOrSource = command.FeeReasonOrSource!;
         entity.Version++;
         entity.UpdatedAtUtc = mutation.OccurredAtUtc;
+        // Kopfversion zuerst sichern, dann die ganze Liste ersetzen: keine Indexkollision beim Tauschen.
+        db.NoticeDraftLineItems.RemoveRange(entity.LineItems);
+        await db.SaveChangesAsync(token);
+        entity.LineItems.Clear();
+        SetLines(entity, lines);
+        db.NoticeDraftLineItems.AddRange(entity.LineItems);
         AddRevision(entity, mutation);
         AddDraftAudit(entity, mutation);
         await db.SaveChangesAsync(token);
-        return Result(NoticeDraftMutationOutcome.Success, id, entity.Version);
+        return new(NoticeDraftMutationOutcome.Success, id, entity.Version, View(entity));
     }, id, NoticeDraftMutationOutcome.InvalidReference, token);
 
     public Task<NoticeDraftMutationResult> DiscardDraftAsync(
@@ -141,20 +157,21 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
         NoticeDraftMutation mutation,
         CancellationToken token) => InTransactionAsync(async () =>
     {
-        var entity = await db.NoticeDrafts.Include(x => x.Revisions)
+        var entity = await db.NoticeDrafts.Include(x => x.Revisions).ThenInclude(x => x.LineItems).Include(x => x.LineItems)
             .SingleOrDefaultAsync(x => x.Id == id, token);
         if (entity is null) return Result(NoticeDraftMutationOutcome.NotFound, id);
-        if (entity.Version != expectedVersion)
+        if (entity.Version != expectedVersion || entity.Version == long.MaxValue)
             return Result(NoticeDraftMutationOutcome.VersionConflict, id, entity.Version);
         if (entity.Status == nameof(NoticeDraftStatus.Discarded))
             return Result(NoticeDraftMutationOutcome.Discarded, id, entity.Version);
         entity.Status = nameof(NoticeDraftStatus.Discarded);
         entity.Version++;
         entity.UpdatedAtUtc = mutation.OccurredAtUtc;
+        await db.SaveChangesAsync(token);
         AddRevision(entity, mutation);
         AddDraftAudit(entity, mutation);
         await db.SaveChangesAsync(token);
-        return Result(NoticeDraftMutationOutcome.Success, id, entity.Version);
+        return new(NoticeDraftMutationOutcome.Success, id, entity.Version, View(entity));
     }, id, NoticeDraftMutationOutcome.InvalidReference, token);
 
     public Task<NoticeDraftMutationResult> CreateConfigurationAsync(
@@ -192,7 +209,7 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
         var entity = await db.NoticeNumberConfigurations.Include(x => x.Revisions)
             .SingleOrDefaultAsync(x => x.Id == id, token);
         if (entity is null) return Result(NoticeDraftMutationOutcome.NotFound, id);
-        if (entity.Version != expectedVersion)
+        if (entity.Version != expectedVersion || entity.Version == long.MaxValue)
             return Result(NoticeDraftMutationOutcome.VersionConflict, id, entity.Version);
         entity.FinancialProduct = command.FinancialProduct!;
         entity.RunningNumberWidth = command.RunningNumberWidth;
@@ -227,16 +244,26 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
             db.ChangeTracker.Clear();
             return Result(NoticeDraftMutationOutcome.VersionConflict, id);
         }
-        catch (DbUpdateException)
+        catch (Exception exception) when (exception.GetBaseException() is SqlException { Number: 1205 })
+        {
+            await transaction.RollbackAsync(CancellationToken.None);
+            db.ChangeTracker.Clear();
+            return Result(NoticeDraftMutationOutcome.VersionConflict, id);
+        }
+        catch (DbUpdateException exception)
         {
             await transaction.RollbackAsync(token);
             db.ChangeTracker.Clear();
-            return Result(updateFailure, id);
+            return Result(updateFailure == NoticeDraftMutationOutcome.ConfigurationAlreadyExists
+                && exception.GetBaseException() is SqlException { Number: 2601 or 2627 } sql
+                && sql.Message.Contains("IX_NoticeNumberConfigurations_SingletonKey", StringComparison.Ordinal)
+                    ? updateFailure : NoticeDraftMutationOutcome.StorageFailure, id);
         }
     }
 
-    private void AddRevision(NoticeDraftEntity entity, NoticeDraftMutation mutation) =>
-        db.NoticeDraftRevisions.Add(new NoticeDraftRevisionEntity
+    private void AddRevision(NoticeDraftEntity entity, NoticeDraftMutation mutation)
+    {
+        var revision = new NoticeDraftRevisionEntity
         {
             Id = Guid.NewGuid(),
             NoticeDraftId = entity.Id,
@@ -265,7 +292,32 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
             Status = entity.Status,
             CreatedAtUtc = entity.CreatedAtUtc,
             UpdatedAtUtc = entity.UpdatedAtUtc,
-        });
+            AmountMode = entity.AmountMode,
+        };
+        foreach (var line in entity.LineItems)
+            revision.LineItems.Add(new NoticeDraftRevisionLineItemEntity
+            {
+                NoticeDraftRevisionId = revision.Id,
+                LineItemId = line.Id,
+                Position = line.Position,
+                Description = line.Description,
+                Amount = line.Amount
+            });
+        db.NoticeDraftRevisions.Add(revision);
+    }
+
+    private static void SetLines(NoticeDraftEntity entity, IReadOnlyList<NoticeDraftLineItem> lines)
+    {
+        foreach (var line in lines)
+            entity.LineItems.Add(new NoticeDraftLineItemEntity
+            {
+                Id = line.Id,
+                NoticeDraftId = entity.Id,
+                Position = line.Position,
+                Description = line.Description,
+                Amount = line.Amount
+            });
+    }
 
     private void AddDraftAudit(NoticeDraftEntity entity, NoticeDraftMutation mutation) =>
         db.NoticeDraftAudits.Add(new NoticeDraftAuditEntity
@@ -320,7 +372,8 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
         entity.AccountAssignment, entity.FeeReasonOrSource,
         Enum.Parse<NoticeDraftStatus>(entity.Status), entity.Version,
         entity.CreatedAtUtc, entity.UpdatedAtUtc,
-        entity.Revisions.OrderBy(x => x.ResultingVersion).Select(Revision).ToArray());
+        Array.AsReadOnly(entity.Revisions.OrderBy(x => x.ResultingVersion).Select(Revision).ToArray()))
+    { AmountMode = Enum.Parse<NoticeDraftAmountMode>(entity.AmountMode), LineItems = Lines(entity) };
 
     private static NoticeDraftRevisionView Revision(NoticeDraftRevisionEntity entity) => new(
         entity.Id, entity.ResultingVersion, entity.MutationType, entity.Reason,
@@ -332,14 +385,22 @@ public sealed class EfNoticeDraftStore(CemarisDbContext db) : INoticeDraftStore
         entity.TotalAmount, entity.Currency, entity.NoticeDate, entity.DueDate,
         entity.AccountAssignment, entity.FeeReasonOrSource,
         Enum.Parse<NoticeDraftStatus>(entity.Status), entity.CreatedAtUtc,
-        entity.UpdatedAtUtc);
+        entity.UpdatedAtUtc)
+    {
+        AmountMode = Enum.Parse<NoticeDraftAmountMode>(entity.AmountMode),
+        LineItems = Array.AsReadOnly(entity.LineItems.OrderBy(x => x.Position).Select(x => new NoticeDraftLineItem(x.LineItemId, x.Position, x.Description, x.Amount)).ToArray())
+    };
 
     private static NoticeDraftListItem ListItem(NoticeDraftEntity entity) => new(
         entity.Id, entity.CaseId, entity.PayerPartyId, entity.PayerDisplayNameSnapshot,
         entity.NoticeNumber, entity.TotalAmount, entity.Currency, entity.NoticeDate,
         entity.DueDate, entity.AccountAssignment, entity.FeeReasonOrSource,
         Enum.Parse<NoticeDraftStatus>(entity.Status), entity.Version,
-        entity.CreatedAtUtc, entity.UpdatedAtUtc);
+        entity.CreatedAtUtc, entity.UpdatedAtUtc)
+    { AmountMode = Enum.Parse<NoticeDraftAmountMode>(entity.AmountMode), LineItems = Lines(entity) };
+
+    private static System.Collections.ObjectModel.ReadOnlyCollection<NoticeDraftLineItem> Lines(NoticeDraftEntity entity) => Array.AsReadOnly(entity.LineItems
+        .OrderBy(x => x.Position).Select(x => new NoticeDraftLineItem(x.Id, x.Position, x.Description, x.Amount)).ToArray());
 
     private static NoticeNumberConfigurationView View(NoticeNumberConfigurationEntity entity) => new(
         entity.Id, entity.FinancialProduct, entity.RunningNumberWidth, entity.Version,

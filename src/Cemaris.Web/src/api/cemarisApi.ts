@@ -196,9 +196,10 @@ export function getLegalBasisVersions(activeOnly: boolean, signal?: AbortSignal)
 export function createLegalBasisVersion(input: { name: string; versionDate: string }) { return sendVersioned<LegalBasisVersion>('/api/master-data/legal-basis-versions', 'POST', input) }
 export function setLegalBasisVersionActive(value: LegalBasisVersion, active: boolean) { return sendVersioned<LegalBasisVersion>(`/api/master-data/legal-basis-versions/${encodeURIComponent(value.id)}/active`, 'PUT', { isActive: active }, `"${value.version}"`) }
 
-export async function generateNoticeDraft(id: string, etag: string, burialId: string, legalBasisVersionId: string, format: NoticeGenerationFormat) {
+export async function generateNoticeDraft(id: string, etag: string, burialId: string, legalBasisVersionId: string, format: NoticeGenerationFormat, signal?: AbortSignal) {
   const token = await getAntiforgeryToken()
   const response = await fetch(`${apiBaseUrl}/api/notice-drafts/${encodeURIComponent(id)}/generate`, {
+    signal,
     method: 'POST', credentials: 'include', headers: { Accept: format === 'Pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'Content-Type': 'application/json', 'X-Cemaris-CSRF': token, 'If-Match': etag },
     body: JSON.stringify({ burialId, legalBasisVersionId, format }),
   })
@@ -478,3 +479,6 @@ export function getUsageRight(id: string, signal?: AbortSignal) { return getVers
 export function getUsageRightHistory(id: string, page: number, signal: AbortSignal) { return getJson<UsageRightPage>(`/api/grave-sites/${encodeURIComponent(id)}/usage-rights/history?page=${page}&pageSize=10`, signal) }
 export function getUsageRightSequence(id: string, signal: AbortSignal) { return getJson<UsageRightListItem[]>(`/api/usage-rights/${encodeURIComponent(id)}/sequence`, signal) }
 export function changeUsageRightLifecycle(id: string, etag: string, action: string, input: unknown) { return sendVersioned<UsageRight>(`/api/usage-rights/${encodeURIComponent(id)}/${action}`, 'POST', input, etag) }
+
+export function createNoticeDraftLineItems(caseId: string, input: unknown) { return sendVersioned<NoticeDraft>(`/api/cases/${encodeURIComponent(caseId)}/notice-drafts/line-items`, 'POST', input) }
+export function saveNoticeDraftLineItems(id: string, etag: string, input: unknown, convert: boolean) { return sendVersioned<NoticeDraft>(`/api/notice-drafts/${encodeURIComponent(id)}/${convert ? 'line-item-conversion' : 'line-item-corrections'}`, 'POST', input, etag) }

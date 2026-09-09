@@ -1,13 +1,14 @@
 # Konzept für Dokumente und Bescheide
 
-Ergänzung 08.09.2026: Die [M3a-Produktentscheidungen](../requirements/manual-notice-line-items-decisions.md)
-erweitern den nächsten Implementierungsschnitt um geordnete manuelle
-Gebührenpositionen und deren vollständige DOCX-/PDF-Ausgabe. Die
-[technische Übergabe](../implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
-beschreibt die erforderliche strukturelle Erweiterung des bisher skalaren
-Renderervertrags unter Erhalt der Paket-/Pfad- und Ressourcengrenzen.
-Noch keine M3a-Implementierung oder neue Ausgabeabnahme; ADR-0019 bleibt
-historisch unverändert und wird bei Umsetzung durch ein neues ADR ergänzt.
+Stand 09.09.2026: [M3a](../implementation/cemaris-manual-notice-line-items-completion.md)
+erweitert den Renderer um geordnete strukturierte Gebührenzeilen.
+Die unveränderte synthetische Vorlage trägt bereits den eindeutigen gemeinsamen
+Tabellenzeilen-Prototyp. Alle 23 Tokens werden vor der Expansion genau einmal
+verlangt; nur die beiden Positionstokens werden in dieser Zeile wiederholt.
+Paket-, Pfad-, Beziehungs-, OpenXML-, Token- und Ressourcenprüfungen bleiben
+wirksam. Die echte LibreOffice-Ausgabe mit 100 Positionen auf fünf Seiten ist
+inhaltlich und visuell geprüft. [ADR-0022](../decisions/ADR-0022-manual-notice-line-items.md)
+dokumentiert den Vertrag; ADR-0019 bleibt unverändert.
 
 Aktuell seit 07.09.2026: Für die lokale synthetische Erprobung gilt die
 [Prototypentscheidung](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp).

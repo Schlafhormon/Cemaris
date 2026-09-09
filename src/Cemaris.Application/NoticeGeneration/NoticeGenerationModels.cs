@@ -1,3 +1,4 @@
+using Cemaris.Domain.NoticeDrafts;
 using Cemaris.Application.Identity;
 
 namespace Cemaris.Application.NoticeGeneration;
@@ -36,7 +37,14 @@ public sealed record NoticeGenerationSource(
     Guid LegalBasisVersionId,
     long LegalBasisInternalVersion,
     string LegalBasisName,
-    DateOnly LegalBasisVersionDate);
+    DateOnly LegalBasisVersionDate)
+{
+    public NoticeDraftAmountMode AmountMode { get; init; }
+    public IReadOnlyList<NoticeDraftLineItem> LineItems { get; init; } = Array.Empty<NoticeDraftLineItem>();
+}
+
+public sealed record NoticeDocumentLine(string Description, string Amount);
+public sealed record NoticeDocumentInput(IReadOnlyDictionary<string, string> Values, IReadOnlyList<NoticeDocumentLine> Lines);
 
 public sealed record NoticeGenerationArtifact(byte[] Content, string ContentType, string FileName);
 public enum NoticeGenerationSourceOutcome
@@ -80,7 +88,7 @@ public interface INoticeGenerationStore
 
 public interface INoticeDocumentRenderer
 {
-    Task<byte[]> RenderAsync(IReadOnlyDictionary<string, string> values, CancellationToken token);
+    Task<byte[]> RenderAsync(NoticeDocumentInput input, CancellationToken token);
 }
 
 public interface INoticePdfConverter
@@ -144,7 +152,14 @@ public sealed class NoticeGenerationService(
                     _ => new NoticeGenerationException("notice_generation_required_value_missing", "Mindestens ein erforderlicher kanonischer Platzhalterwert fehlt.", 409),
                 };
             var values = Map(source);
-            var docx = await renderer.RenderAsync(values, token);
+            var lines = source.AmountMode == NoticeDraftAmountMode.LineItems
+                ? source.LineItems.Select(x => new NoticeDocumentLine(x.Description, Money(x.Amount))).ToArray()
+                : [new NoticeDocumentLine(source.FeeReasonOrSource, Money(source.TotalAmount))];
+            if (source.AmountMode == NoticeDraftAmountMode.LineItems
+                && (NoticeDraftLineItemRules.Total(source.LineItems.Select(x => new PreparedNoticeDraftLineItem(x.Id, x.Description, x.Amount)).ToArray()) != source.TotalAmount
+                    || !source.LineItems.Select(x => x.Position).SequenceEqual(Enumerable.Range(1, source.LineItems.Count))))
+                throw new NoticeGenerationException("notice_generation_required_value_missing", "Der gespeicherte Positionsstand ist inkonsistent.", 409);
+            var docx = await renderer.RenderAsync(new(values, Array.AsReadOnly(lines)), token);
             var content = command.Format == NoticeGenerationFormat.Pdf
                 ? await pdfConverter.ConvertAsync(docx, token)
                 : docx;
@@ -226,6 +241,8 @@ public sealed class NoticeGenerationService(
             ["RECHTSGRUNDLAGE_FASSUNGSSTAND"] = Date(source.LegalBasisVersionDate),
         };
     }
+
+    private static string Money(decimal value) => value.ToString("N2", global::System.Globalization.CultureInfo.GetCultureInfo("de-DE")) + " EUR";
 
     private static string SafeFileName(string value)
     {

@@ -18,6 +18,9 @@ export interface NoticeDraftRevision {
   noticeNumberConfigurationVersion: number
   financialProductSnapshot: string
   runningNumberWidthSnapshot: number
+  amountMode?: 'LegacyTotal' | 'LineItems'
+  totalAmountExact?: string
+  lineItems?: NoticeDraftLineItem[]
   totalAmount: number
   currency: string
   noticeDate: string
@@ -41,6 +44,9 @@ export interface NoticeDraft {
   noticeNumberConfigurationVersion: number
   financialProductSnapshot: string
   runningNumberWidthSnapshot: number
+  amountMode?: 'LegacyTotal' | 'LineItems'
+  totalAmountExact?: string
+  lineItems?: NoticeDraftLineItem[]
   totalAmount: number
   currency: string
   noticeDate: string
@@ -89,3 +95,10 @@ export interface LegalBasisVersion {
 }
 
 export type NoticeGenerationFormat = 'Docx' | 'Pdf'
+
+export interface NoticeDraftLineItem {
+  id: string
+  position: number
+  description: string
+  amountExact: string
+}

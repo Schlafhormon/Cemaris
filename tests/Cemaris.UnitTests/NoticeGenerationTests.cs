@@ -10,6 +10,35 @@ namespace Cemaris.UnitTests;
 
 public sealed class NoticeGenerationTests
 {
+    [Theory]
+    [InlineData(1)]
+    [InlineData(3)]
+    [InlineData(100)]
+    public async Task ExpandsAllRowsInOrderWithLiteralXmlTextAndSingleTotal(int count)
+    {
+        using var fixture = Fixture.Create();
+        var lines = Enumerable.Range(1, count).Select(i => new NoticeDocumentLine($"Position {i:D3} <&> ÄÖÜ " + new string('x', 470), "0,10 EUR")).ToArray();
+        var output = await fixture.Renderer.RenderAsync(new NoticeDocumentInput(NoticeGenerationService.Map(Source()), lines), CancellationToken.None);
+        using var document = WordprocessingDocument.Open(new MemoryStream(output), false);
+        var rows = document.MainDocumentPart!.Document!.Descendants<TableRow>().Where(row => row.InnerText.StartsWith("Position ", StringComparison.Ordinal)).ToArray();
+        Assert.Equal(count, rows.Length);
+        for (var index = 0; index < count; index++) Assert.StartsWith(lines[index].Description, rows[index].InnerText, StringComparison.Ordinal);
+        Assert.DoesNotContain("{{", document.MainDocumentPart.Document.InnerText, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task RejectsPositionTokensInSeparateRowsAndMergedPrototype()
+    {
+        using var fixture = Fixture.Create();
+        using (var document = WordprocessingDocument.Open(fixture.Paths.TemplatePath, true))
+        {
+            var cell = document.MainDocumentPart!.Document!.Descendants<TableCell>().Single(x => x.InnerText.Contains("{{GEBUEHR_BETRAG}}", StringComparison.Ordinal));
+            var row = cell.Parent!;
+            cell.Remove(); row.InsertAfterSelf(new TableRow(cell)); document.MainDocumentPart.Document.Save();
+        }
+        await Assert.ThrowsAsync<InvalidDataException>(() => fixture.Renderer.RenderAsync(NoticeGenerationService.Map(Source()), CancellationToken.None));
+    }
+
     [Fact]
     public void MapsExactlyApprovedTokensWithoutDerivingLegalOrFinancialFacts()
     {
@@ -317,7 +346,7 @@ public sealed class NoticeGenerationTests
                 source.CaseId, source.LegalBasisInternalVersion));
         public Task SaveAuditAsync(NoticeGenerationAudit audit, CancellationToken token) { if (throwFirstAudit && auditCalls++ == 0) throw new InvalidOperationException("synthetic audit failure"); Audits.Add(audit); return Task.CompletedTask; }
     }
-    private sealed class StaticRenderer : INoticeDocumentRenderer { public Task<byte[]> RenderAsync(IReadOnlyDictionary<string, string> values, CancellationToken token) => Task.FromResult<byte[]>([1, 2]); }
+    private sealed class StaticRenderer : INoticeDocumentRenderer { public Task<byte[]> RenderAsync(NoticeDocumentInput input, CancellationToken token) => Task.FromResult<byte[]>([1, 2]); }
     private sealed class StaticPdf : INoticePdfConverter { public Task<byte[]> ConvertAsync(byte[] document, CancellationToken token) => Task.FromResult<byte[]>("%PDF-x"u8.ToArray()); }
     private sealed class ActorProvider : ICurrentActorProvider { public ActorIdentity Current { get; } = new(TestIdentityId, "Ada Synthetik", SystemRole.Administration); private const string TestIdentityId = "10000000-0000-0000-0000-000000000001"; }
     private sealed class FixedTimeProvider : TimeProvider { public override DateTimeOffset GetUtcNow() => new(2026, 8, 28, 12, 0, 0, TimeSpan.Zero); }

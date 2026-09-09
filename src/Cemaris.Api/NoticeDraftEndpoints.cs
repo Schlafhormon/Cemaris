@@ -1,4 +1,5 @@
 using Cemaris.Api.Security;
+using Cemaris.Api.ErrorHandling;
 using Cemaris.Application.NoticeDrafts;
 using Cemaris.Domain.NoticeDrafts;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ public static class NoticeDraftEndpoints
     public static void MapNoticeDrafts(this WebApplication app)
     {
         var caseDrafts = app.MapGroup("/api/cases/{caseId:guid}/notice-drafts")
-            .WithTags("Canonical manual notice drafts")
+            .WithTags("Canonical manual notice drafts").WithMetadata(new NoticeDraftEndpointMetadata())
             .RequireAuthorization(CemarisPolicies.NoticeDrafts);
         caseDrafts.MapGet("/", ReadForCaseAsync)
             .WithName("GetNoticeDraftsForCase")
@@ -27,7 +28,7 @@ public static class NoticeDraftEndpoints
             .ProducesProblem(401).ProducesProblem(403).ProducesProblem(409);
 
         var drafts = app.MapGroup("/api/notice-drafts")
-            .WithTags("Canonical manual notice drafts")
+            .WithTags("Canonical manual notice drafts").WithMetadata(new NoticeDraftEndpointMetadata())
             .RequireAuthorization(CemarisPolicies.NoticeDrafts);
         drafts.MapGet("/{noticeDraftId:guid}", GetDraftAsync)
             .WithName("GetNoticeDraft")
@@ -99,8 +100,7 @@ public static class NoticeDraftEndpoints
         {
             var result = await service.CreateDraftAsync(caseId, command, token);
             if (result.Outcome != NoticeDraftMutationOutcome.Success) return Failure(result);
-            var view = await service.FindDraftAsync(result.Id, token)
-                ?? throw new InvalidOperationException("Der angelegte Entwurf ist nicht lesbar.");
+            var view = result.Snapshot ?? throw new InvalidOperationException("Der gespeicherte Entwurfssnapshot fehlt.");
             response.Headers.Location = $"/api/notice-drafts/{result.Id}";
             response.Headers.ETag = Etag(result.Version);
             return Results.Json(view, statusCode: 201);
@@ -118,8 +118,7 @@ public static class NoticeDraftEndpoints
         HttpContext context,
         CancellationToken token) => Existing(
             context,
-            version => service.CorrectDraftAsync(noticeDraftId, version, command, token),
-            () => service.FindDraftAsync(noticeDraftId, token));
+            version => service.CorrectDraftAsync(noticeDraftId, version, command, token));
 
     private static Task<IResult> DiscardDraftAsync(
         Guid noticeDraftId,
@@ -128,8 +127,7 @@ public static class NoticeDraftEndpoints
         HttpContext context,
         CancellationToken token) => Existing(
             context,
-            version => service.DiscardDraftAsync(noticeDraftId, version, command, token),
-            () => service.FindDraftAsync(noticeDraftId, token));
+            version => service.DiscardDraftAsync(noticeDraftId, version, command, token));
 
     private static async Task<IResult> GetConfigurationAsync(
         NoticeDraftService service,
@@ -184,10 +182,9 @@ public static class NoticeDraftEndpoints
         }
     }
 
-    private static async Task<IResult> Existing<T>(
+    internal static async Task<IResult> Existing(
         HttpContext context,
-        Func<long, Task<NoticeDraftMutationResult>> mutate,
-        Func<Task<T?>> load) where T : class
+        Func<long, Task<NoticeDraftMutationResult>> mutate)
     {
         var parsed = Parse(context.Request, out var version);
         if (parsed is not null) return parsed;
@@ -195,7 +192,7 @@ public static class NoticeDraftEndpoints
         {
             var result = await mutate(version);
             if (result.Outcome != NoticeDraftMutationOutcome.Success) return Failure(result);
-            var view = await load() ?? throw new InvalidOperationException("Das geänderte Aggregat ist nicht lesbar.");
+            var view = result.Snapshot ?? throw new InvalidOperationException("Der gespeicherte Entwurfssnapshot fehlt.");
             context.Response.Headers.ETag = Etag(result.Version);
             return Results.Ok(view);
         }
@@ -205,8 +202,10 @@ public static class NoticeDraftEndpoints
         }
     }
 
-    private static IResult Failure(NoticeDraftMutationResult result) => result.Outcome switch
+    internal static IResult Failure(NoticeDraftMutationResult result) => result.Outcome switch
     {
+        NoticeDraftMutationOutcome.AmountModeConflict => Problem(409, "notice-draft-amount-mode-conflict", "Dieser Entwurfsmodus benötigt den vollständigen Positionsvertrag beziehungsweise eine ausdrückliche Umstellung."),
+        NoticeDraftMutationOutcome.StorageFailure => Problem(503, "notice-draft-storage-failed", "Der Entwurf konnte nicht atomar gespeichert werden. Es wurde keine Änderung übernommen."),
         NoticeDraftMutationOutcome.NotFound => NotFound("Das Fachaggregat wurde nicht gefunden."),
         NoticeDraftMutationOutcome.VersionConflict => Problem(412, "notice-draft-version-conflict", "Das Fachaggregat wurde zwischenzeitlich geändert."),
         NoticeDraftMutationOutcome.InvalidReference => Validation("reference", "Mindestens ein kanonischer Fall- oder Beteiligtenbezug ist ungültig."),
@@ -241,7 +240,7 @@ public static class NoticeDraftEndpoints
     }
 
     private static string Etag(long version) => $"\"{version.ToString(System.Globalization.CultureInfo.InvariantCulture)}\"";
-    private static IResult Validation(string field, string message) => Results.ValidationProblem(
+    internal static IResult Validation(string field, string message) => Results.ValidationProblem(
         new Dictionary<string, string[]> { [field] = [message] },
         title: "Die Angaben sind ungültig.");
     private static IResult NotFound(string title) => Results.Problem(statusCode: 404, title: title, type: "https://httpstatuses.com/404");

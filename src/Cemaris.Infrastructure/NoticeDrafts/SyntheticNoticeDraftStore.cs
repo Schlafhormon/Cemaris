@@ -31,7 +31,11 @@ public sealed class SyntheticNoticeDraftStore(
         long Version,
         DateTimeOffset CreatedAtUtc,
         DateTimeOffset UpdatedAtUtc,
-        List<NoticeDraftRevisionView> Revisions);
+        List<NoticeDraftRevisionView> Revisions)
+    {
+        public NoticeDraftAmountMode AmountMode { get; init; }
+        public IReadOnlyList<NoticeDraftLineItem> LineItems { get; init; } = Array.Empty<NoticeDraftLineItem>();
+    }
 
     private sealed record ConfigurationState(
         Guid Id,
@@ -94,6 +98,8 @@ public sealed class SyntheticNoticeDraftStore(
         {
             return Result(NoticeDraftMutationOutcome.ConfigurationMissing, id);
         }
+        if (drafts.ContainsKey(id) || !ValidDraftEvidence(mutation, id, 1))
+            return Result(NoticeDraftMutationOutcome.StorageFailure, id);
 
         if (cases.FindAsync(caseId, token).GetAwaiter().GetResult() is null
             || !parties.TryGetPartyDisplayName(command.PayerPartyId, out var payerDisplayName))
@@ -101,6 +107,8 @@ public sealed class SyntheticNoticeDraftStore(
             return Result(NoticeDraftMutationOutcome.InvalidReference, id);
         }
 
+        var lines = command.PreparedLineItems is { } input ? NoticeDraftLineItemRules.Materialize(input, []) : Array.Empty<NoticeDraftLineItem>();
+        var amount = command.PreparedLineItems is { } prepared ? NoticeDraftLineItemRules.Total(prepared) : NoticeDraftRules.ValidateAmount(command.TotalAmount);
         var year = mutation.OccurredAtUtc.UtcDateTime.Year;
         var lastIssued = lastIssuedByYear.GetValueOrDefault(year);
         var next = checked(lastIssued + 1);
@@ -126,7 +134,7 @@ public sealed class SyntheticNoticeDraftStore(
             configuration.Version,
             configuration.FinancialProduct,
             configuration.RunningNumberWidth,
-            command.TotalAmount,
+            amount,
             command.NoticeDate,
             command.DueDate,
             command.AccountAssignment!,
@@ -135,12 +143,13 @@ public sealed class SyntheticNoticeDraftStore(
             1,
             mutation.OccurredAtUtc,
             mutation.OccurredAtUtc,
-            []);
+            [])
+        { AmountMode = command.PreparedLineItems is null ? NoticeDraftAmountMode.LegacyTotal : NoticeDraftAmountMode.LineItems, LineItems = lines };
         state.Revisions.Add(Revision(state, mutation));
         drafts.Add(id, state);
         lastIssuedByYear[year] = next;
-        draftAudits.Add(mutation);
-        return Result(NoticeDraftMutationOutcome.Success, id, 1);
+        draftAudits.Add(mutation with { Reason = null });
+        return new(NoticeDraftMutationOutcome.Success, id, 1, View(state));
     });
 
     public Task<NoticeDraftMutationResult> CorrectDraftAsync(
@@ -152,8 +161,13 @@ public sealed class SyntheticNoticeDraftStore(
     {
         token.ThrowIfCancellationRequested();
         if (!drafts.TryGetValue(id, out var current)) return Result(NoticeDraftMutationOutcome.NotFound, id);
-        if (current.Version != expectedVersion) return Result(NoticeDraftMutationOutcome.VersionConflict, id, current.Version);
+        if (current.Version != expectedVersion || current.Version == long.MaxValue) return Result(NoticeDraftMutationOutcome.VersionConflict, id, current.Version);
         if (current.Status == NoticeDraftStatus.Discarded) return Result(NoticeDraftMutationOutcome.Discarded, id, current.Version);
+        if (!ValidDraftEvidence(mutation, id, current.Version + 1)) return Result(NoticeDraftMutationOutcome.StorageFailure, id, current.Version);
+        if (command.PreparedLineItems is null ? current.AmountMode != NoticeDraftAmountMode.LegacyTotal
+            : command.ConvertToLineItems != (current.AmountMode == NoticeDraftAmountMode.LegacyTotal))
+            return Result(NoticeDraftMutationOutcome.AmountModeConflict, id, current.Version);
+        var lines = command.PreparedLineItems is { } input ? NoticeDraftLineItemRules.Materialize(input, current.LineItems.Select(x => x.Id)) : current.LineItems;
         if (current.PayerPartyId != command.PayerPartyId && !command.PayerSelectionConfirmed)
             return Result(NoticeDraftMutationOutcome.PayerConfirmationRequired, id, current.Version);
         if (!parties.TryGetPartyDisplayName(command.PayerPartyId, out var payerDisplayName))
@@ -163,7 +177,9 @@ public sealed class SyntheticNoticeDraftStore(
         {
             PayerPartyId = command.PayerPartyId,
             PayerDisplayName = payerDisplayName,
-            TotalAmount = command.TotalAmount,
+            TotalAmount = command.PreparedLineItems is { } prepared ? NoticeDraftLineItemRules.Total(prepared) : NoticeDraftRules.ValidateAmount(command.TotalAmount),
+            AmountMode = command.PreparedLineItems is null ? current.AmountMode : NoticeDraftAmountMode.LineItems,
+            LineItems = lines,
             NoticeDate = command.NoticeDate,
             DueDate = command.DueDate,
             AccountAssignment = command.AccountAssignment!,
@@ -171,10 +187,11 @@ public sealed class SyntheticNoticeDraftStore(
             Version = current.Version + 1,
             UpdatedAtUtc = mutation.OccurredAtUtc,
         };
+        next = next with { Revisions = new List<NoticeDraftRevisionView>(current.Revisions) };
         next.Revisions.Add(Revision(next, mutation));
         drafts[id] = next;
-        draftAudits.Add(mutation);
-        return Result(NoticeDraftMutationOutcome.Success, id, next.Version);
+        draftAudits.Add(mutation with { Reason = null });
+        return new(NoticeDraftMutationOutcome.Success, id, next.Version, View(next));
     });
 
     public Task<NoticeDraftMutationResult> DiscardDraftAsync(
@@ -186,18 +203,20 @@ public sealed class SyntheticNoticeDraftStore(
     {
         token.ThrowIfCancellationRequested();
         if (!drafts.TryGetValue(id, out var current)) return Result(NoticeDraftMutationOutcome.NotFound, id);
-        if (current.Version != expectedVersion) return Result(NoticeDraftMutationOutcome.VersionConflict, id, current.Version);
+        if (current.Version != expectedVersion || current.Version == long.MaxValue) return Result(NoticeDraftMutationOutcome.VersionConflict, id, current.Version);
         if (current.Status == NoticeDraftStatus.Discarded) return Result(NoticeDraftMutationOutcome.Discarded, id, current.Version);
+        if (!ValidDraftEvidence(mutation, id, current.Version + 1)) return Result(NoticeDraftMutationOutcome.StorageFailure, id, current.Version);
         var next = current with
         {
             Status = NoticeDraftStatus.Discarded,
             Version = current.Version + 1,
             UpdatedAtUtc = mutation.OccurredAtUtc,
         };
+        next = next with { Revisions = new List<NoticeDraftRevisionView>(current.Revisions) };
         next.Revisions.Add(Revision(next, mutation));
         drafts[id] = next;
-        draftAudits.Add(mutation);
-        return Result(NoticeDraftMutationOutcome.Success, id, next.Version);
+        draftAudits.Add(mutation with { Reason = null });
+        return new(NoticeDraftMutationOutcome.Success, id, next.Version, View(next));
     });
 
     public Task<NoticeDraftMutationResult> CreateConfigurationAsync(
@@ -233,7 +252,7 @@ public sealed class SyntheticNoticeDraftStore(
         token.ThrowIfCancellationRequested();
         if (configuration is null || configuration.Id != id)
             return Result(NoticeDraftMutationOutcome.NotFound, id);
-        if (configuration.Version != expectedVersion)
+        if (configuration.Version != expectedVersion || configuration.Version == long.MaxValue)
             return Result(NoticeDraftMutationOutcome.VersionConflict, id, configuration.Version);
         var next = configuration with
         {
@@ -242,6 +261,7 @@ public sealed class SyntheticNoticeDraftStore(
             Version = configuration.Version + 1,
             UpdatedAtUtc = mutation.OccurredAtUtc,
         };
+        next = next with { Revisions = new List<NoticeNumberConfigurationRevisionView>(configuration.Revisions) };
         next.Revisions.Add(ConfigurationRevision(next, mutation));
         configuration = next;
         configurationAudits.Add(mutation);
@@ -264,6 +284,10 @@ public sealed class SyntheticNoticeDraftStore(
         }
     }
 
+    private bool ValidDraftEvidence(NoticeDraftMutation mutation, Guid id, long version) =>
+        mutation.AuditId != Guid.Empty && mutation.EntityId == id && mutation.EntityType == "NoticeDraft"
+        && mutation.ResultingVersion == version && !draftAudits.Any(x => x.AuditId == mutation.AuditId);
+
     private Task<NoticeDraftMutationResult> Mutate(Func<NoticeDraftMutationResult> action)
     {
         lock (coordinator.Gate)
@@ -280,7 +304,8 @@ public sealed class SyntheticNoticeDraftStore(
         state.ConfigurationVersion, state.FinancialProduct, state.RunningNumberWidth,
         state.TotalAmount, NoticeDraftRules.Currency, state.NoticeDate, state.DueDate,
         state.AccountAssignment, state.FeeReasonOrSource, state.Status,
-        state.CreatedAtUtc, state.UpdatedAtUtc);
+        state.CreatedAtUtc, state.UpdatedAtUtc)
+    { AmountMode = state.AmountMode, LineItems = state.LineItems };
 
     private static NoticeNumberConfigurationRevisionView ConfigurationRevision(
         ConfigurationState state,
@@ -296,14 +321,16 @@ public sealed class SyntheticNoticeDraftStore(
         state.RunningNumberWidth, state.TotalAmount, NoticeDraftRules.Currency,
         state.NoticeDate, state.DueDate, state.AccountAssignment,
         state.FeeReasonOrSource, state.Status, state.Version, state.CreatedAtUtc,
-        state.UpdatedAtUtc, state.Revisions.ToArray());
+        state.UpdatedAtUtc, state.Revisions.AsReadOnly())
+    { AmountMode = state.AmountMode, LineItems = state.LineItems };
 
     private static NoticeDraftListItem ListItem(DraftState state) => new(
         state.Id, state.CaseId, state.PayerPartyId, state.PayerDisplayName,
         state.NoticeNumber, state.TotalAmount, NoticeDraftRules.Currency,
         state.NoticeDate, state.DueDate, state.AccountAssignment,
         state.FeeReasonOrSource, state.Status, state.Version, state.CreatedAtUtc,
-        state.UpdatedAtUtc);
+        state.UpdatedAtUtc)
+    { AmountMode = state.AmountMode, LineItems = state.LineItems };
 
     private static NoticeNumberConfigurationView View(ConfigurationState state) => new(
         state.Id, state.FinancialProduct, state.RunningNumberWidth, state.Version,

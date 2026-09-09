@@ -81,8 +81,15 @@ public sealed partial class SecureOpenXmlNoticeRenderer(NoticeGenerationPaths pa
     [GeneratedRegex(@"\{\{([A-Z0-9_]+)\}\}", RegexOptions.CultureInvariant)]
     private static partial Regex TokenRegex();
 
-    public async Task<byte[]> RenderAsync(IReadOnlyDictionary<string, string> values, CancellationToken token)
+    public Task<byte[]> RenderAsync(IReadOnlyDictionary<string, string> values, CancellationToken token) =>
+        RenderAsync(new NoticeDocumentInput(values, [new(values["GEBUEHR_BEZEICHNUNG"], values["GEBUEHR_BETRAG"])]), token);
+
+    public async Task<byte[]> RenderAsync(NoticeDocumentInput input, CancellationToken token)
     {
+        var values = input.Values;
+        if (input.Lines.Count is < 1 or > 100 || input.Lines.Any(x => string.IsNullOrWhiteSpace(x.Description)
+            || x.Description.Length > 500 || string.IsNullOrWhiteSpace(x.Amount) || x.Amount.Length > 40))
+            throw new InvalidDataException("Der strukturierte Positionsvertrag ist ungültig.");
         if (values.Count != NoticeGenerationService.RequiredTokens.Length
             || NoticeGenerationService.RequiredTokens.Any(x => !values.TryGetValue(x, out var value) || string.IsNullOrWhiteSpace(value)))
             throw new InvalidDataException("The notice token mapping is incomplete.");
@@ -92,6 +99,8 @@ public sealed partial class SecureOpenXmlNoticeRenderer(NoticeGenerationPaths pa
         using (var document = WordprocessingDocument.Open(stream, true, new OpenSettings { AutoSave = true }))
         {
             ValidateParts(document);
+            if (new OpenXmlValidator(FileFormatVersions.Microsoft365).Validate(document, token).Any())
+                throw new InvalidDataException("Das OpenXML-Vorlagenpaket ist ungültig.");
             var paragraphs = EnumerateParagraphs(document).ToArray();
             var found = NoticeGenerationService.RequiredTokens.ToDictionary(x => x, _ => 0, StringComparer.Ordinal);
             foreach (var paragraph in paragraphs)
@@ -104,7 +113,25 @@ public sealed partial class SecureOpenXmlNoticeRenderer(NoticeGenerationPaths pa
                 }
             }
             if (found.Any(x => x.Value != 1)) throw new InvalidDataException("Every approved token must occur exactly once.");
-            foreach (var paragraph in paragraphs) ReplaceParagraphTokens(paragraph, values);
+            var prototype = FindLinePrototype(document);
+            // Nur die zwei freigegebenen Positionstokens werden strukturell wiederholt.
+            foreach (var paragraph in paragraphs.Where(x => !x.Ancestors<TableRow>().Contains(prototype)))
+                ReplaceParagraphTokens(paragraph, values);
+            foreach (var line in input.Lines)
+            {
+                token.ThrowIfCancellationRequested();
+                var row = (TableRow)prototype.CloneNode(true);
+                var rowValues = new Dictionary<string, string>(StringComparer.Ordinal)
+                { ["GEBUEHR_BEZEICHNUNG"] = line.Description, ["GEBUEHR_BETRAG"] = line.Amount };
+                foreach (var paragraph in row.Descendants<Paragraph>()) ReplaceParagraphTokens(paragraph, rowValues);
+                row.TableRowProperties ??= new TableRowProperties();
+                row.TableRowProperties.RemoveAllChildren<TableRowHeight>();
+                row.TableRowProperties.RemoveAllChildren<CantSplit>();
+                row.TableRowProperties.Append(new CantSplit());
+                prototype.InsertBeforeSelf(row);
+            }
+            prototype.Remove();
+            ValidateParts(document);
             AddLegalIneffectivenessMarker(document);
             var validationErrors = new OpenXmlValidator(FileFormatVersions.Microsoft365).Validate(document, token).Take(1).ToArray();
             if (validationErrors.Length > 0) throw new InvalidDataException("The generated OpenXML package is invalid.");
@@ -116,6 +143,23 @@ public sealed partial class SecureOpenXmlNoticeRenderer(NoticeGenerationPaths pa
             if (EnumerateParagraphs(check).Any(x => TokenRegex().IsMatch(string.Concat(x.Descendants<Text>().Select(t => t.Text)))))
                 throw new InvalidDataException("A template token remained in the generated document.");
         return output;
+    }
+
+    private static TableRow FindLinePrototype(WordprocessingDocument document)
+    {
+        var rows = document.MainDocumentPart!.Document!.Descendants<TableRow>()
+            .Where(row => row.Descendants<Paragraph>().Any(p => TokenRegex().Matches(string.Concat(p.Descendants<Text>().Select(x => x.Text)))
+                .Any(m => m.Groups[1].Value is "GEBUEHR_BEZEICHNUNG" or "GEBUEHR_BETRAG"))).ToArray();
+        if (rows.Length != 1 || rows[0].Descendants<Table>().Any() || rows[0].Ancestors<TableRow>().Any())
+            throw new InvalidDataException("Die Vorlage benötigt genau eine eindeutige Gebührenzeile im Hauptdokument.");
+        var row = rows[0];
+        var tokens = row.Descendants<Paragraph>().SelectMany(p => TokenRegex().Matches(string.Concat(p.Descendants<Text>().Select(x => x.Text)))
+            .Select(m => m.Groups[1].Value)).Order().ToArray();
+        if (tokens.Length != 2 || !tokens.Contains("GEBUEHR_BETRAG") || !tokens.Contains("GEBUEHR_BEZEICHNUNG")
+            || row.Descendants<VerticalMerge>().Any() || row.Descendants<BookmarkStart>().Any()
+            || row.Descendants<Drawing>().Any() || row.Descendants<SectionProperties>().Any())
+            throw new InvalidDataException("Die Gebührenzeile darf ausschließlich die beiden zusammengehörigen Positionstokens enthalten.");
+        return row;
     }
 
     private static void AddLegalIneffectivenessMarker(WordprocessingDocument document)

@@ -75,7 +75,7 @@ describe('NoticeDraftPanel', () => {
     await user.click(screen.getByRole('button', { name: 'Rechtlich wirkungslosen Entwurf anlegen' }))
 
     expect(await screen.findByText('Rechtlich wirkungsloser Bescheidentwurf angelegt.')).toBeInTheDocument()
-    expect(sentBody).toMatchObject({ payerPartyId: partyId, payerSelectionConfirmed: true, totalAmount: 100.25 })
+    expect(sentBody).toMatchObject({ payerPartyId: partyId, payerSelectionConfirmed: true, totalAmount: '100.25' })
     expect(screen.getAllByText('SYNFP.2026000001')).toHaveLength(2)
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     expect(screen.getAllByLabelText('Gesamtbetrag in EUR')[1]).toHaveValue(null)
@@ -358,6 +358,35 @@ describe('NoticeDraftPanel', () => {
     await act(async () => pending[0].finish(json({ ...masterData(), graveSites: [] })))
     expect(screen.getByRole('option', { name: /Ida Synthetik · Testfriedhof/ })).toBeInTheDocument()
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  it('bricht eine laufende Erzeugung beim Verlassen ab und ignoriert verspätete Dokumentbytes', async () => {
+    let signal: AbortSignal | null | undefined
+    let finish!: (response: Response) => void
+    const pending = new Promise<Response>(resolve => { finish = resolve })
+    const createObjectURL = vi.fn()
+    vi.stubGlobal('URL', { createObjectURL, revokeObjectURL: vi.fn() })
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const path = String(input)
+      if (path.endsWith(`/api/cases/${caseId}/notice-drafts`)) return json([listItem()])
+      if (path.endsWith(`/api/notice-drafts/${draftId}`)) return json(draft(), 200, { ETag: '"1"' })
+      if (path.endsWith('/api/burial-process/master-data')) return json(masterData())
+      if (path.includes('/api/master-data/legal-basis-versions')) return json([{ id: 'satzung', name: 'Synthetische Satzung', versionDate: '2026-01-01', isActive: true, version: 1 }])
+      if (path.endsWith('/api/auth/csrf')) return json({ requestToken: 'csrf' })
+      if (path.endsWith('/generate')) { signal = init?.signal; return pending }
+      throw new Error(`Unerwarteter Testaufruf: ${path}`)
+    }))
+    const user = userEvent.setup()
+    const view = render(<NoticeDraftPanel caseId={caseId} burials={burials} deceasedPersons={deceasedPersons} noticeGenerationEnabled />)
+    await user.click(await screen.findByRole('button', { name: 'Öffnen' }))
+    await user.selectOptions(await screen.findByLabelText('Beisetzung'), burials[0].id)
+    await user.selectOptions(screen.getByLabelText('Satzungsversion'), 'satzung')
+    await user.click(screen.getByRole('button', { name: 'Rechtlich wirkungslosen Entwurf herunterladen' }))
+    await waitFor(() => expect(signal).toBeDefined())
+    view.unmount()
+    expect(signal?.aborted).toBe(true)
+    await act(async () => { finish(new Response('Synthetische verspätete Bytes')); await pending })
+    expect(createObjectURL).not.toHaveBeenCalled()
   })
 
   it('ruft bei ausgeschalteter Capability keine Beschriftungsdaten ab und zeigt keine Erzeugung', async () => {

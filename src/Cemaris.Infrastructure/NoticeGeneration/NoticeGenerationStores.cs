@@ -66,6 +66,7 @@ public sealed class SyntheticNoticeGenerationStore(
             if (!ActorComplete(actor)) return Task.FromResult(new NoticeGenerationSourceResult(NoticeGenerationSourceOutcome.ActorProfileIncomplete, CaseId: draft.CaseId, LegalBasisInternalVersion: basis.Version));
             var source = Build(draft.CaseId, draft.Id, draft.Version, draft.NoticeNumber, draft.NoticeDate,
                 draft.FeeReasonOrSource, draft.TotalAmount, draft.DueDate, payer, address, burial, deceased, site, basis, actor);
+            if (source is not null) source = source with { AmountMode = draft.AmountMode, LineItems = draft.LineItems };
             return Task.FromResult(new NoticeGenerationSourceResult(source is null ? NoticeGenerationSourceOutcome.RequiredValueMissing : NoticeGenerationSourceOutcome.Found, source, draft.CaseId, basis.Version));
         }
     }
@@ -109,6 +110,14 @@ public sealed class SyntheticNoticeGenerationStore(
 public sealed class EfNoticeGenerationStore(CemarisDbContext db, TimeProvider timeProvider) : INoticeGenerationStore
 {
     public async Task<NoticeGenerationSourceResult> ReadSourceAsync(Guid noticeDraftId, long expectedVersion, Guid burialId,
+        Guid legalBasisVersionId, Guid actorId, CancellationToken token)
+    {
+        try { return await ReadSourceCoreAsync(noticeDraftId, expectedVersion, burialId, legalBasisVersionId, actorId, token); }
+        catch (Exception exception) when (exception.GetBaseException() is Microsoft.Data.SqlClient.SqlException { Number: 1205 })
+        { return new(NoticeGenerationSourceOutcome.VersionConflict); }
+    }
+
+    private async Task<NoticeGenerationSourceResult> ReadSourceCoreAsync(Guid noticeDraftId, long expectedVersion, Guid burialId,
         Guid legalBasisVersionId, Guid actorId, CancellationToken token)
     {
         var today = DateOnly.FromDateTime(timeProvider.GetUtcNow().UtcDateTime);
@@ -185,6 +194,15 @@ public sealed class EfNoticeGenerationStore(CemarisDbContext db, TimeProvider ti
         var source = SyntheticNoticeGenerationStore.Build(row.draft.CaseId, row.draft.Id, row.draft.Version,
             row.draft.NoticeNumber, row.draft.NoticeDate, row.draft.FeeReasonOrSource, row.draft.TotalAmount,
             row.draft.DueDate, payer, addressView, burialView, deceasedView, siteView, basisView, actorView);
+        if (source is not null)
+        {
+            var lines = await db.NoticeDraftLineItems.AsNoTracking().Where(x => x.NoticeDraftId == noticeDraftId).OrderBy(x => x.Position).ToArrayAsync(token);
+            source = source with
+            {
+                AmountMode = Enum.Parse<NoticeDraftAmountMode>(row.draft.AmountMode),
+                LineItems = Array.AsReadOnly(lines.Select(x => new NoticeDraftLineItem(x.Id, x.Position, x.Description, x.Amount)).ToArray())
+            };
+        }
         await transaction.CommitAsync(token);
         return new(source is null ? NoticeGenerationSourceOutcome.RequiredValueMissing : NoticeGenerationSourceOutcome.Found,
             source, draftState.CaseId, basisState.Version);

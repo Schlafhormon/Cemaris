@@ -1,12 +1,9 @@
 # Architecture Decision Records
 
-Vorbereitung 08.09.2026: Für [M3a](../implementation/cemaris-manual-notice-line-items-next-step-handoff.md)
-sind manuelle Gebührenpositionen, exakte Summen und vollständige Ausgabe
-[fachlich bestätigt](../requirements/manual-notice-line-items-decisions.md).
-Die Implementierung soll die Erweiterung von Entwurfsaggregat, Revisionen und
-Renderer in einem neuen ADR festhalten. Nächste freie Nummer bei Vorbereitung:
-0022, vor Verwendung erneut prüfen. Diese Vorbereitung legt noch kein ADR
-über einen angeblich bereits implementierten Zustand an.
+Stand 09.09.2026: [ADR-0022](ADR-0022-manual-notice-line-items.md) beschreibt die
+umgesetzten manuellen Positionen, exakte Summe, revisionsgebundenen Snapshots
+und strukturierten Renderer. Der [M3a-Abschluss](../implementation/cemaris-manual-notice-line-items-completion.md)
+enthält die tatsächlich ausgeführten Nachweise. Historische ADRs sind unverändert.
 
 Aktualisierung 08.09.2026: Die
 [Projektentscheidung zum Prototypen](../requirements/notice-generation-pilot-release-decisions.md#aktuelle-projektentscheidung-pragmatischer-prototyp)
@@ -65,6 +62,7 @@ Architecture Decision Records (ADRs) dokumentieren wesentliche technische und pr
 | [0019](ADR-0019-ephemeral-secure-notice-document-generation.md) | Flüchtige sichere Bescheidentwurfs-Dokumenterzeugung | Accepted |
 | [0020](ADR-0020-manual-case-follow-ups.md) | Manuelle fallbezogene Wiedervorlagen mit atomarem Nachweis | Accepted |
 | [0021](ADR-0021-manual-usage-right-lifecycle.md) | Manueller Nutzungsrechtslebenszyklus und atomare Rechtefolgekorrektur | Accepted |
+| [0022](ADR-0022-manual-notice-line-items.md) | Manuelle Gebührenpositionen mit exakter Summe und vollständiger Ausgabe | Accepted |
 
 ADR-0018 ist durch den
 [technischen 6b-Abschluss](../implementation/cemaris-increment-6b-completion.md)

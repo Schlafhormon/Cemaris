@@ -44,6 +44,7 @@ if (builder.Configuration.GetValue<bool>("IntegrationTests:IsolatedConfiguration
         "Features:PersonUsageRightsEditingEnabled",
         "Features:UsageRightLifecycleEnabled",
         "Features:NoticeDraftEditingEnabled",
+        "Features:NoticeDraftLineItemsEnabled",
         "Features:NoticeGenerationEnabled",
         "Maintenance:ApplyMigrations",
         "Maintenance:EnsureDevelopmentAccounts",
@@ -70,6 +71,9 @@ var usageRightLifecycleEnabled = builder.Configuration.GetValue<bool>("Features:
 if (usageRightLifecycleEnabled && (!builder.Environment.IsDevelopment() || !personUsageRightsEditingEnabled))
     throw new InvalidOperationException("Der Nutzungsrechtslebenszyklus erfordert Development und die Beteiligten-/Nutzungsrechtsbearbeitung.");
 var noticeDraftEditingEnabled = builder.Configuration.GetValue<bool>("Features:NoticeDraftEditingEnabled");
+var noticeDraftLineItemsEnabled = builder.Configuration.GetValue<bool>("Features:NoticeDraftLineItemsEnabled");
+if (noticeDraftLineItemsEnabled && (!builder.Environment.IsDevelopment() || !noticeDraftEditingEnabled))
+    throw new InvalidOperationException("Gebührenpositionen erfordern Development und die Bescheidentwurfsbearbeitung.");
 var noticeGenerationEnabled = builder.Configuration.GetValue<bool>("Features:NoticeGenerationEnabled");
 if (caseEditingEnabled && !builder.Environment.IsDevelopment())
 {
@@ -127,6 +131,7 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddExceptionHandler<UsageRightExceptionHandler>();
 builder.Services.AddExceptionHandler<CaseFollowUpExceptionHandler>();
+builder.Services.AddExceptionHandler<NoticeDraftExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddHealthChecks();
 builder.Services.AddCemarisInfrastructure(builder.Configuration);
@@ -484,6 +489,7 @@ systemEndpoints.MapGet("/info", () =>
         noticeGenerationEnabled,
         caseFollowUpsEnabled,
         usageRightLifecycleEnabled,
+        noticeDraftLineItemsEnabled,
         typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "unbekannt"));
 })
     .WithName("GetSystemInformation")
@@ -599,6 +605,7 @@ if (personUsageRightsEditingEnabled)
 if (noticeDraftEditingEnabled)
 {
     app.MapNoticeDrafts();
+    if (noticeDraftLineItemsEnabled) app.MapNoticeDraftLineItems();
 }
 if (noticeGenerationEnabled)
 {

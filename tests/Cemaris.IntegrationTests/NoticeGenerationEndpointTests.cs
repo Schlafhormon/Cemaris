@@ -199,6 +199,29 @@ public sealed class NoticeGenerationEndpointTests(NoticeGenerationWebApplication
         Assert.Equal("notice_generation_contact_profile_incomplete", audit.ErrorCode);
     }
 
+    [Fact]
+    public async Task ExistingPositionsRemainFullyRenderableWhenLineItemEditingIsDisabled()
+    {
+        using var isolated = factory.WithWebHostBuilder(_ => { });
+        using var client = isolated.CreateClient();
+        var setup = await PrepareAsync(client);
+        var current = (await client.GetFromJsonAsync<NoticeDraftView>($"/api/notice-drafts/{setup.DraftId}", JsonOptions))!;
+        var service = new NoticeDraftService(isolated.Services.GetRequiredService<Cemaris.Application.NoticeDrafts.INoticeDraftStore>(), new NoticeDraftLineItemTests.Actor(), TimeProvider.System);
+        var converted = await service.CorrectLineItemsAsync(current.Id, 1, NoticeDraftLineItemTests.Input(current.PayerPartyId, "Synthetische vorbereitete Bestandsumstellung") with { ConversionConfirmed = true }, true, CancellationToken.None);
+        Assert.Equal(Cemaris.Domain.NoticeDrafts.NoticeDraftAmountMode.LineItems, converted.Snapshot!.AmountMode);
+        var info = await client.GetFromJsonAsync<Cemaris.Api.Contracts.SystemInformationResponse>("/api/system/info");
+        Assert.False(info!.NoticeDraftLineItemsEnabled); Assert.True(info.NoticeGenerationEnabled);
+        Assert.Equal(HttpStatusCode.NotFound, (await client.SendWithCsrfAsync(HttpMethod.Post, $"/api/notice-drafts/{current.Id}/line-item-corrections", NoticeDraftLineItemTests.Input(current.PayerPartyId, "Aus"), "\"2\"")).StatusCode);
+        var response = await client.SendWithCsrfAsync(HttpMethod.Post, $"/api/notice-drafts/{current.Id}/generate", Body(setup, "Docx"), "\"2\"");
+        response.EnsureSuccessStatusCode();
+        using var document = DocumentFormat.OpenXml.Packaging.WordprocessingDocument.Open(new MemoryStream(await response.Content.ReadAsByteArrayAsync()), false);
+        var text = document.MainDocumentPart!.Document!.InnerText;
+        Assert.Contains("Erste", text, StringComparison.Ordinal); Assert.Contains("Zweite", text, StringComparison.Ordinal);
+        Assert.Contains("0,10 EUR", text, StringComparison.Ordinal); Assert.Contains("0,20 EUR", text, StringComparison.Ordinal); Assert.Contains("0,30 EUR", text, StringComparison.Ordinal);
+        var after = (await client.GetFromJsonAsync<NoticeDraftView>($"/api/notice-drafts/{setup.DraftId}", JsonOptions))!;
+        Assert.Equal(2, after.Version); Assert.Equal(2, after.Revisions.Count);
+    }
+
     private static object Body(Setup setup, string format) => new { burialId = setup.BurialId, legalBasisVersionId = setup.LegalBasisId, format };
 
     private static async Task<Setup> PrepareAsync(HttpClient client)

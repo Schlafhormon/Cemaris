@@ -26,6 +26,7 @@ function App() {
   const [burialProcessEditingEnabled, setBurialProcessEditingEnabled] = useState<boolean>()
   const [personUsageRightsEditingEnabled, setPersonUsageRightsEditingEnabled] = useState<boolean>()
   const [noticeDraftEditingEnabled, setNoticeDraftEditingEnabled] = useState<boolean>()
+  const [noticeDraftLineItemsEnabled, setNoticeDraftLineItemsEnabled] = useState(false)
   const [noticeGenerationEnabled, setNoticeGenerationEnabled] = useState<boolean>()
   const [usageRightLifecycleEnabled, setUsageRightLifecycleEnabled] = useState(false)
   const [caseFollowUpsEnabled, setCaseFollowUpsEnabled] = useState(false)
@@ -55,6 +56,7 @@ function App() {
         setBurialProcessEditingEnabled(information.burialProcessEditingEnabled)
         setPersonUsageRightsEditingEnabled(information.personUsageRightsEditingEnabled)
         setNoticeDraftEditingEnabled(information.noticeDraftEditingEnabled)
+        setNoticeDraftLineItemsEnabled(information.noticeDraftLineItemsEnabled === true)
         setNoticeGenerationEnabled(information.noticeGenerationEnabled)
       })
       .catch(() => { setCaseEditingEnabled(false); setCemeteryMasterDataEditingEnabled(false); setBurialProcessEditingEnabled(false); setPersonUsageRightsEditingEnabled(false); setNoticeDraftEditingEnabled(false); setNoticeGenerationEnabled(false) })
@@ -122,6 +124,7 @@ function App() {
         personUsageRightsEditingEnabled={personUsageRightsEditingEnabled === true}
         noticeDraftEditingEnabled={noticeDraftEditingEnabled === true}
         noticeGenerationEnabled={noticeGenerationEnabled === true}
+        noticeDraftLineItemsEnabled={noticeDraftLineItemsEnabled}
         usageRightLifecycleEnabled={usageRightLifecycleEnabled}
         caseFollowUpsEnabled={caseFollowUpsEnabled}
       />

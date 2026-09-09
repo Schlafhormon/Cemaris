@@ -61,7 +61,7 @@ public sealed class NoticeDraftService(
             id,
             expectedVersion,
             clean,
-            Mutation("NoticeDraft", id, expectedVersion + 1, "Corrected", reason),
+            Mutation("NoticeDraft", id, expectedVersion == long.MaxValue ? long.MaxValue : expectedVersion + 1, clean.ConvertToLineItems ? "ConvertedToLineItems" : "Corrected", reason),
             token);
     }
 
@@ -77,7 +77,7 @@ public sealed class NoticeDraftService(
             id,
             expectedVersion,
             clean,
-            Mutation("NoticeDraft", id, expectedVersion + 1, "Discarded", reason),
+            Mutation("NoticeDraft", id, expectedVersion == long.MaxValue ? long.MaxValue : expectedVersion + 1, "Discarded", reason),
             token);
     }
 
@@ -105,8 +105,44 @@ public sealed class NoticeDraftService(
             id,
             expectedVersion,
             clean,
-            Mutation("NoticeNumberConfiguration", id, expectedVersion + 1, "Changed", clean.Reason),
+            Mutation("NoticeNumberConfiguration", id, expectedVersion == long.MaxValue ? long.MaxValue : expectedVersion + 1, "Changed", clean.Reason),
             token);
+    }
+
+    public Task<NoticeDraftMutationResult> CreateLineItemsAsync(Guid caseId, SaveNoticeDraftLineItemsCommand command, CancellationToken token)
+    {
+        var items = Prepare(command);
+        if (command.Reason is not null || command.ConversionConfirmed)
+            throw new NoticeDraftValidationException("reason", "Anlage und Umstellung sind getrennte Vorgänge.");
+        return CreateDraftAsync(caseId, new(command.PayerPartyId, command.PayerSelectionConfirmed,
+            NoticeDraftLineItemRules.Total(items), command.NoticeDate, command.DueDate,
+            command.AccountAssignment, command.FeeReasonOrSource)
+        { PreparedLineItems = items }, token);
+    }
+
+    public Task<NoticeDraftMutationResult> CorrectLineItemsAsync(Guid id, long version,
+        SaveNoticeDraftLineItemsCommand command, bool convert, CancellationToken token)
+    {
+        var items = Prepare(command);
+        if (convert != command.ConversionConfirmed)
+            throw new NoticeDraftValidationException("conversionConfirmed", "Die ausdrückliche Umstellung muss bestätigt werden; Korrekturen sind keine Umstellung.");
+        return CorrectDraftAsync(id, version, new(command.PayerPartyId, command.PayerSelectionConfirmed,
+            NoticeDraftLineItemRules.Total(items), command.NoticeDate, command.DueDate,
+            command.AccountAssignment, command.FeeReasonOrSource, command.Reason)
+        { PreparedLineItems = items, ConvertToLineItems = convert }, token);
+    }
+
+    private static global::System.Collections.ObjectModel.ReadOnlyCollection<PreparedNoticeDraftLineItem> Prepare(SaveNoticeDraftLineItemsCommand command)
+    {
+        if (command.NoticeDate == default || command.DueDate == default)
+            throw new NoticeDraftValidationException("noticeDate", "Bescheiddatum und manuelle Fälligkeit sind erforderlich.");
+        if (command.LineItems is null || command.LineItems.Count is < 1 or > NoticeDraftLineItemRules.MaximumCount)
+            throw new NoticeDraftValidationException("lineItems", "Es sind 1 bis 100 Positionen erforderlich.");
+        return Array.AsReadOnly(command.LineItems.Select((item, index) => item is null
+            ? throw new NoticeDraftValidationException($"lineItems[{index}]", "Die Position ist erforderlich.")
+            : new PreparedNoticeDraftLineItem(item.Id,
+                NoticeDraftLineItemRules.Description(item.Description, $"lineItems[{index}].description"),
+                NoticeDraftLineItemRules.ParseAmount(item.Amount, $"lineItems[{index}].amount"))).ToArray());
     }
 
     private static CreateNoticeDraftCommand Clean(CreateNoticeDraftCommand command) => command with

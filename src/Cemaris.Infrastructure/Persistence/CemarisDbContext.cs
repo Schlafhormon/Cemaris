@@ -52,6 +52,8 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
     public DbSet<UsageRightStartRuleEntity> UsageRightStartRules => Set<UsageRightStartRuleEntity>();
     public DbSet<UsageRightStartRuleRevisionEntity> UsageRightStartRuleRevisions => Set<UsageRightStartRuleRevisionEntity>();
     public DbSet<PersonUsageRightAuditEntity> PersonUsageRightAudits => Set<PersonUsageRightAuditEntity>();
+    public DbSet<NoticeDraftLineItemEntity> NoticeDraftLineItems => Set<NoticeDraftLineItemEntity>();
+    public DbSet<NoticeDraftRevisionLineItemEntity> NoticeDraftRevisionLineItems => Set<NoticeDraftRevisionLineItemEntity>();
     public DbSet<NoticeDraftEntity> NoticeDrafts => Set<NoticeDraftEntity>();
     public DbSet<NoticeDraftRevisionEntity> NoticeDraftRevisions => Set<NoticeDraftRevisionEntity>();
     public DbSet<NoticeDraftAuditEntity> NoticeDraftAudits => Set<NoticeDraftAuditEntity>();
@@ -81,6 +83,7 @@ public sealed class CemarisDbContext(DbContextOptions<CemarisDbContext> options)
         ConfigureCemeteryMasterData(modelBuilder);
         ConfigurePersonUsageRights(modelBuilder);
         ConfigureNoticeDrafts(modelBuilder);
+        NoticeDraftLineItemMapping.Configure(modelBuilder);
         ConfigureNoticeGeneration(modelBuilder);
     }
 

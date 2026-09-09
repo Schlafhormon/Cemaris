@@ -18,6 +18,7 @@ internal static class TestConfiguration
             ["Features:PersonUsageRightsEditingEnabled"] = "false",
             ["Features:UsageRightLifecycleEnabled"] = "false",
             ["Features:NoticeDraftEditingEnabled"] = "false",
+            ["Features:NoticeDraftLineItemsEnabled"] = "false",
             ["Features:NoticeGenerationEnabled"] = "false",
             ["Maintenance:ApplyMigrations"] = "false",
             ["Maintenance:EnsureDevelopmentAccounts"] = "false",

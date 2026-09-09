@@ -15,6 +15,7 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
     private const string DatabasePrefix = "Cemaris_IntegrationTests_";
     private readonly string databaseName = $"{DatabasePrefix}{Guid.NewGuid():N}";
     private string? masterConnectionString;
+    private bool ownsDatabase;
     private SqlServerWebApplicationFactory? applicationFactory;
     private SqlServerWebApplicationFactory? allFeaturesApplicationFactory;
 
@@ -74,6 +75,7 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
         {
             VerifiedPredecessorMigrations = await VerifyAllPredecessorsAsync();
             await ExecuteOnMasterAsync($"CREATE DATABASE [{databaseName}];");
+            ownsDatabase = true;
 
             var options = new DbContextOptionsBuilder<CemarisDbContext>()
                 .UseSqlServer(DatabaseConnectionString)
@@ -145,9 +147,11 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
                 throw new InvalidOperationException("Invalid migration-test database prefix.");
             }
 
+            var ownsAuxiliary = false;
             try
             {
                 await ExecuteOnMasterAsync($"CREATE DATABASE [{auxiliaryName}];");
+                ownsAuxiliary = true;
                 var builder = new SqlConnectionStringBuilder(baseBuilder.ConnectionString)
                 {
                     InitialCatalog = auxiliaryName,
@@ -174,7 +178,7 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
                 {
                     InitialCatalog = auxiliaryName,
                 }.InitialCatalog;
-                if (auxiliaryName.StartsWith(DatabasePrefix, StringComparison.Ordinal)
+                if (ownsAuxiliary && auxiliaryName.StartsWith(DatabasePrefix, StringComparison.Ordinal)
                     && auxiliaryName.Length > DatabasePrefix.Length
                     && string.Equals(resolvedAuxiliaryName, auxiliaryName, StringComparison.Ordinal))
                 {
@@ -202,7 +206,7 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
 
     private async Task DropDatabaseAsync()
     {
-        if (masterConnectionString is null)
+        if (masterConnectionString is null || !ownsDatabase)
         {
             return;
         }
@@ -225,6 +229,7 @@ public sealed class SqlServerIntegrationFixture : IAsyncLifetime
                 DROP DATABASE [{databaseName}];
             END;
             """);
+        ownsDatabase = false;
     }
 
     private async Task ExecuteOnMasterAsync(string commandText)
