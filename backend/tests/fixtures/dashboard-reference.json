@@ -1,0 +1,3540 @@
+{
+  "referenceCommit": "451ce034863b16502484367044f3e9b65370111a",
+  "sourceHashes": {
+    "database/initializeDatabase.js": "835ca5bc8d85ce5781a3404057590473149023f6a6ac908f688e10bb1b69b4a0",
+    "database/getRecordUpdateLog.js": "c1ff1cb644b2e5180a0e03469de7f80627baf84220e167553fc229a6e5d2e388",
+    "handlers/dashboardPost/doGetRecordUpdateLog.js": "7cbbd8aee42f286cecac3412ab0590c1ebd99e549b01eea5e67db924ba9f912b",
+    "handlers/dashboardGet/dashboard.js": "98eec14aa0be3c466036b0dacbd38795c7487d2eb9ca30955bcdf678dd401295",
+    "handlers/dashboardGet/updateLog.js": "a1b59cea56a13dac52f9ecc664581c77838ee02c18997e50a467c0e3fd752773",
+    "public/javascripts/updateLog.js": "7921a14e3ccdceb63f69fb7e9acc7cd4e436f2e457a75fe2f16c6ea47c23d152",
+    "public/html/quickSearch.html": "9926503fb7d230daf885467460a5c7581b86170ad429432d180f5fc6ce52c152",
+    "public/javascripts/theme.js": "09d7beea38654dcc9e6a5272e7bcb6a098caf23a45a0fb23a1c37b1913f061c4",
+    "public/javascripts/search.js": "8c5effa82e081e7a189b793e8c81ad67e54226ac30f040e7f285ecded43ce8fc",
+    "database/getRecordUpdateLog.ts": "2e48fb07ff6ac480917aec747f126bc104df8eaf1f0794b359c5ad9fb84d93f7",
+    "handlers/dashboardPost/doGetRecordUpdateLog.ts": "2ddfea4db58e57ebe7870f4555dcbc803d4ae455dace4afa2aa6705550f16913",
+    "handlers/dashboardGet/dashboard.ts": "72608bf68895f19544cc84834c05868bec20482a065c324774f2cd9c183157f4",
+    "handlers/dashboardGet/updateLog.ts": "23df01f3114cad86cdba7ebae5b74210d68a6c0a78c4fafa90618e95bb5275b3",
+    "routes/dashboard.ts": "af385a8114d7d74cc9c8f3b84d69c8760fe61a435aac542204721358503a44d1",
+    "routes/api.ts": "b9b37a9a8132c5f48013425039d6fb7fcc2d3a8e17594b0dd6814139b5a445c4",
+    "handlers/apiGet/milestoneICS.ts": "faea436c7815aaf3bb7be4f3f7ed329f5d4e7ffda71dcd1c05bb39f738f099ba",
+    "views/dashboard/dashboard.ejs": "ba2a59e90839483e387ce8049997afd4f3d8d0ba45c17fa134856ab3ea46565c",
+    "views/dashboard/updateLog.ejs": "d2efddb7e684632bb8485dbadf12bbd8dc4b35e4b6a2a675f839872ad4d53b18",
+    "public/javascripts/updateLog.ts": "a0586dcc0cf303925cbe9c15b3181c2a5422441550b10f42ca2ba8defd670346",
+    "cypress/e2e/03readOnly/updateLog.cy.ts": "f27f6867015e8c41b6972d5a9b4723b13fa348f03d2e2061ed8d9abfee17521c",
+    "cypress/e2e/xxOther/dashboard.cy.ts": "8dc4b291d9ff915c66fc623f19a0561d7ddc64221aa5fe392ebef9602a97c384",
+    "app/app.ts": "fbfec502f126c43a8b5bdb3a9cbd3979420ad1e92791badf8bd14250f47f72aa",
+    "public/javascripts/theme.ts": "1ac4db00d00157b7ee09254e5954ec2c2d263662b3cbbae351cb77ea4a79c2e6",
+    "public/javascripts/search.ts": "a982831f16ce6ccf423eaa1dc9cedf18fe210e1bc90f333edb60ac4edf22218d",
+    "views/contracts/search.ejs": "d7d19e7b2d413922b568387f2ec4d9e10e676084e19a0e1129db5b0e2316b123"
+  },
+  "clock": 1792487142000,
+  "data": [
+    {
+      "table": "ContractTypes",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1,
+        "contractType": "Synthetic <contract> 😀",
+        "contractTypeId": 1
+      }
+    },
+    {
+      "table": "WorkOrderTypes",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1,
+        "workOrderType": "Synthetic Work Type",
+        "workOrderTypeId": 1
+      }
+    },
+    {
+      "table": "WorkOrderStatuses",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1,
+        "workOrderStatus": "Synthetic Open",
+        "workOrderStatusId": 1
+      }
+    },
+    {
+      "table": "WorkOrderMilestoneTypes",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1,
+        "workOrderMilestoneType": "Synthetic milestone",
+        "workOrderMilestoneTypeId": 1
+      }
+    },
+    {
+      "table": "BurialSiteTypes",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1,
+        "burialSiteType": "Synthetic Site",
+        "burialSiteTypeId": 1
+      }
+    },
+    {
+      "table": "BurialSiteStatuses",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1,
+        "burialSiteStatus": "Synthetic available",
+        "burialSiteStatusId": 1
+      }
+    },
+    {
+      "table": "FeeCategories",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1,
+        "feeCategory": "Synthetic fees",
+        "feeCategoryId": 1
+      }
+    },
+    {
+      "table": "Fees",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1,
+        "feeCategoryId": 1,
+        "feeName": "Synthetic & fee",
+        "feeId": 1
+      }
+    },
+    {
+      "table": "Contracts",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792487132000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792487132000,
+        "contractTypeId": 1,
+        "contractNumber": "SYN-RECENT",
+        "contractStartDate": 20261020,
+        "purchaserName": "Synthetic purchaser",
+        "contractId": 1
+      }
+    },
+    {
+      "table": "Contracts",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792487122000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792487122000,
+        "contractTypeId": 1,
+        "contractNumber": "SYN-DELETED",
+        "contractStartDate": 20261020,
+        "purchaserName": "Synthetic purchaser",
+        "recordDelete_timeMillis": 1792487142000,
+        "contractId": 2
+      }
+    },
+    {
+      "table": "Contracts",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1789895142000,
+        "contractTypeId": 1,
+        "contractNumber": "SYN-CUTOFF",
+        "contractStartDate": 20261020,
+        "purchaserName": "Synthetic purchaser",
+        "contractId": 3
+      }
+    },
+    {
+      "table": "Contracts",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792487102000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1789895141999,
+        "contractTypeId": 1,
+        "contractNumber": "SYN-OLD",
+        "contractStartDate": 20261020,
+        "purchaserName": "Synthetic purchaser",
+        "contractId": 4
+      }
+    },
+    {
+      "table": "WorkOrders",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 2,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792487092000,
+        "workOrderTypeId": 1,
+        "workOrderStatusId": 1,
+        "workOrderNumber": "SYN-WORK",
+        "workOrderDescription": "Synthetic <work> 😀",
+        "workOrderId": 1
+      }
+    },
+    {
+      "table": "WorkOrders",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792487082000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792487082000,
+        "workOrderTypeId": 1,
+        "workOrderStatusId": 1,
+        "workOrderNumber": "SYN-WORK-DELETED",
+        "recordDelete_timeMillis": 1792487142000,
+        "workOrderId": 2
+      }
+    },
+    {
+      "table": "WorkOrders",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792487072000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792487072000,
+        "workOrderTypeId": 1,
+        "workOrderStatusId": 1,
+        "workOrderNumber": "SYN-WORK-EMPTY",
+        "workOrderDescription": "",
+        "workOrderId": 3
+      }
+    },
+    {
+      "table": "WorkOrders",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792487062000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792487062000,
+        "workOrderTypeId": 1,
+        "workOrderStatusId": 1,
+        "workOrderNumber": "SYN-WORK-SPACES",
+        "workOrderDescription": "  ",
+        "workOrderId": 4
+      }
+    },
+    {
+      "table": "BurialSites",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792487052000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792487052000,
+        "burialSiteTypeId": 1,
+        "burialSiteStatusId": 1,
+        "burialSiteName": "SYN-SITE",
+        "burialSiteNameSegment1": "SYN-SITE",
+        "burialSiteNameSegment2": "",
+        "burialSiteNameSegment3": "",
+        "burialSiteNameSegment4": "",
+        "burialSiteNameSegment5": "",
+        "burialSiteId": 1
+      }
+    },
+    {
+      "table": "BurialSites",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792487042000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792487042000,
+        "burialSiteTypeId": 1,
+        "burialSiteStatusId": 1,
+        "burialSiteName": "SYN-DELETED",
+        "burialSiteNameSegment1": "SYN-DELETED",
+        "burialSiteNameSegment2": "",
+        "burialSiteNameSegment3": "",
+        "burialSiteNameSegment4": "",
+        "burialSiteNameSegment5": "",
+        "recordDelete_timeMillis": 1792487142000,
+        "burialSiteId": 2
+      }
+    },
+    {
+      "table": "WorkOrderMilestones",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792487032000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792487032000,
+        "workOrderId": 1,
+        "workOrderMilestoneTypeId": 1,
+        "workOrderMilestoneDate": 20261020,
+        "workOrderMilestoneDescription": "Synthetic <milestone>",
+        "workOrderMilestoneId": 1
+      }
+    },
+    {
+      "table": "WorkOrderMilestones",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792487022000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792487022000,
+        "workOrderId": 2,
+        "workOrderMilestoneTypeId": 1,
+        "workOrderMilestoneDate": 20261020,
+        "workOrderMilestoneDescription": "Synthetic <milestone>",
+        "workOrderMilestoneId": 2
+      }
+    },
+    {
+      "table": "WorkOrderMilestones",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792487012000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792487012000,
+        "workOrderId": 1,
+        "workOrderMilestoneTypeId": null,
+        "workOrderMilestoneDate": 20261020,
+        "workOrderMilestoneDescription": "",
+        "workOrderMilestoneId": 3
+      }
+    },
+    {
+      "table": "ContractFees",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792487002000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792487002000,
+        "contractId": 1,
+        "feeId": 1,
+        "feeAmount": 1.005,
+        "taxAmount": 0
+      }
+    },
+    {
+      "table": "ContractFees",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 3,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486992000,
+        "contractId": 2,
+        "feeId": 1,
+        "feeAmount": -1.335,
+        "taxAmount": 0
+      }
+    },
+    {
+      "table": "ContractTransactions",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486982000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486982000,
+        "contractId": 1,
+        "transactionIndex": 1,
+        "transactionDate": 20261020,
+        "transactionTime": 905,
+        "transactionAmount": 2.675,
+        "transactionNote": null
+      }
+    },
+    {
+      "table": "ContractTransactions",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486972000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486972000,
+        "contractId": 2,
+        "transactionIndex": 2,
+        "transactionDate": 20261020,
+        "transactionTime": 905,
+        "transactionAmount": -0.005,
+        "transactionNote": ""
+      }
+    },
+    {
+      "table": "ContractTransactions",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486962000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486962000,
+        "contractId": 1,
+        "transactionIndex": 3,
+        "transactionDate": 20261020,
+        "transactionTime": 905,
+        "transactionAmount": 42,
+        "transactionNote": " "
+      }
+    },
+    {
+      "table": "ContractTransactions",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486952000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486952000,
+        "contractId": 1,
+        "transactionIndex": 4,
+        "transactionDate": 20261020,
+        "transactionTime": 905,
+        "transactionAmount": 100,
+        "transactionNote": "Synthetic <note> 😀"
+      }
+    },
+    {
+      "table": "ContractComments",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486942000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486942000,
+        "contractId": 1,
+        "commentDate": 20261020,
+        "commentTime": 905,
+        "comment": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä<literal><literal>",
+        "contractCommentId": 1
+      }
+    },
+    {
+      "table": "ContractComments",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486932000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486932000,
+        "contractId": 2,
+        "commentDate": 20261020,
+        "commentTime": 905,
+        "comment": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä<literal><literal>",
+        "contractCommentId": 2
+      }
+    },
+    {
+      "table": "ContractComments",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486922000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486922000,
+        "contractId": 1,
+        "commentDate": 20261020,
+        "commentTime": 905,
+        "comment": "Synthetic deleted child",
+        "recordDelete_timeMillis": 1792487142000,
+        "contractCommentId": 3
+      }
+    },
+    {
+      "table": "WorkOrderComments",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486912000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486912000,
+        "workOrderId": 1,
+        "commentDate": 20261020,
+        "commentTime": 905,
+        "comment": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä<literal><literal>",
+        "workOrderCommentId": 1
+      }
+    },
+    {
+      "table": "WorkOrderComments",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486902000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486902000,
+        "workOrderId": 2,
+        "commentDate": 20261020,
+        "commentTime": 905,
+        "comment": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä<literal><literal>",
+        "workOrderCommentId": 2
+      }
+    },
+    {
+      "table": "WorkOrderComments",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486892000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486892000,
+        "workOrderId": 1,
+        "commentDate": 20261020,
+        "commentTime": 905,
+        "comment": "Synthetic deleted child",
+        "recordDelete_timeMillis": 1792487142000,
+        "workOrderCommentId": 3
+      }
+    },
+    {
+      "table": "BurialSiteComments",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486882000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486882000,
+        "burialSiteId": 1,
+        "commentDate": 20261020,
+        "commentTime": 905,
+        "comment": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä<literal><literal>",
+        "burialSiteCommentId": 1
+      }
+    },
+    {
+      "table": "BurialSiteComments",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486872000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486872000,
+        "burialSiteId": 2,
+        "commentDate": 20261020,
+        "commentTime": 905,
+        "comment": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä<literal><literal>",
+        "burialSiteCommentId": 2
+      }
+    },
+    {
+      "table": "BurialSiteComments",
+      "values": {
+        "recordCreate_username": "synthetic-dashboard",
+        "recordCreate_timeMillis": 1792486862000,
+        "recordUpdate_username": "synthetic-dashboard",
+        "recordUpdate_timeMillis": 1792486862000,
+        "burialSiteId": 1,
+        "commentDate": 20261020,
+        "commentTime": 905,
+        "comment": "Synthetic deleted child",
+        "recordDelete_timeMillis": 1792487142000,
+        "burialSiteCommentId": 3
+      }
+    }
+  ],
+  "queries": [
+    {
+      "recordType": "",
+      "options": {},
+      "expected": [
+        {
+          "recordType": "contract",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <contract> 😀",
+          "recordUpdate_timeMillis": 1792487132000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487132000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "update",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic <work> 😀",
+          "recordUpdate_timeMillis": 1792487092000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 2,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK-EMPTY",
+          "recordId": 3,
+          "recordDescription": "Synthetic Work Type",
+          "recordUpdate_timeMillis": 1792487072000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487072000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK-SPACES",
+          "recordId": 4,
+          "recordDescription": "  ",
+          "recordUpdate_timeMillis": 1792487062000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487062000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "burialSite",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Synthetic Site (Synthetic available)",
+          "recordUpdate_timeMillis": 1792487052000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487052000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+          "recordUpdate_timeMillis": 1792487032000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487032000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "",
+          "recordUpdate_timeMillis": 1792487012000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487012000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Fee: Synthetic & fee ($1.00)",
+          "recordUpdate_timeMillis": 1792487002000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487002000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "update",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+          "recordUpdate_timeMillis": 1792486992000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 3,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Transaction: $2.67",
+          "recordUpdate_timeMillis": 1792486982000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486982000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Transaction: $-0.01",
+          "recordUpdate_timeMillis": 1792486972000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486972000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": " ",
+          "recordUpdate_timeMillis": 1792486962000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486962000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <note> 😀",
+          "recordUpdate_timeMillis": 1792486952000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486952000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486942000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486942000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486932000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486932000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Work Order Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486912000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486912000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "burialSiteComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Burial Site Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486882000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486882000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contract",
+          "updateType": "update",
+          "displayRecordId": "SYN-CUTOFF",
+          "recordId": 3,
+          "recordDescription": "Synthetic <contract> 😀",
+          "recordUpdate_timeMillis": 1789895142000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "",
+      "options": {
+        "limit": 2,
+        "offset": 1,
+        "sortBy": "recordCreate_timeMillis",
+        "sortDirection": "asc"
+      },
+      "expected": [
+        {
+          "recordType": "workOrder",
+          "updateType": "update",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic <work> 😀",
+          "recordUpdate_timeMillis": 1792487092000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 2,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "update",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+          "recordUpdate_timeMillis": 1792486992000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 3,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "",
+      "options": {
+        "limit": 0
+      },
+      "expected": []
+    },
+    {
+      "recordType": "",
+      "options": {
+        "limit": -1,
+        "offset": -2
+      },
+      "expected": [
+        {
+          "recordType": "contract",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <contract> 😀",
+          "recordUpdate_timeMillis": 1792487132000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487132000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "update",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic <work> 😀",
+          "recordUpdate_timeMillis": 1792487092000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 2,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK-EMPTY",
+          "recordId": 3,
+          "recordDescription": "Synthetic Work Type",
+          "recordUpdate_timeMillis": 1792487072000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487072000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK-SPACES",
+          "recordId": 4,
+          "recordDescription": "  ",
+          "recordUpdate_timeMillis": 1792487062000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487062000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "burialSite",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Synthetic Site (Synthetic available)",
+          "recordUpdate_timeMillis": 1792487052000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487052000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+          "recordUpdate_timeMillis": 1792487032000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487032000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "",
+          "recordUpdate_timeMillis": 1792487012000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487012000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Fee: Synthetic & fee ($1.00)",
+          "recordUpdate_timeMillis": 1792487002000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487002000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "update",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+          "recordUpdate_timeMillis": 1792486992000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 3,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Transaction: $2.67",
+          "recordUpdate_timeMillis": 1792486982000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486982000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Transaction: $-0.01",
+          "recordUpdate_timeMillis": 1792486972000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486972000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": " ",
+          "recordUpdate_timeMillis": 1792486962000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486962000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <note> 😀",
+          "recordUpdate_timeMillis": 1792486952000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486952000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486942000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486942000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486932000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486932000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Work Order Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486912000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486912000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "burialSiteComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Burial Site Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486882000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486882000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contract",
+          "updateType": "update",
+          "displayRecordId": "SYN-CUTOFF",
+          "recordId": 3,
+          "recordDescription": "Synthetic <contract> 😀",
+          "recordUpdate_timeMillis": 1789895142000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "",
+      "options": {
+        "limit": 20000,
+        "sortBy": "invalid",
+        "sortDirection": "invalid"
+      },
+      "expected": [
+        {
+          "recordType": "contract",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <contract> 😀",
+          "recordUpdate_timeMillis": 1792487132000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487132000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "update",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic <work> 😀",
+          "recordUpdate_timeMillis": 1792487092000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 2,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK-EMPTY",
+          "recordId": 3,
+          "recordDescription": "Synthetic Work Type",
+          "recordUpdate_timeMillis": 1792487072000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487072000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK-SPACES",
+          "recordId": 4,
+          "recordDescription": "  ",
+          "recordUpdate_timeMillis": 1792487062000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487062000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "burialSite",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Synthetic Site (Synthetic available)",
+          "recordUpdate_timeMillis": 1792487052000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487052000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+          "recordUpdate_timeMillis": 1792487032000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487032000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "",
+          "recordUpdate_timeMillis": 1792487012000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487012000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Fee: Synthetic & fee ($1.00)",
+          "recordUpdate_timeMillis": 1792487002000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487002000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "update",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+          "recordUpdate_timeMillis": 1792486992000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 3,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Transaction: $2.67",
+          "recordUpdate_timeMillis": 1792486982000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486982000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Transaction: $-0.01",
+          "recordUpdate_timeMillis": 1792486972000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486972000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": " ",
+          "recordUpdate_timeMillis": 1792486962000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486962000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <note> 😀",
+          "recordUpdate_timeMillis": 1792486952000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486952000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486942000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486942000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486932000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486932000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Work Order Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486912000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486912000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "burialSiteComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Burial Site Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486882000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486882000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contract",
+          "updateType": "update",
+          "displayRecordId": "SYN-CUTOFF",
+          "recordId": 3,
+          "recordDescription": "Synthetic <contract> 😀",
+          "recordUpdate_timeMillis": 1789895142000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contract",
+      "options": {},
+      "expected": [
+        {
+          "recordType": "contract",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <contract> 😀",
+          "recordUpdate_timeMillis": 1792487132000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487132000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Fee: Synthetic & fee ($1.00)",
+          "recordUpdate_timeMillis": 1792487002000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487002000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "update",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+          "recordUpdate_timeMillis": 1792486992000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 3,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Transaction: $2.67",
+          "recordUpdate_timeMillis": 1792486982000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486982000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Transaction: $-0.01",
+          "recordUpdate_timeMillis": 1792486972000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486972000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": " ",
+          "recordUpdate_timeMillis": 1792486962000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486962000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <note> 😀",
+          "recordUpdate_timeMillis": 1792486952000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486952000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contract",
+          "updateType": "update",
+          "displayRecordId": "SYN-CUTOFF",
+          "recordId": 3,
+          "recordDescription": "Synthetic <contract> 😀",
+          "recordUpdate_timeMillis": 1789895142000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contract",
+      "options": {
+        "limit": 2,
+        "offset": 1,
+        "sortBy": "recordCreate_timeMillis",
+        "sortDirection": "asc"
+      },
+      "expected": [
+        {
+          "recordType": "contractFee",
+          "updateType": "update",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+          "recordUpdate_timeMillis": 1792486992000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 3,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <note> 😀",
+          "recordUpdate_timeMillis": 1792486952000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486952000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contract",
+      "options": {
+        "limit": 0
+      },
+      "expected": []
+    },
+    {
+      "recordType": "contract",
+      "options": {
+        "limit": -1,
+        "offset": -2
+      },
+      "expected": [
+        {
+          "recordType": "contract",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <contract> 😀",
+          "recordUpdate_timeMillis": 1792487132000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487132000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Fee: Synthetic & fee ($1.00)",
+          "recordUpdate_timeMillis": 1792487002000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487002000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "update",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+          "recordUpdate_timeMillis": 1792486992000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 3,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Transaction: $2.67",
+          "recordUpdate_timeMillis": 1792486982000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486982000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Transaction: $-0.01",
+          "recordUpdate_timeMillis": 1792486972000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486972000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": " ",
+          "recordUpdate_timeMillis": 1792486962000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486962000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <note> 😀",
+          "recordUpdate_timeMillis": 1792486952000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486952000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contract",
+          "updateType": "update",
+          "displayRecordId": "SYN-CUTOFF",
+          "recordId": 3,
+          "recordDescription": "Synthetic <contract> 😀",
+          "recordUpdate_timeMillis": 1789895142000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contract",
+      "options": {
+        "limit": 20000,
+        "sortBy": "invalid",
+        "sortDirection": "invalid"
+      },
+      "expected": [
+        {
+          "recordType": "contract",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <contract> 😀",
+          "recordUpdate_timeMillis": 1792487132000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487132000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Fee: Synthetic & fee ($1.00)",
+          "recordUpdate_timeMillis": 1792487002000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487002000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "update",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+          "recordUpdate_timeMillis": 1792486992000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 3,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Transaction: $2.67",
+          "recordUpdate_timeMillis": 1792486982000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486982000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Transaction: $-0.01",
+          "recordUpdate_timeMillis": 1792486972000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486972000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": " ",
+          "recordUpdate_timeMillis": 1792486962000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486962000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <note> 😀",
+          "recordUpdate_timeMillis": 1792486952000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486952000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contract",
+          "updateType": "update",
+          "displayRecordId": "SYN-CUTOFF",
+          "recordId": 3,
+          "recordDescription": "Synthetic <contract> 😀",
+          "recordUpdate_timeMillis": 1789895142000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contractTransactions",
+      "options": {},
+      "expected": [
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Transaction: $2.67",
+          "recordUpdate_timeMillis": 1792486982000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486982000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Transaction: $-0.01",
+          "recordUpdate_timeMillis": 1792486972000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486972000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": " ",
+          "recordUpdate_timeMillis": 1792486962000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486962000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <note> 😀",
+          "recordUpdate_timeMillis": 1792486952000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486952000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contractTransactions",
+      "options": {
+        "limit": 2,
+        "offset": 1,
+        "sortBy": "recordCreate_timeMillis",
+        "sortDirection": "asc"
+      },
+      "expected": [
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": " ",
+          "recordUpdate_timeMillis": 1792486962000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486962000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Transaction: $-0.01",
+          "recordUpdate_timeMillis": 1792486972000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486972000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contractTransactions",
+      "options": {
+        "limit": 0
+      },
+      "expected": []
+    },
+    {
+      "recordType": "contractTransactions",
+      "options": {
+        "limit": -1,
+        "offset": -2
+      },
+      "expected": [
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Transaction: $2.67",
+          "recordUpdate_timeMillis": 1792486982000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486982000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Transaction: $-0.01",
+          "recordUpdate_timeMillis": 1792486972000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486972000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": " ",
+          "recordUpdate_timeMillis": 1792486962000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486962000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <note> 😀",
+          "recordUpdate_timeMillis": 1792486952000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486952000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contractTransactions",
+      "options": {
+        "limit": 20000,
+        "sortBy": "invalid",
+        "sortDirection": "invalid"
+      },
+      "expected": [
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Transaction: $2.67",
+          "recordUpdate_timeMillis": 1792486982000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486982000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Transaction: $-0.01",
+          "recordUpdate_timeMillis": 1792486972000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486972000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": " ",
+          "recordUpdate_timeMillis": 1792486962000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486962000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractTransactions",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Synthetic <note> 😀",
+          "recordUpdate_timeMillis": 1792486952000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486952000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "workOrder",
+      "options": {},
+      "expected": [
+        {
+          "recordType": "workOrder",
+          "updateType": "update",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic <work> 😀",
+          "recordUpdate_timeMillis": 1792487092000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 2,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK-EMPTY",
+          "recordId": 3,
+          "recordDescription": "Synthetic Work Type",
+          "recordUpdate_timeMillis": 1792487072000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487072000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK-SPACES",
+          "recordId": 4,
+          "recordDescription": "  ",
+          "recordUpdate_timeMillis": 1792487062000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487062000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+          "recordUpdate_timeMillis": 1792487032000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487032000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "",
+          "recordUpdate_timeMillis": 1792487012000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487012000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "workOrder",
+      "options": {
+        "limit": 2,
+        "offset": 1,
+        "sortBy": "recordCreate_timeMillis",
+        "sortDirection": "asc"
+      },
+      "expected": [
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "",
+          "recordUpdate_timeMillis": 1792487012000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487012000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+          "recordUpdate_timeMillis": 1792487032000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487032000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "workOrder",
+      "options": {
+        "limit": 0
+      },
+      "expected": []
+    },
+    {
+      "recordType": "workOrder",
+      "options": {
+        "limit": -1,
+        "offset": -2
+      },
+      "expected": [
+        {
+          "recordType": "workOrder",
+          "updateType": "update",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic <work> 😀",
+          "recordUpdate_timeMillis": 1792487092000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 2,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK-EMPTY",
+          "recordId": 3,
+          "recordDescription": "Synthetic Work Type",
+          "recordUpdate_timeMillis": 1792487072000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487072000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK-SPACES",
+          "recordId": 4,
+          "recordDescription": "  ",
+          "recordUpdate_timeMillis": 1792487062000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487062000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+          "recordUpdate_timeMillis": 1792487032000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487032000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "",
+          "recordUpdate_timeMillis": 1792487012000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487012000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "workOrder",
+      "options": {
+        "limit": 20000,
+        "sortBy": "invalid",
+        "sortDirection": "invalid"
+      },
+      "expected": [
+        {
+          "recordType": "workOrder",
+          "updateType": "update",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic <work> 😀",
+          "recordUpdate_timeMillis": 1792487092000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 2,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK-EMPTY",
+          "recordId": 3,
+          "recordDescription": "Synthetic Work Type",
+          "recordUpdate_timeMillis": 1792487072000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487072000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrder",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK-SPACES",
+          "recordId": 4,
+          "recordDescription": "  ",
+          "recordUpdate_timeMillis": 1792487062000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487062000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+          "recordUpdate_timeMillis": 1792487032000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487032000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "",
+          "recordUpdate_timeMillis": 1792487012000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487012000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "workOrderMilestone",
+      "options": {},
+      "expected": [
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+          "recordUpdate_timeMillis": 1792487032000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487032000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "",
+          "recordUpdate_timeMillis": 1792487012000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487012000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "workOrderMilestone",
+      "options": {
+        "limit": 2,
+        "offset": 1,
+        "sortBy": "recordCreate_timeMillis",
+        "sortDirection": "asc"
+      },
+      "expected": [
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+          "recordUpdate_timeMillis": 1792487032000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487032000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "workOrderMilestone",
+      "options": {
+        "limit": 0
+      },
+      "expected": []
+    },
+    {
+      "recordType": "workOrderMilestone",
+      "options": {
+        "limit": -1,
+        "offset": -2
+      },
+      "expected": [
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+          "recordUpdate_timeMillis": 1792487032000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487032000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "",
+          "recordUpdate_timeMillis": 1792487012000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487012000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "workOrderMilestone",
+      "options": {
+        "limit": 20000,
+        "sortBy": "invalid",
+        "sortDirection": "invalid"
+      },
+      "expected": [
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+          "recordUpdate_timeMillis": 1792487032000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487032000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderMilestone",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "",
+          "recordUpdate_timeMillis": 1792487012000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487012000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "burialSite",
+      "options": {},
+      "expected": [
+        {
+          "recordType": "burialSite",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Synthetic Site (Synthetic available)",
+          "recordUpdate_timeMillis": 1792487052000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487052000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "burialSite",
+      "options": {
+        "limit": 2,
+        "offset": 1,
+        "sortBy": "recordCreate_timeMillis",
+        "sortDirection": "asc"
+      },
+      "expected": []
+    },
+    {
+      "recordType": "burialSite",
+      "options": {
+        "limit": 0
+      },
+      "expected": []
+    },
+    {
+      "recordType": "burialSite",
+      "options": {
+        "limit": -1,
+        "offset": -2
+      },
+      "expected": [
+        {
+          "recordType": "burialSite",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Synthetic Site (Synthetic available)",
+          "recordUpdate_timeMillis": 1792487052000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487052000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "burialSite",
+      "options": {
+        "limit": 20000,
+        "sortBy": "invalid",
+        "sortDirection": "invalid"
+      },
+      "expected": [
+        {
+          "recordType": "burialSite",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Synthetic Site (Synthetic available)",
+          "recordUpdate_timeMillis": 1792487052000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487052000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contractFee",
+      "options": {},
+      "expected": [
+        {
+          "recordType": "contractFee",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Fee: Synthetic & fee ($1.00)",
+          "recordUpdate_timeMillis": 1792487002000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487002000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "update",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+          "recordUpdate_timeMillis": 1792486992000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 3,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contractFee",
+      "options": {
+        "limit": 2,
+        "offset": 1,
+        "sortBy": "recordCreate_timeMillis",
+        "sortDirection": "asc"
+      },
+      "expected": [
+        {
+          "recordType": "contractFee",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Fee: Synthetic & fee ($1.00)",
+          "recordUpdate_timeMillis": 1792487002000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487002000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contractFee",
+      "options": {
+        "limit": 0
+      },
+      "expected": []
+    },
+    {
+      "recordType": "contractFee",
+      "options": {
+        "limit": -1,
+        "offset": -2
+      },
+      "expected": [
+        {
+          "recordType": "contractFee",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Fee: Synthetic & fee ($1.00)",
+          "recordUpdate_timeMillis": 1792487002000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487002000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "update",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+          "recordUpdate_timeMillis": 1792486992000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 3,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contractFee",
+      "options": {
+        "limit": 20000,
+        "sortBy": "invalid",
+        "sortDirection": "invalid"
+      },
+      "expected": [
+        {
+          "recordType": "contractFee",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Fee: Synthetic & fee ($1.00)",
+          "recordUpdate_timeMillis": 1792487002000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792487002000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractFee",
+          "updateType": "update",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+          "recordUpdate_timeMillis": 1792486992000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 3,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "comments",
+      "options": {},
+      "expected": [
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486942000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486942000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486932000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486932000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Work Order Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486912000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486912000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "burialSiteComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Burial Site Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486882000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486882000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "comments",
+      "options": {
+        "limit": 2,
+        "offset": 1,
+        "sortBy": "recordCreate_timeMillis",
+        "sortDirection": "asc"
+      },
+      "expected": [
+        {
+          "recordType": "workOrderComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Work Order Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486912000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486912000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486932000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486932000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "comments",
+      "options": {
+        "limit": 0
+      },
+      "expected": []
+    },
+    {
+      "recordType": "comments",
+      "options": {
+        "limit": -1,
+        "offset": -2
+      },
+      "expected": [
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486942000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486942000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486932000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486932000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Work Order Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486912000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486912000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "burialSiteComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Burial Site Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486882000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486882000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "comments",
+      "options": {
+        "limit": 20000,
+        "sortBy": "invalid",
+        "sortDirection": "invalid"
+      },
+      "expected": [
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486942000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486942000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486932000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486932000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "workOrderComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Work Order Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486912000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486912000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "burialSiteComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Burial Site Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486882000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486882000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contractComment",
+      "options": {},
+      "expected": [
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486942000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486942000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486932000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486932000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contractComment",
+      "options": {
+        "limit": 2,
+        "offset": 1,
+        "sortBy": "recordCreate_timeMillis",
+        "sortDirection": "asc"
+      },
+      "expected": [
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486942000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486942000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contractComment",
+      "options": {
+        "limit": 0
+      },
+      "expected": []
+    },
+    {
+      "recordType": "contractComment",
+      "options": {
+        "limit": -1,
+        "offset": -2
+      },
+      "expected": [
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486942000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486942000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486932000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486932000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "contractComment",
+      "options": {
+        "limit": 20000,
+        "sortBy": "invalid",
+        "sortDirection": "invalid"
+      },
+      "expected": [
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-RECENT",
+          "recordId": 1,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486942000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486942000,
+          "recordCreate_username": "synthetic-dashboard"
+        },
+        {
+          "recordType": "contractComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-DELETED",
+          "recordId": 2,
+          "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486932000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486932000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "workOrderComment",
+      "options": {},
+      "expected": [
+        {
+          "recordType": "workOrderComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Work Order Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486912000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486912000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "workOrderComment",
+      "options": {
+        "limit": 2,
+        "offset": 1,
+        "sortBy": "recordCreate_timeMillis",
+        "sortDirection": "asc"
+      },
+      "expected": []
+    },
+    {
+      "recordType": "workOrderComment",
+      "options": {
+        "limit": 0
+      },
+      "expected": []
+    },
+    {
+      "recordType": "workOrderComment",
+      "options": {
+        "limit": -1,
+        "offset": -2
+      },
+      "expected": [
+        {
+          "recordType": "workOrderComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Work Order Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486912000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486912000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "workOrderComment",
+      "options": {
+        "limit": 20000,
+        "sortBy": "invalid",
+        "sortDirection": "invalid"
+      },
+      "expected": [
+        {
+          "recordType": "workOrderComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-WORK",
+          "recordId": 1,
+          "recordDescription": "Work Order Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486912000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486912000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "burialSiteComment",
+      "options": {},
+      "expected": [
+        {
+          "recordType": "burialSiteComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Burial Site Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486882000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486882000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "burialSiteComment",
+      "options": {
+        "limit": 2,
+        "offset": 1,
+        "sortBy": "recordCreate_timeMillis",
+        "sortDirection": "asc"
+      },
+      "expected": []
+    },
+    {
+      "recordType": "burialSiteComment",
+      "options": {
+        "limit": 0
+      },
+      "expected": []
+    },
+    {
+      "recordType": "burialSiteComment",
+      "options": {
+        "limit": -1,
+        "offset": -2
+      },
+      "expected": [
+        {
+          "recordType": "burialSiteComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Burial Site Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486882000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486882000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    },
+    {
+      "recordType": "burialSiteComment",
+      "options": {
+        "limit": 20000,
+        "sortBy": "invalid",
+        "sortDirection": "invalid"
+      },
+      "expected": [
+        {
+          "recordType": "burialSiteComment",
+          "updateType": "create",
+          "displayRecordId": "SYN-SITE",
+          "recordId": 1,
+          "recordDescription": "Burial Site Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+          "recordUpdate_timeMillis": 1792486882000,
+          "recordUpdate_username": "synthetic-dashboard",
+          "recordCreate_timeMillis": 1792486882000,
+          "recordCreate_username": "synthetic-dashboard"
+        }
+      ]
+    }
+  ],
+  "handlers": [
+    {
+      "body": {},
+      "expected": {
+        "updateLog": [
+          {
+            "recordType": "contract",
+            "updateType": "create",
+            "displayRecordId": "SYN-RECENT",
+            "recordId": 1,
+            "recordDescription": "Synthetic <contract> 😀",
+            "recordUpdate_timeMillis": 1792487132000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487132000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "workOrder",
+            "updateType": "update",
+            "displayRecordId": "SYN-WORK",
+            "recordId": 1,
+            "recordDescription": "Synthetic <work> 😀",
+            "recordUpdate_timeMillis": 1792487092000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 2,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "workOrder",
+            "updateType": "create",
+            "displayRecordId": "SYN-WORK-EMPTY",
+            "recordId": 3,
+            "recordDescription": "Synthetic Work Type",
+            "recordUpdate_timeMillis": 1792487072000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487072000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "workOrder",
+            "updateType": "create",
+            "displayRecordId": "SYN-WORK-SPACES",
+            "recordId": 4,
+            "recordDescription": "  ",
+            "recordUpdate_timeMillis": 1792487062000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487062000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "burialSite",
+            "updateType": "create",
+            "displayRecordId": "SYN-SITE",
+            "recordId": 1,
+            "recordDescription": "Synthetic Site (Synthetic available)",
+            "recordUpdate_timeMillis": 1792487052000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487052000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "workOrderMilestone",
+            "updateType": "create",
+            "displayRecordId": "SYN-WORK",
+            "recordId": 1,
+            "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+            "recordUpdate_timeMillis": 1792487032000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487032000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "workOrderMilestone",
+            "updateType": "create",
+            "displayRecordId": "SYN-WORK",
+            "recordId": 1,
+            "recordDescription": "",
+            "recordUpdate_timeMillis": 1792487012000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487012000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractFee",
+            "updateType": "create",
+            "displayRecordId": "SYN-RECENT",
+            "recordId": 1,
+            "recordDescription": "Contract Fee: Synthetic & fee ($1.00)",
+            "recordUpdate_timeMillis": 1792487002000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487002000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractFee",
+            "updateType": "update",
+            "displayRecordId": "SYN-DELETED",
+            "recordId": 2,
+            "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+            "recordUpdate_timeMillis": 1792486992000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 3,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractTransactions",
+            "updateType": "create",
+            "displayRecordId": "SYN-RECENT",
+            "recordId": 1,
+            "recordDescription": "Transaction: $2.67",
+            "recordUpdate_timeMillis": 1792486982000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486982000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractTransactions",
+            "updateType": "create",
+            "displayRecordId": "SYN-DELETED",
+            "recordId": 2,
+            "recordDescription": "Transaction: $-0.01",
+            "recordUpdate_timeMillis": 1792486972000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486972000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractTransactions",
+            "updateType": "create",
+            "displayRecordId": "SYN-RECENT",
+            "recordId": 1,
+            "recordDescription": " ",
+            "recordUpdate_timeMillis": 1792486962000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486962000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractTransactions",
+            "updateType": "create",
+            "displayRecordId": "SYN-RECENT",
+            "recordId": 1,
+            "recordDescription": "Synthetic <note> 😀",
+            "recordUpdate_timeMillis": 1792486952000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486952000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractComment",
+            "updateType": "create",
+            "displayRecordId": "SYN-RECENT",
+            "recordId": 1,
+            "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+            "recordUpdate_timeMillis": 1792486942000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486942000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractComment",
+            "updateType": "create",
+            "displayRecordId": "SYN-DELETED",
+            "recordId": 2,
+            "recordDescription": "Contract Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+            "recordUpdate_timeMillis": 1792486932000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486932000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "workOrderComment",
+            "updateType": "create",
+            "displayRecordId": "SYN-WORK",
+            "recordId": 1,
+            "recordDescription": "Work Order Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+            "recordUpdate_timeMillis": 1792486912000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486912000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "burialSiteComment",
+            "updateType": "create",
+            "displayRecordId": "SYN-SITE",
+            "recordId": 1,
+            "recordDescription": "Burial Site Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+            "recordUpdate_timeMillis": 1792486882000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486882000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contract",
+            "updateType": "update",
+            "displayRecordId": "SYN-CUTOFF",
+            "recordId": 3,
+            "recordDescription": "Synthetic <contract> 😀",
+            "recordUpdate_timeMillis": 1789895142000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1,
+            "recordCreate_username": "synthetic-dashboard"
+          }
+        ]
+      }
+    },
+    {
+      "body": {
+        "recordType": "contract"
+      },
+      "expected": {
+        "updateLog": [
+          {
+            "recordType": "contract",
+            "updateType": "create",
+            "displayRecordId": "SYN-RECENT",
+            "recordId": 1,
+            "recordDescription": "Synthetic <contract> 😀",
+            "recordUpdate_timeMillis": 1792487132000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487132000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractFee",
+            "updateType": "create",
+            "displayRecordId": "SYN-RECENT",
+            "recordId": 1,
+            "recordDescription": "Contract Fee: Synthetic & fee ($1.00)",
+            "recordUpdate_timeMillis": 1792487002000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487002000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractFee",
+            "updateType": "update",
+            "displayRecordId": "SYN-DELETED",
+            "recordId": 2,
+            "recordDescription": "Contract Fee: Synthetic & fee ($-1.33)",
+            "recordUpdate_timeMillis": 1792486992000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 3,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractTransactions",
+            "updateType": "create",
+            "displayRecordId": "SYN-RECENT",
+            "recordId": 1,
+            "recordDescription": "Transaction: $2.67",
+            "recordUpdate_timeMillis": 1792486982000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486982000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractTransactions",
+            "updateType": "create",
+            "displayRecordId": "SYN-DELETED",
+            "recordId": 2,
+            "recordDescription": "Transaction: $-0.01",
+            "recordUpdate_timeMillis": 1792486972000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486972000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractTransactions",
+            "updateType": "create",
+            "displayRecordId": "SYN-RECENT",
+            "recordId": 1,
+            "recordDescription": " ",
+            "recordUpdate_timeMillis": 1792486962000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486962000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contractTransactions",
+            "updateType": "create",
+            "displayRecordId": "SYN-RECENT",
+            "recordId": 1,
+            "recordDescription": "Synthetic <note> 😀",
+            "recordUpdate_timeMillis": 1792486952000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486952000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "contract",
+            "updateType": "update",
+            "displayRecordId": "SYN-CUTOFF",
+            "recordId": 3,
+            "recordDescription": "Synthetic <contract> 😀",
+            "recordUpdate_timeMillis": 1789895142000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1,
+            "recordCreate_username": "synthetic-dashboard"
+          }
+        ]
+      }
+    },
+    {
+      "body": {
+        "recordType": "comments",
+        "limit": "2.9",
+        "offset": "-2.9",
+        "sortBy": "recordCreate_timeMillis",
+        "sortDirection": "asc"
+      },
+      "expected": {
+        "updateLog": [
+          {
+            "recordType": "burialSiteComment",
+            "updateType": "create",
+            "displayRecordId": "SYN-SITE",
+            "recordId": 1,
+            "recordDescription": "Burial Site Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+            "recordUpdate_timeMillis": 1792486882000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486882000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "workOrderComment",
+            "updateType": "create",
+            "displayRecordId": "SYN-WORK",
+            "recordId": 1,
+            "recordDescription": "Work Order Comment: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀ä...",
+            "recordUpdate_timeMillis": 1792486912000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792486912000,
+            "recordCreate_username": "synthetic-dashboard"
+          }
+        ]
+      }
+    },
+    {
+      "body": {
+        "recordType": "workOrder",
+        "limit": null,
+        "offset": null
+      },
+      "expected": {
+        "updateLog": [
+          {
+            "recordType": "workOrder",
+            "updateType": "update",
+            "displayRecordId": "SYN-WORK",
+            "recordId": 1,
+            "recordDescription": "Synthetic <work> 😀",
+            "recordUpdate_timeMillis": 1792487092000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 2,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "workOrder",
+            "updateType": "create",
+            "displayRecordId": "SYN-WORK-EMPTY",
+            "recordId": 3,
+            "recordDescription": "Synthetic Work Type",
+            "recordUpdate_timeMillis": 1792487072000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487072000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "workOrder",
+            "updateType": "create",
+            "displayRecordId": "SYN-WORK-SPACES",
+            "recordId": 4,
+            "recordDescription": "  ",
+            "recordUpdate_timeMillis": 1792487062000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487062000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "workOrderMilestone",
+            "updateType": "create",
+            "displayRecordId": "SYN-WORK",
+            "recordId": 1,
+            "recordDescription": "Synthetic milestone - Synthetic <milestone>",
+            "recordUpdate_timeMillis": 1792487032000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487032000,
+            "recordCreate_username": "synthetic-dashboard"
+          },
+          {
+            "recordType": "workOrderMilestone",
+            "updateType": "create",
+            "displayRecordId": "SYN-WORK",
+            "recordId": 1,
+            "recordDescription": "",
+            "recordUpdate_timeMillis": 1792487012000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487012000,
+            "recordCreate_username": "synthetic-dashboard"
+          }
+        ]
+      }
+    },
+    {
+      "body": {
+        "recordType": "burialSite",
+        "limit": "-1"
+      },
+      "expected": {
+        "updateLog": [
+          {
+            "recordType": "burialSite",
+            "updateType": "create",
+            "displayRecordId": "SYN-SITE",
+            "recordId": 1,
+            "recordDescription": "Synthetic Site (Synthetic available)",
+            "recordUpdate_timeMillis": 1792487052000,
+            "recordUpdate_username": "synthetic-dashboard",
+            "recordCreate_timeMillis": 1792487052000,
+            "recordCreate_username": "synthetic-dashboard"
+          }
+        ]
+      }
+    }
+  ],
+  "money": [
+    {
+      "value": 0,
+      "expected": "0.00"
+    },
+    {
+      "value": 0,
+      "expected": "0.00"
+    },
+    {
+      "value": 0.005,
+      "expected": "0.01"
+    },
+    {
+      "value": -0.005,
+      "expected": "-0.01"
+    },
+    {
+      "value": 1.005,
+      "expected": "1.00"
+    },
+    {
+      "value": -1.005,
+      "expected": "-1.00"
+    },
+    {
+      "value": 2.675,
+      "expected": "2.67"
+    },
+    {
+      "value": 1.335,
+      "expected": "1.33"
+    },
+    {
+      "value": -1.335,
+      "expected": "-1.33"
+    },
+    {
+      "value": 9.995,
+      "expected": "9.99"
+    },
+    {
+      "value": 2.685,
+      "expected": "2.69"
+    },
+    {
+      "value": 0.004999999999999999,
+      "expected": "0.00"
+    },
+    {
+      "value": 123456789.125,
+      "expected": "123456789.13"
+    },
+    {
+      "value": 100000000000000.12,
+      "expected": "100000000000000.10"
+    },
+    {
+      "value": 999999999999999.9,
+      "expected": "999999999999999.90"
+    },
+    {
+      "value": 10000000000000000,
+      "expected": "10000000000000000.00"
+    },
+    {
+      "value": 1e-20,
+      "expected": "0.00"
+    }
+  ],
+  "pageHandlers": {
+    "dashboard": [
+      {
+        "query": null,
+        "template": "dashboard/dashboard",
+        "values": {
+          "headTitle": "dashboard.title"
+        }
+      },
+      {
+        "query": "accessDenied",
+        "template": "dashboard/dashboard",
+        "values": {
+          "headTitle": "dashboard.title",
+          "error": "Access Denied."
+        }
+      },
+      {
+        "query": "printConfigNotFound",
+        "template": "dashboard/dashboard",
+        "values": {
+          "headTitle": "dashboard.title",
+          "error": "Print configuration not found."
+        }
+      },
+      {
+        "query": "<literal>",
+        "template": "dashboard/dashboard",
+        "values": {
+          "headTitle": "dashboard.title",
+          "error": "<literal>"
+        }
+      }
+    ],
+    "updateLog": [
+      {
+        "query": null,
+        "template": "dashboard/updateLog",
+        "values": {
+          "headTitle": "dashboard.updateLog"
+        }
+      },
+      {
+        "query": "accessDenied",
+        "template": "dashboard/updateLog",
+        "values": {
+          "headTitle": "dashboard.updateLog"
+        }
+      },
+      {
+        "query": "printConfigNotFound",
+        "template": "dashboard/updateLog",
+        "values": {
+          "headTitle": "dashboard.updateLog"
+        }
+      },
+      {
+        "query": "<literal>",
+        "template": "dashboard/updateLog",
+        "values": {
+          "headTitle": "dashboard.updateLog"
+        }
+      }
+    ]
+  },
+  "browser": {
+    "rows": 18,
+    "calls": [
+      {
+        "url": "/dashboard/doGetRecordUpdateLog",
+        "request": {
+          "limit": 50,
+          "offset": 0,
+          "recordType": "",
+          "sortBy": "recordUpdate_timeMillis",
+          "sortDirection": "desc"
+        }
+      },
+      {
+        "url": "/dashboard/doGetRecordUpdateLog",
+        "request": {
+          "limit": 50,
+          "offset": 0,
+          "recordType": "",
+          "sortBy": "recordCreate_timeMillis",
+          "sortDirection": "desc"
+        }
+      },
+      {
+        "url": "/dashboard/doGetRecordUpdateLog",
+        "request": {
+          "limit": 50,
+          "offset": 0,
+          "recordType": "",
+          "sortBy": "recordCreate_timeMillis",
+          "sortDirection": "asc"
+        }
+      },
+      {
+        "url": "/dashboard/doGetRecordUpdateLog",
+        "request": {
+          "limit": 50,
+          "offset": 0,
+          "recordType": "",
+          "sortBy": "recordUpdate_timeMillis",
+          "sortDirection": "desc"
+        }
+      },
+      {
+        "url": "/dashboard/doGetRecordUpdateLog",
+        "request": {
+          "limit": 10,
+          "offset": 0,
+          "recordType": "",
+          "sortBy": "recordUpdate_timeMillis",
+          "sortDirection": "desc"
+        }
+      },
+      {
+        "url": "/dashboard/doGetRecordUpdateLog",
+        "request": {
+          "limit": 10,
+          "offset": 10,
+          "recordType": "",
+          "sortBy": "recordUpdate_timeMillis",
+          "sortDirection": "desc"
+        }
+      },
+      {
+        "url": "/dashboard/doGetRecordUpdateLog",
+        "request": {
+          "limit": 10,
+          "offset": 0,
+          "recordType": "comments",
+          "sortBy": "recordUpdate_timeMillis",
+          "sortDirection": "desc"
+        }
+      }
+    ],
+    "midnight": "2026-10-20 24:05"
+  },
+  "defaultContractField": "contractNumber",
+  "quickSearch": [
+    {
+      "prefix": "",
+      "type": "contract",
+      "field": "contractNumber",
+      "value": "SYN-001",
+      "expected": {
+        "url": "/contracts/?contractNumber=SYN-001"
+      }
+    },
+    {
+      "prefix": "",
+      "type": "contract",
+      "field": "deceasedName",
+      "value": "Müller & Söhne/😀?=+'",
+      "expected": {
+        "url": "/contracts/?deceasedName=M%C3%BCller%20%26%20S%C3%B6hne%2F%F0%9F%98%80%3F%3D%2B'"
+      }
+    },
+    {
+      "prefix": "",
+      "type": "contract",
+      "field": "contractNumber",
+      "value": "<literal> & %_[]",
+      "expected": {
+        "url": "/contracts/?contractNumber=%3Cliteral%3E%20%26%20%25_%5B%5D"
+      }
+    },
+    {
+      "prefix": "",
+      "type": "contract",
+      "field": "invalid",
+      "value": "Synthetic invalid field",
+      "expected": {
+        "alert": {
+          "contextualColorName": "danger",
+          "title": "Invalid Search",
+          "message": "Please enter a valid search value."
+        }
+      }
+    },
+    {
+      "prefix": "",
+      "type": "contract",
+      "field": "",
+      "value": "Synthetic empty field",
+      "expected": {
+        "alert": {
+          "contextualColorName": "danger",
+          "title": "Invalid Search",
+          "message": "Please enter a valid search value."
+        }
+      }
+    },
+    {
+      "prefix": "",
+      "type": "workOrder",
+      "value": "SYN-12",
+      "expected": {
+        "url": "/workOrders/byWorkOrderNumber/SYN-12"
+      }
+    },
+    {
+      "prefix": "",
+      "type": "workOrder",
+      "value": "SYN/12 & Ä 😀?#",
+      "expected": {
+        "url": "/workOrders/byWorkOrderNumber/SYN%2F12%20%26%20%C3%84%20%F0%9F%98%80%3F%23"
+      }
+    },
+    {
+      "prefix": "/synthetic",
+      "type": "contract",
+      "field": "contractNumber",
+      "value": "SYN-001",
+      "expected": {
+        "url": "/synthetic/contracts/?contractNumber=SYN-001"
+      }
+    },
+    {
+      "prefix": "/synthetic",
+      "type": "contract",
+      "field": "deceasedName",
+      "value": "Müller & Söhne/😀?=+'",
+      "expected": {
+        "url": "/synthetic/contracts/?deceasedName=M%C3%BCller%20%26%20S%C3%B6hne%2F%F0%9F%98%80%3F%3D%2B'"
+      }
+    },
+    {
+      "prefix": "/synthetic",
+      "type": "contract",
+      "field": "contractNumber",
+      "value": "<literal> & %_[]",
+      "expected": {
+        "url": "/synthetic/contracts/?contractNumber=%3Cliteral%3E%20%26%20%25_%5B%5D"
+      }
+    },
+    {
+      "prefix": "/synthetic",
+      "type": "contract",
+      "field": "invalid",
+      "value": "Synthetic invalid field",
+      "expected": {
+        "alert": {
+          "contextualColorName": "danger",
+          "title": "Invalid Search",
+          "message": "Please enter a valid search value."
+        }
+      }
+    },
+    {
+      "prefix": "/synthetic",
+      "type": "contract",
+      "field": "",
+      "value": "Synthetic empty field",
+      "expected": {
+        "alert": {
+          "contextualColorName": "danger",
+          "title": "Invalid Search",
+          "message": "Please enter a valid search value."
+        }
+      }
+    },
+    {
+      "prefix": "/synthetic",
+      "type": "workOrder",
+      "value": "SYN-12",
+      "expected": {
+        "url": "/synthetic/workOrders/byWorkOrderNumber/SYN-12"
+      }
+    },
+    {
+      "prefix": "/synthetic",
+      "type": "workOrder",
+      "value": "SYN/12 & Ä 😀?#",
+      "expected": {
+        "url": "/synthetic/workOrders/byWorkOrderNumber/SYN%2F12%20%26%20%C3%84%20%F0%9F%98%80%3F%23"
+      }
+    }
+  ],
+  "filterToggles": [
+    {
+      "initiallyHidden": true,
+      "states": [
+        {
+          "hidden": false,
+          "caretExpanded": true,
+          "value": "Synthetic retained filter"
+        },
+        {
+          "hidden": true,
+          "caretExpanded": false,
+          "value": "Synthetic retained filter"
+        }
+      ],
+      "missingElementsTolerated": true
+    },
+    {
+      "initiallyHidden": false,
+      "states": [
+        {
+          "hidden": true,
+          "caretExpanded": false,
+          "value": "Synthetic retained filter"
+        },
+        {
+          "hidden": false,
+          "caretExpanded": true,
+          "value": "Synthetic retained filter"
+        }
+      ],
+      "missingElementsTolerated": true
+    }
+  ]
+}

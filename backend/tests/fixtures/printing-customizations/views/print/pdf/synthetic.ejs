@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title><%= headTitle %></title></head><body>
+<h1><%= configFunctions.getConfigProperty('application.applicationName') %>: <%= headTitle %></h1>
+<%- include('_contract.ejs') %>
+<p>External receipt alias: <%= settingFunctions.getSettingValue('aliases.externalReceiptNumber') %></p>
+<p>Transaction total: <%= contractFunctions.getTransactionTotal(contract).toFixed(2) %></p>
+<p>Field: <%= contractFunctions.getFieldValueByContractTypeField(contract, 'SYNTHETIC FIELD') ?? '(No Value)' %></p>
+<p>Fees: <%= contractFunctions.getFeesByFeeCategory(contract, 'synthetic', true).length %></p>
+<p>Start date: <%= dateTimeFunctions.dateIntegerToString(contract.contractStartDate) %></p>
+<p>Fallback: <%= configFunctions.getConfigProperty('synthetic.missing', 'preserved fallback') %></p>
+<%- barcodeFunctions.generateBarcodeSvg(contract.contractNumber || 'SYNTHETIC', {format:'CODE128',width:1,height:30,displayValue:false}) %>
+</body></html>

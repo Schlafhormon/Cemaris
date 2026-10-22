@@ -1,0 +1,151 @@
+{
+  "reference_commit": "451ce034863b16502484367044f3e9b65370111a",
+  "packages": {
+    "i18next": {
+      "version": "26.4.5",
+      "integrity": "sha512-CY9xqbWNQ+eLGDhFX3eNl1kDO1amJixszVKjC4Nd0tvfxUFLKqarN0VUHRt+2b88U7bkNIhnL84dRKQ5mFI+fg=="
+    },
+    "i18next-http-middleware": {
+      "version": "3.9.9",
+      "integrity": "sha512-dfkWagXCu7vnumkESGN4QRZ6LuFgz7L9nzsAOQdtbjwRm8BFI9ApepEQ2bhB0R6XXoQDmsoB0kuN5iH6p0UuxQ=="
+    }
+  },
+  "cases": [
+    {
+      "expected": "en"
+    },
+    {
+      "query": "de",
+      "cookie": "en",
+      "header": "en-US",
+      "expected": "de"
+    },
+    {
+      "cookie": "de",
+      "header": "en-US",
+      "expected": "de"
+    },
+    {
+      "query": "fr",
+      "cookie": "de",
+      "header": "en-US",
+      "expected": "de"
+    },
+    {
+      "query": "fr",
+      "header": "de",
+      "expected": "de"
+    },
+    {
+      "query": "en-US",
+      "cookie": "de",
+      "expected": "de"
+    },
+    {
+      "query": "de-DE",
+      "cookie": "en",
+      "expected": "de"
+    },
+    {
+      "query": "DE",
+      "expected": "en"
+    },
+    {
+      "query": "de_DE",
+      "expected": "de"
+    },
+    {
+      "query": "en_GB",
+      "cookie": "de",
+      "expected": "de"
+    },
+    {
+      "query": "de<script>",
+      "cookie": "en",
+      "expected": "en"
+    },
+    {
+      "query": "de/DE",
+      "cookie": "en",
+      "expected": "en"
+    },
+    {
+      "query": "de..DE",
+      "cookie": "en",
+      "expected": "en"
+    },
+    {
+      "query": "de\\DE",
+      "cookie": "en",
+      "expected": "en"
+    },
+    {
+      "header": "de-DE,de;q=0.9,en;q=0.8",
+      "expected": "de"
+    },
+    {
+      "header": "de-DE,en;q=0.8",
+      "expected": "en"
+    },
+    {
+      "header": "de;q=0.1,en;q=0.9",
+      "expected": "en"
+    },
+    {
+      "header": "de;q=0,en;q=1",
+      "expected": "en"
+    },
+    {
+      "header": "de;q=0",
+      "expected": "de"
+    },
+    {
+      "header": "fr;q=1,de;q=0",
+      "expected": "de"
+    },
+    {
+      "header": "en-US;q=1,de;q=0.1",
+      "expected": "de"
+    },
+    {
+      "header": "fr",
+      "expected": "en"
+    },
+    {
+      "header": "de-CH;q=0.9,en-GB;q=0.8",
+      "expected": "de"
+    },
+    {
+      "header": "*",
+      "expected": "en"
+    },
+    {
+      "cookie": "en-US",
+      "header": "de",
+      "expected": "de"
+    },
+    {
+      "cookie": "de-CH",
+      "header": "en",
+      "expected": "de"
+    },
+    {
+      "query": "en",
+      "cookie": "de",
+      "expected": "en"
+    },
+    {
+      "query": "de-CH",
+      "cookie": "en",
+      "expected": "de"
+    },
+    {
+      "header": "de;q=invalid,en;q=0.3",
+      "expected": "de"
+    },
+    {
+      "header": "en;q=0.1,de-DE;q=1",
+      "expected": "en"
+    }
+  ]
+}

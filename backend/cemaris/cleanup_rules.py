@@ -1,0 +1,53 @@
+"""Ordered cleanup statements ported from Sunrise cleanupDatabase.ts (MIT).
+
+Frozen source 451ce034863b16502484367044f3e9b65370111a.
+SQL is whitespace-normalized; operations.py binds values and adds FK guards.
+See licenses/Sunrise-LICENSE.md. No runtime dependency on the reference.
+"""
+
+CLEANUP_RULES = (
+    ('inactivate', 'WorkOrderComments', 'UPDATE WorkOrderComments SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND workOrderId IN ( SELECT workOrderId FROM WorkOrders WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'WorkOrderComments', 'DELETE FROM WorkOrderComments WHERE recordDelete_timeMillis <= ?'),
+    ('inactivate', 'WorkOrderContracts', 'UPDATE WorkOrderContracts SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND workOrderId IN ( SELECT workOrderId FROM WorkOrders WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'WorkOrderContracts', 'DELETE FROM WorkOrderContracts WHERE recordDelete_timeMillis <= ?'),
+    ('inactivate', 'WorkOrderBurialSites', 'UPDATE WorkOrderBurialSites SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND workOrderId IN ( SELECT workOrderId FROM WorkOrders WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'WorkOrderBurialSites', 'DELETE FROM WorkOrderBurialSites WHERE recordDelete_timeMillis <= ?'),
+    ('inactivate', 'WorkOrderMilestones', 'UPDATE WorkOrderMilestones SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND workOrderId IN ( SELECT workOrderId FROM WorkOrders WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'WorkOrderMilestones', 'DELETE FROM WorkOrderMilestones WHERE recordDelete_timeMillis <= ?'),
+    ('purge', 'WorkOrders', 'DELETE FROM WorkOrders WHERE recordDelete_timeMillis <= ? AND NOT EXISTS ( SELECT 1 FROM WorkOrderComments WHERE WorkOrderComments.workOrderId = WorkOrders.workOrderId ) AND NOT EXISTS ( SELECT 1 FROM WorkOrderContracts WHERE WorkOrderContracts.workOrderId = WorkOrders.workOrderId ) AND NOT EXISTS ( SELECT 1 FROM WorkOrderBurialSites WHERE WorkOrderBurialSites.workOrderId = WorkOrders.workOrderId ) AND NOT EXISTS ( SELECT 1 FROM WorkOrderMilestones WHERE WorkOrderMilestones.workOrderId = WorkOrders.workOrderId )'),
+    ('purge', 'WorkOrderMilestoneTypes', 'DELETE FROM WorkOrderMilestoneTypes WHERE recordDelete_timeMillis <= ? AND NOT EXISTS ( SELECT 1 FROM WorkOrderMilestones WHERE WorkOrderMilestones.workOrderMilestoneTypeId = WorkOrderMilestoneTypes.workOrderMilestoneTypeId )'),
+    ('purge', 'WorkOrderTypes', 'DELETE FROM WorkOrderTypes WHERE recordDelete_timeMillis <= ? AND NOT EXISTS ( SELECT 1 FROM WorkOrders WHERE WorkOrders.workOrderTypeId = WorkOrderTypes.workOrderTypeId )'),
+    ('inactivate', 'ContractAttachments', 'UPDATE ContractAttachments SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND contractId IN ( SELECT contractId FROM Contracts WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('attachments', 'ContractAttachments', 'SELECT contractAttachmentId, fileName, filePath FROM ContractAttachments WHERE recordDelete_timeMillis <= ?'),
+    ('purge', 'ContractAttachments', 'DELETE FROM ContractAttachments WHERE contractAttachmentId = ?'),
+    ('inactivate', 'ContractMetadata', 'UPDATE ContractMetadata SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND contractId IN ( SELECT contractId FROM Contracts WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'ContractMetadata', 'DELETE FROM ContractMetadata WHERE recordDelete_timeMillis <= ?'),
+    ('inactivate', 'ContractComments', 'UPDATE ContractComments SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND contractId IN ( SELECT contractId FROM Contracts WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'ContractComments', 'DELETE FROM ContractComments WHERE recordDelete_timeMillis <= ?'),
+    ('inactivate', 'ContractFields', 'UPDATE ContractFields SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND contractId IN ( SELECT contractId FROM Contracts WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'ContractFields', 'DELETE FROM ContractFields WHERE recordDelete_timeMillis <= ?'),
+    ('purge', 'ContractFees', 'DELETE FROM ContractFees WHERE recordDelete_timeMillis <= ?'),
+    ('purge', 'ContractTransactions', 'DELETE FROM ContractTransactions WHERE recordDelete_timeMillis <= ?'),
+    ('purge', 'RelatedContracts', 'DELETE FROM RelatedContracts WHERE contractIdA IN ( SELECT contractId FROM Contracts WHERE recordDelete_timeMillis <= ? ) OR contractIdB IN ( SELECT contractId FROM Contracts WHERE recordDelete_timeMillis <= ? )'),
+    ('purge', 'Contracts', 'DELETE FROM Contracts WHERE recordDelete_timeMillis <= ? AND NOT EXISTS ( SELECT 1 FROM ( SELECT contractId FROM ContractAttachments UNION SELECT contractId FROM ContractComments UNION SELECT contractId FROM ContractFees UNION SELECT contractId FROM ContractFields UNION SELECT contractId FROM ContractInterments UNION SELECT contractId FROM ContractMetadata UNION SELECT contractId FROM ContractTransactions UNION SELECT contractIdA AS contractId FROM RelatedContracts UNION SELECT contractIdB AS contractId FROM RelatedContracts UNION SELECT contractId FROM WorkOrderContracts ) rc WHERE rc.contractId = Contracts.contractId )'),
+    ('inactivate', 'Fees', 'UPDATE Fees SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND feeCategoryId IN ( SELECT feeCategoryId FROM FeeCategories WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'Fees', 'DELETE FROM Fees WHERE recordDelete_timeMillis <= ? AND feeId NOT IN ( SELECT feeId FROM ContractFees )'),
+    ('purge', 'FeeCategories', 'DELETE FROM FeeCategories WHERE recordDelete_timeMillis <= ? AND feeCategoryId NOT IN ( SELECT feeCategoryId FROM Fees )'),
+    ('inactivate', 'ContractTypeFields', 'UPDATE ContractTypeFields SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND contractTypeId IN ( SELECT contractTypeId FROM ContractTypes WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'ContractTypeFields', 'DELETE FROM ContractTypeFields WHERE recordDelete_timeMillis <= ? AND contractTypeFieldId NOT IN ( SELECT contractTypeFieldId FROM ContractFields )'),
+    ('inactivate', 'ContractTypePrints', 'UPDATE ContractTypePrints SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND contractTypeId IN ( SELECT contractTypeId FROM ContractTypes WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'ContractTypePrints', 'DELETE FROM ContractTypePrints WHERE recordDelete_timeMillis <= ?'),
+    ('purge', 'ContractTypes', 'DELETE FROM ContractTypes WHERE recordDelete_timeMillis <= ? AND contractTypeId NOT IN ( SELECT contractTypeId FROM ContractTypeFields UNION SELECT contractTypeId FROM ContractTypePrints UNION SELECT contractTypeId FROM Contracts UNION SELECT contractTypeId FROM Fees )'),
+    ('inactivate', 'BurialSiteComments', 'UPDATE BurialSiteComments SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND burialSiteId IN ( SELECT burialSiteId FROM BurialSites WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'BurialSiteComments', 'DELETE FROM BurialSiteComments WHERE recordDelete_timeMillis <= ?'),
+    ('inactivate', 'BurialSiteFields', 'UPDATE BurialSiteFields SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND burialSiteId IN ( SELECT burialSiteId FROM BurialSites WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'BurialSiteFields', 'DELETE FROM BurialSiteFields WHERE recordDelete_timeMillis <= ?'),
+    ('inactivate', 'BurialSites', 'UPDATE BurialSites SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND cemeteryId IN ( SELECT cemeteryId FROM Cemeteries WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'BurialSites', 'DELETE FROM BurialSites WHERE recordDelete_timeMillis <= ? AND burialSiteId NOT IN ( SELECT burialSiteId FROM BurialSiteComments ) AND burialSiteId NOT IN ( SELECT burialSiteId FROM BurialSiteFields ) AND burialSiteId NOT IN ( SELECT burialSiteId FROM Contracts ) AND burialSiteId NOT IN ( SELECT burialSiteId FROM WorkOrderBurialSites )'),
+    ('purge', 'BurialSiteStatuses', 'DELETE FROM BurialSiteStatuses WHERE recordDelete_timeMillis <= ? AND burialSiteStatusId NOT IN ( SELECT burialSiteStatusId FROM BurialSites )'),
+    ('inactivate', 'BurialSiteTypeFields', 'UPDATE BurialSiteTypeFields SET recordDelete_username = ?, recordDelete_timeMillis = ? WHERE recordDelete_timeMillis IS NULL AND burialSiteTypeId IN ( SELECT burialSiteTypeId FROM BurialSiteTypes WHERE recordDelete_timeMillis IS NOT NULL )'),
+    ('purge', 'BurialSiteTypeFields', 'DELETE FROM BurialSiteTypeFields WHERE recordDelete_timeMillis <= ? AND burialSiteTypeFieldId NOT IN ( SELECT burialSiteTypeFieldId FROM BurialSiteFields )'),
+    ('purge', 'BurialSiteTypes', 'DELETE FROM BurialSiteTypes WHERE recordDelete_timeMillis <= ? AND burialSiteTypeId NOT IN ( SELECT burialSiteTypeId FROM BurialSites ) AND burialSiteTypeId NOT IN ( SELECT burialSiteTypeId FROM BurialSiteTypeFields )'),
+    ('purge', 'CemeteryDirectionsOfArrival', 'DELETE FROM CemeteryDirectionsOfArrival WHERE cemeteryId IN ( SELECT cemeteryId FROM Cemeteries WHERE recordDelete_timeMillis <= ? )'),
+    ('purge', 'Cemeteries', 'DELETE FROM Cemeteries WHERE recordDelete_timeMillis <= ? AND cemeteryId NOT IN ( SELECT cemeteryId FROM CemeteryDirectionsOfArrival ) AND cemeteryId NOT IN ( SELECT cemeteryId FROM BurialSites WHERE cemeteryId IS NOT NULL )'),
+)

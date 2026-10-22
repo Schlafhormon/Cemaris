@@ -1,0 +1,227 @@
+<%
+const cemarisDate = value => String(value ?? '').replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$3.$2.$1');
+const cemarisMoney = value => new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(Number(value ?? 0));
+%>
+<%- include('_header-print'); -%>
+
+<h1 class="title is-2 has-text-centered">
+  Grabnutzungsvertrag
+</h1>
+
+<div class="columns">
+  <div class="column">
+    <p>
+      <strong>Vertragsart</strong><br />
+      <%= contract.contractType %>
+    </p>
+  </div>
+  <div class="column">
+    <p class="mb-2">
+      <strong>Grabstätte</strong><br />
+      <% if (contract.burialSiteId) { %>
+        <%= contract.burialSiteName %>
+      <% } else { %>
+        (Keine Grabstätte)
+      <% } %>
+    </p>
+    <p>
+      <strong>Friedhof</strong><br />
+      <% if (contract.cemeteryId) { %>
+        <%= contract.cemeteryName %>
+      <% } else { %>
+        (Kein Friedhof)
+      <% } %>
+    </p>
+  </div>
+  <div class="column">
+    <p class="mb-2">
+      <strong>Vertragsdatum</strong><br />
+      <%= cemarisDate(contract.contractStartDateString) %>
+    </p>
+    <p>
+      <strong>Enddatum</strong><br />
+      <%= (contract.contractEndDateString ? cemarisDate(contract.contractEndDateString) : "(Kein Enddatum)") %>
+    </p>
+  </div>
+  <% if (contract.contractFields.length > 0) { %>
+    <div class="column">
+      <% for (const contractField of contract.contractFields) { %>
+        <p class="mb-2">
+          <strong><%= contractField.contractTypeField %></strong><br />
+          <%= (contractField.fieldValue ?? contractField.contractFieldValue) || "(Kein Wert)" %>
+        </p>
+      <% } %>
+    </div>
+  <% } %>
+</div>
+
+<section>
+    <h2 class="title is-4">Beisetzungen</h2>
+
+    <% if (contract.contractInterments.length === 0) { %>
+      <div class="message is-warning">
+        <p class="message-body">
+          Diesem Vertrag sind keine Beisetzungen zugeordnet.
+        </p>
+      </div>
+    <% } else { %>
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>Person</th>
+            <th>Adresse</th>
+            <th>Behälter</th>
+            <th>Beisetzungstiefe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const contractInterment of contract.contractInterments) { %>
+            <tr>
+              <td><%= contractInterment.deceasedName %></td>
+              <td>
+                <%= contractInterment.deceasedAddress1 %><br />
+                <% if (contractInterment.deceasedAddress2 && contractInterment.deceasedAddress2 !== "") { %>
+                    <%= contractInterment.deceasedAddress2 %><br />
+                <% } %>
+                <%= contractInterment.deceasedPostalCode %> <%= contractInterment.deceasedCity %>
+                <% if (contractInterment.deceasedProvince) { %>
+                    <br /><%= contractInterment.deceasedProvince %>
+                <% } %>
+              </td>
+              <td><%= contractInterment.intermentContainerType ?? '' %></td>
+              <td><%= contractInterment.intermentDepth ?? '' %></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    <% } %>
+</section>
+
+<% if (contract.contractComments.length > 0) { %>
+<section class="mt-4">
+  <h2 class="title is-4">Kommentare</h2>
+
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>Verfasser</th>
+        <th>Kommentardatum</th>
+        <th>Kommentar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const contractComment of contract.contractComments) { %>
+        <tr>
+          <td><%= contractComment.recordCreate_username %></td>
+          <td>
+            <%= cemarisDate(contractComment.commentDateString ?? contractComment.contractCommentDateString) %>
+            <%= ((contractComment.commentTime ?? contractComment.contractCommentTime) === 0 ? "" : (contractComment.commentTimeString ?? contractComment.contractCommentTimeString ?? "")) %>
+          </td>
+          <td><%= contractComment.comment ?? contractComment.contractComment %></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</section>
+<% } %>
+
+<section class="mt-4">
+  <h2 class="title is-4">Gebühren</h2>
+
+    <% if (contract.contractFees.length === 0) { %>
+      <div class="message is-info">
+        <p class="message-body">
+          Diesem Vertrag sind keine Gebühren zugeordnet.
+        </p>
+      </div>
+    <% } else { %>
+        <%
+          let feeAmountTotal = 0;
+          let taxAmountTotal = 0;
+        %>
+        <table class="table is-fullwidth">
+            <thead>
+              <tr>
+                <th>Gebühr</th>
+                <th class="has-text-right"><span class="is-sr-only">Einzelbetrag</span></th>
+                <th class="has-width-1"><span class="is-sr-only">&times;</span></th>
+                <th class="has-width-1 has-text-right"><span class="is-sr-only">Menge</span></th>
+                <th class="has-width-1"><span class="is-sr-only">=</span></th>
+                <th class="has-width-1 has-text-right">Betrag</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (const contractFee of contract.contractFees) { %>
+                <%
+                  feeAmountTotal += (contractFee.feeAmount * contractFee.quantity);
+                  taxAmountTotal += (contractFee.taxAmount * contractFee.quantity);
+                %>
+                <tr>
+                  <td colspan="<%= (contractFee.quantity === 1 ? '5' : '1') %>">
+                    <%= contractFee.feeName %>
+                  </td>
+                  <% if (contractFee.quantity !== 1) { %>
+                    <td class="has-text-right"><%= cemarisMoney(contractFee.feeAmount) %></td>
+                    <td>&times;</td>
+                    <td class="has-text-right"><%= contractFee.quantity %></td>
+                    <td>=</td>
+                  <% } %>
+                  <td class="has-text-right"><%= cemarisMoney((contractFee.feeAmount * contractFee.quantity)) %></td>
+                </tr>
+              <% } %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="5">Zwischensumme</th>
+                <td class="has-text-right has-text-weight-bold"><%= cemarisMoney(feeAmountTotal) %></td>
+              </tr>
+              <tr>
+                <th colspan="5">Steuer</th>
+                <td class="has-text-right"><%= cemarisMoney(taxAmountTotal) %></td>
+              </tr>
+              <tr>
+                <th colspan="5">Gesamtbetrag</th>
+                <td class="has-text-right has-text-weight-bold"><%= cemarisMoney((feeAmountTotal + taxAmountTotal)) %></td>
+              </tr>
+            </tfoot>
+        </table>
+    <% } %>
+</section>
+
+<section class="mt-4">
+  <h2 class="title is-4">Zahlungen</h2>
+
+  <% if (contract.contractTransactions.length === 0) { %>
+    <div class="message is-info">
+      <p class="message-body">
+        Diesem Vertrag sind keine Zahlungen zugeordnet.
+      </p>
+    </div>
+  <% } else { %>
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th><%= settingFunctions.getSettingValue("aliases.externalReceiptNumber") %></th>
+          <th class="has-text-right">Betrag</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const contractTransaction of contract.contractTransactions) { %>
+          <tr>
+            <td><%= cemarisDate(contractTransaction.transactionDateString) %></td>
+            <td>
+              <%= contractTransaction.externalReceiptNumber %><br />
+              <small><%= contractTransaction.transactionNote %></small>
+            </td>
+            <td class="has-text-right">
+              <%= cemarisMoney(contractTransaction.transactionAmount) %>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  <% } %>
+</section>
+
+<%- include('_footer-print'); -%>

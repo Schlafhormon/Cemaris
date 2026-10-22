@@ -1,0 +1,223 @@
+{
+  "reference_commit": "451ce034863b16502484367044f3e9b65370111a",
+  "package": {
+    "name": "@cityssm/utils-datetime",
+    "version": "1.4.1",
+    "integrity": "sha512-yTrHQa9iJQw27/rax2M1rYjW4K6K6UDZhM3B4hY8PPDhKfJwK8IYWuT7MPMlnbeBCGxRT2Hw5gZBPY9/FnNyGQ=="
+  },
+  "times": [
+    {
+      "input": 0,
+      "text": "00:00",
+      "period": "12:00 a.m."
+    },
+    {
+      "input": 5,
+      "text": "00:05",
+      "period": "12:05 a.m."
+    },
+    {
+      "input": 30,
+      "text": "00:30",
+      "period": "12:30 a.m."
+    },
+    {
+      "input": 959,
+      "text": "09:59",
+      "period": "9:59 a.m."
+    },
+    {
+      "input": 1234,
+      "text": "12:34",
+      "period": "12:34 p.m."
+    },
+    {
+      "input": 1299,
+      "text": "12:99",
+      "period": "1:39 p.m."
+    },
+    {
+      "input": 2359,
+      "text": "23:59",
+      "period": "11:59 p.m."
+    },
+    {
+      "input": 2360,
+      "text": "23:60",
+      "period": ""
+    },
+    {
+      "input": 2400,
+      "text": "24:00",
+      "period": ""
+    },
+    {
+      "input": 2500,
+      "text": "25:00",
+      "period": ""
+    },
+    {
+      "input": null,
+      "text": "00:00",
+      "period": ""
+    }
+  ],
+  "calendars": [
+    {
+      "input": "2020-02-31",
+      "expectedInteger": 20200302,
+      "expectedString": "2020-03-02"
+    },
+    {
+      "input": "2020-00-00",
+      "expectedInteger": 20191130,
+      "expectedString": "2019-11-30"
+    },
+    {
+      "input": "0000-01-01",
+      "expectedInteger": 19000101,
+      "expectedString": "1900-01-01"
+    },
+    {
+      "input": "2020-19-39",
+      "expectedInteger": 20210808,
+      "expectedString": "2021-08-08"
+    },
+    {
+      "input": "2024-02-29",
+      "expectedInteger": 20240229,
+      "expectedString": "2024-02-29"
+    },
+    {
+      "input": "2023-02-29",
+      "expectedInteger": 20230301,
+      "expectedString": "2023-03-01"
+    }
+  ],
+  "integerDates": [
+    {
+      "input": null,
+      "expected": ""
+    },
+    {
+      "input": 0,
+      "expected": ""
+    },
+    {
+      "input": 100,
+      "expected": ""
+    },
+    {
+      "input": 101,
+      "expected": "1900-01-01"
+    },
+    {
+      "input": 20261020,
+      "expected": "2026-10-20"
+    },
+    {
+      "input": 20200231,
+      "expected": "2020-03-02"
+    },
+    {
+      "input": 20200000,
+      "expected": "2019-11-30"
+    },
+    {
+      "input": 20241939,
+      "expected": "2025-08-08"
+    }
+  ],
+  "localDates": [
+    {
+      "parts": [
+        2026,
+        10,
+        20,
+        0,
+        0
+      ],
+      "expectedDate": 20261020,
+      "expectedTime": 0
+    },
+    {
+      "parts": [
+        2026,
+        10,
+        20,
+        9,
+        5
+      ],
+      "expectedDate": 20261020,
+      "expectedTime": 905
+    },
+    {
+      "parts": [
+        2026,
+        10,
+        20,
+        12,
+        34
+      ],
+      "expectedDate": 20261020,
+      "expectedTime": 1234
+    },
+    {
+      "parts": [
+        2026,
+        10,
+        20,
+        23,
+        59
+      ],
+      "expectedDate": 20261020,
+      "expectedTime": 2359
+    }
+  ],
+  "invalidStrings": {
+    "dates": [
+      {
+        "input": "2020-1-01",
+        "expected": null
+      },
+      {
+        "input": "",
+        "expected": null
+      },
+      {
+        "input": "bad",
+        "expected": null
+      },
+      {
+        "input": "2020-20-01",
+        "expected": null
+      }
+    ],
+    "times": [
+      {
+        "input": "",
+        "expected": null
+      },
+      {
+        "input": "1:00",
+        "expected": null
+      },
+      {
+        "input": "24:00",
+        "expected": null
+      },
+      {
+        "input": "12:60",
+        "expected": null
+      },
+      {
+        "input": "12:34:00",
+        "expected": null
+      },
+      {
+        "input": "bad",
+        "expected": null
+      }
+    ]
+  }
+}

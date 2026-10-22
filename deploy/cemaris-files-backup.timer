@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily Cemaris file snapshot at 03:15 Europe/Berlin
+
+[Timer]
+OnCalendar=*-*-* 03:15:00 Europe/Berlin
+Persistent=true
+Unit=cemaris-files-backup.service
+
+[Install]
+WantedBy=timers.target

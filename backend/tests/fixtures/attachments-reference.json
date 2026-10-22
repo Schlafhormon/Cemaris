@@ -1,0 +1,829 @@
+{
+  "reference_commit": "451ce034863b16502484367044f3e9b65370111a",
+  "source_sha256": {
+    "package-lock.json": "a5871b5d28f0b1ab4e05b34ca27c4293c901d4196c05212dd09bbba7fb1729c2",
+    "database/initializeDatabase.js": "835ca5bc8d85ce5781a3404057590473149023f6a6ac908f688e10bb1b69b4a0",
+    "helpers/attachments.helpers.js": "b249b711a857d5d6c5bb44ba21d98e6f020a6ac3ed408bfc2ccfa295fe1d3542",
+    "database/createAuditLogEntries.js": "a9c8820f2c333c22097decb8856c15d8a2b1d82a2c1d5d890648f32dfd138089",
+    "database/addContractAttachment.js": "cc4c77414106ae943adb8245d7cad4a4dbeb4e370babb50e058b3008cf20356c",
+    "database/updateContractAttachment.js": "6a627227e3f53bb78468daff67e0624e69e9c777d0e808e78be2167b11c45ddf",
+    "database/getContractAttachment.js": "b487f780db7bf26781a7e20f26047253182830ba55656037709bdb5e79bf39c9",
+    "database/getContractAttachments.js": "f58f5862b2f88b7d1360b4fbdc61bd5d573239c03058e7f2cc324bf821e99c7d",
+    "database/deleteRecord.js": "9f60ba501df0534ed5ccb72f46dbc4755e788260ebe21740fba1d3516dff83c4",
+    "handlers/contractsPost/doUploadContractAttachment.js": "2703a7b9cd25611631916f0b55210562409a265676224a9553563bc1152e2d6d",
+    "handlers/contractsPost/doUpdateContractAttachment.js": "7b879151d8c0f6367342cdb371fa7e43bf37f4e98a4f8dc76fb57284b1935b67",
+    "handlers/contractsPost/doDeleteContractAttachment.js": "acbc4227bd181ebd9932b0cce5c59fc178bba12e349b15f6b701aeb8ff9c413e",
+    "handlers/contractsGet/attachment.js": "1205a054e7c01bf8cc1123cfc363d54d8154238d4ba04f20b57219f9f8589d4c",
+    "database/initializeDatabase.ts": "7b0e2561cdd4393a3086fd2c613da4c4ce888629b064e984591121929cab2e6b",
+    "helpers/attachments.helpers.ts": "9b68f4aa6c2b911f0b16ef737235e301fc5cd61ffa146ebdc5c80197c24187da",
+    "database/createAuditLogEntries.ts": "faac8c4876bd364070e8e95ccf81dba38b4a673557172d43e5948433063d1703",
+    "database/addContractAttachment.ts": "1bd058fbcecc7c61c3316b7c15379de7ae880eaa8122b8211e0790079c64f900",
+    "database/updateContractAttachment.ts": "2e0eb57c20c234545c7bec74406e9562153acc552d7c8e5c4d313b980f2c3b63",
+    "database/getContractAttachment.ts": "f1dce31087e617f5779417faaf313571a5d38cdd40934fdf059b0e569070cd59",
+    "database/getContractAttachments.ts": "afb806d70da9ed6d78b1cf2e1a41adaa2dcf34744c7cf863cdc0557dd8d506ec",
+    "database/deleteRecord.ts": "f397a5b06bc89d0c3769f756d1c10a9306793bca0207bf8a2f37904bd4928657",
+    "handlers/contractsPost/doUploadContractAttachment.ts": "7311e10902785347757e7f554ff5f1e73ebbe2caa9a45a5ad238bcfdf9ab116b",
+    "handlers/contractsPost/doUpdateContractAttachment.ts": "d237391a23256ea45df74ba76f346cde2921da1614065ade4441a63e8552f206",
+    "handlers/contractsPost/doDeleteContractAttachment.ts": "293bb7bb42f5c4715dd8ed588621ffa493652bb4b2bf8a83751e53e3ad549479",
+    "handlers/contractsGet/attachment.ts": "06bd0f239a94cf71fb2abd3c4c20e8d9f2001e3822245df2f12e8d3d416bda8d",
+    "routes/contracts.ts": "136d0778e218a8911571221583b3f8e1c06fcfa87221901269cb495b0ba052f2",
+    "public/javascripts/contract.editAttachments.ts": "08be147afe61acd8fb7ee58f602536363bb6e550f4f92b9d8788c4614d457995",
+    "public/html/contract-uploadAttachment.html": "58922921c515be9c5487ba1ff0dad58a3819826e568959e9118e49311b78d1e0",
+    "public/html/contract-editAttachment.html": "a75c49fee1fcc9cf516fe51543e640383fa9cc3de83445dff35c8522d8955893",
+    "views/contracts/edit.ejs": "5b45d33eb653d8bc7380def62b3bf3288183bbf28c8dede48aeaec4662dc55eb",
+    "views/contracts/view.ejs": "c8f953892956575e7fd1e6c00464f9d24fb856f66396379450842b4581d2a647",
+    "helpers/config.defaults.ts": "865a07bc3b1831fb7a4aee17d96bf8e3c374c3e067abd1a7913935c5d6fe18d0"
+  },
+  "packages": [
+    {
+      "name": "@cityssm/utils-datetime",
+      "version": "1.4.1",
+      "integrity": "sha512-yTrHQa9iJQw27/rax2M1rYjW4K6K6UDZhM3B4hY8PPDhKfJwK8IYWuT7MPMlnbeBCGxRT2Hw5gZBPY9/FnNyGQ=="
+    },
+    {
+      "name": "@cityssm/object-difference",
+      "version": "0.1.0",
+      "integrity": "sha512-p4xKG18426FmHw2YAm7DbMezuLFv/u/l7IWkMau83qTSrKfg9DNpR8XfKi+vuQ8jW6uwcm80OJCdF0jW0vy3lw=="
+    },
+    {
+      "name": "sanitize-filename",
+      "version": "1.6.4",
+      "integrity": "sha512-9ZyI08PsvdQl2r/bBIGubpVdR3RR9sY6RDiWFPreA21C/EFlQhmgo20UZlNjZMMZNubusLhAQozkA0Od5J21Eg=="
+    },
+    {
+      "name": "truncate-utf8-bytes",
+      "version": "1.0.2",
+      "integrity": "sha512-95Pu1QXQvruGEhv62XCMO3Mm90GscOCClvrIUwCM0PYOXK3kaF3l3sIHxx71ThJfcbM2O5Au6SO3AWCSEfW4mQ=="
+    },
+    {
+      "name": "utf8-byte-length",
+      "version": "1.0.5",
+      "integrity": "sha512-Xn0w3MtiQ6zoz2vFyUVruaCL53O/DwUvkEeOvj+uulMm0BkUGYWmBYVyElqZaSLhY6ZD0ulfU3aBra2aVT4xfA=="
+    }
+  ],
+  "fixed_local_time": "2026-10-20 09:05:42 Europe/Berlin",
+  "storage_path_model": "POSIX (Ubuntu)",
+  "oracle_boundaries": [
+    "Unchanged original function/handler bodies execute after import/export stripping. Original schema/audit writer/object difference execute.",
+    "Storage naming cases use a byte-preserving virtual fs with POSIX paths; a separate original-helper native-fs write/read verifies physical bytes.",
+    "Only handler getContract is an injected active-parent SQL lookup; the attachment readers and writes execute original SQL.",
+    "Clock and config are fixed; audit snapshots omit record metadata except recordUpdate_username; API lists omit recordCreate_timeMillis from comparison."
+  ],
+  "sanitizer": [
+    {
+      "input": "report.pdf",
+      "expected": "report.pdf"
+    },
+    {
+      "input": "A:/bad\\file?*.txt",
+      "expected": "Abadfile.txt"
+    },
+    {
+      "input": "../escape.txt",
+      "expected": "..escape.txt"
+    },
+    {
+      "input": "CON",
+      "expected": ""
+    },
+    {
+      "input": "nul.txt",
+      "expected": ""
+    },
+    {
+      "input": "com0.csv",
+      "expected": ""
+    },
+    {
+      "input": "LPT9",
+      "expected": ""
+    },
+    {
+      "input": "lpt10",
+      "expected": "lpt10"
+    },
+    {
+      "input": "..",
+      "expected": ""
+    },
+    {
+      "input": "...",
+      "expected": ""
+    },
+    {
+      "input": ".hidden",
+      "expected": ".hidden"
+    },
+    {
+      "input": "with trailing. ",
+      "expected": "with trailing"
+    },
+    {
+      "input": "  beginning",
+      "expected": "  beginning"
+    },
+    {
+      "input": "\u0001control.txt",
+      "expected": "control.txt"
+    },
+    {
+      "input": "Grüße 🪦.pdf",
+      "expected": "Grüße 🪦.pdf"
+    },
+    {
+      "input": "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé",
+      "expected": "ééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé"
+    },
+    {
+      "input": "🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦",
+      "expected": "🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦🪦"
+    },
+    {
+      "input": "CON.txt\n",
+      "expected": ""
+    },
+    {
+      "input": "aux .txt",
+      "expected": "aux .txt"
+    }
+  ],
+  "writes": [
+    {
+      "input": "report.pdf",
+      "result": {
+        "fileName": "report.pdf",
+        "filePath": "data/attachments/2026-10"
+      },
+      "content_sha256": "bd63ef38e75d76387187dbef07cc054e7fc3bec2d437d5286c8f1fbd4decc4b9"
+    },
+    {
+      "input": "report.pdf",
+      "result": {
+        "fileName": "report (1).pdf",
+        "filePath": "data/attachments/2026-10"
+      },
+      "content_sha256": "bd63ef38e75d76387187dbef07cc054e7fc3bec2d437d5286c8f1fbd4decc4b9"
+    },
+    {
+      "input": "report.pdf",
+      "result": {
+        "fileName": "report (2).pdf",
+        "filePath": "data/attachments/2026-10"
+      },
+      "content_sha256": "bd63ef38e75d76387187dbef07cc054e7fc3bec2d437d5286c8f1fbd4decc4b9"
+    },
+    {
+      "input": "../escape.txt",
+      "result": {
+        "fileName": "..escape.txt",
+        "filePath": "data/attachments/2026-10"
+      },
+      "content_sha256": "7ffcb0553216ce4e477de93770f5aefb75f005ce9b34dc7daf538af32aa13a5f"
+    },
+    {
+      "input": "../escape.txt",
+      "result": {
+        "fileName": "escape (1).txt",
+        "filePath": "data/attachments/2026-10"
+      },
+      "content_sha256": "7ffcb0553216ce4e477de93770f5aefb75f005ce9b34dc7daf538af32aa13a5f"
+    },
+    {
+      "input": "a:b.txt",
+      "result": {
+        "fileName": "ab.txt",
+        "filePath": "data/attachments/2026-10"
+      },
+      "content_sha256": "89880319c9c9c0588991038d3d968e4a18e8f3258e8a6f656ec0f2fbe14f8c36"
+    },
+    {
+      "input": "a:b.txt",
+      "result": {
+        "fileName": "a:b (1).txt",
+        "filePath": "data/attachments/2026-10"
+      },
+      "content_sha256": "89880319c9c9c0588991038d3d968e4a18e8f3258e8a6f656ec0f2fbe14f8c36"
+    },
+    {
+      "input": "CON",
+      "result": {
+        "fileName": "attachment-20261020",
+        "filePath": "data/attachments/2026-10"
+      },
+      "content_sha256": "9d242b5cee0a38d5288a07d0d43eb1b65fb6a7bf70ea1a595ef685989a24111a"
+    },
+    {
+      "input": "CON",
+      "result": {
+        "fileName": "CON (1)",
+        "filePath": "data/attachments/2026-10"
+      },
+      "content_sha256": "9d242b5cee0a38d5288a07d0d43eb1b65fb6a7bf70ea1a595ef685989a24111a"
+    },
+    {
+      "input": "Grüße 🪦.pdf",
+      "result": {
+        "fileName": "Grüße 🪦.pdf",
+        "filePath": "data/attachments/2026-10"
+      },
+      "content_sha256": "efd3e669a2d60a7980d38b0dcb13c581e8fc63d8f4a73d0b68ab4c483e6c0ed4"
+    }
+  ],
+  "defaults": [
+    {
+      "form": {
+        "contractId": 1,
+        "fileName": "report.pdf",
+        "filePath": "data/attachments/2026-10"
+      },
+      "identifier": 1,
+      "expected": {
+        "contractAttachmentId": 1,
+        "contractId": 1,
+        "attachmentTitle": "report.pdf",
+        "attachmentDetails": "",
+        "fileName": "report.pdf",
+        "filePath": "data/attachments/2026-10"
+      },
+      "listed": [
+        {
+          "contractAttachmentId": 1,
+          "attachmentTitle": "report.pdf",
+          "attachmentDetails": "",
+          "fileName": "report.pdf"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractAttachments",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-attachments",
+          "fromValue": null,
+          "toValue": {
+            "contractAttachmentId": 1,
+            "contractId": 1,
+            "attachmentTitle": "report.pdf",
+            "attachmentDetails": "",
+            "fileName": "report.pdf",
+            "filePath": "data/attachments/2026-10",
+            "recordUpdate_username": "synthetic-attachments"
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "fileName": "Grüße 🪦.pdf",
+        "filePath": "data/attachments/2026-10",
+        "attachmentTitle": "",
+        "attachmentDetails": ""
+      },
+      "identifier": 1,
+      "expected": {
+        "contractAttachmentId": 1,
+        "contractId": 1,
+        "attachmentTitle": "",
+        "attachmentDetails": "",
+        "fileName": "Grüße 🪦.pdf",
+        "filePath": "data/attachments/2026-10"
+      },
+      "listed": [
+        {
+          "contractAttachmentId": 1,
+          "attachmentTitle": "",
+          "attachmentDetails": "",
+          "fileName": "Grüße 🪦.pdf"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractAttachments",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-attachments",
+          "fromValue": null,
+          "toValue": {
+            "contractAttachmentId": 1,
+            "contractId": 1,
+            "attachmentTitle": "",
+            "attachmentDetails": "",
+            "fileName": "Grüße 🪦.pdf",
+            "filePath": "data/attachments/2026-10",
+            "recordUpdate_username": "synthetic-attachments"
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 2,
+        "fileName": "report.txt",
+        "filePath": "data/attachments/2026-10",
+        "attachmentTitle": "Synthetic title",
+        "attachmentDetails": "<literal>\nSecond line"
+      },
+      "identifier": 1,
+      "expected": {
+        "contractAttachmentId": 1,
+        "contractId": 2,
+        "attachmentTitle": "Synthetic title",
+        "attachmentDetails": "<literal>\nSecond line",
+        "fileName": "report.txt",
+        "filePath": "data/attachments/2026-10"
+      },
+      "listed": [
+        {
+          "contractAttachmentId": 1,
+          "attachmentTitle": "Synthetic title",
+          "attachmentDetails": "<literal>\nSecond line",
+          "fileName": "report.txt"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "2",
+          "updateTable": "ContractAttachments",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-attachments",
+          "fromValue": null,
+          "toValue": {
+            "contractAttachmentId": 1,
+            "contractId": 2,
+            "attachmentTitle": "Synthetic title",
+            "attachmentDetails": "<literal>\nSecond line",
+            "fileName": "report.txt",
+            "filePath": "data/attachments/2026-10",
+            "recordUpdate_username": "synthetic-attachments"
+          }
+        }
+      ]
+    }
+  ],
+  "initial": {
+    "contractId": 1,
+    "fileName": "report.pdf",
+    "filePath": "data/attachments/2026-10",
+    "attachmentTitle": "Initial",
+    "attachmentDetails": "Synthetic initial"
+  },
+  "lifecycle": [
+    {
+      "action": "update",
+      "form": {
+        "attachmentTitle": "Edited <literal>",
+        "attachmentDetails": "Synthetic\nsecond"
+      },
+      "result": true,
+      "retrieved": {
+        "contractAttachmentId": 1,
+        "contractId": 1,
+        "attachmentTitle": "Edited <literal>",
+        "attachmentDetails": "Synthetic\nsecond",
+        "fileName": "report.pdf",
+        "filePath": "data/attachments/2026-10"
+      },
+      "listed": [
+        {
+          "contractAttachmentId": 1,
+          "attachmentTitle": "Edited <literal>",
+          "attachmentDetails": "Synthetic\nsecond",
+          "fileName": "report.pdf"
+        }
+      ],
+      "deleted": false
+    },
+    {
+      "action": "update",
+      "form": {},
+      "result": true,
+      "retrieved": {
+        "contractAttachmentId": 1,
+        "contractId": 1,
+        "attachmentTitle": "",
+        "attachmentDetails": "",
+        "fileName": "report.pdf",
+        "filePath": "data/attachments/2026-10"
+      },
+      "listed": [
+        {
+          "contractAttachmentId": 1,
+          "attachmentTitle": "",
+          "attachmentDetails": "",
+          "fileName": "report.pdf"
+        }
+      ],
+      "deleted": false
+    },
+    {
+      "action": "delete",
+      "form": {},
+      "result": true,
+      "retrieved": null,
+      "listed": [],
+      "deleted": true
+    },
+    {
+      "action": "delete",
+      "form": {},
+      "result": false,
+      "retrieved": null,
+      "listed": [],
+      "deleted": true
+    },
+    {
+      "action": "update",
+      "form": {
+        "attachmentTitle": "Must remain deleted"
+      },
+      "result": false,
+      "retrieved": null,
+      "listed": [],
+      "deleted": true
+    }
+  ],
+  "lifecycleAudit": [
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractAttachments",
+      "recordIndex": "1",
+      "updateField": "*",
+      "updateType": "created",
+      "updateUsername": "synthetic-attachments",
+      "fromValue": null,
+      "toValue": {
+        "contractAttachmentId": 1,
+        "contractId": 1,
+        "attachmentTitle": "Initial",
+        "attachmentDetails": "Synthetic initial",
+        "fileName": "report.pdf",
+        "filePath": "data/attachments/2026-10",
+        "recordUpdate_username": "synthetic-attachments"
+      }
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractAttachments",
+      "recordIndex": "1",
+      "updateField": "attachmentTitle",
+      "updateType": "updated",
+      "updateUsername": "synthetic-editor",
+      "fromValue": "Initial",
+      "toValue": "Edited <literal>"
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractAttachments",
+      "recordIndex": "1",
+      "updateField": "attachmentDetails",
+      "updateType": "updated",
+      "updateUsername": "synthetic-editor",
+      "fromValue": "Synthetic initial",
+      "toValue": "Synthetic\nsecond"
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractAttachments",
+      "recordIndex": "1",
+      "updateField": "recordUpdate_username",
+      "updateType": "updated",
+      "updateUsername": "synthetic-editor",
+      "fromValue": "synthetic-attachments",
+      "toValue": "synthetic-editor"
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractAttachments",
+      "recordIndex": "1",
+      "updateField": "attachmentTitle",
+      "updateType": "deleted",
+      "updateUsername": "synthetic-editor",
+      "fromValue": "Edited <literal>",
+      "toValue": ""
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractAttachments",
+      "recordIndex": "1",
+      "updateField": "attachmentDetails",
+      "updateType": "deleted",
+      "updateUsername": "synthetic-editor",
+      "fromValue": "Synthetic\nsecond",
+      "toValue": ""
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractAttachments",
+      "recordIndex": "1",
+      "updateField": "*",
+      "updateType": "deleted",
+      "updateUsername": "synthetic-editor",
+      "fromValue": {
+        "contractAttachmentId": 1,
+        "contractId": 1,
+        "attachmentTitle": "",
+        "attachmentDetails": "",
+        "fileName": "report.pdf",
+        "filePath": "data/attachments/2026-10",
+        "recordUpdate_username": "synthetic-editor"
+      },
+      "toValue": null
+    }
+  ],
+  "handlers": [
+    {
+      "name": "doUploadContractAttachment",
+      "existing": false,
+      "body": {
+        "contractId": "1"
+      },
+      "file": null,
+      "parentDeleted": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": false,
+          "errorMessage": "No file uploaded."
+        }
+      },
+      "files": []
+    },
+    {
+      "name": "doUploadContractAttachment",
+      "existing": false,
+      "body": {
+        "contractId": "999"
+      },
+      "file": "report.pdf",
+      "parentDeleted": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": false,
+          "errorMessage": "Contract not found."
+        }
+      },
+      "files": []
+    },
+    {
+      "name": "doUploadContractAttachment",
+      "existing": false,
+      "body": {
+        "contractId": "1",
+        "attachmentTitle": "",
+        "attachmentDetails": "Synthetic upload"
+      },
+      "file": "report.pdf",
+      "parentDeleted": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "attachmentId": 1,
+          "contractAttachments": [
+            {
+              "contractAttachmentId": 1,
+              "attachmentTitle": "",
+              "attachmentDetails": "Synthetic upload",
+              "fileName": "report.pdf"
+            }
+          ]
+        }
+      },
+      "files": [
+        "data/attachments/2026-10/report.pdf"
+      ]
+    },
+    {
+      "name": "doUploadContractAttachment",
+      "existing": false,
+      "body": {
+        "contractId": "1"
+      },
+      "file": "report.pdf",
+      "parentDeleted": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "attachmentId": 1,
+          "contractAttachments": [
+            {
+              "contractAttachmentId": 1,
+              "attachmentTitle": "report.pdf",
+              "attachmentDetails": "",
+              "fileName": "report.pdf"
+            }
+          ]
+        }
+      },
+      "files": [
+        "data/attachments/2026-10/report.pdf"
+      ]
+    },
+    {
+      "name": "doUploadContractAttachment",
+      "existing": false,
+      "body": {
+        "contractId": "1"
+      },
+      "file": "report.pdf",
+      "parentDeleted": true,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": false,
+          "errorMessage": "Contract not found."
+        }
+      },
+      "files": []
+    },
+    {
+      "name": "doUpdateContractAttachment",
+      "existing": false,
+      "body": {
+        "contractAttachmentId": "999"
+      },
+      "file": null,
+      "parentDeleted": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": false,
+          "errorMessage": "Attachment not found."
+        }
+      },
+      "files": []
+    },
+    {
+      "name": "doUpdateContractAttachment",
+      "existing": true,
+      "body": {
+        "contractAttachmentId": "1",
+        "attachmentTitle": "Edited",
+        "attachmentDetails": "<literal>"
+      },
+      "file": null,
+      "parentDeleted": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractAttachments": [
+            {
+              "contractAttachmentId": 1,
+              "attachmentTitle": "Edited",
+              "attachmentDetails": "<literal>",
+              "fileName": "report.pdf"
+            }
+          ]
+        }
+      },
+      "files": []
+    },
+    {
+      "name": "doUpdateContractAttachment",
+      "existing": true,
+      "body": {
+        "contractAttachmentId": "1"
+      },
+      "file": null,
+      "parentDeleted": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractAttachments": [
+            {
+              "contractAttachmentId": 1,
+              "attachmentTitle": "",
+              "attachmentDetails": "",
+              "fileName": "report.pdf"
+            }
+          ]
+        }
+      },
+      "files": []
+    },
+    {
+      "name": "doUpdateContractAttachment",
+      "existing": true,
+      "body": {
+        "contractAttachmentId": "1"
+      },
+      "file": null,
+      "parentDeleted": true,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": false,
+          "errorMessage": "Contract not found."
+        }
+      },
+      "files": []
+    },
+    {
+      "name": "doDeleteContractAttachment",
+      "existing": false,
+      "body": {
+        "contractAttachmentId": "999"
+      },
+      "file": null,
+      "parentDeleted": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "errorMessage": "Attachment not found.",
+          "success": false
+        }
+      },
+      "files": []
+    },
+    {
+      "name": "doDeleteContractAttachment",
+      "existing": true,
+      "body": {
+        "contractAttachmentId": "1"
+      },
+      "file": null,
+      "parentDeleted": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractAttachments": []
+        }
+      },
+      "files": []
+    },
+    {
+      "name": "doDeleteContractAttachment",
+      "existing": true,
+      "body": {
+        "contractAttachmentId": "1"
+      },
+      "file": null,
+      "parentDeleted": true,
+      "expected": {
+        "status": 200,
+        "body": {
+          "errorMessage": "Contract not found.",
+          "success": false
+        }
+      },
+      "files": []
+    }
+  ],
+  "downloads": [
+    {
+      "state": "active",
+      "expected": {
+        "status": 200,
+        "file": "data/attachments/2026-10/report.pdf",
+        "headers": {
+          "Content-Disposition": "attachment; filename=\"report.pdf\""
+        }
+      }
+    },
+    {
+      "state": "deleted",
+      "expected": {
+        "status": 404
+      }
+    },
+    {
+      "state": "missing",
+      "expected": {
+        "status": 404
+      }
+    },
+    {
+      "state": "parentDeleted",
+      "expected": {
+        "status": 200,
+        "file": "data/attachments/2026-10/report.pdf",
+        "headers": {
+          "Content-Disposition": "attachment; filename=\"report.pdf\""
+        }
+      }
+    }
+  ],
+  "physical_content_sha256": "c644edb92e9afc92b0d48f7575a9d6e73cfaca8635a2af443afe7122e5a6a3ee"
+}

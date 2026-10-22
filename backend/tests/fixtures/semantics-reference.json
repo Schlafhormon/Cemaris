@@ -1,0 +1,1355 @@
+{
+  "referenceCommit": "451ce034863b16502484367044f3e9b65370111a",
+  "sourceHashes": {
+    "helpers/partialDate.helpers.js": "6ca1b26045bb0e1d60b36c9195957fa19d2bdfdbc9cda252313881f8022d4ea0",
+    "helpers/database.helpers.js": "f4353fbde50536ab99fb82adf43a696253bf8f20980c741c31edc1cc70e7e7f2",
+    "helpers/functions.sqlFilters.js": "7cf9d0901239518d10eb98df037b3326089a8745b0badf959d86cfaa569b70bd"
+  },
+  "today": 20261019,
+  "numeric": [
+    {
+      "input": "",
+      "number": 0,
+      "limit": 0,
+      "offset": 0
+    },
+    {
+      "input": " ",
+      "number": 0,
+      "limit": 0,
+      "offset": 0
+    },
+    {
+      "input": "﻿42 ",
+      "number": 42,
+      "limit": 42,
+      "offset": 42
+    },
+    {
+      "input": "0",
+      "number": 0,
+      "limit": 0,
+      "offset": 0
+    },
+    {
+      "input": "0x10",
+      "number": 16,
+      "limit": 16,
+      "offset": 16
+    },
+    {
+      "input": "0b11",
+      "number": 3,
+      "limit": 3,
+      "offset": 3
+    },
+    {
+      "input": "0o10",
+      "number": 8,
+      "limit": 8,
+      "offset": 8
+    },
+    {
+      "input": "1e2",
+      "number": 100,
+      "limit": 100,
+      "offset": 100
+    },
+    {
+      "input": "1_000",
+      "number": {
+        "$number": "NaN"
+      },
+      "limit": 50,
+      "offset": 0
+    },
+    {
+      "input": "1.9",
+      "number": 1.9,
+      "limit": 1,
+      "offset": 1
+    },
+    {
+      "input": "-1.9",
+      "number": -1.9,
+      "limit": 50,
+      "offset": 0
+    },
+    {
+      "input": "bad",
+      "number": {
+        "$number": "NaN"
+      },
+      "limit": 50,
+      "offset": 0
+    },
+    {
+      "input": "inf",
+      "number": {
+        "$number": "NaN"
+      },
+      "limit": 50,
+      "offset": 0
+    },
+    {
+      "input": "Infinity",
+      "number": {
+        "$number": "Infinity"
+      },
+      "limit": {
+        "$number": "Infinity"
+      },
+      "offset": {
+        "$number": "Infinity"
+      }
+    },
+    {
+      "input": "-Infinity",
+      "number": {
+        "$number": "-Infinity"
+      },
+      "limit": 50,
+      "offset": 0
+    },
+    {
+      "input": "٤",
+      "number": {
+        "$number": "NaN"
+      },
+      "limit": 50,
+      "offset": 0
+    },
+    {
+      "input": null,
+      "number": 0,
+      "limit": 0,
+      "offset": 0
+    },
+    {
+      "input": 0,
+      "number": 0,
+      "limit": 0,
+      "offset": 0
+    },
+    {
+      "input": 1.75,
+      "number": 1.75,
+      "limit": 1,
+      "offset": 1
+    },
+    {
+      "input": 9007199254740992,
+      "number": 9007199254740992,
+      "limit": 9007199254740992,
+      "offset": 9007199254740992
+    }
+  ],
+  "dateParts": [
+    {
+      "parts": [
+        "",
+        "",
+        ""
+      ],
+      "integer": null
+    },
+    {
+      "parts": [
+        "bad",
+        1,
+        1
+      ],
+      "integer": null
+    },
+    {
+      "parts": [
+        -1,
+        1,
+        1
+      ],
+      "integer": null
+    },
+    {
+      "parts": [
+        0,
+        1,
+        1
+      ],
+      "integer": null
+    },
+    {
+      "parts": [
+        1901,
+        "",
+        ""
+      ],
+      "integer": 19010000
+    },
+    {
+      "parts": [
+        1901,
+        3,
+        ""
+      ],
+      "integer": 19010300
+    },
+    {
+      "parts": [
+        1901,
+        3,
+        15
+      ],
+      "integer": 19010315
+    },
+    {
+      "parts": [
+        1901,
+        0,
+        15
+      ],
+      "integer": 19010015
+    },
+    {
+      "parts": [
+        2024,
+        2,
+        31
+      ],
+      "integer": 20240231
+    },
+    {
+      "parts": [
+        "2024",
+        -1,
+        -2
+      ],
+      "integer": 20240000
+    },
+    {
+      "parts": [
+        2024,
+        99,
+        99
+      ],
+      "integer": 20241231
+    },
+    {
+      "parts": [
+        2024,
+        "bad",
+        "bad"
+      ],
+      "integer": 20240000
+    },
+    {
+      "parts": [
+        "0x7e8",
+        "0x2",
+        "0x1d"
+      ],
+      "integer": 20240229
+    },
+    {
+      "parts": [
+        2000.5,
+        1,
+        2
+      ],
+      "integer": 20005102
+    },
+    {
+      "parts": [
+        2000,
+        1.5,
+        2.5
+      ],
+      "integer": 20000152.5
+    },
+    {
+      "parts": [
+        2024,
+        "Infinity",
+        "-Infinity"
+      ],
+      "integer": 20241200
+    },
+    {
+      "parts": [
+        "Infinity",
+        1,
+        1
+      ],
+      "integer": {
+        "$number": "Infinity"
+      }
+    },
+    {
+      "parts": [
+        null,
+        null,
+        null
+      ],
+      "integer": null
+    }
+  ],
+  "partialDates": [
+    {
+      "input": null,
+      "string": "",
+      "year": null,
+      "month": 0,
+      "day": 0
+    },
+    {
+      "input": 0,
+      "string": "",
+      "year": null,
+      "month": 0,
+      "day": 0
+    },
+    {
+      "input": -1,
+      "string": "",
+      "year": null,
+      "month": 0,
+      "day": 0
+    },
+    {
+      "input": 19010000,
+      "string": "1901",
+      "year": 1901,
+      "month": 0,
+      "day": 0
+    },
+    {
+      "input": 19010300,
+      "string": "1901-03",
+      "year": 1901,
+      "month": 3,
+      "day": 0
+    },
+    {
+      "input": 19010315,
+      "string": "1901-03-15",
+      "year": 1901,
+      "month": 3,
+      "day": 15
+    },
+    {
+      "input": 19010015,
+      "string": "1901",
+      "year": 1901,
+      "month": 0,
+      "day": 15
+    },
+    {
+      "input": 20240231,
+      "string": "2024-02-31",
+      "year": 2024,
+      "month": 2,
+      "day": 31
+    },
+    {
+      "input": 10101,
+      "string": "0001-01-01",
+      "year": 1,
+      "month": 1,
+      "day": 1
+    },
+    {
+      "input": 20000102.5,
+      "string": "0001-02-.5",
+      "year": 2000,
+      "month": 1,
+      "day": 2.5
+    },
+    {
+      "input": 123456789,
+      "string": "2345-67-89",
+      "year": 12345,
+      "month": 67,
+      "day": 89
+    },
+    {
+      "input": 1e+21,
+      "string": "0001-e+-21",
+      "year": 100000000000000000,
+      "month": 0,
+      "day": 0
+    },
+    {
+      "input": 1e-7,
+      "string": "0000-1e--7",
+      "year": 0,
+      "month": 0,
+      "day": 1e-7
+    },
+    {
+      "input": 0.000001,
+      "string": "0.00",
+      "year": 0,
+      "month": 0,
+      "day": 0.000001
+    },
+    {
+      "input": {
+        "$number": "NaN"
+      },
+      "string": "",
+      "year": null,
+      "month": 0,
+      "day": 0
+    },
+    {
+      "input": {
+        "$number": "Infinity"
+      },
+      "string": "Infi-ni-ty",
+      "year": {
+        "$number": "Infinity"
+      },
+      "month": {
+        "$number": "NaN"
+      },
+      "day": {
+        "$number": "NaN"
+      }
+    }
+  ],
+  "names": [
+    "AbC Jones",
+    "ABC",
+    "Änne Müller",
+    "änne müller",
+    "Élodie",
+    "élodie",
+    "Plot %_[]! End",
+    "Plot 12 End",
+    "ABC ",
+    "ABC\n",
+    "",
+    null,
+    "A\tB",
+    "A  B",
+    "Straße",
+    "STRASSE",
+    "🪦 ABC",
+    "ABC 🪦",
+    "İ",
+    "i̇",
+    "ABC\u0001",
+    "ABC\u0001 ",
+    "ABC\u0001X",
+    "é",
+    "é",
+    "A­BC",
+    "AＢC"
+  ],
+  "searches": [
+    {
+      "query": "",
+      "searchType": "",
+      "parameters": [],
+      "site": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "purchaser": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "deceased": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ]
+    },
+    {
+      "query": "ABC",
+      "searchType": "",
+      "parameters": [
+        "abc"
+      ],
+      "site": [
+        1,
+        2,
+        9,
+        10,
+        17,
+        18,
+        21,
+        22,
+        23
+      ],
+      "purchaser": [
+        1,
+        2,
+        9,
+        10,
+        17,
+        18,
+        21,
+        22,
+        23
+      ],
+      "deceased": [
+        1,
+        2,
+        9,
+        10,
+        17,
+        18,
+        21,
+        22,
+        23
+      ]
+    },
+    {
+      "query": "  ABC abc   JONES ",
+      "searchType": "",
+      "parameters": [
+        "abc",
+        "jones"
+      ],
+      "site": [
+        1
+      ],
+      "purchaser": [
+        1
+      ],
+      "deceased": [
+        1
+      ]
+    },
+    {
+      "query": "Änne",
+      "searchType": "",
+      "parameters": [
+        "änne"
+      ],
+      "site": [
+        4
+      ],
+      "purchaser": [
+        4
+      ],
+      "deceased": [
+        4
+      ]
+    },
+    {
+      "query": "änne",
+      "searchType": "",
+      "parameters": [
+        "änne"
+      ],
+      "site": [
+        4
+      ],
+      "purchaser": [
+        4
+      ],
+      "deceased": [
+        4
+      ]
+    },
+    {
+      "query": "É",
+      "searchType": "",
+      "parameters": [
+        "é"
+      ],
+      "site": [
+        6,
+        24
+      ],
+      "purchaser": [
+        6,
+        24
+      ],
+      "deceased": [
+        6,
+        24
+      ]
+    },
+    {
+      "query": "STRASSE",
+      "searchType": "",
+      "parameters": [
+        "strasse"
+      ],
+      "site": [
+        16
+      ],
+      "purchaser": [
+        16
+      ],
+      "deceased": [
+        16
+      ]
+    },
+    {
+      "query": "Straße",
+      "searchType": "",
+      "parameters": [
+        "straße"
+      ],
+      "site": [
+        15
+      ],
+      "purchaser": [
+        15
+      ],
+      "deceased": [
+        15
+      ]
+    },
+    {
+      "query": "%_[]!",
+      "searchType": "",
+      "parameters": [
+        "%_[]!"
+      ],
+      "site": [
+        7
+      ],
+      "purchaser": [
+        7
+      ],
+      "deceased": [
+        7
+      ]
+    },
+    {
+      "query": "A\tB",
+      "searchType": "",
+      "parameters": [
+        "a\tb"
+      ],
+      "site": [
+        13
+      ],
+      "purchaser": [
+        13
+      ],
+      "deceased": [
+        13
+      ]
+    },
+    {
+      "query": "A B",
+      "searchType": "",
+      "parameters": [
+        "a",
+        "b"
+      ],
+      "site": [
+        1,
+        2,
+        9,
+        10,
+        13,
+        14,
+        17,
+        18,
+        21,
+        22,
+        23,
+        26
+      ],
+      "purchaser": [
+        1,
+        2,
+        9,
+        10,
+        13,
+        14,
+        17,
+        18,
+        21,
+        22,
+        23,
+        26
+      ],
+      "deceased": [
+        1,
+        2,
+        9,
+        10,
+        13,
+        14,
+        17,
+        18,
+        21,
+        22,
+        23,
+        26
+      ]
+    },
+    {
+      "query": "ABC",
+      "searchType": "startsWith",
+      "parameters": [
+        "ABC"
+      ],
+      "site": [
+        1,
+        2,
+        9,
+        10,
+        18,
+        21,
+        22,
+        23
+      ],
+      "purchaser": [
+        1,
+        2,
+        9,
+        10,
+        17,
+        18,
+        21,
+        22,
+        23
+      ],
+      "deceased": [
+        1,
+        2,
+        9,
+        10,
+        17,
+        18,
+        21,
+        22,
+        23
+      ]
+    },
+    {
+      "query": "ABC",
+      "searchType": "endsWith",
+      "parameters": [
+        "ABC"
+      ],
+      "site": [
+        2,
+        17
+      ],
+      "purchaser": [
+        1,
+        2,
+        9,
+        10,
+        17,
+        18,
+        21,
+        22,
+        23
+      ],
+      "deceased": [
+        1,
+        2,
+        9,
+        10,
+        17,
+        18,
+        21,
+        22,
+        23
+      ]
+    },
+    {
+      "query": "ABC ",
+      "searchType": "endsWith",
+      "parameters": [
+        "ABC "
+      ],
+      "site": [
+        9
+      ],
+      "purchaser": [
+        1,
+        2,
+        9,
+        10,
+        17,
+        18,
+        21,
+        22,
+        23
+      ],
+      "deceased": [
+        1,
+        2,
+        9,
+        10,
+        17,
+        18,
+        21,
+        22,
+        23
+      ]
+    },
+    {
+      "query": "ABC\n",
+      "searchType": "endsWith",
+      "parameters": [
+        "ABC\n"
+      ],
+      "site": [
+        10
+      ],
+      "purchaser": [
+        10
+      ],
+      "deceased": [
+        10
+      ]
+    },
+    {
+      "query": "Plot %",
+      "searchType": "startsWith",
+      "parameters": [
+        "Plot %"
+      ],
+      "site": [
+        7,
+        8
+      ],
+      "purchaser": [
+        7
+      ],
+      "deceased": [
+        7
+      ]
+    },
+    {
+      "query": "Plot _",
+      "searchType": "startsWith",
+      "parameters": [
+        "Plot _"
+      ],
+      "site": [
+        7,
+        8
+      ],
+      "purchaser": [
+        7
+      ],
+      "deceased": [
+        7
+      ]
+    },
+    {
+      "query": "Plot [",
+      "searchType": "startsWith",
+      "parameters": [
+        "Plot ["
+      ],
+      "site": [],
+      "purchaser": [
+        7
+      ],
+      "deceased": [
+        7
+      ]
+    },
+    {
+      "query": "%_[]!",
+      "searchType": "endsWith",
+      "parameters": [
+        "%_[]!"
+      ],
+      "site": [],
+      "purchaser": [
+        7
+      ],
+      "deceased": [
+        7
+      ]
+    },
+    {
+      "query": "🪦",
+      "searchType": "startsWith",
+      "parameters": [
+        "🪦"
+      ],
+      "site": [
+        17
+      ],
+      "purchaser": [
+        17,
+        18
+      ],
+      "deceased": [
+        17,
+        18
+      ]
+    },
+    {
+      "query": "_ ABC",
+      "searchType": "startsWith",
+      "parameters": [
+        "_ ABC"
+      ],
+      "site": [
+        17
+      ],
+      "purchaser": [],
+      "deceased": []
+    },
+    {
+      "query": "ABC _",
+      "searchType": "endsWith",
+      "parameters": [
+        "ABC _"
+      ],
+      "site": [
+        18
+      ],
+      "purchaser": [],
+      "deceased": []
+    },
+    {
+      "query": "İ",
+      "searchType": "",
+      "parameters": [
+        "i̇"
+      ],
+      "site": [
+        20
+      ],
+      "purchaser": [
+        20
+      ],
+      "deceased": [
+        20
+      ]
+    },
+    {
+      "query": "İ",
+      "searchType": "startsWith",
+      "parameters": [
+        "İ"
+      ],
+      "site": [
+        19
+      ],
+      "purchaser": [
+        20
+      ],
+      "deceased": [
+        20
+      ]
+    },
+    {
+      "query": "i̇",
+      "searchType": "",
+      "parameters": [
+        "i̇"
+      ],
+      "site": [
+        20
+      ],
+      "purchaser": [
+        20
+      ],
+      "deceased": [
+        20
+      ]
+    },
+    {
+      "query": "ABC\u0001",
+      "searchType": "endsWith",
+      "parameters": [
+        "ABC\u0001"
+      ],
+      "site": [
+        21
+      ],
+      "purchaser": [
+        21,
+        22,
+        23
+      ],
+      "deceased": [
+        21,
+        22,
+        23
+      ]
+    },
+    {
+      "query": "\u0001",
+      "searchType": "endsWith",
+      "parameters": [
+        "\u0001"
+      ],
+      "site": [
+        21
+      ],
+      "purchaser": [
+        21,
+        22,
+        23
+      ],
+      "deceased": [
+        21,
+        22,
+        23
+      ]
+    },
+    {
+      "query": "ABC\u0001 ",
+      "searchType": "endsWith",
+      "parameters": [
+        "ABC\u0001 "
+      ],
+      "site": [
+        22
+      ],
+      "purchaser": [
+        21,
+        22,
+        23
+      ],
+      "deceased": [
+        21,
+        22,
+        23
+      ]
+    },
+    {
+      "query": "A_",
+      "searchType": "startsWith",
+      "parameters": [
+        "A_"
+      ],
+      "site": [
+        1,
+        2,
+        9,
+        10,
+        13,
+        14,
+        18,
+        21,
+        22,
+        23,
+        26,
+        27
+      ],
+      "purchaser": [],
+      "deceased": []
+    },
+    {
+      "query": "é",
+      "searchType": "startsWith",
+      "parameters": [
+        "é"
+      ],
+      "site": [
+        6,
+        24
+      ],
+      "purchaser": [
+        6,
+        24
+      ],
+      "deceased": [
+        6,
+        24
+      ]
+    },
+    {
+      "query": "é",
+      "searchType": "startsWith",
+      "parameters": [
+        "é"
+      ],
+      "site": [
+        25
+      ],
+      "purchaser": [
+        25
+      ],
+      "deceased": [
+        25
+      ]
+    },
+    {
+      "query": "A­BC",
+      "searchType": "startsWith",
+      "parameters": [
+        "A­BC"
+      ],
+      "site": [
+        26
+      ],
+      "purchaser": [
+        26
+      ],
+      "deceased": [
+        26
+      ]
+    }
+  ],
+  "contracts": [
+    [
+      1,
+      20261019,
+      null
+    ],
+    [
+      2,
+      20261019,
+      20261019
+    ],
+    [
+      3,
+      20261018,
+      20261018
+    ],
+    [
+      4,
+      20261020,
+      null
+    ],
+    [
+      5,
+      20261018,
+      20261020
+    ],
+    [
+      6,
+      null,
+      null
+    ],
+    [
+      7,
+      20261020,
+      20261018
+    ],
+    [
+      8,
+      20261018,
+      null
+    ]
+  ],
+  "contractResults": [
+    {
+      "contractTime": "",
+      "ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "contractTime": "current",
+      "ids": [
+        1,
+        2,
+        5,
+        8
+      ]
+    },
+    {
+      "contractTime": "future",
+      "ids": [
+        4,
+        7
+      ]
+    },
+    {
+      "contractTime": "past",
+      "ids": [
+        3,
+        7
+      ]
+    },
+    {
+      "contractTime": "unknown",
+      "ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "contractTime": null,
+      "ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    }
+  ],
+  "numericRows": [
+    [
+      1.25,
+      12.345,
+      null,
+      ""
+    ],
+    [
+      0,
+      0.30000000000000004,
+      0,
+      null
+    ],
+    [
+      -0.125,
+      -12.345,
+      "",
+      "zero"
+    ],
+    [
+      "1.5",
+      "42.125",
+      "20",
+      "Änne 🪦"
+    ],
+    [
+      12345.625,
+      1234567890.125,
+      20.5,
+      "beyond declared precision"
+    ]
+  ],
+  "numericStorage": [
+    {
+      "quantity": 1.25,
+      "feeAmount": 12.345,
+      "deathAge": null,
+      "fieldValue": "",
+      "quantityType": "real",
+      "feeAmountType": "real",
+      "deathAgeType": "null"
+    },
+    {
+      "quantity": 0,
+      "feeAmount": 0.30000000000000004,
+      "deathAge": 0,
+      "fieldValue": null,
+      "quantityType": "integer",
+      "feeAmountType": "real",
+      "deathAgeType": "integer"
+    },
+    {
+      "quantity": -0.125,
+      "feeAmount": -12.345,
+      "deathAge": "",
+      "fieldValue": "zero",
+      "quantityType": "real",
+      "feeAmountType": "real",
+      "deathAgeType": "text"
+    },
+    {
+      "quantity": 1.5,
+      "feeAmount": 42.125,
+      "deathAge": 20,
+      "fieldValue": "Änne 🪦",
+      "quantityType": "real",
+      "feeAmountType": "real",
+      "deathAgeType": "integer"
+    },
+    {
+      "quantity": 12345.625,
+      "feeAmount": 1234567890.125,
+      "deathAge": 20.5,
+      "fieldValue": "beyond declared precision",
+      "quantityType": "real",
+      "feeAmountType": "real",
+      "deathAgeType": "real"
+    }
+  ]
+}

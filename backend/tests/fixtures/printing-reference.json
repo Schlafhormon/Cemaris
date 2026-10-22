@@ -1,0 +1,2507 @@
+{
+  "commit": "451ce034863b16502484367044f3e9b65370111a",
+  "hashes": {
+    "package-lock.json": "a5871b5d28f0b1ab4e05b34ca27c4293c901d4196c05212dd09bbba7fb1729c2",
+    "sunrise-cms-customizations/types.d.ts": "b8f23acebb9a85f46646f610e8109810aa16371dc83a1035413fe7350125ab45",
+    "@cityssm/pdf-puppeteer/index.js": "cb52eb212783dc3c612acb456dabd505826ecceb8cfb9d8ef2bc4c85d7864b40",
+    "@cityssm/pdf-puppeteer/pageToPdf.js": "71afe633dfb0f64eddfeac10398f37d7dcb083c368d7fc701d02d66e71683bb9",
+    "@cityssm/pdf-puppeteer/defaultOptions.js": "e732d037122641016755315d07a4214b51b127392eefbe1db365458efc274d33",
+    "helpers/pdf.helpers.ts": "a9098705a20761b645a0541aba4eb735f68536e2049071a84f2102eef63a64ad",
+    "helpers/pdf.helpers.js": "3de755d69ecd2131a2ee810da68b57b9caee4fa3f5bcf2e4fb5c637b9342e6b1",
+    "helpers/print.helpers.ts": "c06fc6c0d6eba9a658b50b889aca656f10284e6bfeaef03cbe0d14e4ac9eaffc",
+    "helpers/print.helpers.js": "9f210a4eb306101537a6fc25420a5bc266547a693d6602e6bdc1a73332066e05",
+    "helpers/customizations.helpers.ts": "6e789f0ca4ced945fea8732998037f9598e54b1de2bba6c8a852530aceb3a9fa",
+    "helpers/customizations.helpers.js": "9f59dec316d954803bba5046d053ca68f14d15048b3c13c0b57f40b5edb9421d",
+    "helpers/contracts.helpers.ts": "7481b7181d153482323ec607828edf5d469bc6527afde43b117286a09b15210a",
+    "helpers/contracts.helpers.js": "2a823c7b1daea604007701cd2ea11b02747fb6fdf8b403667713501bd86456fc",
+    "helpers/config.helpers.ts": "43b73a75b9e9342cd88b43914435a03212d4b6009ef7a2265c31b9be55893ca8",
+    "helpers/config.helpers.js": "4e4943db6020dbfb7a65dcea76032a741aa1972989493f2a81cf040579ce857c",
+    "helpers/config.defaults.ts": "865a07bc3b1831fb7a4aee17d96bf8e3c374c3e067abd1a7913935c5d6fe18d0",
+    "helpers/config.defaults.js": "97cdc58dceced998de53b2445a950bb11c47279880d97f7d58f818d19c1217f0",
+    "handlers/printGet/screen.ts": "2c8def94003016e66d865e0a338686e16ecabe3b8826001420032f9790e39c04",
+    "handlers/printGet/screen.js": "e533fa18d35c5473ed40af6b9c032adb36890540beb001dda9901ae1e92fec84",
+    "handlers/printGet/pdf.ts": "5bf9778dfaa8a9e4f72304e60495499e5ad44977ae4ebf90b320db06f66af08a",
+    "handlers/printGet/pdf.js": "fa14b898a319677175713b6485f9e1282b06ff8391b4955b570c0a6a22afb8ed",
+    "routes/print.ts": "efe82c6e130297663ad2f107439a95ea12e1ec699e1e1b59495f1a71e15ef63c",
+    "routes/print.js": "37c3d71a76e77bd75b0195ec8129a9f4fc4eb95e4f6f6072ff53e4124da9df9a",
+    "views/print/screen/contract.ejs": "77a9f41ba100c4f61426257a18d730d5493289f5cf37b4c30994c4007d538b23",
+    "views/print/screen/_header-print.ejs": "10bd5da235e4b6499e9399688a4dd3882ec111c4f410ddce9cf39cc2c97c5896",
+    "views/print/screen/_footer-print.ejs": "f059cc3b4a97beda8c6be71152d8c51259fc548470bbfb573de5fb19b72bcd64",
+    "views/print/pdf/workOrder.ejs": "6f4324c525ceb815ff290cb4e32d9e15d9ace45b6c265e4af694566ac80f449e",
+    "views/print/pdf/workOrder-commentLog.ejs": "b942fd3d9877c4f21918ecb98298e939ed5b30a8ff1f92a46ff7c31452fc1c8c",
+    "views/print/pdf/_workOrder-header.ejs": "c7f5d0cc17009d8c3dab1d2902739d9c2e73c7ea428a5f1dec8ebcb424f5563c",
+    "views/print/pdf/style.css": "dde9e58a7f44a4e0b36da578b05b6166fe1958b0f393a01e34bb6c08650292d6",
+    "public/stylesheets/sunrise.css": "12e20769a606287c3448c9c537f647f795d1584e214b94f90f5ddcbd7d909aff"
+  },
+  "packages": [
+    {
+      "name": "@cityssm/bulma-sticky-table",
+      "version": "3.0.2",
+      "integrity": "sha512-H5qg4D/2PQLqdGvnyqF9GbVQxs/y/EEeEczlEi0zD2ZFnYFUHV3L3akm3OSxgjAURbZwU7xIjXO1n1SVElhJLA=="
+    },
+    {
+      "name": "@cityssm/configurator",
+      "version": "0.2.0",
+      "integrity": "sha512-T2R/O59XjYZNaR3bUbGLwc9wVoNdMOX7eVEAJrMeruSIDyVtdNh2g1Y8BeHESok2q/qjtEPsiCfijyv0dEIkhA=="
+    },
+    {
+      "name": "@cityssm/jsbarcode-svg",
+      "version": "0.2.0",
+      "integrity": "sha512-2v+UXw2KjPh9KFB37TZ82vwL9ki/BtlgrSVrx12Qivf3okWAca3U2aWHAX/O2wQarPn50M8qREPF86IGLeSLEg=="
+    },
+    {
+      "name": "@cityssm/to-millis",
+      "version": "1.0.1",
+      "integrity": "sha512-MNgD1hfJzsmNn8c4UMDVv/nHYgwpkbrW1fqopBzXUQywiel1KEJlMUDyx+p0tq0Q5XG5CJb/ZFeptuFWxvSTZg=="
+    },
+    {
+      "name": "@cityssm/utils-datetime",
+      "version": "1.4.1",
+      "integrity": "sha512-yTrHQa9iJQw27/rax2M1rYjW4K6K6UDZhM3B4hY8PPDhKfJwK8IYWuT7MPMlnbeBCGxRT2Hw5gZBPY9/FnNyGQ=="
+    },
+    {
+      "name": "@puppeteer/browsers",
+      "version": "3.2.2",
+      "integrity": "sha512-q2BU4YfO9h/Wt7IcWPcggpOOqLk2Tbs1hDwolvKZrweRjy751OJBKMN9zO5bfD0pzU7X/tvKw/exQds4pM/LOg=="
+    },
+    {
+      "name": "get-east-asian-width",
+      "version": "1.5.0",
+      "integrity": "sha512-CQ+bEO+Tva/qlmw24dCejulK5pMzVnUOFOijVogd3KQs07HnRIgp8TGipvCCRT06xeYEbpbgwaCxglFyiuIcmA=="
+    },
+    {
+      "name": "modern-tar",
+      "version": "0.8.5",
+      "integrity": "sha512-snEhs+6G5Tjd4I7tLCDOaoln2RgE0bD19RzEKgvgK2hZ5VKy3MpLhLTZ2fWpXSTg4K2cyPwp+VHATFJhxfnOeA=="
+    },
+    {
+      "name": "string-width",
+      "version": "8.2.2",
+      "integrity": "sha512-GaPUh5gfdrYzqeVNZvUfT23vYYxXzKYidUcnMtJg/3rxRV63EFZy3k6xfKlmfeJD0176lnUV/Usr3XcwSvFzpg=="
+    },
+    {
+      "name": "yargs",
+      "version": "18.1.0",
+      "integrity": "sha512-2rAgRKu54VsHkqI0/tYkmluGXHD4KW7yZoycuqDQ15QOTnc2VVfy0nN/1eMhnQLO00A+dwtK20xuCnc1YGeUyg=="
+    },
+    {
+      "name": "@xmldom/xmldom",
+      "version": "0.9.12",
+      "integrity": "sha512-5AXjrcMClTryPe9LgZrygpB1lj7s0S9E0+W+AHaVKAVyHanafK86iPSvG5xHVSp/jC+VH1UXu0TAEmY279xH7A=="
+    },
+    {
+      "name": "ansi-regex",
+      "version": "6.4.0",
+      "integrity": "sha512-KzTVk2tCWAHtYrvvvaP8bJKJq2pVinhLcGEQdtLIYPbmNGNyYe8QwNaTUYQp2J7/vIsUKt5QCqAfUkYyG9DkOw=="
+    },
+    {
+      "name": "ansi-styles",
+      "version": "6.2.3",
+      "integrity": "sha512-4Dj6M28JB+oAH8kFkTLUo+a2jwOFkuqb3yucU0CANcRRUbxS0cP0nZYCGjcc3BNXwRIsUVmDGgzawme7zvJHvg=="
+    },
+    {
+      "name": "camelcase",
+      "version": "10.0.0",
+      "integrity": "sha512-p1wew5BGDCONz/5R+xHF6ByqXQM2V+5r4e+FdlFUeROawuMPimdDOFLw5k2QSqp1rm5h2QAglToqJyvnsl3ArQ=="
+    },
+    {
+      "name": "chromium-bidi",
+      "version": "17.0.2",
+      "integrity": "sha512-5v9GQFhTktFvotn/OFNJBmKLKRAb6n9r0bVCwf7sHgWc3/JryK0bj1nn93L3pHFrfgcsu6Be6EWsDi+1XHTGDg=="
+    },
+    {
+      "name": "cliui",
+      "version": "9.0.1",
+      "integrity": "sha512-k7ndgKhwoQveBL+/1tqGJYNz097I7WOvwbmmU2AR5+magtbjPWQTS1C5vzGkBC8Ym8UWRzfKUzUUqFLypY4Q+w=="
+    },
+    {
+      "name": "get-east-asian-width",
+      "version": "1.5.0",
+      "integrity": "sha512-CQ+bEO+Tva/qlmw24dCejulK5pMzVnUOFOijVogd3KQs07HnRIgp8TGipvCCRT06xeYEbpbgwaCxglFyiuIcmA=="
+    },
+    {
+      "name": "string-width",
+      "version": "7.2.0",
+      "integrity": "sha512-tsaTIkKW9b4N+AEj+SVA+WhJzV7/zMhcSu78mLKWSk7cXMOSHsBKFWUs0fWwq8QyK3MgJBQRX6Gbi4kYbdvGkQ=="
+    },
+    {
+      "name": "devtools-protocol",
+      "version": "0.0.1666840",
+      "integrity": "sha512-gCcO42XCHKEs7Ag0S7aGYsnJ7hlgrO3qderYqeiY0Eqk+0GFfuvT13IA0hHreJTa2KCdDVyGMeOhdMNmrrTjVg=="
+    },
+    {
+      "name": "ejs",
+      "version": "7.0.1",
+      "integrity": "sha512-TrAb1fY4jNY6aQrNjMJsoWQxGUK47A38JxuUvnt75vDcAA9Ln7ur6FHo+irVa5Bwd3w9rdUT3xLSl5MRgHIugg=="
+    },
+    {
+      "name": "emoji-regex",
+      "version": "10.6.0",
+      "integrity": "sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A=="
+    },
+    {
+      "name": "escalade",
+      "version": "3.2.0",
+      "integrity": "sha512-WUj2qlxaQtO4g6Pq5c29GTcWGDyd8itL8zTlipgECz3JesAiiOKotd8JU6otB3PACgG6xkJUyVhboMS+bje/jA=="
+    },
+    {
+      "name": "get-caller-file",
+      "version": "2.0.5",
+      "integrity": "sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg=="
+    },
+    {
+      "name": "jsbarcode",
+      "version": "3.12.3",
+      "integrity": "sha512-CuHU9hC6dPsHF5oVFMo8NW76uQVjH4L22CsP4hW+dNnGywJHC/B0ThA1CTDVLnxKLrrpYdicBLnd2xsgTfRnvg=="
+    },
+    {
+      "name": "mitt",
+      "version": "3.0.1",
+      "integrity": "sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw=="
+    },
+    {
+      "name": "puppeteer-core",
+      "version": "25.10.0",
+      "integrity": "sha512-Hy5eMQshOEMil4JUUx03h5pw1HYkYCso1RG/gcpPlFSd4cYPOcopxcXEAxpLPOkOPJb9LIJtwxuj66bSdvknFg=="
+    },
+    {
+      "name": "typed-query-selector",
+      "version": "2.12.2",
+      "integrity": "sha512-EOPFbyIub4ngnEdqi2yOcNeDLaX/0jcE1JoAXQDDMIthap7FoN795lc/SHfIq2d416VufXpM8z/lD+WRm2gfOQ=="
+    },
+    {
+      "name": "ws",
+      "version": "8.21.3",
+      "integrity": "sha512-201TZ/kPWxoPr/OKWjquZR1SWKXcvxdH+e1xrx89b3YbmzLMFCLfnaG1HFIgWzJOEWZ7MvpK++odZufgYR50Rw=="
+    },
+    {
+      "name": "strip-ansi",
+      "version": "7.2.0",
+      "integrity": "sha512-yDPMNjp4WyfYBkHnjIRLfca1i6KMyGCtsVgoKe/z1+6vukgaENdgGBZt+ZmKPc4gavvEZ5OgHfHdrazhgNyG7w=="
+    },
+    {
+      "name": "webdriver-bidi-protocol",
+      "version": "0.4.3",
+      "integrity": "sha512-uuN0goWfxP22B7J/uAgBpOYNPttC+XVseYE+rSY5+rQ+YBeVz/VORw8WbmLVcqW78zNg5A4qnjNXYUWR3il2ig=="
+    },
+    {
+      "name": "wrap-ansi",
+      "version": "9.0.2",
+      "integrity": "sha512-42AtmgqjV+X1VpdOfyTGOYRi0/zsoLqtXQckTmqTeybT+BDIbM/Guxo7x3pE2vtpr1ok6xRqM9OpBe+Jyoqyww=="
+    },
+    {
+      "name": "get-east-asian-width",
+      "version": "1.5.0",
+      "integrity": "sha512-CQ+bEO+Tva/qlmw24dCejulK5pMzVnUOFOijVogd3KQs07HnRIgp8TGipvCCRT06xeYEbpbgwaCxglFyiuIcmA=="
+    },
+    {
+      "name": "string-width",
+      "version": "7.2.0",
+      "integrity": "sha512-tsaTIkKW9b4N+AEj+SVA+WhJzV7/zMhcSu78mLKWSk7cXMOSHsBKFWUs0fWwq8QyK3MgJBQRX6Gbi4kYbdvGkQ=="
+    },
+    {
+      "name": "y18n",
+      "version": "5.0.8",
+      "integrity": "sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA=="
+    },
+    {
+      "name": "yargs-parser",
+      "version": "22.0.0",
+      "integrity": "sha512-rwu/ClNdSMpkSrUb+d6BRsSkLUq1fmfsY6TOpYzTwvwkg1/NRG85KBy3kq++A8LKQwX6lsu+aWad+2khvuXrqw=="
+    },
+    {
+      "name": "zod",
+      "version": "3.25.76",
+      "integrity": "sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ=="
+    },
+    {
+      "name": "@cityssm/pdf-puppeteer",
+      "version": "6.5.1",
+      "integrity": "sha512-nI4Hn2AakPb6uZEVJRbEpQ0jX+5h1SS4+Z4W7jqXT59SgYyML26/Qxai4TM1VxehydORdkTxT3/bqqw1u9cXvQ=="
+    },
+    {
+      "name": "@cityssm/paper-sizes",
+      "version": "1.0.2",
+      "integrity": "sha512-uMueXurrssrzCWAZoFi73REFKnpnWYIP20EjtaUIEvAIYBuVSCypmEkz9IsX9wwr7YEFPp6CetpMmGAwtuRa9w=="
+    },
+    {
+      "name": "sunrise-cms-customizations",
+      "version": "0.0.2",
+      "integrity": "sha512-wwORQ77iLWkW9vbNR1FLvnWNcN4BaPHfkQnQNdAvf5cYh4EjgsarvjawlUHXl4P5lr5R3VFWLLbcg49cInAW/Q=="
+    }
+  ],
+  "clock": "2026-10-20T09:05:42+02:00",
+  "settings": {
+    "aliases.externalReceiptNumber": "Synthetic Receipt",
+    "aliases.workOrderOpenDate": "Synthetic Open Date",
+    "aliases.workOrderCloseDate": "Synthetic Close Date"
+  },
+  "contract": {
+    "contractId": 7,
+    "contractNumber": "SYN-2026",
+    "contractType": "Synthetic Contract <&>",
+    "burialSiteId": 9,
+    "burialSiteName": "Synthetic Site A",
+    "cemeteryId": 3,
+    "cemeteryName": "Synthetic Cemetery",
+    "contractStartDate": 20261020,
+    "contractStartDateString": "2026-10-20",
+    "contractEndDateString": "",
+    "contractFields": [
+      {
+        "contractTypeField": "Synthetic Field",
+        "fieldValue": "Source value is not contractFieldValue"
+      }
+    ],
+    "contractInterments": [
+      {
+        "deceasedName": "Synthetic Person Ä <&>",
+        "deceasedAddress1": "1 Synthetic Street",
+        "deceasedAddress2": "Unit 2",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "ON",
+        "deceasedPostalCode": "SYN 001",
+        "intermentContainerType": "Synthetic Urn",
+        "intermentDepth": "Synthetic Depth"
+      }
+    ],
+    "contractComments": [
+      {
+        "recordCreate_username": "synthetic-author",
+        "recordUpdate_username": "synthetic-editor",
+        "commentDate": 20261020,
+        "commentTime": 905,
+        "commentDateString": "2026-10-20",
+        "commentTimeString": "09:05",
+        "comment": "This source screen uses obsolete property names."
+      }
+    ],
+    "contractFees": [
+      {
+        "feeName": "Synthetic Fee",
+        "feeCategory": "Synthetic Category",
+        "feeAmount": 12.345,
+        "taxAmount": 0.61725,
+        "quantity": 2
+      },
+      {
+        "feeName": "Synthetic Single",
+        "feeCategory": "Other",
+        "feeAmount": 5,
+        "taxAmount": 0,
+        "quantity": 1
+      }
+    ],
+    "contractTransactions": [
+      {
+        "transactionDateString": "2026-10-20",
+        "transactionAmount": 10.5,
+        "externalReceiptNumber": "SYN-R <&>",
+        "transactionNote": "Synthetic Note"
+      }
+    ]
+  },
+  "burialSite": {
+    "burialSiteId": 9,
+    "burialSiteName": "Synthetic Site A",
+    "cemeteryName": "Synthetic Cemetery"
+  },
+  "workOrder": {
+    "workOrderId": 11,
+    "workOrderNumber": "2026-000011",
+    "workOrderType": "Synthetic Maintenance",
+    "workOrderDescription": "Synthetic Description <&>\nSecond line",
+    "workOrderOpenDateString": "2026-10-20",
+    "workOrderCloseDate": 20261020,
+    "workOrderCloseDateString": "2026-10-20",
+    "recordCreate_timeMillis": 1792480200000,
+    "workOrderBurialSites": [
+      {
+        "burialSiteId": 9,
+        "burialSiteName": "Synthetic Site A",
+        "cemeteryName": "Synthetic Cemetery",
+        "burialSiteType": "Synthetic Type",
+        "burialSiteStatus": "Synthetic Available"
+      }
+    ],
+    "workOrderContracts": [
+      {
+        "contractId": 7,
+        "contractNumber": "SYN-2026",
+        "contractType": "Synthetic Contract <&>",
+        "burialSiteId": 9,
+        "burialSiteName": "Synthetic Site A",
+        "cemeteryId": 3,
+        "cemeteryName": "Synthetic Cemetery",
+        "contractStartDate": 20261020,
+        "contractStartDateString": "2026-10-20",
+        "contractEndDateString": "",
+        "contractFields": [
+          {
+            "contractTypeField": "Synthetic Field",
+            "fieldValue": "Source value is not contractFieldValue"
+          }
+        ],
+        "contractInterments": [
+          {
+            "deceasedName": "Synthetic Person Ä <&>",
+            "deceasedAddress1": "1 Synthetic Street",
+            "deceasedAddress2": "Unit 2",
+            "deceasedCity": "Synthetic City",
+            "deceasedProvince": "ON",
+            "deceasedPostalCode": "SYN 001",
+            "intermentContainerType": "Synthetic Urn",
+            "intermentDepth": "Synthetic Depth"
+          }
+        ],
+        "contractComments": [
+          {
+            "recordCreate_username": "synthetic-author",
+            "recordUpdate_username": "synthetic-editor",
+            "commentDate": 20261020,
+            "commentTime": 905,
+            "commentDateString": "2026-10-20",
+            "commentTimeString": "09:05",
+            "comment": "This source screen uses obsolete property names."
+          }
+        ],
+        "contractFees": [
+          {
+            "feeName": "Synthetic Fee",
+            "feeCategory": "Synthetic Category",
+            "feeAmount": 12.345,
+            "taxAmount": 0.61725,
+            "quantity": 2
+          },
+          {
+            "feeName": "Synthetic Single",
+            "feeCategory": "Other",
+            "feeAmount": 5,
+            "taxAmount": 0,
+            "quantity": 1
+          }
+        ],
+        "contractTransactions": [
+          {
+            "transactionDateString": "2026-10-20",
+            "transactionAmount": 10.5,
+            "externalReceiptNumber": "SYN-R <&>",
+            "transactionNote": "Synthetic Note"
+          }
+        ]
+      }
+    ],
+    "workOrderComments": [
+      {
+        "recordCreate_username": "synthetic-author",
+        "recordUpdate_username": "synthetic-editor",
+        "commentDateString": "2026-10-20",
+        "commentTimePeriodString": "9:05 AM",
+        "comment": "Synthetic comment <&>\nSecond line"
+      }
+    ],
+    "workOrderMilestones": [
+      {
+        "workOrderMilestoneTypeId": 1,
+        "workOrderMilestoneType": "Synthetic Milestone",
+        "workOrderMilestoneDescription": "Synthetic due",
+        "workOrderMilestoneDate": 20261020,
+        "workOrderMilestoneDateString": "2026-10-20",
+        "workOrderMilestoneTime": 905,
+        "workOrderMilestoneTimePeriodString": "9:05 AM",
+        "workOrderMilestoneCompletionDate": 20261020
+      },
+      {
+        "workOrderMilestoneTypeId": null,
+        "workOrderMilestoneDescription": "Undated",
+        "workOrderMilestoneDate": 0,
+        "workOrderMilestoneTime": 0,
+        "workOrderMilestoneCompletionDate": 0
+      }
+    ]
+  },
+  "renders": [
+    {
+      "name": "screen/contract",
+      "variant": "full",
+      "data": {
+        "headTitle": "Burial Site Contract Print",
+        "contract": {
+          "contractId": 7,
+          "contractNumber": "SYN-2026",
+          "contractType": "Synthetic Contract <&>",
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryId": 3,
+          "cemeteryName": "Synthetic Cemetery",
+          "contractStartDate": 20261020,
+          "contractStartDateString": "2026-10-20",
+          "contractEndDateString": "",
+          "contractFields": [
+            {
+              "contractTypeField": "Synthetic Field",
+              "fieldValue": "Source value is not contractFieldValue"
+            }
+          ],
+          "contractInterments": [
+            {
+              "deceasedName": "Synthetic Person Ä <&>",
+              "deceasedAddress1": "1 Synthetic Street",
+              "deceasedAddress2": "Unit 2",
+              "deceasedCity": "Synthetic City",
+              "deceasedProvince": "ON",
+              "deceasedPostalCode": "SYN 001",
+              "intermentContainerType": "Synthetic Urn",
+              "intermentDepth": "Synthetic Depth"
+            }
+          ],
+          "contractComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDate": 20261020,
+              "commentTime": 905,
+              "commentDateString": "2026-10-20",
+              "commentTimeString": "09:05",
+              "comment": "This source screen uses obsolete property names."
+            }
+          ],
+          "contractFees": [
+            {
+              "feeName": "Synthetic Fee",
+              "feeCategory": "Synthetic Category",
+              "feeAmount": 12.345,
+              "taxAmount": 0.61725,
+              "quantity": 2
+            },
+            {
+              "feeName": "Synthetic Single",
+              "feeCategory": "Other",
+              "feeAmount": 5,
+              "taxAmount": 0,
+              "quantity": 1
+            }
+          ],
+          "contractTransactions": [
+            {
+              "transactionDateString": "2026-10-20",
+              "transactionAmount": 10.5,
+              "externalReceiptNumber": "SYN-R <&>",
+              "transactionNote": "Synthetic Note"
+            }
+          ]
+        },
+        "burialSite": {
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryName": "Synthetic Cemetery"
+        },
+        "workOrder": {
+          "workOrderId": 11,
+          "workOrderNumber": "2026-000011",
+          "workOrderType": "Synthetic Maintenance",
+          "workOrderDescription": "Synthetic Description <&>\nSecond line",
+          "workOrderOpenDateString": "2026-10-20",
+          "workOrderCloseDate": 20261020,
+          "workOrderCloseDateString": "2026-10-20",
+          "recordCreate_timeMillis": 1792480200000,
+          "workOrderBurialSites": [
+            {
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryName": "Synthetic Cemetery",
+              "burialSiteType": "Synthetic Type",
+              "burialSiteStatus": "Synthetic Available"
+            }
+          ],
+          "workOrderContracts": [
+            {
+              "contractId": 7,
+              "contractNumber": "SYN-2026",
+              "contractType": "Synthetic Contract <&>",
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryId": 3,
+              "cemeteryName": "Synthetic Cemetery",
+              "contractStartDate": 20261020,
+              "contractStartDateString": "2026-10-20",
+              "contractEndDateString": "",
+              "contractFields": [
+                {
+                  "contractTypeField": "Synthetic Field",
+                  "fieldValue": "Source value is not contractFieldValue"
+                }
+              ],
+              "contractInterments": [
+                {
+                  "deceasedName": "Synthetic Person Ä <&>",
+                  "deceasedAddress1": "1 Synthetic Street",
+                  "deceasedAddress2": "Unit 2",
+                  "deceasedCity": "Synthetic City",
+                  "deceasedProvince": "ON",
+                  "deceasedPostalCode": "SYN 001",
+                  "intermentContainerType": "Synthetic Urn",
+                  "intermentDepth": "Synthetic Depth"
+                }
+              ],
+              "contractComments": [
+                {
+                  "recordCreate_username": "synthetic-author",
+                  "recordUpdate_username": "synthetic-editor",
+                  "commentDate": 20261020,
+                  "commentTime": 905,
+                  "commentDateString": "2026-10-20",
+                  "commentTimeString": "09:05",
+                  "comment": "This source screen uses obsolete property names."
+                }
+              ],
+              "contractFees": [
+                {
+                  "feeName": "Synthetic Fee",
+                  "feeCategory": "Synthetic Category",
+                  "feeAmount": 12.345,
+                  "taxAmount": 0.61725,
+                  "quantity": 2
+                },
+                {
+                  "feeName": "Synthetic Single",
+                  "feeCategory": "Other",
+                  "feeAmount": 5,
+                  "taxAmount": 0,
+                  "quantity": 1
+                }
+              ],
+              "contractTransactions": [
+                {
+                  "transactionDateString": "2026-10-20",
+                  "transactionAmount": 10.5,
+                  "externalReceiptNumber": "SYN-R <&>",
+                  "transactionNote": "Synthetic Note"
+                }
+              ]
+            }
+          ],
+          "workOrderComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDateString": "2026-10-20",
+              "commentTimePeriodString": "9:05 AM",
+              "comment": "Synthetic comment <&>\nSecond line"
+            }
+          ],
+          "workOrderMilestones": [
+            {
+              "workOrderMilestoneTypeId": 1,
+              "workOrderMilestoneType": "Synthetic Milestone",
+              "workOrderMilestoneDescription": "Synthetic due",
+              "workOrderMilestoneDate": 20261020,
+              "workOrderMilestoneDateString": "2026-10-20",
+              "workOrderMilestoneTime": 905,
+              "workOrderMilestoneTimePeriodString": "9:05 AM",
+              "workOrderMilestoneCompletionDate": 20261020
+            },
+            {
+              "workOrderMilestoneTypeId": null,
+              "workOrderMilestoneDescription": "Undated",
+              "workOrderMilestoneDate": 0,
+              "workOrderMilestoneTime": 0,
+              "workOrderMilestoneCompletionDate": 0
+            }
+          ]
+        }
+      },
+      "configuration": {
+        "application.applicationName": "Cemaris",
+        "settings.contracts.contractEndDateIsAvailable": true,
+        "settings.contracts.prints": [
+          "screen/contract",
+          "pdf/synthetic",
+          "pdf/missing"
+        ],
+        "settings.workOrders.prints": [
+          "pdf/workOrder",
+          "pdf/workOrder-commentLog"
+        ],
+        "reverseProxy.urlPrefix": ""
+      },
+      "html": "<h1 class=\"title is-2 has-text-centered\">\n  Burial Site Contract\n</h1>\n\n<div class=\"columns\">\n  <div class=\"column\">\n    <p>\n      <strong>Contract Type</strong><br />\n      Synthetic Contract &lt;&amp;&gt;\n    </p>\n  </div>\n  <div class=\"column\">\n    <p class=\"mb-2\">\n      <strong>Burial Site</strong><br />\n      \n        Synthetic Site A\n      \n    </p>\n    <p>\n      <strong>Cemetery</strong><br />\n      \n        Synthetic Cemetery\n      \n    </p>\n  </div>\n  <div class=\"column\">\n    <p class=\"mb-2\">\n      <strong>Contract Date</strong><br />\n      2026-10-20\n    </p>\n    <p>\n      <strong>End Date</strong><br />\n      (No End Date)\n    </p>\n  </div>\n  \n    <div class=\"column\">\n      \n        <p class=\"mb-2\">\n          <strong>Synthetic Field</strong><br />\n          (No Value)\n        </p>\n      \n    </div>\n  \n</div>\n\n<section>\n    <h2 class=\"title is-4\">Interments</h2>\n\n    \n      <table class=\"table is-fullwidth\">\n        <thead>\n          <tr>\n            <th>Interment</th>\n            <th>Address</th>\n            <th>Container</th>\n            <th>Depth</th>\n          </tr>\n        </thead>\n        <tbody>\n          \n            <tr>\n              <td>Synthetic Person Ä &lt;&amp;&gt;</td>\n              <td>\n                1 Synthetic Street<br />\n                \n                    Unit 2<br />\n                \n                \n                    Synthetic City,\n                \n                ON<br />\n                SYN 001\n              </td>\n              <td>Synthetic Urn</td>\n              <td>Synthetic Depth</td>\n            </tr>\n          \n        </tbody>\n      </table>\n    \n</section>\n\n\n<section class=\"mt-4\">\n  <h2 class=\"title is-4\">Comments</h2>\n\n  <table class=\"table is-fullwidth\">\n    <thead>\n      <tr>\n        <th>Author</th>\n        <th>Comment Date</th>\n        <th>Comment</th>\n      </tr>\n    </thead>\n    <tbody>\n      \n        <tr>\n          <td>synthetic-author</td>\n          <td>\n            \n            \n          </td>\n          <td></td>\n        </tr>\n      \n    </tbody>\n  </table>\n</section>\n\n\n<section class=\"mt-4\">\n  <h2 class=\"title is-4\">Fees</h2>\n\n    \n        \n        <table class=\"table is-fullwidth\">\n            <thead>\n              <tr>\n                <th>Fee</th>\n                <th class=\"has-text-right\"><span class=\"is-sr-only\">Unit Cost</span></th>\n                <th class=\"has-width-1\"><span class=\"is-sr-only\">&times;</span></th>\n                <th class=\"has-width-1 has-text-right\"><span class=\"is-sr-only\">Quantity</span></th>\n                <th class=\"has-width-1\"><span class=\"is-sr-only\">=</span></th>\n                <th class=\"has-width-1 has-text-right\">Total</th>\n              </tr>\n            </thead>\n            <tbody>\n              \n                \n                <tr>\n                  <td colspan=\"1\">\n                    Synthetic Fee\n                  </td>\n                  \n                    <td class=\"has-text-right\">$12.35</td>\n                    <td>&times;</td>\n                    <td class=\"has-text-right\">2</td>\n                    <td>=</td>\n                  \n                  <td class=\"has-text-right\">$24.69</td>\n                </tr>\n              \n                \n                <tr>\n                  <td colspan=\"5\">\n                    Synthetic Single\n                  </td>\n                  \n                  <td class=\"has-text-right\">$5.00</td>\n                </tr>\n              \n            </tbody>\n            <tfoot>\n              <tr>\n                <th colspan=\"5\">Subtotal</th>\n                <td class=\"has-text-right has-text-weight-bold\">$29.69</td>\n              </tr>\n              <tr>\n                <th colspan=\"5\">Tax</th>\n                <td class=\"has-text-right\">$1.23</td>\n              </tr>\n              <tr>\n                <th colspan=\"5\">Grand Total</th>\n                <td class=\"has-text-right has-text-weight-bold\">$30.92</td>\n              </tr>\n            </tfoot>\n        </table>\n    \n</section>\n\n<section class=\"mt-4\">\n  <h2 class=\"title is-4\">Transactions</h2>\n\n  \n    <table class=\"table is-fullwidth\">\n      <thead>\n        <tr>\n          <th>Date</th>\n          <th>Synthetic Receipt</th>\n          <th class=\"has-text-right\">Amount</th>\n        </tr>\n      </thead>\n      <tbody>\n        \n          <tr>\n            <td>2026-10-20</td>\n            <td>\n              SYN-R &lt;&amp;&gt;<br />\n              <small>Synthetic Note</small>\n            </td>\n            <td class=\"has-text-right\">\n              $10.50\n            </td>\n          </tr>\n        \n      </tbody>\n    </table>\n  \n</section>\n\n",
+      "sha256": "72e151263cbf4fcf6aa90575d05ea6edcd034c514168e6a84ed371ae351c2fb1"
+    },
+    {
+      "name": "pdf/workOrder",
+      "variant": "full",
+      "data": {
+        "headTitle": "Work Order Field Sheet",
+        "contract": {
+          "contractId": 7,
+          "contractNumber": "SYN-2026",
+          "contractType": "Synthetic Contract <&>",
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryId": 3,
+          "cemeteryName": "Synthetic Cemetery",
+          "contractStartDate": 20261020,
+          "contractStartDateString": "2026-10-20",
+          "contractEndDateString": "",
+          "contractFields": [
+            {
+              "contractTypeField": "Synthetic Field",
+              "fieldValue": "Source value is not contractFieldValue"
+            }
+          ],
+          "contractInterments": [
+            {
+              "deceasedName": "Synthetic Person Ä <&>",
+              "deceasedAddress1": "1 Synthetic Street",
+              "deceasedAddress2": "Unit 2",
+              "deceasedCity": "Synthetic City",
+              "deceasedProvince": "ON",
+              "deceasedPostalCode": "SYN 001",
+              "intermentContainerType": "Synthetic Urn",
+              "intermentDepth": "Synthetic Depth"
+            }
+          ],
+          "contractComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDate": 20261020,
+              "commentTime": 905,
+              "commentDateString": "2026-10-20",
+              "commentTimeString": "09:05",
+              "comment": "This source screen uses obsolete property names."
+            }
+          ],
+          "contractFees": [
+            {
+              "feeName": "Synthetic Fee",
+              "feeCategory": "Synthetic Category",
+              "feeAmount": 12.345,
+              "taxAmount": 0.61725,
+              "quantity": 2
+            },
+            {
+              "feeName": "Synthetic Single",
+              "feeCategory": "Other",
+              "feeAmount": 5,
+              "taxAmount": 0,
+              "quantity": 1
+            }
+          ],
+          "contractTransactions": [
+            {
+              "transactionDateString": "2026-10-20",
+              "transactionAmount": 10.5,
+              "externalReceiptNumber": "SYN-R <&>",
+              "transactionNote": "Synthetic Note"
+            }
+          ]
+        },
+        "burialSite": {
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryName": "Synthetic Cemetery"
+        },
+        "workOrder": {
+          "workOrderId": 11,
+          "workOrderNumber": "2026-000011",
+          "workOrderType": "Synthetic Maintenance",
+          "workOrderDescription": "Synthetic Description <&>\nSecond line",
+          "workOrderOpenDateString": "2026-10-20",
+          "workOrderCloseDate": 20261020,
+          "workOrderCloseDateString": "2026-10-20",
+          "recordCreate_timeMillis": 1792480200000,
+          "workOrderBurialSites": [
+            {
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryName": "Synthetic Cemetery",
+              "burialSiteType": "Synthetic Type",
+              "burialSiteStatus": "Synthetic Available"
+            }
+          ],
+          "workOrderContracts": [
+            {
+              "contractId": 7,
+              "contractNumber": "SYN-2026",
+              "contractType": "Synthetic Contract <&>",
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryId": 3,
+              "cemeteryName": "Synthetic Cemetery",
+              "contractStartDate": 20261020,
+              "contractStartDateString": "2026-10-20",
+              "contractEndDateString": "",
+              "contractFields": [
+                {
+                  "contractTypeField": "Synthetic Field",
+                  "fieldValue": "Source value is not contractFieldValue"
+                }
+              ],
+              "contractInterments": [
+                {
+                  "deceasedName": "Synthetic Person Ä <&>",
+                  "deceasedAddress1": "1 Synthetic Street",
+                  "deceasedAddress2": "Unit 2",
+                  "deceasedCity": "Synthetic City",
+                  "deceasedProvince": "ON",
+                  "deceasedPostalCode": "SYN 001",
+                  "intermentContainerType": "Synthetic Urn",
+                  "intermentDepth": "Synthetic Depth"
+                }
+              ],
+              "contractComments": [
+                {
+                  "recordCreate_username": "synthetic-author",
+                  "recordUpdate_username": "synthetic-editor",
+                  "commentDate": 20261020,
+                  "commentTime": 905,
+                  "commentDateString": "2026-10-20",
+                  "commentTimeString": "09:05",
+                  "comment": "This source screen uses obsolete property names."
+                }
+              ],
+              "contractFees": [
+                {
+                  "feeName": "Synthetic Fee",
+                  "feeCategory": "Synthetic Category",
+                  "feeAmount": 12.345,
+                  "taxAmount": 0.61725,
+                  "quantity": 2
+                },
+                {
+                  "feeName": "Synthetic Single",
+                  "feeCategory": "Other",
+                  "feeAmount": 5,
+                  "taxAmount": 0,
+                  "quantity": 1
+                }
+              ],
+              "contractTransactions": [
+                {
+                  "transactionDateString": "2026-10-20",
+                  "transactionAmount": 10.5,
+                  "externalReceiptNumber": "SYN-R <&>",
+                  "transactionNote": "Synthetic Note"
+                }
+              ]
+            }
+          ],
+          "workOrderComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDateString": "2026-10-20",
+              "commentTimePeriodString": "9:05 AM",
+              "comment": "Synthetic comment <&>\nSecond line"
+            }
+          ],
+          "workOrderMilestones": [
+            {
+              "workOrderMilestoneTypeId": 1,
+              "workOrderMilestoneType": "Synthetic Milestone",
+              "workOrderMilestoneDescription": "Synthetic due",
+              "workOrderMilestoneDate": 20261020,
+              "workOrderMilestoneDateString": "2026-10-20",
+              "workOrderMilestoneTime": 905,
+              "workOrderMilestoneTimePeriodString": "9:05 AM",
+              "workOrderMilestoneCompletionDate": 20261020
+            },
+            {
+              "workOrderMilestoneTypeId": null,
+              "workOrderMilestoneDescription": "Undated",
+              "workOrderMilestoneDate": 0,
+              "workOrderMilestoneTime": 0,
+              "workOrderMilestoneCompletionDate": 0
+            }
+          ]
+        }
+      },
+      "configuration": {
+        "application.applicationName": "Cemaris",
+        "settings.contracts.contractEndDateIsAvailable": true,
+        "settings.contracts.prints": [
+          "screen/contract",
+          "pdf/synthetic",
+          "pdf/missing"
+        ],
+        "settings.workOrders.prints": [
+          "pdf/workOrder",
+          "pdf/workOrder-commentLog"
+        ],
+        "reverseProxy.urlPrefix": ""
+      },
+      "html": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <title>Work Order Field Sheet</title>\n    <style>\n      /* eslint-disable css/no-important */\n\n* {\n  font-family: Arial, Helvetica, sans-serif;\n}\n\nbody {\n  margin: 20px;\n}\n\n/* Elements */\n\n.box {\n  border: 1px solid black;\n  padding: 10px;\n}\n\n.checkbox {\n  height: 1.5em;\n  width: 1.5em;\n  display: inline-block;\n  border: 1px solid black;\n  text-align: center;\n\n  &::before {\n    content: ' ';\n  }\n  \n  &.is-checked::before {\n    content: '\\2714';\n  }\n}\n\n.field {\n  border-bottom: 1px solid black;\n  display: inline-block;\n  width: 100px;\n  padding: 10px 0;\n}\n\n/* Data Table */\n\n.data-table {\n  width: 100%;\n\n  thead, tfoot {\n    th {\n      padding: 5px;\n      text-align: left;\n    }\n  }\n  \n  tbody, tfoot {\n    td {\n      padding: 5px;\n      text-align: left;\n      border-top: 1px solid black;\n      vertical-align: top;\n    }\n  }\n}\n\n/* Layout Table */\n\n.layout-table {\n  width: 100%;\n  border: 0;\n  margin: 0;\n  padding: 0;\n\n  td {\n    vertical-align: top;\n  }\n}\n\n/* Table Helpers */\n\ntd {\n\n  &.is-vcentered {\n    vertical-align: middle;\n  }\n\n  &.is-width-1 {\n    width: 1px;\n  }\n  \n  &.has-border-bottom {\n    border-bottom: 1px solid black;\n  }\n}\n\n/* Padding / Margins */\n\n.m-0 {\n  margin: 0;\n}\n\n.mt-1 {\n  margin-top: 10px;\n}\n\n.mt-2 {\n  margin-top: 20px;\n}\n\n.mt-4 {\n  margin-top: 40px;\n}\n\n.mt-6 {\n  margin-top: 60px;\n}\n\n.mb-0 {\n  margin-bottom: 0;\n}\n\n.mb-1 {\n  margin-bottom: 10px;\n}\n\n.mb-2 {\n  margin-bottom: 20px;\n}\n\n.mb-4 {\n  margin-bottom: 40px;\n}\n\n.p-0 {\n  padding: 0;\n}\n\n.pl-1 {\n  padding-left: 10px;\n}\n\n/* Text Utilities */\n\n.is-8pt {\n  font-size: 8pt !important;\n}\n\n.is-10pt {\n  font-size: 10pt !important;\n}\n\n.is-12pt {\n  font-size: 12pt !important;\n}\n\n.has-text-left {\n  text-align: left;\n}\n\n.has-text-right {\n  text-align: right !important;\n}\n\n.has-text-centered {\n  text-align: center;\n}\n\n.is-capitalized {\n  text-transform: uppercase;\n}\n\n.is-italic {\n  font-style: italic;\n}\n\n.has-text-nowrap {\n  white-space: nowrap;\n}\n\n    </style>\n  </head>\n  <body>\n    <table class=\"layout-table\">\n  <tr>\n    <td>\n      <h1 class=\"m-0\">Work Order #2026-000011</h1>\n    </td>\n    <td class=\"has-text-right is-vcentered\">\n      <strong>\n        \n          CLOSED<br />\n        \n        Synthetic Maintenance\n      </strong>\n    </td>\n  </tr>\n</table>\n<div class=\"box mt-1\">\n  <table class=\"layout-table\">\n    <tr>\n      <td>\n        <p>\n          <strong>Description</strong><br />\n          Synthetic Description &lt;&amp;&gt;\nSecond line\n        </p>\n      </td>\n      <td class=\"pl-1 is-width-1 has-text-nowrap\">\n        <p>\n          <strong>Synthetic Open Date</strong><br />\n          2026-10-20\n        </p>\n        \n          <p>\n            <strong>Synthetic Close Date</strong><br />\n            2026-10-20\n          </p>\n        \n      </td>\n    </tr>\n  </table>\n</div>\n\n    \n    \n    <h2 class=\"mb-0\">Burial Sites</h2>\n\n    <table class=\"data-table\">\n      <thead>\n        <tr>\n          <th>Burial Site</th>\n          <th>Cemetery</th>\n          <th>Burial Site Type</th>\n          <th>Status</th>\n        </tr>\n      </thead>\n      <tbody>\n        \n        <tr>\n          <td>Synthetic Site A</td>\n          <td>Synthetic Cemetery</td>\n          <td>Synthetic Type</td>\n          <td>Synthetic Available</td>\n        </tr>\n        \n      </tbody>\n    </table>\n    \n\n    \n    <h2 class=\"mb-0\">Contracts</h2>\n\n    <table class=\"data-table\">\n      <thead>\n        <tr>\n          <th>Contract Type</th>\n          <th>Burial Site</th>\n          <th>Contract Date</th>\n          \n          <th>End Date</th>\n          \n          <th>Interments</th>\n        </tr>\n      </thead>\n      <tbody>\n        \n        <tr>\n          <td>Synthetic Contract &lt;&amp;&gt;</td>\n          <td>Synthetic Site A</td>\n          <td>2026-10-20</td>\n          \n          <td></td>\n          \n          <td>\n            \n            Synthetic Person Ä &lt;&amp;&gt;<br />\n            \n          </td>\n        </tr>\n        \n      </tbody>\n    </table>\n    \n\n    \n    <h2 class=\"mb-0\">Milestones</h2>\n\n    <table class=\"data-table\">\n      <thead>\n        <tr>\n          <th class=\"is-width-1\"></th>\n          <th>Milestone Description</th>\n          <th>Due Date</th>\n        </tr>\n      </thead>\n      <tbody>\n        \n        <tr>\n          <td class=\"is-width-1\">\n            \n            <span class=\"checkbox is-checked\"></span>\n            \n          </td>\n          <td>\n            \n            <strong>Synthetic Milestone</strong><br />\n            \n            Synthetic due\n          </td>\n          <td>\n            \n            2026-10-20\n            \n            \n            9:05 AM\n            \n          </td>\n        </tr>\n        \n        <tr>\n          <td class=\"is-width-1\">\n            \n            <span class=\"checkbox\"></span>\n            \n          </td>\n          <td>\n            \n            Undated\n          </td>\n          <td>\n            \n            (No Set Date)\n            \n            \n          </td>\n        </tr>\n        \n      </tbody>\n    </table>\n    \n\n    <h2 class=\"mb-0\">Notes</h2>\n\n    <p style=\"position: absolute; bottom: 5px; left: 20px;\">\n      \n      <svg width=\"246px\" height=\"50px\" x=\"0px\" y=\"0px\" viewBox=\"0 0 246 50\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"><rect x=\"0\" y=\"0\" width=\"246\" height=\"50\" fill=\"#ffffff\"/><g transform=\"translate(0, 0)\" fill=\"#000000\"><rect x=\"0\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"6\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"12\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"22\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"30\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"36\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"44\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"54\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"60\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"66\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"74\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"78\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"88\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"94\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"100\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"110\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"114\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"122\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"132\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"138\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"146\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"154\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"160\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"168\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"176\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"186\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"192\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"198\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"204\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"216\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"220\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"230\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"238\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"242\" y=\"0\" width=\"4\" height=\"50\"/></g></svg>\n    </p>\n\n    <p class=\"has-text-right is-italic is-8pt\" style=\"position: absolute; bottom: 15px; right: 20px;\">\n      \n      Work order created 2026-10-20 at 9:10 a.m..\n      Printed 2026-10-20 at 9:05 a.m..<br />\n      workOrderId = 11\n    </p>\n  </body>\n</html>",
+      "sha256": "38f66a784a9d0a7b06a601c204bccfb540b8e0dce69ea1c6d6fd7b360701bb97"
+    },
+    {
+      "name": "pdf/workOrder-commentLog",
+      "variant": "full",
+      "data": {
+        "headTitle": "Work Order Field Sheet - Comment Log",
+        "contract": {
+          "contractId": 7,
+          "contractNumber": "SYN-2026",
+          "contractType": "Synthetic Contract <&>",
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryId": 3,
+          "cemeteryName": "Synthetic Cemetery",
+          "contractStartDate": 20261020,
+          "contractStartDateString": "2026-10-20",
+          "contractEndDateString": "",
+          "contractFields": [
+            {
+              "contractTypeField": "Synthetic Field",
+              "fieldValue": "Source value is not contractFieldValue"
+            }
+          ],
+          "contractInterments": [
+            {
+              "deceasedName": "Synthetic Person Ä <&>",
+              "deceasedAddress1": "1 Synthetic Street",
+              "deceasedAddress2": "Unit 2",
+              "deceasedCity": "Synthetic City",
+              "deceasedProvince": "ON",
+              "deceasedPostalCode": "SYN 001",
+              "intermentContainerType": "Synthetic Urn",
+              "intermentDepth": "Synthetic Depth"
+            }
+          ],
+          "contractComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDate": 20261020,
+              "commentTime": 905,
+              "commentDateString": "2026-10-20",
+              "commentTimeString": "09:05",
+              "comment": "This source screen uses obsolete property names."
+            }
+          ],
+          "contractFees": [
+            {
+              "feeName": "Synthetic Fee",
+              "feeCategory": "Synthetic Category",
+              "feeAmount": 12.345,
+              "taxAmount": 0.61725,
+              "quantity": 2
+            },
+            {
+              "feeName": "Synthetic Single",
+              "feeCategory": "Other",
+              "feeAmount": 5,
+              "taxAmount": 0,
+              "quantity": 1
+            }
+          ],
+          "contractTransactions": [
+            {
+              "transactionDateString": "2026-10-20",
+              "transactionAmount": 10.5,
+              "externalReceiptNumber": "SYN-R <&>",
+              "transactionNote": "Synthetic Note"
+            }
+          ]
+        },
+        "burialSite": {
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryName": "Synthetic Cemetery"
+        },
+        "workOrder": {
+          "workOrderId": 11,
+          "workOrderNumber": "2026-000011",
+          "workOrderType": "Synthetic Maintenance",
+          "workOrderDescription": "Synthetic Description <&>\nSecond line",
+          "workOrderOpenDateString": "2026-10-20",
+          "workOrderCloseDate": 20261020,
+          "workOrderCloseDateString": "2026-10-20",
+          "recordCreate_timeMillis": 1792480200000,
+          "workOrderBurialSites": [
+            {
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryName": "Synthetic Cemetery",
+              "burialSiteType": "Synthetic Type",
+              "burialSiteStatus": "Synthetic Available"
+            }
+          ],
+          "workOrderContracts": [
+            {
+              "contractId": 7,
+              "contractNumber": "SYN-2026",
+              "contractType": "Synthetic Contract <&>",
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryId": 3,
+              "cemeteryName": "Synthetic Cemetery",
+              "contractStartDate": 20261020,
+              "contractStartDateString": "2026-10-20",
+              "contractEndDateString": "",
+              "contractFields": [
+                {
+                  "contractTypeField": "Synthetic Field",
+                  "fieldValue": "Source value is not contractFieldValue"
+                }
+              ],
+              "contractInterments": [
+                {
+                  "deceasedName": "Synthetic Person Ä <&>",
+                  "deceasedAddress1": "1 Synthetic Street",
+                  "deceasedAddress2": "Unit 2",
+                  "deceasedCity": "Synthetic City",
+                  "deceasedProvince": "ON",
+                  "deceasedPostalCode": "SYN 001",
+                  "intermentContainerType": "Synthetic Urn",
+                  "intermentDepth": "Synthetic Depth"
+                }
+              ],
+              "contractComments": [
+                {
+                  "recordCreate_username": "synthetic-author",
+                  "recordUpdate_username": "synthetic-editor",
+                  "commentDate": 20261020,
+                  "commentTime": 905,
+                  "commentDateString": "2026-10-20",
+                  "commentTimeString": "09:05",
+                  "comment": "This source screen uses obsolete property names."
+                }
+              ],
+              "contractFees": [
+                {
+                  "feeName": "Synthetic Fee",
+                  "feeCategory": "Synthetic Category",
+                  "feeAmount": 12.345,
+                  "taxAmount": 0.61725,
+                  "quantity": 2
+                },
+                {
+                  "feeName": "Synthetic Single",
+                  "feeCategory": "Other",
+                  "feeAmount": 5,
+                  "taxAmount": 0,
+                  "quantity": 1
+                }
+              ],
+              "contractTransactions": [
+                {
+                  "transactionDateString": "2026-10-20",
+                  "transactionAmount": 10.5,
+                  "externalReceiptNumber": "SYN-R <&>",
+                  "transactionNote": "Synthetic Note"
+                }
+              ]
+            }
+          ],
+          "workOrderComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDateString": "2026-10-20",
+              "commentTimePeriodString": "9:05 AM",
+              "comment": "Synthetic comment <&>\nSecond line"
+            }
+          ],
+          "workOrderMilestones": [
+            {
+              "workOrderMilestoneTypeId": 1,
+              "workOrderMilestoneType": "Synthetic Milestone",
+              "workOrderMilestoneDescription": "Synthetic due",
+              "workOrderMilestoneDate": 20261020,
+              "workOrderMilestoneDateString": "2026-10-20",
+              "workOrderMilestoneTime": 905,
+              "workOrderMilestoneTimePeriodString": "9:05 AM",
+              "workOrderMilestoneCompletionDate": 20261020
+            },
+            {
+              "workOrderMilestoneTypeId": null,
+              "workOrderMilestoneDescription": "Undated",
+              "workOrderMilestoneDate": 0,
+              "workOrderMilestoneTime": 0,
+              "workOrderMilestoneCompletionDate": 0
+            }
+          ]
+        }
+      },
+      "configuration": {
+        "application.applicationName": "Cemaris",
+        "settings.contracts.contractEndDateIsAvailable": true,
+        "settings.contracts.prints": [
+          "screen/contract",
+          "pdf/synthetic",
+          "pdf/missing"
+        ],
+        "settings.workOrders.prints": [
+          "pdf/workOrder",
+          "pdf/workOrder-commentLog"
+        ],
+        "reverseProxy.urlPrefix": ""
+      },
+      "html": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <title>Work Order Field Sheet - Comment Log</title>\n    <style>\n      /* eslint-disable css/no-important */\n\n* {\n  font-family: Arial, Helvetica, sans-serif;\n}\n\nbody {\n  margin: 20px;\n}\n\n/* Elements */\n\n.box {\n  border: 1px solid black;\n  padding: 10px;\n}\n\n.checkbox {\n  height: 1.5em;\n  width: 1.5em;\n  display: inline-block;\n  border: 1px solid black;\n  text-align: center;\n\n  &::before {\n    content: ' ';\n  }\n  \n  &.is-checked::before {\n    content: '\\2714';\n  }\n}\n\n.field {\n  border-bottom: 1px solid black;\n  display: inline-block;\n  width: 100px;\n  padding: 10px 0;\n}\n\n/* Data Table */\n\n.data-table {\n  width: 100%;\n\n  thead, tfoot {\n    th {\n      padding: 5px;\n      text-align: left;\n    }\n  }\n  \n  tbody, tfoot {\n    td {\n      padding: 5px;\n      text-align: left;\n      border-top: 1px solid black;\n      vertical-align: top;\n    }\n  }\n}\n\n/* Layout Table */\n\n.layout-table {\n  width: 100%;\n  border: 0;\n  margin: 0;\n  padding: 0;\n\n  td {\n    vertical-align: top;\n  }\n}\n\n/* Table Helpers */\n\ntd {\n\n  &.is-vcentered {\n    vertical-align: middle;\n  }\n\n  &.is-width-1 {\n    width: 1px;\n  }\n  \n  &.has-border-bottom {\n    border-bottom: 1px solid black;\n  }\n}\n\n/* Padding / Margins */\n\n.m-0 {\n  margin: 0;\n}\n\n.mt-1 {\n  margin-top: 10px;\n}\n\n.mt-2 {\n  margin-top: 20px;\n}\n\n.mt-4 {\n  margin-top: 40px;\n}\n\n.mt-6 {\n  margin-top: 60px;\n}\n\n.mb-0 {\n  margin-bottom: 0;\n}\n\n.mb-1 {\n  margin-bottom: 10px;\n}\n\n.mb-2 {\n  margin-bottom: 20px;\n}\n\n.mb-4 {\n  margin-bottom: 40px;\n}\n\n.p-0 {\n  padding: 0;\n}\n\n.pl-1 {\n  padding-left: 10px;\n}\n\n/* Text Utilities */\n\n.is-8pt {\n  font-size: 8pt !important;\n}\n\n.is-10pt {\n  font-size: 10pt !important;\n}\n\n.is-12pt {\n  font-size: 12pt !important;\n}\n\n.has-text-left {\n  text-align: left;\n}\n\n.has-text-right {\n  text-align: right !important;\n}\n\n.has-text-centered {\n  text-align: center;\n}\n\n.is-capitalized {\n  text-transform: uppercase;\n}\n\n.is-italic {\n  font-style: italic;\n}\n\n.has-text-nowrap {\n  white-space: nowrap;\n}\n\n    </style>\n  </head>\n  <body>\n    <table class=\"layout-table\">\n  <tr>\n    <td>\n      <h1 class=\"m-0\">Work Order #2026-000011</h1>\n    </td>\n    <td class=\"has-text-right is-vcentered\">\n      <strong>\n        \n          CLOSED<br />\n        \n        Synthetic Maintenance\n      </strong>\n    </td>\n  </tr>\n</table>\n<div class=\"box mt-1\">\n  <table class=\"layout-table\">\n    <tr>\n      <td>\n        <p>\n          <strong>Description</strong><br />\n          Synthetic Description &lt;&amp;&gt;\nSecond line\n        </p>\n      </td>\n      <td class=\"pl-1 is-width-1 has-text-nowrap\">\n        <p>\n          <strong>Synthetic Open Date</strong><br />\n          2026-10-20\n        </p>\n        \n          <p>\n            <strong>Synthetic Close Date</strong><br />\n            2026-10-20\n          </p>\n        \n      </td>\n    </tr>\n  </table>\n</div>\n\n\n    <h2 class=\"mb-0\">Comments</h2>\n\n    \n    <table class=\"data-table\">\n      <thead>\n        <tr>\n          <th>Author</th>\n          <th>Comment Time</th>\n          <th>Comment</th>\n        </tr>\n      </thead>\n      <tbody>\n        \n        <tr>\n          <td>synthetic-editor</td>\n          <td>2026-10-20 9:05 AM</td>\n          <td>Synthetic comment &lt;&amp;&gt;\nSecond line</td>\n        </tr>\n        \n      </tbody>\n    </table>\n    \n          \n    <p style=\"position: absolute; bottom: 5px; left: 20px;\">\n      \n      <svg width=\"246px\" height=\"50px\" x=\"0px\" y=\"0px\" viewBox=\"0 0 246 50\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"><rect x=\"0\" y=\"0\" width=\"246\" height=\"50\" fill=\"#ffffff\"/><g transform=\"translate(0, 0)\" fill=\"#000000\"><rect x=\"0\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"6\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"12\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"22\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"30\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"36\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"44\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"54\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"60\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"66\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"74\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"78\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"88\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"94\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"100\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"110\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"114\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"122\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"132\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"138\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"146\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"154\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"160\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"168\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"176\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"186\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"192\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"198\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"204\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"216\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"220\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"230\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"238\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"242\" y=\"0\" width=\"4\" height=\"50\"/></g></svg>\n    </p>\n\n    <p class=\"has-text-right is-italic is-8pt\" style=\"position: absolute; bottom: 15px; right: 20px;\">\n      \n      Work order created 2026-10-20 at 9:10 a.m..\n      Printed 2026-10-20 at 9:05 a.m..<br />\n      workOrderId = 11\n    </p>\n  </body>\n</html>",
+      "sha256": "b7529c3823dcbdf65c2b92f1c788d743fc83a5bbac6fbfa5e59300299c7bad9b"
+    },
+    {
+      "name": "pdf/synthetic",
+      "variant": "full",
+      "data": {
+        "headTitle": "Synthetic Custom Print",
+        "contract": {
+          "contractId": 7,
+          "contractNumber": "SYN-2026",
+          "contractType": "Synthetic Contract <&>",
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryId": 3,
+          "cemeteryName": "Synthetic Cemetery",
+          "contractStartDate": 20261020,
+          "contractStartDateString": "2026-10-20",
+          "contractEndDateString": "",
+          "contractFields": [
+            {
+              "contractTypeField": "Synthetic Field",
+              "fieldValue": "Source value is not contractFieldValue"
+            }
+          ],
+          "contractInterments": [
+            {
+              "deceasedName": "Synthetic Person Ä <&>",
+              "deceasedAddress1": "1 Synthetic Street",
+              "deceasedAddress2": "Unit 2",
+              "deceasedCity": "Synthetic City",
+              "deceasedProvince": "ON",
+              "deceasedPostalCode": "SYN 001",
+              "intermentContainerType": "Synthetic Urn",
+              "intermentDepth": "Synthetic Depth"
+            }
+          ],
+          "contractComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDate": 20261020,
+              "commentTime": 905,
+              "commentDateString": "2026-10-20",
+              "commentTimeString": "09:05",
+              "comment": "This source screen uses obsolete property names."
+            }
+          ],
+          "contractFees": [
+            {
+              "feeName": "Synthetic Fee",
+              "feeCategory": "Synthetic Category",
+              "feeAmount": 12.345,
+              "taxAmount": 0.61725,
+              "quantity": 2
+            },
+            {
+              "feeName": "Synthetic Single",
+              "feeCategory": "Other",
+              "feeAmount": 5,
+              "taxAmount": 0,
+              "quantity": 1
+            }
+          ],
+          "contractTransactions": [
+            {
+              "transactionDateString": "2026-10-20",
+              "transactionAmount": 10.5,
+              "externalReceiptNumber": "SYN-R <&>",
+              "transactionNote": "Synthetic Note"
+            }
+          ]
+        },
+        "burialSite": {
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryName": "Synthetic Cemetery"
+        },
+        "workOrder": {
+          "workOrderId": 11,
+          "workOrderNumber": "2026-000011",
+          "workOrderType": "Synthetic Maintenance",
+          "workOrderDescription": "Synthetic Description <&>\nSecond line",
+          "workOrderOpenDateString": "2026-10-20",
+          "workOrderCloseDate": 20261020,
+          "workOrderCloseDateString": "2026-10-20",
+          "recordCreate_timeMillis": 1792480200000,
+          "workOrderBurialSites": [
+            {
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryName": "Synthetic Cemetery",
+              "burialSiteType": "Synthetic Type",
+              "burialSiteStatus": "Synthetic Available"
+            }
+          ],
+          "workOrderContracts": [
+            {
+              "contractId": 7,
+              "contractNumber": "SYN-2026",
+              "contractType": "Synthetic Contract <&>",
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryId": 3,
+              "cemeteryName": "Synthetic Cemetery",
+              "contractStartDate": 20261020,
+              "contractStartDateString": "2026-10-20",
+              "contractEndDateString": "",
+              "contractFields": [
+                {
+                  "contractTypeField": "Synthetic Field",
+                  "fieldValue": "Source value is not contractFieldValue"
+                }
+              ],
+              "contractInterments": [
+                {
+                  "deceasedName": "Synthetic Person Ä <&>",
+                  "deceasedAddress1": "1 Synthetic Street",
+                  "deceasedAddress2": "Unit 2",
+                  "deceasedCity": "Synthetic City",
+                  "deceasedProvince": "ON",
+                  "deceasedPostalCode": "SYN 001",
+                  "intermentContainerType": "Synthetic Urn",
+                  "intermentDepth": "Synthetic Depth"
+                }
+              ],
+              "contractComments": [
+                {
+                  "recordCreate_username": "synthetic-author",
+                  "recordUpdate_username": "synthetic-editor",
+                  "commentDate": 20261020,
+                  "commentTime": 905,
+                  "commentDateString": "2026-10-20",
+                  "commentTimeString": "09:05",
+                  "comment": "This source screen uses obsolete property names."
+                }
+              ],
+              "contractFees": [
+                {
+                  "feeName": "Synthetic Fee",
+                  "feeCategory": "Synthetic Category",
+                  "feeAmount": 12.345,
+                  "taxAmount": 0.61725,
+                  "quantity": 2
+                },
+                {
+                  "feeName": "Synthetic Single",
+                  "feeCategory": "Other",
+                  "feeAmount": 5,
+                  "taxAmount": 0,
+                  "quantity": 1
+                }
+              ],
+              "contractTransactions": [
+                {
+                  "transactionDateString": "2026-10-20",
+                  "transactionAmount": 10.5,
+                  "externalReceiptNumber": "SYN-R <&>",
+                  "transactionNote": "Synthetic Note"
+                }
+              ]
+            }
+          ],
+          "workOrderComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDateString": "2026-10-20",
+              "commentTimePeriodString": "9:05 AM",
+              "comment": "Synthetic comment <&>\nSecond line"
+            }
+          ],
+          "workOrderMilestones": [
+            {
+              "workOrderMilestoneTypeId": 1,
+              "workOrderMilestoneType": "Synthetic Milestone",
+              "workOrderMilestoneDescription": "Synthetic due",
+              "workOrderMilestoneDate": 20261020,
+              "workOrderMilestoneDateString": "2026-10-20",
+              "workOrderMilestoneTime": 905,
+              "workOrderMilestoneTimePeriodString": "9:05 AM",
+              "workOrderMilestoneCompletionDate": 20261020
+            },
+            {
+              "workOrderMilestoneTypeId": null,
+              "workOrderMilestoneDescription": "Undated",
+              "workOrderMilestoneDate": 0,
+              "workOrderMilestoneTime": 0,
+              "workOrderMilestoneCompletionDate": 0
+            }
+          ]
+        }
+      },
+      "configuration": {
+        "application.applicationName": "Cemaris",
+        "settings.contracts.contractEndDateIsAvailable": true,
+        "settings.contracts.prints": [
+          "screen/contract",
+          "pdf/synthetic",
+          "pdf/missing"
+        ],
+        "settings.workOrders.prints": [
+          "pdf/workOrder",
+          "pdf/workOrder-commentLog"
+        ],
+        "reverseProxy.urlPrefix": ""
+      },
+      "html": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>Synthetic Custom Print</title></head><body>\n<h1>Cemaris: Synthetic Custom Print</h1>\n<p>Contract SYN-2026 / Synthetic Contract &lt;&amp;&gt;</p>\n<p>Synthetic Person Ä &lt;&amp;&gt;</p>\n\n<p>External receipt alias: Synthetic Receipt</p>\n<p>Transaction total: 10.50</p>\n<p>Field: Source value is not contractFieldValue</p>\n<p>Fees: 1</p>\n<p>Start date: 2026-10-20</p>\n<p>Fallback: preserved fallback</p>\n<svg width=\"132px\" height=\"50px\" x=\"0px\" y=\"0px\" viewBox=\"0 0 132 50\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"><rect x=\"0\" y=\"0\" width=\"132\" height=\"50\" fill=\"#ffffff\"/><g transform=\"translate(10, 10)\" fill=\"#000000\"><rect x=\"0\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"3\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"6\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"11\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"14\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"18\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"22\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"26\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"29\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"33\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"35\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"41\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"44\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"47\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"50\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"55\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"57\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"61\" y=\"0\" width=\"4\" height=\"30\"/><rect x=\"66\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"70\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"73\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"77\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"82\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"85\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"88\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"92\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"95\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"99\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"104\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"108\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"110\" y=\"0\" width=\"2\" height=\"30\"/></g></svg>\n</body></html>\n",
+      "sha256": "9fe6e728345529f5c2c78d4e6c6d36b5c40b715c4c36a9a9b9a94c9db06dea6d"
+    },
+    {
+      "name": "screen/contract",
+      "variant": "empty",
+      "data": {
+        "headTitle": "Burial Site Contract Print",
+        "contract": {
+          "contractId": 7,
+          "contractNumber": "SYN-2026",
+          "contractType": "Synthetic Contract <&>",
+          "burialSiteId": null,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryId": null,
+          "cemeteryName": "Synthetic Cemetery",
+          "contractStartDate": 20261020,
+          "contractStartDateString": "2026-10-20",
+          "contractEndDateString": "",
+          "contractFields": [],
+          "contractInterments": [],
+          "contractComments": [],
+          "contractFees": [],
+          "contractTransactions": []
+        },
+        "burialSite": {
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryName": "Synthetic Cemetery"
+        },
+        "workOrder": {
+          "workOrderId": 11,
+          "workOrderNumber": "2026-000011",
+          "workOrderType": "Synthetic Maintenance",
+          "workOrderDescription": "Synthetic Description <&>\nSecond line",
+          "workOrderOpenDateString": "2026-10-20",
+          "workOrderCloseDate": null,
+          "workOrderCloseDateString": "2026-10-20",
+          "recordCreate_timeMillis": 1792480200000,
+          "workOrderBurialSites": [],
+          "workOrderContracts": [],
+          "workOrderComments": [],
+          "workOrderMilestones": []
+        }
+      },
+      "configuration": {
+        "application.applicationName": "Cemaris",
+        "settings.contracts.contractEndDateIsAvailable": true,
+        "settings.contracts.prints": [
+          "screen/contract",
+          "pdf/synthetic",
+          "pdf/missing"
+        ],
+        "settings.workOrders.prints": [
+          "pdf/workOrder",
+          "pdf/workOrder-commentLog"
+        ],
+        "reverseProxy.urlPrefix": ""
+      },
+      "html": "<h1 class=\"title is-2 has-text-centered\">\n  Burial Site Contract\n</h1>\n\n<div class=\"columns\">\n  <div class=\"column\">\n    <p>\n      <strong>Contract Type</strong><br />\n      Synthetic Contract &lt;&amp;&gt;\n    </p>\n  </div>\n  <div class=\"column\">\n    <p class=\"mb-2\">\n      <strong>Burial Site</strong><br />\n      \n        (No Burial Site)\n      \n    </p>\n    <p>\n      <strong>Cemetery</strong><br />\n      \n        (No Cemetery)\n      \n    </p>\n  </div>\n  <div class=\"column\">\n    <p class=\"mb-2\">\n      <strong>Contract Date</strong><br />\n      2026-10-20\n    </p>\n    <p>\n      <strong>End Date</strong><br />\n      (No End Date)\n    </p>\n  </div>\n  \n</div>\n\n<section>\n    <h2 class=\"title is-4\">Interments</h2>\n\n    \n      <div class=\"message is-warning\">\n        <p class=\"message-body\">\n          There are no interments\n          associated with this contract.\n        </p>\n      </div>\n    \n</section>\n\n\n\n<section class=\"mt-4\">\n  <h2 class=\"title is-4\">Fees</h2>\n\n    \n      <div class=\"message is-info\">\n        <p class=\"message-body\">\n          There are no fees applied to this contract.\n        </p>\n      </div>\n    \n</section>\n\n<section class=\"mt-4\">\n  <h2 class=\"title is-4\">Transactions</h2>\n\n  \n    <div class=\"message is-info\">\n      <p class=\"message-body\">\n        There are no transactions associated with this contract.\n      </p>\n    </div>\n  \n</section>\n\n",
+      "sha256": "1b86b6c06f64aab0e45a3d4d0e8deed5d45b6ed49e0e9cd24cd4042b1e54be64"
+    },
+    {
+      "name": "pdf/workOrder",
+      "variant": "empty",
+      "data": {
+        "headTitle": "Work Order Field Sheet",
+        "contract": {
+          "contractId": 7,
+          "contractNumber": "SYN-2026",
+          "contractType": "Synthetic Contract <&>",
+          "burialSiteId": null,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryId": null,
+          "cemeteryName": "Synthetic Cemetery",
+          "contractStartDate": 20261020,
+          "contractStartDateString": "2026-10-20",
+          "contractEndDateString": "",
+          "contractFields": [],
+          "contractInterments": [],
+          "contractComments": [],
+          "contractFees": [],
+          "contractTransactions": []
+        },
+        "burialSite": {
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryName": "Synthetic Cemetery"
+        },
+        "workOrder": {
+          "workOrderId": 11,
+          "workOrderNumber": "2026-000011",
+          "workOrderType": "Synthetic Maintenance",
+          "workOrderDescription": "Synthetic Description <&>\nSecond line",
+          "workOrderOpenDateString": "2026-10-20",
+          "workOrderCloseDate": null,
+          "workOrderCloseDateString": "2026-10-20",
+          "recordCreate_timeMillis": 1792480200000,
+          "workOrderBurialSites": [],
+          "workOrderContracts": [],
+          "workOrderComments": [],
+          "workOrderMilestones": []
+        }
+      },
+      "configuration": {
+        "application.applicationName": "Cemaris",
+        "settings.contracts.contractEndDateIsAvailable": true,
+        "settings.contracts.prints": [
+          "screen/contract",
+          "pdf/synthetic",
+          "pdf/missing"
+        ],
+        "settings.workOrders.prints": [
+          "pdf/workOrder",
+          "pdf/workOrder-commentLog"
+        ],
+        "reverseProxy.urlPrefix": ""
+      },
+      "html": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <title>Work Order Field Sheet</title>\n    <style>\n      /* eslint-disable css/no-important */\n\n* {\n  font-family: Arial, Helvetica, sans-serif;\n}\n\nbody {\n  margin: 20px;\n}\n\n/* Elements */\n\n.box {\n  border: 1px solid black;\n  padding: 10px;\n}\n\n.checkbox {\n  height: 1.5em;\n  width: 1.5em;\n  display: inline-block;\n  border: 1px solid black;\n  text-align: center;\n\n  &::before {\n    content: ' ';\n  }\n  \n  &.is-checked::before {\n    content: '\\2714';\n  }\n}\n\n.field {\n  border-bottom: 1px solid black;\n  display: inline-block;\n  width: 100px;\n  padding: 10px 0;\n}\n\n/* Data Table */\n\n.data-table {\n  width: 100%;\n\n  thead, tfoot {\n    th {\n      padding: 5px;\n      text-align: left;\n    }\n  }\n  \n  tbody, tfoot {\n    td {\n      padding: 5px;\n      text-align: left;\n      border-top: 1px solid black;\n      vertical-align: top;\n    }\n  }\n}\n\n/* Layout Table */\n\n.layout-table {\n  width: 100%;\n  border: 0;\n  margin: 0;\n  padding: 0;\n\n  td {\n    vertical-align: top;\n  }\n}\n\n/* Table Helpers */\n\ntd {\n\n  &.is-vcentered {\n    vertical-align: middle;\n  }\n\n  &.is-width-1 {\n    width: 1px;\n  }\n  \n  &.has-border-bottom {\n    border-bottom: 1px solid black;\n  }\n}\n\n/* Padding / Margins */\n\n.m-0 {\n  margin: 0;\n}\n\n.mt-1 {\n  margin-top: 10px;\n}\n\n.mt-2 {\n  margin-top: 20px;\n}\n\n.mt-4 {\n  margin-top: 40px;\n}\n\n.mt-6 {\n  margin-top: 60px;\n}\n\n.mb-0 {\n  margin-bottom: 0;\n}\n\n.mb-1 {\n  margin-bottom: 10px;\n}\n\n.mb-2 {\n  margin-bottom: 20px;\n}\n\n.mb-4 {\n  margin-bottom: 40px;\n}\n\n.p-0 {\n  padding: 0;\n}\n\n.pl-1 {\n  padding-left: 10px;\n}\n\n/* Text Utilities */\n\n.is-8pt {\n  font-size: 8pt !important;\n}\n\n.is-10pt {\n  font-size: 10pt !important;\n}\n\n.is-12pt {\n  font-size: 12pt !important;\n}\n\n.has-text-left {\n  text-align: left;\n}\n\n.has-text-right {\n  text-align: right !important;\n}\n\n.has-text-centered {\n  text-align: center;\n}\n\n.is-capitalized {\n  text-transform: uppercase;\n}\n\n.is-italic {\n  font-style: italic;\n}\n\n.has-text-nowrap {\n  white-space: nowrap;\n}\n\n    </style>\n  </head>\n  <body>\n    <table class=\"layout-table\">\n  <tr>\n    <td>\n      <h1 class=\"m-0\">Work Order #2026-000011</h1>\n    </td>\n    <td class=\"has-text-right is-vcentered\">\n      <strong>\n        \n        Synthetic Maintenance\n      </strong>\n    </td>\n  </tr>\n</table>\n<div class=\"box mt-1\">\n  <table class=\"layout-table\">\n    <tr>\n      <td>\n        <p>\n          <strong>Description</strong><br />\n          Synthetic Description &lt;&amp;&gt;\nSecond line\n        </p>\n      </td>\n      <td class=\"pl-1 is-width-1 has-text-nowrap\">\n        <p>\n          <strong>Synthetic Open Date</strong><br />\n          2026-10-20\n        </p>\n        \n      </td>\n    </tr>\n  </table>\n</div>\n\n    \n    \n\n    \n\n    \n\n    <h2 class=\"mb-0\">Notes</h2>\n\n    <p style=\"position: absolute; bottom: 5px; left: 20px;\">\n      \n      <svg width=\"246px\" height=\"50px\" x=\"0px\" y=\"0px\" viewBox=\"0 0 246 50\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"><rect x=\"0\" y=\"0\" width=\"246\" height=\"50\" fill=\"#ffffff\"/><g transform=\"translate(0, 0)\" fill=\"#000000\"><rect x=\"0\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"6\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"12\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"22\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"30\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"36\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"44\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"54\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"60\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"66\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"74\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"78\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"88\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"94\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"100\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"110\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"114\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"122\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"132\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"138\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"146\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"154\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"160\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"168\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"176\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"186\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"192\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"198\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"204\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"216\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"220\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"230\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"238\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"242\" y=\"0\" width=\"4\" height=\"50\"/></g></svg>\n    </p>\n\n    <p class=\"has-text-right is-italic is-8pt\" style=\"position: absolute; bottom: 15px; right: 20px;\">\n      \n      Work order created 2026-10-20 at 9:10 a.m..\n      Printed 2026-10-20 at 9:05 a.m..<br />\n      workOrderId = 11\n    </p>\n  </body>\n</html>",
+      "sha256": "fa3752e77924505288ca13e2a073e4dc2f0cf539794e737349007d3e563cd341"
+    },
+    {
+      "name": "pdf/workOrder-commentLog",
+      "variant": "empty",
+      "data": {
+        "headTitle": "Work Order Field Sheet - Comment Log",
+        "contract": {
+          "contractId": 7,
+          "contractNumber": "SYN-2026",
+          "contractType": "Synthetic Contract <&>",
+          "burialSiteId": null,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryId": null,
+          "cemeteryName": "Synthetic Cemetery",
+          "contractStartDate": 20261020,
+          "contractStartDateString": "2026-10-20",
+          "contractEndDateString": "",
+          "contractFields": [],
+          "contractInterments": [],
+          "contractComments": [],
+          "contractFees": [],
+          "contractTransactions": []
+        },
+        "burialSite": {
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryName": "Synthetic Cemetery"
+        },
+        "workOrder": {
+          "workOrderId": 11,
+          "workOrderNumber": "2026-000011",
+          "workOrderType": "Synthetic Maintenance",
+          "workOrderDescription": "Synthetic Description <&>\nSecond line",
+          "workOrderOpenDateString": "2026-10-20",
+          "workOrderCloseDate": null,
+          "workOrderCloseDateString": "2026-10-20",
+          "recordCreate_timeMillis": 1792480200000,
+          "workOrderBurialSites": [],
+          "workOrderContracts": [],
+          "workOrderComments": [],
+          "workOrderMilestones": []
+        }
+      },
+      "configuration": {
+        "application.applicationName": "Cemaris",
+        "settings.contracts.contractEndDateIsAvailable": true,
+        "settings.contracts.prints": [
+          "screen/contract",
+          "pdf/synthetic",
+          "pdf/missing"
+        ],
+        "settings.workOrders.prints": [
+          "pdf/workOrder",
+          "pdf/workOrder-commentLog"
+        ],
+        "reverseProxy.urlPrefix": ""
+      },
+      "html": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <title>Work Order Field Sheet - Comment Log</title>\n    <style>\n      /* eslint-disable css/no-important */\n\n* {\n  font-family: Arial, Helvetica, sans-serif;\n}\n\nbody {\n  margin: 20px;\n}\n\n/* Elements */\n\n.box {\n  border: 1px solid black;\n  padding: 10px;\n}\n\n.checkbox {\n  height: 1.5em;\n  width: 1.5em;\n  display: inline-block;\n  border: 1px solid black;\n  text-align: center;\n\n  &::before {\n    content: ' ';\n  }\n  \n  &.is-checked::before {\n    content: '\\2714';\n  }\n}\n\n.field {\n  border-bottom: 1px solid black;\n  display: inline-block;\n  width: 100px;\n  padding: 10px 0;\n}\n\n/* Data Table */\n\n.data-table {\n  width: 100%;\n\n  thead, tfoot {\n    th {\n      padding: 5px;\n      text-align: left;\n    }\n  }\n  \n  tbody, tfoot {\n    td {\n      padding: 5px;\n      text-align: left;\n      border-top: 1px solid black;\n      vertical-align: top;\n    }\n  }\n}\n\n/* Layout Table */\n\n.layout-table {\n  width: 100%;\n  border: 0;\n  margin: 0;\n  padding: 0;\n\n  td {\n    vertical-align: top;\n  }\n}\n\n/* Table Helpers */\n\ntd {\n\n  &.is-vcentered {\n    vertical-align: middle;\n  }\n\n  &.is-width-1 {\n    width: 1px;\n  }\n  \n  &.has-border-bottom {\n    border-bottom: 1px solid black;\n  }\n}\n\n/* Padding / Margins */\n\n.m-0 {\n  margin: 0;\n}\n\n.mt-1 {\n  margin-top: 10px;\n}\n\n.mt-2 {\n  margin-top: 20px;\n}\n\n.mt-4 {\n  margin-top: 40px;\n}\n\n.mt-6 {\n  margin-top: 60px;\n}\n\n.mb-0 {\n  margin-bottom: 0;\n}\n\n.mb-1 {\n  margin-bottom: 10px;\n}\n\n.mb-2 {\n  margin-bottom: 20px;\n}\n\n.mb-4 {\n  margin-bottom: 40px;\n}\n\n.p-0 {\n  padding: 0;\n}\n\n.pl-1 {\n  padding-left: 10px;\n}\n\n/* Text Utilities */\n\n.is-8pt {\n  font-size: 8pt !important;\n}\n\n.is-10pt {\n  font-size: 10pt !important;\n}\n\n.is-12pt {\n  font-size: 12pt !important;\n}\n\n.has-text-left {\n  text-align: left;\n}\n\n.has-text-right {\n  text-align: right !important;\n}\n\n.has-text-centered {\n  text-align: center;\n}\n\n.is-capitalized {\n  text-transform: uppercase;\n}\n\n.is-italic {\n  font-style: italic;\n}\n\n.has-text-nowrap {\n  white-space: nowrap;\n}\n\n    </style>\n  </head>\n  <body>\n    <table class=\"layout-table\">\n  <tr>\n    <td>\n      <h1 class=\"m-0\">Work Order #2026-000011</h1>\n    </td>\n    <td class=\"has-text-right is-vcentered\">\n      <strong>\n        \n        Synthetic Maintenance\n      </strong>\n    </td>\n  </tr>\n</table>\n<div class=\"box mt-1\">\n  <table class=\"layout-table\">\n    <tr>\n      <td>\n        <p>\n          <strong>Description</strong><br />\n          Synthetic Description &lt;&amp;&gt;\nSecond line\n        </p>\n      </td>\n      <td class=\"pl-1 is-width-1 has-text-nowrap\">\n        <p>\n          <strong>Synthetic Open Date</strong><br />\n          2026-10-20\n        </p>\n        \n      </td>\n    </tr>\n  </table>\n</div>\n\n\n    <h2 class=\"mb-0\">Comments</h2>\n\n    \n    <p>There are no comments associated with this work order.</p>\n    \n          \n    <p style=\"position: absolute; bottom: 5px; left: 20px;\">\n      \n      <svg width=\"246px\" height=\"50px\" x=\"0px\" y=\"0px\" viewBox=\"0 0 246 50\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"><rect x=\"0\" y=\"0\" width=\"246\" height=\"50\" fill=\"#ffffff\"/><g transform=\"translate(0, 0)\" fill=\"#000000\"><rect x=\"0\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"6\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"12\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"22\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"30\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"36\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"44\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"54\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"60\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"66\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"74\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"78\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"88\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"94\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"100\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"110\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"114\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"122\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"132\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"138\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"146\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"154\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"160\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"168\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"176\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"186\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"192\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"198\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"204\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"216\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"220\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"230\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"238\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"242\" y=\"0\" width=\"4\" height=\"50\"/></g></svg>\n    </p>\n\n    <p class=\"has-text-right is-italic is-8pt\" style=\"position: absolute; bottom: 15px; right: 20px;\">\n      \n      Work order created 2026-10-20 at 9:10 a.m..\n      Printed 2026-10-20 at 9:05 a.m..<br />\n      workOrderId = 11\n    </p>\n  </body>\n</html>",
+      "sha256": "63228b4f9b591fbc2d555db481cfc5d34b185ca8f1fd924b7f3b4b6d6bedd868"
+    },
+    {
+      "name": "pdf/synthetic",
+      "variant": "empty",
+      "data": {
+        "headTitle": "Synthetic Custom Print",
+        "contract": {
+          "contractId": 7,
+          "contractNumber": "SYN-2026",
+          "contractType": "Synthetic Contract <&>",
+          "burialSiteId": null,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryId": null,
+          "cemeteryName": "Synthetic Cemetery",
+          "contractStartDate": 20261020,
+          "contractStartDateString": "2026-10-20",
+          "contractEndDateString": "",
+          "contractFields": [],
+          "contractInterments": [],
+          "contractComments": [],
+          "contractFees": [],
+          "contractTransactions": []
+        },
+        "burialSite": {
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryName": "Synthetic Cemetery"
+        },
+        "workOrder": {
+          "workOrderId": 11,
+          "workOrderNumber": "2026-000011",
+          "workOrderType": "Synthetic Maintenance",
+          "workOrderDescription": "Synthetic Description <&>\nSecond line",
+          "workOrderOpenDateString": "2026-10-20",
+          "workOrderCloseDate": null,
+          "workOrderCloseDateString": "2026-10-20",
+          "recordCreate_timeMillis": 1792480200000,
+          "workOrderBurialSites": [],
+          "workOrderContracts": [],
+          "workOrderComments": [],
+          "workOrderMilestones": []
+        }
+      },
+      "configuration": {
+        "application.applicationName": "Cemaris",
+        "settings.contracts.contractEndDateIsAvailable": true,
+        "settings.contracts.prints": [
+          "screen/contract",
+          "pdf/synthetic",
+          "pdf/missing"
+        ],
+        "settings.workOrders.prints": [
+          "pdf/workOrder",
+          "pdf/workOrder-commentLog"
+        ],
+        "reverseProxy.urlPrefix": ""
+      },
+      "html": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>Synthetic Custom Print</title></head><body>\n<h1>Cemaris: Synthetic Custom Print</h1>\n<p>Contract SYN-2026 / Synthetic Contract &lt;&amp;&gt;</p>\n\n\n<p>External receipt alias: Synthetic Receipt</p>\n<p>Transaction total: 0.00</p>\n<p>Field: (No Value)</p>\n<p>Fees: 0</p>\n<p>Start date: 2026-10-20</p>\n<p>Fallback: preserved fallback</p>\n<svg width=\"132px\" height=\"50px\" x=\"0px\" y=\"0px\" viewBox=\"0 0 132 50\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"><rect x=\"0\" y=\"0\" width=\"132\" height=\"50\" fill=\"#ffffff\"/><g transform=\"translate(10, 10)\" fill=\"#000000\"><rect x=\"0\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"3\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"6\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"11\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"14\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"18\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"22\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"26\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"29\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"33\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"35\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"41\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"44\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"47\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"50\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"55\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"57\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"61\" y=\"0\" width=\"4\" height=\"30\"/><rect x=\"66\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"70\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"73\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"77\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"82\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"85\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"88\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"92\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"95\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"99\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"104\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"108\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"110\" y=\"0\" width=\"2\" height=\"30\"/></g></svg>\n</body></html>\n",
+      "sha256": "a6bb04afdba2f06f26ed1b6944ba4d7e8b0c9795482248684e0e914101484da8"
+    },
+    {
+      "name": "screen/contract",
+      "variant": "no-end-date",
+      "data": {
+        "headTitle": "Burial Site Contract Print",
+        "contract": {
+          "contractId": 7,
+          "contractNumber": "SYN-2026",
+          "contractType": "Synthetic Contract <&>",
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryId": 3,
+          "cemeteryName": "Synthetic Cemetery",
+          "contractStartDate": 20261020,
+          "contractStartDateString": "2026-10-20",
+          "contractEndDateString": "",
+          "contractFields": [
+            {
+              "contractTypeField": "Synthetic Field",
+              "fieldValue": "Source value is not contractFieldValue"
+            }
+          ],
+          "contractInterments": [
+            {
+              "deceasedName": "Synthetic Person Ä <&>",
+              "deceasedAddress1": "1 Synthetic Street",
+              "deceasedAddress2": "Unit 2",
+              "deceasedCity": "Synthetic City",
+              "deceasedProvince": "ON",
+              "deceasedPostalCode": "SYN 001",
+              "intermentContainerType": "Synthetic Urn",
+              "intermentDepth": "Synthetic Depth"
+            }
+          ],
+          "contractComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDate": 20261020,
+              "commentTime": 905,
+              "commentDateString": "2026-10-20",
+              "commentTimeString": "09:05",
+              "comment": "This source screen uses obsolete property names."
+            }
+          ],
+          "contractFees": [
+            {
+              "feeName": "Synthetic Fee",
+              "feeCategory": "Synthetic Category",
+              "feeAmount": 12.345,
+              "taxAmount": 0.61725,
+              "quantity": 2
+            },
+            {
+              "feeName": "Synthetic Single",
+              "feeCategory": "Other",
+              "feeAmount": 5,
+              "taxAmount": 0,
+              "quantity": 1
+            }
+          ],
+          "contractTransactions": [
+            {
+              "transactionDateString": "2026-10-20",
+              "transactionAmount": 10.5,
+              "externalReceiptNumber": "SYN-R <&>",
+              "transactionNote": "Synthetic Note"
+            }
+          ]
+        },
+        "burialSite": {
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryName": "Synthetic Cemetery"
+        },
+        "workOrder": {
+          "workOrderId": 11,
+          "workOrderNumber": "2026-000011",
+          "workOrderType": "Synthetic Maintenance",
+          "workOrderDescription": "Synthetic Description <&>\nSecond line",
+          "workOrderOpenDateString": "2026-10-20",
+          "workOrderCloseDate": 20261020,
+          "workOrderCloseDateString": "2026-10-20",
+          "recordCreate_timeMillis": 1792480200000,
+          "workOrderBurialSites": [
+            {
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryName": "Synthetic Cemetery",
+              "burialSiteType": "Synthetic Type",
+              "burialSiteStatus": "Synthetic Available"
+            }
+          ],
+          "workOrderContracts": [
+            {
+              "contractId": 7,
+              "contractNumber": "SYN-2026",
+              "contractType": "Synthetic Contract <&>",
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryId": 3,
+              "cemeteryName": "Synthetic Cemetery",
+              "contractStartDate": 20261020,
+              "contractStartDateString": "2026-10-20",
+              "contractEndDateString": "",
+              "contractFields": [
+                {
+                  "contractTypeField": "Synthetic Field",
+                  "fieldValue": "Source value is not contractFieldValue"
+                }
+              ],
+              "contractInterments": [
+                {
+                  "deceasedName": "Synthetic Person Ä <&>",
+                  "deceasedAddress1": "1 Synthetic Street",
+                  "deceasedAddress2": "Unit 2",
+                  "deceasedCity": "Synthetic City",
+                  "deceasedProvince": "ON",
+                  "deceasedPostalCode": "SYN 001",
+                  "intermentContainerType": "Synthetic Urn",
+                  "intermentDepth": "Synthetic Depth"
+                }
+              ],
+              "contractComments": [
+                {
+                  "recordCreate_username": "synthetic-author",
+                  "recordUpdate_username": "synthetic-editor",
+                  "commentDate": 20261020,
+                  "commentTime": 905,
+                  "commentDateString": "2026-10-20",
+                  "commentTimeString": "09:05",
+                  "comment": "This source screen uses obsolete property names."
+                }
+              ],
+              "contractFees": [
+                {
+                  "feeName": "Synthetic Fee",
+                  "feeCategory": "Synthetic Category",
+                  "feeAmount": 12.345,
+                  "taxAmount": 0.61725,
+                  "quantity": 2
+                },
+                {
+                  "feeName": "Synthetic Single",
+                  "feeCategory": "Other",
+                  "feeAmount": 5,
+                  "taxAmount": 0,
+                  "quantity": 1
+                }
+              ],
+              "contractTransactions": [
+                {
+                  "transactionDateString": "2026-10-20",
+                  "transactionAmount": 10.5,
+                  "externalReceiptNumber": "SYN-R <&>",
+                  "transactionNote": "Synthetic Note"
+                }
+              ]
+            }
+          ],
+          "workOrderComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDateString": "2026-10-20",
+              "commentTimePeriodString": "9:05 AM",
+              "comment": "Synthetic comment <&>\nSecond line"
+            }
+          ],
+          "workOrderMilestones": [
+            {
+              "workOrderMilestoneTypeId": 1,
+              "workOrderMilestoneType": "Synthetic Milestone",
+              "workOrderMilestoneDescription": "Synthetic due",
+              "workOrderMilestoneDate": 20261020,
+              "workOrderMilestoneDateString": "2026-10-20",
+              "workOrderMilestoneTime": 905,
+              "workOrderMilestoneTimePeriodString": "9:05 AM",
+              "workOrderMilestoneCompletionDate": 20261020
+            },
+            {
+              "workOrderMilestoneTypeId": null,
+              "workOrderMilestoneDescription": "Undated",
+              "workOrderMilestoneDate": 0,
+              "workOrderMilestoneTime": 0,
+              "workOrderMilestoneCompletionDate": 0
+            }
+          ]
+        }
+      },
+      "configuration": {
+        "application.applicationName": "Cemaris",
+        "settings.contracts.contractEndDateIsAvailable": false,
+        "settings.contracts.prints": [
+          "screen/contract",
+          "pdf/synthetic",
+          "pdf/missing"
+        ],
+        "settings.workOrders.prints": [
+          "pdf/workOrder",
+          "pdf/workOrder-commentLog"
+        ],
+        "reverseProxy.urlPrefix": ""
+      },
+      "html": "<h1 class=\"title is-2 has-text-centered\">\n  Burial Site Contract\n</h1>\n\n<div class=\"columns\">\n  <div class=\"column\">\n    <p>\n      <strong>Contract Type</strong><br />\n      Synthetic Contract &lt;&amp;&gt;\n    </p>\n  </div>\n  <div class=\"column\">\n    <p class=\"mb-2\">\n      <strong>Burial Site</strong><br />\n      \n        Synthetic Site A\n      \n    </p>\n    <p>\n      <strong>Cemetery</strong><br />\n      \n        Synthetic Cemetery\n      \n    </p>\n  </div>\n  <div class=\"column\">\n    <p class=\"mb-2\">\n      <strong>Contract Date</strong><br />\n      2026-10-20\n    </p>\n    <p>\n      <strong>End Date</strong><br />\n      (No End Date)\n    </p>\n  </div>\n  \n    <div class=\"column\">\n      \n        <p class=\"mb-2\">\n          <strong>Synthetic Field</strong><br />\n          (No Value)\n        </p>\n      \n    </div>\n  \n</div>\n\n<section>\n    <h2 class=\"title is-4\">Interments</h2>\n\n    \n      <table class=\"table is-fullwidth\">\n        <thead>\n          <tr>\n            <th>Interment</th>\n            <th>Address</th>\n            <th>Container</th>\n            <th>Depth</th>\n          </tr>\n        </thead>\n        <tbody>\n          \n            <tr>\n              <td>Synthetic Person Ä &lt;&amp;&gt;</td>\n              <td>\n                1 Synthetic Street<br />\n                \n                    Unit 2<br />\n                \n                \n                    Synthetic City,\n                \n                ON<br />\n                SYN 001\n              </td>\n              <td>Synthetic Urn</td>\n              <td>Synthetic Depth</td>\n            </tr>\n          \n        </tbody>\n      </table>\n    \n</section>\n\n\n<section class=\"mt-4\">\n  <h2 class=\"title is-4\">Comments</h2>\n\n  <table class=\"table is-fullwidth\">\n    <thead>\n      <tr>\n        <th>Author</th>\n        <th>Comment Date</th>\n        <th>Comment</th>\n      </tr>\n    </thead>\n    <tbody>\n      \n        <tr>\n          <td>synthetic-author</td>\n          <td>\n            \n            \n          </td>\n          <td></td>\n        </tr>\n      \n    </tbody>\n  </table>\n</section>\n\n\n<section class=\"mt-4\">\n  <h2 class=\"title is-4\">Fees</h2>\n\n    \n        \n        <table class=\"table is-fullwidth\">\n            <thead>\n              <tr>\n                <th>Fee</th>\n                <th class=\"has-text-right\"><span class=\"is-sr-only\">Unit Cost</span></th>\n                <th class=\"has-width-1\"><span class=\"is-sr-only\">&times;</span></th>\n                <th class=\"has-width-1 has-text-right\"><span class=\"is-sr-only\">Quantity</span></th>\n                <th class=\"has-width-1\"><span class=\"is-sr-only\">=</span></th>\n                <th class=\"has-width-1 has-text-right\">Total</th>\n              </tr>\n            </thead>\n            <tbody>\n              \n                \n                <tr>\n                  <td colspan=\"1\">\n                    Synthetic Fee\n                  </td>\n                  \n                    <td class=\"has-text-right\">$12.35</td>\n                    <td>&times;</td>\n                    <td class=\"has-text-right\">2</td>\n                    <td>=</td>\n                  \n                  <td class=\"has-text-right\">$24.69</td>\n                </tr>\n              \n                \n                <tr>\n                  <td colspan=\"5\">\n                    Synthetic Single\n                  </td>\n                  \n                  <td class=\"has-text-right\">$5.00</td>\n                </tr>\n              \n            </tbody>\n            <tfoot>\n              <tr>\n                <th colspan=\"5\">Subtotal</th>\n                <td class=\"has-text-right has-text-weight-bold\">$29.69</td>\n              </tr>\n              <tr>\n                <th colspan=\"5\">Tax</th>\n                <td class=\"has-text-right\">$1.23</td>\n              </tr>\n              <tr>\n                <th colspan=\"5\">Grand Total</th>\n                <td class=\"has-text-right has-text-weight-bold\">$30.92</td>\n              </tr>\n            </tfoot>\n        </table>\n    \n</section>\n\n<section class=\"mt-4\">\n  <h2 class=\"title is-4\">Transactions</h2>\n\n  \n    <table class=\"table is-fullwidth\">\n      <thead>\n        <tr>\n          <th>Date</th>\n          <th>Synthetic Receipt</th>\n          <th class=\"has-text-right\">Amount</th>\n        </tr>\n      </thead>\n      <tbody>\n        \n          <tr>\n            <td>2026-10-20</td>\n            <td>\n              SYN-R &lt;&amp;&gt;<br />\n              <small>Synthetic Note</small>\n            </td>\n            <td class=\"has-text-right\">\n              $10.50\n            </td>\n          </tr>\n        \n      </tbody>\n    </table>\n  \n</section>\n\n",
+      "sha256": "72e151263cbf4fcf6aa90575d05ea6edcd034c514168e6a84ed371ae351c2fb1"
+    },
+    {
+      "name": "pdf/workOrder",
+      "variant": "no-end-date",
+      "data": {
+        "headTitle": "Work Order Field Sheet",
+        "contract": {
+          "contractId": 7,
+          "contractNumber": "SYN-2026",
+          "contractType": "Synthetic Contract <&>",
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryId": 3,
+          "cemeteryName": "Synthetic Cemetery",
+          "contractStartDate": 20261020,
+          "contractStartDateString": "2026-10-20",
+          "contractEndDateString": "",
+          "contractFields": [
+            {
+              "contractTypeField": "Synthetic Field",
+              "fieldValue": "Source value is not contractFieldValue"
+            }
+          ],
+          "contractInterments": [
+            {
+              "deceasedName": "Synthetic Person Ä <&>",
+              "deceasedAddress1": "1 Synthetic Street",
+              "deceasedAddress2": "Unit 2",
+              "deceasedCity": "Synthetic City",
+              "deceasedProvince": "ON",
+              "deceasedPostalCode": "SYN 001",
+              "intermentContainerType": "Synthetic Urn",
+              "intermentDepth": "Synthetic Depth"
+            }
+          ],
+          "contractComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDate": 20261020,
+              "commentTime": 905,
+              "commentDateString": "2026-10-20",
+              "commentTimeString": "09:05",
+              "comment": "This source screen uses obsolete property names."
+            }
+          ],
+          "contractFees": [
+            {
+              "feeName": "Synthetic Fee",
+              "feeCategory": "Synthetic Category",
+              "feeAmount": 12.345,
+              "taxAmount": 0.61725,
+              "quantity": 2
+            },
+            {
+              "feeName": "Synthetic Single",
+              "feeCategory": "Other",
+              "feeAmount": 5,
+              "taxAmount": 0,
+              "quantity": 1
+            }
+          ],
+          "contractTransactions": [
+            {
+              "transactionDateString": "2026-10-20",
+              "transactionAmount": 10.5,
+              "externalReceiptNumber": "SYN-R <&>",
+              "transactionNote": "Synthetic Note"
+            }
+          ]
+        },
+        "burialSite": {
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryName": "Synthetic Cemetery"
+        },
+        "workOrder": {
+          "workOrderId": 11,
+          "workOrderNumber": "2026-000011",
+          "workOrderType": "Synthetic Maintenance",
+          "workOrderDescription": "Synthetic Description <&>\nSecond line",
+          "workOrderOpenDateString": "2026-10-20",
+          "workOrderCloseDate": 20261020,
+          "workOrderCloseDateString": "2026-10-20",
+          "recordCreate_timeMillis": 1792480200000,
+          "workOrderBurialSites": [
+            {
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryName": "Synthetic Cemetery",
+              "burialSiteType": "Synthetic Type",
+              "burialSiteStatus": "Synthetic Available"
+            }
+          ],
+          "workOrderContracts": [
+            {
+              "contractId": 7,
+              "contractNumber": "SYN-2026",
+              "contractType": "Synthetic Contract <&>",
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryId": 3,
+              "cemeteryName": "Synthetic Cemetery",
+              "contractStartDate": 20261020,
+              "contractStartDateString": "2026-10-20",
+              "contractEndDateString": "",
+              "contractFields": [
+                {
+                  "contractTypeField": "Synthetic Field",
+                  "fieldValue": "Source value is not contractFieldValue"
+                }
+              ],
+              "contractInterments": [
+                {
+                  "deceasedName": "Synthetic Person Ä <&>",
+                  "deceasedAddress1": "1 Synthetic Street",
+                  "deceasedAddress2": "Unit 2",
+                  "deceasedCity": "Synthetic City",
+                  "deceasedProvince": "ON",
+                  "deceasedPostalCode": "SYN 001",
+                  "intermentContainerType": "Synthetic Urn",
+                  "intermentDepth": "Synthetic Depth"
+                }
+              ],
+              "contractComments": [
+                {
+                  "recordCreate_username": "synthetic-author",
+                  "recordUpdate_username": "synthetic-editor",
+                  "commentDate": 20261020,
+                  "commentTime": 905,
+                  "commentDateString": "2026-10-20",
+                  "commentTimeString": "09:05",
+                  "comment": "This source screen uses obsolete property names."
+                }
+              ],
+              "contractFees": [
+                {
+                  "feeName": "Synthetic Fee",
+                  "feeCategory": "Synthetic Category",
+                  "feeAmount": 12.345,
+                  "taxAmount": 0.61725,
+                  "quantity": 2
+                },
+                {
+                  "feeName": "Synthetic Single",
+                  "feeCategory": "Other",
+                  "feeAmount": 5,
+                  "taxAmount": 0,
+                  "quantity": 1
+                }
+              ],
+              "contractTransactions": [
+                {
+                  "transactionDateString": "2026-10-20",
+                  "transactionAmount": 10.5,
+                  "externalReceiptNumber": "SYN-R <&>",
+                  "transactionNote": "Synthetic Note"
+                }
+              ]
+            }
+          ],
+          "workOrderComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDateString": "2026-10-20",
+              "commentTimePeriodString": "9:05 AM",
+              "comment": "Synthetic comment <&>\nSecond line"
+            }
+          ],
+          "workOrderMilestones": [
+            {
+              "workOrderMilestoneTypeId": 1,
+              "workOrderMilestoneType": "Synthetic Milestone",
+              "workOrderMilestoneDescription": "Synthetic due",
+              "workOrderMilestoneDate": 20261020,
+              "workOrderMilestoneDateString": "2026-10-20",
+              "workOrderMilestoneTime": 905,
+              "workOrderMilestoneTimePeriodString": "9:05 AM",
+              "workOrderMilestoneCompletionDate": 20261020
+            },
+            {
+              "workOrderMilestoneTypeId": null,
+              "workOrderMilestoneDescription": "Undated",
+              "workOrderMilestoneDate": 0,
+              "workOrderMilestoneTime": 0,
+              "workOrderMilestoneCompletionDate": 0
+            }
+          ]
+        }
+      },
+      "configuration": {
+        "application.applicationName": "Cemaris",
+        "settings.contracts.contractEndDateIsAvailable": false,
+        "settings.contracts.prints": [
+          "screen/contract",
+          "pdf/synthetic",
+          "pdf/missing"
+        ],
+        "settings.workOrders.prints": [
+          "pdf/workOrder",
+          "pdf/workOrder-commentLog"
+        ],
+        "reverseProxy.urlPrefix": ""
+      },
+      "html": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <title>Work Order Field Sheet</title>\n    <style>\n      /* eslint-disable css/no-important */\n\n* {\n  font-family: Arial, Helvetica, sans-serif;\n}\n\nbody {\n  margin: 20px;\n}\n\n/* Elements */\n\n.box {\n  border: 1px solid black;\n  padding: 10px;\n}\n\n.checkbox {\n  height: 1.5em;\n  width: 1.5em;\n  display: inline-block;\n  border: 1px solid black;\n  text-align: center;\n\n  &::before {\n    content: ' ';\n  }\n  \n  &.is-checked::before {\n    content: '\\2714';\n  }\n}\n\n.field {\n  border-bottom: 1px solid black;\n  display: inline-block;\n  width: 100px;\n  padding: 10px 0;\n}\n\n/* Data Table */\n\n.data-table {\n  width: 100%;\n\n  thead, tfoot {\n    th {\n      padding: 5px;\n      text-align: left;\n    }\n  }\n  \n  tbody, tfoot {\n    td {\n      padding: 5px;\n      text-align: left;\n      border-top: 1px solid black;\n      vertical-align: top;\n    }\n  }\n}\n\n/* Layout Table */\n\n.layout-table {\n  width: 100%;\n  border: 0;\n  margin: 0;\n  padding: 0;\n\n  td {\n    vertical-align: top;\n  }\n}\n\n/* Table Helpers */\n\ntd {\n\n  &.is-vcentered {\n    vertical-align: middle;\n  }\n\n  &.is-width-1 {\n    width: 1px;\n  }\n  \n  &.has-border-bottom {\n    border-bottom: 1px solid black;\n  }\n}\n\n/* Padding / Margins */\n\n.m-0 {\n  margin: 0;\n}\n\n.mt-1 {\n  margin-top: 10px;\n}\n\n.mt-2 {\n  margin-top: 20px;\n}\n\n.mt-4 {\n  margin-top: 40px;\n}\n\n.mt-6 {\n  margin-top: 60px;\n}\n\n.mb-0 {\n  margin-bottom: 0;\n}\n\n.mb-1 {\n  margin-bottom: 10px;\n}\n\n.mb-2 {\n  margin-bottom: 20px;\n}\n\n.mb-4 {\n  margin-bottom: 40px;\n}\n\n.p-0 {\n  padding: 0;\n}\n\n.pl-1 {\n  padding-left: 10px;\n}\n\n/* Text Utilities */\n\n.is-8pt {\n  font-size: 8pt !important;\n}\n\n.is-10pt {\n  font-size: 10pt !important;\n}\n\n.is-12pt {\n  font-size: 12pt !important;\n}\n\n.has-text-left {\n  text-align: left;\n}\n\n.has-text-right {\n  text-align: right !important;\n}\n\n.has-text-centered {\n  text-align: center;\n}\n\n.is-capitalized {\n  text-transform: uppercase;\n}\n\n.is-italic {\n  font-style: italic;\n}\n\n.has-text-nowrap {\n  white-space: nowrap;\n}\n\n    </style>\n  </head>\n  <body>\n    <table class=\"layout-table\">\n  <tr>\n    <td>\n      <h1 class=\"m-0\">Work Order #2026-000011</h1>\n    </td>\n    <td class=\"has-text-right is-vcentered\">\n      <strong>\n        \n          CLOSED<br />\n        \n        Synthetic Maintenance\n      </strong>\n    </td>\n  </tr>\n</table>\n<div class=\"box mt-1\">\n  <table class=\"layout-table\">\n    <tr>\n      <td>\n        <p>\n          <strong>Description</strong><br />\n          Synthetic Description &lt;&amp;&gt;\nSecond line\n        </p>\n      </td>\n      <td class=\"pl-1 is-width-1 has-text-nowrap\">\n        <p>\n          <strong>Synthetic Open Date</strong><br />\n          2026-10-20\n        </p>\n        \n          <p>\n            <strong>Synthetic Close Date</strong><br />\n            2026-10-20\n          </p>\n        \n      </td>\n    </tr>\n  </table>\n</div>\n\n    \n    \n    <h2 class=\"mb-0\">Burial Sites</h2>\n\n    <table class=\"data-table\">\n      <thead>\n        <tr>\n          <th>Burial Site</th>\n          <th>Cemetery</th>\n          <th>Burial Site Type</th>\n          <th>Status</th>\n        </tr>\n      </thead>\n      <tbody>\n        \n        <tr>\n          <td>Synthetic Site A</td>\n          <td>Synthetic Cemetery</td>\n          <td>Synthetic Type</td>\n          <td>Synthetic Available</td>\n        </tr>\n        \n      </tbody>\n    </table>\n    \n\n    \n    <h2 class=\"mb-0\">Contracts</h2>\n\n    <table class=\"data-table\">\n      <thead>\n        <tr>\n          <th>Contract Type</th>\n          <th>Burial Site</th>\n          <th>Contract Date</th>\n          \n          <th>Interments</th>\n        </tr>\n      </thead>\n      <tbody>\n        \n        <tr>\n          <td>Synthetic Contract &lt;&amp;&gt;</td>\n          <td>Synthetic Site A</td>\n          <td>2026-10-20</td>\n          \n          <td>\n            \n            Synthetic Person Ä &lt;&amp;&gt;<br />\n            \n          </td>\n        </tr>\n        \n      </tbody>\n    </table>\n    \n\n    \n    <h2 class=\"mb-0\">Milestones</h2>\n\n    <table class=\"data-table\">\n      <thead>\n        <tr>\n          <th class=\"is-width-1\"></th>\n          <th>Milestone Description</th>\n          <th>Due Date</th>\n        </tr>\n      </thead>\n      <tbody>\n        \n        <tr>\n          <td class=\"is-width-1\">\n            \n            <span class=\"checkbox is-checked\"></span>\n            \n          </td>\n          <td>\n            \n            <strong>Synthetic Milestone</strong><br />\n            \n            Synthetic due\n          </td>\n          <td>\n            \n            2026-10-20\n            \n            \n            9:05 AM\n            \n          </td>\n        </tr>\n        \n        <tr>\n          <td class=\"is-width-1\">\n            \n            <span class=\"checkbox\"></span>\n            \n          </td>\n          <td>\n            \n            Undated\n          </td>\n          <td>\n            \n            (No Set Date)\n            \n            \n          </td>\n        </tr>\n        \n      </tbody>\n    </table>\n    \n\n    <h2 class=\"mb-0\">Notes</h2>\n\n    <p style=\"position: absolute; bottom: 5px; left: 20px;\">\n      \n      <svg width=\"246px\" height=\"50px\" x=\"0px\" y=\"0px\" viewBox=\"0 0 246 50\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"><rect x=\"0\" y=\"0\" width=\"246\" height=\"50\" fill=\"#ffffff\"/><g transform=\"translate(0, 0)\" fill=\"#000000\"><rect x=\"0\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"6\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"12\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"22\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"30\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"36\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"44\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"54\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"60\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"66\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"74\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"78\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"88\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"94\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"100\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"110\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"114\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"122\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"132\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"138\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"146\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"154\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"160\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"168\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"176\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"186\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"192\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"198\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"204\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"216\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"220\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"230\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"238\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"242\" y=\"0\" width=\"4\" height=\"50\"/></g></svg>\n    </p>\n\n    <p class=\"has-text-right is-italic is-8pt\" style=\"position: absolute; bottom: 15px; right: 20px;\">\n      \n      Work order created 2026-10-20 at 9:10 a.m..\n      Printed 2026-10-20 at 9:05 a.m..<br />\n      workOrderId = 11\n    </p>\n  </body>\n</html>",
+      "sha256": "a37bd9999d1b634f8c7e4c30c26a518fb7259cf3e7818df01145544395bb9996"
+    },
+    {
+      "name": "pdf/workOrder-commentLog",
+      "variant": "no-end-date",
+      "data": {
+        "headTitle": "Work Order Field Sheet - Comment Log",
+        "contract": {
+          "contractId": 7,
+          "contractNumber": "SYN-2026",
+          "contractType": "Synthetic Contract <&>",
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryId": 3,
+          "cemeteryName": "Synthetic Cemetery",
+          "contractStartDate": 20261020,
+          "contractStartDateString": "2026-10-20",
+          "contractEndDateString": "",
+          "contractFields": [
+            {
+              "contractTypeField": "Synthetic Field",
+              "fieldValue": "Source value is not contractFieldValue"
+            }
+          ],
+          "contractInterments": [
+            {
+              "deceasedName": "Synthetic Person Ä <&>",
+              "deceasedAddress1": "1 Synthetic Street",
+              "deceasedAddress2": "Unit 2",
+              "deceasedCity": "Synthetic City",
+              "deceasedProvince": "ON",
+              "deceasedPostalCode": "SYN 001",
+              "intermentContainerType": "Synthetic Urn",
+              "intermentDepth": "Synthetic Depth"
+            }
+          ],
+          "contractComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDate": 20261020,
+              "commentTime": 905,
+              "commentDateString": "2026-10-20",
+              "commentTimeString": "09:05",
+              "comment": "This source screen uses obsolete property names."
+            }
+          ],
+          "contractFees": [
+            {
+              "feeName": "Synthetic Fee",
+              "feeCategory": "Synthetic Category",
+              "feeAmount": 12.345,
+              "taxAmount": 0.61725,
+              "quantity": 2
+            },
+            {
+              "feeName": "Synthetic Single",
+              "feeCategory": "Other",
+              "feeAmount": 5,
+              "taxAmount": 0,
+              "quantity": 1
+            }
+          ],
+          "contractTransactions": [
+            {
+              "transactionDateString": "2026-10-20",
+              "transactionAmount": 10.5,
+              "externalReceiptNumber": "SYN-R <&>",
+              "transactionNote": "Synthetic Note"
+            }
+          ]
+        },
+        "burialSite": {
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryName": "Synthetic Cemetery"
+        },
+        "workOrder": {
+          "workOrderId": 11,
+          "workOrderNumber": "2026-000011",
+          "workOrderType": "Synthetic Maintenance",
+          "workOrderDescription": "Synthetic Description <&>\nSecond line",
+          "workOrderOpenDateString": "2026-10-20",
+          "workOrderCloseDate": 20261020,
+          "workOrderCloseDateString": "2026-10-20",
+          "recordCreate_timeMillis": 1792480200000,
+          "workOrderBurialSites": [
+            {
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryName": "Synthetic Cemetery",
+              "burialSiteType": "Synthetic Type",
+              "burialSiteStatus": "Synthetic Available"
+            }
+          ],
+          "workOrderContracts": [
+            {
+              "contractId": 7,
+              "contractNumber": "SYN-2026",
+              "contractType": "Synthetic Contract <&>",
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryId": 3,
+              "cemeteryName": "Synthetic Cemetery",
+              "contractStartDate": 20261020,
+              "contractStartDateString": "2026-10-20",
+              "contractEndDateString": "",
+              "contractFields": [
+                {
+                  "contractTypeField": "Synthetic Field",
+                  "fieldValue": "Source value is not contractFieldValue"
+                }
+              ],
+              "contractInterments": [
+                {
+                  "deceasedName": "Synthetic Person Ä <&>",
+                  "deceasedAddress1": "1 Synthetic Street",
+                  "deceasedAddress2": "Unit 2",
+                  "deceasedCity": "Synthetic City",
+                  "deceasedProvince": "ON",
+                  "deceasedPostalCode": "SYN 001",
+                  "intermentContainerType": "Synthetic Urn",
+                  "intermentDepth": "Synthetic Depth"
+                }
+              ],
+              "contractComments": [
+                {
+                  "recordCreate_username": "synthetic-author",
+                  "recordUpdate_username": "synthetic-editor",
+                  "commentDate": 20261020,
+                  "commentTime": 905,
+                  "commentDateString": "2026-10-20",
+                  "commentTimeString": "09:05",
+                  "comment": "This source screen uses obsolete property names."
+                }
+              ],
+              "contractFees": [
+                {
+                  "feeName": "Synthetic Fee",
+                  "feeCategory": "Synthetic Category",
+                  "feeAmount": 12.345,
+                  "taxAmount": 0.61725,
+                  "quantity": 2
+                },
+                {
+                  "feeName": "Synthetic Single",
+                  "feeCategory": "Other",
+                  "feeAmount": 5,
+                  "taxAmount": 0,
+                  "quantity": 1
+                }
+              ],
+              "contractTransactions": [
+                {
+                  "transactionDateString": "2026-10-20",
+                  "transactionAmount": 10.5,
+                  "externalReceiptNumber": "SYN-R <&>",
+                  "transactionNote": "Synthetic Note"
+                }
+              ]
+            }
+          ],
+          "workOrderComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDateString": "2026-10-20",
+              "commentTimePeriodString": "9:05 AM",
+              "comment": "Synthetic comment <&>\nSecond line"
+            }
+          ],
+          "workOrderMilestones": [
+            {
+              "workOrderMilestoneTypeId": 1,
+              "workOrderMilestoneType": "Synthetic Milestone",
+              "workOrderMilestoneDescription": "Synthetic due",
+              "workOrderMilestoneDate": 20261020,
+              "workOrderMilestoneDateString": "2026-10-20",
+              "workOrderMilestoneTime": 905,
+              "workOrderMilestoneTimePeriodString": "9:05 AM",
+              "workOrderMilestoneCompletionDate": 20261020
+            },
+            {
+              "workOrderMilestoneTypeId": null,
+              "workOrderMilestoneDescription": "Undated",
+              "workOrderMilestoneDate": 0,
+              "workOrderMilestoneTime": 0,
+              "workOrderMilestoneCompletionDate": 0
+            }
+          ]
+        }
+      },
+      "configuration": {
+        "application.applicationName": "Cemaris",
+        "settings.contracts.contractEndDateIsAvailable": false,
+        "settings.contracts.prints": [
+          "screen/contract",
+          "pdf/synthetic",
+          "pdf/missing"
+        ],
+        "settings.workOrders.prints": [
+          "pdf/workOrder",
+          "pdf/workOrder-commentLog"
+        ],
+        "reverseProxy.urlPrefix": ""
+      },
+      "html": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <title>Work Order Field Sheet - Comment Log</title>\n    <style>\n      /* eslint-disable css/no-important */\n\n* {\n  font-family: Arial, Helvetica, sans-serif;\n}\n\nbody {\n  margin: 20px;\n}\n\n/* Elements */\n\n.box {\n  border: 1px solid black;\n  padding: 10px;\n}\n\n.checkbox {\n  height: 1.5em;\n  width: 1.5em;\n  display: inline-block;\n  border: 1px solid black;\n  text-align: center;\n\n  &::before {\n    content: ' ';\n  }\n  \n  &.is-checked::before {\n    content: '\\2714';\n  }\n}\n\n.field {\n  border-bottom: 1px solid black;\n  display: inline-block;\n  width: 100px;\n  padding: 10px 0;\n}\n\n/* Data Table */\n\n.data-table {\n  width: 100%;\n\n  thead, tfoot {\n    th {\n      padding: 5px;\n      text-align: left;\n    }\n  }\n  \n  tbody, tfoot {\n    td {\n      padding: 5px;\n      text-align: left;\n      border-top: 1px solid black;\n      vertical-align: top;\n    }\n  }\n}\n\n/* Layout Table */\n\n.layout-table {\n  width: 100%;\n  border: 0;\n  margin: 0;\n  padding: 0;\n\n  td {\n    vertical-align: top;\n  }\n}\n\n/* Table Helpers */\n\ntd {\n\n  &.is-vcentered {\n    vertical-align: middle;\n  }\n\n  &.is-width-1 {\n    width: 1px;\n  }\n  \n  &.has-border-bottom {\n    border-bottom: 1px solid black;\n  }\n}\n\n/* Padding / Margins */\n\n.m-0 {\n  margin: 0;\n}\n\n.mt-1 {\n  margin-top: 10px;\n}\n\n.mt-2 {\n  margin-top: 20px;\n}\n\n.mt-4 {\n  margin-top: 40px;\n}\n\n.mt-6 {\n  margin-top: 60px;\n}\n\n.mb-0 {\n  margin-bottom: 0;\n}\n\n.mb-1 {\n  margin-bottom: 10px;\n}\n\n.mb-2 {\n  margin-bottom: 20px;\n}\n\n.mb-4 {\n  margin-bottom: 40px;\n}\n\n.p-0 {\n  padding: 0;\n}\n\n.pl-1 {\n  padding-left: 10px;\n}\n\n/* Text Utilities */\n\n.is-8pt {\n  font-size: 8pt !important;\n}\n\n.is-10pt {\n  font-size: 10pt !important;\n}\n\n.is-12pt {\n  font-size: 12pt !important;\n}\n\n.has-text-left {\n  text-align: left;\n}\n\n.has-text-right {\n  text-align: right !important;\n}\n\n.has-text-centered {\n  text-align: center;\n}\n\n.is-capitalized {\n  text-transform: uppercase;\n}\n\n.is-italic {\n  font-style: italic;\n}\n\n.has-text-nowrap {\n  white-space: nowrap;\n}\n\n    </style>\n  </head>\n  <body>\n    <table class=\"layout-table\">\n  <tr>\n    <td>\n      <h1 class=\"m-0\">Work Order #2026-000011</h1>\n    </td>\n    <td class=\"has-text-right is-vcentered\">\n      <strong>\n        \n          CLOSED<br />\n        \n        Synthetic Maintenance\n      </strong>\n    </td>\n  </tr>\n</table>\n<div class=\"box mt-1\">\n  <table class=\"layout-table\">\n    <tr>\n      <td>\n        <p>\n          <strong>Description</strong><br />\n          Synthetic Description &lt;&amp;&gt;\nSecond line\n        </p>\n      </td>\n      <td class=\"pl-1 is-width-1 has-text-nowrap\">\n        <p>\n          <strong>Synthetic Open Date</strong><br />\n          2026-10-20\n        </p>\n        \n          <p>\n            <strong>Synthetic Close Date</strong><br />\n            2026-10-20\n          </p>\n        \n      </td>\n    </tr>\n  </table>\n</div>\n\n\n    <h2 class=\"mb-0\">Comments</h2>\n\n    \n    <table class=\"data-table\">\n      <thead>\n        <tr>\n          <th>Author</th>\n          <th>Comment Time</th>\n          <th>Comment</th>\n        </tr>\n      </thead>\n      <tbody>\n        \n        <tr>\n          <td>synthetic-editor</td>\n          <td>2026-10-20 9:05 AM</td>\n          <td>Synthetic comment &lt;&amp;&gt;\nSecond line</td>\n        </tr>\n        \n      </tbody>\n    </table>\n    \n          \n    <p style=\"position: absolute; bottom: 5px; left: 20px;\">\n      \n      <svg width=\"246px\" height=\"50px\" x=\"0px\" y=\"0px\" viewBox=\"0 0 246 50\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"><rect x=\"0\" y=\"0\" width=\"246\" height=\"50\" fill=\"#ffffff\"/><g transform=\"translate(0, 0)\" fill=\"#000000\"><rect x=\"0\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"6\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"12\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"22\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"30\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"36\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"44\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"54\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"60\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"66\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"74\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"78\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"88\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"94\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"100\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"110\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"114\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"122\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"132\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"138\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"146\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"154\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"160\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"168\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"176\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"186\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"192\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"198\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"204\" y=\"0\" width=\"8\" height=\"50\"/><rect x=\"216\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"220\" y=\"0\" width=\"4\" height=\"50\"/><rect x=\"230\" y=\"0\" width=\"6\" height=\"50\"/><rect x=\"238\" y=\"0\" width=\"2\" height=\"50\"/><rect x=\"242\" y=\"0\" width=\"4\" height=\"50\"/></g></svg>\n    </p>\n\n    <p class=\"has-text-right is-italic is-8pt\" style=\"position: absolute; bottom: 15px; right: 20px;\">\n      \n      Work order created 2026-10-20 at 9:10 a.m..\n      Printed 2026-10-20 at 9:05 a.m..<br />\n      workOrderId = 11\n    </p>\n  </body>\n</html>",
+      "sha256": "b7529c3823dcbdf65c2b92f1c788d743fc83a5bbac6fbfa5e59300299c7bad9b"
+    },
+    {
+      "name": "pdf/synthetic",
+      "variant": "no-end-date",
+      "data": {
+        "headTitle": "Synthetic Custom Print",
+        "contract": {
+          "contractId": 7,
+          "contractNumber": "SYN-2026",
+          "contractType": "Synthetic Contract <&>",
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryId": 3,
+          "cemeteryName": "Synthetic Cemetery",
+          "contractStartDate": 20261020,
+          "contractStartDateString": "2026-10-20",
+          "contractEndDateString": "",
+          "contractFields": [
+            {
+              "contractTypeField": "Synthetic Field",
+              "fieldValue": "Source value is not contractFieldValue"
+            }
+          ],
+          "contractInterments": [
+            {
+              "deceasedName": "Synthetic Person Ä <&>",
+              "deceasedAddress1": "1 Synthetic Street",
+              "deceasedAddress2": "Unit 2",
+              "deceasedCity": "Synthetic City",
+              "deceasedProvince": "ON",
+              "deceasedPostalCode": "SYN 001",
+              "intermentContainerType": "Synthetic Urn",
+              "intermentDepth": "Synthetic Depth"
+            }
+          ],
+          "contractComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDate": 20261020,
+              "commentTime": 905,
+              "commentDateString": "2026-10-20",
+              "commentTimeString": "09:05",
+              "comment": "This source screen uses obsolete property names."
+            }
+          ],
+          "contractFees": [
+            {
+              "feeName": "Synthetic Fee",
+              "feeCategory": "Synthetic Category",
+              "feeAmount": 12.345,
+              "taxAmount": 0.61725,
+              "quantity": 2
+            },
+            {
+              "feeName": "Synthetic Single",
+              "feeCategory": "Other",
+              "feeAmount": 5,
+              "taxAmount": 0,
+              "quantity": 1
+            }
+          ],
+          "contractTransactions": [
+            {
+              "transactionDateString": "2026-10-20",
+              "transactionAmount": 10.5,
+              "externalReceiptNumber": "SYN-R <&>",
+              "transactionNote": "Synthetic Note"
+            }
+          ]
+        },
+        "burialSite": {
+          "burialSiteId": 9,
+          "burialSiteName": "Synthetic Site A",
+          "cemeteryName": "Synthetic Cemetery"
+        },
+        "workOrder": {
+          "workOrderId": 11,
+          "workOrderNumber": "2026-000011",
+          "workOrderType": "Synthetic Maintenance",
+          "workOrderDescription": "Synthetic Description <&>\nSecond line",
+          "workOrderOpenDateString": "2026-10-20",
+          "workOrderCloseDate": 20261020,
+          "workOrderCloseDateString": "2026-10-20",
+          "recordCreate_timeMillis": 1792480200000,
+          "workOrderBurialSites": [
+            {
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryName": "Synthetic Cemetery",
+              "burialSiteType": "Synthetic Type",
+              "burialSiteStatus": "Synthetic Available"
+            }
+          ],
+          "workOrderContracts": [
+            {
+              "contractId": 7,
+              "contractNumber": "SYN-2026",
+              "contractType": "Synthetic Contract <&>",
+              "burialSiteId": 9,
+              "burialSiteName": "Synthetic Site A",
+              "cemeteryId": 3,
+              "cemeteryName": "Synthetic Cemetery",
+              "contractStartDate": 20261020,
+              "contractStartDateString": "2026-10-20",
+              "contractEndDateString": "",
+              "contractFields": [
+                {
+                  "contractTypeField": "Synthetic Field",
+                  "fieldValue": "Source value is not contractFieldValue"
+                }
+              ],
+              "contractInterments": [
+                {
+                  "deceasedName": "Synthetic Person Ä <&>",
+                  "deceasedAddress1": "1 Synthetic Street",
+                  "deceasedAddress2": "Unit 2",
+                  "deceasedCity": "Synthetic City",
+                  "deceasedProvince": "ON",
+                  "deceasedPostalCode": "SYN 001",
+                  "intermentContainerType": "Synthetic Urn",
+                  "intermentDepth": "Synthetic Depth"
+                }
+              ],
+              "contractComments": [
+                {
+                  "recordCreate_username": "synthetic-author",
+                  "recordUpdate_username": "synthetic-editor",
+                  "commentDate": 20261020,
+                  "commentTime": 905,
+                  "commentDateString": "2026-10-20",
+                  "commentTimeString": "09:05",
+                  "comment": "This source screen uses obsolete property names."
+                }
+              ],
+              "contractFees": [
+                {
+                  "feeName": "Synthetic Fee",
+                  "feeCategory": "Synthetic Category",
+                  "feeAmount": 12.345,
+                  "taxAmount": 0.61725,
+                  "quantity": 2
+                },
+                {
+                  "feeName": "Synthetic Single",
+                  "feeCategory": "Other",
+                  "feeAmount": 5,
+                  "taxAmount": 0,
+                  "quantity": 1
+                }
+              ],
+              "contractTransactions": [
+                {
+                  "transactionDateString": "2026-10-20",
+                  "transactionAmount": 10.5,
+                  "externalReceiptNumber": "SYN-R <&>",
+                  "transactionNote": "Synthetic Note"
+                }
+              ]
+            }
+          ],
+          "workOrderComments": [
+            {
+              "recordCreate_username": "synthetic-author",
+              "recordUpdate_username": "synthetic-editor",
+              "commentDateString": "2026-10-20",
+              "commentTimePeriodString": "9:05 AM",
+              "comment": "Synthetic comment <&>\nSecond line"
+            }
+          ],
+          "workOrderMilestones": [
+            {
+              "workOrderMilestoneTypeId": 1,
+              "workOrderMilestoneType": "Synthetic Milestone",
+              "workOrderMilestoneDescription": "Synthetic due",
+              "workOrderMilestoneDate": 20261020,
+              "workOrderMilestoneDateString": "2026-10-20",
+              "workOrderMilestoneTime": 905,
+              "workOrderMilestoneTimePeriodString": "9:05 AM",
+              "workOrderMilestoneCompletionDate": 20261020
+            },
+            {
+              "workOrderMilestoneTypeId": null,
+              "workOrderMilestoneDescription": "Undated",
+              "workOrderMilestoneDate": 0,
+              "workOrderMilestoneTime": 0,
+              "workOrderMilestoneCompletionDate": 0
+            }
+          ]
+        }
+      },
+      "configuration": {
+        "application.applicationName": "Cemaris",
+        "settings.contracts.contractEndDateIsAvailable": false,
+        "settings.contracts.prints": [
+          "screen/contract",
+          "pdf/synthetic",
+          "pdf/missing"
+        ],
+        "settings.workOrders.prints": [
+          "pdf/workOrder",
+          "pdf/workOrder-commentLog"
+        ],
+        "reverseProxy.urlPrefix": ""
+      },
+      "html": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>Synthetic Custom Print</title></head><body>\n<h1>Cemaris: Synthetic Custom Print</h1>\n<p>Contract SYN-2026 / Synthetic Contract &lt;&amp;&gt;</p>\n<p>Synthetic Person Ä &lt;&amp;&gt;</p>\n\n<p>External receipt alias: Synthetic Receipt</p>\n<p>Transaction total: 10.50</p>\n<p>Field: Source value is not contractFieldValue</p>\n<p>Fees: 1</p>\n<p>Start date: 2026-10-20</p>\n<p>Fallback: preserved fallback</p>\n<svg width=\"132px\" height=\"50px\" x=\"0px\" y=\"0px\" viewBox=\"0 0 132 50\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"><rect x=\"0\" y=\"0\" width=\"132\" height=\"50\" fill=\"#ffffff\"/><g transform=\"translate(10, 10)\" fill=\"#000000\"><rect x=\"0\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"3\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"6\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"11\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"14\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"18\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"22\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"26\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"29\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"33\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"35\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"41\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"44\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"47\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"50\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"55\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"57\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"61\" y=\"0\" width=\"4\" height=\"30\"/><rect x=\"66\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"70\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"73\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"77\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"82\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"85\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"88\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"92\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"95\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"99\" y=\"0\" width=\"2\" height=\"30\"/><rect x=\"104\" y=\"0\" width=\"3\" height=\"30\"/><rect x=\"108\" y=\"0\" width=\"1\" height=\"30\"/><rect x=\"110\" y=\"0\" width=\"2\" height=\"30\"/></g></svg>\n</body></html>\n",
+      "sha256": "9fe6e728345529f5c2c78d4e6c6d36b5c40b715c4c36a9a9b9a94c9db06dea6d"
+    }
+  ],
+  "reportCases": [
+    {
+      "name": "screen/contract",
+      "query": {
+        "contractId": "7"
+      },
+      "keys": [
+        "burialSite",
+        "contract",
+        "headTitle"
+      ],
+      "calls": [
+        [
+          "contract",
+          "7"
+        ],
+        [
+          "burialSite",
+          9
+        ]
+      ]
+    },
+    {
+      "name": "screen/contract",
+      "query": {
+        "contractId": 7
+      },
+      "keys": [
+        "headTitle"
+      ],
+      "calls": []
+    },
+    {
+      "name": "pdf/workOrder",
+      "query": {
+        "workOrderId": "11"
+      },
+      "keys": [
+        "headTitle",
+        "workOrder"
+      ],
+      "calls": [
+        [
+          "workOrder",
+          "11",
+          {
+            "includeBurialSites": true,
+            "includeComments": true,
+            "includeMilestones": true
+          }
+        ]
+      ]
+    },
+    {
+      "name": "pdf/workOrder",
+      "query": {
+        "workOrderId": 11
+      },
+      "keys": [
+        "headTitle",
+        "workOrder"
+      ],
+      "calls": [
+        [
+          "workOrder",
+          11,
+          {
+            "includeBurialSites": true,
+            "includeComments": true,
+            "includeMilestones": true
+          }
+        ]
+      ]
+    },
+    {
+      "name": "pdf/workOrder",
+      "query": {},
+      "keys": [
+        "headTitle"
+      ],
+      "calls": []
+    },
+    {
+      "name": "pdf/synthetic",
+      "query": {
+        "contractId": "missing"
+      },
+      "keys": [
+        "contract",
+        "headTitle"
+      ],
+      "calls": [
+        [
+          "contract",
+          "missing"
+        ]
+      ]
+    }
+  ],
+  "handlerCases": [
+    {
+      "kind": "screen",
+      "name": "contract",
+      "template": "print/screen/contract",
+      "data": {
+        "headTitle": "Burial Site Contract Print"
+      }
+    },
+    {
+      "kind": "screen",
+      "name": "missing",
+      "redirect": "/dashboard/?error=printConfigNotAllowed"
+    },
+    {
+      "kind": "screen",
+      "name": "disabled",
+      "redirect": "/dashboard/?error=printConfigNotAllowed"
+    },
+    {
+      "kind": "pdf",
+      "name": "workOrder",
+      "headers": {
+        "Content-Disposition": "attachment; filename=workOrderFieldSheet-11.pdf",
+        "Content-Type": "application/pdf"
+      },
+      "sent": "SYNTHETIC PDF BOUNDARY"
+    },
+    {
+      "kind": "pdf",
+      "name": "missing",
+      "redirect": "/dashboard/?error=printConfigNotFound"
+    },
+    {
+      "kind": "pdf",
+      "name": "disabled",
+      "redirect": "/dashboard/?error=printConfigNotAllowed"
+    }
+  ],
+  "filenames": [
+    {
+      "title": "Work Order Field Sheet",
+      "id": "11",
+      "filename": "workOrderFieldSheet-11.pdf"
+    },
+    {
+      "title": "Work Order Field Sheet",
+      "id": "ä & 2",
+      "filename": "workOrderFieldSheet-ä & 2.pdf"
+    },
+    {
+      "title": "Work Order Field Sheet - Comment Log",
+      "id": "11",
+      "filename": "workOrderFieldSheetCommentLog-11.pdf"
+    },
+    {
+      "title": "Work Order Field Sheet - Comment Log",
+      "id": "ä & 2",
+      "filename": "workOrderFieldSheetCommentLog-ä & 2.pdf"
+    },
+    {
+      "title": "Synthetic Custom Print",
+      "id": "11",
+      "filename": "syntheticCustomPrint-11.pdf"
+    },
+    {
+      "title": "Synthetic Custom Print",
+      "id": "ä & 2",
+      "filename": "syntheticCustomPrint-ä & 2.pdf"
+    },
+    {
+      "title": "Ünicode PDF 2026",
+      "id": "11",
+      "filename": "ünicodePdf2026-11.pdf"
+    },
+    {
+      "title": "Ünicode PDF 2026",
+      "id": "ä & 2",
+      "filename": "ünicodePdf2026-ä & 2.pdf"
+    },
+    {
+      "title": "XML PDF Export",
+      "id": "11",
+      "filename": "xmlPdfExport-11.pdf"
+    },
+    {
+      "title": "XML PDF Export",
+      "id": "ä & 2",
+      "filename": "xmlPdfExport-ä & 2.pdf"
+    }
+  ]
+}

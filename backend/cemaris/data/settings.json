@@ -1,0 +1,242 @@
+[
+  {
+    "settingKey": "aliases.externalReceiptNumber",
+    "settingName": "Bezeichnungen – Belegnummer",
+    "description": "Bezeichnung für die externe Belegnummer.",
+    "type": "string",
+    "defaultValue": "Belegnummer",
+    "isUserConfigurable": true,
+    "settingNameEn": "Aliases - External Receipt Number",
+    "descriptionEn": "The alias for the external receipt number."
+  },
+  {
+    "settingKey": "aliases.workOrderOpenDate",
+    "settingName": "Bezeichnungen – Auftragsdatum",
+    "description": "Bezeichnung für das Eröffnungsdatum eines Arbeitsauftrags.",
+    "type": "string",
+    "defaultValue": "Auftragsdatum",
+    "isUserConfigurable": true,
+    "settingNameEn": "Aliases - Work Order Open Date",
+    "descriptionEn": "The alias for the work order open date."
+  },
+  {
+    "settingKey": "aliases.workOrderCloseDate",
+    "settingName": "Bezeichnungen – Abschlussdatum",
+    "description": "Bezeichnung für das Abschlussdatum eines Arbeitsauftrags.",
+    "type": "string",
+    "defaultValue": "Abschlussdatum",
+    "isUserConfigurable": true,
+    "settingNameEn": "Aliases - Work Order Close Date",
+    "descriptionEn": "The alias for the work order close date."
+  },
+  {
+    "settingKey": "burialSiteTypes.bodyCapacityMaxDefault",
+    "settingName": "Grabstättenarten – Sargkapazität",
+    "description": "Vorgabe für die maximale Anzahl an Sargbeisetzungen.",
+    "type": "number",
+    "defaultValue": "2",
+    "isUserConfigurable": true,
+    "settingNameEn": "Burial Site Types - Body Capacity Max Default",
+    "descriptionEn": "The default maximum body capacity for burial site types."
+  },
+  {
+    "settingKey": "burialSiteTypes.crematedCapacityMaxDefault",
+    "settingName": "Grabstättenarten – Urnenkapazität",
+    "description": "Vorgabe für die maximale Anzahl an Urnenbeisetzungen.",
+    "type": "number",
+    "defaultValue": "6",
+    "isUserConfigurable": true,
+    "settingNameEn": "Burial Site Types - Cremated Capacity Max Default",
+    "descriptionEn": "The default maximum cremated capacity for burial site types."
+  },
+  {
+    "settingKey": "defaults.city",
+    "settingName": "Vorgaben – Ort",
+    "description": "Vorbelegung des Orts bei neuen Datensätzen.",
+    "type": "string",
+    "defaultValue": "",
+    "isUserConfigurable": true,
+    "settingNameEn": "Defaults - City",
+    "descriptionEn": "The default city for new records."
+  },
+  {
+    "settingKey": "defaults.province",
+    "settingName": "Vorgaben – Bundesland",
+    "description": "Vorbelegung des Bundeslands bei neuen Datensätzen.",
+    "type": "string",
+    "defaultValue": "",
+    "isUserConfigurable": true,
+    "settingNameEn": "Defaults - Province",
+    "descriptionEn": "The default two-letter province for new records."
+  },
+  {
+    "settingKey": "workOrder.workDay.0.startHour",
+    "settingName": "Arbeitszeit – Sonntag – Beginn",
+    "description": "Erste Arbeitsstunde am Sonntag.",
+    "type": "number",
+    "defaultValue": "",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Sunday - Start Hour",
+    "descriptionEn": "The first hour for work day on Sunday."
+  },
+  {
+    "settingKey": "workOrder.workDay.0.endHour",
+    "settingName": "Arbeitszeit – Sonntag – Ende",
+    "description": "Letzte Arbeitsstunde am Sonntag.",
+    "type": "number",
+    "defaultValue": "",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Sunday - End Hour",
+    "descriptionEn": "The final hour for work day on Sunday."
+  },
+  {
+    "settingKey": "workOrder.workDay.1.startHour",
+    "settingName": "Arbeitszeit – Montag – Beginn",
+    "description": "Erste Arbeitsstunde am Montag.",
+    "type": "number",
+    "defaultValue": "8",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Monday - Start Hour",
+    "descriptionEn": "The first hour for work day on Monday."
+  },
+  {
+    "settingKey": "workOrder.workDay.1.endHour",
+    "settingName": "Arbeitszeit – Montag – Ende",
+    "description": "Letzte Arbeitsstunde am Montag.",
+    "type": "number",
+    "defaultValue": "17",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Monday - End Hour",
+    "descriptionEn": "The final hour for work day on Monday."
+  },
+  {
+    "settingKey": "workOrder.workDay.2.startHour",
+    "settingName": "Arbeitszeit – Dienstag – Beginn",
+    "description": "Erste Arbeitsstunde am Dienstag.",
+    "type": "number",
+    "defaultValue": "8",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Tuesday - Start Hour",
+    "descriptionEn": "The first hour for work day on Tuesday."
+  },
+  {
+    "settingKey": "workOrder.workDay.2.endHour",
+    "settingName": "Arbeitszeit – Dienstag – Ende",
+    "description": "Letzte Arbeitsstunde am Dienstag.",
+    "type": "number",
+    "defaultValue": "17",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Tuesday - End Hour",
+    "descriptionEn": "The final hour for work day on Tuesday."
+  },
+  {
+    "settingKey": "workOrder.workDay.3.startHour",
+    "settingName": "Arbeitszeit – Mittwoch – Beginn",
+    "description": "Erste Arbeitsstunde am Mittwoch.",
+    "type": "number",
+    "defaultValue": "8",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Wednesday - Start Hour",
+    "descriptionEn": "The first hour for work day on Wednesday."
+  },
+  {
+    "settingKey": "workOrder.workDay.3.endHour",
+    "settingName": "Arbeitszeit – Mittwoch – Ende",
+    "description": "Letzte Arbeitsstunde am Mittwoch.",
+    "type": "number",
+    "defaultValue": "17",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Wednesday - End Hour",
+    "descriptionEn": "The final hour for work day on Wednesday."
+  },
+  {
+    "settingKey": "workOrder.workDay.4.startHour",
+    "settingName": "Arbeitszeit – Donnerstag – Beginn",
+    "description": "Erste Arbeitsstunde am Donnerstag.",
+    "type": "number",
+    "defaultValue": "8",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Thursday - Start Hour",
+    "descriptionEn": "The first hour for work day on Thursday."
+  },
+  {
+    "settingKey": "workOrder.workDay.4.endHour",
+    "settingName": "Arbeitszeit – Donnerstag – Ende",
+    "description": "Letzte Arbeitsstunde am Donnerstag.",
+    "type": "number",
+    "defaultValue": "17",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Thursday - End Hour",
+    "descriptionEn": "The final hour for work day on Thursday."
+  },
+  {
+    "settingKey": "workOrder.workDay.5.startHour",
+    "settingName": "Arbeitszeit – Freitag – Beginn",
+    "description": "Erste Arbeitsstunde am Freitag.",
+    "type": "number",
+    "defaultValue": "8",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Friday - Start Hour",
+    "descriptionEn": "The first hour for work day on Friday."
+  },
+  {
+    "settingKey": "workOrder.workDay.5.endHour",
+    "settingName": "Arbeitszeit – Freitag – Ende",
+    "description": "Letzte Arbeitsstunde am Freitag.",
+    "type": "number",
+    "defaultValue": "17",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Friday - End Hour",
+    "descriptionEn": "The final hour for work day on Friday."
+  },
+  {
+    "settingKey": "workOrder.workDay.6.startHour",
+    "settingName": "Arbeitszeit – Samstag – Beginn",
+    "description": "Erste Arbeitsstunde am Samstag.",
+    "type": "number",
+    "defaultValue": "",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Saturday - Start Hour",
+    "descriptionEn": "The first hour for work day on Saturday."
+  },
+  {
+    "settingKey": "workOrder.workDay.6.endHour",
+    "settingName": "Arbeitszeit – Samstag – Ende",
+    "description": "Letzte Arbeitsstunde am Samstag.",
+    "type": "number",
+    "defaultValue": "",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Work Day - Saturday - End Hour",
+    "descriptionEn": "The final hour for work day on Saturday."
+  },
+  {
+    "settingKey": "workOrder.workOrderMilestone.recentBeforeDays",
+    "settingName": "Auftragstermine – vergangene Tage",
+    "description": "Anzahl der vergangenen Tage, deren Auftragstermine als aktuell angezeigt werden.",
+    "type": "number",
+    "defaultValue": "5",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Milestone - Recent Before Days",
+    "descriptionEn": "The number of days before the current date to consider a work order milestone as recent."
+  },
+  {
+    "settingKey": "workOrder.workOrderMilestone.recentAfterDays",
+    "settingName": "Auftragstermine – kommende Tage",
+    "description": "Anzahl der kommenden Tage, deren Auftragstermine als aktuell angezeigt werden.",
+    "type": "number",
+    "defaultValue": "60",
+    "isUserConfigurable": true,
+    "settingNameEn": "Work Order Milestone - Recent After Days",
+    "descriptionEn": "The number of days after the current date to consider a work order milestone as recent."
+  },
+  {
+    "settingKey": "application.csrfSecret",
+    "settingName": "Anwendung – CSRF-Schlüssel",
+    "description": "Interner Schlüssel zum Schutz gegen gefälschte Anfragen.",
+    "type": "string",
+    "defaultValue": "",
+    "isUserConfigurable": false,
+    "settingNameEn": "Application - CSRF Secret",
+    "descriptionEn": "The secret used for CSRF protection."
+  }
+]

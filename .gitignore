@@ -1,0 +1,17 @@
+.tools/
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.egg-info/
+.env
+.env.*
+!.env.example
+node_modules
+dist/
+.local/
+coverage/
+*.log
+data/sessions/
+data/attachments/
+/backups/

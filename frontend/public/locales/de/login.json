@@ -1,0 +1,11 @@
+{
+  "forgotPassword": "Passwort vergessen?",
+  "invalidCredentials": "Benutzername oder Passwort ist ungültig.",
+  "loginButton": "Anmelden",
+  "password": "Passwort",
+  "rememberMe": "Angemeldet bleiben",
+  "testingDatabasesInUse": "Testdatenbanken werden verwendet!",
+  "title": "Anmeldung",
+  "tooManyAttempts": "Zu viele Anmeldeversuche. Bitte versuchen Sie es später erneut.",
+  "username": "Benutzername"
+}

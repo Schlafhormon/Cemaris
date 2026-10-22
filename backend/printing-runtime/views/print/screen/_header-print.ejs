@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- eslint-disable-next-line html/require-closing-tags -->
+<html class="has-background-dark m-0 p-0" lang="de">
+  
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>
+      <%= headTitle %>: <%= configFunctions.getConfigProperty("application.applicationName") %>
+    </title>
+    
+    <style><%- include('../../../node_modules/@cityssm/bulma-sticky-table/bulma-with-sticky-table.css'); %></style>
+    <style><%- include('cemaris.css'); %></style>
+
+    <link href="<%= urlPrefix %>/print/branding/icon.png" rel="icon" />
+  </head>
+  
+  <!-- eslint-disable-next-line html/require-closing-tags -->
+  <body class="m-0 p-0" style="min-height:100vh;">
+    <div class="fixed-container is-fixed-bottom-right mx-4 my-4 has-text-right is-hidden-print">
+      <button
+        class="button is-circle is-primary"
+        type="button"
+        title="Drucken"
+        onclick="window.print()"
+        autofocus
+      >
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 9V3h12v6M6 17H3V9h18v8h-3M6 14h12v7H6z" />
+          <path d="M17 11h1" />
+        </svg>
+        <span class="is-sr-only">Drucken</span>
+      </button>
+    </div>
+    
+    <!-- eslint-disable-next-line html/require-closing-tags -->
+    <main class="container is-page">

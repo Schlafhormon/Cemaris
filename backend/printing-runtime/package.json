@@ -1,0 +1,27 @@
+{
+  "name": "cemaris-printing-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.19.0"
+  },
+  "dependencies": {
+    "@cityssm/bulma-sticky-table": "3.0.2",
+    "@cityssm/configurator": "0.2.0",
+    "@cityssm/jsbarcode-svg": "0.2.0",
+    "@cityssm/to-millis": "1.0.1",
+    "@cityssm/utils-datetime": "1.4.1",
+    "camelcase": "10.0.0",
+    "ejs": "7.0.1",
+    "puppeteer-core": "25.10.0"
+  },
+  "overrides": {
+    "get-east-asian-width": "1.5.0",
+    "modern-tar": "0.8.5",
+    "string-width@>=8": "8.2.2",
+    "typed-query-selector": "2.12.2",
+    "ws": "8.21.3",
+    "yargs": "18.1.0"
+  }
+}

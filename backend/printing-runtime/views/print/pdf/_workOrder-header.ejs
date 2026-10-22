@@ -1,0 +1,40 @@
+<% const cemarisDate = value => String(value ?? '').replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$3.$2.$1'); %>
+<table class="layout-table">
+  <tr>
+    <td>
+      <h1 class="m-0">Arbeitsauftrag Nr. <%= workOrder.workOrderNumber %></h1>
+    </td>
+    <td class="has-text-right is-vcentered">
+      <strong>
+        <% if (workOrder.workOrderCloseDate) { %>
+          ABGESCHLOSSEN<br />
+        <% } %>
+        <%= workOrder.workOrderType %>
+      </strong>
+    </td>
+  </tr>
+</table>
+<div class="box mt-1">
+  <table class="layout-table">
+    <tr>
+      <td>
+        <p>
+          <strong>Beschreibung</strong><br />
+          <%= workOrder.workOrderDescription %>
+        </p>
+      </td>
+      <td class="pl-1 is-width-1 has-text-nowrap">
+        <p>
+          <strong><%= settingFunctions.getSettingValue("aliases.workOrderOpenDate") %></strong><br />
+          <%= cemarisDate(workOrder.workOrderOpenDateString) %>
+        </p>
+        <% if (workOrder.workOrderCloseDate) { %>
+          <p>
+            <strong><%= settingFunctions.getSettingValue("aliases.workOrderCloseDate") %></strong><br />
+            <%= cemarisDate(workOrder.workOrderCloseDateString) %>
+          </p>
+        <% } %>
+      </td>
+    </tr>
+  </table>
+</div>

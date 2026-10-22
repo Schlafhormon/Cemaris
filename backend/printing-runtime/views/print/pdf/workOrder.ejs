@@ -1,0 +1,155 @@
+<%
+const cemarisDate = value => String(value ?? '').replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$3.$2.$1');
+const cemarisTime = value => {
+  const text = String(value ?? '');
+  const match = text.match(/^(\d{1,2}):(\d{2})(?::\d{2})?\s*(AM|PM)?$/i);
+  if (!match) return text;
+  let hour = Number(match[1]);
+  if (match[3]) hour = hour % 12 + (match[3].toUpperCase() === 'PM' ? 12 : 0);
+  return String(hour).padStart(2, '0') + ':' + match[2];
+};
+const cemarisTimestamp = value => new Intl.DateTimeFormat('de-DE', {
+  timeZone: 'Europe/Berlin', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+}).format(value).replace(', ', ' um ') + ' Uhr';
+%>
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title><%= headTitle %></title>
+    <style>
+      <%- include('style.css'); %>
+    </style>
+  </head>
+  <body>
+    <%- include('_workOrder-header.ejs'); %>
+    
+    <% if (workOrder.workOrderBurialSites.length > 0) { %>
+    <h2 class="mb-0">Grabstätten</h2>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Grabstätte</th>
+          <th>Friedhof</th>
+          <th>Grabstättenart</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const burialSite of workOrder.workOrderBurialSites) { %>
+        <tr>
+          <td><%= burialSite.burialSiteName %></td>
+          <td><%= burialSite.cemeteryName %></td>
+          <td><%= burialSite.burialSiteType %></td>
+          <td><%= burialSite.burialSiteStatus %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+    <% } %>
+
+    <% if (workOrder.workOrderContracts.length > 0) { %>
+    <h2 class="mb-0">Verträge</h2>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Vertragsart</th>
+          <th>Grabstätte</th>
+          <th>Vertragsdatum</th>
+          <% if (configFunctions.getConfigProperty('settings.contracts.contractEndDateIsAvailable')) { %>
+          <th>Enddatum</th>
+          <% } %>
+          <th>Beisetzungen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const contract of workOrder.workOrderContracts) { %>
+        <tr>
+          <td><%= contract.contractType %></td>
+          <td><%= contract.burialSiteName %></td>
+          <td><%= cemarisDate(contract.contractStartDateString) %></td>
+          <% if (configFunctions.getConfigProperty('settings.contracts.contractEndDateIsAvailable')) { %>
+          <td><%= cemarisDate(contract.contractEndDateString) %></td>
+          <% } %>
+          <td>
+            <% for (const interment of contract.contractInterments) { %>
+            <%= interment.deceasedName %><br />
+            <% } %>
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+    <% } %>
+
+    <% if (workOrder.workOrderMilestones.length > 0) { %>
+    <h2 class="mb-0">Meilensteine</h2>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="is-width-1"></th>
+          <th>Meilensteinbeschreibung</th>
+          <th>Fälligkeitsdatum</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const milestone of workOrder.workOrderMilestones) { %>
+        <tr>
+          <td class="is-width-1">
+            <% if (milestone.workOrderMilestoneCompletionDate) { %>
+            <span class="checkbox is-checked"></span>
+            <% } else { %>
+            <span class="checkbox"></span>
+            <% } %>
+          </td>
+          <td>
+            <% if (milestone.workOrderMilestoneTypeId) { %>
+            <strong><%= milestone.workOrderMilestoneType %></strong><br />
+            <% } %>
+            <%= milestone.workOrderMilestoneDescription %>
+          </td>
+          <td>
+            <% if (milestone.workOrderMilestoneDate === 0) { %>
+            (Kein Datum festgelegt)
+            <% } else { %>
+            <%= cemarisDate(milestone.workOrderMilestoneDateString) %>
+            <% } %>
+            <% if (milestone.workOrderMilestoneTime) { %>
+            <%= cemarisTime(milestone.workOrderMilestoneTimePeriodString) %>
+            <% } %>
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+    <% } %>
+
+    <h2 class="mb-0">Notizen</h2>
+
+    <p style="position: absolute; bottom: 5px; left: 20px;">
+      <%
+      const barcodeData = barcodeFunctions.generateBarcodeSvg(workOrder.workOrderNumber, {
+        format: 'CODE128',
+        width: 2,
+        height: 50,
+        margin: 0,
+        displayValue: false
+      })
+      %>
+      <%- barcodeData %>
+    </p>
+
+    <p class="has-text-right is-italic is-8pt" style="position: absolute; bottom: 15px; right: 20px;">
+      <%
+      const recordCreateDate = new Date(workOrder.recordCreate_timeMillis);
+      const currentDate = new Date();
+      %>
+      Arbeitsauftrag erstellt am <%= cemarisTimestamp(recordCreateDate) %>.
+      Gedruckt am <%= cemarisTimestamp(currentDate) %>.<br />
+      Arbeitsauftrags-ID: <%= workOrder.workOrderId %>
+    </p>
+  </body>
+</html>

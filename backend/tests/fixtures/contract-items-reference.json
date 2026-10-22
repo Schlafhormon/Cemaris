@@ -1,0 +1,3712 @@
+{
+  "reference_commit": "451ce034863b16502484367044f3e9b65370111a",
+  "source_sha256": {
+    "package-lock.json": "a5871b5d28f0b1ab4e05b34ca27c4293c901d4196c05212dd09bbba7fb1729c2",
+    "helpers/dataLists.js": "0e7cc96f45830f16dd3cfd76e264a513156b3336a627dc44fabe85f8e8b0473d",
+    "public/javascripts/contract.editInterments.js": "335471c2fad98f589938160197485c79e73f4c9eb6f198e77c3d00e0923eb6c8",
+    "database/initializeDatabase.js": "835ca5bc8d85ce5781a3404057590473149023f6a6ac908f688e10bb1b69b4a0",
+    "helpers/partialDate.helpers.js": "6ca1b26045bb0e1d60b36c9195957fa19d2bdfdbc9cda252313881f8022d4ea0",
+    "helpers/findagrave.helpers.js": "b4daf4891e621213275eb56e7380dff17661ddec4543d21dcddc9ddbcb5f509d",
+    "database/createAuditLogEntries.js": "a9c8820f2c333c22097decb8856c15d8a2b1d82a2c1d5d890648f32dfd138089",
+    "database/addContractInterment.js": "5d7ac9104a478662f01dbf5e78720fd1dcb23f6a22915977819db9a9f02539f9",
+    "database/updateContractInterment.js": "66a390e65337f37280c1c450e0c1be68b8fd3f1236e14ca7711efe8b14d59ead",
+    "database/deleteContractInterment.js": "3e78e9d6c5c73d84d303b2128ba1bb405bd97bdea76e722f1402e905135bdd69",
+    "database/getContractInterments.js": "f943303194393ac04aeb8c1593a5a13d2444ae9f698b2d1a75a5c06e210755a3",
+    "database/addContractServiceType.js": "457648c58a2f68b6cf39bfa64f64b6a585a4e261715cf9d0c208866381713e67",
+    "database/updateContractServiceType.js": "cfe22f2472138f8971e3869afa7bdcf4c69b30260214503afe6b0ad04d0e9dac",
+    "database/deleteContractServiceType.js": "b861e8f262b11ff393491bef436bef847d285048da9bdf9869a7b6f73c72b793",
+    "database/getContractServiceTypes.js": "4414a7c6e59c6154b6347a22980feb32cdf3aaebbb3eb2493f85da78c3432771",
+    "handlers/contractsPost/doAddContractInterment.js": "acc5bd0ad4bc776f882a56f495062aa37fcbebf00fe4082d7a4ae1ad19d6b340",
+    "handlers/contractsPost/doUpdateContractInterment.js": "7839603527707c513a7fee4e6c58735a4224b20df72801618f7090d84a493694",
+    "handlers/contractsPost/doDeleteContractInterment.js": "2f18bb0f74d2fbd5276ff11243fbb67ec4dcf6c635c2d051da04cf7e262a3a53",
+    "handlers/contractsPost/doAddContractServiceType.js": "67b6872798917fcbfa1ce0806437e0d491bb8685417bf3ab416fa68acb0f63f5",
+    "handlers/contractsPost/doUpdateContractServiceType.js": "bedf8780f63e72f1682889c708330cdd7d4ef7f98ef7c05320ddbfd90c6f139f",
+    "handlers/contractsPost/doDeleteContractServiceType.js": "e15efa5ca8c7d68f48aac885c0acf01b80126a6b47a88168df0c4c5c34253593"
+  },
+  "packages": [
+    {
+      "name": "@cityssm/utils-datetime",
+      "version": "1.4.1",
+      "integrity": "sha512-yTrHQa9iJQw27/rax2M1rYjW4K6K6UDZhM3B4hY8PPDhKfJwK8IYWuT7MPMlnbeBCGxRT2Hw5gZBPY9/FnNyGQ=="
+    },
+    {
+      "name": "@cityssm/object-difference",
+      "version": "0.1.0",
+      "integrity": "sha512-p4xKG18426FmHw2YAm7DbMezuLFv/u/l7IWkMau83qTSrKfg9DNpR8XfKi+vuQ8jW6uwcm80OJCdF0jW0vy3lw=="
+    },
+    {
+      "name": "@cityssm/cemetery-utils",
+      "version": "0.3.0",
+      "integrity": "sha512-H46BSe7fQUAhmZS57f48N9wGQfrxWvYLArG+VFcWTUhdkyYkU0lc/yizvkuhLxfC+HBhfP/C3LAkUteAS5qCMg=="
+    },
+    {
+      "name": "parse-full-name",
+      "version": "1.2.7",
+      "integrity": "sha512-vbQWooZZM4Xrts/qHTE00bhRTVPERmwZA8q0p6IUW1cB04GjTc1D0Xb7Qf3vZnFfC/t9tPshaY7V1fNGFa4jTQ=="
+    },
+    {
+      "name": "@cityssm/fill-block-range",
+      "version": "0.3.0",
+      "integrity": "sha512-zUFoisp6b4D3qeaIcWtU9tTgAO4c0y/WWiWDkiBqn3dI3pw/bkH3GMBgLtKmtIG85i40FL+GGstjnpKkNg2Gkg=="
+    },
+    {
+      "name": "fill-range",
+      "version": "7.1.1",
+      "integrity": "sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg=="
+    },
+    {
+      "name": "to-regex-range",
+      "version": "5.0.1",
+      "integrity": "sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ=="
+    },
+    {
+      "name": "is-number",
+      "version": "7.0.0",
+      "integrity": "sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng=="
+    },
+    {
+      "name": "just-cartesian-product",
+      "version": "4.2.0",
+      "integrity": "sha512-vl+3t1HG/Q7o4hLqzaBUBr+3qOZudedXDY6+OVX3Ca6a120xBjzeFdql7+bv5gJhYYI13HnN2A1or5bA2x4ZBg=="
+    }
+  ],
+  "today": 20261020,
+  "fixed_local_time": "09:05:42",
+  "oracle_boundaries": [
+    "Original schema, function bodies, six handlers, partial-date and FindAGrave wrappers, locked runtime packages, audit differences and audit writer execute unchanged; imports/exports alone are removed.",
+    "Connection access/close is a shared in-memory-source boundary; handler close calls are counted. Debug output is a no-op.",
+    "No external FindAGrave HTTP call occurs: original URL construction executes locally.",
+    "Audit values omit record* properties in full record snapshots; scalar recordUpdate_username differences remain. Audit clock fields are omitted."
+  ],
+  "dataLists": {
+    "deathAgePeriods": [
+      "Years",
+      "Months",
+      "Days",
+      "Stillborn"
+    ],
+    "directionsOfArrival": [
+      "N",
+      "NE",
+      "E",
+      "SE",
+      "S",
+      "SW",
+      "W",
+      "NW"
+    ],
+    "purchaserRelationships": [
+      "Self",
+      "Partner",
+      "Boyfriend",
+      "Girlfriend",
+      "Spouse",
+      "Husband",
+      "Wife",
+      "Sibling",
+      "Brother",
+      "Sister",
+      "Parent",
+      "Father",
+      "Mother",
+      "Child",
+      "Son",
+      "Daughter",
+      "Grandparent",
+      "Grandfather",
+      "Grandmother",
+      "Grandchild",
+      "Grandson",
+      "Granddaughter",
+      "Uncle",
+      "Aunt",
+      "Nephew",
+      "Niece",
+      "Cousin",
+      "Friend"
+    ]
+  },
+  "browserCalculator": {
+    "timezone": "Europe/Berlin",
+    "cases": [
+      {
+        "parts": [
+          "",
+          "",
+          "",
+          "2000",
+          "",
+          ""
+        ],
+        "expected": {
+          "deathAge": "existing",
+          "deathAgePeriod": "Months",
+          "disabled": true
+        }
+      },
+      {
+        "parts": [
+          "1900",
+          "",
+          "",
+          "2000",
+          "",
+          ""
+        ],
+        "expected": {
+          "deathAge": "100",
+          "deathAgePeriod": "Years",
+          "disabled": false
+        }
+      },
+      {
+        "parts": [
+          "2000",
+          "",
+          "",
+          "2000",
+          "",
+          ""
+        ],
+        "expected": {
+          "deathAge": "0",
+          "deathAgePeriod": "Stillborn",
+          "disabled": false
+        }
+      },
+      {
+        "parts": [
+          "2000",
+          "1",
+          "1",
+          "2000",
+          "1",
+          "1"
+        ],
+        "expected": {
+          "deathAge": "0",
+          "deathAgePeriod": "Stillborn",
+          "disabled": false
+        }
+      },
+      {
+        "parts": [
+          "2000",
+          "1",
+          "1",
+          "2000",
+          "1",
+          "31"
+        ],
+        "expected": {
+          "deathAge": "30",
+          "deathAgePeriod": "Days",
+          "disabled": false
+        }
+      },
+      {
+        "parts": [
+          "2000",
+          "1",
+          "1",
+          "2001",
+          "1",
+          "1"
+        ],
+        "expected": {
+          "deathAge": "1",
+          "deathAgePeriod": "Years",
+          "disabled": false
+        }
+      },
+      {
+        "parts": [
+          "2000",
+          "2",
+          "29",
+          "2001",
+          "2",
+          "28"
+        ],
+        "expected": {
+          "deathAge": "365",
+          "deathAgePeriod": "Days",
+          "disabled": false
+        }
+      },
+      {
+        "parts": [
+          "1900",
+          "5",
+          "1",
+          "2000",
+          "4",
+          "30"
+        ],
+        "expected": {
+          "deathAge": "99",
+          "deathAgePeriod": "Years",
+          "disabled": false
+        }
+      },
+      {
+        "parts": [
+          "2000",
+          "2",
+          "31",
+          "2000",
+          "3",
+          "4"
+        ],
+        "expected": {
+          "deathAge": "2",
+          "deathAgePeriod": "Days",
+          "disabled": false
+        }
+      },
+      {
+        "parts": [
+          "2000.9",
+          "",
+          "",
+          "2026.9",
+          "",
+          ""
+        ],
+        "expected": {
+          "deathAge": "26",
+          "deathAgePeriod": "Years",
+          "disabled": false
+        }
+      },
+      {
+        "parts": [
+          "2026",
+          "3",
+          "28",
+          "2026",
+          "3",
+          "30"
+        ],
+        "expected": {
+          "deathAge": "1",
+          "deathAgePeriod": "Days",
+          "disabled": false
+        }
+      }
+    ]
+  },
+  "seed": [
+    {
+      "table": "ContractTypes",
+      "id": 1,
+      "values": {
+        "contractType": "Synthetic contract",
+        "orderNumber": 0
+      }
+    },
+    {
+      "table": "BurialSiteTypes",
+      "id": 1,
+      "values": {
+        "burialSiteType": "Synthetic grave",
+        "orderNumber": 0
+      }
+    },
+    {
+      "table": "Cemeteries",
+      "id": 1,
+      "values": {
+        "cemeteryName": "Synthetic cemetery",
+        "cemeteryKey": "SYN",
+        "findagraveCemeteryId": 123
+      }
+    },
+    {
+      "table": "BurialSites",
+      "id": 1,
+      "values": {
+        "burialSiteTypeId": 1,
+        "cemeteryId": 1,
+        "burialSiteName": "SYN-A01",
+        "burialSiteNameSegment1": "A01",
+        "burialSiteNameSegment2": "",
+        "burialSiteNameSegment3": "",
+        "burialSiteNameSegment4": "",
+        "burialSiteNameSegment5": ""
+      }
+    },
+    {
+      "table": "Contracts",
+      "id": 1,
+      "values": {
+        "contractTypeId": 1,
+        "burialSiteId": 1,
+        "contractNumber": "SYN-ITEM-1",
+        "purchaserName": "Synthetic purchaser",
+        "contractStartDate": 20261020
+      }
+    },
+    {
+      "table": "Contracts",
+      "id": 2,
+      "values": {
+        "contractTypeId": 1,
+        "contractNumber": "SYN-ITEM-2",
+        "purchaserName": "Synthetic other",
+        "contractStartDate": 20261020
+      }
+    },
+    {
+      "table": "IntermentContainerTypes",
+      "id": 1,
+      "values": {
+        "intermentContainerType": "Synthetic casket",
+        "orderNumber": 2,
+        "isCremationType": 0
+      }
+    },
+    {
+      "table": "IntermentContainerTypes",
+      "id": 2,
+      "values": {
+        "intermentContainerType": "Synthetic urn",
+        "orderNumber": 1,
+        "isCremationType": 1
+      }
+    },
+    {
+      "table": "IntermentContainerTypes",
+      "id": 3,
+      "values": {
+        "intermentContainerType": "Synthetic deleted container",
+        "orderNumber": -1,
+        "isCremationType": 1,
+        "recordDelete_timeMillis": 1
+      }
+    },
+    {
+      "table": "IntermentDepths",
+      "id": 1,
+      "values": {
+        "intermentDepth": "Synthetic depth",
+        "orderNumber": 0
+      }
+    },
+    {
+      "table": "IntermentDepths",
+      "id": 2,
+      "values": {
+        "intermentDepth": "Synthetic deleted depth",
+        "orderNumber": 0,
+        "recordDelete_timeMillis": 1
+      }
+    },
+    {
+      "table": "ServiceTypes",
+      "id": 1,
+      "values": {
+        "serviceType": "Name ",
+        "orderNumber": 1
+      }
+    },
+    {
+      "table": "ServiceTypes",
+      "id": 2,
+      "values": {
+        "serviceType": "Name",
+        "orderNumber": 1
+      }
+    },
+    {
+      "table": "ServiceTypes",
+      "id": 3,
+      "values": {
+        "serviceType": "🪦",
+        "orderNumber": 1
+      }
+    },
+    {
+      "table": "ServiceTypes",
+      "id": 4,
+      "values": {
+        "serviceType": "",
+        "orderNumber": 1
+      }
+    },
+    {
+      "table": "ServiceTypes",
+      "id": 5,
+      "values": {
+        "serviceType": "Synthetic first",
+        "orderNumber": 0
+      }
+    },
+    {
+      "table": "ServiceTypes",
+      "id": 6,
+      "values": {
+        "serviceType": "Synthetic deleted",
+        "orderNumber": -1,
+        "recordDelete_timeMillis": 1
+      }
+    }
+  ],
+  "fullForm": {
+    "contractId": 1,
+    "deceasedName": "Synthetic Person",
+    "deceasedAddress1": "1 Synthetic Way",
+    "deceasedAddress2": "",
+    "deceasedCity": "Synthetic City",
+    "deceasedProvince": "BB",
+    "deceasedPostalCode": "a1b 2c3",
+    "birthYear": "1900",
+    "birthMonth": "2",
+    "birthDay": "31",
+    "birthPlace": "Synthetic birthplace",
+    "deathYear": "2000",
+    "deathMonth": "1",
+    "deathDay": "3",
+    "deathPlace": "Synthetic death place",
+    "deathAge": "100",
+    "deathAgePeriod": "Years",
+    "intermentContainerTypeId": "1",
+    "intermentDepthId": "1",
+    "findagraveMemorialId": "456"
+  },
+  "defaults": [
+    {
+      "form": {
+        "contractId": 1
+      },
+      "number": 1,
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "",
+        "isCremated": 0,
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": null,
+        "birthPlace": "",
+        "deathDate": null,
+        "deathPlace": "",
+        "deathAge": null,
+        "deathAgePeriod": "",
+        "intermentContainerTypeId": null,
+        "intermentDepthId": null,
+        "findagraveMemorialId": null,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "",
+          "deceasedAddress1": "",
+          "deceasedAddress2": "",
+          "deceasedCity": "",
+          "deceasedProvince": "",
+          "deceasedPostalCode": "",
+          "birthDate": null,
+          "birthDateString": "",
+          "birthPlace": "",
+          "deathDate": null,
+          "deathDateString": "",
+          "deathPlace": "",
+          "deathAge": null,
+          "deathAgePeriod": "",
+          "intermentContainerTypeId": null,
+          "intermentContainerType": null,
+          "isCremationType": null,
+          "intermentDepthId": null,
+          "intermentDepth": null,
+          "findagraveMemorialId": null,
+          "findagraveMemorialUrl": null,
+          "findagraveMemorialSearchUrl": null
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "1900",
+        "birthMonth": "2",
+        "birthDay": "31",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2000",
+        "deathMonth": "1",
+        "deathDay": "3",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "100",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "1",
+        "intermentDepthId": "1",
+        "findagraveMemorialId": "456"
+      },
+      "number": 1,
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000231,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthDateString": "1900-02-31",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "1900",
+        "birthMonth": "",
+        "birthDay": "",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2000",
+        "deathMonth": "10",
+        "deathDay": "",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "",
+        "intermentDepthId": "",
+        "findagraveMemorialId": ""
+      },
+      "number": 1,
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000000,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20001000,
+        "deathPlace": "Synthetic death place",
+        "deathAge": null,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": null,
+        "intermentDepthId": null,
+        "findagraveMemorialId": null,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000000,
+          "birthDateString": "1900",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20001000,
+          "deathDateString": "2000-10",
+          "deathPlace": "Synthetic death place",
+          "deathAge": null,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": null,
+          "intermentContainerType": null,
+          "isCremationType": null,
+          "intermentDepthId": null,
+          "intermentDepth": null,
+          "findagraveMemorialId": null,
+          "findagraveMemorialUrl": null,
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "0",
+        "birthMonth": "2",
+        "birthDay": "31",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "-1",
+        "deathMonth": "1",
+        "deathDay": "3",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "0",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "3",
+        "intermentDepthId": "2",
+        "findagraveMemorialId": "0"
+      },
+      "number": 1,
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": null,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": null,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 0,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 3,
+        "intermentDepthId": 2,
+        "findagraveMemorialId": 0,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": null,
+          "birthDateString": "",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": null,
+          "deathDateString": "",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 0,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 3,
+          "intermentContainerType": "Synthetic deleted container",
+          "isCremationType": 1,
+          "intermentDepthId": 2,
+          "intermentDepth": "Synthetic deleted depth",
+          "findagraveMemorialId": 0,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/0",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=&deathyear="
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "1900",
+        "birthMonth": "99",
+        "birthDay": "99",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2000",
+        "deathMonth": "-1",
+        "deathDay": "-10",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "100",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "1",
+        "intermentDepthId": "1",
+        "findagraveMemorialId": "456"
+      },
+      "number": 1,
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19001231,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000000,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19001231,
+          "birthDateString": "1900-12-31",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000000,
+          "deathDateString": "2000",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    }
+  ],
+  "fractional": [
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "1900",
+        "birthMonth": "2",
+        "birthDay": "1.5",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2000",
+        "deathMonth": "1",
+        "deathDay": "3",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "100",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "1",
+        "intermentDepthId": "1",
+        "findagraveMemorialId": "456"
+      },
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000201.5,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000201.5,
+          "birthDateString": "0002-01-.5",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "1900.5",
+        "birthMonth": "2.3",
+        "birthDay": "3.4",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2000",
+        "deathMonth": "1",
+        "deathDay": "3",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "100",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "1",
+        "intermentDepthId": "1",
+        "findagraveMemorialId": "456"
+      },
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19005233.4,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19005233.4,
+          "birthDateString": "0052-33-.4",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "1900",
+        "birthMonth": "2",
+        "birthDay": "31",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2000",
+        "deathMonth": "1",
+        "deathDay": "3",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "2.5",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "1",
+        "intermentDepthId": "1",
+        "findagraveMemorialId": "456"
+      },
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000231,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 2.5,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthDateString": "1900-02-31",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 2.5,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "1900",
+        "birthMonth": "2",
+        "birthDay": "31",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2000",
+        "deathMonth": "1",
+        "deathDay": "3",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "100",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "1",
+        "intermentDepthId": "1",
+        "findagraveMemorialId": "123.5"
+      },
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000231,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 123.5,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthDateString": "1900-02-31",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 123.5,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/123.5",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "2000.5",
+        "birthMonth": "",
+        "birthDay": "",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2000",
+        "deathMonth": "1",
+        "deathDay": "3",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "100",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "1",
+        "intermentDepthId": "1",
+        "findagraveMemorialId": "456"
+      },
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 20005000,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 20005000,
+          "birthDateString": "2000-50",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=2000&deathyear=2000"
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "1900",
+        "birthMonth": "2.5",
+        "birthDay": "1",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2000",
+        "deathMonth": "1",
+        "deathDay": "3",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "100",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "1",
+        "intermentDepthId": "1",
+        "findagraveMemorialId": "456"
+      },
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000251,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000251,
+          "birthDateString": "1900-02-51",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    }
+  ],
+  "updates": [
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Updated",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "z9z 9z9",
+        "birthYear": "1950",
+        "birthMonth": "",
+        "birthDay": "",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "",
+        "deathMonth": "",
+        "deathDay": "",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "0",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "1",
+        "intermentDepthId": "1",
+        "findagraveMemorialId": "456",
+        "intermentNumber": 1
+      },
+      "success": true,
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Updated",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "Z9Z 9Z9",
+        "birthDate": 19500000,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": null,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 0,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Updated",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "Z9Z 9Z9",
+          "birthDate": 19500000,
+          "birthDateString": "1950",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": null,
+          "deathDateString": "",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 0,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Updated&birthyear=1950&deathyear="
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-items",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "intermentNumber": 1,
+            "deceasedName": "Synthetic Person",
+            "isCremated": 0,
+            "deceasedAddress1": "1 Synthetic Way",
+            "deceasedAddress2": "",
+            "deceasedCity": "Synthetic City",
+            "deceasedProvince": "BB",
+            "deceasedPostalCode": "A1B 2C3",
+            "birthDate": 19000231,
+            "birthPlace": "Synthetic birthplace",
+            "deathDate": 20000103,
+            "deathPlace": "Synthetic death place",
+            "deathAge": 100,
+            "deathAgePeriod": "Years",
+            "intermentContainerTypeId": 1,
+            "intermentDepthId": 1,
+            "findagraveMemorialId": 456
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "deceasedName",
+          "updateType": "updated",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": "Synthetic Person",
+          "toValue": "Synthetic Updated"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "deceasedPostalCode",
+          "updateType": "updated",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": "A1B 2C3",
+          "toValue": "Z9Z 9Z9"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "birthDate",
+          "updateType": "updated",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": 19000231,
+          "toValue": 19500000
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "deathDate",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": 20000103,
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "deathAge",
+          "updateType": "updated",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": 100,
+          "toValue": 0
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "recordUpdate_username",
+          "updateType": "updated",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": "synthetic-items",
+          "toValue": "synthetic-items-editor"
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "1900",
+        "birthMonth": "2",
+        "birthDay": "31",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2000",
+        "deathMonth": "1",
+        "deathDay": "3",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "",
+        "intermentDepthId": "",
+        "findagraveMemorialId": "",
+        "intermentNumber": 1
+      },
+      "success": true,
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000231,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": "",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": null,
+        "intermentDepthId": null,
+        "findagraveMemorialId": null,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthDateString": "1900-02-31",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": "",
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": null,
+          "intermentContainerType": null,
+          "isCremationType": null,
+          "intermentDepthId": null,
+          "intermentDepth": null,
+          "findagraveMemorialId": null,
+          "findagraveMemorialUrl": null,
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-items",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "intermentNumber": 1,
+            "deceasedName": "Synthetic Person",
+            "isCremated": 0,
+            "deceasedAddress1": "1 Synthetic Way",
+            "deceasedAddress2": "",
+            "deceasedCity": "Synthetic City",
+            "deceasedProvince": "BB",
+            "deceasedPostalCode": "A1B 2C3",
+            "birthDate": 19000231,
+            "birthPlace": "Synthetic birthplace",
+            "deathDate": 20000103,
+            "deathPlace": "Synthetic death place",
+            "deathAge": 100,
+            "deathAgePeriod": "Years",
+            "intermentContainerTypeId": 1,
+            "intermentDepthId": 1,
+            "findagraveMemorialId": 456
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "deathAge",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": 100,
+          "toValue": ""
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "intermentContainerTypeId",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": 1,
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "intermentDepthId",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": 1,
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "findagraveMemorialId",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": 456,
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "recordUpdate_username",
+          "updateType": "updated",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": "synthetic-items",
+          "toValue": "synthetic-items-editor"
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "1900",
+        "birthMonth": "0",
+        "birthDay": "31",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2026",
+        "deathMonth": "2",
+        "deathDay": "31",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "100",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "2",
+        "intermentDepthId": "1",
+        "findagraveMemorialId": "456",
+        "intermentNumber": 1
+      },
+      "success": true,
+      "expected": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000031,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20260231,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 2,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456,
+        "deleted": false
+      },
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000031,
+          "birthDateString": "1900",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20260231,
+          "deathDateString": "2026-02-31",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 2,
+          "intermentContainerType": "Synthetic urn",
+          "isCremationType": 1,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2026"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-items",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "intermentNumber": 1,
+            "deceasedName": "Synthetic Person",
+            "isCremated": 0,
+            "deceasedAddress1": "1 Synthetic Way",
+            "deceasedAddress2": "",
+            "deceasedCity": "Synthetic City",
+            "deceasedProvince": "BB",
+            "deceasedPostalCode": "A1B 2C3",
+            "birthDate": 19000231,
+            "birthPlace": "Synthetic birthplace",
+            "deathDate": 20000103,
+            "deathPlace": "Synthetic death place",
+            "deathAge": 100,
+            "deathAgePeriod": "Years",
+            "intermentContainerTypeId": 1,
+            "intermentDepthId": 1,
+            "findagraveMemorialId": 456
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "birthDate",
+          "updateType": "updated",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": 19000231,
+          "toValue": 19000031
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "deathDate",
+          "updateType": "updated",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": 20000103,
+          "toValue": 20260231
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "intermentContainerTypeId",
+          "updateType": "updated",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": 1,
+          "toValue": 2
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractInterments",
+          "recordIndex": "1",
+          "updateField": "recordUpdate_username",
+          "updateType": "updated",
+          "updateUsername": "synthetic-items-editor",
+          "fromValue": "synthetic-items",
+          "toValue": "synthetic-items-editor"
+        }
+      ]
+    }
+  ],
+  "lifecycle": [
+    {
+      "action": "add",
+      "result": 1,
+      "rows": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthDateString": "1900-02-31",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    },
+    {
+      "action": "delete",
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": true
+        }
+      ],
+      "retrieved": []
+    },
+    {
+      "action": "delete",
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": true
+        }
+      ],
+      "retrieved": []
+    },
+    {
+      "action": "updateDeleted",
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": true
+        }
+      ],
+      "retrieved": []
+    },
+    {
+      "action": "add",
+      "result": 2,
+      "rows": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": true
+        },
+        {
+          "contractId": 1,
+          "intermentNumber": 2,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 2,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthDateString": "1900-02-31",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    },
+    {
+      "action": "updateMissing",
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": true
+        },
+        {
+          "contractId": 1,
+          "intermentNumber": 2,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 2,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthDateString": "1900-02-31",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    },
+    {
+      "action": "deleteMissing",
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": true
+        },
+        {
+          "contractId": 1,
+          "intermentNumber": 2,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 2,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthDateString": "1900-02-31",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    },
+    {
+      "action": "addOtherContract",
+      "result": 1,
+      "rows": [
+        {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": true
+        },
+        {
+          "contractId": 1,
+          "intermentNumber": 2,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": false
+        },
+        {
+          "contractId": 2,
+          "intermentNumber": 1,
+          "deceasedName": "Synthetic Person",
+          "isCremated": 0,
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1,
+          "findagraveMemorialId": 456,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "intermentNumber": 2,
+          "deceasedName": "Synthetic Person",
+          "deceasedAddress1": "1 Synthetic Way",
+          "deceasedAddress2": "",
+          "deceasedCity": "Synthetic City",
+          "deceasedProvince": "BB",
+          "deceasedPostalCode": "A1B 2C3",
+          "birthDate": 19000231,
+          "birthDateString": "1900-02-31",
+          "birthPlace": "Synthetic birthplace",
+          "deathDate": 20000103,
+          "deathDateString": "2000-01-03",
+          "deathPlace": "Synthetic death place",
+          "deathAge": 100,
+          "deathAgePeriod": "Years",
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Synthetic casket",
+          "isCremationType": 0,
+          "intermentDepthId": 1,
+          "intermentDepth": "Synthetic depth",
+          "findagraveMemorialId": 456,
+          "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+          "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=Person&birthyear=1900&deathyear=2000"
+        }
+      ]
+    }
+  ],
+  "lifecycleAudit": [
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractInterments",
+      "recordIndex": "1",
+      "updateField": "*",
+      "updateType": "created",
+      "updateUsername": "synthetic-items",
+      "fromValue": null,
+      "toValue": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000231,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456
+      }
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractInterments",
+      "recordIndex": "1",
+      "updateField": "*",
+      "updateType": "deleted",
+      "updateUsername": "synthetic-items-editor",
+      "fromValue": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000231,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456
+      },
+      "toValue": null
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractInterments",
+      "recordIndex": "1",
+      "updateField": "*",
+      "updateType": "deleted",
+      "updateUsername": "synthetic-items-editor",
+      "fromValue": {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000231,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456
+      },
+      "toValue": null
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractInterments",
+      "recordIndex": "2",
+      "updateField": "*",
+      "updateType": "created",
+      "updateUsername": "synthetic-items",
+      "fromValue": null,
+      "toValue": {
+        "contractId": 1,
+        "intermentNumber": 2,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000231,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456
+      }
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "2",
+      "updateTable": "ContractInterments",
+      "recordIndex": "1",
+      "updateField": "*",
+      "updateType": "created",
+      "updateUsername": "synthetic-items",
+      "fromValue": null,
+      "toValue": {
+        "contractId": 2,
+        "intermentNumber": 1,
+        "deceasedName": "Synthetic Person",
+        "isCremated": 0,
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "A1B 2C3",
+        "birthDate": 19000231,
+        "birthPlace": "Synthetic birthplace",
+        "deathDate": 20000103,
+        "deathPlace": "Synthetic death place",
+        "deathAge": 100,
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": 1,
+        "intermentDepthId": 1,
+        "findagraveMemorialId": 456
+      }
+    }
+  ],
+  "serviceLifecycle": [
+    {
+      "action": "add",
+      "form": {
+        "contractId": 1,
+        "serviceTypeId": 1,
+        "contractServiceDetails": "Synthetic first"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "serviceTypeId": 1,
+          "contractServiceDetails": "Synthetic first",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "serviceTypeId": 1,
+          "serviceType": "Name ",
+          "contractServiceDetails": "Synthetic first"
+        }
+      ]
+    },
+    {
+      "action": "add",
+      "form": {
+        "contractId": 1,
+        "serviceTypeId": 1,
+        "contractServiceDetails": "Synthetic overwritten duplicate"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "serviceTypeId": 1,
+          "contractServiceDetails": "Synthetic overwritten duplicate",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "serviceTypeId": 1,
+          "serviceType": "Name ",
+          "contractServiceDetails": "Synthetic overwritten duplicate"
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "form": {
+        "contractId": 1,
+        "serviceTypeId": 1,
+        "contractServiceDetails": "Synthetic edited"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "serviceTypeId": 1,
+          "contractServiceDetails": "Synthetic edited",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "serviceTypeId": 1,
+          "serviceType": "Name ",
+          "contractServiceDetails": "Synthetic edited"
+        }
+      ]
+    },
+    {
+      "action": "delete",
+      "form": {
+        "contractId": 1,
+        "serviceTypeId": 1
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "serviceTypeId": 1,
+          "contractServiceDetails": "Synthetic edited",
+          "deleted": true
+        }
+      ],
+      "retrieved": []
+    },
+    {
+      "action": "delete",
+      "form": {
+        "contractId": 1,
+        "serviceTypeId": 1
+      },
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "serviceTypeId": 1,
+          "contractServiceDetails": "Synthetic edited",
+          "deleted": true
+        }
+      ],
+      "retrieved": []
+    },
+    {
+      "action": "update",
+      "form": {
+        "contractId": 1,
+        "serviceTypeId": 1,
+        "contractServiceDetails": "Must stay deleted"
+      },
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "serviceTypeId": 1,
+          "contractServiceDetails": "Synthetic edited",
+          "deleted": true
+        }
+      ],
+      "retrieved": []
+    },
+    {
+      "action": "add",
+      "form": {
+        "contractId": 1,
+        "serviceTypeId": 1,
+        "contractServiceDetails": "Synthetic revived"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "serviceTypeId": 1,
+          "contractServiceDetails": "Synthetic revived",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "serviceTypeId": 1,
+          "serviceType": "Name ",
+          "contractServiceDetails": "Synthetic revived"
+        }
+      ]
+    },
+    {
+      "action": "add",
+      "form": {
+        "contractId": 1,
+        "serviceTypeId": 6,
+        "contractServiceDetails": "Synthetic deleted catalog remains hidden"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "serviceTypeId": 1,
+          "contractServiceDetails": "Synthetic revived",
+          "deleted": false
+        },
+        {
+          "contractId": 1,
+          "serviceTypeId": 6,
+          "contractServiceDetails": "Synthetic deleted catalog remains hidden",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "serviceTypeId": 1,
+          "serviceType": "Name ",
+          "contractServiceDetails": "Synthetic revived"
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "form": {
+        "contractId": 1,
+        "serviceTypeId": 2
+      },
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "serviceTypeId": 1,
+          "contractServiceDetails": "Synthetic revived",
+          "deleted": false
+        },
+        {
+          "contractId": 1,
+          "serviceTypeId": 6,
+          "contractServiceDetails": "Synthetic deleted catalog remains hidden",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "serviceTypeId": 1,
+          "serviceType": "Name ",
+          "contractServiceDetails": "Synthetic revived"
+        }
+      ]
+    },
+    {
+      "action": "delete",
+      "form": {
+        "contractId": 1,
+        "serviceTypeId": 2
+      },
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "serviceTypeId": 1,
+          "contractServiceDetails": "Synthetic revived",
+          "deleted": false
+        },
+        {
+          "contractId": 1,
+          "serviceTypeId": 6,
+          "contractServiceDetails": "Synthetic deleted catalog remains hidden",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "serviceTypeId": 1,
+          "serviceType": "Name ",
+          "contractServiceDetails": "Synthetic revived"
+        }
+      ]
+    }
+  ],
+  "serviceAudit": [
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractServiceTypes",
+      "recordIndex": "1",
+      "updateField": "*",
+      "updateType": "created",
+      "updateUsername": "synthetic-items",
+      "fromValue": null,
+      "toValue": {
+        "contractId": 1,
+        "serviceTypeId": 1,
+        "contractServiceDetails": "Synthetic first"
+      }
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractServiceTypes",
+      "recordIndex": "1",
+      "updateField": "*",
+      "updateType": "created",
+      "updateUsername": "synthetic-items",
+      "fromValue": null,
+      "toValue": {
+        "contractId": 1,
+        "serviceTypeId": 1,
+        "contractServiceDetails": "Synthetic overwritten duplicate"
+      }
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractServiceTypes",
+      "recordIndex": "1",
+      "updateField": "contractServiceDetails",
+      "updateType": "updated",
+      "updateUsername": "synthetic-items-editor",
+      "fromValue": "Synthetic overwritten duplicate",
+      "toValue": "Synthetic edited"
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractServiceTypes",
+      "recordIndex": "1",
+      "updateField": "recordUpdate_username",
+      "updateType": "updated",
+      "updateUsername": "synthetic-items-editor",
+      "fromValue": "synthetic-items",
+      "toValue": "synthetic-items-editor"
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractServiceTypes",
+      "recordIndex": "1",
+      "updateField": "*",
+      "updateType": "deleted",
+      "updateUsername": "synthetic-items-editor",
+      "fromValue": {
+        "contractId": 1,
+        "serviceTypeId": 1,
+        "contractServiceDetails": "Synthetic edited"
+      },
+      "toValue": null
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractServiceTypes",
+      "recordIndex": "1",
+      "updateField": "*",
+      "updateType": "created",
+      "updateUsername": "synthetic-items",
+      "fromValue": null,
+      "toValue": {
+        "contractId": 1,
+        "serviceTypeId": 1,
+        "contractServiceDetails": "Synthetic revived"
+      }
+    },
+    {
+      "mainRecordType": "contract",
+      "mainRecordId": "1",
+      "updateTable": "ContractServiceTypes",
+      "recordIndex": "6",
+      "updateField": "*",
+      "updateType": "created",
+      "updateUsername": "synthetic-items",
+      "fromValue": null,
+      "toValue": {
+        "contractId": 1,
+        "serviceTypeId": 6,
+        "contractServiceDetails": "Synthetic deleted catalog remains hidden"
+      }
+    }
+  ],
+  "retrieval": {
+    "seed": [
+      {
+        "table": "ContractInterments",
+        "values": {
+          "contractId": 1,
+          "intermentNumber": 1,
+          "deceasedName": "Name ",
+          "deceasedAddress1": "",
+          "deceasedAddress2": "",
+          "deceasedCity": "",
+          "deceasedProvince": "",
+          "deceasedPostalCode": "",
+          "birthDate": 19000000,
+          "deathDate": 20000100,
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1
+        }
+      },
+      {
+        "table": "ContractInterments",
+        "values": {
+          "contractId": 1,
+          "intermentNumber": 2,
+          "deceasedName": "Name",
+          "deceasedAddress1": "",
+          "deceasedAddress2": "",
+          "deceasedCity": "",
+          "deceasedProvince": "",
+          "deceasedPostalCode": "",
+          "birthDate": 19000000,
+          "deathDate": 20000100,
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 2
+        }
+      },
+      {
+        "table": "ContractInterments",
+        "values": {
+          "contractId": 1,
+          "intermentNumber": 3,
+          "deceasedName": "🪦",
+          "deceasedAddress1": "",
+          "deceasedAddress2": "",
+          "deceasedCity": "",
+          "deceasedProvince": "",
+          "deceasedPostalCode": "",
+          "birthDate": 19000000,
+          "deathDate": 20000100,
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": null
+        }
+      },
+      {
+        "table": "ContractInterments",
+        "values": {
+          "contractId": 1,
+          "intermentNumber": 4,
+          "deceasedName": "",
+          "deceasedAddress1": "",
+          "deceasedAddress2": "",
+          "deceasedCity": "",
+          "deceasedProvince": "",
+          "deceasedPostalCode": "",
+          "birthDate": 19000000,
+          "deathDate": 20000100,
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": null
+        }
+      },
+      {
+        "table": "ContractInterments",
+        "values": {
+          "contractId": 1,
+          "intermentNumber": 5,
+          "deceasedName": "Synthetic urn",
+          "deceasedAddress1": "",
+          "deceasedAddress2": "",
+          "deceasedCity": "",
+          "deceasedProvince": "",
+          "deceasedPostalCode": "",
+          "birthDate": 19000000,
+          "deathDate": 20000100,
+          "intermentContainerTypeId": 2,
+          "intermentDepthId": 1
+        }
+      },
+      {
+        "table": "ContractInterments",
+        "values": {
+          "contractId": 1,
+          "intermentNumber": 6,
+          "deceasedName": "Synthetic no container",
+          "deceasedAddress1": "",
+          "deceasedAddress2": "",
+          "deceasedCity": "",
+          "deceasedProvince": "",
+          "deceasedPostalCode": "",
+          "birthDate": 19000000,
+          "deathDate": 20000100,
+          "intermentContainerTypeId": null,
+          "intermentDepthId": null
+        }
+      },
+      {
+        "table": "ContractInterments",
+        "values": {
+          "contractId": 1,
+          "intermentNumber": 7,
+          "deceasedName": "Synthetic deleted container",
+          "deceasedAddress1": "",
+          "deceasedAddress2": "",
+          "deceasedCity": "",
+          "deceasedProvince": "",
+          "deceasedPostalCode": "",
+          "birthDate": 19000000,
+          "deathDate": 20000100,
+          "intermentContainerTypeId": 3,
+          "intermentDepthId": 2
+        }
+      },
+      {
+        "table": "ContractInterments",
+        "values": {
+          "contractId": 1,
+          "intermentNumber": 8,
+          "deceasedName": "Synthetic deleted person",
+          "deceasedAddress1": "",
+          "deceasedAddress2": "",
+          "deceasedCity": "",
+          "deceasedProvince": "",
+          "deceasedPostalCode": "",
+          "birthDate": 19000000,
+          "deathDate": 20000100,
+          "intermentContainerTypeId": 2,
+          "intermentDepthId": 1,
+          "recordDelete_timeMillis": 1
+        }
+      },
+      {
+        "table": "ContractInterments",
+        "values": {
+          "contractId": 1,
+          "intermentNumber": 9,
+          "deceasedName": "Name",
+          "deceasedAddress1": "",
+          "deceasedAddress2": "",
+          "deceasedCity": "",
+          "deceasedProvince": "",
+          "deceasedPostalCode": "",
+          "birthDate": 19000000,
+          "deathDate": 20000100,
+          "intermentContainerTypeId": 1,
+          "intermentDepthId": 1
+        }
+      },
+      {
+        "table": "ContractServiceTypes",
+        "values": {
+          "contractId": 1,
+          "serviceTypeId": 1,
+          "contractServiceDetails": "Synthetic detail 1"
+        }
+      },
+      {
+        "table": "ContractServiceTypes",
+        "values": {
+          "contractId": 1,
+          "serviceTypeId": 2,
+          "contractServiceDetails": "Synthetic detail 2"
+        }
+      },
+      {
+        "table": "ContractServiceTypes",
+        "values": {
+          "contractId": 1,
+          "serviceTypeId": 3,
+          "contractServiceDetails": "Synthetic detail 3"
+        }
+      },
+      {
+        "table": "ContractServiceTypes",
+        "values": {
+          "contractId": 1,
+          "serviceTypeId": 4,
+          "contractServiceDetails": "Synthetic detail 4"
+        }
+      },
+      {
+        "table": "ContractServiceTypes",
+        "values": {
+          "contractId": 1,
+          "serviceTypeId": 5,
+          "contractServiceDetails": "Synthetic detail 5"
+        }
+      },
+      {
+        "table": "ContractServiceTypes",
+        "values": {
+          "contractId": 1,
+          "serviceTypeId": 6,
+          "contractServiceDetails": "Synthetic detail 6"
+        }
+      }
+    ],
+    "interments": [
+      {
+        "contractId": 1,
+        "intermentNumber": 6,
+        "deceasedName": "Synthetic no container",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": null,
+        "intermentContainerType": null,
+        "isCremationType": null,
+        "intermentDepthId": null,
+        "intermentDepth": null,
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=container&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 7,
+        "deceasedName": "Synthetic deleted container",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 3,
+        "intermentContainerType": "Synthetic deleted container",
+        "isCremationType": 1,
+        "intermentDepthId": 2,
+        "intermentDepth": "Synthetic deleted depth",
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=container&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 5,
+        "deceasedName": "Synthetic urn",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 2,
+        "intermentContainerType": "Synthetic urn",
+        "isCremationType": 1,
+        "intermentDepthId": 1,
+        "intermentDepth": "Synthetic depth",
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=urn&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 2,
+        "deceasedName": "Name",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 1,
+        "intermentContainerType": "Synthetic casket",
+        "isCremationType": 0,
+        "intermentDepthId": 2,
+        "intermentDepth": "Synthetic deleted depth",
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=&lastname=Name&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 9,
+        "deceasedName": "Name",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 1,
+        "intermentContainerType": "Synthetic casket",
+        "isCremationType": 0,
+        "intermentDepthId": 1,
+        "intermentDepth": "Synthetic depth",
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=&lastname=Name&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Name ",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 1,
+        "intermentContainerType": "Synthetic casket",
+        "isCremationType": 0,
+        "intermentDepthId": 1,
+        "intermentDepth": "Synthetic depth",
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=&lastname=Name&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 4,
+        "deceasedName": "",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 1,
+        "intermentContainerType": "Synthetic casket",
+        "isCremationType": 0,
+        "intermentDepthId": null,
+        "intermentDepth": null,
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=&lastname=%EE%80%80&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 3,
+        "deceasedName": "🪦",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 1,
+        "intermentContainerType": "Synthetic casket",
+        "isCremationType": 0,
+        "intermentDepthId": null,
+        "intermentDepth": null,
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=&lastname=%F0%9F%AA%A6&birthyear=1900&deathyear=2000"
+      }
+    ],
+    "services": [
+      {
+        "serviceTypeId": 5,
+        "serviceType": "Synthetic first",
+        "contractServiceDetails": "Synthetic detail 5"
+      },
+      {
+        "serviceTypeId": 2,
+        "serviceType": "Name",
+        "contractServiceDetails": "Synthetic detail 2"
+      },
+      {
+        "serviceTypeId": 1,
+        "serviceType": "Name ",
+        "contractServiceDetails": "Synthetic detail 1"
+      },
+      {
+        "serviceTypeId": 4,
+        "serviceType": "",
+        "contractServiceDetails": "Synthetic detail 4"
+      },
+      {
+        "serviceTypeId": 3,
+        "serviceType": "🪦",
+        "contractServiceDetails": "Synthetic detail 3"
+      }
+    ],
+    "deletedParentInterments": [
+      {
+        "contractId": 1,
+        "intermentNumber": 6,
+        "deceasedName": "Synthetic no container",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": null,
+        "intermentContainerType": null,
+        "isCremationType": null,
+        "intermentDepthId": null,
+        "intermentDepth": null,
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=container&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 7,
+        "deceasedName": "Synthetic deleted container",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 3,
+        "intermentContainerType": "Synthetic deleted container",
+        "isCremationType": 1,
+        "intermentDepthId": 2,
+        "intermentDepth": "Synthetic deleted depth",
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=container&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 5,
+        "deceasedName": "Synthetic urn",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 2,
+        "intermentContainerType": "Synthetic urn",
+        "isCremationType": 1,
+        "intermentDepthId": 1,
+        "intermentDepth": "Synthetic depth",
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=urn&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 2,
+        "deceasedName": "Name",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 1,
+        "intermentContainerType": "Synthetic casket",
+        "isCremationType": 0,
+        "intermentDepthId": 2,
+        "intermentDepth": "Synthetic deleted depth",
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=&lastname=Name&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 9,
+        "deceasedName": "Name",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 1,
+        "intermentContainerType": "Synthetic casket",
+        "isCremationType": 0,
+        "intermentDepthId": 1,
+        "intermentDepth": "Synthetic depth",
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=&lastname=Name&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 1,
+        "deceasedName": "Name ",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 1,
+        "intermentContainerType": "Synthetic casket",
+        "isCremationType": 0,
+        "intermentDepthId": 1,
+        "intermentDepth": "Synthetic depth",
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=&lastname=Name&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 4,
+        "deceasedName": "",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 1,
+        "intermentContainerType": "Synthetic casket",
+        "isCremationType": 0,
+        "intermentDepthId": null,
+        "intermentDepth": null,
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=&lastname=%EE%80%80&birthyear=1900&deathyear=2000"
+      },
+      {
+        "contractId": 1,
+        "intermentNumber": 3,
+        "deceasedName": "🪦",
+        "deceasedAddress1": "",
+        "deceasedAddress2": "",
+        "deceasedCity": "",
+        "deceasedProvince": "",
+        "deceasedPostalCode": "",
+        "birthDate": 19000000,
+        "birthDateString": "1900",
+        "birthPlace": null,
+        "deathDate": 20000100,
+        "deathDateString": "2000-01",
+        "deathPlace": null,
+        "deathAge": null,
+        "deathAgePeriod": null,
+        "intermentContainerTypeId": 1,
+        "intermentContainerType": "Synthetic casket",
+        "isCremationType": 0,
+        "intermentDepthId": null,
+        "intermentDepth": null,
+        "findagraveMemorialId": null,
+        "findagraveMemorialUrl": null,
+        "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=&lastname=%F0%9F%AA%A6&birthyear=1900&deathyear=2000"
+      }
+    ],
+    "deletedParentServices": [
+      {
+        "serviceTypeId": 5,
+        "serviceType": "Synthetic first",
+        "contractServiceDetails": "Synthetic detail 5"
+      },
+      {
+        "serviceTypeId": 2,
+        "serviceType": "Name",
+        "contractServiceDetails": "Synthetic detail 2"
+      },
+      {
+        "serviceTypeId": 1,
+        "serviceType": "Name ",
+        "contractServiceDetails": "Synthetic detail 1"
+      },
+      {
+        "serviceTypeId": 4,
+        "serviceType": "",
+        "contractServiceDetails": "Synthetic detail 4"
+      },
+      {
+        "serviceTypeId": 3,
+        "serviceType": "🪦",
+        "contractServiceDetails": "Synthetic detail 3"
+      }
+    ]
+  },
+  "handlers": [
+    {
+      "handler": "doAddContractInterment",
+      "existing": false,
+      "body": {
+        "contractId": 1,
+        "deceasedName": "Synthetic HTTP"
+      },
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractInterments": [
+            {
+              "contractId": 1,
+              "intermentNumber": 1,
+              "deceasedName": "Synthetic HTTP",
+              "deceasedAddress1": "",
+              "deceasedAddress2": "",
+              "deceasedCity": "",
+              "deceasedProvince": "",
+              "deceasedPostalCode": "",
+              "birthDate": null,
+              "birthDateString": "",
+              "birthPlace": "",
+              "deathDate": null,
+              "deathDateString": "",
+              "deathPlace": "",
+              "deathAge": null,
+              "deathAgePeriod": "",
+              "intermentContainerTypeId": null,
+              "intermentContainerType": null,
+              "isCremationType": null,
+              "intermentDepthId": null,
+              "intermentDepth": null,
+              "findagraveMemorialId": null,
+              "findagraveMemorialUrl": null,
+              "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=HTTP&birthyear=&deathyear="
+            }
+          ]
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doUpdateContractInterment",
+      "existing": true,
+      "body": {
+        "contractId": 1,
+        "deceasedName": "Synthetic HTTP updated",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "1900",
+        "birthMonth": "2",
+        "birthDay": "31",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2000",
+        "deathMonth": "1",
+        "deathDay": "3",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "100",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "1",
+        "intermentDepthId": "1",
+        "findagraveMemorialId": "456",
+        "intermentNumber": 1
+      },
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractInterments": [
+            {
+              "contractId": 1,
+              "intermentNumber": 1,
+              "deceasedName": "Synthetic HTTP updated",
+              "deceasedAddress1": "1 Synthetic Way",
+              "deceasedAddress2": "",
+              "deceasedCity": "Synthetic City",
+              "deceasedProvince": "BB",
+              "deceasedPostalCode": "A1B 2C3",
+              "birthDate": 19000231,
+              "birthDateString": "1900-02-31",
+              "birthPlace": "Synthetic birthplace",
+              "deathDate": 20000103,
+              "deathDateString": "2000-01-03",
+              "deathPlace": "Synthetic death place",
+              "deathAge": 100,
+              "deathAgePeriod": "Years",
+              "intermentContainerTypeId": 1,
+              "intermentContainerType": "Synthetic casket",
+              "isCremationType": 0,
+              "intermentDepthId": 1,
+              "intermentDepth": "Synthetic depth",
+              "findagraveMemorialId": 456,
+              "findagraveMemorialUrl": "https://www.findagrave.com/memorial/456",
+              "findagraveMemorialSearchUrl": "https://www.findagrave.com/cemetery/123/memorial-search?firstname=Synthetic&lastname=updated&birthyear=1900&deathyear=2000"
+            }
+          ]
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doUpdateContractInterment",
+      "existing": false,
+      "body": {
+        "contractId": 1,
+        "deceasedName": "Synthetic Person",
+        "deceasedAddress1": "1 Synthetic Way",
+        "deceasedAddress2": "",
+        "deceasedCity": "Synthetic City",
+        "deceasedProvince": "BB",
+        "deceasedPostalCode": "a1b 2c3",
+        "birthYear": "1900",
+        "birthMonth": "2",
+        "birthDay": "31",
+        "birthPlace": "Synthetic birthplace",
+        "deathYear": "2000",
+        "deathMonth": "1",
+        "deathDay": "3",
+        "deathPlace": "Synthetic death place",
+        "deathAge": "100",
+        "deathAgePeriod": "Years",
+        "intermentContainerTypeId": "1",
+        "intermentDepthId": "1",
+        "findagraveMemorialId": "456",
+        "intermentNumber": 999
+      },
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractInterments": []
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doDeleteContractInterment",
+      "existing": true,
+      "body": {
+        "contractId": 1,
+        "intermentNumber": 1
+      },
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractInterments": []
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doDeleteContractInterment",
+      "existing": false,
+      "body": {
+        "contractId": 1,
+        "intermentNumber": 999
+      },
+      "expected": {
+        "status": 400,
+        "body": {
+          "errorMessage": "Interment not found",
+          "success": false
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doUpdateContractInterment",
+      "existing": true,
+      "body": {
+        "contractId": 1,
+        "intermentNumber": 1
+      },
+      "expected": {
+        "status": 500,
+        "body": {
+          "errorMessage": "Database error",
+          "success": false
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doAddContractServiceType",
+      "existing": false,
+      "body": {
+        "contractId": 1,
+        "serviceTypeId": 1
+      },
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractServiceTypes": [
+            {
+              "serviceTypeId": 1,
+              "serviceType": "Name ",
+              "contractServiceDetails": ""
+            }
+          ]
+        }
+      },
+      "connectionCloses": 2
+    },
+    {
+      "handler": "doAddContractServiceType",
+      "existing": true,
+      "body": {
+        "contractId": 1,
+        "serviceTypeId": 1,
+        "contractServiceDetails": "Synthetic duplicate HTTP"
+      },
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractServiceTypes": [
+            {
+              "serviceTypeId": 1,
+              "serviceType": "Name ",
+              "contractServiceDetails": "Synthetic duplicate HTTP"
+            }
+          ]
+        }
+      },
+      "connectionCloses": 2
+    },
+    {
+      "handler": "doUpdateContractServiceType",
+      "existing": true,
+      "body": {
+        "contractId": 1,
+        "serviceTypeId": 1,
+        "contractServiceDetails": "Synthetic edited HTTP"
+      },
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractServiceTypes": [
+            {
+              "serviceTypeId": 1,
+              "serviceType": "Name ",
+              "contractServiceDetails": "Synthetic edited HTTP"
+            }
+          ]
+        }
+      },
+      "connectionCloses": 2
+    },
+    {
+      "handler": "doUpdateContractServiceType",
+      "existing": false,
+      "body": {
+        "contractId": 1,
+        "serviceTypeId": 1
+      },
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": false,
+          "errorMessage": "Service Type Not Updated"
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doDeleteContractServiceType",
+      "existing": true,
+      "body": {
+        "contractId": 1,
+        "serviceTypeId": 1
+      },
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractServiceTypes": []
+        }
+      },
+      "connectionCloses": 2
+    },
+    {
+      "handler": "doDeleteContractServiceType",
+      "existing": false,
+      "body": {
+        "contractId": 1,
+        "serviceTypeId": 1
+      },
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": false
+        }
+      },
+      "connectionCloses": 1
+    }
+  ],
+  "sideEffects": {
+    "parentUnchanged": true,
+    "auditTables": [
+      "ContractInterments",
+      "ContractServiceTypes"
+    ],
+    "unrelatedCounts": {
+      "ContractFees": 0,
+      "ContractTransactions": 0,
+      "ContractComments": 0,
+      "ContractFields": 0,
+      "WorkOrderContracts": 0
+    }
+  }
+}

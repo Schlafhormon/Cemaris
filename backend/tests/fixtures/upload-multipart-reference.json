@@ -1,0 +1,565 @@
+{
+  "reference_commit": "451ce034863b16502484367044f3e9b65370111a",
+  "source_sha256": {
+    "package-lock.json": "a5871b5d28f0b1ab4e05b34ca27c4293c901d4196c05212dd09bbba7fb1729c2",
+    "routes/contracts.js": "bb6891a1fedf75101a76c5ffafe8332b565ac65f8bd87915455d51f2492318de",
+    "routes/contracts.ts": "136d0778e218a8911571221583b3f8e1c06fcfa87221901269cb495b0ba052f2"
+  },
+  "packages": [
+    {
+      "path": "node_modules/append-field",
+      "version": "1.0.0",
+      "integrity": "sha512-klpgFSWLW1ZEs8svjfb7g4qWY0YS5imI82dTg+QahUvJ8YqAY0P10Uk8tTyh9ZGuYEZEMaeJYCF5BFuX552hsw=="
+    },
+    {
+      "path": "node_modules/busboy",
+      "version": "1.6.0",
+      "integrity": "sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA=="
+    },
+    {
+      "path": "node_modules/mime-types",
+      "version": "2.1.35",
+      "integrity": "sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw=="
+    },
+    {
+      "path": "node_modules/mime-types/node_modules/mime-db",
+      "version": "1.52.0",
+      "integrity": "sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg=="
+    },
+    {
+      "path": "node_modules/multer",
+      "version": "2.4.0",
+      "integrity": "sha512-7dqa0ZcFfzbefdTuIkzOSMvZWC0J7FLqBOjJUZvDCXShIURWKxAyTT1wHhnE5q19c7jOJf43IYYKjBmZVZmvhg=="
+    },
+    {
+      "path": "node_modules/multer/node_modules/media-typer",
+      "version": "0.3.0",
+      "integrity": "sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ=="
+    },
+    {
+      "path": "node_modules/multer/node_modules/type-is",
+      "version": "1.6.18",
+      "integrity": "sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g=="
+    },
+    {
+      "path": "node_modules/streamsearch",
+      "version": "1.1.0",
+      "integrity": "sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg=="
+    }
+  ],
+  "file_size_limit_bytes": 32,
+  "boundary": "CemarisSyntheticBoundary11",
+  "oracle_boundaries": [
+    "Actual locked multer memoryStorage single(file) middleware runs unchanged on PassThrough HTTP-shaped multipart streams.",
+    "The original configured limit formula is asserted in its route; its byte limit is scaled to 32 for below/exact/above comparisons.",
+    "No Express response handler, authentication, file storage, database or external service is exercised here."
+  ],
+  "cases": [
+    {
+      "name": "missing-file",
+      "fields": {
+        "contractId": "1",
+        "attachmentTitle": "Synthetic title"
+      },
+      "files": [],
+      "expected": {
+        "fields": {
+          "contractId": "1",
+          "attachmentTitle": "Synthetic title"
+        },
+        "file": null
+      }
+    },
+    {
+      "name": "binary-bytes",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "report.bin",
+          "content_hex": "000102ff807f0d0a253c3e",
+          "content_type": "application/octet-stream"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "report.bin",
+          "mimetype": "application/octet-stream",
+          "size": 11,
+          "content_hex": "000102ff807f0d0a253c3e",
+          "content_sha256": "dae642acfd10e5e15c4aa3271c561be046a5067a92d2027b84f13950c1500dcd"
+        }
+      }
+    },
+    {
+      "name": "metadata",
+      "fields": {
+        "contractId": "1",
+        "attachmentTitle": "",
+        "attachmentDetails": "<literal>\nGrüße 🪦"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "report.txt",
+          "content_hex": "53796e746865746963",
+          "content_type": "text/plain"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1",
+          "attachmentTitle": "",
+          "attachmentDetails": "<literal>\nGrüße 🪦"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "report.txt",
+          "mimetype": "text/plain",
+          "size": 9,
+          "content_hex": "53796e746865746963",
+          "content_sha256": "4a85827ad80e8635fb4a2b41a3fce1d0f23ba1eb27db0aa84113a7b0ca415d42"
+        }
+      }
+    },
+    {
+      "name": "multiple-files",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "one.txt",
+          "content_hex": "31"
+        },
+        {
+          "field": "file",
+          "filename": "two.txt",
+          "content_hex": "32"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "one.txt",
+          "mimetype": "application/octet-stream",
+          "size": 1,
+          "buffer_removed": true
+        },
+        "error": {
+          "name": "MulterError",
+          "code": "LIMIT_UNEXPECTED_FILE",
+          "field": "file",
+          "message": "Unexpected file field"
+        }
+      }
+    },
+    {
+      "name": "unexpected-field",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "other",
+          "filename": "other.txt",
+          "content_hex": "31"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": null,
+        "error": {
+          "name": "MulterError",
+          "code": "LIMIT_UNEXPECTED_FILE",
+          "field": "other",
+          "message": "Unexpected file field"
+        }
+      }
+    },
+    {
+      "name": "exact-limit",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "exact.bin",
+          "content_hex": "7878787878787878787878787878787878787878787878787878787878787878"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "exact.bin",
+          "mimetype": "application/octet-stream",
+          "size": 32,
+          "content_hex": "7878787878787878787878787878787878787878787878787878787878787878",
+          "content_sha256": "c62e4615bd39e222572f3a1bf7c2132ea1e65b17ec805047bd6b2842c593493f"
+        }
+      }
+    },
+    {
+      "name": "below-limit",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "below.bin",
+          "content_hex": "78787878787878787878787878787878787878787878787878787878787878"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "below.bin",
+          "mimetype": "application/octet-stream",
+          "size": 31,
+          "content_hex": "78787878787878787878787878787878787878787878787878787878787878",
+          "content_sha256": "0f46e4b0802fee6fed599682a16287d0397699cfd742025482c086a70979e56a"
+        }
+      }
+    },
+    {
+      "name": "over-limit",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "over.bin",
+          "content_hex": "787878787878787878787878787878787878787878787878787878787878787878"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": null,
+        "error": {
+          "name": "MulterError",
+          "code": "LIMIT_FILE_SIZE",
+          "field": "file",
+          "message": "File too large"
+        }
+      }
+    },
+    {
+      "name": "zero-byte",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "empty.txt",
+          "content_hex": ""
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "empty.txt",
+          "mimetype": "application/octet-stream",
+          "size": 0,
+          "content_hex": "",
+          "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "empty-filename",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "",
+          "content_hex": ""
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": null
+      }
+    },
+    {
+      "name": "unicode-filename",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "Grüße 🪦.pdf",
+          "content_hex": "255044462d312e340a",
+          "content_type": "application/pdf"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "GrÃ¼Ãe ðª¦.pdf",
+          "mimetype": "application/pdf",
+          "size": 9,
+          "content_hex": "255044462d312e340a",
+          "content_sha256": "e5c62df5dab5c87b6a015ef3d43597074d1eec433b15f51aec63b8582d0e4ab4"
+        }
+      }
+    },
+    {
+      "name": "unfiltered-type",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "program.exe",
+          "content_hex": "4d5a",
+          "content_type": "application/x-msdownload"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "program.exe",
+          "mimetype": "application/x-msdownload",
+          "size": 2,
+          "content_hex": "4d5a",
+          "content_sha256": "9b8db510ef42b8ed54a3712636fda55a4f8cfcd5493e20b74ab00cd4f3979f2d"
+        }
+      }
+    },
+    {
+      "name": "chunked-body",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "chunked.txt",
+          "content_hex": "53796e746865746963"
+        }
+      ],
+      "chunk_size": 7,
+      "chunked": true,
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "chunked.txt",
+          "mimetype": "application/octet-stream",
+          "size": 9,
+          "content_hex": "53796e746865746963",
+          "content_sha256": "4a85827ad80e8635fb4a2b41a3fce1d0f23ba1eb27db0aa84113a7b0ca415d42"
+        }
+      }
+    },
+    {
+      "name": "windows-basename",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "C:\\folder\\report.pdf",
+          "content_hex": "31"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "report.pdf",
+          "mimetype": "application/octet-stream",
+          "size": 1,
+          "content_hex": "31",
+          "content_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        }
+      }
+    },
+    {
+      "name": "posix-basename",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "../folder/report.pdf",
+          "content_hex": "31"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "report.pdf",
+          "mimetype": "application/octet-stream",
+          "size": 1,
+          "content_hex": "31",
+          "content_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        }
+      }
+    },
+    {
+      "name": "posix-empty-basename",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "../folder/",
+          "content_hex": "31"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": null
+      }
+    },
+    {
+      "name": "windows-empty-basename",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "C:\\folder\\",
+          "content_hex": "31"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": null
+      }
+    },
+    {
+      "name": "escaped-quote-filename",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "quote%22name.txt",
+          "content_hex": "31"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "quote\"name.txt",
+          "mimetype": "application/octet-stream",
+          "size": 1,
+          "content_hex": "31",
+          "content_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        }
+      }
+    },
+    {
+      "name": "literal-percent-filename",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "50%.txt",
+          "content_hex": "31"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "50%.txt",
+          "mimetype": "application/octet-stream",
+          "size": 1,
+          "content_hex": "31",
+          "content_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        }
+      }
+    },
+    {
+      "name": "escaped-newline-filename",
+      "fields": {
+        "contractId": "1"
+      },
+      "files": [
+        {
+          "field": "file",
+          "filename": "first%0Asecond.txt",
+          "content_hex": "31"
+        }
+      ],
+      "expected": {
+        "fields": {
+          "contractId": "1"
+        },
+        "file": {
+          "fieldname": "file",
+          "originalname": "first\nsecond.txt",
+          "mimetype": "application/octet-stream",
+          "size": 1,
+          "content_hex": "31",
+          "content_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        }
+      }
+    }
+  ]
+}

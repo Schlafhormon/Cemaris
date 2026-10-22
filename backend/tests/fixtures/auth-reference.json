@@ -1,0 +1,868 @@
+{
+  "reference_commit": "451ce034863b16502484367044f3e9b65370111a",
+  "source_sha256": {
+    "helpers/authentication.helpers.js": "a359bb4259758d01a9b3dd51fdc6b9bda40f40beebb1900d619b8d885ccf796d",
+    "helpers/user.helpers.js": "efe4e4dd51161cb9a14fd3146f48c25eff32a421f977c2821b56d1302ccdefd5",
+    "handlers/permissions.js": "993ebdaa95176217f2f2e82d97c4229b4ca1c4daf02e7faebaa912595aa8d169",
+    "types/setting.types.js": "43f9daefaf1121ff944bebf3db967861c2487fd85c0f3f6f1bd847fce57a7550"
+  },
+  "configUsers": {
+    "users.canLogin": [
+      "ADMIN",
+      "view",
+      "update",
+      "cemetery",
+      "contract",
+      "work"
+    ],
+    "users.canUpdate": [
+      "update"
+    ],
+    "users.canUpdateCemeteries": [
+      "cemetery"
+    ],
+    "users.canUpdateContracts": [
+      "contract"
+    ],
+    "users.canUpdateWorkOrders": [
+      "work"
+    ],
+    "users.isAdmin": [
+      "admin"
+    ]
+  },
+  "redirects": [
+    {
+      "prefix": "",
+      "input": null,
+      "omitted": true,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "",
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "/dashboard",
+      "omitted": false,
+      "expected": "/dashboard"
+    },
+    {
+      "prefix": "",
+      "input": "/dashboard/",
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "/admin/users",
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "/admin/settings",
+      "omitted": false,
+      "expected": "/admin/settings"
+    },
+    {
+      "prefix": "",
+      "input": "/admin/settings?x=1",
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "/contracts",
+      "omitted": false,
+      "expected": "/contracts"
+    },
+    {
+      "prefix": "",
+      "input": "/Contracts/42/edit",
+      "omitted": false,
+      "expected": "/Contracts/42/edit"
+    },
+    {
+      "prefix": "",
+      "input": "/cemeteries/0",
+      "omitted": false,
+      "expected": "/cemeteries/0"
+    },
+    {
+      "prefix": "",
+      "input": "/burialSites/12",
+      "omitted": false,
+      "expected": "/burialSites/12"
+    },
+    {
+      "prefix": "",
+      "input": "/workOrders/99/edit",
+      "omitted": false,
+      "expected": "/workOrders/99/edit"
+    },
+    {
+      "prefix": "",
+      "input": "/funeralHomes/42",
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "/print/pdf/workOrder/12?x=1",
+      "omitted": false,
+      "expected": "/print/pdf/workOrder/12?x=1"
+    },
+    {
+      "prefix": "",
+      "input": "/print/screen/contract/42",
+      "omitted": false,
+      "expected": "/print/screen/contract/42"
+    },
+    {
+      "prefix": "",
+      "input": "/print/pdf/x_1",
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "//evil.example",
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "https://evil.example",
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "/contracts/1/../../login",
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "/contracts/1?x=1",
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "/cemeteries/-1",
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "/cemeteries/１",
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "/dashboard/updatelog",
+      "omitted": false,
+      "expected": "/dashboard/updatelog"
+    },
+    {
+      "prefix": "",
+      "input": "/workorders/milestonecalendar",
+      "omitted": false,
+      "expected": "/workorders/milestonecalendar"
+    },
+    {
+      "prefix": "",
+      "input": "/reports",
+      "omitted": false,
+      "expected": "/reports"
+    },
+    {
+      "prefix": "",
+      "input": null,
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": 1,
+      "omitted": false,
+      "expected": "/dashboard/"
+    },
+    {
+      "prefix": "",
+      "input": "/contracts/15/edit",
+      "expected": "/contracts/15/edit"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": null,
+      "omitted": true,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/dashboard",
+      "omitted": false,
+      "expected": "/cemaris/dashboard"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/dashboard/",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/admin/users",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/admin/settings",
+      "omitted": false,
+      "expected": "/cemaris/admin/settings"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/admin/settings?x=1",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/contracts",
+      "omitted": false,
+      "expected": "/cemaris/contracts"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/Contracts/42/edit",
+      "omitted": false,
+      "expected": "/cemaris/Contracts/42/edit"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/cemeteries/0",
+      "omitted": false,
+      "expected": "/cemaris/cemeteries/0"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/burialSites/12",
+      "omitted": false,
+      "expected": "/cemaris/burialSites/12"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/workOrders/99/edit",
+      "omitted": false,
+      "expected": "/cemaris/workOrders/99/edit"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/funeralHomes/42",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/print/pdf/workOrder/12?x=1",
+      "omitted": false,
+      "expected": "/cemaris/print/pdf/workOrder/12?x=1"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/print/screen/contract/42",
+      "omitted": false,
+      "expected": "/cemaris/print/screen/contract/42"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/print/pdf/x_1",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "//evil.example",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "https://evil.example",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/contracts/1/../../login",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/contracts/1?x=1",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/cemeteries/-1",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/cemeteries/１",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/dashboard/updatelog",
+      "omitted": false,
+      "expected": "/cemaris/dashboard/updatelog"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/workorders/milestonecalendar",
+      "omitted": false,
+      "expected": "/cemaris/workorders/milestonecalendar"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/reports",
+      "omitted": false,
+      "expected": "/cemaris/reports"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": null,
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": 1,
+      "omitted": false,
+      "expected": "/cemaris/dashboard/"
+    },
+    {
+      "prefix": "/cemaris",
+      "input": "/cemaris/contracts/15/edit",
+      "expected": "/cemaris/contracts/15/edit"
+    }
+  ],
+  "users": [
+    {
+      "username": "ADMIN",
+      "expected": {
+        "username": "admin",
+        "userProperties": {
+          "canUpdateCemeteries": false,
+          "canUpdateContracts": false,
+          "canUpdateWorkOrders": false,
+          "isAdmin": true
+        },
+        "userSettings": {
+          "apiKey": "synthetic:ADMIN"
+        }
+      }
+    },
+    {
+      "username": "view",
+      "expected": {
+        "username": "view",
+        "userProperties": {
+          "canUpdateCemeteries": false,
+          "canUpdateContracts": false,
+          "canUpdateWorkOrders": false,
+          "isAdmin": false
+        },
+        "userSettings": {
+          "apiKey": "synthetic:view"
+        }
+      }
+    },
+    {
+      "username": "UPDATE",
+      "expected": {
+        "username": "update",
+        "userProperties": {
+          "canUpdateCemeteries": true,
+          "canUpdateContracts": true,
+          "canUpdateWorkOrders": true,
+          "isAdmin": false
+        },
+        "userSettings": {
+          "apiKey": "synthetic:UPDATE"
+        }
+      }
+    },
+    {
+      "username": "cemetery",
+      "expected": {
+        "username": "cemetery",
+        "userProperties": {
+          "canUpdateCemeteries": true,
+          "canUpdateContracts": false,
+          "canUpdateWorkOrders": false,
+          "isAdmin": false
+        },
+        "userSettings": {
+          "apiKey": "synthetic:cemetery"
+        }
+      }
+    },
+    {
+      "username": "contract",
+      "expected": {
+        "username": "contract",
+        "userProperties": {
+          "canUpdateCemeteries": false,
+          "canUpdateContracts": true,
+          "canUpdateWorkOrders": false,
+          "isAdmin": false
+        },
+        "userSettings": {
+          "apiKey": "synthetic:contract"
+        }
+      }
+    },
+    {
+      "username": "work",
+      "expected": {
+        "username": "work",
+        "userProperties": {
+          "canUpdateCemeteries": false,
+          "canUpdateContracts": false,
+          "canUpdateWorkOrders": true,
+          "isAdmin": false
+        },
+        "userSettings": {
+          "apiKey": "synthetic:work"
+        }
+      }
+    },
+    {
+      "username": "unknown",
+      "expected": null
+    },
+    {
+      "username": "admin",
+      "local": {
+        "isActive": false,
+        "isAdmin": true
+      },
+      "expected": null
+    },
+    {
+      "username": "admin",
+      "local": {
+        "isActive": true,
+        "isAdmin": false,
+        "canUpdateContracts": true
+      },
+      "expected": {
+        "username": "admin",
+        "userProperties": {
+          "canUpdateCemeteries": false,
+          "canUpdateContracts": true,
+          "canUpdateWorkOrders": false,
+          "isAdmin": false
+        },
+        "userSettings": {
+          "apiKey": "synthetic:admin"
+        }
+      }
+    },
+    {
+      "username": "local",
+      "local": {
+        "isActive": true,
+        "isAdmin": true,
+        "canUpdateWorkOrders": true
+      },
+      "expected": {
+        "username": "local",
+        "userProperties": {
+          "canUpdateCemeteries": false,
+          "canUpdateContracts": false,
+          "canUpdateWorkOrders": true,
+          "isAdmin": true
+        },
+        "userSettings": {
+          "apiKey": "synthetic:local"
+        }
+      }
+    }
+  ],
+  "permissions": [
+    {
+      "handler": "adminGetHandler",
+      "permitted": false,
+      "expected": {
+        "redirect": "/dashboard/?error=accessDenied"
+      }
+    },
+    {
+      "handler": "adminPostHandler",
+      "permitted": false,
+      "expected": {
+        "status": 403,
+        "body": {
+          "message": "Forbidden",
+          "success": false
+        }
+      }
+    },
+    {
+      "handler": "updateCemeteriesGetHandler",
+      "permitted": false,
+      "expected": {
+        "redirect": "/dashboard/?error=accessDenied"
+      }
+    },
+    {
+      "handler": "updateCemeteriesPostHandler",
+      "permitted": false,
+      "expected": {
+        "status": 403,
+        "body": {
+          "message": "Forbidden",
+          "success": false
+        }
+      }
+    },
+    {
+      "handler": "updateContractsGetHandler",
+      "permitted": false,
+      "expected": {
+        "redirect": "/dashboard/?error=accessDenied"
+      }
+    },
+    {
+      "handler": "updateContractsPostHandler",
+      "permitted": false,
+      "expected": {
+        "status": 403,
+        "body": {
+          "message": "Forbidden",
+          "success": false
+        }
+      }
+    },
+    {
+      "handler": "updateWorkOrdersGetHandler",
+      "permitted": false,
+      "expected": {
+        "redirect": "/dashboard/?error=accessDenied"
+      }
+    },
+    {
+      "handler": "updateWorkOrdersPostHandler",
+      "permitted": false,
+      "expected": {
+        "status": 403,
+        "body": {
+          "message": "Forbidden",
+          "success": false
+        }
+      }
+    },
+    {
+      "handler": "apiGetHandler",
+      "permitted": false,
+      "expected": {
+        "redirect": "/login"
+      }
+    },
+    {
+      "handler": "adminGetHandler",
+      "permitted": true,
+      "expected": {
+        "next": true
+      }
+    },
+    {
+      "handler": "adminPostHandler",
+      "permitted": true,
+      "expected": {
+        "next": true
+      }
+    },
+    {
+      "handler": "updateCemeteriesGetHandler",
+      "permitted": true,
+      "expected": {
+        "next": true
+      }
+    },
+    {
+      "handler": "updateCemeteriesPostHandler",
+      "permitted": true,
+      "expected": {
+        "next": true
+      }
+    },
+    {
+      "handler": "updateContractsGetHandler",
+      "permitted": true,
+      "expected": {
+        "next": true
+      }
+    },
+    {
+      "handler": "updateContractsPostHandler",
+      "permitted": true,
+      "expected": {
+        "next": true
+      }
+    },
+    {
+      "handler": "updateWorkOrdersGetHandler",
+      "permitted": true,
+      "expected": {
+        "next": true
+      }
+    },
+    {
+      "handler": "updateWorkOrdersPostHandler",
+      "permitted": true,
+      "expected": {
+        "next": true
+      }
+    },
+    {
+      "handler": "apiGetHandler",
+      "permitted": true,
+      "expected": {
+        "next": true
+      }
+    }
+  ],
+  "settingProperties": [
+    {
+      "settingKey": "aliases.externalReceiptNumber",
+      "settingName": "Aliases - External Receipt Number",
+      "description": "The alias for the external receipt number.",
+      "type": "string",
+      "defaultValue": "Receipt Number",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "aliases.workOrderOpenDate",
+      "settingName": "Aliases - Work Order Open Date",
+      "description": "The alias for the work order open date.",
+      "type": "string",
+      "defaultValue": "Order Date",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "aliases.workOrderCloseDate",
+      "settingName": "Aliases - Work Order Close Date",
+      "description": "The alias for the work order close date.",
+      "type": "string",
+      "defaultValue": "Completion Date",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "burialSiteTypes.bodyCapacityMaxDefault",
+      "settingName": "Burial Site Types - Body Capacity Max Default",
+      "description": "The default maximum body capacity for burial site types.",
+      "type": "number",
+      "defaultValue": "2",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "burialSiteTypes.crematedCapacityMaxDefault",
+      "settingName": "Burial Site Types - Cremated Capacity Max Default",
+      "description": "The default maximum cremated capacity for burial site types.",
+      "type": "number",
+      "defaultValue": "6",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "defaults.city",
+      "settingName": "Defaults - City",
+      "description": "The default city for new records.",
+      "type": "string",
+      "defaultValue": "",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "defaults.province",
+      "settingName": "Defaults - Province",
+      "description": "The default two-letter province for new records.",
+      "type": "string",
+      "defaultValue": "",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.0.startHour",
+      "settingName": "Work Order Work Day - Sunday - Start Hour",
+      "description": "The first hour for work day on Sunday.",
+      "type": "number",
+      "defaultValue": "",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.0.endHour",
+      "settingName": "Work Order Work Day - Sunday - End Hour",
+      "description": "The final hour for work day on Sunday.",
+      "type": "number",
+      "defaultValue": "",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.1.startHour",
+      "settingName": "Work Order Work Day - Monday - Start Hour",
+      "description": "The first hour for work day on Monday.",
+      "type": "number",
+      "defaultValue": "8",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.1.endHour",
+      "settingName": "Work Order Work Day - Monday - End Hour",
+      "description": "The final hour for work day on Monday.",
+      "type": "number",
+      "defaultValue": "17",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.2.startHour",
+      "settingName": "Work Order Work Day - Tuesday - Start Hour",
+      "description": "The first hour for work day on Tuesday.",
+      "type": "number",
+      "defaultValue": "8",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.2.endHour",
+      "settingName": "Work Order Work Day - Tuesday - End Hour",
+      "description": "The final hour for work day on Tuesday.",
+      "type": "number",
+      "defaultValue": "17",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.3.startHour",
+      "settingName": "Work Order Work Day - Wednesday - Start Hour",
+      "description": "The first hour for work day on Wednesday.",
+      "type": "number",
+      "defaultValue": "8",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.3.endHour",
+      "settingName": "Work Order Work Day - Wednesday - End Hour",
+      "description": "The final hour for work day on Wednesday.",
+      "type": "number",
+      "defaultValue": "17",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.4.startHour",
+      "settingName": "Work Order Work Day - Thursday - Start Hour",
+      "description": "The first hour for work day on Thursday.",
+      "type": "number",
+      "defaultValue": "8",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.4.endHour",
+      "settingName": "Work Order Work Day - Thursday - End Hour",
+      "description": "The final hour for work day on Thursday.",
+      "type": "number",
+      "defaultValue": "17",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.5.startHour",
+      "settingName": "Work Order Work Day - Friday - Start Hour",
+      "description": "The first hour for work day on Friday.",
+      "type": "number",
+      "defaultValue": "8",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.5.endHour",
+      "settingName": "Work Order Work Day - Friday - End Hour",
+      "description": "The final hour for work day on Friday.",
+      "type": "number",
+      "defaultValue": "17",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.6.startHour",
+      "settingName": "Work Order Work Day - Saturday - Start Hour",
+      "description": "The first hour for work day on Saturday.",
+      "type": "number",
+      "defaultValue": "",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workDay.6.endHour",
+      "settingName": "Work Order Work Day - Saturday - End Hour",
+      "description": "The final hour for work day on Saturday.",
+      "type": "number",
+      "defaultValue": "",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workOrderMilestone.recentBeforeDays",
+      "settingName": "Work Order Milestone - Recent Before Days",
+      "description": "The number of days before the current date to consider a work order milestone as recent.",
+      "type": "number",
+      "defaultValue": "5",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "workOrder.workOrderMilestone.recentAfterDays",
+      "settingName": "Work Order Milestone - Recent After Days",
+      "description": "The number of days after the current date to consider a work order milestone as recent.",
+      "type": "number",
+      "defaultValue": "60",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "pdfPuppeteer.browserInstallAttempted",
+      "settingName": "PDF Puppeteer - Browser Install Has Been Attempted",
+      "description": "Whether the PDF Puppeteer browser installation was attempted.",
+      "type": "boolean",
+      "defaultValue": "false",
+      "isUserConfigurable": true
+    },
+    {
+      "settingKey": "application.csrfSecret",
+      "settingName": "Application - CSRF Secret",
+      "description": "The secret used for CSRF protection.",
+      "type": "string",
+      "defaultValue": "",
+      "isUserConfigurable": false
+    },
+    {
+      "settingKey": "integrations.portal.syncError",
+      "settingName": "Integrations - Portal - Sync Error",
+      "description": "The last synchronization error message for the portal integration.",
+      "type": "string",
+      "defaultValue": "",
+      "isUserConfigurable": false
+    }
+  ]
+}

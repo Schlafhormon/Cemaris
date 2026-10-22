@@ -1,0 +1,13 @@
+[Unit]
+Description=Cemaris attachments, sessions and configuration snapshot
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+User=erik
+Group=erik
+WorkingDirectory=/opt/apps/cemaris
+UMask=0077
+ExecStart=/usr/bin/python3 /opt/apps/cemaris/deploy/backup-files.py
+TimeoutStartSec=20min

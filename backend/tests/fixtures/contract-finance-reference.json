@@ -1,0 +1,5612 @@
+{
+  "reference_commit": "451ce034863b16502484367044f3e9b65370111a",
+  "source_sha256": {
+    "package-lock.json": "a5871b5d28f0b1ab4e05b34ca27c4293c901d4196c05212dd09bbba7fb1729c2",
+    "database/initializeDatabase.js": "835ca5bc8d85ce5781a3404057590473149023f6a6ac908f688e10bb1b69b4a0",
+    "helpers/functions.fee.ts": "43b3fd9ef7d8787afad52fee4949648f09f7e41b8c8bbb67d23ab56f61fa2aba",
+    "helpers/functions.fee.js": "d1eca566b9caf340dbc12f8b0de0d1dc30fc04f3971ee8239c60772df7918f3b",
+    "helpers/contracts.helpers.ts": "7481b7181d153482323ec607828edf5d469bc6527afde43b117286a09b15210a",
+    "helpers/contracts.helpers.js": "2a823c7b1daea604007701cd2ea11b02747fb6fdf8b403667713501bd86456fc",
+    "database/createAuditLogEntries.ts": "faac8c4876bd364070e8e95ccf81dba38b4a673557172d43e5948433063d1703",
+    "database/createAuditLogEntries.js": "a9c8820f2c333c22097decb8856c15d8a2b1d82a2c1d5d890648f32dfd138089",
+    "database/updateRecordOrderNumber.ts": "a9de06eb19a8f80f48707edad82d7e7f38ae860e3304e5a050c6f0e5650eb674",
+    "database/updateRecordOrderNumber.js": "78c9eb86b4ea497226391b8def39a62faf17eecf2cf7e109c0bf0fa1d7a41d82",
+    "database/getFee.ts": "c7d218cf6d77b8d7bdbc10258beabf8cfec20af0aeadd1d53ef7cbd6e0053e62",
+    "database/getFee.js": "674529bac023bdf2c09472fdc6dc5b11cb36df34ae381afb3d7b0f22e84d6ef7",
+    "database/getFees.ts": "e1cd099fcc924df40dc2701e4e97efaa45888cdf52d64e01cf3c7bafdfc770e8",
+    "database/getFees.js": "0f99bc7747848ee768d06db898022c93cc564b1b5f25194889ca311d84a92c0c",
+    "database/getContractFees.ts": "55112271249994f4ea45615f74aed65d67266bdca0964b74ad0acad250b76da8",
+    "database/getContractFees.js": "7ffb7c70ae2e25a29480739d25ceb301acd725c9e78cff23babb54b4f04c443f",
+    "database/getContractTransactions.ts": "33c2586e8be1f73994454a273a35ec46b362c60f4a061bc68c09e1fc34f6af3c",
+    "database/getContractTransactions.js": "640ffc12e476ee51b9454a82bfab8fff6660bcdedef0067154bc224ebbe5bf28",
+    "database/getContract.ts": "3c3b5e26824bf8d635a25d5c2de933191d02b6ebeb2812058e5c0412b37c1b51",
+    "database/getContract.js": "c61fd827d47b4a684006b55340e8467983da57d5525cedccccd9e569eb5a5073",
+    "database/getFeeCategories.ts": "6388aeb36926ea1d5aa021be79cfc35c4d998c6c5a20cba58f741244f7e16859",
+    "database/getFeeCategories.js": "3c9d6f7f7190750bf8bd4e19fc2ac597943ddad830690c42c203a9ab7bf69427",
+    "database/addContractFee.ts": "333305814415c37beb67ba69db72c44ede801e0f2d28668cdbaf40e03b5fab6c",
+    "database/addContractFee.js": "1d00c81dd032d7c33074b889e58603d49bbfe8e587e5fead3125b9fc25a04f02",
+    "database/addContractFeeCategory.ts": "a93d91a9883e25f316012b80c1ea336700b491a7edca74e2a679aa63b313bb42",
+    "database/addContractFeeCategory.js": "751480f6118d44f294aa712af509fa5c900a08a5985aa0bbd998df800b3702d9",
+    "database/updateContractFeeQuantity.ts": "b1702f20e0884fb55fe3e2adbf771b9483ddfe604e5b2bb65853160e56b41780",
+    "database/updateContractFeeQuantity.js": "4e24b83aab292b1808529a857e8e18664b00cf3f637d5dd2f2ac9c03810210fd",
+    "database/deleteContractFee.ts": "45bf6accc9fc06cfe9b5da58395ae0af06926c7bdc6c0291986375122b5a7704",
+    "database/deleteContractFee.js": "8dbe1d876249cbfedc278f7bd23a8f9fa3d29996216ad7c24cfe0e1f5fd09f62",
+    "database/addContractTransaction.ts": "e5694bf8356e43fcde5de0ff21440e1c37b20f312b4a36d618f0fb118d4a7c43",
+    "database/addContractTransaction.js": "816845c74acdbc46ac95ae5387d0e1aa785425afef6437dec030f4dd0bf056a8",
+    "database/updateContractTransaction.ts": "02dabdd3dec69c393c73e703db9d3add2bbac97deadf184ccd0a56fc15807976",
+    "database/updateContractTransaction.js": "f2ce25c8f3394a55a73b5e753d40cd982d8a0a10c962cfdd23c1124410be6eba",
+    "database/deleteContractTransaction.ts": "3eb3df9540952b79e59c46f3abe1c2bc70192f73369e25d34c143c49c9ef51b0",
+    "database/deleteContractTransaction.js": "e922da2b9c28ef92aede22d8dda234a6ce5017305ee1974866872ad5a8238271",
+    "database/deleteContract.ts": "febd00f86a3dfcf5d2aa31aec75341e7a9ec60e26b6b95776686388c7cc4d29f",
+    "database/deleteContract.js": "36c8e0f9c3bfdbad15bf36c6dae648d5deb39fdbfd68e522dd80d080b295d2db",
+    "handlers/contractsPost/doGetFees.ts": "80672120121555a19d111ce9bad9e6fafd1af0a87261c9d5461bc8a227d7ac8c",
+    "handlers/contractsPost/doGetFees.js": "a48306f59fb9f103e7a89cb2a59a6f52fffd0e7a03d95a49a71245c84ef61d57",
+    "handlers/contractsPost/doAddContractFee.ts": "f6d0c8726f0140349646247cdd4d4b39cdfbf3bafe4438006ebbc7b5c6995855",
+    "handlers/contractsPost/doAddContractFee.js": "ec5d99848390a0fc13ad14e8f4410953b53999e5220b15103f96efc6f25a5232",
+    "handlers/contractsPost/doAddContractFeeCategory.ts": "ec5990b31bfd0b15803967c897eda2d31fb4e2b7afc7b000a7655863b1ff86b3",
+    "handlers/contractsPost/doAddContractFeeCategory.js": "382f833ab6396c223ea864376fa4611b688ab7c053c6feba7ee3371aeb34b693",
+    "handlers/contractsPost/doUpdateContractFeeQuantity.ts": "afb67d8ed81d72a23a1ca05403f3bded5945bbfcee8e1c83c9a153323b63a05e",
+    "handlers/contractsPost/doUpdateContractFeeQuantity.js": "3b4e4468ee452e4daa46eb17953b546739e30fe313b33068d5da38fb19f94afc",
+    "handlers/contractsPost/doDeleteContractFee.ts": "ec093ada574c8b4c77d353af61a56cfb05b7aacab15fcf9e70d18e1954d45790",
+    "handlers/contractsPost/doDeleteContractFee.js": "ef7176c22f0793fb11573b2fa1443a70579f0c2f56aa085c485559b23a9286ba",
+    "handlers/contractsPost/doAddContractTransaction.ts": "8a09f3770eabb80a04a00098200af38039fb7d8bd0b42c63f21731a0a935cd20",
+    "handlers/contractsPost/doAddContractTransaction.js": "948131fdced770e709dd60bb8a9990a7218038cfcb473aa3c833b7f2f6c7e90a",
+    "handlers/contractsPost/doUpdateContractTransaction.ts": "5d145479084744976a3c80aeb05b0c76aee02e2a148c8df3224f09b0eaf73a00",
+    "handlers/contractsPost/doUpdateContractTransaction.js": "ff906bf9b96d89f007be6cbe6fb0367c1f78a439b10446b0da6122a67ac4e134",
+    "handlers/contractsPost/doDeleteContractTransaction.ts": "1c04108e0b4805182e7ae82b92e3190c8711dfeafdc36e781b8a67872ae4bacb",
+    "handlers/contractsPost/doDeleteContractTransaction.js": "a152c542ceb2542bf73456cc0305393523d130c8cb903066bb0568da3c544c64",
+    "public/javascripts/contract.editFees.js": "995c98c73e39090fabf5d2f24fe620b4a73da5ca74d9da12b374aca890e24651",
+    "public/javascripts/contract.editFees.ts": "3229ac95acb174ff22e046ea583d40c93af4b28da89504a42164944ec5dea90b"
+  },
+  "packages": [
+    {
+      "name": "@cityssm/utils-datetime",
+      "version": "1.4.1",
+      "integrity": "sha512-yTrHQa9iJQw27/rax2M1rYjW4K6K6UDZhM3B4hY8PPDhKfJwK8IYWuT7MPMlnbeBCGxRT2Hw5gZBPY9/FnNyGQ=="
+    },
+    {
+      "name": "@cityssm/object-difference",
+      "version": "0.1.0",
+      "integrity": "sha512-p4xKG18426FmHw2YAm7DbMezuLFv/u/l7IWkMau83qTSrKfg9DNpR8XfKi+vuQ8jW6uwcm80OJCdF0jW0vy3lw=="
+    }
+  ],
+  "today": 20261020,
+  "fixed_local_time": "09:05:42",
+  "oracle_boundaries": [
+    "Original schema, fee/transaction functions, eight handlers, fee/tax helpers, actual getContract SELECT, audit writer/differences and locked dependencies execute unchanged; import/export declarations alone are removed.",
+    "getContract unrelated child functions return empty lists. Original contract SELECT, fee/transaction child functions and date derivation run. calculateFeeAmount never inspects its contract argument.",
+    "Connection access/close uses a shared in-memory SOURCE boundary; handler close calls are counted. Debug is a no-op. Dynamics GP is disabled: its later integration remains step 14.",
+    "Original browser renderers run on minimal DOM/event objects; escapeHTML is a string boundary for numeric synthetic inputs. Row markup, toFixed rounding, totals, invoice labels and balance decisions execute unchanged.",
+    "Audit values omit record* properties in full snapshots; scalar recordUpdate_username differences remain. Audit clock fields are omitted."
+  ],
+  "seed": [
+    {
+      "table": "ContractTypes",
+      "id": 1,
+      "values": {
+        "contractType": "Synthetic contract",
+        "orderNumber": 0
+      }
+    },
+    {
+      "table": "ContractTypes",
+      "id": 2,
+      "values": {
+        "contractType": "Synthetic other contract",
+        "orderNumber": 1
+      }
+    },
+    {
+      "table": "BurialSiteTypes",
+      "id": 1,
+      "values": {
+        "burialSiteType": "Synthetic grave",
+        "orderNumber": 0
+      }
+    },
+    {
+      "table": "BurialSiteTypes",
+      "id": 2,
+      "values": {
+        "burialSiteType": "Synthetic other grave",
+        "orderNumber": 1
+      }
+    },
+    {
+      "table": "BurialSites",
+      "id": 1,
+      "values": {
+        "burialSiteTypeId": 1,
+        "burialSiteName": "SYN-FIN-01",
+        "burialSiteNameSegment1": "SYN-FIN-01",
+        "burialSiteNameSegment2": "",
+        "burialSiteNameSegment3": "",
+        "burialSiteNameSegment4": "",
+        "burialSiteNameSegment5": ""
+      }
+    },
+    {
+      "table": "Contracts",
+      "id": 1,
+      "values": {
+        "contractTypeId": 1,
+        "burialSiteId": 1,
+        "contractNumber": "SYN-FIN-1",
+        "purchaserName": "Synthetic purchaser",
+        "contractStartDate": 20261020
+      }
+    },
+    {
+      "table": "Contracts",
+      "id": 2,
+      "values": {
+        "contractTypeId": 2,
+        "contractNumber": "SYN-FIN-2",
+        "purchaserName": "Synthetic other purchaser",
+        "contractStartDate": 20261020
+      }
+    },
+    {
+      "table": "FeeCategories",
+      "id": 1,
+      "values": {
+        "feeCategory": "Synthetic individual",
+        "isGroupedFee": 0,
+        "orderNumber": 0
+      }
+    },
+    {
+      "table": "FeeCategories",
+      "id": 2,
+      "values": {
+        "feeCategory": "Synthetic grouped",
+        "isGroupedFee": 1,
+        "orderNumber": 1
+      }
+    },
+    {
+      "table": "Fees",
+      "id": 1,
+      "values": {
+        "feeCategoryId": 1,
+        "orderNumber": 0,
+        "feeName": "Synthetic percentage",
+        "feeAmount": 10.005,
+        "taxPercentage": 13,
+        "includeQuantity": 1,
+        "quantityUnit": "units"
+      }
+    },
+    {
+      "table": "Fees",
+      "id": 2,
+      "values": {
+        "feeCategoryId": 1,
+        "orderNumber": 1,
+        "feeName": "Synthetic manual",
+        "feeAmount": null,
+        "taxAmount": 1.255,
+        "includeQuantity": 1
+      }
+    },
+    {
+      "table": "Fees",
+      "id": 3,
+      "values": {
+        "feeCategoryId": 1,
+        "orderNumber": 2,
+        "feeName": "Synthetic function",
+        "feeAmount": 999,
+        "feeFunction": "contract.area * 12",
+        "taxAmount": 2.675
+      }
+    },
+    {
+      "table": "Fees",
+      "id": 4,
+      "values": {
+        "feeCategoryId": 1,
+        "orderNumber": 3,
+        "feeName": "Synthetic other type",
+        "feeAmount": 5,
+        "contractTypeId": 2
+      }
+    },
+    {
+      "table": "Fees",
+      "id": 5,
+      "values": {
+        "feeCategoryId": 1,
+        "orderNumber": 4,
+        "feeName": "Synthetic other grave",
+        "feeAmount": 6,
+        "burialSiteTypeId": 2
+      }
+    },
+    {
+      "table": "Fees",
+      "id": 6,
+      "values": {
+        "feeCategoryId": 1,
+        "orderNumber": 5,
+        "feeName": "Synthetic deleted fee",
+        "feeAmount": 7,
+        "recordDelete_timeMillis": 1
+      }
+    },
+    {
+      "table": "Fees",
+      "id": 7,
+      "values": {
+        "feeCategoryId": 2,
+        "orderNumber": 6,
+        "feeName": "Synthetic group matching",
+        "feeAmount": 3.335,
+        "taxPercentage": 0,
+        "taxAmount": 0.005,
+        "contractTypeId": 1,
+        "burialSiteTypeId": 1
+      }
+    },
+    {
+      "table": "Fees",
+      "id": 8,
+      "values": {
+        "feeCategoryId": 2,
+        "orderNumber": 7,
+        "feeName": "Synthetic group other",
+        "feeAmount": 20,
+        "contractTypeId": 2,
+        "burialSiteTypeId": 2
+      }
+    }
+  ],
+  "calculations": [
+    {
+      "fee": {},
+      "contract": {
+        "amount": 42
+      },
+      "feeAmount": 0,
+      "taxAmount": 0
+    },
+    {
+      "fee": {
+        "feeAmount": null,
+        "taxAmount": null
+      },
+      "contract": {
+        "amount": 42
+      },
+      "feeAmount": 0,
+      "taxAmount": 0
+    },
+    {
+      "fee": {
+        "feeAmount": 0,
+        "taxAmount": 0
+      },
+      "contract": {
+        "amount": 42
+      },
+      "feeAmount": 0,
+      "taxAmount": 0
+    },
+    {
+      "fee": {
+        "feeAmount": 10.005,
+        "taxPercentage": 13,
+        "taxAmount": 5
+      },
+      "contract": {
+        "amount": 42
+      },
+      "feeAmount": 10.005,
+      "taxAmount": 1.30065
+    },
+    {
+      "fee": {
+        "feeAmount": 1.005,
+        "taxPercentage": 0,
+        "taxAmount": 2.675
+      },
+      "contract": {
+        "amount": 42
+      },
+      "feeAmount": 1.005,
+      "taxAmount": 2.675
+    },
+    {
+      "fee": {
+        "feeAmount": -10.005,
+        "taxPercentage": -5,
+        "taxAmount": 99
+      },
+      "contract": {
+        "amount": 42
+      },
+      "feeAmount": -10.005,
+      "taxAmount": 0.5002500000000001
+    },
+    {
+      "fee": {
+        "feeAmount": 999,
+        "feeFunction": "contract.amount * 2",
+        "taxPercentage": 13
+      },
+      "contract": {
+        "amount": 42
+      },
+      "feeAmount": 0,
+      "taxAmount": 0
+    },
+    {
+      "fee": {
+        "feeAmount": 999,
+        "feeFunction": "unknown function",
+        "taxAmount": 2.675
+      },
+      "contract": {
+        "amount": 42
+      },
+      "feeAmount": 0,
+      "taxAmount": 2.675
+    },
+    {
+      "fee": {
+        "feeAmount": 2.675,
+        "feeFunction": "",
+        "taxAmount": 0.005
+      },
+      "contract": {
+        "amount": 42
+      },
+      "feeAmount": 2.675,
+      "taxAmount": 0.005
+    }
+  ],
+  "sharedHelpers": [
+    {
+      "contract": {},
+      "feeCategory": "pErPeTuAl",
+      "contractTypeField": "synthetic field",
+      "expected": {
+        "exact": [],
+        "contains": [],
+        "field": null,
+        "transactionTotal": 0
+      }
+    },
+    {
+      "contract": {
+        "contractFees": null,
+        "contractTransactions": null,
+        "contractFields": null
+      },
+      "feeCategory": "pErPeTuAl",
+      "contractTypeField": "synthetic field",
+      "expected": {
+        "exact": [],
+        "contains": [],
+        "field": null,
+        "transactionTotal": 0
+      }
+    },
+    {
+      "contract": {
+        "contractFees": [
+          {
+            "feeCategory": "Synthetic PERPETUAL Care",
+            "feeAmount": 1
+          },
+          {
+            "feeCategory": "Perpetual",
+            "feeAmount": 2
+          },
+          {
+            "feeCategory": "other",
+            "feeAmount": 3
+          }
+        ],
+        "contractTransactions": [
+          {
+            "transactionAmount": 0.1
+          },
+          {
+            "transactionAmount": 0.2
+          },
+          {
+            "transactionAmount": -0.05
+          }
+        ],
+        "contractFields": [
+          {
+            "contractTypeField": "Synthetic FIELD",
+            "fieldValue": ""
+          },
+          {
+            "contractTypeField": "Synthetic field",
+            "fieldValue": "second"
+          }
+        ]
+      },
+      "feeCategory": "pErPeTuAl",
+      "contractTypeField": "synthetic field",
+      "expected": {
+        "exact": [
+          {
+            "feeCategory": "Perpetual",
+            "feeAmount": 2
+          }
+        ],
+        "contains": [
+          {
+            "feeCategory": "Synthetic PERPETUAL Care",
+            "feeAmount": 1
+          },
+          {
+            "feeCategory": "Perpetual",
+            "feeAmount": 2
+          }
+        ],
+        "field": "",
+        "transactionTotal": 0.25000000000000006
+      }
+    }
+  ],
+  "feeDefaults": [
+    {
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "1.5"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 1.5,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic percentage",
+          "includeQuantity": 1,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "quantity": 1.5,
+          "quantityUnit": "units"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 1.5,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "feeId": 2,
+        "quantity": 1
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 2,
+          "quantity": 1,
+          "feeAmount": 0,
+          "taxAmount": 1.255,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 2,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic manual",
+          "includeQuantity": 1,
+          "feeAmount": 0,
+          "taxAmount": 1.255,
+          "quantity": 1,
+          "quantityUnit": null
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "2",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 2,
+            "quantity": 1,
+            "feeAmount": 0,
+            "taxAmount": 1.255
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "feeId": 3,
+        "quantity": 1
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 3,
+          "quantity": 1,
+          "feeAmount": 0,
+          "taxAmount": 2.675,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 3,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic function",
+          "includeQuantity": 0,
+          "feeAmount": 0,
+          "taxAmount": 2.675,
+          "quantity": 1,
+          "quantityUnit": null
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "3",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 3,
+            "quantity": 1,
+            "feeAmount": 0,
+            "taxAmount": 2.675
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "2",
+        "feeAmount": "12.345",
+        "taxAmount": "1.005"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 2,
+          "feeAmount": 12.345,
+          "taxAmount": 1.005,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic percentage",
+          "includeQuantity": 1,
+          "feeAmount": 12.345,
+          "taxAmount": 1.005,
+          "quantity": 2,
+          "quantityUnit": "units"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 2,
+            "feeAmount": 12.345,
+            "taxAmount": 1.005
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": 2,
+        "feeAmount": 12.345,
+        "taxAmount": 1.005
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 2,
+          "feeAmount": 0,
+          "taxAmount": 0,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic percentage",
+          "includeQuantity": 1,
+          "feeAmount": 0,
+          "taxAmount": 0,
+          "quantity": 2,
+          "quantityUnit": "units"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 2,
+            "feeAmount": 0,
+            "taxAmount": 0
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "0",
+        "feeAmount": "0",
+        "taxAmount": ""
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 0,
+          "feeAmount": 0,
+          "taxAmount": 0,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic percentage",
+          "includeQuantity": 1,
+          "feeAmount": 0,
+          "taxAmount": 0,
+          "quantity": 0,
+          "quantityUnit": "units"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 0,
+            "feeAmount": 0,
+            "taxAmount": 0
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "-1.25",
+        "feeAmount": "2.675",
+        "taxAmount": "-0.005"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": -1.25,
+          "feeAmount": 2.675,
+          "taxAmount": -0.005,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic percentage",
+          "includeQuantity": 1,
+          "feeAmount": 2.675,
+          "taxAmount": -0.005,
+          "quantity": -1.25,
+          "quantityUnit": "units"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": -1.25,
+            "feeAmount": 2.675,
+            "taxAmount": -0.005
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "feeId": 4,
+        "quantity": 1
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 4,
+          "quantity": 1,
+          "feeAmount": 5,
+          "taxAmount": 0,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 4,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic other type",
+          "includeQuantity": 0,
+          "feeAmount": 5,
+          "taxAmount": 0,
+          "quantity": 1,
+          "quantityUnit": null
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "4",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 4,
+            "quantity": 1,
+            "feeAmount": 5,
+            "taxAmount": 0
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "feeId": 5,
+        "quantity": 1
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 5,
+          "quantity": 1,
+          "feeAmount": 6,
+          "taxAmount": 0,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 5,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic other grave",
+          "includeQuantity": 0,
+          "feeAmount": 6,
+          "taxAmount": 0,
+          "quantity": 1,
+          "quantityUnit": null
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "5",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 5,
+            "quantity": 1,
+            "feeAmount": 6,
+            "taxAmount": 0
+          }
+        }
+      ]
+    }
+  ],
+  "feeLifecycle": [
+    {
+      "action": "add",
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "2"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 2,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic percentage",
+          "includeQuantity": 1,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "quantity": 2,
+          "quantityUnit": "units"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 2,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        }
+      ]
+    },
+    {
+      "action": "add",
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "0.5"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 2.5,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic percentage",
+          "includeQuantity": 1,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "quantity": 2.5,
+          "quantityUnit": "units"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 2,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2,
+          "toValue": 2.5
+        }
+      ]
+    },
+    {
+      "action": "add",
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "3",
+        "feeAmount": "20.125",
+        "taxAmount": "2.675"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 1,
+          "feeAmount": 85.3875,
+          "taxAmount": 11.276625,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic percentage",
+          "includeQuantity": 1,
+          "feeAmount": 85.3875,
+          "taxAmount": 11.276625,
+          "quantity": 1,
+          "quantityUnit": "units"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 2,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2,
+          "toValue": 2.5
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2.5,
+          "toValue": 1
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "feeAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 10.005,
+          "toValue": 85.3875
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "taxAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 1.30065,
+          "toValue": 11.276625
+        }
+      ]
+    },
+    {
+      "action": "quantity",
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "1.25"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 1.25,
+          "feeAmount": 85.3875,
+          "taxAmount": 11.276625,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic percentage",
+          "includeQuantity": 1,
+          "feeAmount": 85.3875,
+          "taxAmount": 11.276625,
+          "quantity": 1.25,
+          "quantityUnit": "units"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 2,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2,
+          "toValue": 2.5
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2.5,
+          "toValue": 1
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "feeAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 10.005,
+          "toValue": 85.3875
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "taxAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 1.30065,
+          "toValue": 11.276625
+        }
+      ]
+    },
+    {
+      "action": "delete",
+      "form": {
+        "contractId": 1,
+        "feeId": 1
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 1.25,
+          "feeAmount": 85.3875,
+          "taxAmount": 11.276625,
+          "deleted": true
+        }
+      ],
+      "retrieved": [],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 2,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2,
+          "toValue": 2.5
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2.5,
+          "toValue": 1
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "feeAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 10.005,
+          "toValue": 85.3875
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "taxAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 1.30065,
+          "toValue": 11.276625
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 1.25,
+            "feeAmount": 85.3875,
+            "taxAmount": 11.276625
+          },
+          "toValue": null
+        }
+      ]
+    },
+    {
+      "action": "delete",
+      "form": {
+        "contractId": 1,
+        "feeId": 1
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 1.25,
+          "feeAmount": 85.3875,
+          "taxAmount": 11.276625,
+          "deleted": true
+        }
+      ],
+      "retrieved": [],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 2,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2,
+          "toValue": 2.5
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2.5,
+          "toValue": 1
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "feeAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 10.005,
+          "toValue": 85.3875
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "taxAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 1.30065,
+          "toValue": 11.276625
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 1.25,
+            "feeAmount": 85.3875,
+            "taxAmount": 11.276625
+          },
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": null,
+          "toValue": null
+        }
+      ]
+    },
+    {
+      "action": "quantity",
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "10"
+      },
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 1.25,
+          "feeAmount": 85.3875,
+          "taxAmount": 11.276625,
+          "deleted": true
+        }
+      ],
+      "retrieved": [],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 2,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2,
+          "toValue": 2.5
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2.5,
+          "toValue": 1
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "feeAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 10.005,
+          "toValue": 85.3875
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "taxAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 1.30065,
+          "toValue": 11.276625
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 1.25,
+            "feeAmount": 85.3875,
+            "taxAmount": 11.276625
+          },
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": null,
+          "toValue": null
+        }
+      ]
+    },
+    {
+      "action": "add",
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "1"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 1,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic percentage",
+          "includeQuantity": 1,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "quantity": 1,
+          "quantityUnit": "units"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 2,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2,
+          "toValue": 2.5
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2.5,
+          "toValue": 1
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "feeAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 10.005,
+          "toValue": 85.3875
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "taxAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 1.30065,
+          "toValue": 11.276625
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 1.25,
+            "feeAmount": 85.3875,
+            "taxAmount": 11.276625
+          },
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": null,
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 1,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        }
+      ]
+    },
+    {
+      "action": "delete",
+      "form": {
+        "contractId": 2,
+        "feeId": 1
+      },
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 1,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic percentage",
+          "includeQuantity": 1,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "quantity": 1,
+          "quantityUnit": "units"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 2,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2,
+          "toValue": 2.5
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2.5,
+          "toValue": 1
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "feeAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 10.005,
+          "toValue": 85.3875
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "taxAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 1.30065,
+          "toValue": 11.276625
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 1.25,
+            "feeAmount": 85.3875,
+            "taxAmount": 11.276625
+          },
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": null,
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 1,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        }
+      ]
+    },
+    {
+      "action": "quantity",
+      "form": {
+        "contractId": 1,
+        "feeId": 999,
+        "quantity": "3"
+      },
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 1,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "feeCategory": "Synthetic individual",
+          "feeName": "Synthetic percentage",
+          "includeQuantity": 1,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "quantity": 1,
+          "quantityUnit": "units"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 2,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2,
+          "toValue": 2.5
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 2.5,
+          "toValue": 1
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "feeAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 10.005,
+          "toValue": 85.3875
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "taxAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 1.30065,
+          "toValue": 11.276625
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 1.25,
+            "feeAmount": 85.3875,
+            "taxAmount": 11.276625
+          },
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": null,
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 1,
+            "quantity": 1,
+            "feeAmount": 10.005,
+            "taxAmount": 1.30065
+          }
+        }
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "contractId": 1,
+      "expected": [
+        {
+          "feeCategoryId": 1,
+          "feeCategory": "Synthetic individual",
+          "isGroupedFee": 0,
+          "orderNumber": 0,
+          "fees": [
+            {
+              "feeId": 1,
+              "feeCategoryId": 1,
+              "feeName": "Synthetic percentage",
+              "feeDescription": null,
+              "feeAccount": null,
+              "contractTypeId": null,
+              "contractType": null,
+              "burialSiteTypeId": null,
+              "burialSiteType": null,
+              "feeAmount": 10.005,
+              "feeFunction": null,
+              "taxAmount": null,
+              "taxPercentage": 13,
+              "includeQuantity": 1,
+              "quantityUnit": "units",
+              "isRequired": 0,
+              "orderNumber": 0,
+              "contractFeeCount": 0
+            },
+            {
+              "feeId": 2,
+              "feeCategoryId": 1,
+              "feeName": "Synthetic manual",
+              "feeDescription": null,
+              "feeAccount": null,
+              "contractTypeId": null,
+              "contractType": null,
+              "burialSiteTypeId": null,
+              "burialSiteType": null,
+              "feeAmount": null,
+              "feeFunction": null,
+              "taxAmount": 1.255,
+              "taxPercentage": null,
+              "includeQuantity": 1,
+              "quantityUnit": null,
+              "isRequired": 0,
+              "orderNumber": 1,
+              "contractFeeCount": 0
+            },
+            {
+              "feeId": 3,
+              "feeCategoryId": 1,
+              "feeName": "Synthetic function",
+              "feeDescription": null,
+              "feeAccount": null,
+              "contractTypeId": null,
+              "contractType": null,
+              "burialSiteTypeId": null,
+              "burialSiteType": null,
+              "feeAmount": 999,
+              "feeFunction": "contract.area * 12",
+              "taxAmount": 2.675,
+              "taxPercentage": null,
+              "includeQuantity": 0,
+              "quantityUnit": null,
+              "isRequired": 0,
+              "orderNumber": 2,
+              "contractFeeCount": 0
+            }
+          ]
+        },
+        {
+          "feeCategoryId": 2,
+          "feeCategory": "Synthetic grouped",
+          "isGroupedFee": 1,
+          "orderNumber": 1,
+          "fees": [
+            {
+              "feeId": 7,
+              "feeCategoryId": 2,
+              "feeName": "Synthetic group matching",
+              "feeDescription": null,
+              "feeAccount": null,
+              "contractTypeId": 1,
+              "contractType": "Synthetic contract",
+              "burialSiteTypeId": 1,
+              "burialSiteType": "Synthetic grave",
+              "feeAmount": 3.335,
+              "feeFunction": null,
+              "taxAmount": 0.005,
+              "taxPercentage": 0,
+              "includeQuantity": 0,
+              "quantityUnit": null,
+              "isRequired": 0,
+              "orderNumber": 6,
+              "contractFeeCount": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "contractId": 2,
+      "expected": [
+        {
+          "feeCategoryId": 1,
+          "feeCategory": "Synthetic individual",
+          "isGroupedFee": 0,
+          "orderNumber": 0,
+          "fees": [
+            {
+              "feeId": 1,
+              "feeCategoryId": 1,
+              "feeName": "Synthetic percentage",
+              "feeDescription": null,
+              "feeAccount": null,
+              "contractTypeId": null,
+              "contractType": null,
+              "burialSiteTypeId": null,
+              "burialSiteType": null,
+              "feeAmount": 10.005,
+              "feeFunction": null,
+              "taxAmount": null,
+              "taxPercentage": 13,
+              "includeQuantity": 1,
+              "quantityUnit": "units",
+              "isRequired": 0,
+              "orderNumber": 0,
+              "contractFeeCount": 0
+            },
+            {
+              "feeId": 2,
+              "feeCategoryId": 1,
+              "feeName": "Synthetic manual",
+              "feeDescription": null,
+              "feeAccount": null,
+              "contractTypeId": null,
+              "contractType": null,
+              "burialSiteTypeId": null,
+              "burialSiteType": null,
+              "feeAmount": null,
+              "feeFunction": null,
+              "taxAmount": 1.255,
+              "taxPercentage": null,
+              "includeQuantity": 1,
+              "quantityUnit": null,
+              "isRequired": 0,
+              "orderNumber": 1,
+              "contractFeeCount": 0
+            },
+            {
+              "feeId": 3,
+              "feeCategoryId": 1,
+              "feeName": "Synthetic function",
+              "feeDescription": null,
+              "feeAccount": null,
+              "contractTypeId": null,
+              "contractType": null,
+              "burialSiteTypeId": null,
+              "burialSiteType": null,
+              "feeAmount": 999,
+              "feeFunction": "contract.area * 12",
+              "taxAmount": 2.675,
+              "taxPercentage": null,
+              "includeQuantity": 0,
+              "quantityUnit": null,
+              "isRequired": 0,
+              "orderNumber": 2,
+              "contractFeeCount": 0
+            },
+            {
+              "feeId": 4,
+              "feeCategoryId": 1,
+              "feeName": "Synthetic other type",
+              "feeDescription": null,
+              "feeAccount": null,
+              "contractTypeId": 2,
+              "contractType": "Synthetic other contract",
+              "burialSiteTypeId": null,
+              "burialSiteType": null,
+              "feeAmount": 5,
+              "feeFunction": null,
+              "taxAmount": null,
+              "taxPercentage": null,
+              "includeQuantity": 0,
+              "quantityUnit": null,
+              "isRequired": 0,
+              "orderNumber": 3,
+              "contractFeeCount": 0
+            },
+            {
+              "feeId": 5,
+              "feeCategoryId": 1,
+              "feeName": "Synthetic other grave",
+              "feeDescription": null,
+              "feeAccount": null,
+              "contractTypeId": null,
+              "contractType": null,
+              "burialSiteTypeId": 2,
+              "burialSiteType": "Synthetic other grave",
+              "feeAmount": 6,
+              "feeFunction": null,
+              "taxAmount": null,
+              "taxPercentage": null,
+              "includeQuantity": 0,
+              "quantityUnit": null,
+              "isRequired": 0,
+              "orderNumber": 4,
+              "contractFeeCount": 0
+            }
+          ]
+        },
+        {
+          "feeCategoryId": 2,
+          "feeCategory": "Synthetic grouped",
+          "isGroupedFee": 1,
+          "orderNumber": 1,
+          "fees": [
+            {
+              "feeId": 8,
+              "feeCategoryId": 2,
+              "feeName": "Synthetic group other",
+              "feeDescription": null,
+              "feeAccount": null,
+              "contractTypeId": 2,
+              "contractType": "Synthetic other contract",
+              "burialSiteTypeId": 2,
+              "burialSiteType": "Synthetic other grave",
+              "feeAmount": 20,
+              "feeFunction": null,
+              "taxAmount": null,
+              "taxPercentage": null,
+              "includeQuantity": 0,
+              "quantityUnit": null,
+              "isRequired": 0,
+              "orderNumber": 7,
+              "contractFeeCount": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "categoryAdds": [
+    {
+      "form": {
+        "contractId": 1,
+        "feeCategoryId": 2
+      },
+      "result": 2,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 7,
+          "quantity": 1,
+          "feeAmount": 3.335,
+          "taxAmount": 0.005,
+          "deleted": false
+        },
+        {
+          "contractId": 1,
+          "feeId": 8,
+          "quantity": 1,
+          "feeAmount": 20,
+          "taxAmount": 0,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 7,
+          "feeCategory": "Synthetic grouped",
+          "feeName": "Synthetic group matching",
+          "includeQuantity": 0,
+          "feeAmount": 3.335,
+          "taxAmount": 0.005,
+          "quantity": 1,
+          "quantityUnit": null
+        },
+        {
+          "contractId": 1,
+          "feeId": 8,
+          "feeCategory": "Synthetic grouped",
+          "feeName": "Synthetic group other",
+          "includeQuantity": 0,
+          "feeAmount": 20,
+          "taxAmount": 0,
+          "quantity": 1,
+          "quantityUnit": null
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "7",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 7,
+            "quantity": 1,
+            "feeAmount": 3.335,
+            "taxAmount": 0.005
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "8",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 8,
+            "quantity": 1,
+            "feeAmount": 20,
+            "taxAmount": 0
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "feeCategoryId": 2
+      },
+      "result": 2,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 7,
+          "quantity": 2,
+          "feeAmount": 3.335,
+          "taxAmount": 0.005,
+          "deleted": false
+        },
+        {
+          "contractId": 1,
+          "feeId": 8,
+          "quantity": 2,
+          "feeAmount": 20,
+          "taxAmount": 0,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 7,
+          "feeCategory": "Synthetic grouped",
+          "feeName": "Synthetic group matching",
+          "includeQuantity": 0,
+          "feeAmount": 3.335,
+          "taxAmount": 0.005,
+          "quantity": 2,
+          "quantityUnit": null
+        },
+        {
+          "contractId": 1,
+          "feeId": 8,
+          "feeCategory": "Synthetic grouped",
+          "feeName": "Synthetic group other",
+          "includeQuantity": 0,
+          "feeAmount": 20,
+          "taxAmount": 0,
+          "quantity": 2,
+          "quantityUnit": null
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "7",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 7,
+            "quantity": 1,
+            "feeAmount": 3.335,
+            "taxAmount": 0.005
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "8",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 8,
+            "quantity": 1,
+            "feeAmount": 20,
+            "taxAmount": 0
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "7",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 1,
+          "toValue": 2
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "8",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 1,
+          "toValue": 2
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "feeCategoryId": 999
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 7,
+          "quantity": 2,
+          "feeAmount": 3.335,
+          "taxAmount": 0.005,
+          "deleted": false
+        },
+        {
+          "contractId": 1,
+          "feeId": 8,
+          "quantity": 2,
+          "feeAmount": 20,
+          "taxAmount": 0,
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "feeId": 7,
+          "feeCategory": "Synthetic grouped",
+          "feeName": "Synthetic group matching",
+          "includeQuantity": 0,
+          "feeAmount": 3.335,
+          "taxAmount": 0.005,
+          "quantity": 2,
+          "quantityUnit": null
+        },
+        {
+          "contractId": 1,
+          "feeId": 8,
+          "feeCategory": "Synthetic grouped",
+          "feeName": "Synthetic group other",
+          "includeQuantity": 0,
+          "feeAmount": 20,
+          "taxAmount": 0,
+          "quantity": 2,
+          "quantityUnit": null
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "7",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 7,
+            "quantity": 1,
+            "feeAmount": 3.335,
+            "taxAmount": 0.005
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "8",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "feeId": 8,
+            "quantity": 1,
+            "feeAmount": 20,
+            "taxAmount": 0
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "7",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 1,
+          "toValue": 2
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractFees",
+          "recordIndex": "8",
+          "updateField": "quantity",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance",
+          "fromValue": 1,
+          "toValue": 2
+        }
+      ]
+    }
+  ],
+  "catalogChange": {
+    "before": [
+      {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": 2,
+        "feeAmount": 10.005,
+        "taxAmount": 1.30065,
+        "deleted": false
+      }
+    ],
+    "after": [
+      {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": 2,
+        "feeAmount": 10.005,
+        "taxAmount": 1.30065,
+        "deleted": false
+      }
+    ],
+    "readded": [
+      {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": 1,
+        "feeAmount": 40.135000000000005,
+        "taxAmount": 3.6075500000000003,
+        "deleted": false
+      }
+    ],
+    "audit": [
+      {
+        "mainRecordType": "contract",
+        "mainRecordId": "1",
+        "updateTable": "ContractFees",
+        "recordIndex": "1",
+        "updateField": "*",
+        "updateType": "created",
+        "updateUsername": "synthetic-finance",
+        "fromValue": null,
+        "toValue": {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": 2,
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065
+        }
+      },
+      {
+        "mainRecordType": "contract",
+        "mainRecordId": "1",
+        "updateTable": "ContractFees",
+        "recordIndex": "1",
+        "updateField": "quantity",
+        "updateType": "updated",
+        "updateUsername": "synthetic-finance-editor",
+        "fromValue": 2,
+        "toValue": 1
+      },
+      {
+        "mainRecordType": "contract",
+        "mainRecordId": "1",
+        "updateTable": "ContractFees",
+        "recordIndex": "1",
+        "updateField": "feeAmount",
+        "updateType": "updated",
+        "updateUsername": "synthetic-finance-editor",
+        "fromValue": 10.005,
+        "toValue": 40.135000000000005
+      },
+      {
+        "mainRecordType": "contract",
+        "mainRecordId": "1",
+        "updateTable": "ContractFees",
+        "recordIndex": "1",
+        "updateField": "taxAmount",
+        "updateType": "updated",
+        "updateUsername": "synthetic-finance-editor",
+        "fromValue": 1.30065,
+        "toValue": 3.6075500000000003
+      },
+      {
+        "mainRecordType": "contract",
+        "mainRecordId": "1",
+        "updateTable": "ContractFees",
+        "recordIndex": "1",
+        "updateField": "recordUpdate_username",
+        "updateType": "updated",
+        "updateUsername": "synthetic-finance-editor",
+        "fromValue": "synthetic-finance",
+        "toValue": "synthetic-finance-editor"
+      }
+    ]
+  },
+  "fullTransaction": {
+    "contractId": 1,
+    "transactionDateString": "2026-10-19",
+    "transactionTimeString": "14:35",
+    "transactionAmount": "12.345",
+    "isInvoiced": "1",
+    "externalReceiptNumber": "SYN-REC-1",
+    "transactionNote": "Synthetic note\nSecond line <literal>"
+  },
+  "transactionDefaults": [
+    {
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "12.345",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": 12.345,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionDateString": "2026-10-19",
+          "transactionTime": 1435,
+          "transactionTimeString": "14:35",
+          "transactionAmount": 12.345,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "",
+        "transactionTimeString": "",
+        "transactionAmount": "12.345",
+        "isInvoiced": null,
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261020,
+          "transactionTime": 905,
+          "transactionAmount": 12.345,
+          "isInvoiced": 0,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261020,
+          "transactionDateString": "2026-10-20",
+          "transactionTime": 905,
+          "transactionTimeString": "09:05",
+          "transactionAmount": 12.345,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 0,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261020,
+            "transactionTime": 905,
+            "transactionAmount": 12.345,
+            "isInvoiced": 0,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "-2.675",
+        "isInvoiced": "0",
+        "externalReceiptNumber": "",
+        "transactionNote": ""
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": -2.675,
+          "isInvoiced": 0,
+          "externalReceiptNumber": "",
+          "transactionNote": "",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionDateString": "2026-10-19",
+          "transactionTime": 1435,
+          "transactionTimeString": "14:35",
+          "transactionAmount": -2.675,
+          "externalReceiptNumber": "",
+          "isInvoiced": 0,
+          "transactionNote": ""
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": -2.675,
+            "isInvoiced": 0,
+            "externalReceiptNumber": "",
+            "transactionNote": ""
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "00:00",
+        "transactionAmount": 0.005,
+        "isInvoiced": 1,
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 0,
+          "transactionAmount": 0.005,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionDateString": "2026-10-19",
+          "transactionTime": 0,
+          "transactionTimeString": "00:00",
+          "transactionAmount": 0.005,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 0,
+            "transactionAmount": 0.005,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "23:59",
+        "transactionAmount": "0",
+        "isInvoiced": 0,
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 2359,
+          "transactionAmount": 0,
+          "isInvoiced": 0,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionDateString": "2026-10-19",
+          "transactionTime": 2359,
+          "transactionTimeString": "23:59",
+          "transactionAmount": 0,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 0,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 2359,
+            "transactionAmount": 0,
+            "isInvoiced": 0,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        }
+      ]
+    },
+    {
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-02-31",
+        "transactionTimeString": "99:99",
+        "transactionAmount": "12.345",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20260303,
+          "transactionTime": 0,
+          "transactionAmount": 12.345,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20260303,
+          "transactionDateString": "2026-03-03",
+          "transactionTime": 0,
+          "transactionTimeString": "00:00",
+          "transactionAmount": 12.345,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20260303,
+            "transactionTime": 0,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        }
+      ]
+    }
+  ],
+  "storageBoundaries": [
+    {
+      "table": "ContractFees",
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": ""
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": "",
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "deleted": false
+        }
+      ]
+    },
+    {
+      "table": "ContractFees",
+      "form": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "not numeric"
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "feeId": 1,
+          "quantity": "not numeric",
+          "feeAmount": 10.005,
+          "taxAmount": 1.30065,
+          "deleted": false
+        }
+      ]
+    },
+    {
+      "table": "ContractTransactions",
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": "",
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ]
+    },
+    {
+      "table": "ContractTransactions",
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "not numeric",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": "not numeric",
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ]
+    },
+    {
+      "table": "ContractTransactions",
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "12.345",
+        "isInvoiced": "2",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": 12.345,
+          "isInvoiced": 2,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ]
+    },
+    {
+      "table": "ContractTransactions",
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "12.345",
+        "isInvoiced": "false",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": 12.345,
+          "isInvoiced": "false",
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ]
+    }
+  ],
+  "transactionLifecycle": [
+    {
+      "action": "add",
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "12.345",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": 12.345,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionDateString": "2026-10-19",
+          "transactionTime": 1435,
+          "transactionTimeString": "14:35",
+          "transactionAmount": 12.345,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "-2.675",
+        "isInvoiced": "0",
+        "externalReceiptNumber": "",
+        "transactionNote": "Changed",
+        "transactionIndex": 0
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": -2.675,
+          "isInvoiced": 0,
+          "externalReceiptNumber": "",
+          "transactionNote": "Changed",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionDateString": "2026-10-19",
+          "transactionTime": 1435,
+          "transactionTimeString": "14:35",
+          "transactionAmount": -2.675,
+          "externalReceiptNumber": "",
+          "isInvoiced": 0,
+          "transactionNote": "Changed"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 12.345,
+          "toValue": -2.675
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "isInvoiced",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 1,
+          "toValue": 0
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "externalReceiptNumber",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "SYN-REC-1",
+          "toValue": ""
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionNote",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "Synthetic note\nSecond line <literal>",
+          "toValue": "Changed"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "recordUpdate_username",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "synthetic-finance",
+          "toValue": "synthetic-finance-editor"
+        }
+      ]
+    },
+    {
+      "action": "delete",
+      "form": {
+        "contractId": 1,
+        "transactionIndex": 0
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": -2.675,
+          "isInvoiced": 0,
+          "externalReceiptNumber": "",
+          "transactionNote": "Changed",
+          "deleted": true
+        }
+      ],
+      "retrieved": [],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 12.345,
+          "toValue": -2.675
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "isInvoiced",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 1,
+          "toValue": 0
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "externalReceiptNumber",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "SYN-REC-1",
+          "toValue": ""
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionNote",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "Synthetic note\nSecond line <literal>",
+          "toValue": "Changed"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "recordUpdate_username",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "synthetic-finance",
+          "toValue": "synthetic-finance-editor"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": -2.675,
+            "isInvoiced": 0,
+            "externalReceiptNumber": "",
+            "transactionNote": "Changed"
+          },
+          "toValue": null
+        }
+      ]
+    },
+    {
+      "action": "delete",
+      "form": {
+        "contractId": 1,
+        "transactionIndex": 0
+      },
+      "result": true,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": -2.675,
+          "isInvoiced": 0,
+          "externalReceiptNumber": "",
+          "transactionNote": "Changed",
+          "deleted": true
+        }
+      ],
+      "retrieved": [],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 12.345,
+          "toValue": -2.675
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "isInvoiced",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 1,
+          "toValue": 0
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "externalReceiptNumber",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "SYN-REC-1",
+          "toValue": ""
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionNote",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "Synthetic note\nSecond line <literal>",
+          "toValue": "Changed"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "recordUpdate_username",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "synthetic-finance",
+          "toValue": "synthetic-finance-editor"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": -2.675,
+            "isInvoiced": 0,
+            "externalReceiptNumber": "",
+            "transactionNote": "Changed"
+          },
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": null,
+          "toValue": null
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "12.345",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>",
+        "transactionIndex": 0
+      },
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": -2.675,
+          "isInvoiced": 0,
+          "externalReceiptNumber": "",
+          "transactionNote": "Changed",
+          "deleted": true
+        }
+      ],
+      "retrieved": [],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 12.345,
+          "toValue": -2.675
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "isInvoiced",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 1,
+          "toValue": 0
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "externalReceiptNumber",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "SYN-REC-1",
+          "toValue": ""
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionNote",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "Synthetic note\nSecond line <literal>",
+          "toValue": "Changed"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "recordUpdate_username",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "synthetic-finance",
+          "toValue": "synthetic-finance-editor"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": -2.675,
+            "isInvoiced": 0,
+            "externalReceiptNumber": "",
+            "transactionNote": "Changed"
+          },
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": null,
+          "toValue": null
+        }
+      ]
+    },
+    {
+      "action": "add",
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-18",
+        "transactionTimeString": "10:30",
+        "transactionAmount": "12.345",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 1,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": -2.675,
+          "isInvoiced": 0,
+          "externalReceiptNumber": "",
+          "transactionNote": "Changed",
+          "deleted": true
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 1,
+          "transactionDate": 20261018,
+          "transactionTime": 1030,
+          "transactionAmount": 12.345,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 1,
+          "transactionDate": 20261018,
+          "transactionDateString": "2026-10-18",
+          "transactionTime": 1030,
+          "transactionTimeString": "10:30",
+          "transactionAmount": 12.345,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 12.345,
+          "toValue": -2.675
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "isInvoiced",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 1,
+          "toValue": 0
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "externalReceiptNumber",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "SYN-REC-1",
+          "toValue": ""
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionNote",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "Synthetic note\nSecond line <literal>",
+          "toValue": "Changed"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "recordUpdate_username",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "synthetic-finance",
+          "toValue": "synthetic-finance-editor"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": -2.675,
+            "isInvoiced": 0,
+            "externalReceiptNumber": "",
+            "transactionNote": "Changed"
+          },
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": null,
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 1,
+            "transactionDate": 20261018,
+            "transactionTime": 1030,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        }
+      ]
+    },
+    {
+      "action": "add",
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-18",
+        "transactionTimeString": "09:00",
+        "transactionAmount": "0.005",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 2,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": -2.675,
+          "isInvoiced": 0,
+          "externalReceiptNumber": "",
+          "transactionNote": "Changed",
+          "deleted": true
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 1,
+          "transactionDate": 20261018,
+          "transactionTime": 1030,
+          "transactionAmount": 12.345,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 2,
+          "transactionDate": 20261018,
+          "transactionTime": 900,
+          "transactionAmount": 0.005,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 2,
+          "transactionDate": 20261018,
+          "transactionDateString": "2026-10-18",
+          "transactionTime": 900,
+          "transactionTimeString": "09:00",
+          "transactionAmount": 0.005,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 1,
+          "transactionDate": 20261018,
+          "transactionDateString": "2026-10-18",
+          "transactionTime": 1030,
+          "transactionTimeString": "10:30",
+          "transactionAmount": 12.345,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 12.345,
+          "toValue": -2.675
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "isInvoiced",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 1,
+          "toValue": 0
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "externalReceiptNumber",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "SYN-REC-1",
+          "toValue": ""
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionNote",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "Synthetic note\nSecond line <literal>",
+          "toValue": "Changed"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "recordUpdate_username",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "synthetic-finance",
+          "toValue": "synthetic-finance-editor"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": -2.675,
+            "isInvoiced": 0,
+            "externalReceiptNumber": "",
+            "transactionNote": "Changed"
+          },
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": null,
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 1,
+            "transactionDate": 20261018,
+            "transactionTime": 1030,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "2",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 2,
+            "transactionDate": 20261018,
+            "transactionTime": 900,
+            "transactionAmount": 0.005,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "form": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "12.345",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>",
+        "transactionIndex": 999
+      },
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": -2.675,
+          "isInvoiced": 0,
+          "externalReceiptNumber": "",
+          "transactionNote": "Changed",
+          "deleted": true
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 1,
+          "transactionDate": 20261018,
+          "transactionTime": 1030,
+          "transactionAmount": 12.345,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 2,
+          "transactionDate": 20261018,
+          "transactionTime": 900,
+          "transactionAmount": 0.005,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 2,
+          "transactionDate": 20261018,
+          "transactionDateString": "2026-10-18",
+          "transactionTime": 900,
+          "transactionTimeString": "09:00",
+          "transactionAmount": 0.005,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 1,
+          "transactionDate": 20261018,
+          "transactionDateString": "2026-10-18",
+          "transactionTime": 1030,
+          "transactionTimeString": "10:30",
+          "transactionAmount": 12.345,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 12.345,
+          "toValue": -2.675
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "isInvoiced",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 1,
+          "toValue": 0
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "externalReceiptNumber",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "SYN-REC-1",
+          "toValue": ""
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionNote",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "Synthetic note\nSecond line <literal>",
+          "toValue": "Changed"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "recordUpdate_username",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "synthetic-finance",
+          "toValue": "synthetic-finance-editor"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": -2.675,
+            "isInvoiced": 0,
+            "externalReceiptNumber": "",
+            "transactionNote": "Changed"
+          },
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": null,
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 1,
+            "transactionDate": 20261018,
+            "transactionTime": 1030,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "2",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 2,
+            "transactionDate": 20261018,
+            "transactionTime": 900,
+            "transactionAmount": 0.005,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        }
+      ]
+    },
+    {
+      "action": "delete",
+      "form": {
+        "contractId": 2,
+        "transactionIndex": 1
+      },
+      "result": false,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": -2.675,
+          "isInvoiced": 0,
+          "externalReceiptNumber": "",
+          "transactionNote": "Changed",
+          "deleted": true
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 1,
+          "transactionDate": 20261018,
+          "transactionTime": 1030,
+          "transactionAmount": 12.345,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 2,
+          "transactionDate": 20261018,
+          "transactionTime": 900,
+          "transactionAmount": 0.005,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 2,
+          "transactionDate": 20261018,
+          "transactionDateString": "2026-10-18",
+          "transactionTime": 900,
+          "transactionTimeString": "09:00",
+          "transactionAmount": 0.005,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 1,
+          "transactionDate": 20261018,
+          "transactionDateString": "2026-10-18",
+          "transactionTime": 1030,
+          "transactionTimeString": "10:30",
+          "transactionAmount": 12.345,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 12.345,
+          "toValue": -2.675
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "isInvoiced",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 1,
+          "toValue": 0
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "externalReceiptNumber",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "SYN-REC-1",
+          "toValue": ""
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionNote",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "Synthetic note\nSecond line <literal>",
+          "toValue": "Changed"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "recordUpdate_username",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "synthetic-finance",
+          "toValue": "synthetic-finance-editor"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": -2.675,
+            "isInvoiced": 0,
+            "externalReceiptNumber": "",
+            "transactionNote": "Changed"
+          },
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": null,
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 1,
+            "transactionDate": 20261018,
+            "transactionTime": 1030,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "2",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 2,
+            "transactionDate": 20261018,
+            "transactionTime": 900,
+            "transactionAmount": 0.005,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        }
+      ]
+    },
+    {
+      "action": "add",
+      "form": {
+        "contractId": 2,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "12.345",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "result": 0,
+      "rows": [
+        {
+          "contractId": 1,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": -2.675,
+          "isInvoiced": 0,
+          "externalReceiptNumber": "",
+          "transactionNote": "Changed",
+          "deleted": true
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 1,
+          "transactionDate": 20261018,
+          "transactionTime": 1030,
+          "transactionAmount": 12.345,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 2,
+          "transactionDate": 20261018,
+          "transactionTime": 900,
+          "transactionAmount": 0.005,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        },
+        {
+          "contractId": 2,
+          "transactionIndex": 0,
+          "transactionDate": 20261019,
+          "transactionTime": 1435,
+          "transactionAmount": 12.345,
+          "isInvoiced": 1,
+          "externalReceiptNumber": "SYN-REC-1",
+          "transactionNote": "Synthetic note\nSecond line <literal>",
+          "deleted": false
+        }
+      ],
+      "retrieved": [
+        {
+          "contractId": 1,
+          "transactionIndex": 2,
+          "transactionDate": 20261018,
+          "transactionDateString": "2026-10-18",
+          "transactionTime": 900,
+          "transactionTimeString": "09:00",
+          "transactionAmount": 0.005,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        },
+        {
+          "contractId": 1,
+          "transactionIndex": 1,
+          "transactionDate": 20261018,
+          "transactionDateString": "2026-10-18",
+          "transactionTime": 1030,
+          "transactionTimeString": "10:30",
+          "transactionAmount": 12.345,
+          "externalReceiptNumber": "SYN-REC-1",
+          "isInvoiced": 1,
+          "transactionNote": "Synthetic note\nSecond line <literal>"
+        }
+      ],
+      "audit": [
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionAmount",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 12.345,
+          "toValue": -2.675
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "isInvoiced",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": 1,
+          "toValue": 0
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "externalReceiptNumber",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "SYN-REC-1",
+          "toValue": ""
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "transactionNote",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "Synthetic note\nSecond line <literal>",
+          "toValue": "Changed"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "recordUpdate_username",
+          "updateType": "updated",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": "synthetic-finance",
+          "toValue": "synthetic-finance-editor"
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": {
+            "contractId": 1,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": -2.675,
+            "isInvoiced": 0,
+            "externalReceiptNumber": "",
+            "transactionNote": "Changed"
+          },
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "deleted",
+          "updateUsername": "synthetic-finance-editor",
+          "fromValue": null,
+          "toValue": null
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "1",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 1,
+            "transactionDate": 20261018,
+            "transactionTime": 1030,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "1",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "2",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 1,
+            "transactionIndex": 2,
+            "transactionDate": 20261018,
+            "transactionTime": 900,
+            "transactionAmount": 0.005,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        },
+        {
+          "mainRecordType": "contract",
+          "mainRecordId": "2",
+          "updateTable": "ContractTransactions",
+          "recordIndex": "0",
+          "updateField": "*",
+          "updateType": "created",
+          "updateUsername": "synthetic-finance",
+          "fromValue": null,
+          "toValue": {
+            "contractId": 2,
+            "transactionIndex": 0,
+            "transactionDate": 20261019,
+            "transactionTime": 1435,
+            "transactionAmount": 12.345,
+            "isInvoiced": 1,
+            "externalReceiptNumber": "SYN-REC-1",
+            "transactionNote": "Synthetic note\nSecond line <literal>"
+          }
+        }
+      ]
+    }
+  ],
+  "deletionBoundaries": {
+    "deletedCatalog": [
+      {
+        "contractId": 1,
+        "feeId": 1,
+        "feeCategory": "Synthetic individual",
+        "feeName": "Synthetic percentage",
+        "includeQuantity": 1,
+        "feeAmount": 10.005,
+        "taxAmount": 1.30065,
+        "quantity": 1,
+        "quantityUnit": "units"
+      }
+    ],
+    "deletedParentResult": true,
+    "fees": [
+      {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": 1,
+        "feeAmount": 10.005,
+        "taxAmount": 1.30065,
+        "deleted": false
+      }
+    ],
+    "transactions": [
+      {
+        "contractId": 1,
+        "transactionIndex": 0,
+        "transactionDate": 20261019,
+        "transactionTime": 1435,
+        "transactionAmount": 12.345,
+        "isInvoiced": 1,
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>",
+        "deleted": false
+      }
+    ],
+    "retrievedFees": [
+      {
+        "contractId": 1,
+        "feeId": 1,
+        "feeCategory": "Synthetic individual",
+        "feeName": "Synthetic percentage",
+        "includeQuantity": 1,
+        "feeAmount": 10.005,
+        "taxAmount": 1.30065,
+        "quantity": 1,
+        "quantityUnit": "units"
+      }
+    ],
+    "retrievedTransactions": [
+      {
+        "contractId": 1,
+        "transactionIndex": 0,
+        "transactionDate": 20261019,
+        "transactionDateString": "2026-10-19",
+        "transactionTime": 1435,
+        "transactionTimeString": "14:35",
+        "transactionAmount": 12.345,
+        "externalReceiptNumber": "SYN-REC-1",
+        "isInvoiced": 1,
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      }
+    ],
+    "parentMissing": true
+  },
+  "handlers": [
+    {
+      "handler": "doGetFees",
+      "body": {
+        "contractId": 1
+      },
+      "existing": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "feeCategories": [
+            {
+              "feeCategoryId": 1,
+              "feeCategory": "Synthetic individual",
+              "isGroupedFee": 0,
+              "orderNumber": 0,
+              "fees": [
+                {
+                  "feeId": 1,
+                  "feeCategoryId": 1,
+                  "feeName": "Synthetic percentage",
+                  "feeDescription": null,
+                  "feeAccount": null,
+                  "contractTypeId": null,
+                  "contractType": null,
+                  "burialSiteTypeId": null,
+                  "burialSiteType": null,
+                  "feeAmount": 10.005,
+                  "feeFunction": null,
+                  "taxAmount": null,
+                  "taxPercentage": 13,
+                  "includeQuantity": 1,
+                  "quantityUnit": "units",
+                  "isRequired": 0,
+                  "orderNumber": 0,
+                  "contractFeeCount": 0
+                },
+                {
+                  "feeId": 2,
+                  "feeCategoryId": 1,
+                  "feeName": "Synthetic manual",
+                  "feeDescription": null,
+                  "feeAccount": null,
+                  "contractTypeId": null,
+                  "contractType": null,
+                  "burialSiteTypeId": null,
+                  "burialSiteType": null,
+                  "feeAmount": null,
+                  "feeFunction": null,
+                  "taxAmount": 1.255,
+                  "taxPercentage": null,
+                  "includeQuantity": 1,
+                  "quantityUnit": null,
+                  "isRequired": 0,
+                  "orderNumber": 1,
+                  "contractFeeCount": 0
+                },
+                {
+                  "feeId": 3,
+                  "feeCategoryId": 1,
+                  "feeName": "Synthetic function",
+                  "feeDescription": null,
+                  "feeAccount": null,
+                  "contractTypeId": null,
+                  "contractType": null,
+                  "burialSiteTypeId": null,
+                  "burialSiteType": null,
+                  "feeAmount": 999,
+                  "feeFunction": "contract.area * 12",
+                  "taxAmount": 2.675,
+                  "taxPercentage": null,
+                  "includeQuantity": 0,
+                  "quantityUnit": null,
+                  "isRequired": 0,
+                  "orderNumber": 2,
+                  "contractFeeCount": 0
+                }
+              ]
+            },
+            {
+              "feeCategoryId": 2,
+              "feeCategory": "Synthetic grouped",
+              "isGroupedFee": 1,
+              "orderNumber": 1,
+              "fees": [
+                {
+                  "feeId": 7,
+                  "feeCategoryId": 2,
+                  "feeName": "Synthetic group matching",
+                  "feeDescription": null,
+                  "feeAccount": null,
+                  "contractTypeId": 1,
+                  "contractType": "Synthetic contract",
+                  "burialSiteTypeId": 1,
+                  "burialSiteType": "Synthetic grave",
+                  "feeAmount": 3.335,
+                  "feeFunction": null,
+                  "taxAmount": 0.005,
+                  "taxPercentage": 0,
+                  "includeQuantity": 0,
+                  "quantityUnit": null,
+                  "isRequired": 0,
+                  "orderNumber": 6,
+                  "contractFeeCount": 0
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doAddContractFee",
+      "body": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "2"
+      },
+      "existing": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractFees": [
+            {
+              "contractId": 1,
+              "feeId": 1,
+              "feeCategory": "Synthetic individual",
+              "feeName": "Synthetic percentage",
+              "includeQuantity": 1,
+              "feeAmount": 10.005,
+              "taxAmount": 1.30065,
+              "quantity": 2,
+              "quantityUnit": "units"
+            }
+          ]
+        }
+      },
+      "connectionCloses": 2
+    },
+    {
+      "handler": "doAddContractFee",
+      "body": {
+        "contractId": 1,
+        "feeId": 6,
+        "quantity": 1
+      },
+      "existing": false,
+      "expected": {
+        "status": 500,
+        "body": {
+          "errorMessage": "Database error",
+          "success": false
+        }
+      },
+      "connectionCloses": 2
+    },
+    {
+      "handler": "doAddContractFeeCategory",
+      "body": {
+        "contractId": 1,
+        "feeCategoryId": 2
+      },
+      "existing": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractFees": [
+            {
+              "contractId": 1,
+              "feeId": 7,
+              "feeCategory": "Synthetic grouped",
+              "feeName": "Synthetic group matching",
+              "includeQuantity": 0,
+              "feeAmount": 3.335,
+              "taxAmount": 0.005,
+              "quantity": 1,
+              "quantityUnit": null
+            },
+            {
+              "contractId": 1,
+              "feeId": 8,
+              "feeCategory": "Synthetic grouped",
+              "feeName": "Synthetic group other",
+              "includeQuantity": 0,
+              "feeAmount": 20,
+              "taxAmount": 0,
+              "quantity": 1,
+              "quantityUnit": null
+            }
+          ]
+        }
+      },
+      "connectionCloses": 3
+    },
+    {
+      "handler": "doUpdateContractFeeQuantity",
+      "body": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "2.5"
+      },
+      "existing": true,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractFees": [
+            {
+              "contractId": 1,
+              "feeId": 1,
+              "feeCategory": "Synthetic individual",
+              "feeName": "Synthetic percentage",
+              "includeQuantity": 1,
+              "feeAmount": 10.005,
+              "taxAmount": 1.30065,
+              "quantity": 2.5,
+              "quantityUnit": "units"
+            }
+          ]
+        }
+      },
+      "connectionCloses": 3
+    },
+    {
+      "handler": "doUpdateContractFeeQuantity",
+      "body": {
+        "contractId": 1,
+        "feeId": 1,
+        "quantity": "2"
+      },
+      "existing": false,
+      "expected": {
+        "status": 400,
+        "body": {
+          "success": false,
+          "errorMessage": "Failed to update fee quantity"
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doDeleteContractFee",
+      "body": {
+        "contractId": 1,
+        "feeId": 1
+      },
+      "existing": true,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractFees": []
+        }
+      },
+      "connectionCloses": 2
+    },
+    {
+      "handler": "doDeleteContractFee",
+      "body": {
+        "contractId": 1,
+        "feeId": 1
+      },
+      "existing": false,
+      "expected": {
+        "status": 400,
+        "body": {
+          "errorMessage": "Fee not found",
+          "success": false
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doAddContractTransaction",
+      "body": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "12.345",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>"
+      },
+      "existing": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractTransactions": [
+            {
+              "contractId": 1,
+              "transactionIndex": 0,
+              "transactionDate": 20261019,
+              "transactionDateString": "2026-10-19",
+              "transactionTime": 1435,
+              "transactionTimeString": "14:35",
+              "transactionAmount": 12.345,
+              "externalReceiptNumber": "SYN-REC-1",
+              "isInvoiced": 1,
+              "transactionNote": "Synthetic note\nSecond line <literal>"
+            }
+          ]
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doUpdateContractTransaction",
+      "body": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "5.005",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>",
+        "transactionIndex": 0
+      },
+      "existing": true,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractTransactions": [
+            {
+              "contractId": 1,
+              "transactionIndex": 0,
+              "transactionDate": 20261019,
+              "transactionDateString": "2026-10-19",
+              "transactionTime": 1435,
+              "transactionTimeString": "14:35",
+              "transactionAmount": 5.005,
+              "externalReceiptNumber": "SYN-REC-1",
+              "isInvoiced": 1,
+              "transactionNote": "Synthetic note\nSecond line <literal>"
+            }
+          ]
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doUpdateContractTransaction",
+      "body": {
+        "contractId": 1,
+        "transactionDateString": "2026-10-19",
+        "transactionTimeString": "14:35",
+        "transactionAmount": "12.345",
+        "isInvoiced": "1",
+        "externalReceiptNumber": "SYN-REC-1",
+        "transactionNote": "Synthetic note\nSecond line <literal>",
+        "transactionIndex": 999
+      },
+      "existing": false,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractTransactions": []
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doDeleteContractTransaction",
+      "body": {
+        "contractId": 1,
+        "transactionIndex": 0
+      },
+      "existing": true,
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "contractTransactions": []
+        }
+      },
+      "connectionCloses": 1
+    },
+    {
+      "handler": "doDeleteContractTransaction",
+      "body": {
+        "contractId": 1,
+        "transactionIndex": 0
+      },
+      "existing": false,
+      "expected": {
+        "status": 400,
+        "body": {
+          "errorMessage": "Transaction not found",
+          "success": false
+        }
+      },
+      "connectionCloses": 1
+    }
+  ],
+  "browserCases": [
+    {
+      "fees": [],
+      "transactions": [],
+      "expected": {
+        "feeGrandTotal": 0,
+        "feeTotals": {},
+        "transactionTotal": null,
+        "warning": null,
+        "warningAmount": null,
+        "rowTotals": [],
+        "invoiced": []
+      }
+    },
+    {
+      "fees": [
+        {
+          "feeId": 1,
+          "feeName": "Synthetic fee",
+          "feeCategory": "Synthetic category",
+          "includeQuantity": 1,
+          "feeAmount": 1.005,
+          "taxAmount": 0,
+          "quantity": 1
+        }
+      ],
+      "transactions": [
+        {
+          "transactionIndex": 0,
+          "externalReceiptNumber": "",
+          "transactionDateString": "2026-10-20",
+          "transactionTimeString": "09:05",
+          "transactionAmount": 1
+        }
+      ],
+      "expected": {
+        "feeGrandTotal": 1.005,
+        "feeTotals": {
+          "#contractFees--feeAmountTotal": "$1.00",
+          "#contractFees--taxAmountTotal": "$0.00",
+          "#contractFees--grandTotal": "$1.00"
+        },
+        "transactionTotal": "$1.00",
+        "warning": null,
+        "warningAmount": null,
+        "rowTotals": [
+          [
+            "1.00"
+          ]
+        ],
+        "invoiced": [
+          false
+        ]
+      }
+    },
+    {
+      "fees": [
+        {
+          "feeId": 1,
+          "feeName": "Synthetic fee",
+          "feeCategory": "Synthetic category",
+          "includeQuantity": 1,
+          "feeAmount": 2.675,
+          "taxAmount": 0.005,
+          "quantity": 1.5
+        }
+      ],
+      "transactions": [
+        {
+          "transactionIndex": 0,
+          "externalReceiptNumber": "",
+          "transactionDateString": "2026-10-20",
+          "transactionTimeString": "09:05",
+          "transactionAmount": 4.02,
+          "isInvoiced": 1
+        }
+      ],
+      "expected": {
+        "feeGrandTotal": 4.02,
+        "feeTotals": {
+          "#contractFees--feeAmountTotal": "$4.01",
+          "#contractFees--taxAmountTotal": "$0.01",
+          "#contractFees--grandTotal": "$4.02"
+        },
+        "transactionTotal": "$4.02",
+        "warning": null,
+        "warningAmount": null,
+        "rowTotals": [
+          [
+            "2.67",
+            "4.01"
+          ]
+        ],
+        "invoiced": [
+          true
+        ]
+      }
+    },
+    {
+      "fees": [
+        {
+          "feeId": 1,
+          "feeName": "Synthetic fee",
+          "feeCategory": "Synthetic category",
+          "includeQuantity": 1,
+          "feeAmount": 10.005,
+          "taxAmount": 1.3006500000000003,
+          "quantity": 2
+        }
+      ],
+      "transactions": [
+        {
+          "transactionIndex": 0,
+          "externalReceiptNumber": "",
+          "transactionDateString": "2026-10-20",
+          "transactionTimeString": "09:05",
+          "transactionAmount": 1
+        }
+      ],
+      "expected": {
+        "feeGrandTotal": 22.611300000000004,
+        "feeTotals": {
+          "#contractFees--feeAmountTotal": "$20.01",
+          "#contractFees--taxAmountTotal": "$2.60",
+          "#contractFees--grandTotal": "$22.61"
+        },
+        "transactionTotal": "$1.00",
+        "warning": "Outstanding Balance",
+        "warningAmount": "21.61",
+        "rowTotals": [
+          [
+            "10.01",
+            "20.01"
+          ]
+        ],
+        "invoiced": [
+          false
+        ]
+      }
+    },
+    {
+      "fees": [
+        {
+          "feeId": 1,
+          "feeName": "Synthetic fee",
+          "feeCategory": "Synthetic category",
+          "includeQuantity": 1,
+          "feeAmount": null,
+          "taxAmount": null,
+          "quantity": null
+        }
+      ],
+      "transactions": [
+        {
+          "transactionIndex": 0,
+          "externalReceiptNumber": "",
+          "transactionDateString": "2026-10-20",
+          "transactionTimeString": "09:05",
+          "transactionAmount": 0
+        }
+      ],
+      "expected": {
+        "feeGrandTotal": 0,
+        "feeTotals": {
+          "#contractFees--feeAmountTotal": "$0.00",
+          "#contractFees--taxAmountTotal": "$0.00",
+          "#contractFees--grandTotal": "$0.00"
+        },
+        "transactionTotal": "$0.00",
+        "warning": null,
+        "warningAmount": null,
+        "rowTotals": [
+          [
+            "0.00"
+          ]
+        ],
+        "invoiced": [
+          false
+        ]
+      }
+    },
+    {
+      "fees": [
+        {
+          "feeId": 1,
+          "feeName": "Synthetic fee",
+          "feeCategory": "Synthetic category",
+          "includeQuantity": 1,
+          "feeAmount": 0.1,
+          "taxAmount": 0.2,
+          "quantity": 1
+        },
+        {
+          "feeId": 2,
+          "feeName": "Synthetic fee",
+          "feeCategory": "Synthetic category",
+          "includeQuantity": 1,
+          "feeAmount": 0.1,
+          "taxAmount": 0.2,
+          "quantity": 1
+        }
+      ],
+      "transactions": [
+        {
+          "transactionIndex": 0,
+          "externalReceiptNumber": "",
+          "transactionDateString": "2026-10-20",
+          "transactionTimeString": "09:05",
+          "transactionAmount": 0.6
+        }
+      ],
+      "expected": {
+        "feeGrandTotal": 0.6000000000000001,
+        "feeTotals": {
+          "#contractFees--feeAmountTotal": "$0.20",
+          "#contractFees--taxAmountTotal": "$0.40",
+          "#contractFees--grandTotal": "$0.60"
+        },
+        "transactionTotal": "$0.60",
+        "warning": null,
+        "warningAmount": null,
+        "rowTotals": [
+          [
+            "0.10"
+          ],
+          [
+            "0.10"
+          ]
+        ],
+        "invoiced": [
+          false
+        ]
+      }
+    },
+    {
+      "fees": [
+        {
+          "feeId": 1,
+          "feeName": "Synthetic fee",
+          "feeCategory": "Synthetic category",
+          "includeQuantity": 1,
+          "feeAmount": 5,
+          "taxAmount": 0,
+          "quantity": 1
+        }
+      ],
+      "transactions": [
+        {
+          "transactionIndex": 0,
+          "externalReceiptNumber": "",
+          "transactionDateString": "2026-10-20",
+          "transactionTimeString": "09:05",
+          "transactionAmount": 6,
+          "isInvoiced": 1
+        }
+      ],
+      "expected": {
+        "feeGrandTotal": 5,
+        "feeTotals": {
+          "#contractFees--feeAmountTotal": "$5.00",
+          "#contractFees--taxAmountTotal": "$0.00",
+          "#contractFees--grandTotal": "$5.00"
+        },
+        "transactionTotal": "$6.00",
+        "warning": "Overpayment",
+        "warningAmount": "1.00",
+        "rowTotals": [
+          [
+            "5.00"
+          ]
+        ],
+        "invoiced": [
+          true
+        ]
+      }
+    },
+    {
+      "fees": [
+        {
+          "feeId": 1,
+          "feeName": "Synthetic fee",
+          "feeCategory": "Synthetic category",
+          "includeQuantity": 1,
+          "feeAmount": 5,
+          "taxAmount": 0,
+          "quantity": 1
+        }
+      ],
+      "transactions": [
+        {
+          "transactionIndex": 0,
+          "externalReceiptNumber": "",
+          "transactionDateString": "2026-10-20",
+          "transactionTimeString": "09:05",
+          "transactionAmount": 5,
+          "isInvoiced": 0
+        }
+      ],
+      "expected": {
+        "feeGrandTotal": 5,
+        "feeTotals": {
+          "#contractFees--feeAmountTotal": "$5.00",
+          "#contractFees--taxAmountTotal": "$0.00",
+          "#contractFees--grandTotal": "$5.00"
+        },
+        "transactionTotal": "$5.00",
+        "warning": null,
+        "warningAmount": null,
+        "rowTotals": [
+          [
+            "5.00"
+          ]
+        ],
+        "invoiced": [
+          false
+        ]
+      }
+    },
+    {
+      "fees": [
+        {
+          "feeId": 1,
+          "feeName": "Synthetic fee",
+          "feeCategory": "Synthetic category",
+          "includeQuantity": 1,
+          "feeAmount": -2.675,
+          "taxAmount": -0.005,
+          "quantity": 1
+        }
+      ],
+      "transactions": [
+        {
+          "transactionIndex": 0,
+          "externalReceiptNumber": "",
+          "transactionDateString": "2026-10-20",
+          "transactionTimeString": "09:05",
+          "transactionAmount": -2.67
+        }
+      ],
+      "expected": {
+        "feeGrandTotal": -2.6799999999999997,
+        "feeTotals": {
+          "#contractFees--feeAmountTotal": "$-2.67",
+          "#contractFees--taxAmountTotal": "$-0.01",
+          "#contractFees--grandTotal": "$-2.68"
+        },
+        "transactionTotal": "$-2.67",
+        "warning": "Overpayment",
+        "warningAmount": "0.01",
+        "rowTotals": [
+          [
+            "-2.67"
+          ]
+        ],
+        "invoiced": [
+          false
+        ]
+      }
+    }
+  ]
+}

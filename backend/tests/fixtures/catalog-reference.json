@@ -1,0 +1,1424 @@
+{
+  "reference_commit": "451ce034863b16502484367044f3e9b65370111a",
+  "source_sha256": {
+    "database/initializeDatabase.js": "835ca5bc8d85ce5781a3404057590473149023f6a6ac908f688e10bb1b69b4a0",
+    "database/updateRecordOrderNumber.js": "78c9eb86b4ea497226391b8def39a62faf17eecf2cf7e109c0bf0fa1d7a41d82",
+    "database/getFee.js": "674529bac023bdf2c09472fdc6dc5b11cb36df34ae381afb3d7b0f22e84d6ef7",
+    "database/getFees.js": "0f99bc7747848ee768d06db898022c93cc564b1b5f25194889ca311d84a92c0c",
+    "database/getFeeCategories.js": "3c9d6f7f7190750bf8bd4e19fc2ac597943ddad830690c42c203a9ab7bf69427",
+    "database/getBurialSiteTypeFields.js": "849ac6e0a17c4c3683cf501dfbc2975a2b6df4c763d7c21289d39f960b3267a3",
+    "database/getContractTypeFields.js": "8bfc14cef961955d5aaacd0ca32bcf3ad21d0c1c66cf04dcd13550997fa6f0e9",
+    "database/getContractTypePrints.js": "2a7af599cb3f2149f071eb07fbaefd0908630020641b6181491a9f9c78fa72ac",
+    "database/getBurialSiteTypes.js": "561f7b6fbc4162cdb3d1b46c206850863461bb73f7e735bc51c06c3ddbec18b0",
+    "database/moveRecord.js": "41500dda6059a4949d789a3647a76888e145fa5cd11a7bd3bc1a6a497ae75ac0",
+    "database/addRecord.js": "e4d6b803eedbcb8386333e7bb58e39e6e350a97193dbadab2fa9253799a407bb",
+    "database/addBurialSiteType.js": "c31fe49489536831691f224bb0764cf1d566c3e0cd5fd423b7b4f08789e84b25",
+    "database/addContractType.js": "8cce587ed5c2331c42c04408aa9a244f307f8aeddb1db5658035023cc0e84748",
+    "database/addCommittalType.js": "2c3ebb1a33dd86fb82ce084ef363cfa4e319c48ca0e4172efe04d6add3cb3f12",
+    "database/addIntermentContainerType.js": "c9c35603e189c4ed1995612cc7e77ed1c68071dfb5dc983828aac555a477386f",
+    "database/addIntermentDepth.js": "288c9e6ac3948bad7c15112b983312e7d75a6159cf965e4431557197082b0ebd",
+    "database/addServiceType.js": "648b3855a8042da51a6cec8fe64bf3b2c0ebf4289e29d680c68c59f85970c20f",
+    "database/addFeeCategory.js": "ee1b53eaeac09215d8ac183835edb12a77f6802aa735671ab490a5b415ebbc47",
+    "database/addBurialSiteTypeField.js": "c026c4a01173911870d6b2214e77a2a7436c13b5b17334e093389445f1163459",
+    "database/addContractTypeField.js": "7b2a5c6c19809bcf37ff35783c9c5ec377957903f1c0f8f64e7ab1ce16fe5c25",
+    "database/addContractTypePrint.js": "47e40c9abb3bd31d7fa2cfe022b48c9c2cb981e1c27ba1c54dccec03cfa7d0e4",
+    "database/addFee.js": "a8c109f49e2cb027f481968a7412f972cac2e04643e4263cc8e65a82f26697ac",
+    "database/updateContractTypeField.js": "a195ab7978f23c1307955177bb271ee556340b768600e7aa387adf992b48150c",
+    "database/getBurialSiteStatuses.js": "3064ad3766bc53d0b8e30a1534524b91d5ae53a655972bd4d9a6fdc4c465eafe",
+    "database/getContractTypes.js": "d2a69db8a65cc86b60ee454915d9d3d7c1aace52fa9cd5c63da9b5357d5d2fe2",
+    "database/getServiceTypes.js": "081a64fef5d6ff4ccd7c9549360faf48ae3f1310ef2f1aec8186576c7b88ce30",
+    "database/getIntermentContainerTypes.js": "959ddcac20189a49b377504099e60e33b273f1e16c015b6891d5ae1f0886ff48",
+    "database/getIntermentDepths.js": "e0a4163b0c4cec4505be5032a64e2d99c369fa0889b2165ce4341c574421931b",
+    "database/getCommittalTypes.js": "da64bd4825bfd98b8ee0a5ac39a029b921f8e9a2e43397320a98455141a94bf5",
+    "database/getWorkOrderTypes.js": "d30f3316644e68131f7e53d185be214acee3440e0b1e5f6697b426b2c03ef6f4",
+    "database/getWorkOrderStatuses.js": "24158471146edb7ef238dacddcc7ccfd3d06af7c1e71fb4e7a37774b9a1fe88c",
+    "database/getWorkOrderMilestoneTypes.js": "e06c778f8175b8623d248c8b000997a5d3d0fcea19a4296d41b971acf7931c81"
+  },
+  "defaults": [
+    {
+      "resource": "burialSiteTypes",
+      "table": "BurialSiteTypes",
+      "idField": "burialSiteTypeId",
+      "form": {
+        "burialSiteType": "Synthetic Plot",
+        "bodyCapacityMax": "",
+        "crematedCapacityMax": "2"
+      },
+      "expected": {
+        "burialSiteType": "Synthetic Plot",
+        "bodyCapacityMax": null,
+        "crematedCapacityMax": 2,
+        "orderNumber": -1,
+        "isAvailableOnPortal": 0
+      }
+    },
+    {
+      "resource": "contractTypes",
+      "table": "ContractTypes",
+      "idField": "contractTypeId",
+      "form": {
+        "contractType": "Synthetic Contract"
+      },
+      "expected": {
+        "contractType": "Synthetic Contract",
+        "isPreneed": 0,
+        "isAvailableOnPortal": 0,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "contractTypes",
+      "table": "ContractTypes",
+      "idField": "contractTypeId",
+      "form": {
+        "contractType": "Preneed Presence",
+        "isPreneed": ""
+      },
+      "expected": {
+        "contractType": "Preneed Presence",
+        "isPreneed": 1,
+        "isAvailableOnPortal": 0,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "committalTypes",
+      "table": "CommittalTypes",
+      "idField": "committalTypeId",
+      "form": {
+        "committalType": "Synthetic Committal"
+      },
+      "expected": {
+        "committalTypeKey": "",
+        "committalType": "Synthetic Committal",
+        "isAvailableOnPortal": 0,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "intermentContainerTypes",
+      "table": "IntermentContainerTypes",
+      "idField": "intermentContainerTypeId",
+      "form": {
+        "intermentContainerType": "Synthetic Container"
+      },
+      "expected": {
+        "intermentContainerType": "Synthetic Container",
+        "intermentContainerTypeKey": "",
+        "isCremationType": 0,
+        "isAvailableOnPortal": 0,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "intermentDepths",
+      "table": "IntermentDepths",
+      "idField": "intermentDepthId",
+      "form": {
+        "intermentDepth": "Synthetic Depth"
+      },
+      "expected": {
+        "intermentDepth": "Synthetic Depth",
+        "intermentDepthKey": "",
+        "isAvailableOnPortal": 0,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "serviceTypes",
+      "table": "ServiceTypes",
+      "idField": "serviceTypeId",
+      "form": {
+        "serviceType": "Synthetic Service"
+      },
+      "expected": {
+        "serviceType": "Synthetic Service",
+        "isAvailableOnPortal": 0,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "feeCategories",
+      "table": "FeeCategories",
+      "idField": "feeCategoryId",
+      "form": {
+        "feeCategory": "Synthetic Fee Category"
+      },
+      "expected": {
+        "feeCategory": "Synthetic Fee Category",
+        "isGroupedFee": 0,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "feeCategories",
+      "table": "FeeCategories",
+      "idField": "feeCategoryId",
+      "form": {
+        "feeCategory": "Grouped",
+        "isGroupedFee": true
+      },
+      "expected": {
+        "feeCategory": "Grouped",
+        "isGroupedFee": 0,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "burialSiteStatuses",
+      "table": "BurialSiteStatuses",
+      "idField": "burialSiteStatusId",
+      "form": {
+        "burialSiteStatus": "Synthetic Status",
+        "orderNumber": ""
+      },
+      "expected": {
+        "burialSiteStatus": "Synthetic Status",
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "workOrderMilestoneTypes",
+      "table": "WorkOrderMilestoneTypes",
+      "idField": "workOrderMilestoneTypeId",
+      "form": {
+        "workOrderMilestoneType": "Synthetic Status",
+        "orderNumber": ""
+      },
+      "expected": {
+        "workOrderMilestoneType": "Synthetic Status",
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "workOrderStatuses",
+      "table": "WorkOrderStatuses",
+      "idField": "workOrderStatusId",
+      "form": {
+        "workOrderStatus": "Synthetic Status",
+        "orderNumber": ""
+      },
+      "expected": {
+        "workOrderStatus": "Synthetic Status",
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "workOrderTypes",
+      "table": "WorkOrderTypes",
+      "idField": "workOrderTypeId",
+      "form": {
+        "workOrderType": "Synthetic Status",
+        "orderNumber": ""
+      },
+      "expected": {
+        "workOrderType": "Synthetic Status",
+        "orderNumber": -1
+      }
+    }
+  ],
+  "fields": [
+    {
+      "resource": "burialSiteTypeFields",
+      "table": "BurialSiteTypeFields",
+      "idField": "burialSiteTypeFieldId",
+      "parentField": "burialSiteTypeId",
+      "form": {
+        "burialSiteTypeField": "Synthetic Field",
+        "burialSiteTypeId": 1
+      },
+      "expected": {
+        "burialSiteTypeId": 1,
+        "burialSiteTypeField": "Synthetic Field",
+        "fieldType": "text",
+        "fieldValues": "",
+        "isRequired": 1,
+        "pattern": "",
+        "minLength": 0,
+        "maxLength": 100,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "burialSiteTypeFields",
+      "table": "BurialSiteTypeFields",
+      "idField": "burialSiteTypeFieldId",
+      "parentField": "burialSiteTypeId",
+      "form": {
+        "burialSiteTypeField": "Synthetic Field",
+        "burialSiteTypeId": 1,
+        "isRequired": ""
+      },
+      "expected": {
+        "burialSiteTypeId": 1,
+        "burialSiteTypeField": "Synthetic Field",
+        "fieldType": "text",
+        "fieldValues": "",
+        "isRequired": 0,
+        "pattern": "",
+        "minLength": 0,
+        "maxLength": 100,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "burialSiteTypeFields",
+      "table": "BurialSiteTypeFields",
+      "idField": "burialSiteTypeFieldId",
+      "parentField": "burialSiteTypeId",
+      "form": {
+        "burialSiteTypeField": "Synthetic Field",
+        "burialSiteTypeId": 1,
+        "isRequired": "0"
+      },
+      "expected": {
+        "burialSiteTypeId": 1,
+        "burialSiteTypeField": "Synthetic Field",
+        "fieldType": "text",
+        "fieldValues": "",
+        "isRequired": 1,
+        "pattern": "",
+        "minLength": 0,
+        "maxLength": 100,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "burialSiteTypeFields",
+      "table": "BurialSiteTypeFields",
+      "idField": "burialSiteTypeFieldId",
+      "parentField": "burialSiteTypeId",
+      "form": {
+        "burialSiteTypeField": "Synthetic Field",
+        "burialSiteTypeId": 1,
+        "isRequired": "1"
+      },
+      "expected": {
+        "burialSiteTypeId": 1,
+        "burialSiteTypeField": "Synthetic Field",
+        "fieldType": "text",
+        "fieldValues": "",
+        "isRequired": 1,
+        "pattern": "",
+        "minLength": 0,
+        "maxLength": 100,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "contractTypeFields",
+      "table": "ContractTypeFields",
+      "idField": "contractTypeFieldId",
+      "parentField": "contractTypeId",
+      "form": {
+        "contractTypeField": "Synthetic Field",
+        "contractTypeId": ""
+      },
+      "expected": {
+        "contractTypeId": null,
+        "contractTypeField": "Synthetic Field",
+        "fieldType": "text",
+        "fieldValues": "",
+        "isRequired": 1,
+        "pattern": "",
+        "minLength": 0,
+        "maxLength": 100,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "contractTypeFields",
+      "table": "ContractTypeFields",
+      "idField": "contractTypeFieldId",
+      "parentField": "contractTypeId",
+      "form": {
+        "contractTypeField": "Synthetic Field",
+        "contractTypeId": "",
+        "isRequired": ""
+      },
+      "expected": {
+        "contractTypeId": null,
+        "contractTypeField": "Synthetic Field",
+        "fieldType": "text",
+        "fieldValues": "",
+        "isRequired": 0,
+        "pattern": "",
+        "minLength": 0,
+        "maxLength": 100,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "contractTypeFields",
+      "table": "ContractTypeFields",
+      "idField": "contractTypeFieldId",
+      "parentField": "contractTypeId",
+      "form": {
+        "contractTypeField": "Synthetic Field",
+        "contractTypeId": "",
+        "isRequired": "0"
+      },
+      "expected": {
+        "contractTypeId": null,
+        "contractTypeField": "Synthetic Field",
+        "fieldType": "text",
+        "fieldValues": "",
+        "isRequired": 1,
+        "pattern": "",
+        "minLength": 0,
+        "maxLength": 100,
+        "orderNumber": -1
+      }
+    },
+    {
+      "resource": "contractTypeFields",
+      "table": "ContractTypeFields",
+      "idField": "contractTypeFieldId",
+      "parentField": "contractTypeId",
+      "form": {
+        "contractTypeField": "Synthetic Field",
+        "contractTypeId": "",
+        "isRequired": "1"
+      },
+      "expected": {
+        "contractTypeId": null,
+        "contractTypeField": "Synthetic Field",
+        "fieldType": "text",
+        "fieldValues": "",
+        "isRequired": 1,
+        "pattern": "",
+        "minLength": 0,
+        "maxLength": 100,
+        "orderNumber": -1
+      }
+    }
+  ],
+  "readNormalization": {
+    "beforeRead": [
+      {
+        "name": "A",
+        "orderNumber": 7
+      },
+      {
+        "name": "B",
+        "orderNumber": 7
+      },
+      {
+        "name": "Deleted",
+        "orderNumber": -9
+      }
+    ],
+    "afterIncludeDeleted": [
+      {
+        "name": "A",
+        "orderNumber": 7
+      },
+      {
+        "name": "B",
+        "orderNumber": 7
+      },
+      {
+        "name": "Deleted",
+        "orderNumber": -9
+      }
+    ],
+    "activeTypes": [
+      {
+        "name": "A",
+        "orderNumber": 0
+      },
+      {
+        "name": "B",
+        "orderNumber": 1
+      }
+    ],
+    "afterRead": [
+      {
+        "name": "A",
+        "orderNumber": 0
+      },
+      {
+        "name": "B",
+        "orderNumber": 1
+      },
+      {
+        "name": "Deleted",
+        "orderNumber": -9
+      }
+    ]
+  },
+  "moves": [
+    {
+      "direction": "up",
+      "index": 0,
+      "success": true,
+      "expected": [
+        {
+          "name": "A",
+          "orderNumber": 0
+        },
+        {
+          "name": "B",
+          "orderNumber": 1
+        },
+        {
+          "name": "C",
+          "orderNumber": 2
+        }
+      ]
+    },
+    {
+      "direction": "up",
+      "index": 1,
+      "success": true,
+      "expected": [
+        {
+          "name": "A",
+          "orderNumber": 1
+        },
+        {
+          "name": "B",
+          "orderNumber": 0
+        },
+        {
+          "name": "C",
+          "orderNumber": 2
+        }
+      ]
+    },
+    {
+      "direction": "up",
+      "index": 2,
+      "success": true,
+      "expected": [
+        {
+          "name": "A",
+          "orderNumber": 0
+        },
+        {
+          "name": "B",
+          "orderNumber": 2
+        },
+        {
+          "name": "C",
+          "orderNumber": 1
+        }
+      ]
+    },
+    {
+      "direction": "down",
+      "index": 0,
+      "success": true,
+      "expected": [
+        {
+          "name": "A",
+          "orderNumber": 1
+        },
+        {
+          "name": "B",
+          "orderNumber": 0
+        },
+        {
+          "name": "C",
+          "orderNumber": 2
+        }
+      ]
+    },
+    {
+      "direction": "down",
+      "index": 1,
+      "success": true,
+      "expected": [
+        {
+          "name": "A",
+          "orderNumber": 0
+        },
+        {
+          "name": "B",
+          "orderNumber": 2
+        },
+        {
+          "name": "C",
+          "orderNumber": 1
+        }
+      ]
+    },
+    {
+      "direction": "down",
+      "index": 2,
+      "success": true,
+      "expected": [
+        {
+          "name": "A",
+          "orderNumber": 0
+        },
+        {
+          "name": "B",
+          "orderNumber": 1
+        },
+        {
+          "name": "C",
+          "orderNumber": 3
+        }
+      ]
+    },
+    {
+      "direction": "top",
+      "index": 0,
+      "success": true,
+      "expected": [
+        {
+          "name": "A",
+          "orderNumber": 0
+        },
+        {
+          "name": "B",
+          "orderNumber": 1
+        },
+        {
+          "name": "C",
+          "orderNumber": 2
+        }
+      ]
+    },
+    {
+      "direction": "top",
+      "index": 1,
+      "success": true,
+      "expected": [
+        {
+          "name": "A",
+          "orderNumber": 1
+        },
+        {
+          "name": "B",
+          "orderNumber": 0
+        },
+        {
+          "name": "C",
+          "orderNumber": 2
+        }
+      ]
+    },
+    {
+      "direction": "top",
+      "index": 2,
+      "success": true,
+      "expected": [
+        {
+          "name": "A",
+          "orderNumber": 1
+        },
+        {
+          "name": "B",
+          "orderNumber": 2
+        },
+        {
+          "name": "C",
+          "orderNumber": 0
+        }
+      ]
+    },
+    {
+      "direction": "bottom",
+      "index": 0,
+      "success": true,
+      "expected": [
+        {
+          "name": "A",
+          "orderNumber": 2
+        },
+        {
+          "name": "B",
+          "orderNumber": 0
+        },
+        {
+          "name": "C",
+          "orderNumber": 1
+        }
+      ]
+    },
+    {
+      "direction": "bottom",
+      "index": 1,
+      "success": true,
+      "expected": [
+        {
+          "name": "A",
+          "orderNumber": 0
+        },
+        {
+          "name": "B",
+          "orderNumber": 2
+        },
+        {
+          "name": "C",
+          "orderNumber": 1
+        }
+      ]
+    },
+    {
+      "direction": "bottom",
+      "index": 2,
+      "success": true,
+      "expected": [
+        {
+          "name": "A",
+          "orderNumber": 0
+        },
+        {
+          "name": "B",
+          "orderNumber": 1
+        },
+        {
+          "name": "C",
+          "orderNumber": 2
+        }
+      ]
+    }
+  ],
+  "prints": {
+    "visible": [
+      "*",
+      "contract.sample"
+    ],
+    "rows": [
+      {
+        "printEJS": "*",
+        "orderNumber": 0
+      },
+      {
+        "printEJS": "contract.sample",
+        "orderNumber": 1
+      },
+      {
+        "printEJS": "unconfigured",
+        "orderNumber": 4
+      }
+    ]
+  },
+  "feeFilters": [
+    {
+      "filters": {},
+      "includeFees": false,
+      "selected": [
+        {
+          "name": "Alpha",
+          "orderNumber": 8
+        },
+        {
+          "name": "Beta",
+          "orderNumber": 9
+        }
+      ],
+      "persistedCategories": [
+        {
+          "name": "Alpha",
+          "orderNumber": 8
+        },
+        {
+          "name": "Beta",
+          "orderNumber": 9
+        }
+      ],
+      "persistedFees": [
+        {
+          "name": "Cross A",
+          "orderNumber": 10
+        },
+        {
+          "name": "Cross B",
+          "orderNumber": 12
+        },
+        {
+          "name": "Global",
+          "orderNumber": 7
+        }
+      ]
+    },
+    {
+      "filters": {},
+      "includeFees": true,
+      "selected": [
+        {
+          "name": "Alpha",
+          "orderNumber": 0,
+          "fees": [
+            {
+              "name": "Cross A",
+              "orderNumber": 0
+            },
+            {
+              "name": "Cross B",
+              "orderNumber": 1
+            }
+          ]
+        },
+        {
+          "name": "Beta",
+          "orderNumber": 1,
+          "fees": [
+            {
+              "name": "Global",
+              "orderNumber": 0
+            }
+          ]
+        }
+      ],
+      "persistedCategories": [
+        {
+          "name": "Alpha",
+          "orderNumber": 0
+        },
+        {
+          "name": "Beta",
+          "orderNumber": 1
+        }
+      ],
+      "persistedFees": [
+        {
+          "name": "Cross A",
+          "orderNumber": 0
+        },
+        {
+          "name": "Cross B",
+          "orderNumber": 1
+        },
+        {
+          "name": "Global",
+          "orderNumber": 0
+        }
+      ]
+    },
+    {
+      "filters": {
+        "contractTypeId": ""
+      },
+      "includeFees": true,
+      "selected": [
+        {
+          "name": "Alpha",
+          "orderNumber": 8,
+          "fees": [
+            {
+              "name": "Cross A",
+              "orderNumber": 10
+            },
+            {
+              "name": "Cross B",
+              "orderNumber": 12
+            }
+          ]
+        },
+        {
+          "name": "Beta",
+          "orderNumber": 9,
+          "fees": [
+            {
+              "name": "Global",
+              "orderNumber": 7
+            }
+          ]
+        }
+      ],
+      "persistedCategories": [
+        {
+          "name": "Alpha",
+          "orderNumber": 8
+        },
+        {
+          "name": "Beta",
+          "orderNumber": 9
+        }
+      ],
+      "persistedFees": [
+        {
+          "name": "Cross A",
+          "orderNumber": 10
+        },
+        {
+          "name": "Cross B",
+          "orderNumber": 12
+        },
+        {
+          "name": "Global",
+          "orderNumber": 7
+        }
+      ]
+    },
+    {
+      "filters": {
+        "contractTypeId": 1
+      },
+      "includeFees": true,
+      "selected": [
+        {
+          "name": "Alpha",
+          "orderNumber": 8,
+          "fees": [
+            {
+              "name": "Cross A",
+              "orderNumber": 10
+            }
+          ]
+        },
+        {
+          "name": "Beta",
+          "orderNumber": 9,
+          "fees": [
+            {
+              "name": "Global",
+              "orderNumber": 7
+            }
+          ]
+        }
+      ],
+      "persistedCategories": [
+        {
+          "name": "Alpha",
+          "orderNumber": 8
+        },
+        {
+          "name": "Beta",
+          "orderNumber": 9
+        }
+      ],
+      "persistedFees": [
+        {
+          "name": "Cross A",
+          "orderNumber": 10
+        },
+        {
+          "name": "Cross B",
+          "orderNumber": 12
+        },
+        {
+          "name": "Global",
+          "orderNumber": 7
+        }
+      ]
+    },
+    {
+      "filters": {
+        "contractTypeId": 1,
+        "burialSiteTypeId": 1
+      },
+      "includeFees": true,
+      "selected": [
+        {
+          "name": "Alpha",
+          "orderNumber": 8,
+          "fees": []
+        },
+        {
+          "name": "Beta",
+          "orderNumber": 9,
+          "fees": [
+            {
+              "name": "Global",
+              "orderNumber": 7
+            }
+          ]
+        }
+      ],
+      "persistedCategories": [
+        {
+          "name": "Alpha",
+          "orderNumber": 8
+        },
+        {
+          "name": "Beta",
+          "orderNumber": 9
+        }
+      ],
+      "persistedFees": [
+        {
+          "name": "Cross A",
+          "orderNumber": 10
+        },
+        {
+          "name": "Cross B",
+          "orderNumber": 12
+        },
+        {
+          "name": "Global",
+          "orderNumber": 7
+        }
+      ]
+    },
+    {
+      "filters": {
+        "feeCategoryId": 2
+      },
+      "includeFees": true,
+      "selected": [
+        {
+          "name": "Beta",
+          "orderNumber": 0,
+          "fees": [
+            {
+              "name": "Global",
+              "orderNumber": 0
+            }
+          ]
+        }
+      ],
+      "persistedCategories": [
+        {
+          "name": "Alpha",
+          "orderNumber": 8
+        },
+        {
+          "name": "Beta",
+          "orderNumber": 0
+        }
+      ],
+      "persistedFees": [
+        {
+          "name": "Cross A",
+          "orderNumber": 10
+        },
+        {
+          "name": "Cross B",
+          "orderNumber": 12
+        },
+        {
+          "name": "Global",
+          "orderNumber": 0
+        }
+      ]
+    }
+  ],
+  "fieldUpdateOmissions": [
+    {
+      "fieldType": "text",
+      "error": "TypeError",
+      "code": "ERR_INVALID_ARG_TYPE",
+      "message": "Provided value cannot be bound to SQLite parameter 7."
+    },
+    {
+      "fieldType": "date",
+      "error": "TypeError",
+      "code": "ERR_INVALID_ARG_TYPE",
+      "message": "Provided value cannot be bound to SQLite parameter 7."
+    }
+  ],
+  "initialization": {
+    "seeded": {
+      "BurialSiteTypes": [
+        {
+          "name": "Columbarium",
+          "orderNumber": 2
+        },
+        {
+          "name": "Crematorium",
+          "orderNumber": 2
+        },
+        {
+          "name": "In-Ground Grave",
+          "orderNumber": 1
+        },
+        {
+          "name": "Mausoleum",
+          "orderNumber": 2
+        },
+        {
+          "name": "Niche Wall",
+          "orderNumber": 2
+        },
+        {
+          "name": "Urn Garden",
+          "orderNumber": 2
+        }
+      ],
+      "BurialSiteStatuses": [
+        {
+          "name": "Available",
+          "orderNumber": 1
+        },
+        {
+          "name": "Occupied",
+          "orderNumber": 3
+        },
+        {
+          "name": "Reserved",
+          "orderNumber": 2
+        }
+      ],
+      "ContractTypes": [
+        {
+          "name": "At Need",
+          "orderNumber": 2
+        },
+        {
+          "name": "Permit Only",
+          "orderNumber": 3
+        },
+        {
+          "name": "Preneed",
+          "orderNumber": 1
+        }
+      ],
+      "ServiceTypes": [
+        {
+          "name": "Cremation",
+          "orderNumber": 2
+        },
+        {
+          "name": "Disinterment",
+          "orderNumber": 5
+        },
+        {
+          "name": "Entombment",
+          "orderNumber": 3
+        },
+        {
+          "name": "Interment",
+          "orderNumber": 1
+        },
+        {
+          "name": "Niche",
+          "orderNumber": 4
+        }
+      ],
+      "IntermentContainerTypes": [
+        {
+          "name": "Concrete Liner",
+          "orderNumber": 2
+        },
+        {
+          "name": "Concrete Vault",
+          "orderNumber": 4
+        },
+        {
+          "name": "No Shell",
+          "orderNumber": 1
+        },
+        {
+          "name": "Shroud",
+          "orderNumber": 7
+        },
+        {
+          "name": "Steel Vault",
+          "orderNumber": 6
+        },
+        {
+          "name": "Unpainted Vault",
+          "orderNumber": 3
+        },
+        {
+          "name": "Urn",
+          "orderNumber": 7
+        },
+        {
+          "name": "Wooden Shell",
+          "orderNumber": 5
+        }
+      ],
+      "IntermentDepths": [
+        {
+          "name": "Double",
+          "orderNumber": 2
+        },
+        {
+          "name": "Single",
+          "orderNumber": 1
+        }
+      ],
+      "CommittalTypes": [
+        {
+          "name": "Chapel",
+          "orderNumber": 2
+        },
+        {
+          "name": "Church",
+          "orderNumber": 3
+        },
+        {
+          "name": "Graveside",
+          "orderNumber": 1
+        }
+      ],
+      "FeeCategories": [
+        {
+          "name": "Additional Services",
+          "orderNumber": 5
+        },
+        {
+          "name": "Burial Charges",
+          "orderNumber": 3
+        },
+        {
+          "name": "Cremation Services",
+          "orderNumber": 2
+        },
+        {
+          "name": "Disinterment of Human Remains",
+          "orderNumber": 4
+        },
+        {
+          "name": "Interment Rights",
+          "orderNumber": 1
+        }
+      ],
+      "WorkOrderTypes": [
+        {
+          "name": "Cremation",
+          "orderNumber": 2
+        },
+        {
+          "name": "Interment",
+          "orderNumber": 1
+        }
+      ],
+      "WorkOrderStatuses": [
+        {
+          "name": "Cancelled",
+          "orderNumber": 5
+        },
+        {
+          "name": "Completed",
+          "orderNumber": 3
+        },
+        {
+          "name": "Entered",
+          "orderNumber": 1
+        },
+        {
+          "name": "No Show",
+          "orderNumber": 4
+        },
+        {
+          "name": "Scheduled",
+          "orderNumber": 2
+        }
+      ],
+      "WorkOrderMilestoneTypes": [
+        {
+          "name": "Arrival",
+          "orderNumber": 2
+        },
+        {
+          "name": "Cremation",
+          "orderNumber": 3
+        },
+        {
+          "name": "Funeral",
+          "orderNumber": 1
+        },
+        {
+          "name": "Interment",
+          "orderNumber": 4
+        }
+      ]
+    },
+    "reread": {
+      "BurialSiteTypes": [
+        {
+          "name": "Columbarium",
+          "orderNumber": 1
+        },
+        {
+          "name": "Crematorium",
+          "orderNumber": 2
+        },
+        {
+          "name": "In-Ground Grave",
+          "orderNumber": 0
+        },
+        {
+          "name": "Mausoleum",
+          "orderNumber": 3
+        },
+        {
+          "name": "Niche Wall",
+          "orderNumber": 4
+        },
+        {
+          "name": "Urn Garden",
+          "orderNumber": 5
+        }
+      ],
+      "BurialSiteStatuses": [
+        {
+          "name": "Available",
+          "orderNumber": 0
+        },
+        {
+          "name": "Occupied",
+          "orderNumber": 2
+        },
+        {
+          "name": "Reserved",
+          "orderNumber": 1
+        }
+      ],
+      "ContractTypes": [
+        {
+          "name": "At Need",
+          "orderNumber": 1
+        },
+        {
+          "name": "Permit Only",
+          "orderNumber": 2
+        },
+        {
+          "name": "Preneed",
+          "orderNumber": 0
+        }
+      ],
+      "ServiceTypes": [
+        {
+          "name": "Cremation",
+          "orderNumber": 1
+        },
+        {
+          "name": "Disinterment",
+          "orderNumber": 4
+        },
+        {
+          "name": "Entombment",
+          "orderNumber": 2
+        },
+        {
+          "name": "Interment",
+          "orderNumber": 0
+        },
+        {
+          "name": "Niche",
+          "orderNumber": 3
+        }
+      ],
+      "IntermentContainerTypes": [
+        {
+          "name": "Concrete Liner",
+          "orderNumber": 1
+        },
+        {
+          "name": "Concrete Vault",
+          "orderNumber": 3
+        },
+        {
+          "name": "No Shell",
+          "orderNumber": 0
+        },
+        {
+          "name": "Shroud",
+          "orderNumber": 6
+        },
+        {
+          "name": "Steel Vault",
+          "orderNumber": 5
+        },
+        {
+          "name": "Unpainted Vault",
+          "orderNumber": 2
+        },
+        {
+          "name": "Urn",
+          "orderNumber": 7
+        },
+        {
+          "name": "Wooden Shell",
+          "orderNumber": 4
+        }
+      ],
+      "IntermentDepths": [
+        {
+          "name": "Double",
+          "orderNumber": 1
+        },
+        {
+          "name": "Single",
+          "orderNumber": 0
+        }
+      ],
+      "CommittalTypes": [
+        {
+          "name": "Chapel",
+          "orderNumber": 1
+        },
+        {
+          "name": "Church",
+          "orderNumber": 2
+        },
+        {
+          "name": "Graveside",
+          "orderNumber": 0
+        }
+      ],
+      "FeeCategories": [
+        {
+          "name": "Additional Services",
+          "orderNumber": 5
+        },
+        {
+          "name": "Burial Charges",
+          "orderNumber": 3
+        },
+        {
+          "name": "Cremation Services",
+          "orderNumber": 2
+        },
+        {
+          "name": "Disinterment of Human Remains",
+          "orderNumber": 4
+        },
+        {
+          "name": "Interment Rights",
+          "orderNumber": 1
+        }
+      ],
+      "WorkOrderTypes": [
+        {
+          "name": "Cremation",
+          "orderNumber": 1
+        },
+        {
+          "name": "Interment",
+          "orderNumber": 0
+        }
+      ],
+      "WorkOrderStatuses": [
+        {
+          "name": "Cancelled",
+          "orderNumber": 4
+        },
+        {
+          "name": "Completed",
+          "orderNumber": 2
+        },
+        {
+          "name": "Entered",
+          "orderNumber": 0
+        },
+        {
+          "name": "No Show",
+          "orderNumber": 3
+        },
+        {
+          "name": "Scheduled",
+          "orderNumber": 1
+        }
+      ],
+      "WorkOrderMilestoneTypes": [
+        {
+          "name": "Arrival",
+          "orderNumber": 1
+        },
+        {
+          "name": "Cremation",
+          "orderNumber": 2
+        },
+        {
+          "name": "Funeral",
+          "orderNumber": 0
+        },
+        {
+          "name": "Interment",
+          "orderNumber": 3
+        }
+      ]
+    }
+  }
+}

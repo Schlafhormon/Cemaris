@@ -1,0 +1,1116 @@
+{
+  "reference_commit": "451ce034863b16502484367044f3e9b65370111a",
+  "source_sha256": {
+    "database/initializeDatabase.js": "835ca5bc8d85ce5781a3404057590473149023f6a6ac908f688e10bb1b69b4a0",
+    "helpers/database.helpers.js": "f4353fbde50536ab99fb82adf43a696253bf8f20980c741c31edc1cc70e7e7f2",
+    "helpers/functions.sqlFilters.js": "7cf9d0901239518d10eb98df037b3326089a8745b0badf959d86cfaa569b70bd",
+    "helpers/burialSites.helpers.js": "1af86fdff68f061727929dcc10e98e7044c7bcd420f398010d1d8b7e285d58b1",
+    "database/getCemeteries.js": "1c309e93d598c82febbac0b199e2f3eb560552c2ffb4cf6900737069864ae84d",
+    "database/getCemeteryDirectionsOfArrival.js": "f8d795c55380a63530caa47eacd0f45d41ebe46e252a908fae432d9e17d4cc00",
+    "database/getCemetery.js": "2555f9495769804bf9a000a720c58c909d372a3a42b330109e59b1ff7f475a7a",
+    "database/updateCemeteryDirectionsOfArrival.js": "75a21cfd7675ae50e95f7ba826f6318b056b198b8652d86514a5880d10cac9f2",
+    "database/purgeBurialSite.js": "9383b4a383c80038f0a7723b582d9a6136f7f876a6b2cfa39bd049c95f0e5b3d",
+    "database/addCemetery.js": "d8ba77b3a47ff5c06c45f6b862e62463c39e7b42f6a655b7e9a78f9107b10617",
+    "database/addOrUpdateBurialSiteFields.js": "debdad278950f057c2f5370fc18d37506956e1ac0597c3013107d12b3c0ca31b",
+    "database/addBurialSite.js": "8a7a2d4c47c5ad99f560d6857076015c93feada559605da37a3d7f193801e794",
+    "database/getBurialSites.js": "1f26466736f3717b70b712f0f452789711df474675d82b7ce9ed885da56097c9",
+    "database/getBurialSiteTypeSummary.js": "12a505f9ccd104ddb4ee3162505b1346dffff15115826c32b09254ee6555678a",
+    "database/deleteBurialSite.js": "e6ddb0ff05fcaeb420980c03ea9ee632384d19b1cd7b3b4f311d37d437999cb5",
+    "database/restoreBurialSite.js": "9fe001813c2f91c444408f711a0817d71d6d0885983be14017221c644e96b04b",
+    "database/deleteCemetery.js": "055e37db95535a5f0d1b444f35a3492199358e1283a51cc30b289fc1cf0498f9",
+    "database/getNextBurialSiteId.js": "834d32bc467917f9c93a4523f489bdca90378733b51ae5c47f8ef0931e8f6996",
+    "database/getPreviousBurialSiteId.js": "997b5cc70a5144320de06dda9788da10c64fca0c8f1c14a7ce781bfd289d4227",
+    "database/getNextCemeteryId.js": "3418479ab2a8026c1cd6c522b40041594f1739392e8fbebc795f394ff90116de",
+    "database/getPreviousCemeteryId.js": "fa049915321dcc0d33047bbbb1e76a835ba4a0ca14126a8c4d5301868a85a1b4"
+  },
+  "today": 20261020,
+  "defaults": [
+    {
+      "resource": "cemetery",
+      "form": {
+        "cemeteryName": "Synthetic Main",
+        "cemeteryKey": "SYN",
+        "cemeteryDescription": "",
+        "cemeterySvg": "",
+        "cemeteryLatitude": "",
+        "cemeteryLongitude": "",
+        "cemeteryAddress1": "",
+        "cemeteryAddress2": "",
+        "cemeteryCity": "",
+        "cemeteryProvince": "",
+        "cemeteryPostalCode": "a1b 2c3",
+        "cemeteryPhoneNumber": "",
+        "parentCemeteryId": "",
+        "findagraveCemeteryId": ""
+      },
+      "expected": {
+        "cemeteryName": "Synthetic Main",
+        "cemeteryKey": "SYN",
+        "cemeteryDescription": "",
+        "cemeteryLatitude": null,
+        "cemeteryLongitude": null,
+        "cemeterySvg": "",
+        "cemeteryAddress1": "",
+        "cemeteryAddress2": "",
+        "cemeteryCity": "",
+        "cemeteryProvince": "",
+        "cemeteryPostalCode": "A1B 2C3",
+        "cemeteryPhoneNumber": "",
+        "parentCemeteryId": null,
+        "findagraveCemeteryId": null,
+        "isAvailableOnPortal": 0
+      },
+      "directions": {}
+    },
+    {
+      "resource": "cemetery",
+      "form": {
+        "cemeteryName": "Synthetic Main",
+        "cemeteryKey": "SYN",
+        "cemeteryDescription": "",
+        "cemeterySvg": "",
+        "cemeteryLatitude": "51.125",
+        "cemeteryLongitude": "13.5",
+        "cemeteryAddress1": "",
+        "cemeteryAddress2": "",
+        "cemeteryCity": "",
+        "cemeteryProvince": "",
+        "cemeteryPostalCode": "a1b 2c3",
+        "cemeteryPhoneNumber": "",
+        "parentCemeteryId": "",
+        "findagraveCemeteryId": "",
+        "isAvailableOnPortal": "1",
+        "directionOfArrivalDescription_N": "North gate",
+        "directionOfArrivalDescription_SW": ""
+      },
+      "expected": {
+        "cemeteryName": "Synthetic Main",
+        "cemeteryKey": "SYN",
+        "cemeteryDescription": "",
+        "cemeteryLatitude": 51.125,
+        "cemeteryLongitude": 13.5,
+        "cemeterySvg": "",
+        "cemeteryAddress1": "",
+        "cemeteryAddress2": "",
+        "cemeteryCity": "",
+        "cemeteryProvince": "",
+        "cemeteryPostalCode": "A1B 2C3",
+        "cemeteryPhoneNumber": "",
+        "parentCemeteryId": null,
+        "findagraveCemeteryId": null,
+        "isAvailableOnPortal": 1
+      },
+      "directions": {
+        "N": "North gate",
+        "SW": ""
+      }
+    },
+    {
+      "resource": "burialSite",
+      "form": {
+        "cemeteryId": "",
+        "burialSiteTypeId": 1,
+        "burialSiteStatusId": "",
+        "burialSiteNameSegment1": "A-01",
+        "burialSiteTypeFieldIds": ""
+      },
+      "expected": {
+        "burialSiteTypeId": 1,
+        "burialSiteNameSegment1": "A-01",
+        "burialSiteNameSegment2": "",
+        "burialSiteNameSegment3": "",
+        "burialSiteNameSegment4": "",
+        "burialSiteNameSegment5": "",
+        "burialSiteName": "A-01",
+        "bodyCapacity": null,
+        "crematedCapacity": null,
+        "cemeteryId": null,
+        "cemeterySvgId": null,
+        "burialSiteImage": "",
+        "burialSiteLatitude": null,
+        "burialSiteLongitude": null,
+        "burialSiteStatusId": null
+      }
+    },
+    {
+      "resource": "burialSite",
+      "form": {
+        "cemeteryId": "",
+        "burialSiteTypeId": 1,
+        "burialSiteStatusId": 1,
+        "burialSiteNameSegment1": "A-01",
+        "burialSiteTypeFieldIds": "",
+        "bodyCapacity": "2",
+        "crematedCapacity": "8",
+        "burialSiteLatitude": "0",
+        "burialSiteLongitude": "13.75",
+        "cemeterySvgId": "",
+        "burialSiteImage": "synthetic.png"
+      },
+      "expected": {
+        "burialSiteTypeId": 1,
+        "burialSiteNameSegment1": "A-01",
+        "burialSiteNameSegment2": "",
+        "burialSiteNameSegment3": "",
+        "burialSiteNameSegment4": "",
+        "burialSiteNameSegment5": "",
+        "burialSiteName": "A-01",
+        "bodyCapacity": 2,
+        "crematedCapacity": 8,
+        "cemeteryId": null,
+        "cemeterySvgId": "",
+        "burialSiteImage": "synthetic.png",
+        "burialSiteLatitude": 0,
+        "burialSiteLongitude": 13.75,
+        "burialSiteStatusId": 1
+      }
+    }
+  ],
+  "names": [
+    {
+      "config": {
+        "includeCemeteryKey": false,
+        "separator": "-",
+        "segments": {
+          "1": {
+            "isAvailable": true,
+            "isRequired": true,
+            "label": "Plot Number",
+            "minLength": 1,
+            "maxLength": 20
+          }
+        }
+      },
+      "cemeteryKey": null,
+      "segments": {
+        "burialSiteNameSegment1": "A",
+        "burialSiteNameSegment2": "02",
+        "burialSiteNameSegment3": "ignored"
+      },
+      "expected": "A"
+    },
+    {
+      "config": {
+        "includeCemeteryKey": false,
+        "separator": "-",
+        "segments": {
+          "1": {
+            "isAvailable": true,
+            "isRequired": true,
+            "label": "Plot Number",
+            "minLength": 1,
+            "maxLength": 20
+          }
+        }
+      },
+      "cemeteryKey": null,
+      "segments": {
+        "burialSiteNameSegment1": "",
+        "burialSiteNameSegment2": ""
+      },
+      "expected": ""
+    },
+    {
+      "config": {
+        "includeCemeteryKey": false,
+        "separator": "-",
+        "segments": {
+          "1": {
+            "isAvailable": true,
+            "isRequired": true,
+            "label": "Plot Number",
+            "minLength": 1,
+            "maxLength": 20
+          }
+        }
+      },
+      "cemeteryKey": "",
+      "segments": {
+        "burialSiteNameSegment1": "A",
+        "burialSiteNameSegment2": "02",
+        "burialSiteNameSegment3": "ignored"
+      },
+      "expected": "A"
+    },
+    {
+      "config": {
+        "includeCemeteryKey": false,
+        "separator": "-",
+        "segments": {
+          "1": {
+            "isAvailable": true,
+            "isRequired": true,
+            "label": "Plot Number",
+            "minLength": 1,
+            "maxLength": 20
+          }
+        }
+      },
+      "cemeteryKey": "",
+      "segments": {
+        "burialSiteNameSegment1": "",
+        "burialSiteNameSegment2": ""
+      },
+      "expected": ""
+    },
+    {
+      "config": {
+        "includeCemeteryKey": false,
+        "separator": "-",
+        "segments": {
+          "1": {
+            "isAvailable": true,
+            "isRequired": true,
+            "label": "Plot Number",
+            "minLength": 1,
+            "maxLength": 20
+          }
+        }
+      },
+      "cemeteryKey": "SYN",
+      "segments": {
+        "burialSiteNameSegment1": "A",
+        "burialSiteNameSegment2": "02",
+        "burialSiteNameSegment3": "ignored"
+      },
+      "expected": "A"
+    },
+    {
+      "config": {
+        "includeCemeteryKey": false,
+        "separator": "-",
+        "segments": {
+          "1": {
+            "isAvailable": true,
+            "isRequired": true,
+            "label": "Plot Number",
+            "minLength": 1,
+            "maxLength": 20
+          }
+        }
+      },
+      "cemeteryKey": "SYN",
+      "segments": {
+        "burialSiteNameSegment1": "",
+        "burialSiteNameSegment2": ""
+      },
+      "expected": ""
+    },
+    {
+      "config": {
+        "includeCemeteryKey": true,
+        "separator": "/",
+        "segments": {
+          "1": {
+            "isAvailable": true,
+            "isRequired": true,
+            "prefix": "[",
+            "suffix": "]"
+          },
+          "2": {
+            "isAvailable": true,
+            "isRequired": false
+          },
+          "3": {
+            "isAvailable": false
+          },
+          "4": {
+            "isAvailable": true,
+            "isRequired": true,
+            "prefix": "R"
+          }
+        }
+      },
+      "cemeteryKey": null,
+      "segments": {
+        "burialSiteNameSegment1": "A",
+        "burialSiteNameSegment2": "02",
+        "burialSiteNameSegment3": "ignored"
+      },
+      "expected": "[A]/02/R"
+    },
+    {
+      "config": {
+        "includeCemeteryKey": true,
+        "separator": "/",
+        "segments": {
+          "1": {
+            "isAvailable": true,
+            "isRequired": true,
+            "prefix": "[",
+            "suffix": "]"
+          },
+          "2": {
+            "isAvailable": true,
+            "isRequired": false
+          },
+          "3": {
+            "isAvailable": false
+          },
+          "4": {
+            "isAvailable": true,
+            "isRequired": true,
+            "prefix": "R"
+          }
+        }
+      },
+      "cemeteryKey": null,
+      "segments": {
+        "burialSiteNameSegment1": "",
+        "burialSiteNameSegment2": ""
+      },
+      "expected": "[]/R"
+    },
+    {
+      "config": {
+        "includeCemeteryKey": true,
+        "separator": "/",
+        "segments": {
+          "1": {
+            "isAvailable": true,
+            "isRequired": true,
+            "prefix": "[",
+            "suffix": "]"
+          },
+          "2": {
+            "isAvailable": true,
+            "isRequired": false
+          },
+          "3": {
+            "isAvailable": false
+          },
+          "4": {
+            "isAvailable": true,
+            "isRequired": true,
+            "prefix": "R"
+          }
+        }
+      },
+      "cemeteryKey": "",
+      "segments": {
+        "burialSiteNameSegment1": "A",
+        "burialSiteNameSegment2": "02",
+        "burialSiteNameSegment3": "ignored"
+      },
+      "expected": "/[A]/02/R"
+    },
+    {
+      "config": {
+        "includeCemeteryKey": true,
+        "separator": "/",
+        "segments": {
+          "1": {
+            "isAvailable": true,
+            "isRequired": true,
+            "prefix": "[",
+            "suffix": "]"
+          },
+          "2": {
+            "isAvailable": true,
+            "isRequired": false
+          },
+          "3": {
+            "isAvailable": false
+          },
+          "4": {
+            "isAvailable": true,
+            "isRequired": true,
+            "prefix": "R"
+          }
+        }
+      },
+      "cemeteryKey": "",
+      "segments": {
+        "burialSiteNameSegment1": "",
+        "burialSiteNameSegment2": ""
+      },
+      "expected": "/[]/R"
+    },
+    {
+      "config": {
+        "includeCemeteryKey": true,
+        "separator": "/",
+        "segments": {
+          "1": {
+            "isAvailable": true,
+            "isRequired": true,
+            "prefix": "[",
+            "suffix": "]"
+          },
+          "2": {
+            "isAvailable": true,
+            "isRequired": false
+          },
+          "3": {
+            "isAvailable": false
+          },
+          "4": {
+            "isAvailable": true,
+            "isRequired": true,
+            "prefix": "R"
+          }
+        }
+      },
+      "cemeteryKey": "SYN",
+      "segments": {
+        "burialSiteNameSegment1": "A",
+        "burialSiteNameSegment2": "02",
+        "burialSiteNameSegment3": "ignored"
+      },
+      "expected": "SYN/[A]/02/R"
+    },
+    {
+      "config": {
+        "includeCemeteryKey": true,
+        "separator": "/",
+        "segments": {
+          "1": {
+            "isAvailable": true,
+            "isRequired": true,
+            "prefix": "[",
+            "suffix": "]"
+          },
+          "2": {
+            "isAvailable": true,
+            "isRequired": false
+          },
+          "3": {
+            "isAvailable": false
+          },
+          "4": {
+            "isAvailable": true,
+            "isRequired": true,
+            "prefix": "R"
+          }
+        }
+      },
+      "cemeteryKey": "SYN",
+      "segments": {
+        "burialSiteNameSegment1": "",
+        "burialSiteNameSegment2": ""
+      },
+      "expected": "SYN/[]/R"
+    }
+  ],
+  "searches": [
+    {
+      "filters": {},
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          1,
+          2,
+          3,
+          6,
+          5
+        ],
+        "count": 5,
+        "contractCounts": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {},
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [
+          2,
+          3
+        ],
+        "count": 5,
+        "contractCounts": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "cemeteryId": 1
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          1,
+          2,
+          6
+        ],
+        "count": 3,
+        "contractCounts": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "cemeteryId": 1
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [
+          2,
+          6
+        ],
+        "count": 3,
+        "contractCounts": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "cemeteryId": 2
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          2,
+          3
+        ],
+        "count": 2,
+        "contractCounts": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "cemeteryId": 2
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [
+          3
+        ],
+        "count": 2,
+        "contractCounts": [
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "burialSiteTypeId": 1
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          1,
+          2,
+          3,
+          6,
+          5
+        ],
+        "count": 5,
+        "contractCounts": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "burialSiteTypeId": 1
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [
+          2,
+          3
+        ],
+        "count": 5,
+        "contractCounts": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "burialSiteStatusId": 1
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          2,
+          6
+        ],
+        "count": 2,
+        "contractCounts": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "burialSiteStatusId": 1
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [
+          6
+        ],
+        "count": 2,
+        "contractCounts": [
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "contractStatus": "occupied"
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          1
+        ],
+        "count": 1,
+        "contractCounts": [
+          1
+        ]
+      }
+    },
+    {
+      "filters": {
+        "contractStatus": "occupied"
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [],
+        "count": 1,
+        "contractCounts": []
+      }
+    },
+    {
+      "filters": {
+        "contractStatus": "unoccupied"
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          2,
+          3,
+          6,
+          5
+        ],
+        "count": 4,
+        "contractCounts": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "contractStatus": "unoccupied"
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [
+          3,
+          6
+        ],
+        "count": 4,
+        "contractCounts": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "hasCoordinates": "yes"
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          2,
+          6
+        ],
+        "count": 2,
+        "contractCounts": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "hasCoordinates": "yes"
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [
+          6
+        ],
+        "count": 2,
+        "contractCounts": [
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "hasCoordinates": "no"
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "contractCounts": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "hasCoordinates": "no"
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [
+          3,
+          5
+        ],
+        "count": 3,
+        "contractCounts": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "workOrderId": 1
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          2
+        ],
+        "count": 1,
+        "contractCounts": [
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "workOrderId": 1
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [],
+        "count": 1,
+        "contractCounts": []
+      }
+    },
+    {
+      "filters": {
+        "burialSiteName": "a A 01"
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          1
+        ],
+        "count": 1,
+        "contractCounts": [
+          1
+        ]
+      }
+    },
+    {
+      "filters": {
+        "burialSiteName": "a A 01"
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [],
+        "count": 1,
+        "contractCounts": []
+      }
+    },
+    {
+      "filters": {
+        "burialSiteName": "A-",
+        "burialSiteNameSearchType": "startsWith"
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          1,
+          2
+        ],
+        "count": 2,
+        "contractCounts": [
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "burialSiteName": "A-",
+        "burialSiteNameSearchType": "startsWith"
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [
+          2
+        ],
+        "count": 2,
+        "contractCounts": [
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "burialSiteName": "End",
+        "burialSiteNameSearchType": "endsWith"
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          6
+        ],
+        "count": 1,
+        "contractCounts": [
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "burialSiteName": "End",
+        "burialSiteNameSearchType": "endsWith"
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [],
+        "count": 1,
+        "contractCounts": []
+      }
+    },
+    {
+      "filters": {
+        "burialSiteName": "%_[]!"
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          6
+        ],
+        "count": 1,
+        "contractCounts": [
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "burialSiteName": "%_[]!"
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [],
+        "count": 1,
+        "contractCounts": []
+      }
+    },
+    {
+      "filters": {
+        "burialSiteName": "🪦"
+      },
+      "options": {
+        "limit": -1
+      },
+      "expected": {
+        "ids": [
+          5
+        ],
+        "count": 1,
+        "contractCounts": [
+          0
+        ]
+      }
+    },
+    {
+      "filters": {
+        "burialSiteName": "🪦"
+      },
+      "options": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expected": {
+        "ids": [],
+        "count": 1,
+        "contractCounts": []
+      }
+    }
+  ],
+  "hierarchy": {
+    "all": [
+      {
+        "id": 2,
+        "parent": 1,
+        "count": 1
+      },
+      {
+        "id": 3,
+        "parent": 2,
+        "count": 1
+      },
+      {
+        "id": 1,
+        "parent": null,
+        "count": 2
+      }
+    ],
+    "children": [
+      2
+    ],
+    "grandchildrenHidden": 0,
+    "summary": [
+      {
+        "burialSiteTypeId": 1,
+        "burialSiteType": "Synthetic Type",
+        "burialSiteCount": 2
+      }
+    ],
+    "nextSite": 2,
+    "previousSite": 1,
+    "nextCemetery": 3
+  },
+  "deletions": [
+    {
+      "start": 20261020,
+      "end": null,
+      "deleted": false,
+      "expected": false,
+      "restoreSuccess": false
+    },
+    {
+      "start": 20261021,
+      "end": null,
+      "deleted": false,
+      "expected": false,
+      "restoreSuccess": false
+    },
+    {
+      "start": 20261019,
+      "end": 20261020,
+      "deleted": false,
+      "expected": false,
+      "restoreSuccess": false
+    },
+    {
+      "start": 20261018,
+      "end": 20261019,
+      "deleted": false,
+      "expected": true,
+      "restoreSuccess": true
+    },
+    {
+      "start": 20261020,
+      "end": null,
+      "deleted": true,
+      "expected": true,
+      "restoreSuccess": true
+    }
+  ]
+}

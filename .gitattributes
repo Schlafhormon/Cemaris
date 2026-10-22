@@ -1,0 +1,7 @@
+* text=auto
+*.py text eol=lf
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.png binary
+# Preserve upstream EJS/CSS whitespace for exact print-content comparisons.
+backend/printing-runtime/views/print/** text eol=lf whitespace=-blank-at-eol

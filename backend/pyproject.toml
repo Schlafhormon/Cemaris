@@ -1,0 +1,25 @@
+[project]
+name = "cemaris-api"
+version = "0.2.0"
+description = "Cemaris cemetery management API"
+requires-python = "==3.14.*"
+dependencies = [
+    "fastapi==0.148.0",
+    "uvicorn==0.54.0",
+    "sqlalchemy==2.1.5",
+    "alembic==1.20.0",
+    "pyodbc==5.3.0",
+    "pydantic-settings==2.16.0",
+    "ldap3==2.9.1",
+    "python-multipart==0.0.32",
+]
+
+[dependency-groups]
+dev = ["httpx2==2.14.0", "pytest==9.1.1"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

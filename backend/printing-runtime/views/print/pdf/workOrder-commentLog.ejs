@@ -1,0 +1,75 @@
+<%
+const cemarisDate = value => String(value ?? '').replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$3.$2.$1');
+const cemarisTime = value => {
+  const text = String(value ?? '');
+  const match = text.match(/^(\d{1,2}):(\d{2})(?::\d{2})?\s*(AM|PM)?$/i);
+  if (!match) return text;
+  let hour = Number(match[1]);
+  if (match[3]) hour = hour % 12 + (match[3].toUpperCase() === 'PM' ? 12 : 0);
+  return String(hour).padStart(2, '0') + ':' + match[2];
+};
+const cemarisTimestamp = value => new Intl.DateTimeFormat('de-DE', {
+  timeZone: 'Europe/Berlin', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+}).format(value).replace(', ', ' um ') + ' Uhr';
+%>
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title><%= headTitle %></title>
+    <style>
+      <%- include('style.css'); %>
+    </style>
+  </head>
+  <body>
+    <%- include('_workOrder-header.ejs'); %>
+
+    <h2 class="mb-0">Kommentare</h2>
+
+    <% if (workOrder.workOrderComments.length === 0) { %>
+    <p>Zu diesem Arbeitsauftrag sind keine Kommentare vorhanden.</p>
+    <% } else { %>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Verfasser</th>
+          <th>Kommentardatum und -uhrzeit</th>
+          <th>Kommentar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const comment of workOrder.workOrderComments) { %>
+        <tr>
+          <td><%= comment.recordUpdate_username %></td>
+          <td><%= cemarisDate(comment.commentDateString) %> <%= cemarisTime(comment.commentTimePeriodString) %></td>
+          <td><%= comment.comment %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+    <% } %>
+          
+    <p style="position: absolute; bottom: 5px; left: 20px;">
+      <%
+      const barcodeData = barcodeFunctions.generateBarcodeSvg(workOrder.workOrderNumber, {
+        format: 'CODE128',
+        width: 2,
+        height: 50,
+        margin: 0,
+        displayValue: false
+      })
+      %>
+      <%- barcodeData %>
+    </p>
+
+    <p class="has-text-right is-italic is-8pt" style="position: absolute; bottom: 15px; right: 20px;">
+      <%
+      const recordCreateDate = new Date(workOrder.recordCreate_timeMillis);
+      const currentDate = new Date();
+      %>
+      Arbeitsauftrag erstellt am <%= cemarisTimestamp(recordCreateDate) %>.
+      Gedruckt am <%= cemarisTimestamp(currentDate) %>.<br />
+      Arbeitsauftrags-ID: <%= workOrder.workOrderId %>
+    </p>
+  </body>
+</html>

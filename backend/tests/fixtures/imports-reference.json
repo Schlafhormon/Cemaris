@@ -1,0 +1,4806 @@
+{
+  "referenceCommit": "451ce034863b16502484367044f3e9b65370111a",
+  "boundaries": "Actual JS record bodies, original catalog/fee lookup helpers on source SQLite schema and locked meow parser; CSV parsed rows, CRUD, naming, date clock and record catalog IDs injected. SQL Server tests cover target persistence.",
+  "hashes": {
+    "cli/findAGraveMemorialExtractorImport/README.md": "207bfcb7298d00e7a0a5903c5725dee643cd4600e534267b7a30a99c72679808",
+    "cli/findAGraveMemorialExtractorImport/cli.js": "6899bafe50f9870f0b6b0a766104db8a46d28394dfa2196b5c198245695d2f49",
+    "cli/findAGraveMemorialExtractorImport/cli.ts": "95f81ec69299f250b396a118b4868f2ca4370f196dff5ba57efc0970f341b498",
+    "cli/findAGraveMemorialExtractorImport/import.js": "5d3550b692b189a34a6546432c20e7af4eae7dfb15a4e91cf9a8fcf82257f886",
+    "cli/findAGraveMemorialExtractorImport/import.ts": "76b3e34b13fb92fb497311ec119e94764e16def6500231997c5b7fcea3a093ff",
+    "temp/legacyImportFromCsv/data.burialSiteTypes.js": "eeaf9bd63571735d6913f9f46a339c9e6d8fb24895442e00a1c343186b0a76cb",
+    "temp/legacyImportFromCsv/data.burialSiteTypes.ts": "30c8ec2aaaa2308cbe43c08eef2c986457cae75bd7a150c6822a9290acbba4c0",
+    "temp/legacyImportFromCsv/data.cemeteries.js": "878990af8a832f67f97868319d3775c76b5a37733310d66aea9bbada87f7d66c",
+    "temp/legacyImportFromCsv/data.cemeteries.ts": "7e1cac1b78c6b6f4d0b16ebd8b56f1d44782d94e696c6bfb48a8a553347f52ce",
+    "temp/legacyImportFromCsv/data.committalTypes.js": "cf0b30bd743a3ea7eca47615b387ef34982618c1bd7c903734ab595273dd89cc",
+    "temp/legacyImportFromCsv/data.committalTypes.ts": "748650cec4a18898050b06bb5afc6f8fb39eff31a325c0b26e0713a016877cab",
+    "temp/legacyImportFromCsv/data.contractPrints.js": "40b85553b071259075c7833a09420c6e32a2ae441ead361ca5bef385d9fd2910",
+    "temp/legacyImportFromCsv/data.contractPrints.ts": "95e3d04047034a6cadbb34f952805fe61ceb014b3eb92cfd24840b49a8079a40",
+    "temp/legacyImportFromCsv/data.deathAgePeriods.js": "dc3f1e001b8158f8c32c4be100d9cb8c8e06b30f482b7bd053d5e09c63cb338f",
+    "temp/legacyImportFromCsv/data.deathAgePeriods.ts": "9d258882f6575751bb7482034f4b28c87a8b1fd0eba29bedcf5e80327280bc34",
+    "temp/legacyImportFromCsv/data.fees.js": "6e3c14ae14ae19d365bb612ceaec2485b079ac49cb67863124426d5b546d4636",
+    "temp/legacyImportFromCsv/data.fees.ts": "b820dcc08cfa429f164254e3c62a672de5de400c8b6dbdcc1f1ab3838a1e1dde",
+    "temp/legacyImportFromCsv/data.funeralHomes.js": "53dd93f0da4acc68886e09f43637691021d626cbeffd97eef584ebd74ddbad61",
+    "temp/legacyImportFromCsv/data.funeralHomes.ts": "c8490d7ce00fdd98433b7e755f1453e8f4f26137aa6639e808f6fd57a0a51d21",
+    "temp/legacyImportFromCsv/data.ids.js": "fdc1f73f2e10a08ecc74766fc9e3575bc996664358095db17bae17aeacdced06",
+    "temp/legacyImportFromCsv/data.ids.ts": "1e646fee3ce4cceb05d3935f52bb2267ba99ecc17945f113392da3382e178819",
+    "temp/legacyImportFromCsv/data.intermentContainerTypes.js": "ce37353319a378c034784826b5d5dfd9d18da75287203fff474a63ca2c834641",
+    "temp/legacyImportFromCsv/data.intermentContainerTypes.ts": "1e0c0c3502565e84a9cde6dc248334687b51f29781988f20740b8c388bce505f",
+    "temp/legacyImportFromCsv/data.intermentDepths.js": "166cbdaac10129b0592a98033ae5397389b6e81d8ca4edd50dffacb46bff9286",
+    "temp/legacyImportFromCsv/data.intermentDepths.ts": "58f65018a4b58c12beca8c8228fae81237919a8403b638c61aa1b5d06e161900",
+    "temp/legacyImportFromCsv/import.master.js": "54758b36874a05f51479d7a60e15880cb5c59e3ff0ebe8ac4b20f4f26d7cc639",
+    "temp/legacyImportFromCsv/import.master.ts": "d9e9a7be4e51d0f9197cd772a404a9badfbbbb8b9ab3d98686c363f5fe4c4ffc",
+    "temp/legacyImportFromCsv/import.prepaid.js": "92a26123a903e1122f2eb9f44400829888d097918add6fcc5460ffd19da5606b",
+    "temp/legacyImportFromCsv/import.prepaid.ts": "3a694d4ef17d2b531e88fe6e28a1c1779ab074dc5739a5b0a1d64277733ccb22",
+    "temp/legacyImportFromCsv/import.workOrder.js": "c05dce78a2e92c77329c1e40128e9ae4073f41a538d810942b6a9e4c6ed871a4",
+    "temp/legacyImportFromCsv/import.workOrder.ts": "699f25d7d703f6afd5f7c45d1fa156963f0c8d9fe91fd51eaee8a669d97caf57",
+    "temp/legacyImportFromCsv/index.js": "334d06378ea337e843a04c0f29927691acf9eaa5f7b9cad3d9c8917897dc7b8a",
+    "temp/legacyImportFromCsv/index.ts": "ac9e5206ad496c2d7262e538b770a373f3f15d9029dce3ba2a764ffacffe751a",
+    "temp/legacyImportFromCsv/recordTypes.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "temp/legacyImportFromCsv/recordTypes.ts": "df23b77c466175288b9fa25b9a8e4615d9b21f68105d112c54dec6eccbb97cb6",
+    "temp/legacyImportFromCsv/utilities.js": "96185a7eb9510d0b07113dc33dc2c2caab908d1cd23d0884eb33d442a7a7db78",
+    "temp/legacyImportFromCsv/utilities.ts": "4cee4bc1ac5893eefc2f5b368e363004a0b8da8f3440cd513243f6a270967989",
+    "database/initializeDatabase.js": "835ca5bc8d85ce5781a3404057590473149023f6a6ac908f688e10bb1b69b4a0",
+    "database/getCommittalTypes.js": "da64bd4825bfd98b8ee0a5ac39a029b921f8e9a2e43397320a98455141a94bf5",
+    "database/getIntermentContainerTypes.js": "959ddcac20189a49b377504099e60e33b273f1e16c015b6891d5ae1f0886ff48",
+    "database/getIntermentDepths.js": "e0a4163b0c4cec4505be5032a64e2d99c369fa0889b2165ce4341c574421931b",
+    "database/getContractTypes.js": "d2a69db8a65cc86b60ee454915d9d3d7c1aace52fa9cd5c63da9b5357d5d2fe2",
+    "database/updateRecordOrderNumber.js": "78c9eb86b4ea497226391b8def39a62faf17eecf2cf7e109c0bf0fa1d7a41d82",
+    "database/addFee.js": "a8c109f49e2cb027f481968a7412f972cac2e04643e4263cc8e65a82f26697ac",
+    "helpers/cache/contractTypes.cache.js": "b67dca26aff503710e7c6700e5e9d41b2cf63d4295d5b87b370d51416ce6456b",
+    "package-lock.json": "a5871b5d28f0b1ab4e05b34ca27c4293c901d4196c05212dd09bbba7fb1729c2"
+  },
+  "packages": [
+    {
+      "name": "meow",
+      "version": "14.1.0",
+      "integrity": "sha512-EDYo6VlmtnumlcBCbh1gLJ//9jvM/ndXHfVXIFrZVr6fGcwTUyCTFNTLCKuY3ffbK8L/+3Mzqnd58RojiZqHVw=="
+    }
+  ],
+  "cliParser": [
+    {
+      "input": [
+        "123",
+        "./graveMemorials.csv"
+      ],
+      "result": {
+        "input": [
+          "123",
+          "./graveMemorials.csv"
+        ],
+        "flags": {
+          "showDebug": false
+        },
+        "debugEnabled": false,
+        "testDatabases": "true",
+        "call": [
+          "123",
+          "./graveMemorials.csv"
+        ]
+      }
+    },
+    {
+      "input": [
+        "123",
+        "./graveMemorials.csv",
+        "--showDebug"
+      ],
+      "result": {
+        "input": [
+          "123",
+          "./graveMemorials.csv"
+        ],
+        "flags": {
+          "showDebug": true
+        },
+        "debugEnabled": true,
+        "testDatabases": "true",
+        "call": [
+          "123",
+          "./graveMemorials.csv"
+        ]
+      }
+    },
+    {
+      "input": [
+        "--showDebug",
+        "123",
+        "./graveMemorials.csv"
+      ],
+      "result": {
+        "input": [
+          "123",
+          "./graveMemorials.csv"
+        ],
+        "flags": {
+          "showDebug": true
+        },
+        "debugEnabled": true,
+        "testDatabases": "true",
+        "call": [
+          "123",
+          "./graveMemorials.csv"
+        ]
+      }
+    },
+    {
+      "input": [],
+      "help": true,
+      "exitCode": 2,
+      "text": "\n\n  Updates Sunrise CMS at-need contracts with Find a Grave memorial data from an exported CSV file,\n  generated by the Find a Grave Memorial Extractor browser extension.\n  Updates are made in the testing database.\n\n  Usage\n    $ npm exec findAGraveMemorialExtractorImport -- <cemeteryId> <pathToCsvFile>\n\n  Options\n    --showDebug  Show debug output\n\n  Examples\n    $ npm exec findAGraveMemorialExtractorImport -- 123 ./graveMemorials.csv\n\n"
+    },
+    {
+      "input": [
+        "123"
+      ],
+      "help": true,
+      "exitCode": 2,
+      "text": "\n\n  Updates Sunrise CMS at-need contracts with Find a Grave memorial data from an exported CSV file,\n  generated by the Find a Grave Memorial Extractor browser extension.\n  Updates are made in the testing database.\n\n  Usage\n    $ npm exec findAGraveMemorialExtractorImport -- <cemeteryId> <pathToCsvFile>\n\n  Options\n    --showDebug  Show debug output\n\n  Examples\n    $ npm exec findAGraveMemorialExtractorImport -- 123 ./graveMemorials.csv\n\n"
+    },
+    {
+      "input": [
+        "1",
+        "2",
+        "3"
+      ],
+      "help": true,
+      "exitCode": 2,
+      "text": "\n\n  Updates Sunrise CMS at-need contracts with Find a Grave memorial data from an exported CSV file,\n  generated by the Find a Grave Memorial Extractor browser extension.\n  Updates are made in the testing database.\n\n  Usage\n    $ npm exec findAGraveMemorialExtractorImport -- <cemeteryId> <pathToCsvFile>\n\n  Options\n    --showDebug  Show debug output\n\n  Examples\n    $ npm exec findAGraveMemorialExtractorImport -- 123 ./graveMemorials.csv\n\n"
+    },
+    {
+      "input": [
+        "--help"
+      ],
+      "help": true,
+      "exitCode": 0,
+      "text": "\n\n  Updates Sunrise CMS at-need contracts with Find a Grave memorial data from an exported CSV file,\n  generated by the Find a Grave Memorial Extractor browser extension.\n  Updates are made in the testing database.\n\n  Usage\n    $ npm exec findAGraveMemorialExtractorImport -- <cemeteryId> <pathToCsvFile>\n\n  Options\n    --showDebug  Show debug output\n\n  Examples\n    $ npm exec findAGraveMemorialExtractorImport -- 123 ./graveMemorials.csv\n\n"
+    }
+  ],
+  "lookupCases": [
+    {
+      "table": "CommittalTypes",
+      "nameKey": "committalType",
+      "idKey": "committalTypeId",
+      "rows": [
+        {
+          "committalTypeId": 1,
+          "committalType": "Z duplicate first id",
+          "committalTypeKey": "DUP",
+          "orderNumber": 9
+        },
+        {
+          "committalTypeId": 2,
+          "committalType": "A duplicate selected",
+          "committalTypeKey": "DUP",
+          "orderNumber": 1
+        },
+        {
+          "committalTypeId": 3,
+          "committalType": "Exact lowercase key",
+          "committalTypeKey": "dup",
+          "orderNumber": 0
+        },
+        {
+          "committalTypeId": 4,
+          "committalType": "Exact trailing space",
+          "committalTypeKey": "DUP ",
+          "orderNumber": 0
+        }
+      ],
+      "queries": [
+        {
+          "key": "DUP",
+          "expectedId": 2
+        },
+        {
+          "key": "dup",
+          "expectedId": 3
+        },
+        {
+          "key": "DUP ",
+          "expectedId": 4
+        }
+      ]
+    },
+    {
+      "table": "IntermentContainerTypes",
+      "nameKey": "intermentContainerType",
+      "idKey": "intermentContainerTypeId",
+      "rows": [
+        {
+          "intermentContainerTypeId": 1,
+          "intermentContainerType": "Z duplicate first id",
+          "intermentContainerTypeKey": "DUP",
+          "orderNumber": 9,
+          "isCremationType": 1
+        },
+        {
+          "intermentContainerTypeId": 2,
+          "intermentContainerType": "A duplicate selected",
+          "intermentContainerTypeKey": "DUP",
+          "orderNumber": 1,
+          "isCremationType": 0
+        },
+        {
+          "intermentContainerTypeId": 3,
+          "intermentContainerType": "Exact lowercase key",
+          "intermentContainerTypeKey": "dup",
+          "orderNumber": 0
+        },
+        {
+          "intermentContainerTypeId": 4,
+          "intermentContainerType": "Exact trailing space",
+          "intermentContainerTypeKey": "DUP ",
+          "orderNumber": 0
+        }
+      ],
+      "queries": [
+        {
+          "key": "DUP",
+          "expectedId": 2
+        },
+        {
+          "key": "dup",
+          "expectedId": 3
+        },
+        {
+          "key": "DUP ",
+          "expectedId": 4
+        }
+      ]
+    },
+    {
+      "table": "IntermentDepths",
+      "nameKey": "intermentDepth",
+      "idKey": "intermentDepthId",
+      "rows": [
+        {
+          "intermentDepthId": 1,
+          "intermentDepth": "Z duplicate first id",
+          "intermentDepthKey": "DUP",
+          "orderNumber": 9
+        },
+        {
+          "intermentDepthId": 2,
+          "intermentDepth": "A duplicate selected",
+          "intermentDepthKey": "DUP",
+          "orderNumber": 1
+        },
+        {
+          "intermentDepthId": 3,
+          "intermentDepth": "Exact lowercase key",
+          "intermentDepthKey": "dup",
+          "orderNumber": 0
+        },
+        {
+          "intermentDepthId": 4,
+          "intermentDepth": "Exact trailing space",
+          "intermentDepthKey": "DUP ",
+          "orderNumber": 0
+        }
+      ],
+      "queries": [
+        {
+          "key": "DUP",
+          "expectedId": 2
+        },
+        {
+          "key": "dup",
+          "expectedId": 3
+        },
+        {
+          "key": "DUP ",
+          "expectedId": 4
+        }
+      ]
+    }
+  ],
+  "nameLookup": {
+    "table": "ContractTypes",
+    "nameKey": "contractType",
+    "idKey": "contractTypeId",
+    "rows": [
+      {
+        "contractTypeId": 1,
+        "contractType": "duplicate-case",
+        "orderNumber": 2
+      },
+      {
+        "contractTypeId": 2,
+        "contractType": "DUPLICATE-CASE",
+        "orderNumber": 2
+      }
+    ],
+    "name": "DuPlIcAtE-CaSe",
+    "expectedId": 2
+  },
+  "feeLookup": {
+    "rows": [
+      {
+        "feeId": 1,
+        "feeCategoryId": 10,
+        "feeName": "first",
+        "feeDescription": "CMPP_FEE_DUP"
+      },
+      {
+        "feeId": 2,
+        "feeCategoryId": 20,
+        "feeName": "last",
+        "feeDescription": "CMPP_FEE_DUP"
+      }
+    ],
+    "expectedId": 2,
+    "createdForm": {
+      "feeName": "NEW",
+      "feeAccount": "",
+      "feeCategoryId": 10,
+      "feeDescription": "CMPP_FEE_NEW",
+      "burialSiteTypeId": "",
+      "contractTypeId": ""
+    },
+    "missingCategoryError": "FOREIGN KEY constraint failed"
+  },
+  "utilities": {
+    "dates": [
+      {
+        "input": [
+          "3014",
+          "2",
+          "3"
+        ],
+        "expected": "2014-02-03"
+      },
+      {
+        "input": [
+          "2202",
+          "0",
+          "0"
+        ],
+        "expected": "2022-00-00"
+      },
+      {
+        "input": [
+          "",
+          "",
+          ""
+        ],
+        "expected": "0000-00-00"
+      },
+      {
+        "input": [
+          "12345",
+          "123",
+          "123"
+        ],
+        "expected": "2345-23-23"
+      }
+    ],
+    "times": [
+      {
+        "input": [
+          "",
+          ""
+        ],
+        "expected": "00:00"
+      },
+      {
+        "input": [
+          "123",
+          "456"
+        ],
+        "expected": "23:56"
+      },
+      {
+        "input": [
+          "2",
+          "5"
+        ],
+        "expected": "02:05"
+      }
+    ],
+    "contractNumbers": [
+      {
+        "input": "",
+        "expected": null
+      },
+      {
+        "input": " 42 ",
+        "expected": "UNIX-42"
+      },
+      {
+        "input": "  ",
+        "expected": null
+      }
+    ],
+    "periods": [
+      {
+        "input": "DYS",
+        "expected": "Days"
+      },
+      {
+        "input": "mts",
+        "expected": "Months"
+      },
+      {
+        "input": "yrs",
+        "expected": "Years"
+      },
+      {
+        "input": "unknown",
+        "expected": "unknown"
+      }
+    ],
+    "types": [
+      {
+        "input": "",
+        "expected": 303
+      },
+      {
+        "input": "00",
+        "expected": 303
+      },
+      {
+        "input": "GC",
+        "expected": 302
+      },
+      {
+        "input": "HC",
+        "expected": 302
+      },
+      {
+        "input": "MA",
+        "expected": 304
+      },
+      {
+        "input": "MN",
+        "expected": 305
+      },
+      {
+        "input": "NW",
+        "expected": 305
+      },
+      {
+        "input": "UG",
+        "expected": 306
+      },
+      {
+        "input": "TEST",
+        "expected": 301
+      },
+      {
+        "input": "R",
+        "expected": 301
+      }
+    ]
+  },
+  "findagrave": [
+    {
+      "testing": false,
+      "cemetery": true,
+      "error": "This script should only be run against the testing database."
+    },
+    {
+      "testing": true,
+      "cemetery": false,
+      "error": "Cemetery with ID 1 not found."
+    },
+    {
+      "testing": true,
+      "cemetery": true,
+      "error": null
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "master-both-contracts",
+      "kind": "master",
+      "rows": [
+        {
+          "CM_SYSREC": "",
+          "CM_CEMETERY": "TEST",
+          "CM_BLOCK": "A",
+          "CM_RANGE1": "0",
+          "CM_RANGE2": "2",
+          "CM_LOT1": "3",
+          "CM_LOT2": "0",
+          "CM_GRAVE1": "0",
+          "CM_GRAVE2": "0",
+          "CM_INTERMENT": "",
+          "CM_PRENEED_OWNER": "Synthetic Owner",
+          "CM_PRENEED_OWNER_SEQ": "",
+          "CM_DECEASED_NAME": "Synthetic Person",
+          "CM_DECEASED_NAME_SEQ": "",
+          "CM_ADDRESS": "1 Example St",
+          "CM_CITY": "Test City",
+          "CM_PROV": "ON",
+          "CM_POST1": "A1A",
+          "CM_POST2": "1A1",
+          "CM_PRENEED_ORDER": "",
+          "CM_PURCHASE_YR": "2020",
+          "CM_PURCHASE_MON": "2",
+          "CM_PURCHASE_DAY": "3",
+          "CM_NO_GRAVES": "",
+          "CM_DEATH_YR": "2025",
+          "CM_DEATH_MON": "4",
+          "CM_DEATH_DAY": "5",
+          "CM_WORK_ORDER": " 42 ",
+          "CM_INTERMENT_YR": "2025",
+          "CM_INTERMENT_MON": "4",
+          "CM_INTERMENT_DAY": "7",
+          "CM_AGE": "75",
+          "CM_CONTAINER_TYPE": "Y",
+          "CM_COMMITTAL_TYPE": "X",
+          "CM_CREMATION": "",
+          "CM_FUNERAL_HOME": "SYN",
+          "CM_FUNERAL_YR": "2025",
+          "CM_FUNERAL_MON": "4",
+          "CM_FUNERAL_DAY": "6",
+          "CM_RESIDENT_TYPE": "",
+          "CM_REMARK1": "first, quoted",
+          "CM_REMARK2": "second\nline",
+          "CM_STATUS": "",
+          "CM_PERIOD": "YRS",
+          "CM_LAST_CHG_DATE": "",
+          "CM_DEPTH": "Z"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "burialSiteStatusId": 101,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractEndDateString": "2025-04-07",
+            "contractStartDateString": "2020-02-03",
+            "contractTypeFieldIds": "",
+            "contractTypeId": 201,
+            "funeralDirectorName": "",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "first, quoted",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "second\nline",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "Imported Contract # 42 ",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeId": 202,
+            "contractTypeFieldIds": "",
+            "committalTypeId": "CommittalTypes:X",
+            "funeralDateString": "2025-04-06",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON",
+            "birthYear": "",
+            "birthMonth": "",
+            "birthDay": "",
+            "birthPlace": "",
+            "deathAge": "75",
+            "deathAgePeriod": "Years",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addRelatedContract",
+          "form": {
+            "contractId": 1,
+            "relatedContractId": 2
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 2,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "first, quoted",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "second\nline",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "Imported Work Order # 42 ",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "updateBurialSiteStatus",
+          "form": {
+            "identifier": 1,
+            "status": 103
+          }
+        }
+      ]
+    },
+    {
+      "name": "master-preneed-reserved",
+      "kind": "master",
+      "rows": [
+        {
+          "CM_SYSREC": "",
+          "CM_CEMETERY": "TEST",
+          "CM_BLOCK": "A",
+          "CM_RANGE1": "0",
+          "CM_RANGE2": "2",
+          "CM_LOT1": "3",
+          "CM_LOT2": "0",
+          "CM_GRAVE1": "0",
+          "CM_GRAVE2": "0",
+          "CM_INTERMENT": "",
+          "CM_PRENEED_OWNER": "Synthetic Owner",
+          "CM_PRENEED_OWNER_SEQ": "",
+          "CM_DECEASED_NAME": "",
+          "CM_DECEASED_NAME_SEQ": "",
+          "CM_ADDRESS": "1 Example St",
+          "CM_CITY": "Test City",
+          "CM_PROV": "ON",
+          "CM_POST1": "A1A",
+          "CM_POST2": "1A1",
+          "CM_PRENEED_ORDER": "",
+          "CM_PURCHASE_YR": "2020",
+          "CM_PURCHASE_MON": "2",
+          "CM_PURCHASE_DAY": "3",
+          "CM_NO_GRAVES": "",
+          "CM_DEATH_YR": "2025",
+          "CM_DEATH_MON": "4",
+          "CM_DEATH_DAY": "5",
+          "CM_WORK_ORDER": "",
+          "CM_INTERMENT_YR": "",
+          "CM_INTERMENT_MON": "4",
+          "CM_INTERMENT_DAY": "7",
+          "CM_AGE": "75",
+          "CM_CONTAINER_TYPE": "Y",
+          "CM_COMMITTAL_TYPE": "X",
+          "CM_CREMATION": "",
+          "CM_FUNERAL_HOME": "SYN",
+          "CM_FUNERAL_YR": "2025",
+          "CM_FUNERAL_MON": "4",
+          "CM_FUNERAL_DAY": "6",
+          "CM_RESIDENT_TYPE": "",
+          "CM_REMARK1": "first, quoted",
+          "CM_REMARK2": "second\nline",
+          "CM_STATUS": "",
+          "CM_PERIOD": "YRS",
+          "CM_LAST_CHG_DATE": "",
+          "CM_DEPTH": "Z"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "burialSiteStatusId": 101,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "burialSiteId": 1,
+            "contractEndDateString": "",
+            "contractStartDateString": "2020-02-03",
+            "contractTypeFieldIds": "",
+            "contractTypeId": 201,
+            "funeralDirectorName": "",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "Self",
+            "deceasedName": "Synthetic Owner",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "first, quoted",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "second\nline",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "updateBurialSiteStatus",
+          "form": {
+            "identifier": 1,
+            "status": 102
+          }
+        }
+      ]
+    },
+    {
+      "name": "master-only-deceased",
+      "kind": "master",
+      "rows": [
+        {
+          "CM_SYSREC": "",
+          "CM_CEMETERY": "TEST",
+          "CM_BLOCK": "A",
+          "CM_RANGE1": "0",
+          "CM_RANGE2": "2",
+          "CM_LOT1": "3",
+          "CM_LOT2": "0",
+          "CM_GRAVE1": "0",
+          "CM_GRAVE2": "0",
+          "CM_INTERMENT": "",
+          "CM_PRENEED_OWNER": "",
+          "CM_PRENEED_OWNER_SEQ": "",
+          "CM_DECEASED_NAME": "Synthetic Person",
+          "CM_DECEASED_NAME_SEQ": "",
+          "CM_ADDRESS": "1 Example St",
+          "CM_CITY": "Test City",
+          "CM_PROV": "ON",
+          "CM_POST1": "A1A",
+          "CM_POST2": "1A1",
+          "CM_PRENEED_ORDER": "",
+          "CM_PURCHASE_YR": "2020",
+          "CM_PURCHASE_MON": "2",
+          "CM_PURCHASE_DAY": "3",
+          "CM_NO_GRAVES": "",
+          "CM_DEATH_YR": "2025",
+          "CM_DEATH_MON": "4",
+          "CM_DEATH_DAY": "5",
+          "CM_WORK_ORDER": " 42 ",
+          "CM_INTERMENT_YR": "2025",
+          "CM_INTERMENT_MON": "4",
+          "CM_INTERMENT_DAY": "7",
+          "CM_AGE": "75",
+          "CM_CONTAINER_TYPE": "Y",
+          "CM_COMMITTAL_TYPE": "X",
+          "CM_CREMATION": "",
+          "CM_FUNERAL_HOME": "SYN",
+          "CM_FUNERAL_YR": "2025",
+          "CM_FUNERAL_MON": "4",
+          "CM_FUNERAL_DAY": "6",
+          "CM_RESIDENT_TYPE": "",
+          "CM_REMARK1": "first, quoted",
+          "CM_REMARK2": "second\nline",
+          "CM_STATUS": "",
+          "CM_PERIOD": "YRS",
+          "CM_LAST_CHG_DATE": "",
+          "CM_DEPTH": "Z"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "burialSiteStatusId": 101,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeId": 202,
+            "contractTypeFieldIds": "",
+            "committalTypeId": "CommittalTypes:X",
+            "funeralDateString": "2025-04-06",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "purchaserName": "Synthetic Person",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "Self",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON",
+            "birthYear": "",
+            "birthMonth": "",
+            "birthDay": "",
+            "birthPlace": "",
+            "deathAge": "75",
+            "deathAgePeriod": "Years",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "first, quoted",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "second\nline",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "Imported Work Order # 42 ",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "updateBurialSiteStatus",
+          "form": {
+            "identifier": 1,
+            "status": 103
+          }
+        }
+      ]
+    },
+    {
+      "name": "master-zero-dates",
+      "kind": "master",
+      "rows": [
+        {
+          "CM_SYSREC": "",
+          "CM_CEMETERY": "TEST",
+          "CM_BLOCK": "A",
+          "CM_RANGE1": "0",
+          "CM_RANGE2": "2",
+          "CM_LOT1": "3",
+          "CM_LOT2": "0",
+          "CM_GRAVE1": "0",
+          "CM_GRAVE2": "0",
+          "CM_INTERMENT": "",
+          "CM_PRENEED_OWNER": "Synthetic Owner",
+          "CM_PRENEED_OWNER_SEQ": "",
+          "CM_DECEASED_NAME": "Synthetic Person",
+          "CM_DECEASED_NAME_SEQ": "",
+          "CM_ADDRESS": "1 Example St",
+          "CM_CITY": "Test City",
+          "CM_PROV": "ON",
+          "CM_POST1": "A1A",
+          "CM_POST2": "1A1",
+          "CM_PRENEED_ORDER": "",
+          "CM_PURCHASE_YR": "0",
+          "CM_PURCHASE_MON": "0",
+          "CM_PURCHASE_DAY": "0",
+          "CM_NO_GRAVES": "",
+          "CM_DEATH_YR": "0",
+          "CM_DEATH_MON": "0",
+          "CM_DEATH_DAY": "0",
+          "CM_WORK_ORDER": " 42 ",
+          "CM_INTERMENT_YR": "0",
+          "CM_INTERMENT_MON": "0",
+          "CM_INTERMENT_DAY": "0",
+          "CM_AGE": "75",
+          "CM_CONTAINER_TYPE": "Y",
+          "CM_COMMITTAL_TYPE": "X",
+          "CM_CREMATION": "",
+          "CM_FUNERAL_HOME": "SYN",
+          "CM_FUNERAL_YR": "2025",
+          "CM_FUNERAL_MON": "4",
+          "CM_FUNERAL_DAY": "6",
+          "CM_RESIDENT_TYPE": "",
+          "CM_REMARK1": "first, quoted",
+          "CM_REMARK2": "second\nline",
+          "CM_STATUS": "",
+          "CM_PERIOD": "YRS",
+          "CM_LAST_CHG_DATE": "",
+          "CM_DEPTH": "Z"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "burialSiteStatusId": 101,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractEndDateString": "",
+            "contractStartDateString": "0001-01-01",
+            "contractTypeFieldIds": "",
+            "contractTypeId": 201,
+            "funeralDirectorName": "",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "first, quoted",
+            "commentDateString": "0001-01-01",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "second\nline",
+            "commentDateString": "0001-01-01",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "Imported Contract # 42 ",
+            "commentDateString": "0001-01-01",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "updateBurialSiteStatus",
+          "form": {
+            "identifier": 1,
+            "status": 102
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractEndDateString": "",
+            "contractStartDateString": "0001-01-01",
+            "contractTypeId": 202,
+            "contractTypeFieldIds": "",
+            "committalTypeId": "CommittalTypes:X",
+            "funeralDateString": "2025-04-06",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON",
+            "birthYear": "",
+            "birthMonth": "",
+            "birthDay": "",
+            "birthPlace": "",
+            "deathAge": "75",
+            "deathAgePeriod": "Years",
+            "deathYear": "",
+            "deathMonth": "0",
+            "deathDay": "0",
+            "deathPlace": "",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addRelatedContract",
+          "form": {
+            "contractId": 1,
+            "relatedContractId": 2
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 2,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "first, quoted",
+            "commentDateString": "0001-01-01",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "second\nline",
+            "commentDateString": "0001-01-01",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "Imported Work Order # 42 ",
+            "commentDateString": "0001-01-01",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "updateBurialSiteStatus",
+          "form": {
+            "identifier": 1,
+            "status": 103
+          }
+        }
+      ]
+    },
+    {
+      "name": "master-purchase-from-interment",
+      "kind": "master",
+      "rows": [
+        {
+          "CM_SYSREC": "",
+          "CM_CEMETERY": "TEST",
+          "CM_BLOCK": "A",
+          "CM_RANGE1": "0",
+          "CM_RANGE2": "2",
+          "CM_LOT1": "3",
+          "CM_LOT2": "0",
+          "CM_GRAVE1": "0",
+          "CM_GRAVE2": "0",
+          "CM_INTERMENT": "",
+          "CM_PRENEED_OWNER": "Synthetic Owner",
+          "CM_PRENEED_OWNER_SEQ": "",
+          "CM_DECEASED_NAME": "Synthetic Person",
+          "CM_DECEASED_NAME_SEQ": "",
+          "CM_ADDRESS": "1 Example St",
+          "CM_CITY": "Test City",
+          "CM_PROV": "ON",
+          "CM_POST1": "A1A",
+          "CM_POST2": "1A1",
+          "CM_PRENEED_ORDER": "",
+          "CM_PURCHASE_YR": "0",
+          "CM_PURCHASE_MON": "0",
+          "CM_PURCHASE_DAY": "0",
+          "CM_NO_GRAVES": "",
+          "CM_DEATH_YR": "2025",
+          "CM_DEATH_MON": "4",
+          "CM_DEATH_DAY": "5",
+          "CM_WORK_ORDER": " 42 ",
+          "CM_INTERMENT_YR": "2025",
+          "CM_INTERMENT_MON": "4",
+          "CM_INTERMENT_DAY": "7",
+          "CM_AGE": "75",
+          "CM_CONTAINER_TYPE": "Y",
+          "CM_COMMITTAL_TYPE": "X",
+          "CM_CREMATION": "",
+          "CM_FUNERAL_HOME": "SYN",
+          "CM_FUNERAL_YR": "2025",
+          "CM_FUNERAL_MON": "4",
+          "CM_FUNERAL_DAY": "6",
+          "CM_RESIDENT_TYPE": "",
+          "CM_REMARK1": "first, quoted",
+          "CM_REMARK2": "second\nline",
+          "CM_STATUS": "",
+          "CM_PERIOD": "YRS",
+          "CM_LAST_CHG_DATE": "",
+          "CM_DEPTH": "Z"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "burialSiteStatusId": 101,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractEndDateString": "2025-04-07",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeFieldIds": "",
+            "contractTypeId": 201,
+            "funeralDirectorName": "",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "first, quoted",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "second\nline",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "Imported Contract # 42 ",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeId": 202,
+            "contractTypeFieldIds": "",
+            "committalTypeId": "CommittalTypes:X",
+            "funeralDateString": "2025-04-06",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON",
+            "birthYear": "",
+            "birthMonth": "",
+            "birthDay": "",
+            "birthPlace": "",
+            "deathAge": "75",
+            "deathAgePeriod": "Years",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addRelatedContract",
+          "form": {
+            "contractId": 1,
+            "relatedContractId": 2
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 2,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "first, quoted",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "second\nline",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "Imported Work Order # 42 ",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "updateBurialSiteStatus",
+          "form": {
+            "identifier": 1,
+            "status": 103
+          }
+        }
+      ]
+    },
+    {
+      "name": "master-purchase-from-death",
+      "kind": "master",
+      "rows": [
+        {
+          "CM_SYSREC": "",
+          "CM_CEMETERY": "TEST",
+          "CM_BLOCK": "A",
+          "CM_RANGE1": "0",
+          "CM_RANGE2": "2",
+          "CM_LOT1": "3",
+          "CM_LOT2": "0",
+          "CM_GRAVE1": "0",
+          "CM_GRAVE2": "0",
+          "CM_INTERMENT": "",
+          "CM_PRENEED_OWNER": "Synthetic Owner",
+          "CM_PRENEED_OWNER_SEQ": "",
+          "CM_DECEASED_NAME": "Synthetic Person",
+          "CM_DECEASED_NAME_SEQ": "",
+          "CM_ADDRESS": "1 Example St",
+          "CM_CITY": "Test City",
+          "CM_PROV": "ON",
+          "CM_POST1": "A1A",
+          "CM_POST2": "1A1",
+          "CM_PRENEED_ORDER": "",
+          "CM_PURCHASE_YR": "0",
+          "CM_PURCHASE_MON": "0",
+          "CM_PURCHASE_DAY": "0",
+          "CM_NO_GRAVES": "",
+          "CM_DEATH_YR": "2025",
+          "CM_DEATH_MON": "4",
+          "CM_DEATH_DAY": "5",
+          "CM_WORK_ORDER": " 42 ",
+          "CM_INTERMENT_YR": "",
+          "CM_INTERMENT_MON": "",
+          "CM_INTERMENT_DAY": "",
+          "CM_AGE": "75",
+          "CM_CONTAINER_TYPE": "Y",
+          "CM_COMMITTAL_TYPE": "X",
+          "CM_CREMATION": "",
+          "CM_FUNERAL_HOME": "SYN",
+          "CM_FUNERAL_YR": "2025",
+          "CM_FUNERAL_MON": "4",
+          "CM_FUNERAL_DAY": "6",
+          "CM_RESIDENT_TYPE": "",
+          "CM_REMARK1": "first, quoted",
+          "CM_REMARK2": "second\nline",
+          "CM_STATUS": "",
+          "CM_PERIOD": "YRS",
+          "CM_LAST_CHG_DATE": "",
+          "CM_DEPTH": "Z"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "burialSiteStatusId": 101,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractEndDateString": "2025-04-05",
+            "contractStartDateString": "2025-04-05",
+            "contractTypeFieldIds": "",
+            "contractTypeId": 201,
+            "funeralDirectorName": "",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "first, quoted",
+            "commentDateString": "2025-04-05",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "second\nline",
+            "commentDateString": "2025-04-05",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "Imported Contract # 42 ",
+            "commentDateString": "2025-04-05",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-05",
+            "contractTypeId": 202,
+            "contractTypeFieldIds": "",
+            "committalTypeId": "CommittalTypes:X",
+            "funeralDateString": "2025-04-06",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON",
+            "birthYear": "",
+            "birthMonth": "",
+            "birthDay": "",
+            "birthPlace": "",
+            "deathAge": "75",
+            "deathAgePeriod": "Years",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addRelatedContract",
+          "form": {
+            "contractId": 1,
+            "relatedContractId": 2
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 2,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "first, quoted",
+            "commentDateString": "2025-04-05",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "second\nline",
+            "commentDateString": "2025-04-05",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "Imported Work Order # 42 ",
+            "commentDateString": "2025-04-05",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "updateBurialSiteStatus",
+          "form": {
+            "identifier": 1,
+            "status": 103
+          }
+        }
+      ]
+    },
+    {
+      "name": "master-cremation-no-site",
+      "kind": "master",
+      "rows": [
+        {
+          "CM_SYSREC": "",
+          "CM_CEMETERY": "00",
+          "CM_BLOCK": "A",
+          "CM_RANGE1": "0",
+          "CM_RANGE2": "2",
+          "CM_LOT1": "3",
+          "CM_LOT2": "0",
+          "CM_GRAVE1": "0",
+          "CM_GRAVE2": "0",
+          "CM_INTERMENT": "",
+          "CM_PRENEED_OWNER": "Synthetic Owner",
+          "CM_PRENEED_OWNER_SEQ": "",
+          "CM_DECEASED_NAME": "Synthetic Person",
+          "CM_DECEASED_NAME_SEQ": "",
+          "CM_ADDRESS": "1 Example St",
+          "CM_CITY": "Test City",
+          "CM_PROV": "ON",
+          "CM_POST1": "A1A",
+          "CM_POST2": "1A1",
+          "CM_PRENEED_ORDER": "",
+          "CM_PURCHASE_YR": "2020",
+          "CM_PURCHASE_MON": "2",
+          "CM_PURCHASE_DAY": "3",
+          "CM_NO_GRAVES": "",
+          "CM_DEATH_YR": "2025",
+          "CM_DEATH_MON": "4",
+          "CM_DEATH_DAY": "5",
+          "CM_WORK_ORDER": " 42 ",
+          "CM_INTERMENT_YR": "2025",
+          "CM_INTERMENT_MON": "4",
+          "CM_INTERMENT_DAY": "7",
+          "CM_AGE": "75",
+          "CM_CONTAINER_TYPE": "",
+          "CM_COMMITTAL_TYPE": "X",
+          "CM_CREMATION": "Y",
+          "CM_FUNERAL_HOME": "SYN",
+          "CM_FUNERAL_YR": "2025",
+          "CM_FUNERAL_MON": "4",
+          "CM_FUNERAL_DAY": "6",
+          "CM_RESIDENT_TYPE": "",
+          "CM_REMARK1": "first, quoted",
+          "CM_REMARK2": "second\nline",
+          "CM_STATUS": "",
+          "CM_PERIOD": "YRS",
+          "CM_LAST_CHG_DATE": "",
+          "CM_DEPTH": "Z"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": "",
+            "contractEndDateString": "2025-04-07",
+            "contractStartDateString": "2020-02-03",
+            "contractTypeFieldIds": "",
+            "contractTypeId": 201,
+            "funeralDirectorName": "",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 402
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "first, quoted",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "second\nline",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "Imported Contract # 42 ",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": "",
+            "contractEndDateString": "2025-04-07",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeId": 202,
+            "contractTypeFieldIds": "",
+            "committalTypeId": "CommittalTypes:X",
+            "funeralDateString": "2025-04-06",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON",
+            "birthYear": "",
+            "birthMonth": "",
+            "birthDay": "",
+            "birthPlace": "",
+            "deathAge": "75",
+            "deathAgePeriod": "Years",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "",
+            "intermentContainerTypeId": "IntermentContainerTypes:U",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addRelatedContract",
+          "form": {
+            "contractId": 1,
+            "relatedContractId": 2
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 2,
+            "serviceTypeId": 402
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "first, quoted",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "second\nline",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "Imported Work Order # 42 ",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "updateBurialSiteStatus",
+          "form": {
+            "identifier": "",
+            "status": 103
+          }
+        }
+      ]
+    },
+    {
+      "name": "master-columbarium-existing-site",
+      "kind": "master",
+      "rows": [
+        {
+          "CM_SYSREC": "",
+          "CM_CEMETERY": "HC",
+          "CM_BLOCK": "A",
+          "CM_RANGE1": "0",
+          "CM_RANGE2": "2",
+          "CM_LOT1": "3",
+          "CM_LOT2": "0",
+          "CM_GRAVE1": "0",
+          "CM_GRAVE2": "0",
+          "CM_INTERMENT": "",
+          "CM_PRENEED_OWNER": "Synthetic Owner",
+          "CM_PRENEED_OWNER_SEQ": "",
+          "CM_DECEASED_NAME": "Synthetic Person",
+          "CM_DECEASED_NAME_SEQ": "",
+          "CM_ADDRESS": "1 Example St",
+          "CM_CITY": "Test City",
+          "CM_PROV": "ON",
+          "CM_POST1": "A1A",
+          "CM_POST2": "1A1",
+          "CM_PRENEED_ORDER": "",
+          "CM_PURCHASE_YR": "2020",
+          "CM_PURCHASE_MON": "2",
+          "CM_PURCHASE_DAY": "3",
+          "CM_NO_GRAVES": "",
+          "CM_DEATH_YR": "2025",
+          "CM_DEATH_MON": "4",
+          "CM_DEATH_DAY": "5",
+          "CM_WORK_ORDER": " 42 ",
+          "CM_INTERMENT_YR": "2025",
+          "CM_INTERMENT_MON": "4",
+          "CM_INTERMENT_DAY": "7",
+          "CM_AGE": "75",
+          "CM_CONTAINER_TYPE": "Y",
+          "CM_COMMITTAL_TYPE": "X",
+          "CM_CREMATION": "",
+          "CM_FUNERAL_HOME": "SYN",
+          "CM_FUNERAL_YR": "2025",
+          "CM_FUNERAL_MON": "4",
+          "CM_FUNERAL_DAY": "6",
+          "CM_RESIDENT_TYPE": "",
+          "CM_REMARK1": "first, quoted",
+          "CM_REMARK2": "second\nline",
+          "CM_STATUS": "",
+          "CM_PERIOD": "YRS",
+          "CM_LAST_CHG_DATE": "",
+          "CM_DEPTH": "Z"
+        }
+      ],
+      "state": {
+        "site": true
+      },
+      "operations": [
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractEndDateString": "2025-04-07",
+            "contractStartDateString": "2020-02-03",
+            "contractTypeFieldIds": "",
+            "contractTypeId": 201,
+            "funeralDirectorName": "",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 403
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "first, quoted",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "second\nline",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "Imported Contract # 42 ",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeId": 202,
+            "contractTypeFieldIds": "",
+            "committalTypeId": "CommittalTypes:X",
+            "funeralDateString": "2025-04-06",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON",
+            "birthYear": "",
+            "birthMonth": "",
+            "birthDay": "",
+            "birthPlace": "",
+            "deathAge": "75",
+            "deathAgePeriod": "Years",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addRelatedContract",
+          "form": {
+            "contractId": 1,
+            "relatedContractId": 2
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 2,
+            "serviceTypeId": 403
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "first, quoted",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "second\nline",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 2,
+            "comment": "Imported Work Order # 42 ",
+            "commentDateString": "2025-04-07",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "updateBurialSiteStatus",
+          "form": {
+            "identifier": 1,
+            "status": 103
+          }
+        }
+      ]
+    },
+    {
+      "name": "master-status-P-only",
+      "kind": "master",
+      "rows": [
+        {
+          "CM_SYSREC": "",
+          "CM_CEMETERY": "TEST",
+          "CM_BLOCK": "A",
+          "CM_RANGE1": "0",
+          "CM_RANGE2": "2",
+          "CM_LOT1": "3",
+          "CM_LOT2": "0",
+          "CM_GRAVE1": "0",
+          "CM_GRAVE2": "0",
+          "CM_INTERMENT": "",
+          "CM_PRENEED_OWNER": "",
+          "CM_PRENEED_OWNER_SEQ": "",
+          "CM_DECEASED_NAME": "",
+          "CM_DECEASED_NAME_SEQ": "",
+          "CM_ADDRESS": "1 Example St",
+          "CM_CITY": "Test City",
+          "CM_PROV": "ON",
+          "CM_POST1": "A1A",
+          "CM_POST2": "1A1",
+          "CM_PRENEED_ORDER": "",
+          "CM_PURCHASE_YR": "2020",
+          "CM_PURCHASE_MON": "2",
+          "CM_PURCHASE_DAY": "3",
+          "CM_NO_GRAVES": "",
+          "CM_DEATH_YR": "2025",
+          "CM_DEATH_MON": "4",
+          "CM_DEATH_DAY": "5",
+          "CM_WORK_ORDER": " 42 ",
+          "CM_INTERMENT_YR": "2025",
+          "CM_INTERMENT_MON": "4",
+          "CM_INTERMENT_DAY": "7",
+          "CM_AGE": "75",
+          "CM_CONTAINER_TYPE": "Y",
+          "CM_COMMITTAL_TYPE": "X",
+          "CM_CREMATION": "",
+          "CM_FUNERAL_HOME": "SYN",
+          "CM_FUNERAL_YR": "2025",
+          "CM_FUNERAL_MON": "4",
+          "CM_FUNERAL_DAY": "6",
+          "CM_RESIDENT_TYPE": "",
+          "CM_REMARK1": "first, quoted",
+          "CM_REMARK2": "second\nline",
+          "CM_STATUS": "P",
+          "CM_PERIOD": "YRS",
+          "CM_LAST_CHG_DATE": "",
+          "CM_DEPTH": "Z"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "burialSiteStatusId": 101,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractEndDateString": "2025-04-07",
+            "contractStartDateString": "2020-02-03",
+            "contractTypeFieldIds": "",
+            "contractTypeId": 201,
+            "funeralDirectorName": "",
+            "purchaserName": "",
+            "purchaserAddress1": "1 Example St",
+            "purchaserAddress2": "",
+            "purchaserCity": "Test City",
+            "purchaserPostalCode": "A1A 1A1",
+            "purchaserProvince": "ON",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "Self",
+            "deceasedName": "",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "Test City",
+            "deceasedPostalCode": "A1A 1A1",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "first, quoted",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "second\nline",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "Imported Contract # 42 ",
+            "commentDateString": "2020-02-03",
+            "commentTimeString": "00:00"
+          }
+        }
+      ]
+    },
+    {
+      "name": "master-no-contracts",
+      "kind": "master",
+      "rows": [
+        {
+          "CM_SYSREC": "",
+          "CM_CEMETERY": "TEST",
+          "CM_BLOCK": "A",
+          "CM_RANGE1": "0",
+          "CM_RANGE2": "2",
+          "CM_LOT1": "3",
+          "CM_LOT2": "0",
+          "CM_GRAVE1": "0",
+          "CM_GRAVE2": "0",
+          "CM_INTERMENT": "",
+          "CM_PRENEED_OWNER": "",
+          "CM_PRENEED_OWNER_SEQ": "",
+          "CM_DECEASED_NAME": "",
+          "CM_DECEASED_NAME_SEQ": "",
+          "CM_ADDRESS": "1 Example St",
+          "CM_CITY": "Test City",
+          "CM_PROV": "ON",
+          "CM_POST1": "A1A",
+          "CM_POST2": "1A1",
+          "CM_PRENEED_ORDER": "",
+          "CM_PURCHASE_YR": "2020",
+          "CM_PURCHASE_MON": "2",
+          "CM_PURCHASE_DAY": "3",
+          "CM_NO_GRAVES": "",
+          "CM_DEATH_YR": "2025",
+          "CM_DEATH_MON": "4",
+          "CM_DEATH_DAY": "5",
+          "CM_WORK_ORDER": " 42 ",
+          "CM_INTERMENT_YR": "2025",
+          "CM_INTERMENT_MON": "4",
+          "CM_INTERMENT_DAY": "7",
+          "CM_AGE": "75",
+          "CM_CONTAINER_TYPE": "Y",
+          "CM_COMMITTAL_TYPE": "X",
+          "CM_CREMATION": "",
+          "CM_FUNERAL_HOME": "SYN",
+          "CM_FUNERAL_YR": "2025",
+          "CM_FUNERAL_MON": "4",
+          "CM_FUNERAL_DAY": "6",
+          "CM_RESIDENT_TYPE": "",
+          "CM_REMARK1": "first, quoted",
+          "CM_REMARK2": "second\nline",
+          "CM_STATUS": "",
+          "CM_PERIOD": "YRS",
+          "CM_LAST_CHG_DATE": "",
+          "CM_DEPTH": "Z"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "burialSiteStatusId": 101,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "prepaid-skip-blank-name",
+      "kind": "prepaid",
+      "rows": [
+        {
+          "CMPP_SYSREC": "",
+          "CMPP_PREPAID_FOR_NAME": "",
+          "CMPP_PREPAID_FOR_SEQ": "",
+          "CMPP_ADDRESS": "",
+          "CMPP_CITY": "",
+          "CMPP_PROV": "ONTARIO",
+          "CMPP_POSTAL1": "",
+          "CMPP_POSTAL2": "",
+          "CMPP_ARRANGED_BY_NAME": "Synthetic Owner",
+          "CMPP_ARRANGED_BY_SEQ": "",
+          "CMPP_CEMETERY": "TEST",
+          "CMPP_BLOCK": "A",
+          "CMPP_RANGE1": "0",
+          "CMPP_RANGE2": "2",
+          "CMPP_LOT1": "3",
+          "CMPP_LOT2": "0",
+          "CMPP_GRAVE1": "0",
+          "CMPP_GRAVE2": "0",
+          "CMPP_INTERMENT": "",
+          "CMPP_ORDER_NO": "42",
+          "CMPP_PURCH_YR": "2020",
+          "CMPP_PURCH_MON": "2",
+          "CMPP_PURCH_DAY": "3",
+          "CMPP_FEE_GRAV_SD": "0.0",
+          "CMPP_GST_GRAV_SD": "0.0",
+          "CMPP_FEE_GRAV_DD": "0.0",
+          "CMPP_GST_GRAV_DD": "0.0",
+          "CMPP_FEE_CHAP_SD": "0.0",
+          "CMPP_GST_CHAP_SD": "0.0",
+          "CMPP_FEE_CHAP_DD": "0.0",
+          "CMPP_GST_CHAP_DD": "0.0",
+          "CMPP_FEE_ENTOMBMENT": "0.0",
+          "CMPP_GST_ENTOMBMENT": "0.0",
+          "CMPP_FEE_CREM": "0.0",
+          "CMPP_GST_CREM": "0.0",
+          "CMPP_FEE_NICHE": "0.0",
+          "CMPP_GST_NICHE": "0.0",
+          "CMPP_FEE_DISINTERMENT": "0.0",
+          "CMPP_GST_DISINTERMENT": "0.0",
+          "CMPP_REMARK1": "prepaid first",
+          "CMPP_REMARK2": "prepaid second"
+        }
+      ],
+      "state": {},
+      "operations": []
+    },
+    {
+      "name": "prepaid-all-fees",
+      "kind": "prepaid",
+      "rows": [
+        {
+          "CMPP_SYSREC": "",
+          "CMPP_PREPAID_FOR_NAME": "Synthetic Person",
+          "CMPP_PREPAID_FOR_SEQ": "",
+          "CMPP_ADDRESS": "",
+          "CMPP_CITY": "",
+          "CMPP_PROV": "ONTARIO",
+          "CMPP_POSTAL1": "",
+          "CMPP_POSTAL2": "",
+          "CMPP_ARRANGED_BY_NAME": "Synthetic Owner",
+          "CMPP_ARRANGED_BY_SEQ": "",
+          "CMPP_CEMETERY": "TEST",
+          "CMPP_BLOCK": "A",
+          "CMPP_RANGE1": "0",
+          "CMPP_RANGE2": "2",
+          "CMPP_LOT1": "3",
+          "CMPP_LOT2": "0",
+          "CMPP_GRAVE1": "0",
+          "CMPP_GRAVE2": "0",
+          "CMPP_INTERMENT": "",
+          "CMPP_ORDER_NO": "42",
+          "CMPP_PURCH_YR": "2020",
+          "CMPP_PURCH_MON": "2",
+          "CMPP_PURCH_DAY": "3",
+          "CMPP_FEE_GRAV_SD": "10.25",
+          "CMPP_GST_GRAV_SD": "0.75",
+          "CMPP_FEE_GRAV_DD": "10.25",
+          "CMPP_GST_GRAV_DD": "0.75",
+          "CMPP_FEE_CHAP_SD": "10.25",
+          "CMPP_GST_CHAP_SD": "0.75",
+          "CMPP_FEE_CHAP_DD": "10.25",
+          "CMPP_GST_CHAP_DD": "0.75",
+          "CMPP_FEE_ENTOMBMENT": "10.25",
+          "CMPP_GST_ENTOMBMENT": "0.75",
+          "CMPP_FEE_CREM": "10.25",
+          "CMPP_GST_CREM": "0.75",
+          "CMPP_FEE_NICHE": "10.25",
+          "CMPP_GST_NICHE": "0.75",
+          "CMPP_FEE_DISINTERMENT": "10.25",
+          "CMPP_GST_DISINTERMENT": "0.75",
+          "CMPP_REMARK1": "prepaid first",
+          "CMPP_REMARK2": "prepaid second"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "burialSiteStatusId": 102,
+            "burialSiteTypeId": 301,
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "TEST-A-2-3-1",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": "",
+            "burialSiteImage": ""
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractTypeId": 201,
+            "contractEndDateString": "",
+            "contractStartDateString": "2020-02-03",
+            "funeralDirectorName": "",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 403
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 402
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 404
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 405
+          }
+        },
+        {
+          "operation": "addContractFee",
+          "form": {
+            "contractId": 1,
+            "feeId": "fee:CMPP_FEE_GRAV_SD",
+            "quantity": 1,
+            "feeAmount": "10.25",
+            "taxAmount": "0.75"
+          }
+        },
+        {
+          "operation": "addContractFee",
+          "form": {
+            "contractId": 1,
+            "feeId": "fee:CMPP_FEE_GRAV_DD",
+            "quantity": 1,
+            "feeAmount": "10.25",
+            "taxAmount": "0.75"
+          }
+        },
+        {
+          "operation": "addContractFee",
+          "form": {
+            "contractId": 1,
+            "feeId": "fee:CMPP_FEE_CHAP_SD",
+            "quantity": 1,
+            "feeAmount": "10.25",
+            "taxAmount": "0.75"
+          }
+        },
+        {
+          "operation": "addContractFee",
+          "form": {
+            "contractId": 1,
+            "feeId": "fee:CMPP_FEE_CHAP_DD",
+            "quantity": 1,
+            "feeAmount": "10.25",
+            "taxAmount": "0.75"
+          }
+        },
+        {
+          "operation": "addContractFee",
+          "form": {
+            "contractId": 1,
+            "feeId": "fee:CMPP_FEE_ENTOMBMENT",
+            "quantity": 1,
+            "feeAmount": "10.25",
+            "taxAmount": "0.75"
+          }
+        },
+        {
+          "operation": "addContractFee",
+          "form": {
+            "contractId": 1,
+            "feeId": "fee:CMPP_FEE_CREM",
+            "quantity": 1,
+            "feeAmount": "10.25",
+            "taxAmount": "0.75"
+          }
+        },
+        {
+          "operation": "addContractFee",
+          "form": {
+            "contractId": 1,
+            "feeId": "fee:CMPP_FEE_NICHE",
+            "quantity": 1,
+            "feeAmount": "10.25",
+            "taxAmount": "0.75"
+          }
+        },
+        {
+          "operation": "addContractFee",
+          "form": {
+            "contractId": 1,
+            "feeId": "fee:CMPP_FEE_DISINTERMENT",
+            "quantity": 1,
+            "feeAmount": "10.25",
+            "taxAmount": "0.75"
+          }
+        },
+        {
+          "operation": "addContractTransaction",
+          "form": {
+            "contractId": 1,
+            "externalReceiptNumber": "",
+            "transactionAmount": 88,
+            "transactionDateString": "2020-02-03",
+            "transactionTimeString": "00:00",
+            "transactionNote": "Order Number: 42"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "prepaid first",
+            "commentDateString": "2020-02-03"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "prepaid second",
+            "commentDateString": "2020-02-03"
+          }
+        }
+      ]
+    },
+    {
+      "name": "prepaid-disinterment-sentinel",
+      "kind": "prepaid",
+      "rows": [
+        {
+          "CMPP_SYSREC": "",
+          "CMPP_PREPAID_FOR_NAME": "Synthetic Person",
+          "CMPP_PREPAID_FOR_SEQ": "",
+          "CMPP_ADDRESS": "",
+          "CMPP_CITY": "",
+          "CMPP_PROV": "ONTARIO",
+          "CMPP_POSTAL1": "",
+          "CMPP_POSTAL2": "",
+          "CMPP_ARRANGED_BY_NAME": "Synthetic Owner",
+          "CMPP_ARRANGED_BY_SEQ": "",
+          "CMPP_CEMETERY": "TEST",
+          "CMPP_BLOCK": "A",
+          "CMPP_RANGE1": "0",
+          "CMPP_RANGE2": "2",
+          "CMPP_LOT1": "3",
+          "CMPP_LOT2": "0",
+          "CMPP_GRAVE1": "0",
+          "CMPP_GRAVE2": "0",
+          "CMPP_INTERMENT": "",
+          "CMPP_ORDER_NO": "42",
+          "CMPP_PURCH_YR": "2020",
+          "CMPP_PURCH_MON": "2",
+          "CMPP_PURCH_DAY": "3",
+          "CMPP_FEE_GRAV_SD": "0.0",
+          "CMPP_GST_GRAV_SD": "0.0",
+          "CMPP_FEE_GRAV_DD": "0.0",
+          "CMPP_GST_GRAV_DD": "0.0",
+          "CMPP_FEE_CHAP_SD": "0.0",
+          "CMPP_GST_CHAP_SD": "0.0",
+          "CMPP_FEE_CHAP_DD": "0.0",
+          "CMPP_GST_CHAP_DD": "0.0",
+          "CMPP_FEE_ENTOMBMENT": "0.0",
+          "CMPP_GST_ENTOMBMENT": "0.0",
+          "CMPP_FEE_CREM": "0.0",
+          "CMPP_GST_CREM": "0.0",
+          "CMPP_FEE_NICHE": "0.0",
+          "CMPP_GST_NICHE": "0.0",
+          "CMPP_FEE_DISINTERMENT": "20202.02",
+          "CMPP_GST_DISINTERMENT": "20202.02",
+          "CMPP_REMARK1": "prepaid first",
+          "CMPP_REMARK2": "prepaid second"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "burialSiteStatusId": 102,
+            "burialSiteTypeId": 301,
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "TEST-A-2-3-1",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": "",
+            "burialSiteImage": ""
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractTypeId": 201,
+            "contractEndDateString": "",
+            "contractStartDateString": "2020-02-03",
+            "funeralDirectorName": "",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractTransaction",
+          "form": {
+            "contractId": 1,
+            "externalReceiptNumber": "",
+            "transactionAmount": 0,
+            "transactionDateString": "2020-02-03",
+            "transactionTimeString": "00:00",
+            "transactionNote": "Order Number: 42"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "prepaid first",
+            "commentDateString": "2020-02-03"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "prepaid second",
+            "commentDateString": "2020-02-03"
+          }
+        }
+      ]
+    },
+    {
+      "name": "prepaid-existing-preneed",
+      "kind": "prepaid",
+      "rows": [
+        {
+          "CMPP_SYSREC": "",
+          "CMPP_PREPAID_FOR_NAME": "Synthetic Person",
+          "CMPP_PREPAID_FOR_SEQ": "",
+          "CMPP_ADDRESS": "",
+          "CMPP_CITY": "",
+          "CMPP_PROV": "ONTARIO",
+          "CMPP_POSTAL1": "",
+          "CMPP_POSTAL2": "",
+          "CMPP_ARRANGED_BY_NAME": "Synthetic Owner",
+          "CMPP_ARRANGED_BY_SEQ": "",
+          "CMPP_CEMETERY": "TEST",
+          "CMPP_BLOCK": "A",
+          "CMPP_RANGE1": "0",
+          "CMPP_RANGE2": "2",
+          "CMPP_LOT1": "3",
+          "CMPP_LOT2": "0",
+          "CMPP_GRAVE1": "0",
+          "CMPP_GRAVE2": "0",
+          "CMPP_INTERMENT": "",
+          "CMPP_ORDER_NO": "42",
+          "CMPP_PURCH_YR": "2020",
+          "CMPP_PURCH_MON": "2",
+          "CMPP_PURCH_DAY": "3",
+          "CMPP_FEE_GRAV_SD": "0.0",
+          "CMPP_GST_GRAV_SD": "0.0",
+          "CMPP_FEE_GRAV_DD": "0.0",
+          "CMPP_GST_GRAV_DD": "0.0",
+          "CMPP_FEE_CHAP_SD": "0.0",
+          "CMPP_GST_CHAP_SD": "0.0",
+          "CMPP_FEE_CHAP_DD": "0.0",
+          "CMPP_GST_CHAP_DD": "0.0",
+          "CMPP_FEE_ENTOMBMENT": "0.0",
+          "CMPP_GST_ENTOMBMENT": "0.0",
+          "CMPP_FEE_CREM": "4",
+          "CMPP_GST_CREM": "0.0",
+          "CMPP_FEE_NICHE": "0.0",
+          "CMPP_GST_NICHE": "0.0",
+          "CMPP_FEE_DISINTERMENT": "0.0",
+          "CMPP_GST_DISINTERMENT": "0.0",
+          "CMPP_REMARK1": "prepaid first",
+          "CMPP_REMARK2": "prepaid second"
+        }
+      ],
+      "state": {
+        "site": true,
+        "preneed": true
+      },
+      "operations": [
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 99,
+            "serviceTypeId": 402
+          }
+        },
+        {
+          "operation": "addContractFee",
+          "form": {
+            "contractId": 99,
+            "feeId": "fee:CMPP_FEE_CREM",
+            "quantity": 1,
+            "feeAmount": "4",
+            "taxAmount": "0.0"
+          }
+        },
+        {
+          "operation": "addContractTransaction",
+          "form": {
+            "contractId": 99,
+            "externalReceiptNumber": "",
+            "transactionAmount": 4,
+            "transactionDateString": "2020-02-03",
+            "transactionTimeString": "00:00",
+            "transactionNote": "Order Number: 42"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 99,
+            "comment": "prepaid first",
+            "commentDateString": "2020-02-03"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 99,
+            "comment": "prepaid second",
+            "commentDateString": "2020-02-03"
+          }
+        }
+      ]
+    },
+    {
+      "name": "prepaid-remapped-cemetery",
+      "kind": "prepaid",
+      "rows": [
+        {
+          "CMPP_SYSREC": "",
+          "CMPP_PREPAID_FOR_NAME": "Synthetic Person",
+          "CMPP_PREPAID_FOR_SEQ": "",
+          "CMPP_ADDRESS": "",
+          "CMPP_CITY": "",
+          "CMPP_PROV": "ONTARIO",
+          "CMPP_POSTAL1": "",
+          "CMPP_POSTAL2": "",
+          "CMPP_ARRANGED_BY_NAME": "Synthetic Person",
+          "CMPP_ARRANGED_BY_SEQ": "",
+          "CMPP_CEMETERY": ".m",
+          "CMPP_BLOCK": "A",
+          "CMPP_RANGE1": "0",
+          "CMPP_RANGE2": "2",
+          "CMPP_LOT1": "3",
+          "CMPP_LOT2": "0",
+          "CMPP_GRAVE1": "0",
+          "CMPP_GRAVE2": "0",
+          "CMPP_INTERMENT": "",
+          "CMPP_ORDER_NO": "42",
+          "CMPP_PURCH_YR": "2020",
+          "CMPP_PURCH_MON": "2",
+          "CMPP_PURCH_DAY": "3",
+          "CMPP_FEE_GRAV_SD": "0.0",
+          "CMPP_GST_GRAV_SD": "0.0",
+          "CMPP_FEE_GRAV_DD": "0.0",
+          "CMPP_GST_GRAV_DD": "0.0",
+          "CMPP_FEE_CHAP_SD": "0.0",
+          "CMPP_GST_CHAP_SD": "0.0",
+          "CMPP_FEE_CHAP_DD": "0.0",
+          "CMPP_GST_CHAP_DD": "0.0",
+          "CMPP_FEE_ENTOMBMENT": "0.0",
+          "CMPP_GST_ENTOMBMENT": "0.0",
+          "CMPP_FEE_CREM": "0.0",
+          "CMPP_GST_CREM": "0.0",
+          "CMPP_FEE_NICHE": "0.0",
+          "CMPP_GST_NICHE": "0.0",
+          "CMPP_FEE_DISINTERMENT": "0.0",
+          "CMPP_GST_DISINTERMENT": "0.0",
+          "CMPP_REMARK1": "prepaid first",
+          "CMPP_REMARK2": "prepaid second"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "burialSiteStatusId": 102,
+            "burialSiteTypeId": 302,
+            "cemeteryId": "cemetery:HC",
+            "cemeterySvgId": "HC-A-2-3-1",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": "",
+            "burialSiteImage": ""
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractTypeId": 201,
+            "contractEndDateString": "",
+            "contractStartDateString": "2020-02-03",
+            "funeralDirectorName": "",
+            "purchaserName": "Synthetic Person",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "Self",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractTransaction",
+          "form": {
+            "contractId": 1,
+            "externalReceiptNumber": "",
+            "transactionAmount": 0,
+            "transactionDateString": "2020-02-03",
+            "transactionTimeString": "00:00",
+            "transactionNote": "Order Number: 42"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "prepaid first",
+            "commentDateString": "2020-02-03"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "prepaid second",
+            "commentDateString": "2020-02-03"
+          }
+        }
+      ]
+    },
+    {
+      "name": "prepaid-cremation",
+      "kind": "prepaid",
+      "rows": [
+        {
+          "CMPP_SYSREC": "",
+          "CMPP_PREPAID_FOR_NAME": "Synthetic Person",
+          "CMPP_PREPAID_FOR_SEQ": "",
+          "CMPP_ADDRESS": "",
+          "CMPP_CITY": "",
+          "CMPP_PROV": "ONTARIO",
+          "CMPP_POSTAL1": "",
+          "CMPP_POSTAL2": "",
+          "CMPP_ARRANGED_BY_NAME": "Synthetic Owner",
+          "CMPP_ARRANGED_BY_SEQ": "",
+          "CMPP_CEMETERY": "00",
+          "CMPP_BLOCK": "A",
+          "CMPP_RANGE1": "0",
+          "CMPP_RANGE2": "2",
+          "CMPP_LOT1": "3",
+          "CMPP_LOT2": "0",
+          "CMPP_GRAVE1": "0",
+          "CMPP_GRAVE2": "0",
+          "CMPP_INTERMENT": "",
+          "CMPP_ORDER_NO": "42",
+          "CMPP_PURCH_YR": "2020",
+          "CMPP_PURCH_MON": "2",
+          "CMPP_PURCH_DAY": "3",
+          "CMPP_FEE_GRAV_SD": "0.0",
+          "CMPP_GST_GRAV_SD": "0.0",
+          "CMPP_FEE_GRAV_DD": "0.0",
+          "CMPP_GST_GRAV_DD": "0.0",
+          "CMPP_FEE_CHAP_SD": "0.0",
+          "CMPP_GST_CHAP_SD": "0.0",
+          "CMPP_FEE_CHAP_DD": "0.0",
+          "CMPP_GST_CHAP_DD": "0.0",
+          "CMPP_FEE_ENTOMBMENT": "0.0",
+          "CMPP_GST_ENTOMBMENT": "0.0",
+          "CMPP_FEE_CREM": "12",
+          "CMPP_GST_CREM": "1.5",
+          "CMPP_FEE_NICHE": "0.0",
+          "CMPP_GST_NICHE": "0.0",
+          "CMPP_FEE_DISINTERMENT": "0.0",
+          "CMPP_GST_DISINTERMENT": "0.0",
+          "CMPP_REMARK1": "prepaid first",
+          "CMPP_REMARK2": "prepaid second"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": "",
+            "contractTypeId": 201,
+            "contractEndDateString": "",
+            "contractStartDateString": "2020-02-03",
+            "funeralDirectorName": "",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 402
+          }
+        },
+        {
+          "operation": "addContractFee",
+          "form": {
+            "contractId": 1,
+            "feeId": "fee:CMPP_FEE_CREM",
+            "quantity": 1,
+            "feeAmount": "12",
+            "taxAmount": "1.5"
+          }
+        },
+        {
+          "operation": "addContractTransaction",
+          "form": {
+            "contractId": 1,
+            "externalReceiptNumber": "",
+            "transactionAmount": 13.5,
+            "transactionDateString": "2020-02-03",
+            "transactionTimeString": "00:00",
+            "transactionNote": "Order Number: 42"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "prepaid first",
+            "commentDateString": "2020-02-03"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "prepaid second",
+            "commentDateString": "2020-02-03"
+          }
+        }
+      ]
+    },
+    {
+      "name": "prepaid-available-site",
+      "kind": "prepaid",
+      "rows": [
+        {
+          "CMPP_SYSREC": "",
+          "CMPP_PREPAID_FOR_NAME": "Synthetic Person",
+          "CMPP_PREPAID_FOR_SEQ": "",
+          "CMPP_ADDRESS": "",
+          "CMPP_CITY": "",
+          "CMPP_PROV": "ONTARIO",
+          "CMPP_POSTAL1": "",
+          "CMPP_POSTAL2": "",
+          "CMPP_ARRANGED_BY_NAME": "Synthetic Owner",
+          "CMPP_ARRANGED_BY_SEQ": "",
+          "CMPP_CEMETERY": "TEST",
+          "CMPP_BLOCK": "A",
+          "CMPP_RANGE1": "0",
+          "CMPP_RANGE2": "2",
+          "CMPP_LOT1": "3",
+          "CMPP_LOT2": "0",
+          "CMPP_GRAVE1": "0",
+          "CMPP_GRAVE2": "0",
+          "CMPP_INTERMENT": "",
+          "CMPP_ORDER_NO": "42",
+          "CMPP_PURCH_YR": "2020",
+          "CMPP_PURCH_MON": "2",
+          "CMPP_PURCH_DAY": "3",
+          "CMPP_FEE_GRAV_SD": "0.0",
+          "CMPP_GST_GRAV_SD": "0.0",
+          "CMPP_FEE_GRAV_DD": "0.0",
+          "CMPP_GST_GRAV_DD": "0.0",
+          "CMPP_FEE_CHAP_SD": "0.0",
+          "CMPP_GST_CHAP_SD": "0.0",
+          "CMPP_FEE_CHAP_DD": "0.0",
+          "CMPP_GST_CHAP_DD": "0.0",
+          "CMPP_FEE_ENTOMBMENT": "0.0",
+          "CMPP_GST_ENTOMBMENT": "0.0",
+          "CMPP_FEE_CREM": "0.0",
+          "CMPP_GST_CREM": "0.0",
+          "CMPP_FEE_NICHE": "0.0",
+          "CMPP_GST_NICHE": "0.0",
+          "CMPP_FEE_DISINTERMENT": "0.0",
+          "CMPP_GST_DISINTERMENT": "0.0",
+          "CMPP_REMARK1": "prepaid first",
+          "CMPP_REMARK2": "prepaid second"
+        }
+      ],
+      "state": {
+        "site": true,
+        "status": 101
+      },
+      "operations": [
+        {
+          "operation": "updateBurialSiteStatus",
+          "form": {
+            "identifier": 1,
+            "status": 102
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractTypeId": 201,
+            "contractEndDateString": "",
+            "contractStartDateString": "2020-02-03",
+            "funeralDirectorName": "",
+            "purchaserName": "Synthetic Owner",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON"
+          }
+        },
+        {
+          "operation": "addContractTransaction",
+          "form": {
+            "contractId": 1,
+            "externalReceiptNumber": "",
+            "transactionAmount": 0,
+            "transactionDateString": "2020-02-03",
+            "transactionTimeString": "00:00",
+            "transactionNote": "Order Number: 42"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "prepaid first",
+            "commentDateString": "2020-02-03"
+          }
+        },
+        {
+          "operation": "addContractComment",
+          "form": {
+            "contractId": 1,
+            "comment": "prepaid second",
+            "commentDateString": "2020-02-03"
+          }
+        }
+      ]
+    },
+    {
+      "name": "workorder-close-all-complete",
+      "kind": "workOrder",
+      "rows": [
+        {
+          "WO_SYSREC": "",
+          "WO_DECEASED_NAME": "Synthetic Person",
+          "WO_DECEASED_SEQ": "",
+          "WO_CEMETERY": "TEST",
+          "WO_BLOCK": "A",
+          "WO_RANGE1": "0",
+          "WO_RANGE2": "2",
+          "WO_LOT1": "3",
+          "WO_LOT2": "0",
+          "WO_GRAVE1": "0",
+          "WO_GRAVE2": "0",
+          "WO_INTERMENT": "",
+          "WO_ADDRESS": "1 Example St",
+          "WO_CITY": "",
+          "WO_PROV": "ONTARIO",
+          "WO_POST1": "",
+          "WO_POST2": "",
+          "WO_DEATH_YR": "2025",
+          "WO_DEATH_MON": "4",
+          "WO_DEATH_DAY": "5",
+          "WO_AGE": "75",
+          "WO_FUNERAL_HOME": "SYN",
+          "WO_FUNERAL_YR": "2025",
+          "WO_FUNERAL_MON": "4",
+          "WO_FUNERAL_DAY": "6",
+          "WO_FUNERAL_HR": "2",
+          "WO_FUNERAL_MIN": "30",
+          "WO_INTERMENT_YR": "2025",
+          "WO_INTERMENT_MON": "4",
+          "WO_INTERMENT_DAY": "7",
+          "WO_COST": "",
+          "WO_COMMITTAL_TYPE": "X",
+          "WO_CONTAINER_TYPE": "Y",
+          "WO_CREMATION": "",
+          "WO_CONFIRMATION_IN": "Y",
+          "WO_COMPLETION_YR": "",
+          "WO_COMPLETION_MON": "",
+          "WO_COMPLETION_DAY": "",
+          "WO_INITIATION_DATE": "20250401",
+          "WO_WORK_ORDER": "42",
+          "WO_REMARK1": "First",
+          "WO_REMARK2": "Second",
+          "WO_REMARK3": "Third",
+          "WO_PERIOD": "mts",
+          "WO_RESIDENT_TYPE": "",
+          "WO_DEPTH": "Z",
+          "WO_DEATH_PLACE": "Example City"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addWorkOrder",
+          "form": {
+            "workOrderDescription": "First Second Third",
+            "workOrderNumber": "000042",
+            "workOrderOpenDateString": "2025-04-01",
+            "workOrderTypeId": 601,
+            "workOrderStatusId": 701
+          }
+        },
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "TEST-A-2-3-1",
+            "burialSiteStatusId": 103,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addWorkOrderBurialSite",
+          "form": {
+            "burialSiteId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractTypeId": 202,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeFieldIds": "",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "funeralDateString": "2025-04-06",
+            "funeralTimeString": "14:30",
+            "committalTypeId": "CommittalTypes:X",
+            "purchaserName": "",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON",
+            "deathAge": "75",
+            "deathAgePeriod": "Months",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "Example City",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addWorkOrderContract",
+          "form": {
+            "contractId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-01",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-01",
+            "workOrderMilestoneDescription": "",
+            "workOrderMilestoneTypeId": 501
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-05",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-05",
+            "workOrderMilestoneDescription": "Death Place: Example City",
+            "workOrderMilestoneTypeId": 502
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-06",
+            "workOrderMilestoneCompletionTimeString": "14:30",
+            "workOrderMilestoneDateString": "2025-04-06",
+            "workOrderMilestoneDescription": "Funeral Home: SYN",
+            "workOrderMilestoneTimeString": "14:30",
+            "workOrderMilestoneTypeId": 503
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-07",
+            "workOrderMilestoneCompletionTimeString": "23:59",
+            "workOrderMilestoneDateString": "2025-04-07",
+            "workOrderMilestoneDescription": "Depth: Z",
+            "workOrderMilestoneTypeId": 505
+          }
+        },
+        {
+          "operation": "closeWorkOrder",
+          "form": {
+            "workOrderId": 1,
+            "workOrderCloseDateString": "2025-04-07"
+          }
+        }
+      ]
+    },
+    {
+      "name": "workorder-reopen-existing",
+      "kind": "workOrder",
+      "rows": [
+        {
+          "WO_SYSREC": "",
+          "WO_DECEASED_NAME": "Synthetic Person",
+          "WO_DECEASED_SEQ": "",
+          "WO_CEMETERY": "TEST",
+          "WO_BLOCK": "A",
+          "WO_RANGE1": "0",
+          "WO_RANGE2": "2",
+          "WO_LOT1": "3",
+          "WO_LOT2": "0",
+          "WO_GRAVE1": "0",
+          "WO_GRAVE2": "0",
+          "WO_INTERMENT": "",
+          "WO_ADDRESS": "1 Example St",
+          "WO_CITY": "",
+          "WO_PROV": "ONTARIO",
+          "WO_POST1": "",
+          "WO_POST2": "",
+          "WO_DEATH_YR": "2025",
+          "WO_DEATH_MON": "4",
+          "WO_DEATH_DAY": "5",
+          "WO_AGE": "75",
+          "WO_FUNERAL_HOME": "SYN",
+          "WO_FUNERAL_YR": "2025",
+          "WO_FUNERAL_MON": "4",
+          "WO_FUNERAL_DAY": "6",
+          "WO_FUNERAL_HR": "2",
+          "WO_FUNERAL_MIN": "30",
+          "WO_INTERMENT_YR": "2025",
+          "WO_INTERMENT_MON": "4",
+          "WO_INTERMENT_DAY": "7",
+          "WO_COST": "",
+          "WO_COMMITTAL_TYPE": "X",
+          "WO_CONTAINER_TYPE": "Y",
+          "WO_CREMATION": "",
+          "WO_CONFIRMATION_IN": "Y",
+          "WO_COMPLETION_YR": "",
+          "WO_COMPLETION_MON": "",
+          "WO_COMPLETION_DAY": "",
+          "WO_INITIATION_DATE": "20250401",
+          "WO_WORK_ORDER": "42",
+          "WO_REMARK1": "First",
+          "WO_REMARK2": "Second",
+          "WO_REMARK3": "Third",
+          "WO_PERIOD": "mts",
+          "WO_RESIDENT_TYPE": "",
+          "WO_DEPTH": "Z",
+          "WO_DEATH_PLACE": "Example City"
+        }
+      ],
+      "state": {
+        "order": true,
+        "closed": true,
+        "site": true,
+        "linked": true
+      },
+      "operations": [
+        {
+          "operation": "reopenWorkOrder",
+          "form": 1
+        },
+        {
+          "operation": "updateBurialSiteStatus",
+          "form": {
+            "identifier": 1,
+            "status": 103
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractTypeId": 202,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeFieldIds": "",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "funeralDateString": "2025-04-06",
+            "funeralTimeString": "14:30",
+            "committalTypeId": "CommittalTypes:X",
+            "purchaserName": "",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON",
+            "deathAge": "75",
+            "deathAgePeriod": "Months",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "Example City",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addWorkOrderContract",
+          "form": {
+            "contractId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-01",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-01",
+            "workOrderMilestoneDescription": "",
+            "workOrderMilestoneTypeId": 501
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-05",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-05",
+            "workOrderMilestoneDescription": "Death Place: Example City",
+            "workOrderMilestoneTypeId": 502
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-06",
+            "workOrderMilestoneCompletionTimeString": "14:30",
+            "workOrderMilestoneDateString": "2025-04-06",
+            "workOrderMilestoneDescription": "Funeral Home: SYN",
+            "workOrderMilestoneTimeString": "14:30",
+            "workOrderMilestoneTypeId": 503
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-07",
+            "workOrderMilestoneCompletionTimeString": "23:59",
+            "workOrderMilestoneDateString": "2025-04-07",
+            "workOrderMilestoneDescription": "Depth: Z",
+            "workOrderMilestoneTypeId": 505
+          }
+        },
+        {
+          "operation": "closeWorkOrder",
+          "form": {
+            "workOrderId": 1,
+            "workOrderCloseDateString": "2025-04-07"
+          }
+        }
+      ]
+    },
+    {
+      "name": "workorder-incomplete",
+      "kind": "workOrder",
+      "rows": [
+        {
+          "WO_SYSREC": "",
+          "WO_DECEASED_NAME": "Synthetic Person",
+          "WO_DECEASED_SEQ": "",
+          "WO_CEMETERY": "TEST",
+          "WO_BLOCK": "A",
+          "WO_RANGE1": "0",
+          "WO_RANGE2": "2",
+          "WO_LOT1": "3",
+          "WO_LOT2": "0",
+          "WO_GRAVE1": "0",
+          "WO_GRAVE2": "0",
+          "WO_INTERMENT": "",
+          "WO_ADDRESS": "1 Example St",
+          "WO_CITY": "",
+          "WO_PROV": "ONTARIO",
+          "WO_POST1": "",
+          "WO_POST2": "",
+          "WO_DEATH_YR": "2025",
+          "WO_DEATH_MON": "4",
+          "WO_DEATH_DAY": "5",
+          "WO_AGE": "75",
+          "WO_FUNERAL_HOME": "SYN",
+          "WO_FUNERAL_YR": "2025",
+          "WO_FUNERAL_MON": "4",
+          "WO_FUNERAL_DAY": "6",
+          "WO_FUNERAL_HR": "2",
+          "WO_FUNERAL_MIN": "30",
+          "WO_INTERMENT_YR": "2025",
+          "WO_INTERMENT_MON": "4",
+          "WO_INTERMENT_DAY": "7",
+          "WO_COST": "",
+          "WO_COMMITTAL_TYPE": "X",
+          "WO_CONTAINER_TYPE": "Y",
+          "WO_CREMATION": "",
+          "WO_CONFIRMATION_IN": "",
+          "WO_COMPLETION_YR": "",
+          "WO_COMPLETION_MON": "",
+          "WO_COMPLETION_DAY": "",
+          "WO_INITIATION_DATE": "20250401",
+          "WO_WORK_ORDER": "42",
+          "WO_REMARK1": "First",
+          "WO_REMARK2": "Second",
+          "WO_REMARK3": "Third",
+          "WO_PERIOD": "mts",
+          "WO_RESIDENT_TYPE": "",
+          "WO_DEPTH": "Z",
+          "WO_DEATH_PLACE": "Example City"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addWorkOrder",
+          "form": {
+            "workOrderDescription": "First Second Third",
+            "workOrderNumber": "000042",
+            "workOrderOpenDateString": "2025-04-01",
+            "workOrderTypeId": 601,
+            "workOrderStatusId": 701
+          }
+        },
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "TEST-A-2-3-1",
+            "burialSiteStatusId": 103,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addWorkOrderBurialSite",
+          "form": {
+            "burialSiteId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractTypeId": 202,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeFieldIds": "",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "funeralDateString": "2025-04-06",
+            "funeralTimeString": "14:30",
+            "committalTypeId": "CommittalTypes:X",
+            "purchaserName": "",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON",
+            "deathAge": "75",
+            "deathAgePeriod": "Months",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "Example City",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addWorkOrderContract",
+          "form": {
+            "contractId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneDateString": "2025-04-01",
+            "workOrderMilestoneDescription": "",
+            "workOrderMilestoneTypeId": 501
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-05",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-05",
+            "workOrderMilestoneDescription": "Death Place: Example City",
+            "workOrderMilestoneTypeId": 502
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-06",
+            "workOrderMilestoneCompletionTimeString": "14:30",
+            "workOrderMilestoneDateString": "2025-04-06",
+            "workOrderMilestoneDescription": "Funeral Home: SYN",
+            "workOrderMilestoneTimeString": "14:30",
+            "workOrderMilestoneTypeId": 503
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-07",
+            "workOrderMilestoneCompletionTimeString": "23:59",
+            "workOrderMilestoneDateString": "2025-04-07",
+            "workOrderMilestoneDescription": "Depth: Z",
+            "workOrderMilestoneTypeId": 505
+          }
+        }
+      ]
+    },
+    {
+      "name": "workorder-future-today",
+      "kind": "workOrder",
+      "rows": [
+        {
+          "WO_SYSREC": "",
+          "WO_DECEASED_NAME": "Synthetic Person",
+          "WO_DECEASED_SEQ": "",
+          "WO_CEMETERY": "TEST",
+          "WO_BLOCK": "A",
+          "WO_RANGE1": "0",
+          "WO_RANGE2": "2",
+          "WO_LOT1": "3",
+          "WO_LOT2": "0",
+          "WO_GRAVE1": "0",
+          "WO_GRAVE2": "0",
+          "WO_INTERMENT": "",
+          "WO_ADDRESS": "1 Example St",
+          "WO_CITY": "",
+          "WO_PROV": "ONTARIO",
+          "WO_POST1": "",
+          "WO_POST2": "",
+          "WO_DEATH_YR": "2025",
+          "WO_DEATH_MON": "4",
+          "WO_DEATH_DAY": "5",
+          "WO_AGE": "75",
+          "WO_FUNERAL_HOME": "SYN",
+          "WO_FUNERAL_YR": "2025",
+          "WO_FUNERAL_MON": "4",
+          "WO_FUNERAL_DAY": "6",
+          "WO_FUNERAL_HR": "2",
+          "WO_FUNERAL_MIN": "30",
+          "WO_INTERMENT_YR": "2026",
+          "WO_INTERMENT_MON": "10",
+          "WO_INTERMENT_DAY": "20",
+          "WO_COST": "",
+          "WO_COMMITTAL_TYPE": "X",
+          "WO_CONTAINER_TYPE": "Y",
+          "WO_CREMATION": "",
+          "WO_CONFIRMATION_IN": "Y",
+          "WO_COMPLETION_YR": "",
+          "WO_COMPLETION_MON": "",
+          "WO_COMPLETION_DAY": "",
+          "WO_INITIATION_DATE": "20250401",
+          "WO_WORK_ORDER": "42",
+          "WO_REMARK1": "First",
+          "WO_REMARK2": "Second",
+          "WO_REMARK3": "Third",
+          "WO_PERIOD": "mts",
+          "WO_RESIDENT_TYPE": "",
+          "WO_DEPTH": "Z",
+          "WO_DEATH_PLACE": "Example City"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addWorkOrder",
+          "form": {
+            "workOrderDescription": "First Second Third",
+            "workOrderNumber": "000042",
+            "workOrderOpenDateString": "2025-04-01",
+            "workOrderTypeId": 601,
+            "workOrderStatusId": 701
+          }
+        },
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "TEST-A-2-3-1",
+            "burialSiteStatusId": 103,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addWorkOrderBurialSite",
+          "form": {
+            "burialSiteId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractTypeId": 202,
+            "contractEndDateString": "",
+            "contractStartDateString": "2026-10-20",
+            "contractTypeFieldIds": "",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "funeralDateString": "2025-04-06",
+            "funeralTimeString": "14:30",
+            "committalTypeId": "CommittalTypes:X",
+            "purchaserName": "",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON",
+            "deathAge": "75",
+            "deathAgePeriod": "Months",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "Example City",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addWorkOrderContract",
+          "form": {
+            "contractId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-01",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-01",
+            "workOrderMilestoneDescription": "",
+            "workOrderMilestoneTypeId": 501
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-05",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-05",
+            "workOrderMilestoneDescription": "Death Place: Example City",
+            "workOrderMilestoneTypeId": 502
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-06",
+            "workOrderMilestoneCompletionTimeString": "14:30",
+            "workOrderMilestoneDateString": "2025-04-06",
+            "workOrderMilestoneDescription": "Funeral Home: SYN",
+            "workOrderMilestoneTimeString": "14:30",
+            "workOrderMilestoneTypeId": 503
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneDateString": "2026-10-20",
+            "workOrderMilestoneDescription": "Depth: Z",
+            "workOrderMilestoneTypeId": 505
+          }
+        }
+      ]
+    },
+    {
+      "name": "workorder-cremation",
+      "kind": "workOrder",
+      "rows": [
+        {
+          "WO_SYSREC": "",
+          "WO_DECEASED_NAME": "Synthetic Person",
+          "WO_DECEASED_SEQ": "",
+          "WO_CEMETERY": "00",
+          "WO_BLOCK": "A",
+          "WO_RANGE1": "0",
+          "WO_RANGE2": "2",
+          "WO_LOT1": "3",
+          "WO_LOT2": "0",
+          "WO_GRAVE1": "0",
+          "WO_GRAVE2": "0",
+          "WO_INTERMENT": "",
+          "WO_ADDRESS": "1 Example St",
+          "WO_CITY": "",
+          "WO_PROV": "ONTARIO",
+          "WO_POST1": "",
+          "WO_POST2": "",
+          "WO_DEATH_YR": "2025",
+          "WO_DEATH_MON": "4",
+          "WO_DEATH_DAY": "5",
+          "WO_AGE": "75",
+          "WO_FUNERAL_HOME": "SYN",
+          "WO_FUNERAL_YR": "2025",
+          "WO_FUNERAL_MON": "4",
+          "WO_FUNERAL_DAY": "6",
+          "WO_FUNERAL_HR": "",
+          "WO_FUNERAL_MIN": "30",
+          "WO_INTERMENT_YR": "2025",
+          "WO_INTERMENT_MON": "4",
+          "WO_INTERMENT_DAY": "7",
+          "WO_COST": "",
+          "WO_COMMITTAL_TYPE": "X",
+          "WO_CONTAINER_TYPE": "",
+          "WO_CREMATION": "Y",
+          "WO_CONFIRMATION_IN": "Y",
+          "WO_COMPLETION_YR": "",
+          "WO_COMPLETION_MON": "",
+          "WO_COMPLETION_DAY": "",
+          "WO_INITIATION_DATE": "20250401",
+          "WO_WORK_ORDER": "42",
+          "WO_REMARK1": "First",
+          "WO_REMARK2": "Second",
+          "WO_REMARK3": "Third",
+          "WO_PERIOD": "mts",
+          "WO_RESIDENT_TYPE": "",
+          "WO_DEPTH": "Z",
+          "WO_DEATH_PLACE": "Example City"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addWorkOrder",
+          "form": {
+            "workOrderDescription": "First Second Third",
+            "workOrderNumber": "000042",
+            "workOrderOpenDateString": "2025-04-01",
+            "workOrderTypeId": 601,
+            "workOrderStatusId": 701
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": "",
+            "contractTypeId": 202,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeFieldIds": "",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "funeralDateString": "2025-04-06",
+            "funeralTimeString": "12:30",
+            "committalTypeId": "",
+            "purchaserName": "",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON",
+            "deathAge": "75",
+            "deathAgePeriod": "Months",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "Example City",
+            "intermentContainerTypeId": "IntermentContainerTypes:U",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 403
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 402
+          }
+        },
+        {
+          "operation": "addWorkOrderContract",
+          "form": {
+            "contractId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-01",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-01",
+            "workOrderMilestoneDescription": "",
+            "workOrderMilestoneTypeId": 501
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-05",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-05",
+            "workOrderMilestoneDescription": "Death Place: Example City",
+            "workOrderMilestoneTypeId": 502
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-06",
+            "workOrderMilestoneCompletionTimeString": "12:30",
+            "workOrderMilestoneDateString": "2025-04-06",
+            "workOrderMilestoneDescription": "Funeral Home: SYN",
+            "workOrderMilestoneTimeString": "12:30",
+            "workOrderMilestoneTypeId": 503
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-06",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-06",
+            "workOrderMilestoneDescription": "",
+            "workOrderMilestoneTypeId": 504
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-07",
+            "workOrderMilestoneCompletionTimeString": "23:59",
+            "workOrderMilestoneDateString": "2025-04-07",
+            "workOrderMilestoneDescription": "Depth: Z",
+            "workOrderMilestoneTypeId": 505
+          }
+        },
+        {
+          "operation": "closeWorkOrder",
+          "form": {
+            "workOrderId": 1,
+            "workOrderCloseDateString": "2025-04-07"
+          }
+        }
+      ]
+    },
+    {
+      "name": "workorder-no-dates",
+      "kind": "workOrder",
+      "rows": [
+        {
+          "WO_SYSREC": "",
+          "WO_DECEASED_NAME": "Synthetic Person",
+          "WO_DECEASED_SEQ": "",
+          "WO_CEMETERY": "TEST",
+          "WO_BLOCK": "A",
+          "WO_RANGE1": "0",
+          "WO_RANGE2": "2",
+          "WO_LOT1": "3",
+          "WO_LOT2": "0",
+          "WO_GRAVE1": "0",
+          "WO_GRAVE2": "0",
+          "WO_INTERMENT": "",
+          "WO_ADDRESS": "1 Example St",
+          "WO_CITY": "",
+          "WO_PROV": "ONTARIO",
+          "WO_POST1": "",
+          "WO_POST2": "",
+          "WO_DEATH_YR": "",
+          "WO_DEATH_MON": "4",
+          "WO_DEATH_DAY": "5",
+          "WO_AGE": "75",
+          "WO_FUNERAL_HOME": "SYN",
+          "WO_FUNERAL_YR": "",
+          "WO_FUNERAL_MON": "4",
+          "WO_FUNERAL_DAY": "6",
+          "WO_FUNERAL_HR": "7",
+          "WO_FUNERAL_MIN": "30",
+          "WO_INTERMENT_YR": "",
+          "WO_INTERMENT_MON": "4",
+          "WO_INTERMENT_DAY": "7",
+          "WO_COST": "",
+          "WO_COMMITTAL_TYPE": "X",
+          "WO_CONTAINER_TYPE": "Y",
+          "WO_CREMATION": "",
+          "WO_CONFIRMATION_IN": "Y",
+          "WO_COMPLETION_YR": "",
+          "WO_COMPLETION_MON": "",
+          "WO_COMPLETION_DAY": "",
+          "WO_INITIATION_DATE": "20250401",
+          "WO_WORK_ORDER": "42",
+          "WO_REMARK1": "First",
+          "WO_REMARK2": "Second",
+          "WO_REMARK3": "Third",
+          "WO_PERIOD": "mts",
+          "WO_RESIDENT_TYPE": "",
+          "WO_DEPTH": "Z",
+          "WO_DEATH_PLACE": "Example City"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addWorkOrder",
+          "form": {
+            "workOrderDescription": "First Second Third",
+            "workOrderNumber": "000042",
+            "workOrderOpenDateString": "2025-04-01",
+            "workOrderTypeId": 601,
+            "workOrderStatusId": 701
+          }
+        },
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "TEST-A-2-3-1",
+            "burialSiteStatusId": 103,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addWorkOrderBurialSite",
+          "form": {
+            "burialSiteId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractTypeId": 202,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-01",
+            "contractTypeFieldIds": "",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "funeralDateString": "",
+            "funeralTimeString": "",
+            "committalTypeId": "CommittalTypes:X",
+            "purchaserName": "",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON",
+            "deathAge": "75",
+            "deathAgePeriod": "Months",
+            "deathYear": "",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "Example City",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addWorkOrderContract",
+          "form": {
+            "contractId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-01",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-01",
+            "workOrderMilestoneDescription": "",
+            "workOrderMilestoneTypeId": 501
+          }
+        },
+        {
+          "operation": "closeWorkOrder",
+          "form": {
+            "workOrderId": 1,
+            "workOrderCloseDateString": "2025-04-01"
+          }
+        }
+      ]
+    },
+    {
+      "name": "workorder-no-optional-milestones",
+      "kind": "workOrder",
+      "rows": [
+        {
+          "WO_SYSREC": "",
+          "WO_DECEASED_NAME": "Synthetic Person",
+          "WO_DECEASED_SEQ": "",
+          "WO_CEMETERY": "TEST",
+          "WO_BLOCK": "A",
+          "WO_RANGE1": "0",
+          "WO_RANGE2": "2",
+          "WO_LOT1": "3",
+          "WO_LOT2": "0",
+          "WO_GRAVE1": "0",
+          "WO_GRAVE2": "0",
+          "WO_INTERMENT": "",
+          "WO_ADDRESS": "1 Example St",
+          "WO_CITY": "",
+          "WO_PROV": "ONTARIO",
+          "WO_POST1": "",
+          "WO_POST2": "",
+          "WO_DEATH_YR": "2025",
+          "WO_DEATH_MON": "4",
+          "WO_DEATH_DAY": "5",
+          "WO_AGE": "75",
+          "WO_FUNERAL_HOME": "SYN",
+          "WO_FUNERAL_YR": "2025",
+          "WO_FUNERAL_MON": "4",
+          "WO_FUNERAL_DAY": "6",
+          "WO_FUNERAL_HR": "2",
+          "WO_FUNERAL_MIN": "30",
+          "WO_INTERMENT_YR": "2025",
+          "WO_INTERMENT_MON": "4",
+          "WO_INTERMENT_DAY": "7",
+          "WO_COST": "",
+          "WO_COMMITTAL_TYPE": "X",
+          "WO_CONTAINER_TYPE": "Y",
+          "WO_CREMATION": "",
+          "WO_CONFIRMATION_IN": "Y",
+          "WO_COMPLETION_YR": "",
+          "WO_COMPLETION_MON": "",
+          "WO_COMPLETION_DAY": "",
+          "WO_INITIATION_DATE": "20250401",
+          "WO_WORK_ORDER": "42",
+          "WO_REMARK1": "First",
+          "WO_REMARK2": "Second",
+          "WO_REMARK3": "Third",
+          "WO_PERIOD": "mts",
+          "WO_RESIDENT_TYPE": "",
+          "WO_DEPTH": "Z",
+          "WO_DEATH_PLACE": "Example City"
+        }
+      ],
+      "state": {
+        "noOptional": true
+      },
+      "operations": [
+        {
+          "operation": "addWorkOrder",
+          "form": {
+            "workOrderDescription": "First Second Third",
+            "workOrderNumber": "000042",
+            "workOrderOpenDateString": "2025-04-01",
+            "workOrderTypeId": 601,
+            "workOrderStatusId": 701
+          }
+        },
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "TEST-A-2-3-1",
+            "burialSiteStatusId": 103,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addWorkOrderBurialSite",
+          "form": {
+            "burialSiteId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractTypeId": 202,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeFieldIds": "",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "funeralDateString": "2025-04-06",
+            "funeralTimeString": "14:30",
+            "committalTypeId": "CommittalTypes:X",
+            "purchaserName": "",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON",
+            "deathAge": "75",
+            "deathAgePeriod": "Months",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "Example City",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addWorkOrderContract",
+          "form": {
+            "contractId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-06",
+            "workOrderMilestoneCompletionTimeString": "14:30",
+            "workOrderMilestoneDateString": "2025-04-06",
+            "workOrderMilestoneDescription": "Funeral Home: SYN",
+            "workOrderMilestoneTimeString": "14:30",
+            "workOrderMilestoneTypeId": 503
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-07",
+            "workOrderMilestoneCompletionTimeString": "23:59",
+            "workOrderMilestoneDateString": "2025-04-07",
+            "workOrderMilestoneDescription": "Depth: Z",
+            "workOrderMilestoneTypeId": 505
+          }
+        },
+        {
+          "operation": "closeWorkOrder",
+          "form": {
+            "workOrderId": 1,
+            "workOrderCloseDateString": "2025-04-07"
+          }
+        }
+      ]
+    },
+    {
+      "name": "workorder-repeat-number",
+      "kind": "workOrder",
+      "rows": [
+        {
+          "WO_SYSREC": "",
+          "WO_DECEASED_NAME": "Synthetic Person",
+          "WO_DECEASED_SEQ": "",
+          "WO_CEMETERY": "TEST",
+          "WO_BLOCK": "A",
+          "WO_RANGE1": "0",
+          "WO_RANGE2": "2",
+          "WO_LOT1": "3",
+          "WO_LOT2": "0",
+          "WO_GRAVE1": "0",
+          "WO_GRAVE2": "0",
+          "WO_INTERMENT": "",
+          "WO_ADDRESS": "1 Example St",
+          "WO_CITY": "",
+          "WO_PROV": "ONTARIO",
+          "WO_POST1": "",
+          "WO_POST2": "",
+          "WO_DEATH_YR": "2025",
+          "WO_DEATH_MON": "4",
+          "WO_DEATH_DAY": "5",
+          "WO_AGE": "75",
+          "WO_FUNERAL_HOME": "SYN",
+          "WO_FUNERAL_YR": "2025",
+          "WO_FUNERAL_MON": "4",
+          "WO_FUNERAL_DAY": "6",
+          "WO_FUNERAL_HR": "2",
+          "WO_FUNERAL_MIN": "30",
+          "WO_INTERMENT_YR": "2025",
+          "WO_INTERMENT_MON": "4",
+          "WO_INTERMENT_DAY": "7",
+          "WO_COST": "",
+          "WO_COMMITTAL_TYPE": "X",
+          "WO_CONTAINER_TYPE": "Y",
+          "WO_CREMATION": "",
+          "WO_CONFIRMATION_IN": "Y",
+          "WO_COMPLETION_YR": "",
+          "WO_COMPLETION_MON": "",
+          "WO_COMPLETION_DAY": "",
+          "WO_INITIATION_DATE": "20250401",
+          "WO_WORK_ORDER": "42",
+          "WO_REMARK1": "First",
+          "WO_REMARK2": "Second",
+          "WO_REMARK3": "Third",
+          "WO_PERIOD": "mts",
+          "WO_RESIDENT_TYPE": "",
+          "WO_DEPTH": "Z",
+          "WO_DEATH_PLACE": "Example City"
+        },
+        {
+          "WO_SYSREC": "",
+          "WO_DECEASED_NAME": "Second Person",
+          "WO_DECEASED_SEQ": "",
+          "WO_CEMETERY": "TEST",
+          "WO_BLOCK": "A",
+          "WO_RANGE1": "0",
+          "WO_RANGE2": "2",
+          "WO_LOT1": "3",
+          "WO_LOT2": "0",
+          "WO_GRAVE1": "0",
+          "WO_GRAVE2": "0",
+          "WO_INTERMENT": "",
+          "WO_ADDRESS": "1 Example St",
+          "WO_CITY": "",
+          "WO_PROV": "ONTARIO",
+          "WO_POST1": "",
+          "WO_POST2": "",
+          "WO_DEATH_YR": "2025",
+          "WO_DEATH_MON": "4",
+          "WO_DEATH_DAY": "5",
+          "WO_AGE": "75",
+          "WO_FUNERAL_HOME": "SYN",
+          "WO_FUNERAL_YR": "2025",
+          "WO_FUNERAL_MON": "4",
+          "WO_FUNERAL_DAY": "6",
+          "WO_FUNERAL_HR": "2",
+          "WO_FUNERAL_MIN": "30",
+          "WO_INTERMENT_YR": "2025",
+          "WO_INTERMENT_MON": "4",
+          "WO_INTERMENT_DAY": "7",
+          "WO_COST": "",
+          "WO_COMMITTAL_TYPE": "X",
+          "WO_CONTAINER_TYPE": "Y",
+          "WO_CREMATION": "",
+          "WO_CONFIRMATION_IN": "Y",
+          "WO_COMPLETION_YR": "",
+          "WO_COMPLETION_MON": "",
+          "WO_COMPLETION_DAY": "",
+          "WO_INITIATION_DATE": "20250401",
+          "WO_WORK_ORDER": "42",
+          "WO_REMARK1": "First",
+          "WO_REMARK2": "Second",
+          "WO_REMARK3": "Third",
+          "WO_PERIOD": "mts",
+          "WO_RESIDENT_TYPE": "",
+          "WO_DEPTH": "Z",
+          "WO_DEATH_PLACE": "Example City"
+        }
+      ],
+      "state": {},
+      "operations": [
+        {
+          "operation": "addWorkOrder",
+          "form": {
+            "workOrderDescription": "First Second Third",
+            "workOrderNumber": "000042",
+            "workOrderOpenDateString": "2025-04-01",
+            "workOrderTypeId": 601,
+            "workOrderStatusId": 701
+          }
+        },
+        {
+          "operation": "addBurialSite",
+          "form": {
+            "burialSiteNameSegment1": "A",
+            "burialSiteNameSegment2": "2",
+            "burialSiteNameSegment3": "3",
+            "burialSiteNameSegment4": "1",
+            "cemeteryId": "cemetery:TEST",
+            "cemeterySvgId": "TEST-A-2-3-1",
+            "burialSiteStatusId": 103,
+            "burialSiteTypeId": 301,
+            "burialSiteImage": "",
+            "burialSiteLatitude": "",
+            "burialSiteLongitude": ""
+          }
+        },
+        {
+          "operation": "addWorkOrderBurialSite",
+          "form": {
+            "burialSiteId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractTypeId": 202,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeFieldIds": "",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "funeralDateString": "2025-04-06",
+            "funeralTimeString": "14:30",
+            "committalTypeId": "CommittalTypes:X",
+            "purchaserName": "",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Synthetic Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON",
+            "deathAge": "75",
+            "deathAgePeriod": "Months",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "Example City",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 1,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addWorkOrderContract",
+          "form": {
+            "contractId": 1,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-01",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-01",
+            "workOrderMilestoneDescription": "",
+            "workOrderMilestoneTypeId": 501
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-05",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-05",
+            "workOrderMilestoneDescription": "Death Place: Example City",
+            "workOrderMilestoneTypeId": 502
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-06",
+            "workOrderMilestoneCompletionTimeString": "14:30",
+            "workOrderMilestoneDateString": "2025-04-06",
+            "workOrderMilestoneDescription": "Funeral Home: SYN",
+            "workOrderMilestoneTimeString": "14:30",
+            "workOrderMilestoneTypeId": 503
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-07",
+            "workOrderMilestoneCompletionTimeString": "23:59",
+            "workOrderMilestoneDateString": "2025-04-07",
+            "workOrderMilestoneDescription": "Depth: Z",
+            "workOrderMilestoneTypeId": 505
+          }
+        },
+        {
+          "operation": "closeWorkOrder",
+          "form": {
+            "workOrderId": 1,
+            "workOrderCloseDateString": "2025-04-07"
+          }
+        },
+        {
+          "operation": "reopenWorkOrder",
+          "form": 1
+        },
+        {
+          "operation": "updateBurialSiteStatus",
+          "form": {
+            "identifier": 1,
+            "status": 103
+          }
+        },
+        {
+          "operation": "addContract",
+          "form": {
+            "contractNumber": "UNIX-42",
+            "burialSiteId": 1,
+            "contractTypeId": 202,
+            "contractEndDateString": "",
+            "contractStartDateString": "2025-04-07",
+            "contractTypeFieldIds": "",
+            "funeralDirectorName": "SYN",
+            "funeralHomeId": "FuneralHomes:SYN",
+            "funeralDateString": "2025-04-06",
+            "funeralTimeString": "14:30",
+            "committalTypeId": "CommittalTypes:X",
+            "purchaserName": "",
+            "purchaserAddress1": "",
+            "purchaserAddress2": "",
+            "purchaserCity": "",
+            "purchaserPostalCode": "",
+            "purchaserProvince": "",
+            "purchaserEmail": "",
+            "purchaserPhoneNumber": "",
+            "purchaserRelationship": "",
+            "deceasedName": "Second Person",
+            "deceasedAddress1": "1 Example St",
+            "deceasedAddress2": "",
+            "deceasedCity": "",
+            "deceasedPostalCode": " ",
+            "deceasedProvince": "ON",
+            "deathAge": "75",
+            "deathAgePeriod": "Months",
+            "deathYear": "2025",
+            "deathMonth": "4",
+            "deathDay": "5",
+            "deathPlace": "Example City",
+            "intermentContainerTypeId": "IntermentContainerTypes:Y",
+            "intermentDepthId": "IntermentDepths:Z"
+          }
+        },
+        {
+          "operation": "addContractServiceType",
+          "form": {
+            "contractId": 2,
+            "serviceTypeId": 401
+          }
+        },
+        {
+          "operation": "addWorkOrderContract",
+          "form": {
+            "contractId": 2,
+            "workOrderId": 1
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-01",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-01",
+            "workOrderMilestoneDescription": "",
+            "workOrderMilestoneTypeId": 501
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-05",
+            "workOrderMilestoneCompletionTimeString": "00:00",
+            "workOrderMilestoneDateString": "2025-04-05",
+            "workOrderMilestoneDescription": "Death Place: Example City",
+            "workOrderMilestoneTypeId": 502
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-06",
+            "workOrderMilestoneCompletionTimeString": "14:30",
+            "workOrderMilestoneDateString": "2025-04-06",
+            "workOrderMilestoneDescription": "Funeral Home: SYN",
+            "workOrderMilestoneTimeString": "14:30",
+            "workOrderMilestoneTypeId": 503
+          }
+        },
+        {
+          "operation": "addWorkOrderMilestone",
+          "form": {
+            "workOrderId": 1,
+            "workOrderMilestoneCompletionDateString": "2025-04-07",
+            "workOrderMilestoneCompletionTimeString": "23:59",
+            "workOrderMilestoneDateString": "2025-04-07",
+            "workOrderMilestoneDescription": "Depth: Z",
+            "workOrderMilestoneTypeId": 505
+          }
+        },
+        {
+          "operation": "closeWorkOrder",
+          "form": {
+            "workOrderId": 1,
+            "workOrderCloseDateString": "2025-04-07"
+          }
+        }
+      ]
+    }
+  ]
+}
