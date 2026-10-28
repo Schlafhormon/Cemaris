@@ -1,6 +1,6 @@
 # Cemaris: Entwicklung und technische Konfiguration
 
-Stand: Produktbereinigung 18, Version 0.2.0. Dieses Dokument beschreibt die
+Stand: Passwortverwaltung 20, Version 0.3.0. Dieses Dokument beschreibt die
 aktuelle Anwendung; historische 1:1-Nachweise stehen in den Portierungsberichten.
 
 ## Laufzeit und Architektur
@@ -14,7 +14,7 @@ Genau ein API-Worker verwaltet serverseitige Sitzungen und die Sicherungsaufgabe
 Eine zusätzliche Node/EJS/Chromium-Laufzeit rendert ausschließlich Druckvorlagen.
 Migrationen laufen vor dem API-Start, nicht beim ersten Webzugriff.
 `/api/health` prüft die Prozessantwort, `deploy/readiness.py` zusätzlich SQL
-und die zum Image passende Alembicrevision. Aktuell: **0003**.
+und die zum Image passende Alembicrevision. Aktuell: **0004**.
 
 ## Lokale Entwicklung
 
@@ -33,12 +33,41 @@ Repository als Arbeitsverzeichnis verwenden. Niemals `.env` mit `source` laden.
 ## Anmeldung und Berechtigungen
 
 `CEMARIS_AUTH_TYPE` unterstützt `plainText`, `function`, `activeDirectory` und
-`adWebAuth`. Ohne eingerichteten Adapter gibt es keine erfolgreiche Anmeldung.
-`CEMARIS_AUTH_CONFIG` enthält private JSON-Konfiguration, beim Plaintextadapter
-beispielsweise eine Zuordnung von Benutzern zu Kennwörtern. Beispiele und
-Verbindungsoptionen stehen in `.env.example`. Der Adapter besitzt keinen
-interaktiven Kennwortwechsel; ein geänderter Konfigurationswert erfordert einen
-API-Neustart. Für produktiven Betrieb einen passenden zentralen Anmeldeweg wählen.
+`adWebAuth` für bestehende konfigurierte bzw. zentrale Zugänge. Der erste
+Administrator wird weiterhin über `CEMARIS_AUTH_CONFIG` eingerichtet; ohne
+diesen Erstzugang gibt es keinen automatisch angelegten Administrator.
+Neue Benutzer aus der Benutzerverwaltung bekommen ein lokales Passwort in SQL
+Server: zunächst exakt den Benutzernamen, anschließend verpflichtend ein eigenes
+Passwort mit 12–128 Zeichen, abweichend von Name und bisherigem Passwort.
+
+`Users.passwordHash` enthält einen gesalzenen scrypt-Hash (N=131072, r=8, p=1,
+16 Byte Zufallssalz); Klartext und Hash werden nicht an Benutzer-/Audit-APIs
+gegeben. `passwordMustChange` erzwingt die Erstvergabe auch serverseitig,
+`passwordVersion` entwertet vorherige Sitzungen. Vor dem Pflichtwechsel gibt
+es keine Fachzugriffe oder Kalenderfreigabe per API-Schlüssel. Die aktuelle
+Sitzung rotiert beim Wechsel ihre Kennung und ihr CSRF-Token.
+
+Unter **Benutzereinstellungen → Passwort ändern** wird das bisherige Passwort
+geprüft und das neue zweimal eingegeben. **Passwort vergessen?** führt zum
+administrativen Rücksetzweg: Identität außerhalb der Anwendung prüfen, dann
+**Benutzerverwaltung → Passwort zurücksetzen**. Das setzt auf Benutzername als
+Startpasswort zurück, entwertet Sitzungen und verlangt erneut einen Wechsel.
+Es wird kein E-Mail-Versand behauptet; E-Mail-Adressen/SMTP sind nicht eingerichtet.
+Eine Rücksetzung aktiviert keinen gesperrten Benutzer und ändert keine Rechte.
+
+Migration 0004 ergänzt ausschließlich drei Spalten. Bestehende lokale Benutzer
+ohne Adapterkennwort erhalten ihren Startzugang bei der ersten erfolgreichen
+Anmeldung mit Name=Passwort. Konfigurierte Plaintextkennwörter bleiben gültig,
+bis der Benutzer sie lokal ändert; ab dann hat der SQL-Hash Vorrang und das alte
+Adapterkennwort kann den neuen Hash nicht umgehen. Konfigurationsbenutzer
+werden beim lokalen Passwortwechsel mit unveränderten Rechten in `Users`
+übernommen. Zentrale AD-/Funktionsadapter bleiben unterstützt; deren externe
+Kennwörter werden weiter beim Anbieter geändert. Neu per Oberfläche angelegte
+Benutzer sind lokale Konten. Alte Sitzungen vor Version 0.3 müssen sich neu anmelden.
+
+Adapterkonfigurationen stehen weiterhin in `.env.example`; deren Änderungen
+erfordern das Neuerstellen der API. Ein Downgrade von 0004 wird verweigert,
+sobald lokale Hashes existieren, um neue Passwörter nicht zu verwerfen.
 
 Loginfreigabe (`CEMARIS_AUTH_CAN_LOGIN`), Adminrecht und die drei fachlichen
 Änderungsrechte sind getrennt. Eine Anmeldung erteilt keine pauschalen

@@ -57,7 +57,7 @@ def test_old_session_settings_are_removed_before_api_exposure_and_resaving(tmp_p
     assert "synthetic-retired-secret" not in json.dumps(saved)
 
 
-def test_user_settings_api_ignores_retired_session_preferences(tmp_path):
+def test_pre_password_upgrade_session_requires_new_login(tmp_path):
     app = create_app(Settings(_env_file=None, environment="test"), auth_settings=AuthSettings(
         _env_file=None, session_directory=tmp_path,
     ))
@@ -68,8 +68,9 @@ def test_user_settings_api_ignores_retired_session_preferences(tmp_path):
     with TestClient(app) as client:
         client.cookies.set("cemaris-user-sid", sid)
         response = client.get("/api/user-settings")
-        assert response.json() == {"userSettings": {"apiKey": "synthetic-local-key"}}
-        assert client.get("/api/session").json()["user"]["userSettings"] == {"apiKey": "synthetic-local-key"}
+        assert response.status_code == 401
+        assert "synthetic-retired-secret" not in response.text
+        assert client.get("/api/session").json()["user"] is None
 
 
 def test_upgrade_erases_only_retired_credentials_and_portal_error(disposable_sql_database):

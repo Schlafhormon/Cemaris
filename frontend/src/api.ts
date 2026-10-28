@@ -33,6 +33,8 @@ export class ApiError extends Error {
 
 export interface User {
   username: string
+  mustChangePassword?: boolean
+  canChangePassword?: boolean
   userProperties: { canUpdateCemeteries: boolean; canUpdateContracts: boolean; canUpdateWorkOrders: boolean; isAdmin: boolean }
   userSettings: Record<string, string>
 }

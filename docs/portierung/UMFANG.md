@@ -1,6 +1,6 @@
 # Funktionsnachweis und Portierungsarbeitsliste
 
-Stand: Schritt 18, 21.10.2026.
+Stand: Schritt 20, 28.10.2026.
 
 Referenz: `../Sunrise-Referenz`, Commit `451ce034863b16502484367044f3e9b65370111a`, Version `1.0.0-beta.21`. Die Referenz bleibt unverändert.
 
@@ -55,6 +55,24 @@ Pflege: Status, Ziel und konkrete Nachweise unter der stabilen Funktionskennung 
 ## Eigenständiges Produkt ab Schritt 18
 
 Auf ausdrücklichen Auftrag sind ConsignO Cloud, ntfy, Dynamics GP/Diamond, Portal und Find-a-Grave aus aktiver Oberfläche, API, Laufzeit, Konfiguration und zugehörigen Integrationstests entfernt. Die Sunrise-Hilfe entfällt. Cemaris erhält deutsche Produktvorgaben, Euro und deutsche Standarddrucke. Bereits gespeicherte Fachdaten, allgemeine Metadaten und Tabellen bleiben upgradeverträglich erhalten. Die vorherige vollständige Portierungszuordnung beschreibt den historischen Stand bis Schritt 16 und ist kein aktuelles Produktversprechen. Aktiv sind 43 Fachberichte; die zwei Portalberichte bleiben ausschließlich historisch inventarisiert.
+
+## Produkterweiterung Schritt 20 – lokale Passwörter
+
+Nutzerauftrag vom 28.10.2026, keine neue Sunrise-Paritätsvorgabe: Neue lokale
+Benutzer starten mit Benutzername als Passwort und Pflichtwechsel. Eigener
+Passwortwechsel und administrative Rücksetzung bei vergessenem Passwort sind
+implementiert. Hashes, Pflichtflag und Sitzungsrevision erhalten Alembic 0004;
+bestehende Zugänge und Fachbestände bleiben erhalten.
+
+| ID | Produktquelle / Ziel | Verhalten / Prüfung |
+| --- | --- | --- |
+| PROD-AUTH-01 | Nutzerauftrag; `accounts.py`, `passwords.py`, Migration 0004 | Startpasswort, gesalzener scrypt-Hash, Erstwechsel; echte SQL-Server-HTTP- und Browsertests |
+| PROD-AUTH-02 | Nutzerauftrag; `auth.py`, `preferences.py`, `frontend/src/passwords.tsx` | Bisheriges Passwort prüfen, neues bestätigen, Pflichtwechsel mit API-/Kalendersperre und Sitzungsentwertung; SQL-/Browsernachweise |
+| PROD-AUTH-03 | Nutzerauftrag; `accounts.py`, `frontend/src/pages.tsx`, `App.tsx` | Administrator setzt nach Identitätsprüfung zurück; „Passwort vergessen?“ erklärt den realen Rücksetzweg; kein SMTP-/E-Mail-Platzhalter |
+| PROD-AUTH-04 | Nutzerauftrag; Migration 0004, `passwords.py` | Upgrade erhält konfigurierte Zugänge und Fachbestand, Groß-/Kleinschreibung gespeicherter Namen auflösbar, geänderte Hashes haben Vorrang; Upgrade-/Persistenznachweise |
+
+Konkrete Befehle, Ergebnisse und Betriebsgrenzen: [Bericht20](berichte/20.md).
+Die historischen Referenzdateien und ihre Herkunftskennungen bleiben unverändert.
 
 Die Quelle und ihre stabilen IDs bleiben vollständig erhalten. Historische Abschlusszuordnungen vor der Produktentscheidung stehen bei betroffenen Zeilen im JSON unter `historical_mapping_16`. `removed_by_product_decision` bezeichnet einen ausdrücklich ausgebauten Bereich und keine aktuelle Implementierung. Gemischte Fachmodule behalten ihre vorhandenen Ziele; entfernte Integrationsanteile werden als Produktänderung ausgewiesen.
 
@@ -1140,8 +1158,8 @@ Fachliche Funktionen bleiben bis zu einem konkreten Ziel und bestandenem Verglei
 ## Verbleibende Nachweise
 
 - Historischer 1:1-Port bis Schritt 16 vollständig inventarisiert. Schritt 18 baut die bestätigten Altanbindungen aus und stellt Cemaris auf ein eigenständiges kommunales Produkt um; entfernte Funktionen sind ausdrücklich klassifiziert.
-- Alle 41 Tabellen und Bestandsbeziehungen bleiben erhalten. Migration 0002 entfernt alte ConsignO-Benutzereinstellungen samt Vorwerten und den Portalfehler; weitere Produktmigrationen werden in Bericht 18 dokumentiert.
+- Alle 41 Tabellen bleiben erhalten. Migration 0004 ergänzt lokale Passwort-Hashes, Pflichtwechsel und Sitzungsrevision ohne Änderung des Fachbestands; Upgrade-/Persistenznachweise in Bericht 20.
 - 74 direkte Quellpakete und 1.118 Quell-Lockinstanzen bleiben unverändert inventarisiert. Die Zuordnung unterscheidet erhaltene Verbraucher und ausdrücklich entfernte Produktanteile; sie behauptet keine erneute Ausführung der Originalpakete.
-- Nachweise der Portierung 01–16 bleiben historische Belege. Aktuelle Backend-/Frontend-/SQL-/Druck-/Browserprüfungen des eigenständigen Produktstands stehen in Bericht 18; die Quellreferenz wurde auf dem Server nicht nachinstalliert oder verändert.
+- Portierungsbelege 01–16 bleiben historisch. Aktuelle Passwort-/SQL-/Frontend-/Browser-/Deploymentnachweise stehen in Bericht 20; der feste Sunrise-Checkout fehlt weiterhin unverändert.
 - Die in Schritt 18 ausgebauten Altanbindungen gehören nicht mehr zum Produktumfang. Historische Vertragstests und frühere Livegrenzen sind in den damaligen Berichten dokumentiert; verbliebene externe Authentifizierung und Geografie benötigen weiterhin eigene Nachweise.
 - Tatsächlicher Ubuntu-/Docker-Betrieb ist in Bericht 17 belegt; aktueller Produktstand und Prüfungen stehen in Bericht 18. Eine Inventarzuordnung beweist keine kommunale Fachabnahme.

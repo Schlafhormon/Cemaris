@@ -21,12 +21,12 @@ def test_health_and_public_config_do_not_connect_to_database():
         response = client.get("/api/health")
         assert response.status_code == 200
         assert response.json() == {
-            "status": "ok", "application": "Cemaris", "version": "0.2.0"
+            "status": "ok", "application": "Cemaris", "version": "0.3.0"
         }
         assert UUID(response.headers["X-Request-ID"]).version == 4
         config = client.get("/api/config").json()
         assert config == {
-            "application": "Cemaris", "version": "0.2.0",
+            "application": "Cemaris", "version": "0.3.0",
             "supported_languages": ["en", "de"],
         }
         assert "secret" not in json.dumps(config)

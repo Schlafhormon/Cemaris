@@ -92,7 +92,7 @@ def test_all_source_columns_types_defaults_nullability_and_primary_keys(source_d
     for source_name in names:
         table = TABLES[SOURCE_TO_TARGET[source_name]]
         columns = connection.execute(f'PRAGMA table_info("{source_name}")').fetchall()
-        assert [row[1] for row in columns] == list(table.columns.keys()), source_name
+        assert [row[1] for row in columns] == [c.name for c in table.c if not c.info.get("product_only")], source_name
         source_pk = [row[1] for row in sorted(columns, key=lambda row: row[5]) if row[5]]
         assert source_pk == list(table.primary_key.columns.keys()), source_name
         for _, name, declared, not_null, default, primary_key in columns:
@@ -211,7 +211,10 @@ def test_frozen_initial_revision_matches_model_and_avoids_application_imports():
     for key, table in metadata.tables.items():
         historical = revision.metadata.tables[key]
         compatible = comparison.tables[key]
-        for column in compatible.c:
+        for column in list(compatible.c):
+            if column.info.get("product_only"):
+                compatible._columns.remove(column)
+                continue
             if column.name.endswith(("City", "Province")):
                 assert column.type.length == 100
                 column.type = historical.c[column.name].type

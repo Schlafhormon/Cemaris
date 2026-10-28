@@ -63,6 +63,13 @@ def test_calendar_reading_needs_no_work_order_update_role(work_order_app, name):
 
 def test_subscription_filters_and_invalid_values_have_controlled_results(work_order_app):
     app = work_order_app
+    # This tests filter syntax, so keep the synthetic event inside the moving
+    # subscription window rather than depending on the October 2026 run date.
+    from datetime import date
+    from cemaris.db.schema import TABLES
+    from cemaris.db.semantics import date_to_integer
+    with app.state.db_engine.begin() as connection:
+        connection.execute(TABLES['WorkOrderMilestones'].update().values(workOrderMilestoneDate=date_to_integer(date.today())))
     with TestClient(app) as client:
         login(client)
         assert "BEGIN:VEVENT" not in client.get("/api/work-orders/ical?workOrderTypeIds=999999").text

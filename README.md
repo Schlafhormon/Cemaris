@@ -16,7 +16,7 @@ Arbeitsaufträge werden mit Cemaris-Branding auf DIN A4 ausgegeben.
 - Zahlungen, offene Beträge, Berichte und CSV-Exporte
 - Arbeitsaufträge, Termine, Meilensteine und Kalenderexport
 - Anhänge, Vertragsdruck, PDF-Ausgaben und eigene Druckvorlagen
-- Benutzer, Rollen, Sitzungen und optionales Änderungsprotokoll
+- Benutzer, Rollen, lokale Passwörter mit Erstloginwechsel und administrativer Rücksetzung, Sitzungen und optionales Änderungsprotokoll
 
 Gebührensätze, Nutzungsdauern und örtliche Regelungen werden durch die jeweilige
 Kommune festgelegt. Cemaris liefert keine verbindliche kommunale Gebührensatzung.
@@ -38,7 +38,8 @@ Migrationsdienst, genau einen API-Prozess und das Webfrontend mit Nginx.
    `docker compose run --rm --no-deps --entrypoint /app/.venv/bin/python api manage.py seed-catalogs` anlegen.
 6. `docker compose up -d --wait --wait-timeout 180` ausführen.
 
-Es gibt kein eingebautes Standardkennwort. SQL-Daten, Anhänge und eigene
+Der Erstzugang wird vom Betreiber konfiguriert. Neue lokale Benutzer starten
+mit ihrem Benutzernamen als Passwort und müssen es beim ersten Login ändern. SQL-Daten, Anhänge und eigene
 Druckvorlagen gehören gemeinsam in das Sicherungsverfahren. `.env` enthält
 Geheimnisse und gehört weder in Git noch in öffentliche Protokolle.
 
@@ -74,7 +75,7 @@ keine Testfixtures. Ohne Testverbindung werden SQL-Nachweise übersprungen.
 Cemaris entstand aus einer abgeschlossenen Portierung von Sunrise CMS
 (`1.0.0-beta.21`, Commit `451ce034863b16502484367044f3e9b65370111a`).
 Seit Version **0.2.0** wird es als eigenständiges Produkt weiterentwickelt.
-Dieser Stand ist auf SRV-UbuntuApp bereitgestellt; die verbleibenden
+Aktuell ist Version **0.3.0** mit lokaler Passwortverwaltung auf SRV-UbuntuApp bereitgestellt; die verbleibenden
 Betriebs- und Abnahmepunkte stehen in der Serverübergabe.
 ConsignO, Dynamics GP/Diamond, das Sunrise-Portal, Find a Grave, ntfy und die
 Sunrise-Hilfe gehören nicht mehr zum Produkt. Die EDWALT-Datenübernahme ist ein

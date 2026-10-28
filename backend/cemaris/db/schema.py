@@ -931,6 +931,9 @@ TABLE_Users = sa.Table(
     sa.Column("recordUpdate_timeMillis", sa.BigInteger(), autoincrement=False, nullable=False, info={'source_declared_type': 'INTEGER'}),
     sa.Column("recordDelete_username", mssql.NVARCHAR(30, collation=TEXT_COLLATION), nullable=True, info={'source_declared_type': 'VARCHAR(30)'}),
     sa.Column("recordDelete_timeMillis", sa.BigInteger(), autoincrement=False, nullable=True, info={'source_declared_type': 'INTEGER'}),
+    sa.Column("passwordHash", mssql.NVARCHAR(256, collation=TEXT_COLLATION), nullable=True, info={'source_declared_type': 'VARCHAR(256)', 'product_only': True}),
+    sa.Column("passwordMustChange", mssql.BIT(), nullable=False, server_default=sa.text('0'), info={'source_declared_type': 'bit', 'product_only': True}),
+    sa.Column("passwordVersion", sa.BigInteger(), nullable=False, server_default=sa.text('0'), info={'source_declared_type': 'INTEGER', 'product_only': True}),
     info={"source_table": "Users"},
 )
 

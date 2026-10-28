@@ -1,8 +1,40 @@
 # Cemaris auf SRV-UBUNTUAPP
 
-Stand: 21.10.2026, nach Produktbereinigung **Version 0.2.0 / Alembic 0003**.
+Stand: 28.10.2026, nach Passwortverwaltung **Version 0.3.0 / Alembic 0004**.
 Cemaris läuft unter <http://srv-ubuntuapp.stadtdk.local/cemaris/> auf
 SRV-UbuntuApp mit der unveränderten Datenbank `Cemaris` auf SRV-SQL02.
+
+## Aktueller Stand nach Schritt 20
+
+Version 0.3.0 / Alembic 0004 ist tatsächlich bereitgestellt; API/Web healthy,
+Migrationsdienst Exit 0, SQL-/HTTP-Readiness und Live-Browserlogin bestanden.
+Neue lokale Benutzer starten mit Benutzername=Passwort und Pflichtwechsel.
+Eigener Wechsel: Benutzereinstellungen. Vergessen: Administrator kontaktieren,
+Identität prüfen und in der Benutzerverwaltung zurücksetzen. Kein automatischer
+E-Mail-Versand. Bestehende konfigurierte Kennwörter bleiben gültig; nach einem
+lokalen Wechsel zählt der SQL-Hash. Alte Sitzungen verlangen eine neue Anmeldung.
+
+| Image | Tatsächlich laufende Docker-Image-ID |
+| --- | --- |
+| `cemaris-api:0.3.0` | `sha256:531525ceaa219e6c6a2810a1481acbbcea716557649082f2b07b0480701f33cc` |
+| `cemaris-web:0.3.0` | `sha256:f39645df5815a0ba0d69e3fcc4d472bef1d8dc1f8938df78dd53f4fa42a8ae65` |
+
+Server-.env nur beim Imagetag auf 0.3.0 geändert. SQL-Ziel, Anmeldekonfiguration,
+URL/Präfix, Proxy und Volumes erhalten. Dateisnapshot vor Update:
+`backups/20261028T095109Z-1112c5b87c64`, vollständig, Scope files-only.
+Vorherige 0.2-Images bleiben erhalten. Keine zusätzliche SQL-Sicherungsprobe;
+das externe Betreiberverfahren bleibt maßgeblich. Alle 41 Tabellenanzahlen
+sowie Gebühren und Zahlungen sind vor/nach Update identisch.
+
+2.053 Backendtests, 53 Frontendtests, Produktionsbuild, echte Passwort-
+Browserabläufe und Persistenz nach Neuerstellen der Prüfcontainer bestanden.
+Drei optionale feste Referenzprüfungen übersprungen. Keine produktiven
+Testbenutzer angelegt und keine bestehenden produktiven Passwörter geändert.
+Details: [Bericht20](portierung/berichte/20.md). Downgrade 0004 wird bei lokalen
+Hashes verweigert; passenden Release-/SQL-Stand für einen Rückweg verwenden.
+HTTP, nicht zertifikatsgeprüftes SQL-TLS und offene Produktionsabnahme bleiben
+wie dokumentiert; nächster Schritt 21. Die nachstehenden Stände 19/18/17 sind
+historisch und werden durch diesen aktuellen Abschnitt ergänzt.
 
 ## Git-Stand nach Schritt 19
 
@@ -15,7 +47,7 @@ Alte Cemaris-Hashes im historischen Abschnitt beziehen sich auf die
 archivierte Entwicklungshistorie. GitHub CLI ist für `erik` eingerichtet;
 Zugangsdaten gehören nicht in das Repository oder in Protokolle.
 
-## Aktueller Stand nach Schritt 18
+## Historischer Stand nach Schritt 18
 
 Die geprüften Images sind tatsächlich bereitgestellt, API/Web healthy und
 Migrationsdienst erfolgreich beendet. SQL-/HTTP-Readiness und reale

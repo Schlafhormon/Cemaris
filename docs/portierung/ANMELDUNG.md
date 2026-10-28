@@ -1,3 +1,10 @@
+> Aktuell seit Schritt 20 / Version 0.3.0: Lokale Passwörter liegen als scrypt-Hashes
+> in SQL Server. Neue Benutzer starten mit Name=Passwort und Pflichtwechsel;
+> Benutzereinstellungen erlauben den Wechsel, Administratoren das Rücksetzen.
+> Bestehende Adapterzugänge bleiben erhalten. [TECHNIK](../TECHNIK.md) und
+> [Bericht20](berichte/20.md) beschreiben den heutigen Ablauf. Die nachstehenden
+> Aussagen ohne lokale Passwortverwaltung dokumentieren den historischen Portierungsstand.
+
 > Portierungsbeleg der Anmeldeadapter. Aktuelle Produktvorgaben, insbesondere
 > Deutsch als Sprachfallback und die entfernten Benutzereinstellungen, stehen
 > in [TECHNIK.md](../TECHNIK.md) und [Bericht18](berichte/18.md).

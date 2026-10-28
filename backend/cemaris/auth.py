@@ -21,7 +21,7 @@ import time
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from starlette.concurrency import run_in_threadpool
 from starlette.middleware.base import BaseHTTPMiddleware
 
@@ -255,10 +255,23 @@ class SessionMiddleware(BaseHTTPMiddleware):
         request.state.user = session.get("user")
         request.state.session_changed = False
 
+        if request.state.user is not None and request.app.state.user_resolver is _default_user_resolver:
+            try:
+                valid = await run_in_threadpool(refresh_password_session, request)
+            except Exception:
+                return error_response(request, 503, "authentication_unavailable", "Authentication temporarily unavailable")
+            if not valid:
+                await run_in_threadpool(_rotate, request, None)
+                if route_path(request) not in {'/api/session', '/api/login', '/api/logout'}:
+                    return error_response(request, 401, "session_revoked", "Authentication required")
+
         if request.method not in {"GET", "HEAD", "OPTIONS", "TRACE"}:
             token = request.headers.get("x-csrf-token", "")
             if not had_session or not hmac.compare_digest(token.encode(), session["csrfToken"].encode()):
                 return error_response(request, 403, "csrf_failed", "Invalid CSRF token")
+        if (request.state.user and request.state.user.get('mustChangePassword')
+                and route_path(request) not in {'/api/session', '/api/logout', '/api/password/change', '/api/keep-alive'}):
+            return error_response(request, 403, "password_change_required", "passwordChangeRequired")
         response = await call_next(request)
         cookie_path = settings.url_prefix + "/"
         create_session = had_session or route_path(request) in {"/api/session", "/api/login", "/api/logout"}
@@ -312,7 +325,17 @@ async def authenticate(request: Request, username: str, password: str) -> bool:
     if not username or not password:
         return False
     if username.startswith("*"):
+        request.state.authenticated_password_version = 0
         return settings.use_test_databases and username == password and username in settings.testing
+    if len(username) > 128 or len(password) > 128:
+        return False
+    if request.app.state.user_resolver is _default_user_resolver:
+        from cemaris.dependencies import get_engine
+        from cemaris.passwords import local_login
+        handled, valid, revision = await run_in_threadpool(local_login, get_engine(request), settings, username, password)
+        request.state.authenticated_password_version = revision
+        if handled:
+            return valid
     adapter = request.app.state.authenticator
     if adapter is None:
         return False
@@ -326,6 +349,30 @@ def _default_user_resolver(request: Request, username: str):
     from cemaris.accounts import get_user
     from cemaris.dependencies import get_engine
     return get_user(get_engine(request), username, request.app.state.auth_settings)
+
+
+def refresh_password_session(request: Request) -> bool:
+    from cemaris.dependencies import get_engine
+    from cemaris.passwords import credential, session_properties
+    user = request.state.user
+    # Pre-upgrade sessions must authenticate again before using the new flows.
+    if 'passwordVersion' not in user:
+        return False
+    database = get_engine(request)
+    row = credential(database, user['username'])
+    if row and (not row['isActive'] or row['recordDelete_timeMillis'] is not None):
+        return False
+    properties = session_properties(database, request.app.state.auth_settings, user['username'])
+    if user['passwordVersion'] != properties['passwordVersion']:
+        return False
+    user.update(properties)
+    return True
+
+
+class PasswordChangeBody(BaseModel):
+    currentPassword: str = Field(min_length=1, max_length=128, repr=False)
+    newPassword: str = Field(min_length=1, max_length=128, repr=False)
+    confirmPassword: str = Field(min_length=1, max_length=128, repr=False)
 
 
 def _rotate(request: Request, user: dict | None):
@@ -343,8 +390,10 @@ def public_user(user: dict | None) -> dict | None:
     if user is None:
         return None
     result = deepcopy(user)
+    for key in ("passwordHash", "password", "currentPassword", "newPassword", "confirmPassword"):
+        result.pop(key, None)
     settings = result.get("userSettings", {})
-    result["userSettings"] = {"apiKey": settings["apiKey"]} if "apiKey" in settings else {}
+    result["userSettings"] = {"apiKey": settings["apiKey"]} if "apiKey" in settings and not result.get("mustChangePassword") else {}
     return result
 
 
@@ -388,11 +437,61 @@ def install_auth(app: FastAPI, auth_settings: AuthSettings | None = None,
         if user is None:
             abuse.record(ip)
             raise HTTPException(401, "Login Failed")
+        if request.app.state.user_resolver is _default_user_resolver:
+            from cemaris.dependencies import get_engine
+            from cemaris.passwords import session_properties
+            user.update(await run_in_threadpool(session_properties, get_engine(request), settings, user['username']))
+            if user['passwordVersion'] != request.state.authenticated_password_version:
+                raise HTTPException(401, 'Login Failed')
+            user['passwordUsername'] = username
         abuse.clear(ip)
         await run_in_threadpool(_rotate, request, user)
         return {"success": True, "user": public_user(user),
-                "redirect": get_safe_redirect_url(body.redirect, settings.url_prefix),
+                "redirect": settings.url_prefix + "/password/change" if user.get("mustChangePassword") else get_safe_redirect_url(body.redirect, settings.url_prefix),
                 "csrfToken": request.state.session["csrfToken"]}
+
+    @router.post("/password/change")
+    async def change_password(request: Request, body: PasswordChangeBody):
+        from cemaris.accounts import add_user, get_user, _audit
+        from cemaris.dependencies import get_engine
+        from cemaris.passwords import credential, replace_password, session_properties, validate_new_password
+        user = request.state.session.get('user')
+        if user is None:
+            raise HTTPException(401, "Authentication required")
+        if not user.get('canChangePassword'):
+            raise HTTPException(400, "passwordExternal")
+        ip = tracking_ip(request, settings.traffic_is_forwarded)
+        abuse = request.app.state.login_abuse
+        if abuse.blocked(ip):
+            raise HTTPException(429, "Too many attempts")
+        if not await authenticate(request, user.get('passwordUsername', user['username']), body.currentPassword):
+            abuse.record(ip)
+            raise HTTPException(400, "passwordCurrentInvalid")
+        validate_new_password(user['username'], body.currentPassword, body.newPassword, body.confirmPassword)
+
+        def save():
+            with get_engine(request).begin() as connection:
+                row = credential(connection, user['username'])
+                if row is None:
+                    # A configured plaintext account becomes a database account
+                    # with the same rights when it first chooses a local password.
+                    add_user(connection, user['username'], user['userProperties'], user['username'])
+                    row = credential(connection, user['username'])
+                if (row['passwordVersion'] != user['passwordVersion']
+                        or row['passwordVersion'] != request.state.authenticated_password_version):
+                    raise HTTPException(409, 'passwordChangedConcurrently')
+                replace_password(connection, row['username'], body.newPassword,
+                                 expected_version=row['passwordVersion'], must_change=False, actor=user['username'])
+                if request.app.state.preference_options.audit_writes_enabled:
+                    _audit(connection, row['username'], user['username'], 'password', 'updated', None, None)
+                updated = get_user(connection, row['username'], settings)
+                updated.update(session_properties(connection, settings, row['username']))
+                return updated
+
+        updated = await run_in_threadpool(save)
+        abuse.clear(ip)
+        await run_in_threadpool(_rotate, request, updated)
+        return {'success': True, 'user': public_user(updated), 'csrfToken': request.state.session['csrfToken']}
 
     @router.post("/logout")
     async def logout(request: Request):

@@ -1,7 +1,7 @@
 name: cemaris
 services:
   migrate:
-    image: cemaris-api:${CEMARIS_IMAGE_TAG:-0.2.0}
+    image: cemaris-api:${CEMARIS_IMAGE_TAG:-0.3.0}
     build:
       context: .
       dockerfile: backend/Dockerfile
@@ -12,7 +12,7 @@ services:
     healthcheck:
       disable: true
   api:
-    image: cemaris-api:${CEMARIS_IMAGE_TAG:-0.2.0}
+    image: cemaris-api:${CEMARIS_IMAGE_TAG:-0.3.0}
     build:
       context: .
       dockerfile: backend/Dockerfile
@@ -83,7 +83,7 @@ services:
         condition: service_completed_successfully
     stop_grace_period: 370s
   web:
-    image: cemaris-web:${CEMARIS_IMAGE_TAG:-0.2.0}
+    image: cemaris-web:${CEMARIS_IMAGE_TAG:-0.3.0}
     build:
       context: .
       dockerfile: frontend/Dockerfile

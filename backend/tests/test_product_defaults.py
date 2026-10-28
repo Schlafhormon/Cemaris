@@ -43,5 +43,5 @@ def test_downgrade_does_not_truncate_new_german_addresses(disposable_sql_databas
             with engine.begin() as connection:
                 command.downgrade(migration_config(connection), "0002")
         with engine.connect() as connection:
-            assert connection.scalar(sa.text("SELECT version_num FROM dbo.alembic_version")) == "0003"
+            assert connection.scalar(sa.text("SELECT version_num FROM dbo.alembic_version")) == "0004"
             assert connection.scalar(sa.select(TABLES["Cemeteries"].c.cemeteryProvince).limit(1)) == "Baden-Württemberg"

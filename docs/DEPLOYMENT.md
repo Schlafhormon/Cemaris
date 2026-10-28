@@ -94,8 +94,8 @@ Vertrag. Den JSON-Beispielwert ohne zusätzliche äußere Anführungszeichen
 einfacher äußerer Anführungszeichen unterschiedlich. Bei leerer Domain enthält
 der konfigurierte Benutzername wie in Sunrise einen führenden Backslash.
 Dollar- und Rautezeichen im JSON-Kennwort als `\u0024` bzw. `\u0023` schreiben,
-damit Dotenv-Interpolation oder Kommentare den Wert nicht ändern. Es gibt
-kein eingebautes Kennwort. Die
+damit Dotenv-Interpolation oder Kommentare den Wert nicht ändern. Der Erstadministrator hat
+kein eingebautes Kennwort; sein Erstzugang wird hier ausdrücklich konfiguriert. Die
 Benutzerlisten für Anmeldung, Admin und fachliche Änderungsrechte explizit
 pflegen; Benutzer- und Katalogverwaltung anschließend in der Oberfläche
 prüfen. Eine Adminrolle schaltet nicht automatisch alle Änderungsrechte frei.
@@ -263,7 +263,7 @@ mkdir -p backups
 chmod 700 backups
 docker run --rm --user 0:0 \
   -v cemaris_attachments:/source:ro -v "$PWD/backups:/backup" \
-  --entrypoint /app/.venv/bin/python cemaris-api:0.2.0 -c \
+  --entrypoint /app/.venv/bin/python cemaris-api:0.3.0 -c \
   'import tarfile; a=tarfile.open("/backup/attachments.tar.gz", "x:gz"); a.add("/source", arcname="."); a.close()'
 (set -o noclobber; tar -czf - .env customizations > backups/configuration.tar.gz)
 docker compose start api
@@ -330,3 +330,28 @@ Produktiv keinen ungeprüften automatischen Downgrade ausführen.
 Aktuelle Dateisicherung und die bestehende externe SQL-Sicherungsabdeckung
 gehören zur Updatevorbereitung. Für SRV-UbuntuApp gelten die bereits
 festgelegten Sicherungs- und HTTP-Regeln in SERVER_DEPLOYMENT.md.
+
+
+## Aktualisierung auf 0.3 – lokale Passwortverwaltung
+
+`CEMARIS_IMAGE_TAG=0.3.0` setzen und beide Images bauen. Vor dem Update wie
+oben Dateien sichern und die vorhandene externe SQL-Sicherung berücksichtigen.
+API/Web stoppen, Migration 0004 mit dem neuen Image ausführen, dann API/Web
+starten und Readiness prüfen. 0001–0003 bleiben unverändert. 0004 ergänzt
+`Users.passwordHash`, `passwordMustChange` und `passwordVersion`; die 41
+Anwendungstabellen und alle fachlichen Datensätze bleiben bestehen.
+
+Alte Sitzungen werden bei der nächsten Anfrage abgemeldet. Bestehende
+konfigurierte Kennwörter funktionieren weiter. Bereits in der Oberfläche
+angelegte Benutzer ohne Adapterzugang können sich mit ihrem Benutzernamen als
+Passwort anmelden und müssen es sofort ändern. Neue Benutzer verhalten sich
+genauso. Passwortänderung ist in den Benutzereinstellungen erreichbar;
+Administratoren können lokale Benutzer auf das Startpasswort zurücksetzen.
+„Passwort vergessen?“ erklärt diesen Rücksetzweg, ohne unkonfigurierten
+E-Mail-Versand anzubieten. Einzelheiten: [TECHNIK.md](TECHNIK.md).
+
+Hashes und die Sitzungsrevision liegen in SQL Server und gehören zum vorhandenen
+SQL-Sicherungsverfahren. Nach einem lokalen Wechsel gilt das bisherige
+Plaintext-Adapterkennwort für dieses Konto nicht mehr. AD-Zugänge behalten ihren
+zentralen Passwortwechsel. Kein automatischer Schema-Downgrade bei gesetzten
+lokalen Passwörtern; für einen Rückweg einen passenden Release-/SQL-Stand verwenden.

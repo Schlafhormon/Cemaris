@@ -2,12 +2,12 @@
   "schema_version": 1,
   "reference_commit": "451ce034863b16502484367044f3e9b65370111a",
   "progress": {
-    "step": 18,
-    "date": "21.10.2026",
+    "step": 20,
+    "date": "28.10.2026",
     "feature_note": "- Historischer 1:1-Port bis Schritt 16 vollständig inventarisiert. Schritt 18 baut die bestätigten Altanbindungen aus und stellt Cemaris auf ein eigenständiges kommunales Produkt um; entfernte Funktionen sind ausdrücklich klassifiziert.",
-    "database_note": "- Alle 41 Tabellen und Bestandsbeziehungen bleiben erhalten. Migration 0002 entfernt alte ConsignO-Benutzereinstellungen samt Vorwerten und den Portalfehler; weitere Produktmigrationen werden in Bericht 18 dokumentiert.",
+    "database_note": "- Alle 41 Tabellen bleiben erhalten. Migration 0004 ergänzt lokale Passwort-Hashes, Pflichtwechsel und Sitzungsrevision ohne Änderung des Fachbestands; Upgrade-/Persistenznachweise in Bericht 20.",
     "package_note": "- 74 direkte Quellpakete und 1.118 Quell-Lockinstanzen bleiben unverändert inventarisiert. Die Zuordnung unterscheidet erhaltene Verbraucher und ausdrücklich entfernte Produktanteile; sie behauptet keine erneute Ausführung der Originalpakete.",
-    "test_note": "- Nachweise der Portierung 01–16 bleiben historische Belege. Aktuelle Backend-/Frontend-/SQL-/Druck-/Browserprüfungen des eigenständigen Produktstands stehen in Bericht 18; die Quellreferenz wurde auf dem Server nicht nachinstalliert oder verändert."
+    "test_note": "- Portierungsbelege 01–16 bleiben historisch. Aktuelle Passwort-/SQL-/Frontend-/Browser-/Deploymentnachweise stehen in Bericht 20; der feste Sunrise-Checkout fehlt weiterhin unverändert."
   },
   "reference_version": "1.0.0-beta.21",
   "id_rule": "SRC/F/DEP + first 12 hex characters of SHA-256(path); DB-table and REPORT-name are semantic IDs. IDs do not depend on row order.",
@@ -72523,7 +72523,7 @@
     "step": 18,
     "date": "21.10.2026",
     "decision_report": "docs/portierung/berichte/18.md",
-    "summary": "Auf ausdrücklichen Auftrag sind ConsignO Cloud, ntfy, Dynamics GP/Diamond, Portal und Find-a-Grave aus aktiver Oberfläche, API, Laufzeit, Konfiguration und zugehörigen Integrationstests entfernt. Die Sunrise-Hilfe entfällt. Cemaris erhält deutsche Produktvorgaben, Euro und deutsche Standarddrucke. Bereits gespeicherte Fachdaten, allgemeine Metadaten und Tabellen bleiben upgradeverträglich erhalten. Die vorherige vollständige Portierungszuordnung beschreibt den historischen Stand bis Schritt 16 und ist kein aktuelles Produktversprechen. Aktiv sind 43 Fachberichte; die zwei Portalberichte bleiben ausschließlich historisch inventarisiert.",
+    "summary": "Auf ausdrücklichen Auftrag sind ConsignO Cloud, ntfy, Dynamics GP/Diamond, Portal und Find-a-Grave aus aktiver Oberfläche, API, Laufzeit, Konfiguration und zugehörigen Integrationstests entfernt. Die Sunrise-Hilfe entfällt. Cemaris erhält deutsche Produktvorgaben, Euro und deutsche Standarddrucke. Bereits gespeicherte Fachdaten, allgemeine Metadaten und Tabellen bleiben upgradeverträglich erhalten. Die vorherige vollständige Portierungszuordnung beschreibt den historischen Stand bis Schritt 16 und ist kein aktuelles Produktversprechen. Aktiv sind 43 Fachberichte; die zwei Portalberichte bleiben ausschließlich historisch inventarisiert.\n\n## Produkterweiterung Schritt 20 – lokale Passwörter\n\nNutzerauftrag vom 28.10.2026, keine neue Sunrise-Paritätsvorgabe: Neue lokale\nBenutzer starten mit Benutzername als Passwort und Pflichtwechsel. Eigener\nPasswortwechsel und administrative Rücksetzung bei vergessenem Passwort sind\nimplementiert. Hashes, Pflichtflag und Sitzungsrevision erhalten Alembic 0004;\nbestehende Zugänge und Fachbestände bleiben erhalten.\n\n| ID | Produktquelle / Ziel | Verhalten / Prüfung |\n| --- | --- | --- |\n| PROD-AUTH-01 | Nutzerauftrag; `accounts.py`, `passwords.py`, Migration 0004 | Startpasswort, gesalzener scrypt-Hash, Erstwechsel; echte SQL-Server-HTTP- und Browsertests |\n| PROD-AUTH-02 | Nutzerauftrag; `auth.py`, `preferences.py`, `frontend/src/passwords.tsx` | Bisheriges Passwort prüfen, neues bestätigen, Pflichtwechsel mit API-/Kalendersperre und Sitzungsentwertung; SQL-/Browsernachweise |\n| PROD-AUTH-03 | Nutzerauftrag; `accounts.py`, `frontend/src/pages.tsx`, `App.tsx` | Administrator setzt nach Identitätsprüfung zurück; „Passwort vergessen?“ erklärt den realen Rücksetzweg; kein SMTP-/E-Mail-Platzhalter |\n| PROD-AUTH-04 | Nutzerauftrag; Migration 0004, `passwords.py` | Upgrade erhält konfigurierte Zugänge und Fachbestand, Groß-/Kleinschreibung gespeicherter Namen auflösbar, geänderte Hashes haben Vorrang; Upgrade-/Persistenznachweise |\n\nKonkrete Befehle, Ergebnisse und Betriebsgrenzen: [Bericht20](berichte/20.md).\nDie historischen Referenzdateien und ihre Herkunftskennungen bleiben unverändert.",
     "removed_feature_ids": [
       "F-e3becfc24e16",
       "F-8e4245fcc9d9",
@@ -72591,6 +72591,19 @@
       "DEP-13ba876137bc",
       "DEP-ab7bb8988b9b",
       "DEP-e7b40ffca5b4"
-    ]
+    ],
+    "password_extension": {
+      "step": 20,
+      "date": "28.10.2026",
+      "report": "docs/portierung/berichte/20.md",
+      "migration": "0004",
+      "version": "0.3.0",
+      "product_feature_ids": [
+        "PROD-AUTH-01",
+        "PROD-AUTH-02",
+        "PROD-AUTH-03",
+        "PROD-AUTH-04"
+      ]
+    }
   }
 }

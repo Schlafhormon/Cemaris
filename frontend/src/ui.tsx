@@ -61,7 +61,8 @@ export function ErrorMessage({ error, t, login = false }: { error: unknown; t: T
     'no file uploaded': 'noFileUploaded', 'audit logging is disabled': 'auditDisabled',
     'request validation failed': 'validationFailed', 'internal server error': 'serverError',
   } as Record<string, string>)[api.detail.trim().replace(/\.$/, '').toLowerCase()]
-  const message = login && api?.status === 401 ? t('login:invalidCredentials')
+  const message = api?.detail && /^password[A-Z]/.test(api.detail) ? t(`cemaris:${api.detail}`)
+    : login && api?.status === 401 ? t('login:invalidCredentials')
     : api?.status === 429 || (login && api?.status === 403 && api.detail?.toLowerCase().includes('too many')) ? t('login:tooManyAttempts')
     : api?.status === 403 ? t('errors:forbiddenMessage')
     : api?.kind === 'invalid' ? t('cemaris:invalid')

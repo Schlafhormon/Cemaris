@@ -47,6 +47,16 @@ export async function loadCatalogs(signal: AbortSignal): Promise<void> {
 
 const additions: Record<Language, Catalog> = {
   en: {
+    passwordSet: 'Set password', passwordChange: 'Change password', passwordForgot: 'Forgot password?', backToLogin: 'Back to login',
+    passwordFirstLogin: 'You must choose your own password before you can use Cemaris. Your initial password is your username. This also applies after an administrator resets your password.',
+    passwordInitialHelp: 'The initial password is the username. The user must change it at the first login.',
+    passwordRules: 'Choose 12–128 characters. The new password must differ from your username and current password.',
+    passwordCurrent: 'Current password', passwordNew: 'New password', passwordConfirm: 'Repeat new password', passwordSaved: 'Your password has been changed. Other sessions have been signed out.',
+    passwordForgotHelp: 'Please contact your Cemaris administrator. After verifying your identity, they can reset your password in User management. Then log in with your username as the password and choose a new password. For a directory account, contact your IT service.',
+    passwordReset: 'Reset password', passwordResetConfirm: 'Reset the password for {{username}} to their username? All their sessions will end and they must choose a new password at the next login.',
+    passwordResetDone: 'Password reset. The initial password is the username; the next login requires a new password. Existing sessions have been invalidated.',
+    passwordMismatch: 'The new passwords do not match.', passwordLength: 'Please choose a password with 12–128 characters.', passwordDifferent: 'The new password must differ from your username and current password.',
+    passwordCurrentInvalid: 'The current password is incorrect.', passwordChangedConcurrently: 'The password was changed in the meantime. Please log in again.', passwordExternal: 'Your password is managed by your directory service. Please change it there.', passwordChangeRequired: 'Please set your own password first.',
     authenticationRequired: 'Please log in.', recordNotFound: 'Record not found.', contractNotFound: 'Contract not found.', funeralHomeNotFound: 'Funeral home not found.', cemeteryNotFound: 'Cemetery not found.', burialSiteNotFound: 'Burial site not found.', attachmentNotFound: 'Attachment not found.', noFileUploaded: 'Please select a file to upload.', auditDisabled: 'The audit log is disabled.', validationFailed: 'Please check your input.', serverError: 'An internal error occurred. Please try again.',
     language: 'Language', breadcrumb: 'Breadcrumb', invalidSearch: 'Please enter a valid search value.', printConfigNotFound: 'Print configuration not found.', state: 'Federal state', navigation: 'Main navigation', skip: 'Skip to content', notices: 'Third-party notices',
     unavailable: 'The application could not be reached. Please try again.', timeout: 'The application did not respond within five seconds. Please try again.',
@@ -69,6 +79,16 @@ const additions: Record<Language, Catalog> = {
     geoSiteName: 'Burial Site Name', geoSiteType: 'Burial Site Type', geoNoType: 'No Type', geoNoSiteCoordinates: 'There are no geographic coordinates associated with this burial site.',
   },
   de: {
+    passwordSet: 'Passwort festlegen', passwordChange: 'Passwort ändern', passwordForgot: 'Passwort vergessen?', backToLogin: 'Zurück zur Anmeldung',
+    passwordFirstLogin: 'Bevor Sie Cemaris nutzen können, müssen Sie ein eigenes Passwort festlegen. Das Startpasswort ist Ihr Benutzername. Das gilt auch nach einer Rücksetzung durch einen Administrator.',
+    passwordInitialHelp: 'Das Startpasswort entspricht dem Benutzernamen. Beim ersten Login muss der Benutzer es ändern.',
+    passwordRules: 'Wählen Sie 12–128 Zeichen. Das neue Passwort muss sich vom Benutzernamen und bisherigen Passwort unterscheiden.',
+    passwordCurrent: 'Bisheriges Passwort', passwordNew: 'Neues Passwort', passwordConfirm: 'Neues Passwort wiederholen', passwordSaved: 'Ihr Passwort wurde geändert. Andere Sitzungen wurden abgemeldet.',
+    passwordForgotHelp: 'Wenden Sie sich an Ihren Cemaris-Administrator. Nach Prüfung Ihrer Identität kann er Ihr Passwort unter Benutzerverwaltung zurücksetzen. Melden Sie sich danach mit Ihrem Benutzernamen als Passwort an und legen Sie ein neues Passwort fest. Bei einem Domänenkonto wenden Sie sich an Ihre IT.',
+    passwordReset: 'Passwort zurücksetzen', passwordResetConfirm: 'Passwort für {{username}} auf den Benutzernamen zurücksetzen? Alle Sitzungen dieses Benutzers werden ungültig. Bei der nächsten Anmeldung muss er ein neues Passwort festlegen.',
+    passwordResetDone: 'Passwort zurückgesetzt. Das Startpasswort ist der Benutzername; beim nächsten Login muss ein neues Passwort vergeben werden. Bestehende Sitzungen wurden ungültig gemacht.',
+    passwordMismatch: 'Die neuen Passwörter stimmen nicht überein.', passwordLength: 'Bitte wählen Sie ein Passwort mit 12–128 Zeichen.', passwordDifferent: 'Das neue Passwort muss sich vom Benutzernamen und bisherigen Passwort unterscheiden.',
+    passwordCurrentInvalid: 'Das bisherige Passwort ist falsch.', passwordChangedConcurrently: 'Das Passwort wurde zwischenzeitlich geändert. Bitte melden Sie sich erneut an.', passwordExternal: 'Ihr Passwort wird im zentralen Verzeichnis verwaltet. Bitte ändern Sie es dort.', passwordChangeRequired: 'Bitte legen Sie zuerst ein eigenes Passwort fest.',
     authenticationRequired: 'Bitte melden Sie sich an.', recordNotFound: 'Datensatz nicht gefunden.', contractNotFound: 'Vertrag nicht gefunden.', funeralHomeNotFound: 'Bestattungsunternehmen nicht gefunden.', cemeteryNotFound: 'Friedhof nicht gefunden.', burialSiteNotFound: 'Grabstätte nicht gefunden.', attachmentNotFound: 'Anhang nicht gefunden.', noFileUploaded: 'Bitte wählen Sie eine Datei zum Hochladen aus.', auditDisabled: 'Das Änderungsprotokoll ist deaktiviert.', validationFailed: 'Bitte prüfen Sie Ihre Eingaben.', serverError: 'Ein interner Fehler ist aufgetreten. Bitte versuchen Sie es erneut.',
     language: 'Sprache', breadcrumb: 'Brotkrumennavigation', invalidSearch: 'Bitte geben Sie einen gültigen Suchwert ein.', printConfigNotFound: 'Druckkonfiguration nicht gefunden.', state: 'Bundesland', navigation: 'Hauptnavigation', skip: 'Zum Inhalt springen', notices: 'Hinweise zu Drittbestandteilen',
     unavailable: 'Die Anwendung ist nicht erreichbar. Bitte versuchen Sie es erneut.', timeout: 'Die Anwendung hat innerhalb von fünf Sekunden nicht geantwortet. Bitte versuchen Sie es erneut.',

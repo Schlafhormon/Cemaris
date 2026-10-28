@@ -142,7 +142,12 @@ def is_api_key_valid(database: Engine | Connection, api_key: str | None, role_co
     if api_key is None:
         return False
     username = get_username_from_api_key(database, api_key, role_config.can_login)
-    return username is not None and username.lower() in {name.lower() for name in role_config.can_login}
+    if username is None or username.lower() not in {name.lower() for name in role_config.can_login}:
+        return False
+    # A calendar token must not bypass a mandatory password change after reset.
+    from cemaris.passwords import credential
+    row = credential(database, username)
+    return row is None or (not row['passwordMustChange'] and row['isActive'] and row['recordDelete_timeMillis'] is None)
 
 
 def get_api_key_by_username(database: Engine | Connection, username: str, can_login) -> str | None:

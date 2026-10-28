@@ -1,12 +1,20 @@
 # Cemaris: Produktentwicklung und historischer Portierungsplan
 
-## Nächster Auftrag: Schritt 20 – betriebliche und kommunale Produktionsabnahme
+## Nächster Auftrag: Schritt 21 – betriebliche und kommunale Produktionsabnahme
 
 Noch nicht begonnen. HTTPS/SQL-Zertifikate gemäß bisher zurückgestellten
 Betreiberentscheidungen, vorhandene Sicherungsabdeckung und Aufbewahrung/Offsite
 klären sowie örtliche Gebühren, Nutzungszeiten, Rollen und Kernabläufe abnehmen.
 EDWALT bleibt separat. Der konkrete Einstieg und die Betriebsgrenzen stehen
 in [STATUS.md](STATUS.md).
+
+## Abgeschlossener Auftrag: Schritt 20 – lokale Passwortverwaltung
+
+Nutzerauftrag vom 28.10.2026: Neue lokale Benutzer mit Name=Passwort und
+Pflichtwechsel; Passwortänderung und administrative Rücksetzung bei Vergessen;
+laufende Instanz samt SQL aktualisieren. Version 0.3.0 und Migration 0004 sind
+bereitgestellt. Alle Nachweise und Bestandsabgleiche: [Bericht20](berichte/20.md).
+Der zuvor vorgemerkte Abnahmeschritt 20 wird damit zu 21. Kein EDWALT-Import.
 
 ## Abgeschlossener Zusatzauftrag: Schritt 19 – initiale main-Historie
 

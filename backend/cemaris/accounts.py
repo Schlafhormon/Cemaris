@@ -11,20 +11,21 @@ from datetime import datetime
 import json
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, BeforeValidator, Field
+from pydantic import BaseModel, BeforeValidator, Field, field_validator
 import sqlalchemy as sa
 from sqlalchemy.engine import Connection, Engine
 
 from cemaris.db.schema import TABLE_AuditLog as AUDIT, TABLE_Users as USERS
 from cemaris.db.semantics import _JS_WHITESPACE
+from cemaris.passwords import PASSWORD_COLUMNS, credential, hash_password, replace_password
 from cemaris.preferences import get_user_settings, now_millis, transaction
 
 
 PERMISSION_FIELDS = ("isActive", "canUpdateCemeteries", "canUpdateContracts", "canUpdateWorkOrders", "isAdmin")
 ROLE_FIELDS = PERMISSION_FIELDS[1:]
-USER_COLUMNS = [column for column in USERS.c if not column.name.startswith("recordDelete_")]
+USER_COLUMNS = [column for column in USERS.c if not column.name.startswith("recordDelete_") and column.name not in PASSWORD_COLUMNS]
 CONFIG_ROLES = {
     "canLogin": "can_login", "canUpdate": "can_update", "canUpdateCemeteries": "can_update_cemeteries",
     "canUpdateContracts": "can_update_contracts", "canUpdateWorkOrders": "can_update_work_orders", "isAdmin": "is_admin",
@@ -45,7 +46,7 @@ def get_users(database: Engine | Connection) -> list[dict]:
 def get_user(database: Engine | Connection, username: str, role_config) -> dict | None:
     username_lower = username.lower()
     with transaction(database) as connection:
-        local_user = get_local_user(connection, username_lower)
+        local_user = get_local_user(connection, username) or get_local_user(connection, username_lower)
         if local_user is not None:
             if not local_user["isActive"]:
                 return None
@@ -61,7 +62,7 @@ def get_user(database: Engine | Connection, username: str, role_config) -> dict 
             properties["isAdmin"] = username_lower in roles["isAdmin"]
         # Source normalizes the identity but queries settings with original input.
         values = get_user_settings(connection, username)
-        return {"username": username_lower, "userProperties": properties, "userSettings": values}
+        return {"username": local_user["username"] if local_user else username_lower, "userProperties": properties, "userSettings": values}
 
 
 def _audit_value(value):
@@ -83,7 +84,7 @@ def _audit(connection: Connection, username: str, actor: str, field: str, kind: 
     ))
 
 
-def add_user(database: Engine | Connection, username: str, permissions: dict, actor: str, *, audit_enabled: bool = False) -> bool:
+def add_user(database: Engine | Connection, username: str, permissions: dict, actor: str, *, audit_enabled: bool = False, initialize_password: bool = False) -> bool:
     with transaction(database) as connection:
         existing = connection.execute(sa.select(USERS.c.recordDelete_timeMillis).where(USERS.c.username == username)).first()
         if existing is not None and existing[0] is None:
@@ -91,6 +92,9 @@ def add_user(database: Engine | Connection, username: str, permissions: dict, ac
         now = now_millis()
         values = {field: bool(permissions.get(field, False)) for field in ROLE_FIELDS}
         values.update(isActive=True, recordUpdate_username=actor, recordUpdate_timeMillis=now)
+        if initialize_password:
+            values.update(passwordHash=hash_password(username), passwordMustChange=True,
+                          passwordVersion=USERS.c.passwordVersion + 1 if existing else 1)
         if existing is None:
             connection.execute(USERS.insert().values(username=username, **values, recordCreate_username=actor, recordCreate_timeMillis=now))
         else:
@@ -139,6 +143,15 @@ class AddUserForm(BaseModel):
     canUpdateWorkOrders: FormBoolean = False
     isAdmin: FormBoolean = False
 
+    @field_validator('username')
+    @classmethod
+    def usable_username(cls, value):
+        if value != value.strip() or value.startswith('*') or any(ord(c) < 32 for c in value):
+            raise ValueError('Invalid username')
+        if not value.strip():
+            raise ValueError('Invalid username')
+        return value
+
 
 class UpdateUserForm(AddUserForm):
     isActive: FormBoolean = False
@@ -171,9 +184,26 @@ def install_accounts(app) -> None:
     @router.post("/add")
     def create_user(form: AddUserForm, request: Request, user=Depends(require_admin)):
         with get_engine(request).begin() as connection:
-            if not add_user(connection, form.username, form.model_dump(), user["username"], audit_enabled=auditing(request)):
+            if not add_user(connection, form.username, form.model_dump(), user["username"], audit_enabled=auditing(request), initialize_password=True):
                 return JSONResponse({"success": False, "errorMessage": "User name already exists"}, status_code=400)
             return {"success": True, "users": get_users(connection)}
+
+    @router.post("/reset-password")
+    def reset_password(form: DeleteUserForm, request: Request, user=Depends(require_admin)):
+        with get_engine(request).begin() as connection:
+            row = credential(connection, form.username)
+            if row is None or row['recordDelete_timeMillis'] is not None:
+                raise HTTPException(404, "User not found")
+            replace_password(connection, row['username'], row['username'],
+                             expected_version=row['passwordVersion'], must_change=True, actor=user['username'])
+            if auditing(request):
+                _audit(connection, row['username'], user['username'], 'password', 'reset', None, None)
+        reauthenticate = user['username'] == row['username']
+        if reauthenticate:
+            from cemaris.auth import _rotate
+            _rotate(request, None)
+        return {"success": True, "users": get_users(get_engine(request)), "reauthenticate": reauthenticate,
+                "csrfToken": request.state.session['csrfToken']}
 
     @router.post("/update")
     def save_user(form: UpdateUserForm, request: Request, user=Depends(require_admin)):

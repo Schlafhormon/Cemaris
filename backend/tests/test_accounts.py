@@ -61,11 +61,11 @@ def test_soft_delete_restore_and_local_precedence(sql_connection):
     assert not update_user(connection, "absent", {}, "updater")
 
 
-def test_source_username_storage_is_not_lowercased_on_add(sql_connection):
+def test_mixed_case_username_is_resolved_after_password_feature(sql_connection):
     connection, _ = sql_connection
     assert add_user(connection, "MixedCase", {"isAdmin": True}, "creator")
     assert get_local_user(connection, "MixedCase")["isAdmin"] is True
-    assert get_user(connection, "MixedCase", AuthSettings(_env_file=None, can_login=[], is_admin=[])) is None
+    assert get_user(connection, "MixedCase", AuthSettings(_env_file=None, can_login=[], is_admin=[]))["username"] == "MixedCase"
 
 
 def test_optional_audit_preserves_source_difference_rules(sql_connection):
@@ -136,11 +136,15 @@ def test_admin_user_http_workflow_and_session_snapshot(account_app):
         assert client.post("/api/admin/users/delete", json={"username": "http-user"}, headers=headers).status_code == 200
         assert client.post("/api/admin/users/delete", json={"username": "http-user"}, headers=headers).status_code == 404
 
-        # Source stores role snapshots: a later local override affects next login.
+        # Adding a local credential revokes the configured session and requires first change.
         assert client.post("/api/admin/users/add", json={"username": "admin"}, headers=headers).status_code == 200
-        assert client.get("/api/admin/users").status_code == 200
-        assert client.post("/api/logout", json={}, headers=headers).status_code == 200
-        headers = login(client, "admin")
+        assert client.get("/api/admin/users").status_code == 401  # New local credential revokes the old session.
+        csrf = client.get('/api/session').json()['csrfToken']
+        response = client.post('/api/login', json={'username': 'admin', 'password': 'admin'}, headers={'x-csrf-token': csrf})
+        assert response.status_code == 200 and response.json()['user']['mustChangePassword']
+        response = client.post('/api/password/change', json={'currentPassword': 'admin', 'newPassword': 'New synthetic password', 'confirmPassword': 'New synthetic password'}, headers={'x-csrf-token': response.json()['csrfToken']})
+        assert response.status_code == 200
+        headers = {'x-csrf-token': response.json()['csrfToken']}
         assert client.get("/api/admin/users").status_code == 403
         assert client.post("/api/admin/users/add", json={"username": "denied"}, headers=headers).status_code == 403
     # Keep the shared module fixture clean for independent HTTP cases.

@@ -100,7 +100,9 @@ def test_admin_crud_local_override_setting_history_and_audit_commit(live_app):
     for value in ("Synthetische Stadt", "Änderung", ""):
         assert post(client, "/api/admin/settings", {"settingKey": "defaults.city", "settingValue": value}).json()["success"]
     assert post(client, "/api/logout").json()["success"]
-    assert login(client, "local").status_code == 200
+    response = post(client, '/api/login', {'username': 'local', 'password': 'local'})
+    assert response.status_code == 200 and response.json()['user']['mustChangePassword']
+    assert post(client, '/api/password/change', {'currentPassword': 'local', 'newPassword': 'New local synthetic password', 'confirmPassword': 'New local synthetic password'}).status_code == 200
     assert client.get("/api/_test/permission/work-orders").status_code == 200
     assert client.get("/api/admin/users").status_code == 403
     key = client.get("/api/user-settings").json()["userSettings"]["apiKey"]
