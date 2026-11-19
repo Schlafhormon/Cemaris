@@ -1,6 +1,6 @@
 # Funktionsnachweis und Portierungsarbeitsliste
 
-Stand: Schritt 20, 28.10.2026.
+Stand: Schritt 22, 19.11.2026.
 
 Referenz: `../Sunrise-Referenz`, Commit `451ce034863b16502484367044f3e9b65370111a`, Version `1.0.0-beta.21`. Die Referenz bleibt unverändert.
 
@@ -1160,6 +1160,6 @@ Fachliche Funktionen bleiben bis zu einem konkreten Ziel und bestandenem Verglei
 - Historischer 1:1-Port bis Schritt 16 vollständig inventarisiert. Schritt 18 baut die bestätigten Altanbindungen aus und stellt Cemaris auf ein eigenständiges kommunales Produkt um; entfernte Funktionen sind ausdrücklich klassifiziert.
 - Alle 41 Tabellen bleiben erhalten. Migration 0004 ergänzt lokale Passwort-Hashes, Pflichtwechsel und Sitzungsrevision ohne Änderung des Fachbestands; Upgrade-/Persistenznachweise in Bericht 20.
 - 74 direkte Quellpakete und 1.118 Quell-Lockinstanzen bleiben unverändert inventarisiert. Die Zuordnung unterscheidet erhaltene Verbraucher und ausdrücklich entfernte Produktanteile; sie behauptet keine erneute Ausführung der Originalpakete.
-- Portierungsbelege 01–16 bleiben historisch. Aktuelle Passwort-/SQL-/Frontend-/Browser-/Deploymentnachweise stehen in Bericht 20; der feste Sunrise-Checkout fehlt weiterhin unverändert.
+- Portierungsbelege 01–16 bleiben historisch. Passwort-/SQL-/Frontend-/Browser-/Deploymentnachweise stehen in Bericht 20. [Bericht 21](berichte/21.md) dokumentiert den früheren ungepatchten Nginx-Stand. [Bericht 22](berichte/22.md) belegt das tatsächlich bereitgestellte Update von Cemaris und Fahrtwerk auf Nginx 1.30.7, 53 Frontendtests, 106 Fahrtwerk-Tests sowie Proxytransport-, Health- und Live-Browserprüfungen. Kommunale Produktionsabnahme und externe Sicherungsnachweise bleiben offen. Der feste Sunrise-Checkout fehlt weiterhin unverändert.
 - Die in Schritt 18 ausgebauten Altanbindungen gehören nicht mehr zum Produktumfang. Historische Vertragstests und frühere Livegrenzen sind in den damaligen Berichten dokumentiert; verbliebene externe Authentifizierung und Geografie benötigen weiterhin eigene Nachweise.
 - Tatsächlicher Ubuntu-/Docker-Betrieb ist in Bericht 17 belegt; aktueller Produktstand und Prüfungen stehen in Bericht 18. Eine Inventarzuordnung beweist keine kommunale Fachabnahme.

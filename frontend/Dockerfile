@@ -11,7 +11,7 @@ RUN npm run build
 COPY deploy/nginx.conf deploy/render-nginx.mjs ./deploy/
 RUN node deploy/render-nginx.mjs deploy/nginx.conf /tmp/default.conf.template "$CEMARIS_URL_PREFIX"
 
-FROM nginx:1.28.0-alpine@sha256:30f1c0d78e0ad60901648be663a710bdadf19e4c10ac6782c235200619158284
+FROM nginx:1.30.7-alpine@sha256:bef154735288bc38d99fac41ae63730684bcc661503673a04a0f9bc526ba8598
 ENV CEMARIS_TRUSTED_PROXY_CIDR=127.0.0.1 \
     NGINX_ENVSUBST_FILTER=^CEMARIS_TRUSTED_PROXY_CIDR$
 COPY --from=build /tmp/default.conf.template /etc/nginx/templates/default.conf.template

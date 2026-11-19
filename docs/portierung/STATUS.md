@@ -1,6 +1,20 @@
 # Cemaris: aktueller Projektstand
 
-Stand: 28.10.2026. **Schritt 20 abgeschlossen: lokale Passwortverwaltung und
+Stand: 19.11.2026. **Schritt 22 abgeschlossen: Nginx-Sicherheitsupdate für
+Cemaris und Fahrtwerk bereitgestellt.** Beide Webcontainer verwenden
+Nginx 1.30.7 (`nginx-1.30.7-r1`) aus demselben digestfixierten offiziellen
+Alpine-Image. Beide healthy; 53 Cemaris-Frontendtests, 106 Fahrtwerk-Tests,
+Proxytransport-, Konfigurations-, Health- und Live-Browserprüfungen bestanden.
+Fachstand Cemaris 0.3.0 / Alembic 0004 unverändert. [Bericht 22](berichte/22.md).
+
+Historischer Ausgangsbefund: **Schritt 21 abgeschlossen: Untersuchung der aktuellen
+Nginx-Sicherheitsmeldung.** Cemaris nutzt ungepatchtes Nginx 1.28.0 im
+Webcontainer. Die Voraussetzungen der fünf am 18.11.2026 veröffentlichten
+NGINX2Root-Angriffspfade sind in der laufenden Konfiguration nicht aktiv.
+Das ersetzt keinen Sicherheitsfix; zeitnahes Webimage-Update empfohlen.
+Keine Laufzeitänderung. [Bericht 21](berichte/21.md).
+
+**Schritt 20 abgeschlossen: lokale Passwortverwaltung und
 Deployment Version 0.3.0 / Alembic 0004.** Neue Benutzer starten mit
 Benutzername=Passwort und müssen beim ersten Login wechseln. Eigener Wechsel
 und administrative Rücksetzung sind verfügbar. [Bericht20](berichte/20.md).
@@ -60,12 +74,14 @@ Bestandsanzahlen und Gebühren/Zahlungen sind unverändert. Dateisicherung vor
 Update vorhanden, keine zusätzliche SQL-Backup-/Restoreprobe. Maßgeblich:
 [Bericht 18](berichte/18.md) und [Serverübergabe](../SERVER_DEPLOYMENT.md).
 
-**Nächster konkreter Auftrag: Schritt 21 – betriebliche und kommunale Produktionsabnahme
-vor EDWALT.** HTTPS und zertifikatsgeprüftes SQL-TLS gemäß den bisher bewusst
+**Nächster konkreter Auftrag: Schritt 23 – betriebliche und kommunale
+Produktionsabnahme vor EDWALT.** Die bisher als Schritt 21 vorgemerkte
+Abnahme bleibt offen. HTTPS und
+zertifikatsgeprüftes SQL-TLS gemäß den bisher bewusst
 zurückgestellten Betreiberentscheidungen einrichten, bestehende SQL-Sicherungs-
 abdeckung und Datei-Offsite/Aufbewahrung bestätigen sowie örtliche Gebühren,
 Nutzungszeiten, Rollen und zentrale Friedhofsabläufe fachlich abnehmen.
-Der Folgeauftrag wurde noch nicht begonnen. EDWALT bleibt bis zu seinem
+Die Produktionsabnahme wurde noch nicht begonnen. EDWALT bleibt bis zu seinem
 gesonderten Auftrag unberührt.
 
 ## Betrieb und bewahrte Grenzen
@@ -94,7 +110,7 @@ Praxistest müssen vor der Nutzung echter EDWALT-Daten geklärt werden.
 
 ## Einstieg in die nächste Session
 
-`AGENTS.md`, `README.md`, diesen Status, `PLAN.md`, [Bericht20](berichte/20.md), [Bericht19](berichte/19.md),
+`AGENTS.md`, `README.md`, diesen Status, `PLAN.md`, [Bericht 22](berichte/22.md), [Bericht 21](berichte/21.md),
 `SERVER_DEPLOYMENT.md` und `DEPLOYMENT.md` lesen. `../README.md` und der
 Sunrise-Checkout fehlen auf diesem Host. Historische Quellen bleiben im
 [Quellinventar](QUELLINVENTAR.json) und [UMFANG](UMFANG.md) erhalten. Die

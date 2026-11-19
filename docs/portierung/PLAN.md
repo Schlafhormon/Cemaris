@@ -1,10 +1,30 @@
 # Cemaris: Produktentwicklung und historischer Portierungsplan
 
-## Nächster Auftrag: Schritt 21 – betriebliche und kommunale Produktionsabnahme
+## Nächster Auftrag: Schritt 23 – betriebliche und kommunale Produktionsabnahme
+
+Noch nicht begonnen. Die nachstehend beschriebenen HTTPS-/SQL-Zertifikats-,
+Sicherungs- und örtlichen Fachabnahmepunkte bleiben vor EDWALT offen.
+
+## Abgeschlossener Auftrag: Schritt 22 – Nginx für Cemaris und Fahrtwerk aktualisieren
+
+Nutzerauftrag vom 19.11.2026 umgesetzt: beide Webimages auf Nginx 1.30.7 mit
+festem offiziellem Digest aktualisiert, gebaut, geprüft und tatsächlich
+bereitgestellt. Beide Webcontainer healthy, Fachanwendungen und Datenbanken
+unverändert. Sicherung und Prüfnachweise: [Bericht 22](berichte/22.md).
+
+## Abgeschlossener Auftrag: Schritt 21 – Nginx-Sicherheitsmeldung untersuchen
+
+Nutzerauftrag vom 19.11.2026: Nginx-Nutzung und Betroffenheit prüfen und
+berichten. Laufendes Cemaris nutzt Nginx 1.28.0; die fünf aktuellen
+NGINX2Root-Angriffspfade sind mangels aktiver Voraussetzungen nicht erreichbar.
+Kein Patch oder Deployment; Update empfohlen. [Bericht 21](berichte/21.md).
+
+## Weiterhin offen – betriebliche und kommunale Produktionsabnahme
 
 Noch nicht begonnen. HTTPS/SQL-Zertifikate gemäß bisher zurückgestellten
 Betreiberentscheidungen, vorhandene Sicherungsabdeckung und Aufbewahrung/Offsite
 klären sowie örtliche Gebühren, Nutzungszeiten, Rollen und Kernabläufe abnehmen.
+Der zuvor dafür vorgemerkte Schritt 21 wurde durch den Nginx-Auftrag ersetzt.
 EDWALT bleibt separat. Der konkrete Einstieg und die Betriebsgrenzen stehen
 in [STATUS.md](STATUS.md).
 

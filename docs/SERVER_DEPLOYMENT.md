@@ -1,10 +1,32 @@
 # Cemaris auf SRV-UBUNTUAPP
 
-Stand: 28.10.2026, nach Passwortverwaltung **Version 0.3.0 / Alembic 0004**.
+Stand: 19.11.2026, nach Nginx-Sicherheitsupdate; **Version 0.3.0 / Alembic 0004**.
 Cemaris läuft unter <http://srv-ubuntuapp.stadtdk.local/cemaris/> auf
 SRV-UbuntuApp mit der unveränderten Datenbank `Cemaris` auf SRV-SQL02.
 
-## Aktueller Stand nach Schritt 20
+## Aktueller Stand nach Schritt 22
+
+Cemaris und Fahrtwerk verwenden tatsächlich **Nginx 1.30.7**, Paket
+`nginx-1.30.7-r1`, auf Alpine 3.24.4. Beide Webcontainer healthy;
+Konfigurationstest, Health, öffentliche Caddy-Routen und Browserdarstellung
+der Anmeldeseiten bestanden. Sicherheitsfixes der fünf aktuellen
+NGINX2Root-CVEs installiert. [Bericht 22](portierung/berichte/22.md).
+
+| Webimage | Tatsächlich laufende Docker-Image-ID |
+| --- | --- |
+| `cemaris-web:0.3.0` | `sha256:6f779fb4343518a721b9cb6a9390b47cb736fd25a7e30a218ab3fd85a454dbcf` |
+| `fahrtwerk-web:latest` | `sha256:a187abad917074ca7d43e90dca642b54cea8c30cac54cd5172035d8b7e8dd085` |
+
+Dateisnapshot vor Update: `backups/20261119T133813Z-eb4030b89f58`, vollständig
+und per Hash geprüft, files-only. SQL-Sicherung weiter extern. Fahrtwerks
+bestehendes VM-Sicherungsverfahren bleibt maßgeblich; keine zusätzlichen
+lokalen Datenkopien. Alte Webimages unter `before-nginx-security-20261119`
+erhalten. Ausschließlich Webdienste neu erstellt; Cemaris-API für Dateisicherung
+kurz gestoppt/gestartet, alle übrigen Dienste unverändert. Keine Migration,
+keine Änderung von `.env`, Proxy oder Volumes. Nächster Schritt 23: bisher
+offene betriebliche und kommunale Produktionsabnahme vor EDWALT.
+
+## Historischer Stand nach Schritt 20
 
 Version 0.3.0 / Alembic 0004 ist tatsächlich bereitgestellt; API/Web healthy,
 Migrationsdienst Exit 0, SQL-/HTTP-Readiness und Live-Browserlogin bestanden.

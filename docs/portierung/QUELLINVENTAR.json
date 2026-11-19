@@ -2,12 +2,12 @@
   "schema_version": 1,
   "reference_commit": "451ce034863b16502484367044f3e9b65370111a",
   "progress": {
-    "step": 20,
-    "date": "28.10.2026",
+    "step": 22,
+    "date": "19.11.2026",
     "feature_note": "- Historischer 1:1-Port bis Schritt 16 vollständig inventarisiert. Schritt 18 baut die bestätigten Altanbindungen aus und stellt Cemaris auf ein eigenständiges kommunales Produkt um; entfernte Funktionen sind ausdrücklich klassifiziert.",
     "database_note": "- Alle 41 Tabellen bleiben erhalten. Migration 0004 ergänzt lokale Passwort-Hashes, Pflichtwechsel und Sitzungsrevision ohne Änderung des Fachbestands; Upgrade-/Persistenznachweise in Bericht 20.",
     "package_note": "- 74 direkte Quellpakete und 1.118 Quell-Lockinstanzen bleiben unverändert inventarisiert. Die Zuordnung unterscheidet erhaltene Verbraucher und ausdrücklich entfernte Produktanteile; sie behauptet keine erneute Ausführung der Originalpakete.",
-    "test_note": "- Portierungsbelege 01–16 bleiben historisch. Aktuelle Passwort-/SQL-/Frontend-/Browser-/Deploymentnachweise stehen in Bericht 20; der feste Sunrise-Checkout fehlt weiterhin unverändert."
+    "test_note": "- Portierungsbelege 01–16 bleiben historisch. Passwort-/SQL-/Frontend-/Browser-/Deploymentnachweise stehen in Bericht 20. [Bericht 21](berichte/21.md) dokumentiert den früheren ungepatchten Nginx-Stand. [Bericht 22](berichte/22.md) belegt das tatsächlich bereitgestellte Update von Cemaris und Fahrtwerk auf Nginx 1.30.7, 53 Frontendtests, 106 Fahrtwerk-Tests sowie Proxytransport-, Health- und Live-Browserprüfungen. Kommunale Produktionsabnahme und externe Sicherungsnachweise bleiben offen. Der feste Sunrise-Checkout fehlt weiterhin unverändert."
   },
   "reference_version": "1.0.0-beta.21",
   "id_rule": "SRC/F/DEP + first 12 hex characters of SHA-256(path); DB-table and REPORT-name are semantic IDs. IDs do not depend on row order.",
@@ -72604,6 +72604,38 @@
         "PROD-AUTH-03",
         "PROD-AUTH-04"
       ]
+    },
+    "nginx_assessment": {
+      "step": 21,
+      "date": "19.11.2026",
+      "report": "docs/portierung/berichte/21.md",
+      "checkout_commit": "6d51928b5cdd2d7ea4a616d513b271f44b8599e7",
+      "runtime_image": "sha256:f39645df5815a0ba0d69e3fcc4d472bef1d8dc1f8938df78dd53f4fa42a8ae65",
+      "package": "nginx-1.28.0-r1",
+      "advisory_ids": [
+        "CVE-2026-123007",
+        "CVE-2026-123633",
+        "CVE-2026-121810",
+        "CVE-2026-123634",
+        "CVE-2026-113425"
+      ],
+      "result": "Historischer Befund vor Schritt 22: ungepatchter Code; aktive Voraussetzungen der fünf geprüften Angriffspfade fehlen. Update in Bericht 22 dokumentiert.",
+      "source_paths": [
+        "frontend/Dockerfile",
+        "compose.yaml",
+        "deploy/nginx.conf",
+        "deploy/render-nginx.mjs"
+      ]
+    },
+    "nginx_update": {
+      "step": 22,
+      "date": "19.11.2026",
+      "report": "docs/portierung/berichte/22.md",
+      "base_image": "nginx:1.30.7-alpine@sha256:bef154735288bc38d99fac41ae63730684bcc661503673a04a0f9bc526ba8598",
+      "package": "nginx-1.30.7-r1",
+      "cemaris_runtime_image": "sha256:6f779fb4343518a721b9cb6a9390b47cb736fd25a7e30a218ab3fd85a454dbcf",
+      "fahrtwerk_runtime_image": "sha256:a187abad917074ca7d43e90dca642b54cea8c30cac54cd5172035d8b7e8dd085",
+      "result": "Beide Webcontainer auf korrigierte Nginx-Version aktualisiert und healthy; öffentliche Assets und Serverkonfigurationen bytegleich, Fachanwendungen und Datenbankschemata unverändert."
     }
   }
 }
